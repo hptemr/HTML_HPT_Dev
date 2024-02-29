@@ -1,0 +1,55 @@
+.patient--signup--wrapper{
+    .form-control{
+        background-color: rgba(51, 191, 191, 0.0588235294) !important;
+    }
+    .upload--files{
+        border-radius: 20px;
+        border: 2px dashed rgba(49, 183, 183, 0.40);
+        background: #FFF;
+        padding: 30px 15px 20px 15px;
+        margin-bottom: 30px;
+        position: relative;
+        h6{
+            margin: 15px 0;
+            color: #1F2F3E;
+        }
+        p{
+            color: #848789;
+        }
+        .input--file{
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .mat-icon{
+            font-size: 35px;
+            width: 35px;
+            height: 35px;
+            color: #31B7B7;
+        }
+    }
+    .doc--pic{
+        width: 120px;
+        height: 75px;
+        margin-right: 20px;
+    }
+    .doc--desc{
+        h5{
+            color: #1F2F3E;
+            margin-bottom: 8px;
+        }
+        p{
+            color: #848789;
+        }
+    }
+    .cancel--btn{
+        color: #DF0404;
+    } 
+     
+}
+
+

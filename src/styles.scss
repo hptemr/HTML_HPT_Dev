@@ -1,0 +1,373 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/scss/app.scss";
+ 
+body,.mat-primary,
+.text,select,h1,h2,h3,h4,h5,h6,
+input, p, 
+.col-form-label,
+.dropdown-menu,
+.font-nunito {
+    font-family: "Nunito Sans", sans-serif !important;
+}
+
+// Colors 
+.dark-grey{color: $dark-gray !important;}
+.text-primary {color: $primary-color !important;;}
+.clr--DF0404{color: #DF0404;}
+.clr--1F2F3E{color: #1F2F3E !important;}
+.clr--fff{color: #fff;}
+
+.font-12{font-size: 12px !important;}
+.font-14{font-size: 14px !important;}
+.font-16{font-size: 16px !important;}
+.font-18{font-size: 18px !important;}
+.font-20{font-size: 20px !important;}
+
+.fw-500{font-weight: 500 !important;}
+.fw-600{font-weight: 600 !important;} 
+.fw-800{font-weight: 800 !important;} 
+
+.min-width-unset{min-width: unset !important;}
+
+.card{
+    .card-header{
+        .form-group{
+            .form-control{
+                background-color: #F5F6F9 !important;
+                transition: all 0.3s ease;
+                border-color: #CCC; 
+                font-size: 12px;
+                color: #212529;
+                padding: 9px 10px;
+                box-shadow: none; 
+                &:focus{
+                    border: 1px solid #b9c1cc;
+                    box-shadow: none !important;
+                }
+            }
+            .search--fields{
+                position: absolute;
+                top: 1px;
+                right: 16px;
+                .mat-icon{
+                    font-size: 23px;
+                    width: 23px;
+                    height: 23px;
+                    color: #1F2F3E;
+                }
+            }
+        }
+    }
+}
+
+.form-control{
+    background-color: #fff !important;
+    transition: all 0.3s ease;
+    border-color: #DED2D9; 
+    font-size: 14px;
+    color: #212529;
+    padding: 12px 10px;
+    box-shadow: none; 
+    &:focus{
+        border: 1px solid #b9c1cc;
+        box-shadow: none !important;
+    }
+    &:disabled{
+        background-color: #F5F5F5 !important;
+    }
+    &.form-control-md{
+        border-color: #CCC; 
+        color: #212529;
+        padding: 8px 10px;
+        box-shadow: none;
+    }
+}
+.col-form-label{
+    font-size: 14px !important;
+    color: #1F2F3E !important;
+    display: flex;
+}
+.form-group{
+    margin-bottom: 15px;
+}
+.calender--btn{
+    background: #31B7B7;
+    border-color: #31B7B7;
+}
+a{
+    letter-spacing: 0 !important;
+}
+
+// Angular material Table (Start here)
+.cust--mat--table--wrapper{
+    overflow: auto;
+    .cust--mat--table{
+        &.mat-mdc-table{
+            box-shadow: unset;
+            thead{
+                tr{
+                    th{
+                        border-bottom-color:#EEE;
+                        &:first-child{
+                            padding-left: 0;
+                        } 
+                        .mat-sort-header-container{
+                            .mat-sort-header-content{
+                                font-size: 14px;
+                                font-weight: 700;
+                                color: #1F2F3E;
+                                font-family: "Nunito Sans", sans-serif !important;
+                            }
+                        }
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    height: auto;
+                    td{ 
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: #292D32;
+                        padding: 24px 10px;
+                        border-bottom-color:#EEE;
+                        font-family: "Nunito Sans", sans-serif !important;
+                        &:first-child{
+                            padding-left: 0;
+                        }
+                    }
+                }
+            }
+        } 
+    }
+}
+
+
+.mat-mdc-paginator{
+    .mat-mdc-paginator-outer-container{
+        .mat-mdc-paginator-container{
+            justify-content: space-between;
+            .mat-mdc-paginator-page-size{
+                .mat-mdc-paginator-page-size-label{
+                    font-family: "Nunito Sans", sans-serif !important;
+                    color: #31B8B8;
+                    font-weight: 400; 
+                    font-size: 14px;
+                }
+                .mat-mdc-form-field{
+                    .mat-mdc-form-field-flex{
+                        .mat-mdc-form-field-infix{
+                            .mat-mdc-select{
+                                line-height: 11px;
+                                .mat-mdc-select-value{
+                                    color: #31B8B8;
+                                    font-size: 14px;
+                                    font-family: "Nunito Sans", sans-serif !important;
+                                    font-weight: 700;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .mat-mdc-paginator-range-actions{
+                .mat-mdc-paginator-range-label{
+                    font-family: "Nunito Sans", sans-serif !important;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+}
+
+.mat-mdc-select-panel{
+    .mat-mdc-option{
+        .mdc-list-item__primary-text{
+            font-family: "Nunito Sans", sans-serif !important;
+        }
+        &.mat-mdc-option-active{
+            .mdc-list-item__primary-text{
+                color: #31B7B7 !important;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+// Angular material Table (End here)
+
+// Alert Modal (Start here)
+.custom-alert-container{
+    width: 423px; 
+    .mat-mdc-dialog-container{
+        .alert--wrapper{
+            padding: 30px;
+            .info--icon{
+                font-size: 44px;
+                height: 44px;
+                width: 44px;
+                color: #31B7B7;
+            }
+            .alert--note{
+                font-size: 16px;
+                font-family: "Nunito Sans", sans-serif !important;
+                color: #000;
+                margin: 27px 0;
+            }
+        }
+    }
+}
+// Alert Modal (End here)
+
+// Bootstrap Modal (Start here)
+.cust--modal--wrapper{
+    .modal-dialog{
+        &.modal-md{
+            max-width: 423px;
+            .modal-content{
+                .modal-header{
+                    border:none;
+                    .modal-title{
+                        color: #1F2F3E;
+                        font-size: 18px;
+                        font-weight: 600;
+                        font-family: "Nunito Sans", sans-serif !important;
+                    }
+                }
+                .modal-body{
+                    padding: 0 15px;
+                }
+                .modal-footer{
+                    padding: 15px;
+                    border: none;
+                }
+            }
+        }
+    }
+}
+// Bootstrap Modal (End here)
+
+.checkbox--rounded{
+    label{
+        padding-left: 22px;
+        &::before{
+            width: 24px;
+            height: 24px;
+            border-radius: 18px !important;
+            border-color: #ccc;
+        }
+    }
+    &.checkbox-primary{
+        input[type=checkbox]:checked + label::before{
+            color: #fff;
+            background-color: #31B7B7;
+            line-height: 1.7;
+            font-weight: bold;
+        }
+    }
+    
+}
+ 
+.mat-stepper-horizontal{
+    .mat-horizontal-stepper-wrapper{
+        .mat-horizontal-stepper-header-container{
+            width: 70%;
+            margin: 0 auto; 
+        }
+        .mat-horizontal-content-container{
+            padding: 14px 0 0 0 ;
+        }
+    }
+}
+.mat-step-header{
+    pointer-events: none;
+    &.cdk-focused,
+    &:hover{
+        background-color: transparent !important;
+    } 
+}
+.mat-step-icon{
+    background-color: #F5F6F9 !important; 
+    color: #848789 !important;
+    &.mat-step-icon-selected{
+        background-color: #31B7B7 !important; 
+        color: #fff !important;
+    }
+    .mat-step-icon-content{
+        font-weight: 700 !important;
+        font-family: "Nunito Sans", sans-serif !important;
+    }
+}
+.mat-step-label{
+    font-size: 16px !important;
+    color: #848789 !important;
+    font-family: "Nunito Sans", sans-serif !important;
+    &.mat-step-label-selected {
+        color: #1F2F3E !important;
+        font-weight: 700 !important;
+    }
+}
+
+.mat-mdc-raised-button{
+    &.mat-primary{
+        background-color: #31B7B7 !important;
+        font-weight: 600;
+    }
+}
+.mdc-button{
+    letter-spacing: unset !important;
+    box-shadow: none !important;
+}
+.mdc-button--outlined{
+    &.mat-primary{
+        border-color: #31B8B8 !important;
+        color: #31B8B8 !important;
+        padding: 0 6px;
+        font-weight: 600;
+    }
+}
+
+// Checkbox
+.mat-mdc-checkbox{
+    .mdc-form-field{
+        .mdc-checkbox{
+            .mdc-checkbox__background{ 
+                background-color:#F5F6F9 !important;
+                border:1px solid #ccc !important;
+            }
+        } 
+    }
+    &.mat-mdc-checkbox-checked{
+        .mdc-form-field{
+            .mdc-checkbox{
+                .mdc-checkbox__background{
+                    border-color:#31B7B7 !important;
+                    background-color:#31B7B7 !important;
+                    border:1px !important;
+                }
+            }
+        }
+    }
+}
+.mdc-label{
+    margin-bottom: 0 !important;
+    font-family: "Nunito Sans", sans-serif !important;
+    font-size: 14px !important;
+    color: #212529 !important;
+    font-weight: 400 !important;
+}
+.mdc-radio__background{
+    width: 24px;
+    height: 24px;
+    .mdc-radio__outer-circle{
+        border-width: 1px;
+        border-color:#ccc;
+    }
+}
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle,
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle{
+    border-color: #31B7B7 !important;
+} 
+
+/* Importing Bootstrap SCSS file. */
+// @import 'bootstrap/scss/bootstrap';

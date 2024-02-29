@@ -1,0 +1,23 @@
+ <div class="notification-box" (click)="notification()">
+   <svg>
+     <use href="assets/svg/icon-sprite.svg#Bell"></use>
+   </svg>
+ </div>
+ <div class="onhover-show-div notification-dropdown" [ngClass]="{'active' : onnotifaction == true}">
+   <h6 class=" f-18 mb-0 dropdown-title">Notitications</h6>
+   <ul>
+     <li class="b-l-primary border-4 mt-3"><a [routerLink]="'/email/email-app'">
+         <p>New Review Receive<span class="font-danger">10 min.</span></p>
+       </a></li>
+     <li class="b-l-success border-4 mt-3"><a [routerLink]="'/email/email-app'">
+         <p>Transaction $250 Success<span class="font-success">1 hr </span></p>
+       </a></li>
+     <li class="b-l-secondary border-4 mt-3"><a [routerLink]="'/email/email-app'">
+         <p>Order Place Success<span class="font-secondary">3 hr</span></p>
+       </a></li>
+     <li class="b-l-warning border-4 mt-3"><a [routerLink]="'/email/email-app'">
+         <p>Netflix Subscription...<span class="font-warning">6 hr</span></p>
+       </a></li>
+     <li><a class="f-w-700" [routerLink]="'/email/email-app'">Check all</a></li>
+   </ul>
+ </div>
