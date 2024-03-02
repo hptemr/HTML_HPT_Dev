@@ -31,6 +31,7 @@ input, p,
 
 .card{
     .card-header{
+        padding: 30px 40px 18px 40px;
         .form-group{
             .form-control{
                 background-color: #F5F6F9 !important;
@@ -57,6 +58,9 @@ input, p,
                 }
             }
         }
+    }
+    .card-body{
+        padding: 0 40px 18px 40px;
     }
 }
 
@@ -312,16 +316,23 @@ a{
     &.mat-primary{
         background-color: #31B7B7 !important;
         font-weight: 600;
-    }
+    } 
 }
 .mdc-button{
     letter-spacing: unset !important;
     box-shadow: none !important;
+    font-family: "Nunito Sans", sans-serif !important;
 }
 .mdc-button--outlined{
     &.mat-primary{
         border-color: #31B8B8 !important;
         color: #31B8B8 !important;
+        padding: 0 6px;
+        font-weight: 600;
+    }
+    &.mat-warn{
+        border-color: #DF0404 !important;
+        color: #DF0404 !important;
         padding: 0 6px;
         font-weight: 600;
     }

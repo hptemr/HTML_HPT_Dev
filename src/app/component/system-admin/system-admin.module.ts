@@ -5,11 +5,13 @@ import { PracticeAdminComponent } from './user-managment/practice-admin/practice
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AuthRoutingModule } from '../auth/auth-routing.module';
+import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
 
 
 @NgModule({
   declarations: [
-    PracticeAdminComponent 
+    PracticeAdminComponent ,
+    PracticeAdminProfileComponent
   ],
   imports: [
     CommonModule,

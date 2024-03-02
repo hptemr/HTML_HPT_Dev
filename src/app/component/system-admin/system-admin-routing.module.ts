@@ -5,19 +5,12 @@ import { TherapistsComponent } from './user-managment/therapists/therapists.comp
 import { SupportTeamComponent } from './user-managment/support-team/support-team.component';
 import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
 import { PatientsComponent } from './user-managment/patients/patients.component';
+import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
 
 const routes: Routes = [
   {
-    path: '',
-    children: [
-      // {
-      //   path: 'sample-page1',
-      //   component: SamplePage1Component,
-      //   // data: {
-      //   //   title: "Sample-page1",
-      //   //   breadcrumb: "Default",
-      //   // }
-      // },
+    path: 'user-managment',
+    children: [ 
       {
         path: 'practice-admin',
         component: PracticeAdminComponent, 
@@ -37,6 +30,10 @@ const routes: Routes = [
       {
         path: 'patients',
         component: PatientsComponent, 
+      },
+      {
+        path: 'practice-admin-profile',
+        component: PracticeAdminProfileComponent, 
       },
     ]
   }

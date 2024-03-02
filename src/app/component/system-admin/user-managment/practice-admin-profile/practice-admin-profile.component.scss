@@ -1,0 +1,128 @@
+.pap--wrapper{
+    .card{
+        background-color: #F8F8F8 !important;
+        .card-header{
+            box-shadow: none;
+            background-color: #F8F8F8 !important;
+            h3{
+                font-size: 22px;
+            }
+            .back--btn{
+                min-width: 42px;
+                .material-symbols-outlined{
+                    width: 24px;
+                    height: 24px;
+                    font-size: 24px; 
+                }
+            } 
+        }   
+        .card-body{
+            margin-top: 50px;
+            .profile--left{
+                width: 257px;
+                border-radius: 0px 0px 12px 12px;
+                background: #fff;
+                box-shadow: 0px 6.879px 12.23px 0px rgba(159, 162, 191, 0.15);
+                padding-bottom: 30px;
+                .head--sec{
+                    border-radius: 12px 12px 0px 0px;
+                    background: linear-gradient(100deg, #5FC6C6 -0.48%, #C5F7FA 53.08%, #33BFBF 106.65%);
+                    height: 115px;
+                    ::ng-deep{
+                        .mat-mdc-list {
+                            position: absolute;
+                            right: -62px;
+                            top: 20px;
+                            border-radius: 6px;
+                            border: 1px solid #EEE;
+                            background: #FFF;
+                            box-shadow: 0px 6.879px 14px 0px rgba(18, 18, 18, 0.10);
+                            padding: 0;
+                            .mat-mdc-list-item{
+                                border-bottom: 1px solid #eee;
+                                height: auto;
+                                padding: 7px 15px 0px 15px;
+                                cursor: pointer;
+                                &:last-child{
+                                    border-bottom: none;
+                                }
+                                .mdc-list-item__content{
+                                    .mdc-list-item__primary-text{
+                                        font-family: "Nunito Sans", sans-serif !important;
+                                        font-size: 14px;
+                                        color: #1F2F3E;
+                                    }
+                                }
+                            } 
+                        }
+                    } 
+                }
+                .profile--round{
+                    width: 85px;
+                    height: 85px; 
+                    margin: -45px auto 38px auto; 
+                    .user--img{
+                        border-radius: 100%;
+                    }
+                    .edit--btn{
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        padding: 0;
+                        min-width: auto;
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 100%;
+                        .mat-icon{
+                            font-size: 15px;
+                            height: 15px;
+                            width: 15px;
+                        }
+                    }
+                }
+                .body--sec{
+                    padding: 0 36px;
+                }
+            }
+            .profile--right{
+                border-left: 1px solid #31B8B8;
+                margin-left: 48px;
+                padding-left: 48px; 
+                .card{
+                    background-color: #fff !important;
+                    .card-body,
+                    .card-header{
+                        background-color: #fff !important;
+                        padding-left: 19px;
+                        padding-right: 19px;
+                        h3{
+                            font-size: 18px;
+                        }
+                    }
+                    .card-body{
+                        box-shadow: -3px 9px 32px 0px rgba(159, 162, 191, 0.15);
+                        border-radius: 12px;
+                        .chips{
+                            border-radius: 5px;
+                            background: #31B7B7;
+                            font-size: 14px;
+                            color: #fff;
+                            padding: 2px 9px;
+                            margin: 0 10px 10px 0;
+                            .chip--close--btn{
+                                height: auto;
+                                color: #fff;
+                                .mat-icon{
+                                    font-size: 14px;
+                                    height: 14px;
+                                    width: 14px; 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}
