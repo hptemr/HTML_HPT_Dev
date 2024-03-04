@@ -317,6 +317,10 @@ a{
         background-color: #31B7B7 !important;
         font-weight: 600;
     } 
+    &.mat-warn{
+        background-color: #DF0404 !important;
+        font-weight: 600;
+    }
 }
 .mdc-button{
     letter-spacing: unset !important;

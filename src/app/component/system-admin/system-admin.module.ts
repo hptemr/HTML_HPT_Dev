@@ -6,12 +6,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AuthRoutingModule } from '../auth/auth-routing.module';
 import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
+import { TherapistsComponent } from './user-managment/therapists/therapists.component';
+import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
 
 
 @NgModule({
   declarations: [
     PracticeAdminComponent ,
-    PracticeAdminProfileComponent
+    PracticeAdminProfileComponent,
+    TherapistsComponent,
+    TherapistsAdminProfileComponent
   ],
   imports: [
     CommonModule,
