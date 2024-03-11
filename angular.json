@@ -21,7 +21,7 @@
             "allowedCommonJsDependencies": [
               "feather-icons"
             ],
-            "outputPath": "dist/cion-angular-16",
+            "outputPath": "dist/HPT-EHR",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
