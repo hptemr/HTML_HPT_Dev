@@ -8,6 +8,7 @@ import { AuthRoutingModule } from '../auth/auth-routing.module';
 import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
 import { TherapistsComponent } from './user-managment/therapists/therapists.component';
 import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
+import { SupportTeamComponent } from './user-managment/support-team/support-team.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { TherapistsAdminProfileComponent } from './user-managment/therapists-adm
     PracticeAdminComponent ,
     PracticeAdminProfileComponent,
     TherapistsComponent,
-    TherapistsAdminProfileComponent
+    TherapistsAdminProfileComponent,
+    SupportTeamComponent
   ],
   imports: [
     CommonModule,
