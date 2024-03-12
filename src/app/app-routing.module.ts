@@ -6,22 +6,26 @@ import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.co
 import { SystemAdminLayoutComponent } from './shared/component/layout/system-admin-layout/system-admin-layout.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/pages/sample-page1',
-    pathMatch: 'full'
-  }, 
+  // {
+  //   path: '',
+  //   redirectTo: '/pages/sample-page1',
+  //   pathMatch: 'full'
+  // }, 
+
+
+  // {
+  //   path: '',
+  //   component: ContentComponent,
+  //   children: dashData 
+  // },
 
   {
-    path: 'auth',
+    path: '',
     component: AuthLayoutComponent,
     loadChildren: () => import('./component/auth/auth.module').then(mod => mod.AuthModule), 
+    pathMatch: 'full'
   },
-  {
-    path: '',
-    component: ContentComponent,
-    children: dashData 
-  },
+
   {
     path: 'system-admin',
     component: SystemAdminLayoutComponent, 

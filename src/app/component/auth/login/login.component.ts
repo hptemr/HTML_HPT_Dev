@@ -1,4 +1,4 @@
-import { Component ,OnInit } from '@angular/core';
+import { Component ,OnInit } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       };
 
       localStorage.setItem("user", JSON.stringify(user));
-      this.router.navigate(["/dashboard/default"]);
+      this.router.navigate(["/system-admin/user-managment/practice-admin"]);
     }
   }
 

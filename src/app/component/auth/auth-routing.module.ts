@@ -5,7 +5,7 @@ import { SignupPatientComponent } from './signup-patient/signup-patient.componen
 
 const routes: Routes = [ 
   {
-    path: 'signin',
+    path: '',
     component: LoginComponent
   },  
   {
