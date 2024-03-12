@@ -7,6 +7,7 @@ import { BillingTeamComponent } from './user-managment/billing-team/billing-team
 import { PatientsComponent } from './user-managment/patients/patients.component';
 import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
 import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
+import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 
 const routes: Routes = [
   {
@@ -41,7 +42,11 @@ const routes: Routes = [
         component: TherapistsAdminProfileComponent, 
       },
     ]
-  }
+  },
+  {
+    path: 'manage-profile',
+    component: ManageProfileComponent, 
+  },
 ];
 
 @NgModule({

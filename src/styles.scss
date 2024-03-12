@@ -37,9 +37,9 @@ input, p,
                 background-color: #F5F6F9 !important;
                 transition: all 0.3s ease;
                 border-color: #CCC; 
-                font-size: 12px;
+                font-size: 16px;
                 color: #212529;
-                padding: 9px 10px;
+                padding: 6px 10px;
                 box-shadow: none; 
                 &:focus{
                     border: 1px solid #b9c1cc;
@@ -62,6 +62,25 @@ input, p,
     .card-body{
         padding: 0 40px 18px 40px;
     }
+}
+
+select{
+    option{
+        font-size: 16px;
+        padding: 6px 10px;
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+::-ms-input-placeholder {  
+    color: #1F2F3E !important;
+    font-size: 16px !important;
+}
+
+::placeholder {
+    color: #1F2F3E !important;
+    font-size: 16px !important;
 }
 
 .form-control{

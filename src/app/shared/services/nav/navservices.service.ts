@@ -107,7 +107,7 @@ export class NavservicesService {
         },
         {
           title: 'Support Team',
-          icon: 'info',
+          icon: 'sample-page',
           type: 'link',
           active: true,
           path: '/system-admin/user-managment/support-team', 
@@ -151,7 +151,15 @@ export class NavservicesService {
       headTitle1: 'E-Fax',
       // path: '/pages/sample-page1',
       active: false, 
-    },  
+    }, 
+    {
+      id: 6,
+      icon: 'home',
+      mainTitle: 'Manage Profile', 
+      path: '/system-admin/manage-profile',
+      active: false, 
+       type: 'link',
+    }, 
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
 
