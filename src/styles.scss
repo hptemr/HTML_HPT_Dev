@@ -103,6 +103,13 @@ select{
         color: #212529;
         padding: 8px 10px;
         box-shadow: none;
+        &::-ms-input-placeholder {   
+            font-size: 14px !important;
+        }
+        
+        &::placeholder { 
+            font-size: 14px !important;
+        }
     }
 }
 .col-form-label{
