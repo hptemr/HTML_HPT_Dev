@@ -3,6 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface PeriodicElement {
   name: string; 
@@ -51,7 +53,7 @@ export class BillingTeamComponent {
   displayedColumns: string[] = ['name', 'email', 'practicelocatn', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -72,6 +74,15 @@ export class BillingTeamComponent {
       } else {
         this._liveAnnouncer.announce('Sorting cleared');
       }
+    }
+
+    invitePopup() {
+      const dialogRef = this.dialog.open(InvitePopupComponent,{
+        panelClass: 'inivite--modal',
+        data : {
+          heading: 'Invite Billing Team'
+        }
+      });
     }
 
 }

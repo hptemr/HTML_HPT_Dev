@@ -12,6 +12,7 @@ import { ManageProfileComponent } from './manage-profile/manage-profile.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EFaxComponent } from './efax/efax.component';
 import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
+import { InvitePopupComponent } from './invite-popup/invite-popup.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { BillingTeamComponent } from './user-managment/billing-team/billing-team
     SupportTeamComponent,
     ManageProfileComponent,
     EFaxComponent,
-    BillingTeamComponent
+    BillingTeamComponent,
+    InvitePopupComponent
   ],
   imports: [
     CommonModule,

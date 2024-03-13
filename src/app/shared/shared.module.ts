@@ -20,12 +20,12 @@ import { ProfileComponent } from './component/header/profile/profile.component';
 import { SvgIconComponent } from './component/svg-icon/svg-icon.component';
 import { BreadcrumbComponent } from './component/breadcrumb/breadcrumb.component';
 import { SearchComponent } from './component/header/search/search.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
 import { TapToTopComponent } from './component/tap-to-top/tap-to-top.component';
 import { LoaderComponent } from './component/loader/loader.component'; 
 import { MaterialModule } from './material.module';
 import { SystemAdminLayoutComponent } from './component/layout/system-admin-layout/system-admin-layout.component'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -59,8 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MaterialModule,
     SharedRoutingModule,
     NgbModule,
-    ReactiveFormsModule,
-    FormsModule, 
+    ReactiveFormsModule, 
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot(),
   ],
