@@ -22,8 +22,7 @@ const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
-    loadChildren: () => import('./component/auth/auth.module').then(mod => mod.AuthModule), 
-    pathMatch: 'full'
+    loadChildren: () => import('./component/auth/auth.module').then(mod => mod.AuthModule),  
   },
 
   {
