@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button'; 
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -11,5 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './alert.component.scss'
 })
 export class AlertComponent {
-
+  warningNote = '';
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<AlertComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.warningNote = data.warningNote != undefined ? data.warningNote : this.warningNote;
+ 
+  }
 }

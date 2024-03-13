@@ -15,6 +15,9 @@ export class PracticeAdminProfileComponent {
   deleteAccount() {
     const dialogRef = this.dialog.open(AlertComponent,{
       panelClass: 'custom-alert-container',
+      data : {
+        warningNote: 'Do you really want to delete this account?'
+      }
     });
   }
 

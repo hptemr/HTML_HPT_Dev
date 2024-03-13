@@ -15,6 +15,9 @@ export class ProfileComponent {
   logOut() {
     const dialogRef = this.dialog.open(AlertComponent,{
       panelClass: 'custom-alert-container',
+      data : {
+        warningNote: 'Are you sure you want to log out?'
+      }
     });
 
     // dialogRef.afterClosed().subscribe(result => {
