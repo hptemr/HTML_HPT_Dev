@@ -42,6 +42,10 @@ const routes: Routes = [
         path: 'therapist-admin-profile',
         component: TherapistsAdminProfileComponent, 
       }, 
+      {
+        path: 'billing-team',
+        component: BillingTeamComponent, 
+      }, 
     ]
   },
   {

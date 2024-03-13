@@ -11,6 +11,7 @@ import { SupportTeamComponent } from './user-managment/support-team/support-team
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EFaxComponent } from './efax/efax.component';
+import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { EFaxComponent } from './efax/efax.component';
     TherapistsAdminProfileComponent,
     SupportTeamComponent,
     ManageProfileComponent,
-    EFaxComponent
+    EFaxComponent,
+    BillingTeamComponent
   ],
   imports: [
     CommonModule,
