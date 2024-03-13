@@ -149,7 +149,7 @@ export class NavservicesService {
       icon: 'home',
       mainTitle: 'E-Fax',
       headTitle1: 'E-Fax',
-      // path: '/pages/sample-page1',
+      path: '/system-admin/e-fax',
       active: false, 
     }, 
     {

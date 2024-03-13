@@ -10,6 +10,7 @@ import { TherapistsAdminProfileComponent } from './user-managment/therapists-adm
 import { SupportTeamComponent } from './user-managment/support-team/support-team.component';
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EFaxComponent } from './efax/efax.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TherapistsComponent,
     TherapistsAdminProfileComponent,
     SupportTeamComponent,
-    ManageProfileComponent
+    ManageProfileComponent,
+    EFaxComponent
   ],
   imports: [
     CommonModule,
