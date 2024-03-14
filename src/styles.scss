@@ -143,7 +143,7 @@ a{
                         } 
                         .mat-sort-header-container{
                             .mat-sort-header-content{
-                                font-size: 14px;
+                                font-size: 16px;
                                 font-weight: 700;
                                 color: #1F2F3E;
                                 font-family: "Nunito Sans", sans-serif !important;
@@ -156,7 +156,7 @@ a{
                 tr{
                     height: auto;
                     td{ 
-                        font-size: 14px;
+                        font-size: 16px;
                         font-weight: 400;
                         color: #292D32;
                         padding: 24px 10px;
@@ -367,6 +367,36 @@ a{
         font-weight: 600;
     }
 }
+
+// ngb-datepicker
+ngb-datepicker{
+    &.dropdown-menu{
+        z-index: 999;
+        border: 1px solid #ccc !important;
+        background: #F3FBFB;
+        .ngb-dp-header{
+            padding: 10px 15px 25px 15px;
+            .ngb-dp-navigation-select{
+                select{
+                    margin: 0 5px;
+                    &:focus{
+                        box-shadow: none;    
+                        border-color: #33BFBF;
+                    }
+                }
+            }
+        }
+        .ngb-dp-content{ 
+            .ngb-dp-week{
+                .btn-light{
+                    &.text-white{
+                        background-color: #33BFBF !important;
+                    }
+                }
+            }             
+        }
+    }
+} 
 
 // Checkbox
 .mat-mdc-checkbox{

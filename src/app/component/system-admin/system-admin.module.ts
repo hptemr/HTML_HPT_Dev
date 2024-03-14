@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { SystemAdminRoutingModule } from './system-admin-routing.module';
 import { PracticeAdminComponent } from './user-managment/practice-admin/practice-admin.component'; 
-import { SharedModule } from 'src/app/shared/shared.module';
-import { AuthRoutingModule } from '../auth/auth-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module'; 
 import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
 import { TherapistsComponent } from './user-managment/therapists/therapists.component';
 import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
@@ -13,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EFaxComponent } from './efax/efax.component';
 import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
 import { InvitePopupComponent } from './invite-popup/invite-popup.component';
+import { PatientsComponent } from './user-managment/patients/patients.component';
 
 
 @NgModule({
@@ -25,15 +25,15 @@ import { InvitePopupComponent } from './invite-popup/invite-popup.component';
     ManageProfileComponent,
     EFaxComponent,
     BillingTeamComponent,
-    InvitePopupComponent
+    InvitePopupComponent,
+    PatientsComponent
   ],
   imports: [
     CommonModule,
     SystemAdminRoutingModule,
     FormsModule,
     ReactiveFormsModule, 
-    SharedModule, 
-    AuthRoutingModule,  
+    SharedModule,  
   ]
 })
 export class SystemAdminModule { }

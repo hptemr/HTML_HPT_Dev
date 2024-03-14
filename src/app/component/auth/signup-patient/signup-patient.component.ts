@@ -1,10 +1,6 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { AsyncPipe, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { BreakpointObserver } from '@angular/cdk/layout'; 
+import { Component } from '@angular/core'; 
+import { FormBuilder, Validators } from '@angular/forms'; 
 import { MatStepperModule, StepperOrientation } from '@angular/material/stepper';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, map } from 'rxjs';
