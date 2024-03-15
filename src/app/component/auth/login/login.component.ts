@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
 
   // Simple Login
   login() {
+    this.router.navigate(["/system-admin/user-managment/practice-admin"]);
     if (this.loginForm.value["email"] == "Test@gmail.com" && this.loginForm.value["password"] == "test123") {
       let user = {
         email: "Test@gmail.com",
@@ -36,8 +37,8 @@ export class LoginComponent implements OnInit {
         name: "test user",
       };
 
-      localStorage.setItem("user", JSON.stringify(user));
-      this.router.navigate(["/system-admin/user-managment/practice-admin"]);
+      // localStorage.setItem("user", JSON.stringify(user));
+      // this.router.navigate(["/system-admin/user-managment/practice-admin"]);
     }
   }
 
