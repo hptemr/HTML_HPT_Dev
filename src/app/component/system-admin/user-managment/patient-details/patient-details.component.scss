@@ -9,7 +9,14 @@
                             width: 24px;
                             font-size: 24px;
                         }
-                    } 
+                    }
+                    .img--box{
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 100%;
+                        overflow: hidden;
+                        margin-right: 15px;
+                    }
                 }
             }
         }

@@ -13,6 +13,7 @@ import { EFaxComponent } from './efax/efax.component';
 import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
 import { InvitePopupComponent } from './invite-popup/invite-popup.component';
 import { PatientsComponent } from './user-managment/patients/patients.component';
+import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PatientsComponent } from './user-managment/patients/patients.component'
     EFaxComponent,
     BillingTeamComponent,
     InvitePopupComponent,
-    PatientsComponent
+    PatientsComponent,
+    PatientDetailsComponent
   ],
   imports: [
     CommonModule,
