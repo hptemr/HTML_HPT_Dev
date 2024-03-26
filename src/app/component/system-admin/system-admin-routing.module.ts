@@ -10,6 +10,7 @@ import { TherapistsAdminProfileComponent } from './user-managment/therapists-adm
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { EFaxComponent } from './efax/efax.component';
 import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
+import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
       {
         path: 'patient-details',
         component: PatientDetailsComponent, 
+      },
+      {
+        path: 'patient-profile',
+        component: PatientProfileComponent, 
       },
       {
         path: 'practice-admin-profile',

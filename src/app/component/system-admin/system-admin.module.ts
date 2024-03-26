@@ -14,6 +14,7 @@ import { BillingTeamComponent } from './user-managment/billing-team/billing-team
 import { InvitePopupComponent } from './invite-popup/invite-popup.component';
 import { PatientsComponent } from './user-managment/patients/patients.component';
 import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
+import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { PatientDetailsComponent } from './user-managment/patient-details/patien
     BillingTeamComponent,
     InvitePopupComponent,
     PatientsComponent,
-    PatientDetailsComponent
+    PatientDetailsComponent,
+    PatientProfileComponent
   ],
   imports: [
     CommonModule,

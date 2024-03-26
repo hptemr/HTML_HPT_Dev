@@ -30,6 +30,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/.htaccess",
               {
                 "glob": "*.svg",
                 "input": "./node_modules/feather-icons/",
