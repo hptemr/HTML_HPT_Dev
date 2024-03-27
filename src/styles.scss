@@ -255,6 +255,38 @@ a{
     letter-spacing: 0 !important;
 }
 
+.mat-mdc-tab-group{
+    .mat-mdc-tab-header{
+        .mat-mdc-tab-label-container{
+            .mat-mdc-tab-list{
+                .mat-mdc-tab-labels{
+                    border-bottom: 1px solid #eee;
+                    .mdc-tab{
+                        letter-spacing: unset;
+                        .mdc-tab__text-label{
+                            font-size: 16px;
+                            color: #1F2F3E;
+                            font-weight: 400;
+                            font-family: "Nunito Sans", sans-serif !important;
+                        } 
+                        &.mdc-tab--active{
+                            .mdc-tab__text-label{
+                                color: #33B8B8;
+                                font-weight: 600;
+                            } 
+                        }
+                        .mdc-tab-indicator{
+                            .mdc-tab-indicator__content--underline{
+                                border-color: #32B7B7;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 // Angular material Table (Start here)
 .cust--mat--table--wrapper{
     overflow: auto;
