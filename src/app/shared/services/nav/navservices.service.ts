@@ -133,8 +133,24 @@ export class NavservicesService {
       icon: 'home',
       mainTitle: 'Manage Practice',
       headTitle1: 'Manage Practice',
-      // path: '/pages/sample-page1',
+      path: '/system-admin/manage-practice',
       active: false, 
+      item: [ 
+        {
+          title: 'Therapists',
+          icon: 'user',
+          type: 'link',
+          active: true,
+          path: '/system-admin/manage-practice', 
+        }, 
+        {
+          title: 'Support Team',
+          icon: 'user',
+          type: 'link',
+          active: true,
+          path: '/system-admin/manage-practice', 
+        },
+      ]
     },
     {
       id: 4,
