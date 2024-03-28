@@ -11,6 +11,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { InvitePopupComponent } from '../invite-popup/invite-popup.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 
 export interface PeriodicElement {
   name: string; 
@@ -131,11 +132,13 @@ export class ManagePracticeComponent {
       }
     }
 
-    invitePopup() {
-      const dialogRef = this.dialog.open(InvitePopupComponent,{
-        panelClass: 'inivite--modal',
+  
+
+    successModal() {
+      const dialogRef = this.dialog.open(SuccessModalComponent,{
+        panelClass: 'custom-alert-container',
         data : {
-          heading: 'Add Template'
+          successNote: 'Your invite has been sent successfully!'
         }
       });
     }

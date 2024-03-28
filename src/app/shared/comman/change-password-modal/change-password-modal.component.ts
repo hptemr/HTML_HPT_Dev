@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { SuccessModalComponent } from '../success-modal/success-modal.component';
 
 @Component({
   selector: 'app-change-password-modal', 
@@ -11,5 +12,14 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './change-password-modal.component.scss'
 })
 export class ChangePasswordModalComponent {
+  constructor( public dialog: MatDialog) { }
 
+  successModal() {
+    const dialogRef = this.dialog.open(SuccessModalComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        successNote: 'Password has been changed successfully!'
+      }
+    });
+  }
 }
