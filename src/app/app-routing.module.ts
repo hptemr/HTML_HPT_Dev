@@ -5,20 +5,7 @@ import { dashData } from './shared/routes/routes';
 import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.component';
 import { SystemAdminLayoutComponent } from './shared/component/layout/system-admin-layout/system-admin-layout.component';
 
-const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: '/pages/sample-page1',
-  //   pathMatch: 'full'
-  // }, 
-
-
-  // {
-  //   path: '',
-  //   component: ContentComponent,
-  //   children: dashData 
-  // },
-
+const routes: Routes = [  
   {
     path: '',
     component: AuthLayoutComponent,
@@ -28,9 +15,12 @@ const routes: Routes = [
   {
     path: 'system-admin',
     component: SystemAdminLayoutComponent, 
-    loadChildren: () => import('./component/system-admin/system-admin.module').then(mod => mod.SystemAdminModule), 
-    // children: dashData 
+    loadChildren: () => import('./component/system-admin/system-admin.module').then(mod => mod.SystemAdminModule),  
   },
+  // {
+  //   path: '**',
+  //   redirectTo: '/error-page/error404',
+  // }
 ];
 
 
