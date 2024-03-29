@@ -16,6 +16,7 @@ import { PatientsComponent } from './user-managment/patients/patients.component'
 import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
 import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
+import { ConversationsComponent } from './conversations/conversations.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ManagePracticeComponent } from './manage-practice/manage-practice.compo
     PatientsComponent,
     PatientDetailsComponent,
     PatientProfileComponent,
-    ManagePracticeComponent
+    ManagePracticeComponent,
+    ConversationsComponent
   ],
   imports: [
     CommonModule,

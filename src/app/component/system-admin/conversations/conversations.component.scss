@@ -1,0 +1,128 @@
+.conversation--wrapper{
+    .conversation--header{
+        margin: 10px 0 20px 0;
+    }
+    .conversation--body{
+        .con--left{
+            width: 310px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: -3px 9px 32px 0px rgba(159, 162, 191, 0.15);
+            margin-right: 25px;
+            .cl--header{
+                padding: 20px 24px;
+                border-bottom: 1px solid #ccc;
+                .search{
+                    padding-left: 40px;
+                    border-radius: 100px;
+                }
+                .mat-icon{
+                    position: absolute;
+                    top: 8px;
+                    left: 10px;
+                }
+            }
+            .cl--body{
+                ul{
+                    list-style-type: none;
+                    li{
+                        padding: 15px 20px;
+                        border-bottom: 1px solid #ccc;
+                        &:last-child{
+                            border-bottom: none;
+                        }
+                        &.active,
+                        &:hover{
+                            cursor: pointer;
+                            background: #33BFBF;
+                            .pro--desc{
+                                .username{
+                                    p, span{
+                                        color: #fff;
+                                    }
+                                }
+                                .msg{
+                                    color: #fff;
+                                }
+                            }
+                        }
+                        &.no--result{
+                            &:hover{
+                                cursor: default;
+                                background-color: #fff;
+                            }
+                        }
+                        .pro--pic{
+                            width: 52px;
+                            height: 52px;
+                            border-radius: 100px;
+                            margin-right: 15px;
+                            overflow: hidden;
+                        }
+                        .pro--desc{
+                            .username{
+                                p{
+                                    font-size: 16px;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    width: 150px;
+                                    color: #1F2F3E;
+                                    font-weight: 500;
+                                }
+                                span{
+                                    font-size: 12px;
+                                    color: #848789;
+                                }
+                            }
+                            .msg{ 
+                                font-size: 14px;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                width: 200px;
+                                color: #1F2F3E;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .con--right{
+            width: 310px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: -3px 9px 32px 0px rgba(159, 162, 191, 0.15);
+            .pro--sm--img{
+                width: 30px;
+                height: 30px;       
+                border-radius: 100px;
+                overflow: hidden;
+            }
+            .cr--header{
+                padding: 15px 24px;
+                border-bottom: 1px solid #ccc; 
+                min-height: 80px;
+                .user-name{
+                    margin-left: 10px;
+                }
+            }
+            .cr--body{
+                padding:15px 24px;
+                .date--divider{
+                    border-top: 1px solid #f1efef;
+                    border-radius: 10px;
+                    margin: 10px 0;
+                    span{
+                        font-size: 12px;
+                        color: #CBCBCB;
+                        margin-top: -10px;
+                        background-color: #fff;
+                        padding: 0 16px;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}

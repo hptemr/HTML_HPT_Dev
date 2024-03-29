@@ -157,7 +157,7 @@ export class NavservicesService {
       icon: 'home',
       mainTitle: 'Conversations',
       headTitle1: 'Conversations',
-      // path: '/pages/sample-page1',
+      path: '/system-admin/conversations', 
       active: false, 
     },
     {

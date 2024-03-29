@@ -12,6 +12,7 @@ import { EFaxComponent } from './efax/efax.component';
 import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
 import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
+import { ConversationsComponent } from './conversations/conversations.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,10 @@ const routes: Routes = [
   {
     path: 'manage-practice',
     component: ManagePracticeComponent, 
+  },
+  {
+    path: 'conversations',
+    component: ConversationsComponent, 
   },
 ];
 
