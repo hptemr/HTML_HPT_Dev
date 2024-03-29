@@ -17,6 +17,7 @@ import { PatientDetailsComponent } from './user-managment/patient-details/patien
 import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
+import { CreateGroupComponent } from './conversations/create-group/create-group.component';
 
 
 @NgModule({
@@ -34,7 +35,9 @@ import { ConversationsComponent } from './conversations/conversations.component'
     PatientDetailsComponent,
     PatientProfileComponent,
     ManagePracticeComponent,
-    ConversationsComponent
+    ConversationsComponent,
+    CreateGroupComponent
+    
   ],
   imports: [
     CommonModule,

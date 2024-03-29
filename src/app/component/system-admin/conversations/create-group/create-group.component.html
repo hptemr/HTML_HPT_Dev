@@ -1,0 +1,96 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 header">
+            <h2 class="clr--1F2F3E fw-600">Create Group</h2>
+        </div>
+        <div class="col-12 group--body">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="profile--box--outer position-relative">
+                        <div class="profile--box d-flex align-items-center justify-content-center">
+                            <img src="assets/images/ark/ark_license_lg.png"  alt="" class="img-fluid" />
+                        </div>
+                        <button mat-raised-button color="primary" class="edit--btn">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 "> edit </mat-icon>
+                        </button>
+                    </div> 
+                    <div class="group--details position-relative text-center">
+                        <h1 class="mb-2 fw-600 clr--1F2F3E">Physical Therapy Friends</h1>
+                        <h6 class="mb-0 clr--1F2F3E">Created by John Walter</h6>
+                        <button mat-button   class="group--edit--btn">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary"> edit </mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Group Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control form-control-md" type="text" placeholder="Enter Group Name"  />
+                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                      </div>
+                </div>
+                <div class="col-12 mt-3 mb-4 d-flex align-items-end justify-content-end">
+                    <button mat-raised-button color="primary">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                        Add Participants
+                    </button>
+                </div>
+                <div class="col-12 participants--count">
+                    <p class="font-14 text-primary mb-0 fw-500">4 Participants</p>
+                </div>
+                <div class="col-12 participants--list--wrapper">
+                    <div class="row">
+                        <div class="col-12 participants--list">
+                            <ul class="m-0 p-0">
+                                <li class="d-flex align-items-center justify-content-between">
+                                    <div class="p--profile d-flex align-items-center w-100">
+                                        <div class="photo d-flex align-items-center justify-content-center">
+                                            <img src="assets/images/ark/user-4.png"  alt="" class="img-fluid" />
+                                        </div>
+                                        <h2 class="clr--1F2F3E font-16 fw-500">Jacob Jones</h2>
+                                    </div>
+                                    <mat-checkbox checked> </mat-checkbox>
+                                </li>
+                                <li class="d-flex align-items-center justify-content-between">
+                                    <div class="p--profile d-flex align-items-center w-100">
+                                        <div class="photo d-flex align-items-center justify-content-center">
+                                            <img src="assets/images/ark/user-3.png"  alt="" class="img-fluid" />
+                                        </div>
+                                        <h2 class="clr--1F2F3E font-16 fw-500">Maria Alexander</h2>
+                                    </div>
+                                    <mat-checkbox checked> </mat-checkbox>
+                                </li>
+                                <li class="d-flex align-items-center justify-content-between">
+                                    <div class="p--profile d-flex align-items-center w-100">
+                                        <div class="photo d-flex align-items-center justify-content-center">
+                                            <img src="assets/images/ark/user-2.png"  alt="" class="img-fluid" />
+                                        </div>
+                                        <h2 class="clr--1F2F3E font-16 fw-500">Jacob Jones</h2>
+                                    </div>
+                                    <button mat-button class="btn--action">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 "> cancel </mat-icon>
+                                    </button>
+                                </li>
+                                <li class="d-flex align-items-center justify-content-between">
+                                    <div class="p--profile d-flex align-items-center w-100">
+                                        <div class="photo d-flex align-items-center justify-content-center">
+                                            <img src="assets/images/ark/user-3.png"  alt="" class="img-fluid" />
+                                        </div>
+                                        <h2 class="clr--1F2F3E font-16 fw-500">Leslie Alexander</h2>
+                                    </div>
+                                    <button mat-button class="btn--action">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 "> cancel </mat-icon>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 d-flex align-items-center justify-content-end mt-4">
+                    <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
+                    <button mat-raised-button color="primary" mat-dialog-close>Create  </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
