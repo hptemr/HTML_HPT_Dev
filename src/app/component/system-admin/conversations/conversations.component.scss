@@ -108,11 +108,11 @@
                 }
             }
             .cr--body{
-                padding:15px 24px;
+                padding:15px 24px 0 24px; 
                 .date--divider{
                     border-top: 1px solid #f1efef;
                     border-radius: 10px;
-                    margin: 10px 0;
+                    margin: 10px 0 20px 0;
                     span{
                         font-size: 12px;
                         color: #CBCBCB;
@@ -121,6 +121,65 @@
                         padding: 0 16px;
                         font-weight: 400;
                     }
+                }
+                .message--wrapper{ 
+                    ul{
+                        li{
+                            &.sender{
+                                align-items: flex-end;
+                                .message--body{
+                                    background: #F0F0F0;
+                                    .pro--sm--img{
+                                        right: 15px;
+                                        left: unset;
+                                    } 
+                                }
+                            }
+                            .message--body{
+                                min-height: 80px;
+                                border-radius: 5px;
+                                background: #DFF7F7;
+                                padding: 18px 15px 12px 15px;
+                                width: 391px;
+                                position: relative;
+                                .pro--sm--img{
+                                    position: absolute;
+                                    top: -15px;
+                                    left: 15px;
+                                }
+                                p{
+                                    line-height: normal;
+                                }
+                            }
+                            .time{
+                                color: #848789;
+                                margin-bottom: 25px;
+                            }
+                        }
+                    }
+                }
+            }
+            .cr--footer{
+                padding: 0 24px 30px 24px;
+                .smily{
+                    border-radius: 3px;
+                    background: #F3FBFB;
+                    width: 50px;
+                    height: 50px;
+                }
+                .msg--box{
+                    border-radius: 3px;
+                    border: 1px solid #E8E8E8;
+                    background-color: #F3FBFB !important;
+                    height: 50px; 
+                }
+                .send--btn{
+                    position: absolute;
+                    right: 26px;
+                    top: 11px;
+                    transform: rotate(-50deg);
+                    font-weight: bold;
+                    cursor: pointer;
                 }
             }
         }
