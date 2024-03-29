@@ -9,57 +9,29 @@
                 }
             }
             .group--body{
-                padding: 20px;
-                .profile--box--outer{
-                        width: 90px;
-                        height: 90px;
-                        margin: 0 auto;
-                    .profile--box{
-                        border-radius: 90px;
-                        border: 1px solid rgba(49, 183, 183, 0.40); 
-                        width: 90px;
-                        height: 90px;
-                        margin: 0 auto;
-                        overflow: hidden;
-                    }
-                    .edit--btn{
-                        position: absolute;
-                        right: 0;
-                        bottom: 0;
-                        padding: 0;
-                        min-width: auto;
-                        width: 24px;
-                        height: 24px;
-                        border-radius: 100%;
-                        .mat-icon{
-                            font-size: 15px;
-                            height: 15px;
-                            width: 15px;
+                padding: 15px 20px; 
+                .participants--list--wrapper{
+                    max-height: 318px;
+                    overflow: auto;
+                    .search--top--box{
+                        margin-bottom: 25px;
+                        .search{
+                            padding-right: 45px;
+                        }
+                        .search--btn{
+                            position: absolute;
+                            right: 8px;
+                            top: 8px;
+                            height: 25px;
+                            min-width: 30px;
+                            padding: 0;
+                            .mat-icon{
+                                font-size: 24px;
+                                width: 24px;
+                                height: 24px;
+                            }
                         }
                     }
-                }
-                .group--details{
-                    margin-top: 20px;
-                    h1{
-                        font-size: 18px;
-                    }
-                    h6{
-                        font-size: 14px;
-                    }
-                    .group--edit--btn{
-                        position: absolute;
-                        right: 0;
-                        top: 0;
-                        padding: 0;
-                        min-width: 30px
-                    }
-                }
-                .participants--count{ 
-                    padding-bottom: 5px;
-                }
-                .participants--list--wrapper{
-                    max-height: 160px;
-                    overflow: auto;
                     .participants--list{
                         ul{
                             list-style-type: none;

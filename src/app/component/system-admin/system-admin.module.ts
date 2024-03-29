@@ -18,6 +18,7 @@ import { PatientProfileComponent } from './user-managment/patient-profile/patien
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { CreateGroupComponent } from './conversations/create-group/create-group.component';
+import { AddParticipantsComponent } from './conversations/add-participants/add-participants.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { CreateGroupComponent } from './conversations/create-group/create-group.
     PatientProfileComponent,
     ManagePracticeComponent,
     ConversationsComponent,
-    CreateGroupComponent
+    CreateGroupComponent,
+    AddParticipantsComponent
     
   ],
   imports: [
