@@ -99,7 +99,7 @@
         <div class="con--right d-flex flex-column w-100">
             <div class="cr--header w-100 d-flex align-items-center justify-content-between">
                  <div class="d-flex align-items-center ">
-                    <div class="pro--sm--img d-flex align-items-center justify-content-center">
+                    <div class="pro--sm--img d-flex align-items-center justify-content-center flex-shrink-0">
                         <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
                     </div>
                     <div class="user-name d-flex flex-column">
@@ -107,10 +107,10 @@
                         <span class="mb-0 font-14 text-primary fw-500">Typing ...</span>
                     </div>
                  </div>
-                 <button mat-raised-button color="primary" (click)="addParticipants()">
-                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                 <button mat-raised-button color="primary" (click)="addParticipants()" class="add--participant--btn">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 "> add_circle </mat-icon>
                     Add Participants
-                </button>
+                </button> 
             </div>
             <div class="cr--body w-100 d-flex flex-column w-100">
                 <div class="w-100 d-flex flex-column message--wrapper">

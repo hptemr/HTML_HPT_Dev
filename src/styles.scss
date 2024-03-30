@@ -516,6 +516,11 @@ a{
     
 }
  
+// For angular modal scroll
+.cdk-overlay-pane{
+    overflow: auto !important;
+}
+
 .mat-stepper-horizontal{
     .mat-horizontal-stepper-wrapper{
         .mat-horizontal-stepper-header-container{

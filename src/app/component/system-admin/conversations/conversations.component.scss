@@ -23,6 +23,8 @@
                 }
             }
             .cl--body{
+                height: calc(100vh - 265px);
+                overflow: auto;
                 ul{
                     list-style-type: none;
                     li{
@@ -109,6 +111,8 @@
             }
             .cr--body{
                 padding:15px 24px 0 24px; 
+                height: calc(100vh - 341px);
+                overflow: auto;
                 .date--divider{
                     border-top: 1px solid #f1efef;
                     border-radius: 10px;
@@ -183,5 +187,80 @@
                 }
             }
         }
+    }
+}
+
+::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled~.mdc-checkbox__background .mdc-checkbox__checkmark{
+    width: 14px;
+    top: 5px;
+    left: 5px;
+}
+
+@media only screen and (max-width: 599px) {
+    .conversation--wrapper .conversation--body{
+        flex-direction: column;
+        width: 100%;
+    }
+    .conversation--wrapper .conversation--body .con--left{
+        width: 100%;
+        margin: 0 0 20px 0;
+    }
+    .conversation--wrapper .conversation--body .con--left .cl--body{
+        height: 170px;
+    }
+    .conversation--wrapper .conversation--body .con--left .cl--body ul li{
+        padding: 10px;
+        .pro--pic{
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .pro--desc{
+            .username{
+                p{
+                    font-size: 14px;
+                    width: 245px;
+                }
+            }
+            .msg{
+                width: 265px;
+            }
+        }
+    }
+    .conversation--wrapper .conversation--body .con--right{
+        .cr--header{
+            .add--participant--btn{
+                min-width: 40px;
+                ::ng-deep{
+                    .mdc-button__label{
+                        display: none;
+                    }
+                    .mat-icon{
+                        margin: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+    .conversation--wrapper .conversation--body .con--right .cr--body .message--wrapper ul li .message--body{
+        width: 100%;
+    }
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){
+    .conversation--wrapper .conversation--body .con--left{
+        width: 270px;
+        margin-right: 5px;
+    }
+    .conversation--wrapper .conversation--body .con--left .cl--body ul li .pro--desc .username p{
+        width: 100px;
+    }
+    .conversation--wrapper .conversation--body .con--left .cl--body ul li .pro--desc .msg{
+        width: 150px;
+    }
+} 
+@media screen and (orientation:landscape) and (max-width: 850px){ 
+    .conversation--wrapper .conversation--body .con--left .cl--body,
+    .conversation--wrapper .conversation--body .con--right .cr--body{
+        height: unset;
     }
 }
