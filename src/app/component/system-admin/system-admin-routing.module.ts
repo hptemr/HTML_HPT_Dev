@@ -13,6 +13,7 @@ import { PatientDetailsComponent } from './user-managment/patient-details/patien
 import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
   {
@@ -75,6 +76,10 @@ const routes: Routes = [
   {
     path: 'conversations',
     component: ConversationsComponent, 
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent, 
   },
 ];
 

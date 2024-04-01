@@ -19,6 +19,7 @@ import { ManagePracticeComponent } from './manage-practice/manage-practice.compo
 import { ConversationsComponent } from './conversations/conversations.component';
 import { CreateGroupComponent } from './conversations/create-group/create-group.component';
 import { AddParticipantsComponent } from './conversations/add-participants/add-participants.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { AddParticipantsComponent } from './conversations/add-participants/add-p
     ManagePracticeComponent,
     ConversationsComponent,
     CreateGroupComponent,
-    AddParticipantsComponent
+    AddParticipantsComponent,
+    NotificationsComponent
     
   ],
   imports: [
