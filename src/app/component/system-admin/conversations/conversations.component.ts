@@ -6,7 +6,7 @@ import { AddParticipantsComponent } from './add-participants/add-participants.co
 @Component({
   selector: 'app-conversations', 
   templateUrl: './conversations.component.html',
-  styleUrl: './conversations.component.scss'
+  styleUrl: './conversations.component.scss',
 })
 export class ConversationsComponent { 
 

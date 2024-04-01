@@ -97,7 +97,9 @@
             </div>
         </div>
         <div class="con--right d-flex flex-column w-100">
-            <div class="cr--header w-100 d-flex align-items-center justify-content-between">
+
+            <!-- User header -->
+            <div class="cr--header w-100 d-flex align-items-center justify-content-between" *ngIf="">
                  <div class="d-flex align-items-center ">
                     <div class="pro--sm--img d-flex align-items-center justify-content-center flex-shrink-0">
                         <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
@@ -112,6 +114,27 @@
                     Add Participants
                 </button> 
             </div>
+
+
+            <!-- Group header -->
+            <div class="cr--header w-100 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center ">
+                   <div class="pro--sm--img d-flex align-items-center justify-content-center flex-shrink-0">
+                       <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
+                   </div>
+                   <div class="user-name d-flex flex-column">
+                       <p class="mb-0 font-16 fw-500">Physical Therapy Friends</p>
+                       <span class="mb-0 font-14 clr--1F2F3E fw-500">4 Participants</span>
+                   </div>
+                </div> 
+                <button mat-button [matMenuTriggerFor]="beforeMenu">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 ">more_vert </mat-icon> 
+                </button>
+                <mat-menu #beforeMenu="matMenu" xPosition="before">
+                    <button mat-menu-item>Group Info</button> 
+                </mat-menu>
+           </div>
+
             <div class="cr--body w-100 d-flex flex-column w-100">
                 <div class="w-100 d-flex flex-column message--wrapper">
                     <div class="date--divider d-flex align-items-center justify-content-center w-100">
