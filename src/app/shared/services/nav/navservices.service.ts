@@ -75,11 +75,11 @@ export class NavservicesService {
       active: false,
       item: [ 
         {
-          title: 'Sample-page',
+          title: 'Notifications',
           icon: 'sample-page',
           type: 'link',
           active: true,
-          path: '', 
+          path: '/system-admin/notifications', 
         },
       ]
     },
