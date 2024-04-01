@@ -156,25 +156,53 @@ export class NavservicesService {
       id: 4,
       icon: 'home',
       mainTitle: 'Conversations',
-      headTitle1: 'Conversations',
+      headTitle1: '',
       path: '/system-admin/conversations', 
       active: false, 
+      item: [ 
+        {
+          title: 'Conversations',
+          icon: 'sample-page',
+          type: 'link',
+          active: true,
+          path: '/system-admin/conversations', 
+        },
+      ]
     },
     {
       id: 5,
       icon: 'home',
-      mainTitle: 'E-Fax',
-      headTitle1: 'E-Fax',
+      mainTitle: ' E-Fax',
+      headTitle1: '',
       path: '/system-admin/e-fax',
       active: false, 
+      item: [ 
+        {
+          title: 'E-Fax',
+          icon: 'sample-page',
+          type: 'link',
+          active: true,
+          path: '/system-admin/e-fax', 
+        },
+      ]
     }, 
     {
       id: 6,
       icon: 'home',
-      mainTitle: 'Manage Profile', 
+      mainTitle: 'Manage Profile',  
+      headTitle1: '',
       path: '/system-admin/manage-profile',
       active: false, 
        type: 'link',
+       item: [ 
+        {
+          title: 'Manage Profile',
+          icon: 'sample-page',
+          type: 'link',
+          active: true,
+          path: '/system-admin/manage-profile', 
+        },
+      ]
     }, 
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
