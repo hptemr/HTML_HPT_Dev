@@ -18,13 +18,13 @@
        <li class="sidebar-list">
          <a [routerLink]="mainMenu.path" class="sidebar-link sidebar-title" (click)=" toggleMenu(mainMenu)" [class.active]="mainMenu.active == true">
             @if(mainMenu.icon){
-               <app-svg-icon [icon]="mainMenu.icon"></app-svg-icon>
-               <!-- <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="dashboard"></mat-icon>
+               <!-- <app-svg-icon [icon]="mainMenu.icon"></app-svg-icon> -->
+               <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="mainMenu.icon"></mat-icon>
                <span class="material-symbols-outlined">
-                dashboard
-                </span> -->
+                {{mainMenu.mainTitle! | translate }}
+                </span>
              }
-            <span>{{mainMenu.mainTitle! | translate }}</span>
+            <!-- <span>{{mainMenu.mainTitle! | translate }}</span> -->
           </a>
           <ul class="sidebar-submenu theme-scrollbar" [ngStyle]="{ 'display' : mainMenu.active ? 'block' : 'none' }">
             <li class="sidebar-head">{{ mainMenu.headTitle1! | translate }}</li>
@@ -36,7 +36,8 @@
                 <a class="d-flex sidebar-menu" href="javascrip:void(0)" (click)="toggle(item)" [routerLink]="item.path"
                   [ngClass]="item.active ? 'active' : ''">
                   @if(item.icon){
-                   <app-svg-icon [icon]="item.icon"></app-svg-icon>
+                    <!-- <app-svg-icon [icon]="item.icon"></app-svg-icon> -->
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="item.icon"></mat-icon>
                   }
                   {{ item.title! | translate }}
                   @if(item.children){
@@ -85,9 +86,10 @@
               <li class="main-submenu">
                 <a class="d-flex" [routerLink]="item.path" (click)="toggle(item,mainMenu)">
                   @if(item.icon){
-                  <app-svg-icon [icon]="item.icon"></app-svg-icon>
+                  <!-- <app-svg-icon [icon]="item.icon"></app-svg-icon> -->
+                  <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="item.icon" class="me-2"></mat-icon>
                   }
-                  {{ item.title! | translate }}
+                  <span>{{ item.title! | translate }}</span>
                 </a>
               </li>
               }

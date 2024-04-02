@@ -68,7 +68,7 @@ export class NavservicesService {
 
     {
       id: 1,
-      icon: 'home',
+      icon: 'dashboard_outline',
       mainTitle: 'Dashboard',
       headTitle1: 'Dashboard',
       // path: '/pages/sample-page1',
@@ -76,16 +76,16 @@ export class NavservicesService {
       item: [ 
         {
           title: 'Notifications',
-          icon: 'sample-page',
+          icon: 'notifications_none',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/notifications', 
         },
       ]
     },
     {
       id: 2,
-      icon: 'user',
+      icon: 'person_outline',
       mainTitle: 'User Management',
       headTitle1: 'User Management',
       // path: '/system-admin/Practice Admin', 
@@ -93,37 +93,37 @@ export class NavservicesService {
       item: [ 
         {
           title: 'Practice Admin',
-          icon: 'user',
+          icon: 'person_outline',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/user-managment/practice-admin', 
         },
         {
           title: 'Therapists',
-          icon: 'sample-page',
+          icon: 'accessibility',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/user-managment/therapists', 
         },
         {
           title: 'Support Team',
-          icon: 'sample-page',
+          icon: 'help_outline',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/user-managment/support-team', 
         },
         {
           title: 'Billing Team',
-          icon: 'sample-page',
+          icon: 'receipt',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/user-managment/billing-team', 
         },
         {
           title: 'Patients',
-          icon: 'sample-page',
+          icon: 'group',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/user-managment/patients', 
         },
       ]
@@ -138,23 +138,23 @@ export class NavservicesService {
       item: [ 
         {
           title: 'Therapists',
-          icon: 'user',
+          icon: 'accessibility',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/manage-practice', 
         }, 
         {
           title: 'Support Team',
-          icon: 'user',
+          icon: 'help_outline',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/manage-practice', 
         },
       ]
     },
     {
       id: 4,
-      icon: 'home',
+      icon: 'chat_bubble_outline',
       mainTitle: 'Conversations',
       headTitle1: '',
       path: '/system-admin/conversations', 
@@ -162,16 +162,16 @@ export class NavservicesService {
       item: [ 
         {
           title: 'Conversations',
-          icon: 'sample-page',
+          icon: 'chat',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/conversations', 
         },
       ]
     },
     {
       id: 5,
-      icon: 'home',
+      icon: 'print',
       mainTitle: ' E-Fax',
       headTitle1: '',
       path: '/system-admin/e-fax',
@@ -179,16 +179,16 @@ export class NavservicesService {
       item: [ 
         {
           title: 'E-Fax',
-          icon: 'sample-page',
+          icon: 'print',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/e-fax', 
         },
       ]
     }, 
     {
       id: 6,
-      icon: 'home',
+      icon: 'people_outline',
       mainTitle: 'Manage Profile',  
       headTitle1: '',
       path: '/system-admin/manage-profile',
@@ -197,9 +197,9 @@ export class NavservicesService {
        item: [ 
         {
           title: 'Manage Profile',
-          icon: 'sample-page',
+           icon: 'portrait',
           type: 'link',
-          active: true,
+          active: false,
           path: '/system-admin/manage-profile', 
         },
       ]
