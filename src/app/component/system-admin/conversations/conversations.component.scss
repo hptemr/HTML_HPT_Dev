@@ -263,4 +263,7 @@
     .conversation--wrapper .conversation--body .con--right .cr--body{
         height: unset;
     }
+    .conversation--wrapper .conversation--body .con--right .cr--body .message--wrapper ul li .message--body{
+        width: 100%;
+    }
 }

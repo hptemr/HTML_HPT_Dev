@@ -15,12 +15,18 @@
         } 
     }
     .body--sec{
-        padding: 0 36px;
-        .icon--mail{
-            width: 16px;
-            height: 16px;
-            font-size: 16px;
-            margin-right: 10px;
+        padding: 0 15px !important; 
+        .user--email{
+            .mat-icon{
+                width: 18px;
+                height: 18px;
+                font-size: 18px;
+                margin-right: 10px !important;
+            }
+            p{
+                word-break: break-all;
+                line-height: 16px;
+            }
         }
     }
     .profile--right{
