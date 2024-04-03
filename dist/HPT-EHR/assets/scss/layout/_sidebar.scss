@@ -1009,7 +1009,7 @@
                           }
                         }
                       }
-                      .main-submenu{
+                      .main-submenu{ 
                         &:hover{
                           .submenu-wrapper{
                             li{
@@ -1542,6 +1542,9 @@
               a {
                 color: $theme-font-color;
                 padding: 20px 5px;
+                .mat-icon{
+                  color: #1F2F3E;
+                }
                 span {
                   text-transform: capitalize;
                   color: $dark-color;
@@ -1551,8 +1554,11 @@
                 }
                 &.active {
                   background-color: #33BFBF;
+                  .mat-icon{
+                    color: #FFFFFF;
+                  }
                   span {
-                    color: #fff;
+                    color: #FFFFFF;
                   }
                 }
                 &:not(.active) {
@@ -1691,7 +1697,7 @@
                   display: block;
                   font-weight: 500;
                   letter-spacing: 0px; 
-                  margin-top: 10px;
+                  margin-top: 5px;
                   word-break: break-word;
                 }
                 .according-menu {
@@ -1796,7 +1802,8 @@
                 }
               }
               span {
-                color:#000;
+                // color:#000;
+                color: #1F2F3E;
                 font-weight: 600;
               }
             }
