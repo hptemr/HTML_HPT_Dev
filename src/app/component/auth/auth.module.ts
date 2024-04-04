@@ -6,12 +6,16 @@ import { LoginComponent } from './login/login.component';
 import { SignupPatientComponent } from './signup-patient/signup-patient.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
  
 
 @NgModule({
   declarations: [ 
     LoginComponent,
-    SignupPatientComponent
+    SignupPatientComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [ 
     CommonModule,
