@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ContentComponent } from './shared/component/layout/content/content.component';
-import { dashData } from './shared/routes/routes'; 
+import { ContentComponent } from './shared/component/layout/content/content.component'; 
 import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.component';
 import { SystemAdminLayoutComponent } from './shared/component/layout/system-admin-layout/system-admin-layout.component';
 
