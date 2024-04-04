@@ -1,5 +1,4 @@
-import { Routes } from '@angular/router';
-import { SamplePageComponent } from 'src/app/component/pages/sample-page/sample-page.component';
+import { Routes } from '@angular/router'; 
 
 export const dashData: Routes = [
 
@@ -9,12 +8,10 @@ export const dashData: Routes = [
             title: "sample-page",
             breadcrumb: "sample-page",
 
-        },
-        loadChildren: () => import('../../component/pages/pages.module').then(m => m.PagesModule)
+        }, 
     },
     {
-        path: 'sample-page',
-        component: SamplePageComponent,
+        path: 'sample-page', 
         data: {
             title: "Sample-page",
             breadcrumb: "Sample-page",

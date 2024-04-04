@@ -10,8 +10,7 @@ import { HeaderComponent } from './component/header/header.component';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { FeathericonComponent } from './component/feathericon/feathericon.component';
 import { FooterComponent } from './component/footer/footer.component';
-import { NotificationComponent } from './component/header/notification/notification.component';  
-import { ThemeComponent } from './component/header/theme/theme.component'; 
+import { NotificationComponent } from './component/header/notification/notification.component';   
 import { ProfileComponent } from './component/header/profile/profile.component';
 import { SvgIconComponent } from './component/svg-icon/svg-icon.component'; 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
@@ -33,8 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SidebarComponent,
     FeathericonComponent,
     FooterComponent,
-    NotificationComponent,  
-    ThemeComponent, 
+    NotificationComponent,   
     ProfileComponent,
     SvgIconComponent,  
     TapToTopComponent,
