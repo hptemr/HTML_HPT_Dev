@@ -10,16 +10,10 @@ import { HeaderComponent } from './component/header/header.component';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { FeathericonComponent } from './component/feathericon/feathericon.component';
 import { FooterComponent } from './component/footer/footer.component';
-import { NotificationComponent } from './component/header/notification/notification.component';
-import { BookmarkComponent } from './component/header/bookmark/bookmark.component';
-import { MessageComponent } from './component/header/message/message.component';
-import { CartComponent } from './component/header/cart/cart.component';
-import { ThemeComponent } from './component/header/theme/theme.component';
-import { LanguageComponent } from './component/header/language/language.component';
+import { NotificationComponent } from './component/header/notification/notification.component';  
+import { ThemeComponent } from './component/header/theme/theme.component'; 
 import { ProfileComponent } from './component/header/profile/profile.component';
-import { SvgIconComponent } from './component/svg-icon/svg-icon.component';
-import { BreadcrumbComponent } from './component/breadcrumb/breadcrumb.component';
-import { SearchComponent } from './component/header/search/search.component';
+import { SvgIconComponent } from './component/svg-icon/svg-icon.component'; 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
 import { TapToTopComponent } from './component/tap-to-top/tap-to-top.component';
 import { LoaderComponent } from './component/loader/loader.component'; 
@@ -39,16 +33,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SidebarComponent,
     FeathericonComponent,
     FooterComponent,
-    NotificationComponent,
-    BookmarkComponent,
-    MessageComponent,
-    CartComponent,
-    ThemeComponent,
-    LanguageComponent,
+    NotificationComponent,  
+    ThemeComponent, 
     ProfileComponent,
-    SvgIconComponent,
-    BreadcrumbComponent,
-    SearchComponent,
+    SvgIconComponent,  
     TapToTopComponent,
     LoaderComponent, 
     
@@ -71,8 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SystemAdminLayoutComponent,
     FeathericonComponent,
     LoaderComponent,
-    SvgIconComponent,
-    BreadcrumbComponent,
+    SvgIconComponent, 
     TapToTopComponent,
     TranslateModule,
     NgbModule, 
