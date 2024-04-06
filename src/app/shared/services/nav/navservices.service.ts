@@ -38,33 +38,7 @@ export class NavservicesService {
   @HostListener('window:resize', ['$event'])
 
 
-  Nvabarmenu: Menu[] = [
-    // {
-    //   id: 1,
-    //   icon: 'Grid',
-    //   mainTitle: 'page',
-    //   headTitle1: 'pages',
-    //   item: [
-    //     {
-    //       title: 'pages',
-    //       icon: 'sample-page',
-    //       type: 'sub',
-    //       active: true,
-    //       children: [
-    //         { path: '/pages/sample-page1', title: 'Sample-page1', type: 'link' },
-    //         { path: '/pages/sample-page2', title: 'Sample-page2', type: 'link' },
-    //       ],
-    //     },
-    //     {
-    //       title: 'Sample-page',
-    //       icon: 'sample-page',
-    //       type: 'link',
-    //       active: true,
-    //       path: '/sample-page',
-    //       bookmark:true
-    //     },
-    //   ]
-    // },
+  Nvabarmenu: Menu[] = [ 
 
     {
       id: 1,

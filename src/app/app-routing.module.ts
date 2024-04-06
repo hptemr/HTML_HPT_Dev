@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentComponent } from './shared/component/layout/content/content.component'; 
 import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.component';
 import { SystemAdminLayoutComponent } from './shared/component/layout/system-admin-layout/system-admin-layout.component';
+import { PatientLayoutComponent } from './shared/component/layout/patient-layout/patient-layout-layout.component';
 
 const routes: Routes = [  
   {
@@ -16,6 +17,12 @@ const routes: Routes = [
     component: SystemAdminLayoutComponent, 
     loadChildren: () => import('./component/system-admin/system-admin.module').then(mod => mod.SystemAdminModule),  
   },
+  {
+    path: 'patient',
+    component: PatientLayoutComponent, 
+    loadChildren: () => import('./component/patient/patient.module').then(mod => mod.PatientModule),  
+  },
+
   // {
   //   path: '**',
   //   redirectTo: '/error-page/error404',

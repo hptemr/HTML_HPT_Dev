@@ -19,6 +19,8 @@ import { LoaderComponent } from './component/loader/loader.component';
 import { MaterialModule } from './material.module';
 import { SystemAdminLayoutComponent } from './component/layout/system-admin-layout/system-admin-layout.component'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PatientLayoutComponent } from './component/layout/patient-layout/patient-layout-layout.component';
+import { SidebarPatientComponent } from './component/sidebar-patient/sidebar-patient.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -28,8 +30,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [ 
     ContentComponent,
     SystemAdminLayoutComponent,
+    PatientLayoutComponent,
     HeaderComponent,
     SidebarComponent,
+    SidebarPatientComponent,
     FeathericonComponent,
     FooterComponent,
     NotificationComponent,   
@@ -55,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     ContentComponent,
     SystemAdminLayoutComponent,
+    PatientLayoutComponent,
     FeathericonComponent,
     LoaderComponent,
     SvgIconComponent, 
