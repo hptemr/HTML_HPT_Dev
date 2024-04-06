@@ -124,12 +124,11 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                             Intake Form Actions
                         </th>
-                        <td mat-cell *matCellDef="let element"> 
-                            <!-- [routerLink]="['/system-admin/user-managment/practice-admin-profile']" -->
-                            <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/system-admin/user-managment/patient-details']">
+                        <td mat-cell *matCellDef="let element">  
+                            <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/patient/appointment-details']">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                             </button>
-                            <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/system-admin/user-managment/patient-details']">
+                            <button mat-button class="flex-shrink-0 min-width-unset search--fields" >
                                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                             </button>
                         </td>

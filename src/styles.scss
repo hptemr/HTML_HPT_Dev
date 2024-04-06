@@ -20,6 +20,7 @@ input, p,
 
 .font-12{font-size: 12px !important;}
 .font-14{font-size: 14px !important;}
+.font-15{font-size: 15px !important;}
 .font-16{font-size: 16px !important;}
 .font-18{font-size: 18px !important;}
 .font-20{font-size: 20px !important;}
@@ -707,12 +708,31 @@ ngb-datepicker{
      .mat-mdc-paginator-range-label{
         margin: 0 !important;
     }
+    .profile--right--wrapper .card .card-body {
+        margin-top: 15px;
+        .profile--left{
+            width: 100%;
+        }
+        .profile--right{
+            border-top: 1px solid #31B8B8;
+            margin-top: 20px;
+            padding-top: 20px;
+            padding-left: 0;
+            margin-left: 0;
+            border-left: 0;
+        }
+    }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
 @media only screen and (min-width: 980px) and (max-width: 1279px){}
 @media only screen and (min-width: 1280px) and (max-width: 1440px){}
 @media only screen and (min-width: 1441px) and (max-width: 1550px){}
-@media screen and (orientation:landscape) and (max-width: 850px){}
+@media screen and (orientation:landscape) and (max-width: 850px){
+    .card .card-body,
+    .card .card-header{
+        padding: 15px;
+    }
+}
 
 
 /*----  Media Queries (End here) -----*/

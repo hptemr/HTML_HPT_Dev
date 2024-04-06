@@ -23,7 +23,25 @@ const ELEMENT_DATA: PeriodicElement[] = [
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'Completed',
     action : ''
-  },   
+  },  
+  { 
+    name: 'Hamilton PT',   
+    appointmentDate: 'Fri, Nov 09, 2023 10:00 am', 
+    status: 'Completed',
+    action : ''
+  }, 
+  { 
+    name: 'PT Specialist of Florence',   
+    appointmentDate: 'Wed, Nov 07, 2023 10:30 am', 
+    status: 'Completed',
+    action : ''
+  }, 
+  { 
+    name: 'Stevi PT',   
+    appointmentDate: 'Tue, Nov 06, 2023 11:00 am', 
+    status: 'Completed',
+    action : ''
+  },  
 ];
 
 @Component({
