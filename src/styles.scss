@@ -679,6 +679,40 @@ ngb-datepicker{
 .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle{
     border-color: #31B7B7 !important;
 } 
+ 
+/*----  Media Queries (Start here) -----*/
 
-/* Importing Bootstrap SCSS file. */
-// @import 'bootstrap/scss/bootstrap';
+
+@media only screen and (max-width: 599px) {
+    .font-12{font-size: 10px !important;}
+    .font-14{font-size: 12px !important;}
+    .font-16{font-size: 14px !important;}
+    h3, .font-18{font-size: 16px !important;}
+    .font-20{font-size: 18px !important;}
+    ::-ms-input-placeholder {   
+        font-size: 14px !important;
+    } 
+    ::placeholder { 
+        font-size: 14px !important;
+    }
+    .card .card-header .form-group .form-control,
+    .cust--mat--table--wrapper .cust--mat--table.mat-mdc-table tbody tr td,
+    .cust--mat--table--wrapper .cust--mat--table.box--row--table.mat-mdc-table thead tr th .mat-sort-header-container .mat-sort-header-content{
+        font-size: 14px;
+    } 
+    .card .card-body,
+    .card .card-header{
+        padding: 15px;
+    }
+     .mat-mdc-paginator-range-label{
+        margin: 0 !important;
+    }
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){}
+@media only screen and (min-width: 980px) and (max-width: 1279px){}
+@media only screen and (min-width: 1280px) and (max-width: 1440px){}
+@media only screen and (min-width: 1441px) and (max-width: 1550px){}
+@media screen and (orientation:landscape) and (max-width: 850px){}
+
+
+/*----  Media Queries (End here) -----*/

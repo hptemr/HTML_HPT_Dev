@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Menu, NavservicesService } from '../../services/nav/navservices.service';
+import { PatientNavservicesService } from '../../services/nav/patient-navservices.service';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,7 @@ export class HeaderComponent {
     this.navService.isDisplay = window.innerWidth < 1200 ? true : false;
   }
 
-  constructor(public navService: NavservicesService) {
+  constructor(public navService: PatientNavservicesService) {
     this.navService.items.subscribe(menuItems => this.items = menuItems);
   }
 
@@ -78,6 +79,7 @@ export class HeaderComponent {
   clickOutside(): void {
     this.searchResult = false
     this.searchResultEmpty = false;
+    console.log('yee')
   }
 
   checkSearchResultEmpty(items: Menu[]) {
