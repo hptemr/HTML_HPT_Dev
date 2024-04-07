@@ -318,6 +318,12 @@ a{
                         &:first-child{
                             padding-left: 0;
                         } 
+                        &:last-child{
+                            padding-right: 0;
+                            .mat-sort-header-container{
+                                justify-content: flex-end;
+                            }
+                        } 
                         .mat-sort-header-container{
                             .mat-sort-header-content{
                                 font-size: 16px;
@@ -341,7 +347,7 @@ a{
                         font-family: "Nunito Sans", sans-serif !important;
                         &:first-child{
                             padding-left: 0;
-                        }
+                        } 
                     }
                 }
             }

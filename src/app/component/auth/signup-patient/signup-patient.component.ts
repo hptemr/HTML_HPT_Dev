@@ -12,6 +12,7 @@ import { Observable, map } from 'rxjs';
 })
 export class SignupPatientComponent {
   public show: boolean = false;
+  mainHeadTxt = "Create your account"
   
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -34,6 +35,13 @@ export class SignupPatientComponent {
 
   showPassword() {
     this.show = !this.show;
+  }
+
+  next(){
+    this.mainHeadTxt="Verify your account"
+  }
+  back(){
+    this.mainHeadTxt="Create your account"
   }
 
 }

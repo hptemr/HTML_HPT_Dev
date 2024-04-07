@@ -10,7 +10,7 @@
           <div class="login-main pb-4">
             <form class="row">
               <div class="col-12 theme-form">
-                <h3 class="text-center dark-grey">Create your account</h3>
+                <h3 class="text-center dark-grey">{{mainHeadTxt}}</h3>
                 <p class="text-center mt-2">Enter details to create an account </p>
               </div>
               <div class="col-12"> 
@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Date of Birth </label>
                                   <div class="input-group">
-                                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model"
+                                    <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp" [(ngModel)]="model"
                                       ngbDatepicker #d="ngbDatepicker" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                       type="button">
@@ -70,14 +70,14 @@
                               <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Email  </label>
-                                  <input class="form-control" type="text" placeholder="Enter Email" />
+                                  <input class="form-control text-lowercase" type="text" placeholder="Enter Email" />
                                   <!-- <div class="text text-danger mt-1"> Middle Name required</div> -->
                                 </div>
                               </div>
                               <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> * </span></label>
-                                  <input class="form-control" type="text" placeholder="Enter Phone Number" />
+                                  <input class="form-control" type="number" placeholder="Enter Phone Number" />
                                   <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                                 </div>
                               </div>
@@ -169,7 +169,7 @@
                             <div class="col-12 col-lg-6">
                               <div class="form-group">
                                 <label class="col-form-label fw-600">Postal Code <span class="clr--DF0404 ms-1"> * </span>  </label>
-                                <input class="form-control" type="text" placeholder="Enter Postal Code" />
+                                <input class="form-control" type="number" placeholder="Enter Postal Code" />
                                 <!-- <div class="text text-danger mt-1"> Middle Name required</div> -->
                               </div>
                             </div>
@@ -177,8 +177,8 @@
                         </div>
                       </div>
                       <div class="d-flex align-items-center justify-content-between mt-3">
-                        <button mat-stroked-button color="primary" matStepperPrevious>Previous</button>
-                        <button mat-raised-button color="primary" matStepperNext>Next</button>
+                        <button mat-stroked-button color="primary" matStepperPrevious >Previous</button>
+                        <button mat-raised-button color="primary" matStepperNext (click)="next()">Next</button>
                       </div>
                     </form>
                   </mat-step>
@@ -226,7 +226,7 @@
                        </div>
 
                       <div class="d-flex align-items-center justify-content-between mt-3">
-                        <button mat-stroked-button color="primary" matStepperPrevious>Previous</button>
+                        <button mat-stroked-button color="primary" matStepperPrevious (click)="back()">Previous</button>
                         <button mat-raised-button color="primary" matStepperNext>Sign Up</button>
                       </div>
                     </form>
