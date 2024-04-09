@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupPatientComponent } from './signup-patient/signup-patient.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
 
 const routes: Routes = [ 
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent
+  },
+  {
+    path: 'support-team/signup',
+    component: SignupSupportTeamComponent
   },
 ];
 @NgModule({

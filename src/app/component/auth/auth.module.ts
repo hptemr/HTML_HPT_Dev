@@ -8,6 +8,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
  
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     LoginComponent,
     SignupPatientComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    SignupSupportTeamComponent
   ],
   imports: [ 
     CommonModule,
