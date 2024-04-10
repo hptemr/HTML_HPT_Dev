@@ -21,6 +21,9 @@ import { SystemAdminLayoutComponent } from './component/layout/system-admin-layo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientLayoutComponent } from './component/layout/patient-layout/patient-layout-layout.component';
 import { SidebarPatientComponent } from './component/sidebar-patient/sidebar-patient.component';
+import { SupportTeamLayoutComponent } from './component/layout/support-team-layout/support-team-layout.component';
+import { SupportTeamHeaderComponent } from './component/support-team-header/support-team-header.component';
+import { SidebarSupportTeamComponent } from './component/sidebar-support-team/sidebar-support-team.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -31,9 +34,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContentComponent,
     SystemAdminLayoutComponent,
     PatientLayoutComponent,
+    SupportTeamLayoutComponent,
     HeaderComponent,
+    SupportTeamHeaderComponent,
     SidebarComponent,
     SidebarPatientComponent,
+    SidebarSupportTeamComponent,
     FeathericonComponent,
     FooterComponent,
     NotificationComponent,   

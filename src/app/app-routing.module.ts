@@ -4,6 +4,7 @@ import { ContentComponent } from './shared/component/layout/content/content.comp
 import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.component';
 import { SystemAdminLayoutComponent } from './shared/component/layout/system-admin-layout/system-admin-layout.component';
 import { PatientLayoutComponent } from './shared/component/layout/patient-layout/patient-layout-layout.component';
+import { SupportTeamLayoutComponent } from './shared/component/layout/support-team-layout/support-team-layout.component';
 
 const routes: Routes = [  
   {
@@ -21,6 +22,11 @@ const routes: Routes = [
     path: 'patient',
     component: PatientLayoutComponent, 
     loadChildren: () => import('./component/patient/patient.module').then(mod => mod.PatientModule),  
+  },
+  {
+    path: 'support-team',
+    component: SupportTeamLayoutComponent, 
+    loadChildren: () => import('./component/support-team/support-team.module').then(mod => mod.SupportTeamModule),  
   },
 
   // {
