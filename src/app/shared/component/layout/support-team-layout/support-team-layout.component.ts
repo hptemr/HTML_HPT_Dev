@@ -3,6 +3,7 @@ import { LayoutService } from '../../../services/layout/layout.service';
 import { NavservicesService } from '../../../../shared/services/nav/navservices.service';
 import * as feather from 'feather-icons';
 import { Router } from '@angular/router';
+import { SupportTeamNavservicesService } from 'src/app/shared/services/nav/support-team-navservices.service';
 
 @Component({
   selector: 'app-support-team-layout',
@@ -25,7 +26,7 @@ export class SupportTeamLayoutComponent {
   }
 
   constructor(
-    public navService: NavservicesService,
+    public navService: SupportTeamNavservicesService,
     public layout: LayoutService,
     private router: Router
   ) { }

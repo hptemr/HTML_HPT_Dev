@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-appointments', 
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './appointments.component.scss'
 })
 export class AppointmentsComponent {
-
+  model: NgbDateStruct;
 }

@@ -1,7 +1,6 @@
-import { Component, HostListener } from '@angular/core';
-import { Menu, NavservicesService } from '../../services/nav/navservices.service';
-import { PatientNavservicesService } from '../../services/nav/patient-navservices.service';
+import { Component, HostListener } from '@angular/core'; 
 import { SupportTeamNavservicesService } from '../../services/nav/support-team-navservices.service';
+import { Menu, NavservicesService } from '../../services/nav/navservices.service';
 
 @Component({
   selector: 'app-support-team-header',
