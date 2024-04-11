@@ -49,6 +49,9 @@ export class AppointmentsComponent {
   displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
+  dayTwo = false;
+  dayOne = true;
+
   model: NgbDateStruct;
 
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
@@ -71,5 +74,9 @@ export class AppointmentsComponent {
     }
 
  
+    showDayTwo() {
+      this.dayTwo = true;
+      this.dayOne = false;
+    }
 
 }
