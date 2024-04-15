@@ -599,6 +599,11 @@ a{
         background-color: #DF0404 !important;
         font-weight: 600;
     }
+    &.mat-green--btn{
+        background-color: #1DB823 !important;
+        color: #fff !important;
+        font-weight: 600;
+    }
 }
 .mdc-button{
     letter-spacing: unset !important;
