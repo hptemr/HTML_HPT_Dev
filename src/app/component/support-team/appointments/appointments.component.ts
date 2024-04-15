@@ -17,27 +17,63 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'Jane Cooper',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'Completed',
+    status: 'pending',
     action : ''
   },  
   { 
     name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'Completed',
+    status: 'completed',
+    action : ''
+  },
+  { 
+    name: 'Leslie Alexander',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'declined',
     action : ''
   },
   { 
     name: 'Maria Jones',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'Completed',
+    status: 'rescheduled',
     action : ''
   }, 
   { 
     name: 'Shirlene Walter',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'Completed',
+    status: 'deleted',
     action : ''
   },  
+  { 
+    name: 'Jane Cooper',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'pending',
+    action : ''
+  },  
+  { 
+    name: 'Leslie Alexander',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'completed',
+    action : ''
+  },
+  { 
+    name: 'Leslie Alexander',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'declined',
+    action : ''
+  },
+  { 
+    name: 'Maria Jones',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'rescheduled',
+    action : ''
+  }, 
+  { 
+    name: 'Shirlene Walter',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'deleted',
+    action : ''
+  }, 
 ];
 
 @Component({

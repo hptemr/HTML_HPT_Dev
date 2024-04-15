@@ -155,12 +155,13 @@
                             </th>
                             <td mat-cell *matCellDef="let element"> 
                                 <!-- {{element.status}}  -->
-                                <p class="status" *ngIf="">Completed</p>
+                                <!-- <p class="status" *ngIf="">Completed</p>
                                 <p class="status pending" *ngIf="">Pending</p>
                                 <p class="status suspended" *ngIf="">Suspended</p>
                                 <p class="status deleted" *ngIf="">Deleted</p>
                                 <p class="status deleted" *ngIf="">Rejected</p>
-                                <p class="status rescheduled">Rescheduled</p>
+                                <p class="status rescheduled">Rescheduled</p> -->
+                                <p class="status {{element.status}}">{{element.status}}</p>
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="action">

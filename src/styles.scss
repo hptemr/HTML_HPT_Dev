@@ -403,12 +403,14 @@ a{
     font-size: 14px;
     font-weight: 600;
     color: #079740;
+    text-transform: capitalize;
     &.pending{
         color: #1E87F0;
     }
     &.suspended{
         color: #D58625;
     }
+    &.declined,
     &.deleted{
         color: #DF0404;
     } 
