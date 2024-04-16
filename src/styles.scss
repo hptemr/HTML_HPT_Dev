@@ -728,6 +728,12 @@ ngb-datepicker{
         margin-top: 15px;
         .profile--left{
             width: 100%;
+            .head--sec{
+                .mat-mdc-list{
+                    right: 9px;
+                    top: -28px;
+                }
+            }
         }
         .profile--right{
             border-top: 1px solid #31B8B8;
@@ -737,7 +743,7 @@ ngb-datepicker{
             margin-left: 0;
             border-left: 0;
         }
-    }
+    } 
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
 @media only screen and (min-width: 980px) and (max-width: 1279px){}

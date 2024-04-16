@@ -12,6 +12,11 @@ import { SuccessModalComponent } from '../success-modal/success-modal.component'
   styleUrl: './change-password-modal.component.scss'
 })
 export class ChangePasswordModalComponent {
+  public show: boolean = false;
+  showPassword() {
+    this.show = !this.show;
+  }
+  
   constructor( public dialog: MatDialog) { }
 
   successModal() {
