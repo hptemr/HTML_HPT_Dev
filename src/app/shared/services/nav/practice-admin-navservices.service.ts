@@ -40,65 +40,41 @@ export class PracticeAdminNavservicesService {
 
   Nvabarmenu: Menu[] = [ 
 
-    {
-      id: 1,
-      icon: 'dashboard_outline',
-      mainTitle: 'Practice Admin 01',
-      headTitle1: 'Dashboard 01',
-      // path: '/pages/sample-page1',
-      active: false,
-      item: [ 
-        {
-          title: 'Notifications',
-          icon: 'notifications_none',
-          type: 'link',
-          active: false,
-          path: '/system-admin/notifications', 
-        },
-      ]
-    },
-    {
+      {
       id: 2,
       icon: 'person_outline',
       mainTitle: 'User Management',
       headTitle1: 'User Management',
-      // path: '/system-admin/Practice Admin', 
+      // path: '/practice-admin/Practice Admin', 
       active: false,
-      item: [ 
-        {
-          title: 'Practice Admin',
-          icon: 'person_outline',
-          type: 'link',
-          active: false,
-          path: '/system-admin/user-managment/practice-admin', 
-        },
+      item: [  
         {
           title: 'Therapists',
           icon: 'accessibility',
           type: 'link',
           active: false,
-          path: '/system-admin/user-managment/therapists', 
+          path: '/practice-admin/user-managment/therapists', 
         },
         {
           title: 'Support Team',
           icon: 'help_outline',
           type: 'link',
           active: false,
-          path: '/system-admin/user-managment/support-team', 
+          path: '/practice-admin/user-managment/support-team', 
         },
         {
           title: 'Billing Team',
           icon: 'receipt',
           type: 'link',
           active: false,
-          path: '/system-admin/user-managment/billing-team', 
+          path: '/practice-admin/user-managment/billing-team', 
         },
         {
           title: 'Patients',
           icon: 'group',
           type: 'link',
           active: false,
-          path: '/system-admin/user-managment/patients', 
+          path: '/practice-admin/user-managment/patients', 
         },
       ]
     },
@@ -107,7 +83,7 @@ export class PracticeAdminNavservicesService {
       icon: 'home',
       mainTitle: 'Manage Practice',
       headTitle1: 'Manage Practice',
-      path: '/system-admin/manage-practice',
+      path: '/practice-admin/manage-practice',
       active: false, 
       item: [ 
         {
@@ -115,14 +91,14 @@ export class PracticeAdminNavservicesService {
           icon: 'accessibility',
           type: 'link',
           active: false,
-          path: '/system-admin/manage-practice', 
+          path: '/practice-admin/manage-practice', 
         }, 
         {
           title: 'Support Team',
           icon: 'help_outline',
           type: 'link',
           active: false,
-          path: '/system-admin/manage-practice', 
+          path: '/practice-admin/manage-practice', 
         },
       ]
     },
@@ -131,7 +107,7 @@ export class PracticeAdminNavservicesService {
       icon: 'chat_bubble_outline',
       mainTitle: 'Conversations',
       headTitle1: '',
-      path: '/system-admin/conversations', 
+      path: '/practice-admin/conversations', 
       active: false, 
       item: [ 
         {
@@ -139,7 +115,7 @@ export class PracticeAdminNavservicesService {
           icon: 'chat',
           type: 'link',
           active: false,
-          path: '/system-admin/conversations', 
+          path: '/practice-admin/conversations', 
         },
       ]
     },
@@ -148,7 +124,7 @@ export class PracticeAdminNavservicesService {
       icon: 'print',
       mainTitle: ' E-Fax',
       headTitle1: '',
-      path: '/system-admin/e-fax',
+      path: '/practice-admin/e-fax',
       active: false, 
       item: [ 
         {
@@ -156,7 +132,7 @@ export class PracticeAdminNavservicesService {
           icon: 'print',
           type: 'link',
           active: false,
-          path: '/system-admin/e-fax', 
+          path: '/practice-admin/e-fax', 
         },
       ]
     }, 
@@ -165,7 +141,7 @@ export class PracticeAdminNavservicesService {
       icon: 'people_outline',
       mainTitle: 'Manage Profile',  
       headTitle1: '',
-      path: '/system-admin/manage-profile',
+      path: '/practice-admin/manage-profile',
       active: false, 
        type: 'link',
        item: [ 
@@ -174,10 +150,30 @@ export class PracticeAdminNavservicesService {
            icon: 'portrait',
           type: 'link',
           active: false,
-          path: '/system-admin/manage-profile', 
+          path: '/practice-admin/manage-profile', 
         },
       ]
-    }, 
+    },
+    {
+      id: 7,
+      icon: 'notifications_none',
+      mainTitle: 'Notifications',  
+      headTitle1: '',
+      path: '/practice-admin/notifications',
+      active: false, 
+       type: 'link',
+       item: [ 
+        {
+          title: 'Notifications',
+           icon: 'notifications_none',
+          type: 'link',
+          active: false,
+          path: '/practice-admin/notifications', 
+        },
+      ]
+    },
+    
+   
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
 
