@@ -25,6 +25,9 @@ import { SupportTeamLayoutComponent } from './component/layout/support-team-layo
 import { SupportTeamHeaderComponent } from './component/support-team-header/support-team-header.component';
 import { SidebarSupportTeamComponent } from './component/sidebar-support-team/sidebar-support-team.component';
 import { PatientHeaderComponent } from './component/header-patient/header-patient.component';
+import { PracticeAdminHeaderComponent } from './component/header-practice-admin/header-practice-admin.component';
+import { PracticeAdminLayoutComponent } from './component/layout/practice-admin-layout/practice-admin-layout.component';
+import { SidebarPracticeAdminComponent } from './component/sidebar-practice-admin/sidebar-practice-admin.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -33,15 +36,23 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [ 
     ContentComponent,
+
     SystemAdminLayoutComponent,
+    PracticeAdminLayoutComponent,
     PatientLayoutComponent,
     SupportTeamLayoutComponent,
+
     HeaderComponent,
     SupportTeamHeaderComponent,
     PatientHeaderComponent,
+    PracticeAdminHeaderComponent,
+
     SidebarComponent,
     SidebarPatientComponent,
+    SidebarPracticeAdminComponent,
     SidebarSupportTeamComponent,
+   
+
     FeathericonComponent,
     FooterComponent,
     NotificationComponent,   
