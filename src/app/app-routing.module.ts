@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ContentComponent } from './shared/component/layout/content/content.component'; 
+import { RouterModule, Routes } from '@angular/router'; 
 import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.component';
 import { SystemAdminLayoutComponent } from './shared/component/layout/system-admin-layout/system-admin-layout.component';
 import { PatientLayoutComponent } from './shared/component/layout/patient-layout/patient-layout-layout.component';

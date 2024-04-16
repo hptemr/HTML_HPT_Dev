@@ -1,14 +1,14 @@
-import { Component, HostListener } from '@angular/core';
-import { Menu, NavservicesService } from '../../services/nav/navservices.service';
+import { Component, HostListener } from '@angular/core';  
+import { Menu } from '../../services/nav/navservices.service';
 import { PatientNavservicesService } from '../../services/nav/patient-navservices.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: 'app-header-patient',
+  templateUrl: './header-patient.component.html',
+  styleUrls: ['./header-patient.component.scss']
 })
 
-export class HeaderComponent {
+export class PatientHeaderComponent {
 
   public menuItems: Menu[] = [];
   public items: Menu[] = [];
@@ -24,7 +24,7 @@ export class HeaderComponent {
     this.navService.isDisplay = window.innerWidth < 1200 ? true : false;
   }
 
-  constructor(public navService: NavservicesService) {
+  constructor(public navService: PatientNavservicesService) {
     this.navService.items.subscribe(menuItems => this.items = menuItems);
   }
 

@@ -24,6 +24,7 @@ import { SidebarPatientComponent } from './component/sidebar-patient/sidebar-pat
 import { SupportTeamLayoutComponent } from './component/layout/support-team-layout/support-team-layout.component';
 import { SupportTeamHeaderComponent } from './component/support-team-header/support-team-header.component';
 import { SidebarSupportTeamComponent } from './component/sidebar-support-team/sidebar-support-team.component';
+import { PatientHeaderComponent } from './component/header-patient/header-patient.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -37,6 +38,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SupportTeamLayoutComponent,
     HeaderComponent,
     SupportTeamHeaderComponent,
+    PatientHeaderComponent,
     SidebarComponent,
     SidebarPatientComponent,
     SidebarSupportTeamComponent,
