@@ -10,6 +10,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
 import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
+import { TherapistSignupComponent } from './therapist-signup/therapist-signup.component';
+import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component';
  
 
 @NgModule({
@@ -19,7 +21,9 @@ import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-a
     ForgotPasswordComponent,
     ResetPasswordComponent,
     SignupSupportTeamComponent,
-    PracticeAdminSignupComponent
+    PracticeAdminSignupComponent,
+    TherapistSignupComponent,
+    BillingTeamSignupComponent
   ],
   imports: [ 
     CommonModule,

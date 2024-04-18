@@ -6,6 +6,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
 import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
+import { TherapistSignupComponent } from './therapist-signup/therapist-signup.component';
+import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component';
 
 const routes: Routes = [ 
   {
@@ -32,6 +34,15 @@ const routes: Routes = [
     path: 'practce-admin/signup',
     component: PracticeAdminSignupComponent
   },
+  {
+    path: 'therapist/signup',
+    component: TherapistSignupComponent
+  },
+  {
+    path: 'billing-team/signup',
+    component: BillingTeamSignupComponent
+  },
+  
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

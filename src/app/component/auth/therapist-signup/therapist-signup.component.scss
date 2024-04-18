@@ -1,0 +1,15 @@
+.pa--signup--wrapper{
+    .form-control{
+        background-color: rgba(51, 191, 191, 0.0588235294) !important;
+        text-transform: capitalize;
+    }
+    ::-ms-input-placeholder {  
+        color: #1F2F3E !important;
+        font-size: 14px !important;
+    }
+    
+    ::placeholder {
+        color: #1F2F3E !important;
+        font-size: 14px !important;
+    }
+}
