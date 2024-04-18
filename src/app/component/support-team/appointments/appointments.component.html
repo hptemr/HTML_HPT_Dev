@@ -10,7 +10,7 @@
             </div>
             <div class="col-12 mt-2">
                 <div class="row">
-                    <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <select class="form-select form-control" aria-label="Default select example">
                                 <option selected>Practice Location</option> 
@@ -25,7 +25,7 @@
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Appointment #">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
@@ -34,7 +34,16 @@
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Therapist Name">
+                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                            </button>
+                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <select class="form-select form-control" aria-label="Default select example">
                                 <option selected>Appointment Status</option> 
@@ -46,7 +55,7 @@
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                                 <div class="input-group">
                                 <input class="form-control" placeholder="From Date" name="dp" [(ngModel)]="model"
@@ -59,7 +68,7 @@
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                                 <div class="input-group">
                                 <input class="form-control" placeholder="To Date" name="dp" [(ngModel)]="model"
@@ -72,7 +81,7 @@
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <button mat-stroked-button color="primary">Reset Filter</button>
                         </div>
@@ -131,10 +140,7 @@
                             <div class="w-100 d-flex align-items-center justify-content-end">
                                 <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/support-team/appointment-details']">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
-                                </button>
-                                <button mat-button class="flex-shrink-0 min-width-unset search--fields" >
-                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
-                                </button>
+                                </button> 
                             </div>
                         </td>
                     </ng-container>
