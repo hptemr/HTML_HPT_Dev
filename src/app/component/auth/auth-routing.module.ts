@@ -5,6 +5,7 @@ import { SignupPatientComponent } from './signup-patient/signup-patient.componen
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
+import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
 
 const routes: Routes = [ 
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'support-team/signup',
     component: SignupSupportTeamComponent
+  },
+  {
+    path: 'practce-admin/signup',
+    component: PracticeAdminSignupComponent
   },
 ];
 @NgModule({

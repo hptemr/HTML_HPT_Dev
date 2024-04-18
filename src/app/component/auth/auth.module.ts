@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
+import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
  
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SignupSupportTeamComponent } from './signup-support-team/signup-support
     SignupPatientComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    SignupSupportTeamComponent
+    SignupSupportTeamComponent,
+    PracticeAdminSignupComponent
   ],
   imports: [ 
     CommonModule,
