@@ -1,6 +1,7 @@
  
- 
 
+
+  
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,126 +15,81 @@ export interface PeriodicElement {
   appointmentDate: string;  
   action: string;  
   status: string;
-  patientcheckstatus: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [
   { 
-    name: 'Corvallis PT',   
+    name: 'Jane Cooper',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'pending',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: 'PT Specialist of Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
-    patientcheckstatus : '',
     action : ''
   },  
   { 
-    name: 'Hamilton PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    patientcheckstatus : '',
-    action : ''
-  },  
-  { 
-    name: 'Stevi PT',   
+    name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'completed',
-    patientcheckstatus : '',
     action : ''
-  }, 
+  },
   { 
-    name: ' Florence',   
+    name: 'Leslie Alexander',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'declined',
+    action : ''
+  },
+  { 
+    name: 'Maria Jones',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'rescheduled',
-    patientcheckstatus : '',
     action : ''
   }, 
   { 
-    name: 'Corvallis PT',   
+    name: 'Shirlene Walter',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'deleted',
+    action : ''
+  },  
+  { 
+    name: 'Jane Cooper',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'pending',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: 'PT Specialist of Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
-    patientcheckstatus : '',
     action : ''
   },  
   { 
-    name: 'Hamilton PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    patientcheckstatus : '',
-    action : ''
-  },  
-  { 
-    name: 'Stevi PT',   
+    name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'completed',
-    patientcheckstatus : '',
     action : ''
-  }, 
+  },
   { 
-    name: ' Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: 'Corvallis PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: 'PT Specialist of Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
-    patientcheckstatus : '',
-    action : ''
-  },  
-  { 
-    name: 'Hamilton PT',   
+    name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'declined',
-    patientcheckstatus : '',
     action : ''
-  },  
+  },
   { 
-    name: 'Stevi PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: ' Florence',   
+    name: 'Maria Jones',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     status: 'rescheduled',
-    patientcheckstatus : '',
     action : ''
   }, 
-   
-   
+  { 
+    name: 'Shirlene Walter',   
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
+    status: 'deleted',
+    action : ''
+  }, 
 ];
 
 @Component({
-  selector: 'app-appointments', 
-  templateUrl: './appointments.component.html',
-  styleUrl: './appointments.component.scss'
+  selector: 'app-appointment-requests', 
+  templateUrl: './appointment-requests.component.html',
+  styleUrl: './appointment-requests.component.scss'
 })
-export class AppointmentsComponent {
-  displayedColumns: string[] = ['name', 'appointmentDate', 'status','patientcheckstatus','action'];
+export class AppointmentRequestsComponent {
+  displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+
+  dayTwo = false;
+  dayOne = true;
 
   model: NgbDateStruct;
 
@@ -157,5 +113,9 @@ export class AppointmentsComponent {
     }
 
  
+    showDayTwo() {
+      this.dayTwo = true;
+      this.dayOne = false;
+    }
 
 }

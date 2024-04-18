@@ -401,9 +401,12 @@ a{
 }
 .status{
     font-size: 14px;
-    font-weight: 600;
-    color: #079740;
+    font-weight: 600; 
     text-transform: capitalize;
+    &.completed,
+    &.active{
+        color: #079740;
+    }
     &.pending{
         color: #1E87F0;
     }

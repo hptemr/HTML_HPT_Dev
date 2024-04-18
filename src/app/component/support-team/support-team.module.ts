@@ -8,6 +8,7 @@ import { ManageProfileComponent } from './manage-profile/manage-profile.componen
 import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
 import { SystemFollowupModalComponent } from './system-followup-modal/system-followup-modal.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
+import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
     ManageProfileComponent,
     AppointmentDetailsComponent,
     SystemFollowupModalComponent,
-    PatientProfileComponent
+    PatientProfileComponent,
+    AppointmentRequestsComponent
   ],
   imports: [
     CommonModule,

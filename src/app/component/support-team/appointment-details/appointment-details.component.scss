@@ -70,11 +70,7 @@
         position: relative; 
         flex-direction: column;
     }
-}
-@media only screen and (min-width: 600px) and (max-width: 979px){}
-@media only screen and (min-width: 980px) and (max-width: 1279px){}
-@media only screen and (min-width: 1280px) and (max-width: 1440px){}
-@media only screen and (min-width: 1441px) and (max-width: 1550px){}
+} 
 @media screen and (orientation:landscape) and (max-width: 850px){
     .profile--right--wrapper .footer--btns{
         position: relative; 

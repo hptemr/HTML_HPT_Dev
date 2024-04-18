@@ -73,7 +73,7 @@ export class SupportTeamNavservicesService {
     }, 
     {
       id: 3,
-      icon: 'health_and_safety',
+      icon: 'people',
       mainTitle: 'Referrals',  
       headTitle1: '',
       path: ' ',
@@ -81,8 +81,8 @@ export class SupportTeamNavservicesService {
       type: 'link', 
       item: [ 
         {
-          title: 'Insurance',
-          icon: 'health_and_safety',
+          title: 'Referrals',
+          icon: 'people',
           type: 'link',
           active: false,  
         },
@@ -90,7 +90,7 @@ export class SupportTeamNavservicesService {
     }, 
     {
       id: 4,
-      icon: 'smart_display',
+      icon: 'chat_bubble_outline',
       mainTitle: 'Conversations',  
       headTitle1: '',
       path: ' ',
@@ -98,8 +98,8 @@ export class SupportTeamNavservicesService {
       type: 'link', 
       item: [ 
         {
-          title: 'Home Exercise',
-          icon: 'smart_display',
+          title: 'Conversations',
+          icon: 'chat_bubble_outline',
           type: 'link',
           active: false,  
         },
@@ -107,7 +107,7 @@ export class SupportTeamNavservicesService {
     }, 
     {
       id: 5,
-      icon: 'smart_display',
+      icon: 'person_outline',
       mainTitle: 'Patients',  
       headTitle1: '',
       path: ' ',
@@ -115,8 +115,8 @@ export class SupportTeamNavservicesService {
       type: 'link', 
       item: [ 
         {
-          title: 'Home Exercise',
-          icon: 'smart_display',
+          title: 'person_outline Exercise',
+          icon: 'Patients',
           type: 'link',
           active: false,  
         },
