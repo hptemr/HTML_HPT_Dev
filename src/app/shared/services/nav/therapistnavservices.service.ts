@@ -22,7 +22,7 @@ export interface Menu {
 }
 
 )
-export class SupportTeamNavservicesService {
+export class TherapistNavservicesService {
 
   public language: boolean = false;
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
@@ -44,13 +44,15 @@ export class SupportTeamNavservicesService {
       icon: 'dashboard_outline',
       mainTitle: 'Dashboard',
       headTitle1: 'Dashboard', 
+      path: '/therapist/appointment-requests',
       active: false,
       item: [ 
         {
           title: 'Dashboard',
-          icon: 'notifications_none',
+          icon: 'dashboard_outline',
           type: 'link',
           active: false,  
+          path: '/therapist/appointment-requests',
         },
       ]
     },
@@ -59,7 +61,7 @@ export class SupportTeamNavservicesService {
       icon: 'pending_actions',
       mainTitle: 'Appointments',  
       headTitle1: '',
-      path: '/support-team/appointments',
+      path: '/therapist/appointments',
       active: false, 
       type: 'link', 
       item: [ 
@@ -68,6 +70,7 @@ export class SupportTeamNavservicesService {
           icon: 'pending_actions',
           type: 'link',
           active: false,  
+          path: '/therapist/appointments',
         },
       ]
     }, 

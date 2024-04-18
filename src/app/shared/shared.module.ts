@@ -28,6 +28,9 @@ import { PatientHeaderComponent } from './component/header-patient/header-patien
 import { PracticeAdminHeaderComponent } from './component/header-practice-admin/header-practice-admin.component';
 import { PracticeAdminLayoutComponent } from './component/layout/practice-admin-layout/practice-admin-layout.component';
 import { SidebarPracticeAdminComponent } from './component/sidebar-practice-admin/sidebar-practice-admin.component';
+import { TherapistLayoutComponent } from './component/layout/therapist-layout/therapist-layout.component';
+import { TherapistHeaderComponent } from './component/header-therapist/header-therapist.component';
+import { SidebarTherapistComponent } from './component/sidebar-therapist/sidebar-therapist.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -41,16 +44,19 @@ export function HttpLoaderFactory(http: HttpClient) {
     PracticeAdminLayoutComponent,
     PatientLayoutComponent,
     SupportTeamLayoutComponent,
+    TherapistLayoutComponent,
 
     HeaderComponent,
     SupportTeamHeaderComponent,
     PatientHeaderComponent,
     PracticeAdminHeaderComponent,
+    TherapistHeaderComponent,
 
     SidebarComponent,
     SidebarPatientComponent,
     SidebarPracticeAdminComponent,
     SidebarSupportTeamComponent,
+    SidebarTherapistComponent,
    
 
     FeathericonComponent,

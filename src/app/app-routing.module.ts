@@ -5,6 +5,7 @@ import { SystemAdminLayoutComponent } from './shared/component/layout/system-adm
 import { PatientLayoutComponent } from './shared/component/layout/patient-layout/patient-layout-layout.component';
 import { SupportTeamLayoutComponent } from './shared/component/layout/support-team-layout/support-team-layout.component';
 import { PracticeAdminLayoutComponent } from './shared/component/layout/practice-admin-layout/practice-admin-layout.component';
+import { TherapistLayoutComponent } from './shared/component/layout/therapist-layout/therapist-layout.component';
 
 const routes: Routes = [  
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
     path: 'support-team',
     component: SupportTeamLayoutComponent, 
     loadChildren: () => import('./component/support-team/support-team.module').then(mod => mod.SupportTeamModule),  
+  },
+  {
+    path: 'therapist',
+    component: TherapistLayoutComponent, 
+    loadChildren: () => import('./component/therapist/therapist.module').then(mod => mod.TherapistModule),  
   },
 
   // {
