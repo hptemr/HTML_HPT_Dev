@@ -40,23 +40,22 @@ export class NavservicesService {
 
   Nvabarmenu: Menu[] = [ 
 
-    {
-      id: 1,
-      icon: 'dashboard_outline',
-      mainTitle: 'Dashboard',
-      headTitle1: 'Dashboard',
-      // path: '/pages/sample-page1',
-      active: false,
-      item: [ 
-        {
-          title: 'Notifications',
-          icon: 'notifications_none',
-          type: 'link',
-          active: false,
-          path: '/system-admin/notifications', 
-        },
-      ]
-    },
+    // {
+    //   id: 1,
+    //   icon: 'dashboard_outline',
+    //   mainTitle: 'Dashboard',
+    //   headTitle1: 'Dashboard', 
+    //   active: false,
+    //   item: [ 
+    //     {
+    //       title: 'Notifications',
+    //       icon: 'notifications_none',
+    //       type: 'link',
+    //       active: false,
+    //       path: '/system-admin/notifications', 
+    //     },
+    //   ]
+    // },
     {
       id: 2,
       icon: 'person_outline',
@@ -92,7 +91,17 @@ export class NavservicesService {
           type: 'link',
           active: false,
           path: '/system-admin/user-managment/billing-team', 
-        },
+        }, 
+      ]
+    },
+    {
+      id: 11,
+      icon: 'group',
+      mainTitle: 'Patients',
+      headTitle1: '',
+      path: '/system-admin/user-managment/patients', 
+      active: false, 
+      item: [ 
         {
           title: 'Patients',
           icon: 'group',
@@ -178,6 +187,23 @@ export class NavservicesService {
         },
       ]
     }, 
+    {
+      id: 12,
+      icon: 'notifications_none',
+      mainTitle: 'Notifications',
+      headTitle1: '',
+      path: '/system-admin/notifications', 
+      active: false, 
+      item: [ 
+        {
+          title: 'Notifications',
+          icon: 'notifications_none',
+          type: 'link',
+          active: false,
+          path: '/system-admin/notifications', 
+        },
+      ]
+    },
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
 

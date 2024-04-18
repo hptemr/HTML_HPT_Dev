@@ -1543,7 +1543,7 @@
                 color: $theme-font-color;
                 padding: 20px 5px;
                 .mat-icon{
-                  color: #1F2F3E;
+                  color: #1F2F3E; 
                 }
                 span {
                   text-transform: capitalize;
@@ -1809,6 +1809,7 @@
             }
             .main-submenu {
               padding: 14px 35px 14px 30px;
+              text-align: left;
             }
             .sidebar-list {
               .sidebar-submenu {
