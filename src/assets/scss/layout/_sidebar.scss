@@ -1510,6 +1510,7 @@
         left: 0;
         z-index: 9;
         transition: all 0.5s ease-in-out;
+        width: 110px;
         [dir="rtl"] & {
           left: unset;
           right: 0;
