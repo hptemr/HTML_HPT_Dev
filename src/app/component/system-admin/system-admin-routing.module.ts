@@ -14,6 +14,7 @@ import { PatientProfileComponent } from './user-managment/patient-profile/patien
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { authGuard } from '../../shared/services/gaurd/auth.guard';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       {
         path: 'practice-admin',
         component: PracticeAdminComponent, 
+        canActivate:[authGuard]
       },
       {
         path: 'therapists',
@@ -48,8 +50,9 @@ const routes: Routes = [
         component: PatientProfileComponent, 
       },
       {
-        path: 'practice-admin-profile',
+        path: 'practice-admin-profile/:practiceAdminId',
         component: PracticeAdminProfileComponent, 
+        canActivate:[authGuard]
       },
       {
         path: 'therapist-admin-profile',
@@ -64,6 +67,7 @@ const routes: Routes = [
   {
     path: 'manage-profile',
     component: ManageProfileComponent, 
+    canActivate:[authGuard]
   },
   {
     path: 'e-fax',

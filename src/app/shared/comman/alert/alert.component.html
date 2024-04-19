@@ -4,8 +4,8 @@
         <img src="assets/images/ark/danger.gif" alt="" width="50px">
         <p class="alert--note">{{warningNote}}</p>
         <div class="d-flex align-items-center justify-content-center">
-            <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Cancel</button> 
-            <button mat-raised-button color="warn" mat-dialog-close cdkFocusInitial>Yes  </button>
+            <button mat-stroked-button color="primary" class="me-3" [mat-dialog-close]="false">Cancel</button> 
+            <button mat-raised-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>Yes</button>
         </div>
     </div>
 </div>

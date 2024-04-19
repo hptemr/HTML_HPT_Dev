@@ -37,31 +37,34 @@
                     </div>
                     <div class="card-body mt-4">
                         <div class="col-12">
-                            <form class="row">
+                            <form class="row" [formGroup]="updateProfileForm">
                                 <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="text" placeholder="First name" value="Daina" />
-                                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                        <input class="form-control form-control-md" type="text" placeholder="First name" formControlName="firstName" maxlength="32"/>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['firstName'].touched && updateProfileForm.controls['firstName'].hasError('required')">
+                                            {{ validationMessages.required('First Name') }}
+                                        </div>
                                       </div>
                                 </div>
                                 <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Last Name<span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="text" placeholder="Last name" value="Robertson" />
-                                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                        <input class="form-control form-control-md" type="text" placeholder="Last name" formControlName="lastName" maxlength="32"/>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['lastName'].touched && updateProfileForm.controls['lastName'].hasError('required')">
+                                            {{ validationMessages.required('Last Name') }}
+                                        </div>
                                       </div>
                                 </div>
                                 <div class="col-12  ">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="email" placeholder="Email " value="dainarobertson@gmail.com" />
-                                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                        <input class="form-control form-control-md" type="text" placeholder="Email " formControlName="email"/>
                                       </div>
                                 </div>
                                  
                                 <div class="col-12 my-2 d-flex justify-content-end">
-                                    <button mat-raised-button color="primary">Save</button>
+                                    <button mat-raised-button color="primary" (click)="updateProfile()" [disabled]="!updateProfileForm.valid">Save</button>
                                 </div>
                             </form>
                         </div>

@@ -8,11 +8,13 @@ import { SignupSupportTeamComponent } from './signup-support-team/signup-support
 import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
 import { TherapistSignupComponent } from './therapist-signup/therapist-signup.component';
 import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component';
+import { loginGuard } from '../../shared/services/gaurd/login.guard';
 
 const routes: Routes = [ 
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate:[loginGuard]
   },  
   {
     path: 'patient/signup',
@@ -23,7 +25,7 @@ const routes: Routes = [
     component: ForgotPasswordComponent
   },  
   {
-    path: 'reset-password',
+    path: 'reset-password/:userId/:token',
     component: ResetPasswordComponent
   },
   {

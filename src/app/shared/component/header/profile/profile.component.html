@@ -2,9 +2,8 @@
   <div class="profile--box  ">
     <img class="img-fluid" src="assets/images/ark/user.png" alt="">
   </div>
-  <div class="flex-grow-1 user"><span>Helen Walter</span>
-    <p class="mb-0 font-nunito">System Admin 
-      </p>
+  <div class="flex-grow-1 user"><span>{{userData.firstName}} {{userData.lastName}}</span>
+    <p class="mb-0 font-nunito">{{userData.role=='system_admin'?'System Admin':''}}</p>
   </div>
 </div>
 <ul class="profile-dropdown onhover-show-div"> 

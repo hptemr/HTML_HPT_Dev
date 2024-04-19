@@ -15,16 +15,13 @@
                             <p class="text-center mt-2">Enter your email & password to login</p>
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Email Address</label>
-                                <input class="form-control" type="email" required="" placeholder="Enter your email address"
-                                    formControlName="email" />
-                                @if(loginForm.controls['email'].touched &&
-                                loginForm.controls['email'].errors?.['required']){
-                                <div class="text text-danger mt-1"> Email is required</div>
-                                }
-                                @if(loginForm.controls['email'].touched &&
-                                loginForm.controls['email'].errors?.['email']){
-                                <div class="text text-danger mt-1">Invalid Email</div>
-                                }
+                                <input class="form-control" type="email" required="" placeholder="Enter your email address" formControlName="email" />
+                                <div class="text text-danger mt-1" *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].hasError('required')">
+                                    {{ validationMessages.required('Email') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].hasError('email')">
+                                    {{ validationMessages.email('email') }}
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Password</label>
@@ -36,10 +33,9 @@
                                     }@else{
                                     <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
                                     }
-                                    @if(loginForm.controls['password'].touched &&
-                                    loginForm.controls['password'].errors?.['required']){
-                                    <div class="text text-danger mt-1">Password is required </div>
-                                    }
+                                    <div class="text text-danger mt-1" *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].hasError('required')">
+                                        {{ validationMessages.required('Password') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group mb-0"> 

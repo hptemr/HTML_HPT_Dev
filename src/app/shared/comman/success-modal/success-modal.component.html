@@ -4,7 +4,8 @@
         <img src="assets/images/ark/successful.gif" alt="" width="60px">
         <p class="alert--note">{{successNote}}</p>
         <div class="d-flex align-items-center justify-content-center"> 
-            <button mat-raised-button color="primary" mat-dialog-close cdkFocusInitial>Okay  </button>
+            <!-- <button mat-raised-button color="primary" mat-dialog-close cdkFocusInitial>Okay  </button> -->
+            <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Okay </button>
         </div>
     </div>
 </div>
