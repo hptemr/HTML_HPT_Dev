@@ -31,6 +31,9 @@ import { SidebarPracticeAdminComponent } from './component/sidebar-practice-admi
 import { TherapistLayoutComponent } from './component/layout/therapist-layout/therapist-layout.component';
 import { TherapistHeaderComponent } from './component/header-therapist/header-therapist.component';
 import { SidebarTherapistComponent } from './component/sidebar-therapist/sidebar-therapist.component';
+import { SidebarBillingTeamComponent } from './component/sidebar-billing-team/sidebar-billing-team.component';
+import { BillingTeamHeaderComponent } from './component/header-billing-team/header-billing-team.component';
+import { BillingTeamLayoutComponent } from './component/layout/billing-team-layout/billing-team-layout.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -45,18 +48,21 @@ export function HttpLoaderFactory(http: HttpClient) {
     PatientLayoutComponent,
     SupportTeamLayoutComponent,
     TherapistLayoutComponent,
+    BillingTeamLayoutComponent,
 
     HeaderComponent,
     SupportTeamHeaderComponent,
     PatientHeaderComponent,
     PracticeAdminHeaderComponent,
     TherapistHeaderComponent,
+    BillingTeamHeaderComponent,
 
     SidebarComponent,
     SidebarPatientComponent,
     SidebarPracticeAdminComponent,
     SidebarSupportTeamComponent,
     SidebarTherapistComponent,
+    SidebarBillingTeamComponent,
    
 
     FeathericonComponent,

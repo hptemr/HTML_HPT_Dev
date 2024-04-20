@@ -1,0 +1,124 @@
+::ng-deep{
+    .appointment--wrapper{ 
+        .cust--mat--table{
+            tbody{
+                tr{
+                    td{ 
+                        &:last-child{ 
+                            .mat-icon{
+                                height: 24px;
+                                width: 24px;
+                                font-size: 24px;
+                            }
+                        }
+                        .img--box{
+                            width: 48px;
+                            height: 48px;
+                            border-radius: 100%;
+                            overflow: hidden;
+                            margin-right: 15px;
+                        }
+                    }
+                }
+            } 
+            &.box--row--table{
+                &.mat-mdc-table{ 
+                    thead{
+                        tr{
+                            th:nth-child(1){ width: 45%; }
+                            th:nth-child(2){ width: 28%; }
+                            th:nth-child(3){ width: 200px; } 
+                            th:nth-child(4){ width: 150px; }
+                        }
+                    }
+                    tbody{ 
+                        tr{ 
+                            td:nth-child(1){ width: 45%; }
+                            td:nth-child(2){ width: 28%; }
+                            td:nth-child(3){ width: 200px; } 
+                            td:nth-child(4){ width: 150px; }
+                        }
+                    }
+                } 
+            }
+        }
+    } 
+}
+
+@media only screen and (max-width: 599px) { 
+    .appointment--wrapper{
+        ::ng-deep{
+            .cust--mat--table{
+                &.box--row--table{
+                    &.mat-mdc-table{
+                        width: 860px;
+                        thead{
+                            tr{
+                                th:nth-child(1){ width: 40%; }
+                                th:nth-child(2){ width: 28%; }
+                                th:nth-child(3){ width: 200px; } 
+                                th:nth-child(4){ width: 150px; }
+                            }
+                        }
+                        tbody{ 
+                            tr{ 
+                                td:nth-child(1){ width: 40%; }
+                                td:nth-child(2){ width: 28%; }
+                                td:nth-child(3){ width: 200px; } 
+                                td:nth-child(4){ width: 150px; }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } 
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){}
+@media only screen and (min-width: 980px) and (max-width: 1279px){}
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    .appointment--wrapper{
+        ::ng-deep{
+            .cust--mat--table{
+                &.box--row--table{
+                    &.mat-mdc-table{
+                        thead{
+                            tr{
+                                th:nth-child(1){ width: 45%; }
+                                th:nth-child(2){ width: 28%; }
+                                th:nth-child(3){ width: 200px; } 
+                                th:nth-child(4){ width: 150px; }
+                            }
+                        }
+                        tbody{ 
+                            tr{ 
+                                td:nth-child(1){ width: 45%; }
+                                td:nth-child(2){ width: 28%; }
+                                td:nth-child(3){ width: 200px; } 
+                                td:nth-child(4){ width: 150px; }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+@media only screen and (min-width: 1441px) and (max-width: 1550px){}
+@media screen and (orientation:landscape) and (max-width: 850px){
+    .appointment--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:nth-child(1),
+    .appointment--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:nth-child(1){ 
+        width: 45%; 
+     } 
+    .appointment--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:last-child,
+    .appointment--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:last-child{ 
+        width: 16%; 
+     }
+    .appointment--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:nth-child(3),
+    .appointment--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:nth-child(3){ 
+        width: 150px; 
+    } 
+     
+}
