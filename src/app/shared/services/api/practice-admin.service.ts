@@ -27,4 +27,9 @@ export class PracticeAdminService {
     return this.http.get(url).pipe();
   }
 
+  updateProfile(data: any): Observable<any> {
+    const url = `${environment.apiUrl}/practiceAdmin/updateProfile`;
+    return this.http.post(url, data).pipe();
+  }
+
 }

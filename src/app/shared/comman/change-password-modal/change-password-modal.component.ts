@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject,  } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { FormBuilder, FormGroup, AbstractControl, Validators} from '@angular/forms';
@@ -11,6 +11,7 @@ import { CommonService } from '../../../shared/services/helper/common.service';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { regex } from '../../../utils/regex-patterns';
 import { validationMessages } from '../../../utils/validation-messages';
+import { AdminCommonService } from '../../../shared/services/api/admin-common.service';
 
 @Component({
   selector: 'app-change-password-modal', 
@@ -32,11 +33,14 @@ export class ChangePasswordModalComponent {
     private systemAdminService:SystemAdminService,
     private commonService:CommonService,
     private changePassDialogRef: MatDialogRef<ChangePasswordModalComponent>,
-    private authService:AuthService
+    private authService:AuthService,
+    private adminCommonService: AdminCommonService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
     this.initializeChangePasswordForm()
+    console.log("data>>>>",this.data)
   }
 
 
@@ -63,12 +67,13 @@ export class ChangePasswordModalComponent {
     if(this.changePasswordForm.valid){
       const resetBody = {
         currentPassword: this.changePasswordForm.value['currentPassword'],
-        confirmPassword: this.changePasswordForm.value['confirmPassword']
+        confirmPassword: this.changePasswordForm.value['confirmPassword'],
+        userId : this.data.userId
       }
-      this.systemAdminService.changePassword(resetBody).subscribe({
+      this.adminCommonService.changePassword(resetBody).subscribe({
         next: (res) => {
           if(res && !res.error){
-            this.changePassDialogRef.close();
+            // this.changePassDialogRef.close();
             this.successModal(res)
           }
         },error: (err) => {
@@ -89,7 +94,8 @@ export class ChangePasswordModalComponent {
    
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.authService.logout()
+        // this.authService.logout()
+        this.changePassDialogRef.close(true);
       }
     });
   }

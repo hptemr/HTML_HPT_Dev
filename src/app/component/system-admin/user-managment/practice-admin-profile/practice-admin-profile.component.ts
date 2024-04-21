@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router,ActivatedRoute, Params } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, AbstractControl, Validators} from '@angular/for
 import { validationMessages } from '../../../../utils/validation-messages';
 import { CommonService } from '../../../../shared/services/helper/common.service';
 import { regex } from '../../../../utils/regex-patterns';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-practice-admin-profile', 
@@ -19,9 +20,8 @@ export class PracticeAdminProfileComponent {
   practiceAdminProfileForm: FormGroup;
   practiceAdminId:string;
   convertPhoneNumber: string = '';
-
-  items: string[] = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-  selectedItems: string[] = [];
+  practiceLocationData:any =[]
+  selectedLocations: string[] = [];
 
   constructor(
     private router: Router, 
@@ -29,7 +29,8 @@ export class PracticeAdminProfileComponent {
     private practiceAdminService:PracticeAdminService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private commonService:CommonService
+    private commonService:CommonService,
+    private authService:AuthService
   ) { 
     this.route.params.subscribe((params: Params) => {
         this.practiceAdminId = params['practiceAdminId'];
@@ -37,8 +38,11 @@ export class PracticeAdminProfileComponent {
     );
   }
 
+  @ViewChild('locationSelect') locationSelect: ElementRef;
+
   ngOnInit() {
     this.initializePracticeAdminProfile()
+    this.getPracticeLocation()
     this.getProfile()
   }
 
@@ -46,11 +50,17 @@ export class PracticeAdminProfileComponent {
     this.practiceAdminProfileForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', Validators.required],
-      email: [{value:'',disabled: true}],
+      // email: [{value:'',disabled: true}],
+      email: ['',[Validators.required, Validators.email]],
       phoneNumber :["", [Validators.required,Validators.pattern(regex.usPhoneNumber)]],
       status:[''],
       practiceLocation:['']
     });
+  }
+
+  async getPracticeLocation() {
+    this.practiceLocationData = await this.commonService.getPracticeLocation().catch(()=>[])
+    console.log("this.practiceLocationData>>>",this.practiceLocationData)
   }
 
   getProfile(){
@@ -62,7 +72,10 @@ export class PracticeAdminProfileComponent {
             this.practiceAdminProfileForm.controls['firstName'].setValue(res.data?res.data.firstName:'');
             this.practiceAdminProfileForm.controls['lastName'].setValue(res.data?res.data.lastName:'');
             this.practiceAdminProfileForm.controls['email'].setValue(res.data?res.data.email:'');
+            this.practiceAdminProfileForm.controls['phoneNumber'].setValue(res.data?res.data.phoneNumber:'');
             this.practiceAdminProfileForm.controls['status'].setValue(res.data?res.data.status:'');
+            this.selectedLocations=res.data.practiceLocation
+            console.log("this.selectedLocations>>>",this.selectedLocations)
           }
         },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
@@ -71,10 +84,26 @@ export class PracticeAdminProfileComponent {
     }
   }
 
-  savePracticeAdminProfile(){
-    console.log("savePracticeAdminProfile>>>",this.practiceAdminProfileForm.value)
+  updatePracticeAdminProfile(){
     if(this.practiceAdminProfileForm.valid){
+      this.practiceAdminProfileForm.value['practiceLocation'] = this.selectedLocations
+      this.practiceAdminProfileForm.value['userId'] = this.practiceAdminId
+      this.practiceAdminProfileForm.value['clickAction'] = 'update'
+      this.updateProfile(this.practiceAdminProfileForm.value)
     }
+  }
+
+  updateProfile(profileData:any){
+    this.practiceAdminService.updateProfile(profileData).subscribe({
+        next: (res) => {
+          if(res && !res.error){
+            this.commonService.openSnackBar(res.message,"SUCCESS")
+            this.getProfile()
+          }
+        },error: (err) => {
+          err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+        }
+      });
   }
 
   onPhoneInputChange(event: Event): void {
@@ -89,18 +118,49 @@ export class PracticeAdminProfileComponent {
         warningNote: 'Do you really want to delete this account?'
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+        let delBody ={
+          userId : this.practiceAdminId,
+          status : 'Delete',
+          clickAction : 'delete'
+        }
+        this.updateProfile(delBody)
+      }
+    });
   }
 
   changePassword() {
     const dialogRef = this.dialog.open(ChangePasswordModalComponent,{
       panelClass: 'change--password--modal',
+      data : {
+        userId : this.practiceAdminId,
+        userRole:'practice_admin'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.authService.logout()
+      }
     });
   }
 
-  removeItem(item: string): void {
-    const index = this.selectedItems.indexOf(item);
+  removeLocation(location: any): void {
+    const index = this.selectedLocations.indexOf(location);
     if (index !== -1) {
-      this.selectedItems.splice(index, 1);
+      this.selectedLocations.splice(index, 1);
     }
+    console.log("removeLocation>>>>",this.selectedLocations)
+  }
+
+  onLocationChange(event:any){
+    if(event.target.value && !this.selectedLocations.includes(event.target.value)){
+      console.log("evt.target.value>>>>",event.target.value)
+        this.selectedLocations.push(event.target.value);
+    }
+    this.locationSelect.nativeElement.selectedIndex = 0;
+    console.log("onLocationChange>>>>",this.selectedLocations)
   }
 }

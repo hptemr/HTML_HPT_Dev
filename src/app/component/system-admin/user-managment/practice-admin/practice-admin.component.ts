@@ -120,7 +120,7 @@ export class PracticeAdminComponent {
         panelClass: 'inivite--modal',
         data : {
           heading: 'Invite Practice Admin',
-          inviteUser:'practice_admin'
+          userRole:'practice_admin'
         }
       });
 

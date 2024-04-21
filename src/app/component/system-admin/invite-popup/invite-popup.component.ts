@@ -45,7 +45,7 @@ export class InvitePopupComponent {
   }
 
   inviteUser(){
-    switch (this.data.inviteUser) {
+    switch (this.data.userRole) {
       case "practice_admin":
         this.invitePracticeAdmin();
         break;

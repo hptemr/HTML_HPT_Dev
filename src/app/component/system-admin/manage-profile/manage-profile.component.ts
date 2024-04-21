@@ -6,7 +6,8 @@ import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-passw
 import { FormBuilder, FormGroup, AbstractControl, Validators} from '@angular/forms';
 import { SystemAdminService } from '../../../shared/services/api/system-admin.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
-import { validationMessages } from '../../../utils/validation-messages'
+import { validationMessages } from '../../../utils/validation-messages';
+import { AuthService } from '../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-manage-profile', 
@@ -16,14 +17,19 @@ import { validationMessages } from '../../../utils/validation-messages'
 export class ManageProfileComponent {
   validationMessages = validationMessages
   updateProfileForm: FormGroup;
+  userData :any;
 
   constructor(
     private router: Router, 
     public dialog: MatDialog,
     private fb: FormBuilder,
     private systemAdminService:SystemAdminService,
-    private commonService:CommonService
-  ) { }
+    private commonService:CommonService,
+    private authService:AuthService
+  ) { 
+    let userData:any = localStorage.getItem('user');
+    this.userData = (userData && userData!=null)?JSON.parse(userData):null
+  }
 
   ngOnInit() {
     this.initializeUpdateProfileForm()
@@ -79,6 +85,17 @@ export class ManageProfileComponent {
     const dialogRef = this.dialog.open(ChangePasswordModalComponent,{
       disableClose :true,
       panelClass: 'change--password--modal',
+      data : {
+        userId : this.userData._id,
+        userRole:'system_admin'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("changePassword>>>",result)
+      if(result){
+        this.authService.logout()
+      }
     });
   }
 }
