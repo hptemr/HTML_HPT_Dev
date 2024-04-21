@@ -153,3 +153,10 @@
 /**=====================
     3.29 Login CSS Ends
 ==========================**/
+
+@media only screen and (max-width: 599px) {
+  .login-card{
+    background: none; 
+  }
+} 
+@media screen and (orientation:landscape) and (max-width: 850px){}
