@@ -23,7 +23,8 @@ const messages = {
         created: 'created successfully',
         internalServerError: 'Internal server error',
         wentWrong: 'Something went wrong',
-        profileUpdate:'Profile update successfully'
+        profileUpdate:'Profile update successfully',
+        profileDelete:'Profile delete successfully'
     }
 };
   

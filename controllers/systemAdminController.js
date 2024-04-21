@@ -42,6 +42,7 @@ const profile = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
   try {
     const filter = { _id: new ObjectId(req.userId) };
+    req.body.updatedAt = Date.now()
     const updateDoc = {
         $set: req.body
     };

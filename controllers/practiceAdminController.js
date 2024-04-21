@@ -15,8 +15,7 @@ const invite = async (req, res, next) => {
         return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
       }
 
-      // Get practice location code and role
-      // const locData = await userCommonHelper.locationByCode(practiceLocationCode);
+      // Get role
       const roleData = await userCommonHelper.roleByCode('PA'); // PA means Practice Admin
       
       // Save user
@@ -79,9 +78,28 @@ const profile = async (req, res, next) => {
   }
 };
 
+const updateProfile = async (req, res, next) => {
+  try {
+    const { userId, clickAction } = req.body
+    const filter = { _id: new ObjectId(userId) };
+    req.body.updatedAt = Date.now()
+    const updateDoc = {
+        $set: req.body
+    };
+    const options = { returnOriginal: false };
+    await User.findOneAndUpdate(filter, updateDoc, options);
+    
+    let successMessage = (clickAction=='update') ? commonMessage.profileUpdate : (clickAction=='delete') ? commonMessage.profileDelete :''
+    commonHelper.sendResponse(res, 'success', null, successMessage);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+};
+
 
 module.exports = {
     invite,
     getPracticeAdminUsers,
-    profile
+    profile,
+    updateProfile
 };
