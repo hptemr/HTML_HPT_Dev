@@ -141,9 +141,7 @@ export class PracticeAdminProfileComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.authService.logout()
-      }
+      console.log("result>>>",result)
     });
   }
 

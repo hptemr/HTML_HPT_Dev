@@ -22,9 +22,9 @@ export class SystemAdminService {
     return this.http.post(url, data).pipe();
   }
 
-  changePassword(data: any): Observable<any> {
-    const url = `${environment.apiUrl}/systemAdmin/changePassword`;
-    return this.http.post(url, data).pipe();
-  }
+  // changePassword(data: any): Observable<any> {
+  //   const url = `${environment.apiUrl}/systemAdmin/changePassword`;
+  //   return this.http.post(url, data).pipe();
+  // }
 
 }
