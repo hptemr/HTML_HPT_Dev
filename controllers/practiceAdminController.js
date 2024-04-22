@@ -52,6 +52,7 @@ const getPracticeAdminUsers = async (req, res, next) => {
       $or: [
           { firstName: { $regex: searchQuery, $options: 'i' } },
           { lastName: { $regex: searchQuery, $options: 'i' } },
+          { email: searchQuery },
           { status: searchQuery },
           { practiceLocation: searchQuery }
       ],

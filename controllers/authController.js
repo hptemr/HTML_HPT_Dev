@@ -11,22 +11,22 @@ const triggerEmail = require('../helpers/triggerEmail');
 
 const userLogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email } = req.body;
         let userData = await userCommonHelper.userGetByEmail(email)
-        if (userData && bcrypt.compareSync(password, userData.hash_password)) {
-            const token = jwt.sign({ _id: userData._id }, process.env.SECRET, { expiresIn: '1d' });
-            let returnData ={ 
-                _id:userData._id,
-                firstName: userData.firstName,
-                lastName: userData.lastName,  
-                email: userData.email, 
-                role: userData.role, 
-                token :token
-            };
-            commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
-        }else{
-            commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
-        }
+
+        // Reset failed attempts on successful login
+        await User.findOneAndUpdate( { email },{ $set: { failedAttempts: 0 } });
+
+        const token = jwt.sign({ _id: userData._id }, process.env.SECRET, { expiresIn: '1d' });
+        let returnData ={ 
+            _id:userData._id,
+            firstName: userData.firstName,
+            lastName: userData.lastName,  
+            email: userData.email, 
+            role: userData.role, 
+            token :token
+        };
+        commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }

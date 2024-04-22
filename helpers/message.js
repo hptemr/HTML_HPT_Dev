@@ -6,7 +6,9 @@ const messages = {
         emailNotExist:'User with given email does not exist',
         resetPassLink:'password reset link sent to your email account',
         passwordNotMatch:'password does not match with current password',
-        inviteSuccess:'invited successfully'
+        inviteSuccess:'invited successfully',
+        suspendedAccount:'User not found. Please contact system admin or support team for more details',
+        userBlocked: 'Your account is blocked due to multiple incorrect login attempts. Please contact system admin or support team.'
     },
     infoMessage:{
         updated: 'Updated successfully',
