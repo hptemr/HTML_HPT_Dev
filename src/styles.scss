@@ -9,7 +9,8 @@ input, p,
 .mat-mdc-menu-item-text,
 .font-nunito {
     font-family: "Nunito Sans", sans-serif !important;
-}
+    
+} 
 
 // Colors 
 .dark-grey{color: $dark-gray !important;}
@@ -49,6 +50,9 @@ input, p,
                     box-shadow: none !important;
                 }
             }
+            .search--outer{
+                padding-right: 40px; 
+            } 
             .search--fields{
                 position: absolute;
                 top: 1px;
