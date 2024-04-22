@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SharedRoutingModule } from './shared-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -81,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedRoutingModule,
     NgbModule,
     ReactiveFormsModule, 
+    NgOptimizedImage,
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot(),
   ],
