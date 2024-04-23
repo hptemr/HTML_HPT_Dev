@@ -13,7 +13,7 @@ var constants = require('./config/constants')
 const mongooseConnect = require('./config/database')
 //require('./helpers/passport')
 
-mongooseConnect.dbConnect()
+//mongooseConnect.dbConnect()
 
 var app = express()
 var compress = require('compression');
