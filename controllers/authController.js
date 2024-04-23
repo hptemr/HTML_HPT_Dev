@@ -15,7 +15,7 @@ const userLogin = async (req, res) => {
         let userData = await userCommonHelper.userGetByEmail(email)
 
         // Reset failed attempts on successful login
-        await User.findOneAndUpdate( { email },{ $set: { failedAttempts: 0 } });
+        await User.findOneAndUpdate( { email : email, failedAttempts: { $gt: 0 } },{ $set: { failedAttempts: 0 } });
 
         const token = jwt.sign({ _id: userData._id }, process.env.SECRET, { expiresIn: '1d' });
         let returnData ={ 
