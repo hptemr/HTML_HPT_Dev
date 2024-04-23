@@ -8,7 +8,7 @@ var routesApi = require('./routes')
 var constants = require('./config/constants')
 //var passport = require('passport')
 //var busboy = require('connect-busboy');
-var helmet = require('helmet')
+//var helmet = require('helmet')
 
 const mongooseConnect = require('./config/database')
 //require('./helpers/passport')
@@ -19,7 +19,7 @@ var app = express()
 var compress = require('compression');
 
 app.use(compress());
-app.use(helmet())
+//app.use(helmet())
 
 app.set('view engine', 'jade');
 app.use(logger('dev'))
