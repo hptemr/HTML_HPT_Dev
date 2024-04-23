@@ -24,8 +24,8 @@ const server = https.createServer(httpsOptions, app).listen(443, () => {
 //   res.end();
 // }).listen(80);
 
-server.listen(port)
-server.listen(443)
+//server.listen(port)
+//server.listen(443)
 server.on('error', onError)
 server.on('listening', onListening)
 
