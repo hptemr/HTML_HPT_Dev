@@ -7,7 +7,7 @@ var cors = require('cors')
 var routesApi = require('./routes')
 var constants = require('./config/constants')
 //var passport = require('passport')
-var busboy = require('connect-busboy');
+//var busboy = require('connect-busboy');
 var helmet = require('helmet')
 
 const mongooseConnect = require('./config/database')
@@ -23,7 +23,7 @@ app.use(helmet())
 
 app.set('view engine', 'jade');
 app.use(logger('dev'))
-app.use(busboy({ immediate: true }));
+//app.use(busboy({ immediate: true }));
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
