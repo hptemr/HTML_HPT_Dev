@@ -9,23 +9,20 @@
 }
 [class^=icon-],
 [class*=" icon-"] {
-  font-family: "themify";
-  speak: none;
+  font-family: "themify"; 
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  *margin-right: 0.3em;
+  -moz-osx-font-smoothing: grayscale; 
 }
 
 [class^=icon-]:before,
 [class*=" icon-"]:before {
   text-decoration: inherit;
-  display: inline-block;
-  speak: none;
+  display: inline-block; 
 }
 
 /* makes the font 33% larger relative to the icon container */
@@ -157,8 +154,7 @@ a [class*=" icon-"] {
   position: relative;
   display: inline-block;
   width: 2em;
-  height: 2em;
-  line-height: 2em;
+  height: 2em; 
   vertical-align: -35%;
 }
 .icon-stack [class^=icon-],
@@ -169,8 +165,7 @@ a [class*=" icon-"] {
   width: 100%;
   height: 100%;
   font-size: 1em;
-  line-height: inherit;
-  *line-height: 2em;
+  line-height: inherit; 
 }
 .icon-stack .icon-stack-base {
   font-size: 2em;
