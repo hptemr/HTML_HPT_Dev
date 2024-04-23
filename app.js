@@ -4,17 +4,17 @@ const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const path = require('path');
-var port = normalizePort(process.env.PORT || '80')
+var port = normalizePort(process.env.PORT || '443')
 
 //  const server = http.createServer(app).listen(80, () => {
 //    console.log('http server running at ' + 80)
 //  })
 
 const httpsOptions = {
-    key: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt'),
+    key: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.key'),
     cert: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt')
 }
-const sslServer = https.createServer(httpsOptions, app).listen(443, () => {
+const server = https.createServer(httpsOptions, app).listen(443, () => {
   console.log('https server running at ' + 443)
 })
 
@@ -24,10 +24,10 @@ const sslServer = https.createServer(httpsOptions, app).listen(443, () => {
 //   res.end();
 // }).listen(80);
 
-// server.listen(port)
-// server.listen(443)
-// server.on('error', onError)
-// server.on('listening', onListening)
+server.listen(port)
+server.listen(443)
+server.on('error', onError)
+server.on('listening', onListening)
 
 
 function normalizePort(val) {
