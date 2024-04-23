@@ -6,12 +6,12 @@ var bodyParser = require('body-parser')
 var cors = require('cors')
 var routesApi = require('./routes')
 var constants = require('./config/constants')
-var passport = require('passport')
+//var passport = require('passport')
 var busboy = require('connect-busboy');
 var helmet = require('helmet')
 
 const mongooseConnect = require('./config/database')
-require('./helpers/passport')
+//require('./helpers/passport')
 
 mongooseConnect.dbConnect()
 
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:500
 app.use(cookieParser())
 //app.use(cors({}))
 app.use(cors({credentials: true, origin: constants.clientUrl}))
-app.use(passport.initialize())
+//app.use(passport.initialize())
 
 app.use('/api', routesApi);
 app.use(express.static(path.join(__dirname, 'dist')));
