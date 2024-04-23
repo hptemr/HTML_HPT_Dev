@@ -8,9 +8,10 @@ import { Router } from '@angular/router';
 import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { CommonService } from '../../../../shared/services/helper/common.service';
-import { PracticeAdminService } from '../../../../shared/services/api/practice-admin.service';
+// import { PracticeAdminService } from '../../../../shared/services/api/practice-admin.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { AdminService } from '../../../../shared/services/api/admin.service';
 
 // export interface PeriodicElement {
 //   name: string; 
@@ -74,6 +75,7 @@ export class PracticeAdminComponent {
 
   practiceLocationData :any = []
   searchPracticeAdmin = new FormControl('');
+  userRole :string ='practice_admin'
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer, 
@@ -81,7 +83,8 @@ export class PracticeAdminComponent {
     public dialog: MatDialog,
     public authService:AuthService,
     public commonService:CommonService,
-    public practiceAdminService:PracticeAdminService
+    // public practiceAdminService:PracticeAdminService,
+    public adminService:AdminService
   ) {
     this.searchControlPracticeAdminInitialization()
   }
@@ -120,7 +123,7 @@ export class PracticeAdminComponent {
         panelClass: 'inivite--modal',
         data : {
           heading: 'Invite Practice Admin',
-          userRole:'practice_admin'
+          userRole:this.userRole
         }
       });
 
@@ -136,24 +139,45 @@ export class PracticeAdminComponent {
       this.practiceLocationData = await this.commonService.getPracticeLocation().catch(()=>[])
     }
 
+    // practiceAdminUsers(searchQuery:string=''){
+    //     this.practiceAdminService.practiceAdminUsers(searchQuery).subscribe({
+    //       next: (res) => {
+    //         let userDetails = []
+    //         if(!res.error && res.data.length){
+    //            userDetails = res.data.map((user:any) => ({
+    //             name: `${user.firstName} ${user.lastName}`,
+    //             email: user.email,
+    //             practiceLocation: user.practiceLocation,
+    //             status: user.status,
+    //             _id: user._id
+    //           }));
+    //         }
+    //         this.practiceAdminDataSource = new MatTableDataSource<PracticeAdmin>(userDetails);
+    //       },error: (err) => {
+    //         err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+    //       }
+    //     });
+    // }
+
     practiceAdminUsers(searchQuery:string=''){
-        this.practiceAdminService.practiceAdminUsers(searchQuery).subscribe({
-          next: (res) => {
-            let userDetails = []
-            if(!res.error && res.data.length){
-               userDetails = res.data.map((user:any) => ({
-                name: `${user.firstName} ${user.lastName}`,
-                email: user.email,
-                practiceLocation: user.practiceLocation,
-                status: user.status,
-                _id: user._id
-              }));
-            }
-            this.practiceAdminDataSource = new MatTableDataSource<PracticeAdmin>(userDetails);
-          },error: (err) => {
-            err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+      this.adminService.adminUsers(searchQuery,this.userRole).subscribe({
+        next: (res) => {
+          let userDetails = []
+          if(!res.error && res.data.length){
+             userDetails = res.data.map((user:any) => ({
+              name: `${user.firstName} ${user.lastName}`,
+              email: user.email,
+              practiceLocation: user.practiceLocation,
+              status: user.status,
+              _id: user._id
+            }));
           }
-        });
+          console.log("userDetails>>>",userDetails)
+          this.practiceAdminDataSource = new MatTableDataSource<PracticeAdmin>(userDetails);
+        },error: (err) => {
+          err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+        }
+      });
     }
 
     onLocationChange(event:any){

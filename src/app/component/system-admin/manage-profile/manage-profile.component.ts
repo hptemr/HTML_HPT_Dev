@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
-import { FormBuilder, FormGroup, AbstractControl, Validators} from '@angular/forms';
-import { SystemAdminService } from '../../../shared/services/api/system-admin.service';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { CommonService } from '../../../shared/services/helper/common.service';
 import { validationMessages } from '../../../utils/validation-messages';
 import { AuthService } from '../../../shared/services/api/auth.service';
+import { AdminService } from '../../../shared/services/api/admin.service';
 
 @Component({
   selector: 'app-manage-profile', 
@@ -17,15 +16,15 @@ import { AuthService } from '../../../shared/services/api/auth.service';
 export class ManageProfileComponent {
   validationMessages = validationMessages
   updateProfileForm: FormGroup;
-  userData :any;
+  userData : any;
+  userRole : string='system_admin'
 
   constructor(
-    private router: Router, 
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private systemAdminService:SystemAdminService,
     private commonService:CommonService,
-    private authService:AuthService
+    private authService:AuthService,
+    private adminService:AdminService
   ) { 
     let userData:any = localStorage.getItem('user');
     this.userData = (userData && userData!=null)?JSON.parse(userData):null
@@ -45,7 +44,7 @@ export class ManageProfileComponent {
   }
 
   getProfile(){
-    this.systemAdminService.profile().subscribe({
+    this.adminService.profile(this.userData._id).subscribe({
       next: (res) => {
         if(res && !res.error){
           this.updateProfileForm.controls['firstName'].setValue(res.data?res.data.firstName:'');
@@ -60,7 +59,9 @@ export class ManageProfileComponent {
 
   updateProfile(){
     if(this.updateProfileForm.valid){
-      this.systemAdminService.updateProfile(this.updateProfileForm.value).subscribe({
+      this.updateProfileForm.value['userId'] = this.userData._id
+      this.updateProfileForm.value['clickAction'] = 'update'
+      this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
         next: (res) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
@@ -87,7 +88,7 @@ export class ManageProfileComponent {
       panelClass: 'change--password--modal',
       data : {
         userId : this.userData._id,
-        userRole:'system_admin'
+        userRole: this.userRole
       }
     });
 

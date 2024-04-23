@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
 
@@ -10,7 +10,20 @@ import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-passw
   styleUrl: './therapists-admin-profile.component.scss'
 })
 export class TherapistsAdminProfileComponent {
-  constructor(private router: Router, public dialog: MatDialog) { }
+  therapistId:string;
+  userRole:string ='therapist'
+
+  constructor(
+    private router: Router, 
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+
+  ) { 
+    this.route.params.subscribe((params: Params) => {
+      this.therapistId = params['therapistId'];
+    }
+  );
+  }
 
   deleteAccount() {
     const dialogRef = this.dialog.open(AlertComponent,{
@@ -20,9 +33,19 @@ export class TherapistsAdminProfileComponent {
       }
     });
   }
+
   changePassword() {
     const dialogRef = this.dialog.open(ChangePasswordModalComponent,{
       panelClass: 'change--password--modal',
+      data : {
+        userId : this.therapistId,
+        userRole: this.userRole
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("result>>>",result)
     });
   }
+
 }

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { validationMessages } from '../../../utils/validation-messages';
 import { CommonService } from '../../../shared/services/helper/common.service';
-import { PracticeAdminService } from '../../../shared/services/api/practice-admin.service';
+import { AdminService } from '../../../shared/services/api/admin.service';
 
 @Component({
   selector: 'app-invite-popup', 
@@ -18,7 +18,7 @@ export class InvitePopupComponent {
 
   constructor(
     private commonService: CommonService,
-    private practiceAdminService:PracticeAdminService,
+    private adminService :AdminService,
     private fb: FormBuilder, 
     public dialogRef: MatDialogRef<InvitePopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -45,16 +45,9 @@ export class InvitePopupComponent {
   }
 
   inviteUser(){
-    switch (this.data.userRole) {
-      case "practice_admin":
-        this.invitePracticeAdmin();
-        break;
-    }
-  }
-
-  invitePracticeAdmin(){
     if(this.inviteUserForm.valid){
-      this.practiceAdminService.invite(this.inviteUserForm.value).subscribe({
+      this.inviteUserForm.value['userRole']=this.data.userRole
+      this.adminService.invite(this.inviteUserForm.value).subscribe({
         next: (res) => {
           this.dialogRef.close(res);
         },error: (err) => {
@@ -64,4 +57,5 @@ export class InvitePopupComponent {
       });
     }
   }
+
 }

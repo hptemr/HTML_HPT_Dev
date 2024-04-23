@@ -55,8 +55,9 @@ const routes: Routes = [
         canActivate:[authGuard]
       },
       {
-        path: 'therapist-admin-profile',
+        path: 'therapist-admin-profile/:therapistId',
         component: TherapistsAdminProfileComponent, 
+        canActivate:[authGuard]
       }, 
       {
         path: 'billing-team',
