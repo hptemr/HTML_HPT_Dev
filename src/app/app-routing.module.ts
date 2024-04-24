@@ -29,6 +29,7 @@ const routes: Routes = [
     component: PatientLayoutComponent, 
     loadChildren: () => import('./component/patient/patient.module').then(mod => mod.PatientModule),  
   },
+ 
   {
     path: 'support-team',
     component: SupportTeamLayoutComponent, 
