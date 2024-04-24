@@ -37,12 +37,12 @@ const routes: Routes = [
   {
     path: 'therapist',
     component: TherapistLayoutComponent, 
-    loadChildren: () => import('./component/therapist/therapist.module').then(mod => mod.TherapistModule),  
+    loadChildren: () => import('./component/admin/therapist/therapist.module').then(mod => mod.TherapistModule),  
   },
   {
     path: 'billing-team',
     component: BillingTeamLayoutComponent, 
-    loadChildren: () => import('./component/billing-team/billing-team.module').then(mod => mod.BillingTeamModule),  
+    loadChildren: () => import('./component/admin/billing-team/billing-team.module').then(mod => mod.BillingTeamModule),  
   },
 
   // {
