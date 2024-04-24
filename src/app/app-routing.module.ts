@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: 'support-team',
     component: SupportTeamLayoutComponent, 
-    loadChildren: () => import('./component/support-team/support-team.module').then(mod => mod.SupportTeamModule),  
+    loadChildren: () => import('./component/admin/support-team/support-team.module').then(mod => mod.SupportTeamModule),  
   },
   {
     path: 'therapist',

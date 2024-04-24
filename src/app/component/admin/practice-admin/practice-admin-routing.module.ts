@@ -11,7 +11,7 @@ import { EFaxComponent } from './efax/efax.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { PatientProfileComponent } from '../../support-team/patient-profile/patient-profile.component';
+import { PatientProfileComponent } from '../support-team/patient-profile/patient-profile.component';
 
 const routes: Routes = [
   {
