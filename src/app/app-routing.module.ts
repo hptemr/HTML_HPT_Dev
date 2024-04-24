@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'practice-admin',
     component: PracticeAdminLayoutComponent, 
-    loadChildren: () => import('./component/practice-admin/practice-admin.module').then(mod => mod.PracticeAdminModule),  
+    loadChildren: () => import('./component/admin/practice-admin/practice-admin.module').then(mod => mod.PracticeAdminModule),  
   },
   {
     path: 'patient',
