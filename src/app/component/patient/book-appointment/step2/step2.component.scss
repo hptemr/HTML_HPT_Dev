@@ -1,4 +1,4 @@
-.book--appointment--wrapper{
+.ba--step--two{
     .back--btn{
         min-width: 42px;
         .material-symbols-outlined{
@@ -34,7 +34,7 @@
     }
 } 
 @media screen and (orientation:landscape) and (max-width: 850px){
-    .book--appointment--wrapper{
+    .ba--step--two{
         .card{
             height: auto;
         }
