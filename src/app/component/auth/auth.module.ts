@@ -12,9 +12,17 @@ import { SignupSupportTeamComponent } from './signup-support-team/signup-support
 import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
 import { TherapistSignupComponent } from './therapist-signup/therapist-signup.component';
 import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component';
- 
 
-@NgModule({
+ @NgModule({
+  imports: [ 
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule, 
+    SharedModule, 
+    AuthRoutingModule, 
+    MatStepperModule,
+    NgOptimizedImage
+  ],
   declarations: [ 
     LoginComponent,
     SignupPatientComponent,
@@ -24,15 +32,6 @@ import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-s
     PracticeAdminSignupComponent,
     TherapistSignupComponent,
     BillingTeamSignupComponent
-  ],
-  imports: [ 
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule, 
-    SharedModule, 
-    AuthRoutingModule, 
-    MatStepperModule,
-    NgOptimizedImage
   ],
 })
 export class AuthModule {}
