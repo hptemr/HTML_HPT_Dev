@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'system-admin',
     component: SystemAdminLayoutComponent, 
-    loadChildren: () => import('./component/system-admin/system-admin.module').then(mod => mod.SystemAdminModule),  
+    loadChildren: () => import('./component/admin/system-admin/system-admin.module').then(mod => mod.SystemAdminModule),  
   },
   {
     path: 'practice-admin',

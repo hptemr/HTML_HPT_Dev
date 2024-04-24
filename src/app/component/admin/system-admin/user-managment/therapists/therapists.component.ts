@@ -7,49 +7,11 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AdminService } from '../../../../shared/services/api/admin.service';
-import { CommonService } from '../../../../shared/services/helper/common.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-
-// export interface PeriodicElement {
-//   name: string; 
-//   email: string;
-//   practicelocatn: string; 
-//   status: string;
-//   action: string;  
-// }
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   { 
-//     name: 'Jane Cooper', 
-//     email: 'jane@gmail.com', 
-//     practicelocatn: 'Hamilton PT',
-//     status: 'Active',
-//     action : ''
-//   }, 
-//   { 
-//     name: 'Floyd Miles', 
-//     email: 'miles@yahoo.com', 
-//     practicelocatn: 'Hamilton PT at The Canyons Active',
-//     status: 'Pending',
-//     action : ''
-//   }, 
-//   { 
-//     name: 'Ronald Richards', 
-//     email: 'richard@gmail.com', 
-//     practicelocatn: 'Hamilton PT',
-//     status: 'Suspended',
-//     action : ''
-//   }, 
-//   { 
-//     name: 'Marvin McKinney', 
-//     email: 'marvin21@gamil.com', 
-//     practicelocatn: 'Corvallis PT',
-//     status: 'Deleted',
-//     action : ''
-//   },
-// ];
-
+import { AdminService } from 'src/app/shared/services/api/admin.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
+ 
 export interface Therapists {
   name: string; 
   email: string;
@@ -137,7 +99,7 @@ export class TherapistsComponent {
 
   therapistUsers(searchQuery:string=''){
     this.adminService.adminUsers(searchQuery,this.userRole).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         let userDetails = []
         if(!res.error && res.data.length){
            userDetails = res.data.map((user:any) => ({
@@ -150,7 +112,7 @@ export class TherapistsComponent {
         }
         console.log("userDetails>>>",userDetails)
         this.therapistsDataSource = new MatTableDataSource<Therapists>(userDetails);
-      },error: (err) => {
+      },error: (err:any) => {
         err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
       }
     });

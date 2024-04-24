@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { validationMessages } from '../../../utils/validation-messages';
-import { CommonService } from '../../../shared/services/helper/common.service';
-import { AdminService } from '../../../shared/services/api/admin.service';
+import { AdminService } from 'src/app/shared/services/api/admin.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { validationMessages } from 'src/app/utils/validation-messages';
+ 
 
 @Component({
   selector: 'app-invite-popup', 
@@ -48,9 +49,9 @@ export class InvitePopupComponent {
     if(this.inviteUserForm.valid){
       this.inviteUserForm.value['userRole']=this.data.userRole
       this.adminService.invite(this.inviteUserForm.value).subscribe({
-        next: (res) => {
+        next: (res:any) => {
           this.dialogRef.close(res);
-        },error: (err) => {
+        },error: (err:any) => {
           this.dialogRef.close();
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
         }

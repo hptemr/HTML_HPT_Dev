@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { CommonService } from '../../../shared/services/helper/common.service';
-import { validationMessages } from '../../../utils/validation-messages';
-import { AuthService } from '../../../shared/services/api/auth.service';
-import { AdminService } from '../../../shared/services/api/admin.service';
+import { validationMessages } from 'src/app/utils/validation-messages';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { AdminService } from 'src/app/shared/services/api/admin.service';
 
 @Component({
   selector: 'app-manage-profile', 
@@ -45,13 +45,13 @@ export class ManageProfileComponent {
 
   getProfile(){
     this.adminService.profile(this.userData._id).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         if(res && !res.error){
           this.updateProfileForm.controls['firstName'].setValue(res.data?res.data.firstName:'');
           this.updateProfileForm.controls['lastName'].setValue(res.data?res.data.lastName:'');
           this.updateProfileForm.controls['email'].setValue(res.data?res.data.email:'');
         }
-      },error: (err) => {
+      },error: (err:any) => {
         err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
       }
     });
@@ -62,12 +62,12 @@ export class ManageProfileComponent {
       this.updateProfileForm.value['userId'] = this.userData._id
       this.updateProfileForm.value['clickAction'] = 'update'
       this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
-        next: (res) => {
+        next: (res:any) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
             this.getProfile()
           }
-        },error: (err) => {
+        },error: (err:any) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
         }
       });

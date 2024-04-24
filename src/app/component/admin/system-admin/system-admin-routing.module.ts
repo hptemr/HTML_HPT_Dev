@@ -14,7 +14,7 @@ import { PatientProfileComponent } from './user-managment/patient-profile/patien
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { authGuard } from '../../shared/services/gaurd/auth.guard';
+import { authGuard } from 'src/app/shared/services/gaurd/auth.guard';
 
 const routes: Routes = [
   {
