@@ -4,20 +4,19 @@ const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const path = require('path');
-var port = normalizePort(process.env.PORT || '443')
+var port = normalizePort(process.env.PORT)// || '443'
 
-//  const server = http.createServer(app).listen(80, () => {
-//    console.log('http server running at ' + 80)
+//  const server = http.createServer(app).listen(8080, () => {
+//    console.log('http server running at ' + 8080)
 //  })
 
 const httpsOptions = {
-    key: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.key'),
-    cert: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt')
+    //key: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.key'),
+    //cert: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt')
 }
-const server = https.createServer(httpsOptions, app).listen(443, () => {
-  console.log('https server running at ' + 443)
+const server = https.createServer(httpsOptions, app).listen(process.env.PORT, () => {
+  //console.log('https server running at ' + process.env.PORT)
 })
-
 
 //  const server = http.createServer(function (req, res) {
 //   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
@@ -74,5 +73,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port
   debug('Listening on ' + bind)
-  console.log("server started on port" + addr.port)
+  console.log("server started on port " + addr.port)
 }
