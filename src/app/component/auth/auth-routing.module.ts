@@ -17,7 +17,7 @@ const routes: Routes = [
     canActivate:[loginGuard]
   },  
   {
-    path: 'patient/signup',
+    path: 'signup',
     component: SignupPatientComponent
   },
   {
