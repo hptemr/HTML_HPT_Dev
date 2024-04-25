@@ -25,11 +25,28 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  isTokenExpired(): boolean{
-    let userData:any = localStorage.getItem('user');
-    userData = (userData && userData!=null)?JSON.parse(userData):null
-    if(userData== null || userData.token=="" || userData.token==undefined){ 
-      return true 
+  getLoggedInInfo(column = 'all') {
+    let data: any
+    let storage: any
+    storage = localStorage.getItem('user') ? localStorage.getItem('user') : null
+    let user_details = JSON.parse(storage);
+    if (column == 'all') {
+      data = user_details
+    } else {
+      data = user_details[column]
+    }
+    return data
+  }
+
+  getFullName() {
+    return this.getLoggedInInfo('firstName') + " " + this.getLoggedInInfo('lastName')
+  }
+
+  isTokenExpired(): boolean {
+    let userData: any = localStorage.getItem('user');
+    userData = (userData && userData != null) ? JSON.parse(userData) : null
+    if (userData == null || userData.token == "" || userData.token == undefined) {
+      return true
     }
     const decodedToken: any = jwtDecode(userData.token);
     const expirationTime = decodedToken.exp * 1000;
@@ -41,7 +58,7 @@ export class AuthService {
     return this.http.post(url, data).pipe();
   }
 
-  checkForgotPasswordToken(userId:string,token:string): Observable<any> {
+  checkForgotPasswordToken(userId: string, token: string): Observable<any> {
     const url = `${environment.apiUrl}/auth/checkForgotPasswordToken/${userId}/${token}`;
     return this.http.get(url).pipe();
   }

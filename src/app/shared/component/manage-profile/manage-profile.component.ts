@@ -17,7 +17,6 @@ export class ManageProfileComponent {
   validationMessages = validationMessages
   updateProfileForm: FormGroup;
   userData: any;
-  userRole: string = 'system_admin'
 
   constructor(
     public dialog: MatDialog,
@@ -82,18 +81,17 @@ export class ManageProfileComponent {
       }
     });
   }
+
   changePassword() {
     const dialogRef = this.dialog.open(ChangePasswordModalComponent, {
       disableClose: true,
       panelClass: 'change--password--modal',
       data: {
-        userId: this.userData._id,
-        userRole: this.userRole
+        userId: this.userData._id
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("changePassword>>>", result)
       if (result) {
         this.authService.logout()
       }
