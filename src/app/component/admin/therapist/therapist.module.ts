@@ -4,18 +4,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { TherapistRoutingModule } from './therapist-routing.module';
 import { AppointmentsComponent } from './appointments/appointments.component';
-import { ManageProfileComponent } from './manage-profile/manage-profile.component';
-import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
+ import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
 import { SystemFollowupModalComponent } from './system-followup-modal/system-followup-modal.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
- 
-
+  
 @NgModule({
   declarations: [ 
     AppointmentsComponent,
-    ManageProfileComponent,
-    AppointmentDetailsComponent,
+     AppointmentDetailsComponent,
     SystemFollowupModalComponent,
     PatientProfileComponent,
     AppointmentRequestsComponent

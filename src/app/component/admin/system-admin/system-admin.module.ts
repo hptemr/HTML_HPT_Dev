@@ -7,8 +7,7 @@ import { PracticeAdminProfileComponent } from './user-managment/practice-admin-p
 import { TherapistsComponent } from './user-managment/therapists/therapists.component';
 import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
 import { SupportTeamComponent } from './user-managment/support-team/support-team.component';
-import { ManageProfileComponent } from './manage-profile/manage-profile.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EFaxComponent } from './efax/efax.component';
 import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
 import { InvitePopupComponent } from './invite-popup/invite-popup.component';
@@ -20,8 +19,7 @@ import { ConversationsComponent } from './conversations/conversations.component'
 import { CreateGroupComponent } from './conversations/create-group/create-group.component';
 import { AddParticipantsComponent } from './conversations/add-participants/add-participants.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-
-
+ 
 @NgModule({
   declarations: [
     PracticeAdminComponent ,
@@ -29,8 +27,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     TherapistsComponent,
     TherapistsAdminProfileComponent,
     SupportTeamComponent,
-    ManageProfileComponent,
-    EFaxComponent,
+     EFaxComponent,
     BillingTeamComponent,
     InvitePopupComponent,
     PatientsComponent,

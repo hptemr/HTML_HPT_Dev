@@ -34,6 +34,7 @@ import { SidebarTherapistComponent } from './component/sidebar-therapist/sidebar
 import { SidebarBillingTeamComponent } from './component/sidebar-billing-team/sidebar-billing-team.component';
 import { BillingTeamHeaderComponent } from './component/header-billing-team/header-billing-team.component';
 import { BillingTeamLayoutComponent } from './component/layout/billing-team-layout/billing-team-layout.component';
+import { ManageProfileComponent } from './component/manage-profile/manage-profile.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -63,8 +64,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SidebarSupportTeamComponent,
     SidebarTherapistComponent,
     SidebarBillingTeamComponent,
-   
-
+    
     FeathericonComponent,
     FooterComponent,
     NotificationComponent,   
@@ -72,7 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SvgIconComponent,  
     TapToTopComponent,
     LoaderComponent, 
-    
+    ManageProfileComponent
   ],
   imports: [
     CommonModule, 
@@ -98,7 +98,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TapToTopComponent,
     TranslateModule,
     NgbModule, 
-    MaterialModule
+    MaterialModule,
+    ManageProfileComponent
   ]
 })
 export class SharedModule { }

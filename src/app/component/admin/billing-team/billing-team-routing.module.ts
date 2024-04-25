@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core'; 
 import { RouterModule, Routes } from '@angular/router';   
 import { AppointmentsComponent } from './appointments/appointments.component';
-import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
+import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
 
 const routes: Routes = [ 
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
   },  
   {
     path: 'manage-profile',
-    component:ManageProfileComponent   
+    component:ManageProfileComponent
   },
   {
     path: 'appointment-details',
