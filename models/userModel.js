@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   siteLeaderForPracLocation: { type : String  },
   failedAttempts: { type: Number, default: 0 },
   practiceLocation: { type : Array , "default" : [] },
-  status: { type: String, enum: ['Pending', 'Active', 'Suspended', 'Delete','Blocked'], default: 'Active'},
+  status: { type: String, enum: ['Pending', 'Active', 'Suspended', 'Deleted','Blocked'], default: 'Active'},
   invitedBy:{ type: Schema.Types.Mixed },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

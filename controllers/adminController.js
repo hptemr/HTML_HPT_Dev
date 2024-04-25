@@ -38,7 +38,7 @@ const invite = async (req, res, next) => {
     const { email, practiceLocation, userRole } = req.body;
     let userData = await userCommonHelper.userGetByEmail(email)
     if(userData){
-      return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
+      return commonHelper.sendResponse(res, 'info', null, userMessage.emailAlreadyRegister);
     }
     
     // Save user

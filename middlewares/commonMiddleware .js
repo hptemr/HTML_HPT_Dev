@@ -9,7 +9,7 @@ const checkLoginValidation = async (req, res, next) =>{
     try {
         const { email, password } = req.body;
         let userData = await userCommonHelper.userGetByEmail(email)
-        let inactiveStatus = ['Pending','Delete']
+        let inactiveStatus = ['Pending','Deleted']
         if(userData==null || !userData){
             return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
         }else if (inactiveStatus.includes(userData.status)){
