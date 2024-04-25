@@ -8,7 +8,8 @@ const messages = {
         passwordNotMatch:'password does not match with current password',
         inviteSuccess:'Invited successfully',
         suspendedAccount:'User not found. Please contact system admin or support team for more details',
-        userBlocked: 'Your account is blocked due to multiple incorrect login attempts. Please contact system admin or support team.'
+        userBlocked: 'Your account is blocked due to multiple incorrect login attempts. Please contact system admin or support team.',
+        inactiveUser:'Your account is not active. Please contact system admin or support team.'
     },
     infoMessage:{
         updated: 'Updated successfully',

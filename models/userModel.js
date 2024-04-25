@@ -11,11 +11,10 @@ const userSchema = new mongoose.Schema({
   role:{ type: String },
   NPI:{ type: Number},
   SSN:{ type: Number},
-  speciality: { type : Array , "default" : [] },
   siteLeaderForPracLocation: { type : String  },
   failedAttempts: { type: Number, default: 0 },
   practiceLocation: { type : Array , "default" : [] },
-  status: { type: String, enum: ['Pending', 'Active', 'Suspended', 'Deleted','Unblock','Blocked'], default: 'Active'},
+  status: { type: String, enum: ['Pending', 'Active', 'Suspended', 'Delete','Blocked'], default: 'Active'},
   invitedBy:{ type: Schema.Types.Mixed },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
