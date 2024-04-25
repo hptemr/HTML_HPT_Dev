@@ -25,19 +25,19 @@
                           <div class="form-group">
                             <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>                            
                             <input class="form-control" type="text" required="" placeholder="Enter First Name" formControlName="firstName" />
-                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['firstName'].touched && firstFormGroup.controls['firstName'].hasError('required')">
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['firstName'].touched && (firstFormGroup.controls['firstName'].hasError('required') || firstFormGroup.controls['firstName'].invalid)">
                               {{ validationMessages.required('First Name') }}
-                            </div>
+                            </div>                            
                           </div>
                           <div class="col-12">
                             <div class="form-group">
                               <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> *
                                 </span></label>
                               <input class="form-control" type="text" placeholder="Enter Middle Name" formControlName="middleName" />
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['middleName'].touched && firstFormGroup.controls['middleName'].hasError('required')">
+                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['middleName'].touched && (firstFormGroup.controls['middleName'].hasError('required') || firstFormGroup.controls['middleName'].invalid)">
                                 {{ validationMessages.required('Middle Name') }}
                               </div>
+                          
                             </div>
                           </div>
                           <div class="col-12">
@@ -45,7 +45,7 @@
                               <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
                                 </span></label>
                               <input class="form-control" type="text" placeholder="Enter Last Name" formControlName="lastName"/>
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['lastName'].touched && firstFormGroup.controls['lastName'].hasError('required')">
+                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['lastName'].touched && (firstFormGroup.controls['lastName'].hasError('required') || firstFormGroup.controls['lastName'].invalid)">
                                 {{ validationMessages.required('Last Name') }}
                               </div>
                             </div>
@@ -56,8 +56,8 @@
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
                                   <div class="input-group">
-                                    <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp" [(ngModel)]="model"
-                                      ngbDatepicker #d="ngbDatepicker" formControlName="dob" [min]="minStartDate" [max]="maxStartDate" />
+                                    <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp" [(ngModel)]="selectedDate"
+                                      ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event)" formControlName="dob" [minDate]="getMinDate()"  [maxDate]="maxEndDate" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                       type="button">
                                       <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
@@ -66,6 +66,7 @@
                                   <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['dob'].hasError('required') && firstFormGroup.controls['dob'].touched">
                                     {{ validationMessages.required('Date of Birth') }}</div>
                                 </div>
+                             
                               </div>
                               <div class="col-12 col-lg-6 col-xl-6">
                                 <div class="form-group">
@@ -82,8 +83,8 @@
                               <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span> </label>
-                                  <input class="form-control text-lowercase" type="text" placeholder="Enter Email" formControlName="email"/>
-                                  <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['email'].touched && firstFormGroup.controls['email'].hasError('required')">
+                                  <input class="form-control" type="text" placeholder="Enter Email" (ngModelChange)="onDateChange($event)" formControlName="email"/>
+                                  <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['email'].touched && (firstFormGroup.controls['email'].hasError('required') || firstFormGroup.controls['email'].invalid)">
                                     {{ validationMessages.required('Email') }}
                                   </div>
                                 </div>
@@ -98,31 +99,39 @@
                                 </div>
                               </div>
                               <div class="col-12 col-lg-6">
-                                <div class="form-group">
-                                  <label class="col-form-label fw-600">Password <span class="clr--DF0404 ms-1"> * </span></label>
-                                  <div class="form-input position-relative">
-                                      <input class="form-control" [type]="show ? 'text' : 'password'"
-                                          placeholder="*********" />
-                                      @if(!show){
-                                      <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
-                                      }@else{
-                                      <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
-                                      } 
-                                  </div>
-                              </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label fw-600">Password <span class="clr--DF0404 ms-1"> * </span></label>
+                                        <div class="form-input position-relative">
+                                            <input class="form-control" [type]="show ? 'text' : 'password'" placeholder="*********" formControlName="password"/>
+                                            @if(!show){
+                                            <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
+                                            }@else{
+                                            <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
+                                            } 
+                                        </div>
+                                      <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['password'].touched && firstFormGroup.controls['password'].hasError('required')">
+                                        {{ validationMessages.required('Password') }}
+                                      </div>
+                                      <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['password'].touched && firstFormGroup.controls['password'].hasError('pattern')">
+                                          {{ validationMessages.password }}
+                                      </div>
+                                    </div>
                               </div>
                               <div class="col-12 col-lg-6">
-                                <div class="form-group">
-                                  <label class="col-form-label fw-600">Confirm Password <span class="clr--DF0404 ms-1"> * </span> </label>
-                                  <div class="form-input position-relative">
-                                      <input class="form-control" [type]="show ? 'text' : 'password'" placeholder="*********" />
-                                      @if(!show){
-                                      <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
-                                      }@else{
-                                      <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
-                                      } 
+                                  <div class="form-group">
+                                    <label class="col-form-label fw-600">Confirm Password <span class="clr--DF0404 ms-1"> * </span> </label>
+                                    <div class="form-input position-relative">
+                                        <input class="form-control" [type]="showConfirmPass ? 'text' : 'password'" placeholder="*********" formControlName="confirmPassword"/>
+                                        @if(!showConfirmPass){
+                                        <div class="show-hide" (click)="showConfirmPassword()"><span class="show"> </span></div>
+                                        }@else{
+                                        <div class="show-hide" (click)="showConfirmPassword()"><span class="Hide"></span></div>
+                                        } 
+                                    </div>
+                                    <div class="text text-danger mt-1" *ngIf="firstFormGroup.hasError('passwordMismatch') && firstFormGroup.controls['confirmPassword'].touched">
+                                      {{ validationMessages.passwordMismatch }}
+                                    </div>
                                   </div>
-                              </div>
                               </div>
                             </div>
                           </div>
@@ -133,9 +142,7 @@
                         <button  mat-raised-button color="primary" type="submit">Next</button>
                       </div> 
                     </form>
-
                   </mat-step>
-
                   <!-- Step 2 -->
                   <mat-step [stepControl]="step2" label="Additional Info">
                     <h1 class="font-16 mb-3">Mailing Address</h1>
@@ -144,8 +151,10 @@
                         <div class="col-12"> 
                           <div class="form-group">
                             <label class="col-form-label fw-600">Street Name  <span class="clr--DF0404 ms-1"> * </span></label>
-                            <input class="form-control" type="text" placeholder="Street Name" />
-                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                            <input class="form-control" type="text" placeholder="Street Name" formControlName="address1" />
+                            <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['address1'].touched && (secondFormGroup.controls['address1'].hasError('required') || secondFormGroup.controls['address1'].invalid)">
+                              {{ validationMessages.required('Street Name') }}
+                            </div>
                           </div>  
                         </div>
                         <div class="col-12">
@@ -153,39 +162,43 @@
                             <div class="col-12 col-lg-6">
                               <div class="form-group">
                                 <label class="col-form-label fw-600">Apartment #  <span class="clr--DF0404 ms-1"> * </span>  </label>
-                                <input class="form-control" type="text" placeholder="Apartment #" />
-                                <!-- <div class="text text-danger mt-1"> Middle Name required</div> -->
+                                <input class="form-control" type="text" placeholder="Apartment #" formControlName="address2" />
+                                <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['address2'].touched && (secondFormGroup.controls['address2'].hasError('required') || secondFormGroup.controls['address2'].invalid)">
+                                  {{ validationMessages.required('Apartment') }}
+                                </div>
                               </div>
                             </div>
                             <div class="col-12 col-lg-6">
                               <div class="form-group">
                                 <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
-                                <select class="form-select form-control" aria-label="Default select example">
+                                <select class="form-select form-control" id="state" aria-label="Default select example" formControlName="state"  (ngModelChange)="onStateChange($event)">
                                   <option selected>Select State</option>
-                                  <option value="1">MH</option>
-                                  <option value="2">MP</option>
-                                  <option value="3">UP</option>
-                                </select>
-                                <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                  <option *ngFor="let item of states" value="{{item.state_code}}" [selected]="">{{item.state}}</option>
+                                </select>                               
+                                <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['state'].touched && secondFormGroup.controls['state'].hasError('required')">
+                                  {{ validationMessages.required('State') }}
+                                </div>
                               </div>
                             </div> 
                             <div class="col-12 col-lg-6">
                               <div class="form-group">
                                 <label class="col-form-label fw-600">City <span class="clr--DF0404 ms-1"> * </span></label>
-                                <select class="form-select form-control" aria-label="Default select example">
+                                <select class="form-select form-control" id="city" aria-label="Default select example" [(ngModel)]="selectedCity" formControlName="city">
                                   <option selected>Select City</option>
-                                  <option value="1">Pune</option>
-                                  <option value="2">Mumbai</option>
-                                  <option value="3">Satara</option>
+                                  <option *ngFor="let item of cities" value="{{item.city}}" [selected]="">{{item.city}}</option>
                                 </select>
-                                <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['city'].touched && secondFormGroup.controls['city'].hasError('required')">
+                                  {{ validationMessages.required('City') }}
+                                </div>
                               </div>
                             </div>
                             <div class="col-12 col-lg-6">
                               <div class="form-group">
                                 <label class="col-form-label fw-600">Postal Code <span class="clr--DF0404 ms-1"> * </span>  </label>
-                                <input class="form-control" type="number" placeholder="Enter Postal Code" />
-                                <!-- <div class="text text-danger mt-1"> Middle Name required</div> -->
+                                <input class="form-control" type="number" placeholder="Enter Postal Code" formControlName="zipcode" />
+                                <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['zipcode'].touched && (secondFormGroup.controls['zipcode'].hasError('required') || secondFormGroup.controls['zipcode'].invalid)">
+                                  {{ validationMessages.required('Zipcode') }}
+                                </div>
                               </div>
                             </div>
                           </div>
