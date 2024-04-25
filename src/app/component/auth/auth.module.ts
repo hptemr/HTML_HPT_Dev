@@ -8,22 +8,15 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
-import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
-import { TherapistSignupComponent } from './therapist-signup/therapist-signup.component';
-import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component';
+import { AdminSignupComponent } from './admin-signup/admin-signup.component';
  
-
 @NgModule({
   declarations: [ 
     LoginComponent,
     SignupPatientComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    SignupSupportTeamComponent,
-    PracticeAdminSignupComponent,
-    TherapistSignupComponent,
-    BillingTeamSignupComponent
+    AdminSignupComponent
   ],
   imports: [ 
     CommonModule,
