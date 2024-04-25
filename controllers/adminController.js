@@ -132,7 +132,22 @@ const changePassword = async (req, res, next) => {
   
   const updateProfile = async (req, res, next) => {
     try {
-      const { userId, clickAction } = req.body
+      const { userId, clickAction, status } = req.body
+      
+      let userData = await userCommonHelper.userGetById(userId)
+      // Active bloked user
+      if(clickAction=='update' && status=='Active' && userData.status=='Blocked'){
+        const randomPassword = await commonHelper.generateRandomPassword()
+        // Update random password
+        let salt = await bcrypt.genSalt(10);
+        req.body.salt = salt
+        req.body.hash_password = await bcrypt.hash(randomPassword, salt)
+        req.body.failedAttempts = 0
+        // Email 
+        triggerEmail.unblockUserEmail(userData.email,randomPassword)
+      }
+
+      // Update profile
       const filter = { _id: new ObjectId(userId) };
       req.body.updatedAt = Date.now()
       const updateDoc = {
