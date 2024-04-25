@@ -46,7 +46,7 @@ export class ResetPasswordComponent {
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const password:any = control.get('password');
     const confirmPassword:any = control.get('confirmPassword');
-    if (password.value !== confirmPassword.value) {
+    if (confirmPassword.value && password.value !== confirmPassword.value) {
       return { 'passwordMismatch': true };
     }
     return null;

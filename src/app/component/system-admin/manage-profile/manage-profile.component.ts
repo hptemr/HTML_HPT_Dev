@@ -7,6 +7,7 @@ import { CommonService } from '../../../shared/services/helper/common.service';
 import { validationMessages } from '../../../utils/validation-messages';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { AdminService } from '../../../shared/services/api/admin.service';
+import { regex } from '../../../utils/regex-patterns';
 
 @Component({
   selector: 'app-manage-profile', 
@@ -37,8 +38,8 @@ export class ManageProfileComponent {
 
   initializeUpdateProfileForm(){
     this.updateProfileForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
+      lastName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
       email: [{value:'',disabled: true}]
     });
   }

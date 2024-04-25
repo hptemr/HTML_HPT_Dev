@@ -41,7 +41,7 @@ export class ChangePasswordModalComponent {
 
   initializeChangePasswordForm(){
     this.changePasswordForm = this.fb.group({
-      currentPassword: ['', [Validators.required]],
+      currentPassword: ['', [Validators.required, Validators.pattern(regex.password)]],
       newPassword: ['', [Validators.required, Validators.pattern(regex.password)]],
       confirmPassword: ['', Validators.required]
     }, {
@@ -52,7 +52,7 @@ export class ChangePasswordModalComponent {
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const newPassword:any = control.get('newPassword');
     const confirmPassword:any = control.get('confirmPassword');
-    if (newPassword.value !== confirmPassword.value) {
+    if (confirmPassword.value && newPassword.value !== confirmPassword.value) {
       return { 'passwordMismatch': true };
     }
     return null;

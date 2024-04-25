@@ -51,8 +51,8 @@ export class PracticeAdminProfileComponent {
 
   initializePracticeAdminProfile(){
     this.practiceAdminProfileForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
+      lastName: ['',[Validators.required,Validators.pattern(regex.alphabetic)]],
       // email: [{value:'',disabled: true}],
       email: ['',[Validators.required, Validators.email]],
       phoneNumber :["", [Validators.required,Validators.pattern(regex.usPhoneNumber)]],
@@ -126,7 +126,7 @@ export class PracticeAdminProfileComponent {
       if(result && !result.error){
         let delBody ={
           userId : this.practiceAdminId,
-          status : 'Delete',
+          status : 'Deleted',
           clickAction : 'delete'
         }
         this.updateProfile(delBody)

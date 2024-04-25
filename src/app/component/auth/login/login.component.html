@@ -16,19 +16,19 @@
                             <p class="text-center mt-2">Enter your email & password to login</p>
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Email Address</label>
-                                <input class="form-control" type="email" required="" placeholder="Enter your email address" formControlName="email" />
+                                <input class="form-control" type="email" required="" placeholder="Enter your email address" formControlName="email" maxlength="35"/>
                                 <div class="text text-danger mt-1" *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].hasError('required')">
-                                    {{ validationMessages.required('Email') }}
+                                    {{ validationMessages.required('an email address') }}
                                 </div>
                                 <div class="text text-danger mt-1" *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].hasError('email')">
-                                    {{ validationMessages.email('email') }}
+                                    {{ validationMessages.validEmail}}
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Password</label>
                                 <div class="form-input position-relative">
                                     <input class="form-control" [type]="show ? 'text' : 'password'"
-                                        formControlName="password" required="" placeholder="*********" />
+                                        formControlName="password" required="" placeholder="*********" maxlength="16"/>
                                     @if(!show){
                                     <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
                                     }@else{

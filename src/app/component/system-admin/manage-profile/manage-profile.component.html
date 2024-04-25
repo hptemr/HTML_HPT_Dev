@@ -41,18 +41,24 @@
                                 <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="text" placeholder="First name" formControlName="firstName" maxlength="32"/>
+                                        <input class="form-control form-control-md" type="text" placeholder="First name" formControlName="firstName" maxlength="35"/>
                                         <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['firstName'].touched && updateProfileForm.controls['firstName'].hasError('required')">
-                                            {{ validationMessages.required('First Name') }}
+                                            {{ validationMessages.required('your First Name') }}
+                                        </div>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['firstName'].touched && updateProfileForm.controls['firstName'].hasError('pattern')">
+                                            {{ validationMessages.alphabeticChar('First Name') }}
                                         </div>
                                       </div>
                                 </div>
                                 <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Last Name<span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="text" placeholder="Last name" formControlName="lastName" maxlength="32"/>
+                                        <input class="form-control form-control-md" type="text" placeholder="Last name" formControlName="lastName" maxlength="35"/>
                                         <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['lastName'].touched && updateProfileForm.controls['lastName'].hasError('required')">
-                                            {{ validationMessages.required('Last Name') }}
+                                            {{ validationMessages.required('your Last Name') }}
+                                        </div>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['lastName'].touched && updateProfileForm.controls['lastName'].hasError('pattern')">
+                                            {{ validationMessages.alphabeticChar('Last Name') }}
                                         </div>
                                       </div>
                                 </div>
