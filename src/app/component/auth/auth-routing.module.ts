@@ -31,7 +31,7 @@ const routes: Routes = [
     component: SignupPatientComponent
   },
   {
-    path: 'admin/signup/:token',
+    path: 'admin/signup/:userId',
     component: AdminSignupComponent
   }
 ];

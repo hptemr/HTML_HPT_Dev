@@ -1,93 +1,121 @@
 <div class="container-fluid p-0">
-    <div class="row m-0">
-      <div class="col-12 p-0">
-        <div class="login-card patient--signup--wrapper pa--signup--wrapper">
-          <div>
-            <div><a class="logo">
-                <!-- <img class="img-fluid for-light" src="assets/images/logo/logo.svg" alt="looginpage"> -->
-                <img class="img-fluid for-light" ngSrc="assets/images/logo/logo.svg" alt="looginpage" width="96" height="96"  >
-              </a>
-            </div>
-            <div class="login-main pb-4">
-              <form class="row">
-                <div class="col-12 theme-form">
-                  <h3 class="text-center dark-grey">Create your account</h3>
-                  <p class="text-center mt-2">Enter details to create an account </p>
-                </div> 
-                <div class="col-12 d-flex align-items-center mb-3">
-                    <div class="row w-100">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                                <input class="form-control" type="text" placeholder="Enter First Name" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Last Name" />
-                                <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Email  </label>
-                                <input class="form-control text-lowercase" type="text" placeholder="Enter Email" />
-                                <!-- <div class="text text-danger mt-1"> Middle Name required</div> -->
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Password <span class="clr--DF0404 ms-1"> * </span></label>
-                              <div class="form-input position-relative">
-                                  <input class="form-control" [type]="show ? 'text' : 'password'"
-                                      placeholder="*********" />
-                                      @if(!show){
-                                        <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
-                                        }@else{
-                                        <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
-                                        } 
-                              </div>
-                          </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Confirm Password <span class="clr--DF0404 ms-1"> * </span> </label>
-                              <div class="form-input position-relative">
-                                  <input class="form-control" [type]="show ? 'text' : 'password'"
-                                          placeholder="*********" />
-                                          @if(!show){
-                                            <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
-                                            }@else{
-                                            <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
-                                            } 
-                              </div>
-                          </div>
-                          </div>
-                          <div class="col-12 d-flex mb-4"> 
-                            <mat-checkbox class="">By Clicking on ‘Sign Up’ you agree to the Privacy Policy and Terms of Services of the HPT-EHR platform.</mat-checkbox>
-                          </div>
-                          <div class="col-12 d-flex mb-4">
-                            <button mat-raised-button color="primary" class="w-100">Sign Up</button>
-                          </div>
-                          <div class="d-flex align-items-center justify-content-center">
-                            <p class="mb-0 text-center font-nunito">Already have an account?
-                                <a href="#" class="ms-2 font-16 fw-600">Sign in </a>
-                            </p>
-                          </div>
+  <div class="row m-0">
+    <div class="col-12 p-0">
+      <div class="login-card patient--signup--wrapper pa--signup--wrapper">
+        <div>
+          <div><a class="logo">
+              <img class="img-fluid for-light" ngSrc="assets/images/logo/logo.svg" alt="looginpage" width="96"
+                height="96">
+            </a>
+          </div>
+          <div class="login-main pb-4">
+            <form (ngSubmit)="updateUser()" class="row" [formGroup]="signupForm">
+              <div class="col-12 theme-form">
+                <h3 class="text-center dark-grey">Create your account</h3>
+                <p class="text-center mt-2">Enter details to create an account </p>
+              </div>
+              <div class="col-12 d-flex align-items-center mb-3">
+                <div class="row w-100">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label class="col-form-label fw-600">First Name<span class="clr--DF0404 ms-1"> * </span></label>
+                      <input (blur)="checkSpace('firstName', $event)" formControlName="firstName" class="form-control" type="text"
+                        placeholder="Enter First Name" />
+                      <div class="text text-danger mt-1"
+                        *ngIf="signupForm.controls['firstName'].touched && signupForm.controls['firstName'].hasError('required')">
+                        {{ validationMessages.required('First Name') }}
+                      </div>
                     </div>
-                    
-                    
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
+                          </span></label>
+                        <input (blur)="checkSpace('lastName', $event)" formControlName="lastName" class="form-control" type="text"
+                          placeholder="Enter Last Name" />
+                        <div class="text text-danger mt-1"
+                          *ngIf="signupForm.controls['lastName'].touched && signupForm.controls['lastName'].hasError('required')">
+                          {{ validationMessages.required('Last Name') }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label class="col-form-label fw-600">Email </label>
+                        <input formControlName="email" class="form-control text-lowercase" type="text" readonly />
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label class="col-form-label fw-600">Password <span class="clr--DF0404 ms-1"> * </span></label>
+                        <div class="form-input position-relative">
+                          <input (blur)="passwordCheck()" formControlName="password" class="form-control" [type]="show ? 'text' : 'password'"
+                            placeholder="*********" />
+                          @if(!show){
+                          <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
+                          }@else{
+                          <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
+                          }
+
+                          <div class="text text-danger mt-1"
+                            *ngIf="signupForm.controls['password'].touched && signupForm.controls['password'].hasError('required')">
+                            {{ validationMessages.required('Password') }}
+                          </div>
+                          <div class="text text-danger mt-1"
+                            *ngIf="signupForm.controls['password'].touched && signupForm.controls['password'].hasError('pattern')">
+                            {{ validationMessages.password }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label class="col-form-label fw-600">Confirm Password <span class="clr--DF0404 ms-1"> * </span>
+                        </label>
+                        <div class="form-input position-relative">
+                          <input (blur)="passwordCheck()" formControlName="confirmPassword" class="form-control"
+                            [type]="show ? 'text' : 'password'" placeholder="*********" />
+                          @if(!show){
+                          <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
+                          }@else{
+                          <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
+                          }
+                          <div class="text text-danger mt-1"
+                            *ngIf="signupForm.controls['confirmPassword'].touched && signupForm.controls['confirmPassword'].hasError('required')">
+                            {{ validationMessages.required('Confirm password') }}
+                          </div>
+
+                          <div class="text text-danger mt-1"
+                            *ngIf="signupForm.controls['confirmPassword'].touched && !pwdMatch && signupForm.controls['confirmPassword'].value.length > 0">
+                            {{ validationMessages.passwordMismatch }}
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 d-flex mb-4">
+                      <mat-checkbox (change)="termsChecked($event)" formControlName="termsConditions" class="">By
+                        Clicking on ‘Sign Up’ you agree to the
+                        Privacy Policy and Terms of
+                        Services of the HPT-EHR platform.</mat-checkbox>
+                    </div>
+                    <div class="col-12 d-flex mb-4">
+                      <button [disabled]="signupForm.invalid || !termsConditionChecked || !pwdMatch" mat-raised-button
+                        color="primary" class="w-100">
+                        Sign Up
+                      </button>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                      <p class="mb-0 text-center font-nunito">Already have an account?
+                        <a href="/admin/login" class="ms-2 font-16 fw-600">Sign in </a>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </form>
-  
-             
-  
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

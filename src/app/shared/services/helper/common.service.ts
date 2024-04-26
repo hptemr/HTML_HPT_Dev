@@ -65,7 +65,7 @@ export class CommonService {
       var firstLetter = str.substr(0, 1);
       return firstLetter.toUpperCase() + str.substr(1);
     } else {
-      return " "
+      return ""
     }
   }
 }

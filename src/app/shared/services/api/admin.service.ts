@@ -22,15 +22,15 @@ export class AdminService {
     return this.http.post(url, data).pipe();
   }
 
-  adminUsers(searchQuery:string,userRole:string): Observable<any> {
+  adminUsers(searchQuery: string, userRole: string): Observable<any> {
     let params = new HttpParams()
       .set('searchQuery', searchQuery)
       .set('userRole', userRole);
     const url = `${environment.apiUrl}/admin/users`;
-    return this.http.get(url,{ params }).pipe();
+    return this.http.get(url, { params }).pipe();
   }
 
-  profile(userId:string): Observable<any> {
+  profile(userId: string): Observable<any> {
     const url = `${environment.apiUrl}/admin/profile/${userId}`;
     return this.http.get(url).pipe();
   }
@@ -40,5 +40,14 @@ export class AdminService {
     return this.http.post(url, data).pipe();
   }
 
+  updateUser(data: any): Observable<any> {
+    const url = `${environment.apiUrl}/admin/updateUser`;
+    return this.http.post(url, data).pipe();
+  }
+
+  getUserDetails(data: any): Observable<any> {
+    const url = `${environment.apiUrl}/admin/getUserDetails`;
+    return this.http.post(url, data).pipe();
+  }
 
 }
