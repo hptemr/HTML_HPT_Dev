@@ -8,6 +8,7 @@ import { AppointmentDetailsComponent } from './appointments/appointment-details/
 import { AppointmentManageDetailsComponent } from './appointments/appointment-manage-details/appointment-manage-details.component';
 import { Step1Component } from './book-appointment/step1/step1.component';
 import { Step2Component } from './book-appointment/step2/step2.component';
+import { Step3Component } from './book-appointment/step3/step3.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { Step2Component } from './book-appointment/step2/step2.component';
     AppointmentDetailsComponent,
     AppointmentManageDetailsComponent,
     Step1Component,
-    Step2Component
+    Step2Component,
+    Step3Component
   ],
   imports: [
     CommonModule,
