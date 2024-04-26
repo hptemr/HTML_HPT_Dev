@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { resetPassword } = require('../controllers/authController');
 const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
@@ -15,6 +16,8 @@ const userSchema = new mongoose.Schema({
   failedAttempts: { type: Number, default: 0 },
   practiceLocation: { type : Array , "default" : [] },
   status: { type: String, enum: ['Pending', 'Active', 'Suspended', 'Deleted','Blocked'], default: 'Active'},
+  resetPasswordToken:{ type: String },
+  inviteToken:{ type: String },
   invitedBy:{ type: Schema.Types.Mixed },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

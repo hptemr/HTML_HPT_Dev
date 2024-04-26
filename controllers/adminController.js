@@ -40,23 +40,22 @@ const invite = async (req, res, next) => {
     if(userData){
       return commonHelper.sendResponse(res, 'info', null, userMessage.emailAlreadyRegister);
     }
-    
+
     // Save user
     let newUser = new User(req.body);
     newUser.practiceLocation = [practiceLocation]
-    newUser.invitedBy = req.userId
+    newUser.invitedBy = req.userId // Login user id
     newUser.role = userRole
     const result = await newUser.save();
+
     if(result && result!=null){
-      // Save token for user sign up
-      const setTokenData = await new userInviteToken({
-          userId: result._id,
-          token: commonHelper.generateToken(55)
-      }).save();
+      let encryptObj = { userId: result._id }
+      let inviteEncryptedToken = commonHelper.encryptData(encryptObj, process.env.CRYPTO_SECRET)
+      // Update invite token
+      await User.findOneAndUpdate({_id :result._id},{inviteToken:inviteEncryptedToken});   
 
       // Send email
-      const link = `${process.env.BASE_URL}/practice-admin/signup/${result._id}/${setTokenData.token}`;
-      console.log("link>>>>",link)
+      const link = `${process.env.BASE_URL}/admin/signup/${inviteEncryptedToken}`;
       triggerEmail.invitePracticeAdminEmail(email,link)
 
       commonHelper.sendResponse(res, 'success', result, userMessage.inviteSuccess);
