@@ -45,7 +45,11 @@ export class ManageProfileComponent {
   }
 
   getProfile(){
-    this.adminService.profile(this.userData._id).subscribe({
+    let bodyData ={
+      query: { _id : this.userData._id},
+      params: { firstName:1,lastName:1,email:1,phoneNumber:1,status:1,practiceLocation:1 }
+    }
+    this.adminService.profile(bodyData).subscribe({
       next: (res) => {
         if(res && !res.error){
           this.updateProfileForm.controls['firstName'].setValue(res.data?res.data.firstName:'');

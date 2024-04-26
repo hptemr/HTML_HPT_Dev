@@ -7,7 +7,6 @@ import { FormBuilder, FormGroup, AbstractControl, Validators} from '@angular/for
 import { validationMessages } from '../../../../utils/validation-messages';
 import { CommonService } from '../../../../shared/services/helper/common.service';
 import { regex } from '../../../../utils/regex-patterns';
-import { AuthService } from '../../../../shared/services/api/auth.service';
 import { AdminService } from '../../../../shared/services/api/admin.service';
 import { constant } from "../../../../../constant";
 
@@ -31,7 +30,6 @@ export class PracticeAdminProfileComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private commonService:CommonService,
-    private authService:AuthService,
     private adminService:AdminService
   ) { 
     this.route.params.subscribe((params: Params) => {
@@ -61,17 +59,19 @@ export class PracticeAdminProfileComponent {
 
   getProfile(){
     if(this.practiceAdminId){
-      this.adminService.profile(this.practiceAdminId).subscribe({
+      let bodyData ={
+        query: { _id : this.practiceAdminId},
+        params: { firstName:1,lastName:1,email:1,phoneNumber:1,status:1,practiceLocation:1 }
+      }
+      this.adminService.profile(bodyData).subscribe({
         next: (res) => {
           if(res && !res.error){
-            console.log("practiceAdminId>>>",res)
             this.practiceAdminProfileForm.controls['firstName'].setValue(res.data?res.data.firstName:'');
             this.practiceAdminProfileForm.controls['lastName'].setValue(res.data?res.data.lastName:'');
             this.practiceAdminProfileForm.controls['email'].setValue(res.data?res.data.email:'');
             this.practiceAdminProfileForm.controls['phoneNumber'].setValue(res.data?res.data.phoneNumber:'');
             this.practiceAdminProfileForm.controls['status'].setValue(res.data?res.data.status:'');
             this.selectedLocations=res.data.practiceLocation
-            console.log("this.selectedLocations>>>",this.selectedLocations)
           }
         },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''

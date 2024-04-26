@@ -30,9 +30,9 @@ export class AdminService {
     return this.http.get(url,{ params }).pipe();
   }
 
-  profile(userId:string): Observable<any> {
-    const url = `${environment.apiUrl}/admin/profile/${userId}`;
-    return this.http.get(url).pipe();
+  profile(data: any): Observable<any> {
+    const url = `${environment.apiUrl}/admin/profile`;
+    return this.http.post(url, data).pipe();
   }
 
   updateProfile(data: any): Observable<any> {
