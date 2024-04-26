@@ -11,45 +11,7 @@ import { AdminService } from '../../../../shared/services/api/admin.service';
 import { CommonService } from '../../../../shared/services/helper/common.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-
-// export interface PeriodicElement {
-//   name: string; 
-//   email: string;
-//   practicelocatn: string; 
-//   status: string;
-//   action: string;  
-// }
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   { 
-//     name: 'Jane Cooper', 
-//     email: 'jane@gmail.com', 
-//     practicelocatn: 'Hamilton PT',
-//     status: 'Active',
-//     action : ''
-//   }, 
-//   { 
-//     name: 'Floyd Miles', 
-//     email: 'miles@yahoo.com', 
-//     practicelocatn: 'Hamilton PT at The Canyons Active',
-//     status: 'Pending',
-//     action : ''
-//   }, 
-//   { 
-//     name: 'Ronald Richards', 
-//     email: 'richard@gmail.com', 
-//     practicelocatn: 'Hamilton PT',
-//     status: 'Suspended',
-//     action : ''
-//   }, 
-//   { 
-//     name: 'Marvin McKinney', 
-//     email: 'marvin21@gamil.com', 
-//     practicelocatn: 'Corvallis PT',
-//     status: 'Deleted',
-//     action : ''
-//   },
-// ];
-
+import { constant } from "../../../../../constant";
 export interface Therapists {
   name: string; 
   email: string;
@@ -66,13 +28,11 @@ const THERAPIST_DATA: Therapists[] = [];
   styleUrl: './therapists.component.scss'
 })
 export class TherapistsComponent {
-  // displayedColumns: string[] = ['name', 'email', 'practicelocatn', 'status', 'action'];
-  // dataSource = new MatTableDataSource(ELEMENT_DATA);
   therapistsDataSource = new MatTableDataSource<Therapists>(THERAPIST_DATA);
   displayedColumns: string[] = ['name', 'email', 'practiceLocation', 'status', 'action'];
 
   userRole :string ='therapist'
-  practiceLocationData :any = []
+  practiceLocationData:string[] = constant.practiceLocations
   searchTherapist = new FormControl('');
 
   constructor(
@@ -90,7 +50,6 @@ export class TherapistsComponent {
   @ViewChild('statusSelect') statusSelect: ElementRef;
 
   ngOnInit() {
-    this.getPracticeLocation()
     this.therapistUsers()
   }
 
@@ -111,11 +70,6 @@ export class TherapistsComponent {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-
-  async getPracticeLocation() {
-    this.practiceLocationData = await this.commonService.getPracticeLocation().catch(()=>[])
-  }
-
 
   invitePopup() {
     const dialogRef = this.dialog.open(InvitePopupComponent,{

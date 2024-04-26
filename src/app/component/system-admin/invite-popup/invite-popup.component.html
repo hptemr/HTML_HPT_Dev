@@ -42,14 +42,7 @@
                   <label class="col-form-label fw-400">Practice Location  <span class="clr--DF0404 ms-1"> * </span></label>
                   <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="practiceLocation">
                     <option value="" disabled>Select</option>
-                    <!-- <option value="1">Hamilton PT at The Canyons</option>
-                    <option value="2">Darby PT</option>
-                    <option value="3">Corvallis PT</option>
-                    <option value="4">Stevi PT</option>
-                    <option value="5">PT Specialists of Florence</option>
-                    <option value="6">Frenchtown PT</option>
-                    <option value="7">HNB</option> -->
-                    <option *ngFor="let res of practiceLocationData" [value]="res.location">{{ res.location }}</option>
+                    <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
                   </select>
                   
                   <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['practiceLocation'].touched && inviteUserForm.controls['practiceLocation'].hasError('required')">

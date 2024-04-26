@@ -3,13 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router,ActivatedRoute, Params } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
-// import { PracticeAdminService } from '../../../../shared/services/api/practice-admin.service';
 import { FormBuilder, FormGroup, AbstractControl, Validators} from '@angular/forms';
 import { validationMessages } from '../../../../utils/validation-messages';
 import { CommonService } from '../../../../shared/services/helper/common.service';
 import { regex } from '../../../../utils/regex-patterns';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { AdminService } from '../../../../shared/services/api/admin.service';
+import { constant } from "../../../../../constant";
 
 @Component({
   selector: 'app-practice-admin-profile', 
@@ -21,14 +21,13 @@ export class PracticeAdminProfileComponent {
   practiceAdminProfileForm: FormGroup;
   practiceAdminId:string;
   convertPhoneNumber: string = '';
-  practiceLocationData:any =[]
+  practiceLocationData:string[] = constant.practiceLocations
   selectedLocations: string[] = [];
   userRole:string ='practice_admin'
 
   constructor(
     private router: Router, 
     public dialog: MatDialog,
-    // private practiceAdminService:PracticeAdminService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private commonService:CommonService,
@@ -45,7 +44,6 @@ export class PracticeAdminProfileComponent {
 
   ngOnInit() {
     this.initializePracticeAdminProfile()
-    this.getPracticeLocation()
     this.getProfile()
   }
 
@@ -59,11 +57,6 @@ export class PracticeAdminProfileComponent {
       status:[''],
       practiceLocation:['']
     });
-  }
-
-  async getPracticeLocation() {
-    this.practiceLocationData = await this.commonService.getPracticeLocation().catch(()=>[])
-    console.log("this.practiceLocationData>>>",this.practiceLocationData)
   }
 
   getProfile(){

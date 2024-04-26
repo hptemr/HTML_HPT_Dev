@@ -5,6 +5,7 @@ import { validationMessages } from '../../../utils/validation-messages';
 import { CommonService } from '../../../shared/services/helper/common.service';
 import { AdminService } from '../../../shared/services/api/admin.service';
 import { regex } from '../../../utils/regex-patterns';
+import { constant } from "../../../../constant";
 @Component({
   selector: 'app-invite-popup', 
   templateUrl: './invite-popup.component.html',
@@ -14,7 +15,7 @@ export class InvitePopupComponent {
   validationMessages = validationMessages; 
   heading:string = '';
   inviteUserForm: FormGroup;
-  practiceLocationData :any = []
+  practiceLocationData:string[] = constant.practiceLocations
 
   constructor(
     private commonService: CommonService,
@@ -28,7 +29,6 @@ export class InvitePopupComponent {
 
   ngOnInit() {
     this.initializePasswordForm()
-    this.getPracticeLocation()
   }
 
   initializePasswordForm(){
@@ -38,10 +38,6 @@ export class InvitePopupComponent {
       email: ['',[Validators.required, Validators.email]],
       practiceLocation:['', Validators.required]
     });
-  }
-
-  async getPracticeLocation() {
-    this.practiceLocationData = await this.commonService.getPracticeLocation().catch(()=>[])
   }
 
   inviteUser(){

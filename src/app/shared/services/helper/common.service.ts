@@ -18,24 +18,6 @@ export class CommonService {
     });
   }
 
-  // ************* Get practice location *********************
-  getPracticeLocation() {
-    let _that=this
-    return new Promise(function(resolve, reject) {
-      _that.generalService.getPracticeLocation().subscribe({
-          next: (res) => {
-            let practiceLocationData:any =[]
-            if(res && !res.error){
-              practiceLocationData = res.data.length ? res.data.map((item:any)=> ({ locationCode: item.locationCode, location: item.location })):[];
-            }
-            resolve(practiceLocationData)
-          },error: (_err) => {
-            reject()
-          }
-        });
-    });
-  }
-
   // ************* Formated US phone no *********************
    formatPhoneNumber(input: string): string {
     const cleaned = input.replace(/\D/g, ''); // Remove non-numeric characters
@@ -52,7 +34,6 @@ export class CommonService {
         }
       }
     }
-
     return formattedNumber;
   }
 
