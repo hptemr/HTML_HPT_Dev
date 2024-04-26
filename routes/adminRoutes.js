@@ -8,7 +8,7 @@ router.post('/systemAdmin/signUp', adminController.systemAdminSignUp);
 router.post('/invite', verifyToken, adminController.invite);
 router.post('/changePassword', verifyToken, adminController.changePassword);
 router.get('/users', verifyToken, adminController.getAdminUsers);
-router.get('/profile/:userId', verifyToken, adminController.profile);
+router.post('/profile', verifyToken, adminController.profile);
 router.post('/updateProfile', verifyToken, adminController.updateProfile);
 
 module.exports = router;

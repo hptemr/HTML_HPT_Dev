@@ -119,9 +119,8 @@ const changePassword = async (req, res, next) => {
 
   const profile = async (req, res, next) => {
     try {
-      let _id = req.params.userId
-      let projection = {firstName:1,lastName:1,email:1,phoneNumber:1,status:1,practiceLocation:1}
-      const result = await User.findOne({ _id },projection);
+      const { query, params } = req.body
+      const result = await User.findOne(query, params);
       commonHelper.sendResponse(res, 'success', result, '');
     } catch (error) {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -158,6 +157,7 @@ const changePassword = async (req, res, next) => {
       (clickAction=='delete') ? commonMessage.profileDelete :''
       commonHelper.sendResponse(res, 'success', null, successMessage);
     } catch (error) {
+      console.log("error>>>",error)
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
   };

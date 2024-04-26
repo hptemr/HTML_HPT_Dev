@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   hash_password:{ type: String },
   role:{ type: String },
   NPI:{ type: Number},
-  SSN:{ type: Number},
+  SSN:{ type: String},
   siteLeaderForPracLocation: { type : String  },
   failedAttempts: { type: Number, default: 0 },
   practiceLocation: { type : Array , "default" : [] },
