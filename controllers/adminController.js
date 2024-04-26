@@ -5,7 +5,6 @@ const commonHelper = require('../helpers/common');
 require('dotenv').config();
 const bcrypt = require('bcrypt')
 let ObjectId = require('mongoose').Types.ObjectId;
-const userInviteToken = require('../models/userInviteTokenModel');
 const triggerEmail = require('../helpers/triggerEmail');
 
 
