@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GeneralService } from '../../../shared/services/api/general.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../api/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
   constructor(
+    private router: Router,
     public snackBar: MatSnackBar,
-    public generalService: GeneralService
+    public generalService: GeneralService,
+    public authService: AuthService,
+
   ) { }
 
   openSnackBar(message: string, action: string) {
@@ -68,4 +73,24 @@ export class CommonService {
       return ""
     }
   }
+
+  redirectToHome() {
+    let redirect = ''
+    let user_type = this.authService.getLoggedInInfo('role')
+    if (user_type == "system_admin") {
+      redirect = 'system-signin'
+    } else if (user_type == "practice_admin") {
+      redirect = 'practice-admin'
+    } else if (user_type == "support_team") {
+      redirect = 'support-team'
+    } else if (user_type == "therapist") {
+      redirect = 'therapist'
+    } else if (user_type == "billing_team") {
+      redirect = 'billing-team'
+    } else {
+      redirect = 'signin'
+    }
+    this.router.navigate(['/' + redirect])
+  }
+
 }

@@ -25,6 +25,20 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
+  hasRole(role: string): boolean {
+    if (role) {
+      let user_type = this.getLoggedInInfo('user_type')
+      if (user_type == role) {
+        return true
+      }
+      else {
+        return false
+      }
+    } else {
+      return true
+    }
+  }
+
   getLoggedInInfo(column = 'all') {
     let data: any
     let storage: any
