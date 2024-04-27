@@ -6,7 +6,7 @@
             </button>
             <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
                 <span class="me-3">Book Appointment </span>
-                <span>(Step <span class="text-primary"> 1 </span> of 5)</span> 
+                <span>(Step <span class="text-primary"> 1 </span> of 4)</span> 
             </h3>
         </div>
     </div>
@@ -15,7 +15,7 @@
             <div class="col-12 text-center">
                 <p class="font-16"> 
                     <span class="fw-700 cl">*Note</span> If you need immediate assistance please 
-                    <a href="#" class="text-primary font-16">contact</a> our office
+                    <a href="#" class="text-primary font-16 text-decoration-underline fw-600">contact</a> our office
                 </p>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-3">
@@ -66,11 +66,11 @@
             <div class="col-12 col-lg-6 col-md-6 col-xl-3">
                 <div class="form-group">
                   <label class="col-form-label fw-600">Booking For</label>  
-                  <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1" class="me-3">Myself</mat-radio-button>
-                    <mat-radio-button value="2">Other</mat-radio-button>
+                  <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                    <mat-radio-button value="111" class="me-3" checked>Myself</mat-radio-button>
+                    <mat-radio-button value="222">Other</mat-radio-button>
                   </mat-radio-group> 
-                  <div class="form-group other--booking" *ngIf=""> 
+                  <div class="form-group other--booking"  *ngIf="selectedValue == 222"> 
                     <input class="form-control" type="text" placeholder="Enter other booking for" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>

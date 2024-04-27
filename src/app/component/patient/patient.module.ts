@@ -9,6 +9,7 @@ import { AppointmentManageDetailsComponent } from './appointments/appointment-ma
 import { Step1Component } from './book-appointment/step1/step1.component';
 import { Step2Component } from './book-appointment/step2/step2.component';
 import { Step3Component } from './book-appointment/step3/step3.component';
+import { Step4Component } from './book-appointment/step4/step4.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { Step3Component } from './book-appointment/step3/step3.component';
     AppointmentManageDetailsComponent,
     Step1Component,
     Step2Component,
-    Step3Component
+    Step3Component,
+    Step4Component
   ],
   imports: [
     CommonModule,

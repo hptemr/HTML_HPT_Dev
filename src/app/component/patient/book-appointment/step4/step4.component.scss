@@ -1,4 +1,5 @@
-.book--appointment--wrapper{
+.ba--step--four{
+    color: #1F2F3E;
     .back--btn{
         min-width: 42px;
         .material-symbols-outlined{
@@ -11,9 +12,21 @@
         padding: 20px 40px;
         height: calc(100vh - 285px);
         overflow: auto; 
-        border-radius: 10px 10px 0px 0px;
-        .other--booking{
-            margin-top: 5px;
+        border-radius: 10px 10px 0px 0px; 
+        .lh-24{
+            line-height: 24px;
+        }  
+        .inlimit{ 
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .nolimit{
+            display: inline-flex;
+        }
+        .cursor-pointer{
+            cursor: pointer;
         }
     } 
     .footer--btns{ 
@@ -34,9 +47,24 @@
     }
 } 
 @media screen and (orientation:landscape) and (max-width: 850px){
-    .book--appointment--wrapper{
+    .ba--step--three{
         .card{
             height: auto;
+            
+        }
+    } 
+}
+
+@media only screen and (max-width: 599px) {
+    .ba--step--three{
+        .card{
+            padding: 15px;
+            height: calc(100vh - 250px); 
+             
+        }
+        .footer--btns{
+            padding: 15px;
         }
     }
 }
+@media only screen and (min-width: 600px) and (max-width: 979px){}
