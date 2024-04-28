@@ -33,7 +33,10 @@ input, p,
 .fw-700{font-weight: 700 !important;} 
 .fw-800{font-weight: 800 !important;} 
 
+// Comman classes
 .min-width-unset{min-width: unset !important;}
+.lh-24 {line-height: 24px !important;}
+.cursor-pointer{ cursor: pointer !important; }
 
 .card{
     .card-header{
@@ -719,6 +722,43 @@ ngb-datepicker{
 .mat-mdc-radio-button .mdc-radio{
     padding-left: 0 !important;
 }
+
+// Book Appointement comman
+.book--appointment--wrapper{
+    .back--btn{
+        min-width: 42px;
+        .material-symbols-outlined{
+            width: 24px;
+            height: 24px;
+            font-size: 24px; 
+        }
+    }
+    .card{
+        padding: 20px 40px;
+        height: calc(100vh - 285px);
+        overflow: auto; 
+        border-radius: 10px 10px 0px 0px;
+        .other--booking{
+            margin-top: 5px;
+        }
+    } 
+    .footer--btns{ 
+        padding: 15px 40px ;
+        box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.03);
+        border-radius:0 0 10px 10px ;
+        background-color: #fff;
+    }
+    
+    ::-ms-input-placeholder {  
+        color: #828282 !important;
+        font-size: 14px !important;
+    }
+    
+    ::placeholder {
+        color: #828282 !important;
+        font-size: 14px !important;
+    }
+} 
  
 /*----  Media Queries (Start here) -----*/
 
@@ -767,6 +807,16 @@ ngb-datepicker{
             border-left: 0;
         }
     } 
+    .book--appointment--wrapper{
+        .card{
+            padding: 15px;
+            height: calc(100vh - 250px); 
+             
+        }
+        .footer--btns{
+            padding: 15px;
+        }
+    }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
 @media only screen and (min-width: 980px) and (max-width: 1279px){}
@@ -776,6 +826,11 @@ ngb-datepicker{
     .card .card-body,
     .card .card-header{
         padding: 15px;
+    }
+    .book--appointment--wrapper{
+        .card{
+            height: auto;
+        }
     }
 }
 
