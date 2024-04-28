@@ -1,0 +1,91 @@
+::ng-deep{
+    .referrals--wrapper{ 
+        .cust--mat--table{
+            margin-top: 20px;
+            thead{
+                display: none;
+            }
+            tbody{
+                tr{
+                    td{ 
+                        .mail-con{
+                            height: 16px;
+                            width: 16px;
+                            font-size: 16px; 
+                        }
+                        .wb-ba{word-break: break-all;}
+                        .pending--link{color: #1E87F0;}
+                        &:last-child{ 
+                            .mat-icon{
+                                height: 24px;
+                                width: 24px;
+                                font-size: 24px;
+                            }
+                        }
+                        .img--box{
+                            width: 48px;
+                            height: 48px;
+                            border-radius: 100%;
+                            overflow: hidden;
+                            margin-right: 15px;
+                        }
+                    }
+                }
+            } 
+            &.box--row--table{
+                &.mat-mdc-table{ 
+                    thead{
+                        tr{
+                            th:nth-child(1){ width: 40%; }
+                            th:nth-child(2){ width: 35%; }
+                            th:nth-child(3){ width: 200px; } 
+                        }
+                    }
+                    tbody{ 
+                        tr{ 
+                            td:nth-child(1){ width: 40%; }
+                            td:nth-child(2){ width: 35%; }
+                            td:nth-child(3){ width: 200px; } 
+                        }
+                    }
+                } 
+            }
+        }
+    } 
+}
+
+@media only screen and (max-width: 599px) { 
+    .referrals--wrapper{
+        ::ng-deep{
+            .cust--mat--table{
+                &.box--row--table{
+                    &.mat-mdc-table{
+                        width: 860px;
+                        
+                    }
+                }
+            }
+        }
+    } 
+} 
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+     
+
+
+} 
+@media screen and (orientation:landscape) and (max-width: 850px){
+    .referrals--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:nth-child(1),
+    .referrals--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:nth-child(1){ 
+        width: 40%; 
+     } 
+    .referrals--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:nth-child(2),
+    .referrals--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:nth-child(2){ 
+        width: 40%; 
+    } 
+    .referrals--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:last-child,
+    .referrals--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:last-child{ 
+        width: 20%; 
+     }
+    
+     
+}
