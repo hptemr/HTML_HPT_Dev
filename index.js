@@ -3,6 +3,7 @@ var path = require('path')
 var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var app = express()
 var cors = require('cors')
 var routesApi = require('./routes')
 var constants = require('./config/constants')
@@ -10,12 +11,13 @@ var constants = require('./config/constants')
 //var busboy = require('connect-busboy');
 //var helmet = require('helmet')
 
-const mongooseConnect = require('./config/database')
+//const mongooseConnect = require('./config/database')
+const db = require('./config/database'); 
 //require('./helpers/passport')
 
 //mongooseConnect.dbConnect()
 
-var app = express()
+
 var compress = require('compression');
 
 app.use(compress());
@@ -25,19 +27,24 @@ app.set('view engine', 'jade');
 app.use(logger('dev'))
 //app.use(busboy({ immediate: true }));
 
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+// app.use(bodyParser.json({limit: "50mb"}));
+// app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 app.use(cookieParser())
-//app.use(cors({}))
-app.use(cors({credentials: true, origin: constants.clientUrl}))
+app.use(cors({}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+//app.use(cors({credentials: true, origin: constants.clientUrl}))
 //app.use(passport.initialize())
 
 app.use('/api', routesApi);
+
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', express.static(path.join(__dirname, 'dist')))
-app.get('/*', (req, res) => {
-  res.sendFile(__dirname + '/dist/index.html');
-})
+// app.get('/*', (req, res) => {
+//   res.sendFile(__dirname + '/dist/index.html');
+// })
 
 
 /*
