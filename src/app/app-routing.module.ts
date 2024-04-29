@@ -12,37 +12,43 @@ const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
-    loadChildren: () => import('./component/auth/auth.module').then(mod => mod.AuthModule),  
+    loadChildren: () => import('./component/auth/auth.module').then(mod => mod.AuthModule),
   },
   {
     path: 'system-admin',
     component: SystemAdminLayoutComponent, 
     loadChildren: () => import('./component/admin/system-admin/system-admin.module').then(mod => mod.SystemAdminModule),  
+    // canActivate: [AuthGuard], data: { roles: ['system_admin'] }
   },
   {
     path: 'practice-admin',
     component: PracticeAdminLayoutComponent, 
     loadChildren: () => import('./component/admin/practice-admin/practice-admin.module').then(mod => mod.PracticeAdminModule),  
+  // canActivate: [AuthGuard], data: { roles: ['practice_admin'] }
   },
   {
     path: 'patient',
     component: PatientLayoutComponent, 
     loadChildren: () => import('./component/patient/patient.module').then(mod => mod.PatientModule),  
+  // canActivate: [AuthGuard], data: { roles: ['patient'] }
   },
   {
     path: 'support-team',
     component: SupportTeamLayoutComponent, 
     loadChildren: () => import('./component/admin/support-team/support-team.module').then(mod => mod.SupportTeamModule),  
+  // canActivate: [AuthGuard], data: { roles: ['support_team'] }
   },
   {
     path: 'therapist',
     component: TherapistLayoutComponent, 
     loadChildren: () => import('./component/admin/therapist/therapist.module').then(mod => mod.TherapistModule),  
+  // canActivate: [AuthGuard], data: { roles: ['therapisti'] }
   },
   {
     path: 'billing-team',
     component: BillingTeamLayoutComponent, 
     loadChildren: () => import('./component/admin/billing-team/billing-team.module').then(mod => mod.BillingTeamModule),  
+  // canActivate: [AuthGuard], data: { roles: ['billing_team'] }
   },
 
   // {
