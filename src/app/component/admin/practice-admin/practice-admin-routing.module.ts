@@ -6,7 +6,7 @@ import { BillingTeamComponent } from './user-managment/billing-team/billing-team
 import { PatientsComponent } from './user-managment/patients/patients.component';
 import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
 import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
- import { EFaxComponent } from './efax/efax.component';
+import { EFaxComponent } from './efax/efax.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';

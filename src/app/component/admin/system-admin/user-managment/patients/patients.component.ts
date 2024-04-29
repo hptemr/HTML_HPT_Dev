@@ -1,4 +1,4 @@
- 
+
 
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild } from '@angular/core';
@@ -8,82 +8,94 @@ import { MatTableDataSource } from '@angular/material/table';
 import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { AdminService } from 'src/app/shared/services/api/admin.service';
+import { query } from '@angular/animations';
+import { pageSize, pageSizeOptions } from 'src/app/config';
+import { validationMessages } from 'src/app/utils/validation-messages';
 
 export interface PeriodicElement {
-  name: string; 
+  name: string;
   email: string;
-  appointmentDate: string;  
-  action: string;  
+  appointmentDate: string;
+  action: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  { 
-    name: 'Jane Cooper', 
-    email: 'jane@gmail.com', 
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    action : ''
-  },  
-  { 
-    name: 'Adam Spear', 
-    email: 'adamspear@gmail.com', 
-    appointmentDate: 'Fri, Nov 09, 2023 10:00 am', 
-    action : ''
-  },
-  { 
-    name: 'Harry Wood', 
-    email: 'wood_harry@gmail.com', 
-    appointmentDate: 'Wed, Nov 07, 2023 10:30 am', 
-    action : ''
-  },
-  { 
-    name: 'Toby Malfoy', 
-    email: 'toby1991@gmail.com', 
-    appointmentDate: 'Tue, Nov 06, 2023 11:00 am', 
-    action : ''
-  },
-  { 
-    name: 'Alan Alsop', 
-    email: 'alanalsop@gmail.com', 
-    appointmentDate: 'Mon, Nov 05, 2023 10:00 am', 
-    action : ''
-  },
-  { 
-    name: 'Bessie Cooper', 
-    email: 'bessiecooper@gmail.com', 
-    appointmentDate: 'Sat, Nov 03, 2023 09:00 am', 
-    action : ''
-  }, 
-];
 
 @Component({
-  selector: 'app-patients', 
+  selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.scss'
 })
 export class PatientsComponent {
-  displayedColumns: string[] = ['name', 'email', 'appointmentDate', 'action'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  model: NgbDateStruct;
-
-  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
-
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  displayedColumns: string[] = ['name', 'email', 'appointmentDate', 'action'];
+  model: NgbDateStruct;
+  patientList: any
+  searchPatient: any
+  whereCond: any = {}
+  totalCount = 0
+  pageIndex = 0
+  pageSize = pageSize
+  pageSizeOptions = pageSizeOptions
+  validationMessages = validationMessages; 
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private adminService: AdminService,) { }
+
+  ngOnInit() {
+    this.getPatientList()
+  }
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    this.patientList.sort = this.sort;
+    this.patientList.paginator = this.paginator;
   }
 
-    /** Announce the change in sort state for assistive technology. */
-    announceSortChange(sortState: Sort) { 
-      if (sortState.direction) {
-        this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-      } else {
-        this._liveAnnouncer.announce('Sorting cleared');
-      }
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+  searchRecords() {
+    let searchStr = this.searchPatient.trim()
+    if (searchStr != '') {
+      searchStr = searchStr.replace("+", "\\+");
+      let finalStr = { $regex: searchStr, $options: 'i' }
+      Object.assign(this.whereCond, { $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }] })
+    } else {
+      delete this.whereCond['$or'];
+    }
+    this.getPatientList()
+  }
+  async getPatientList() {
+    let params = {
+      query: this.whereCond,
+      params: { firstName: 1, lastName: 1, email: 1 }
+    }
+    await this.adminService.getPatientList(params).subscribe({
+      next: async (response) => {
+        this.totalCount = response.data.totalCount
+        let finalData: any = []
+        await response.data.patientList.map((element: any) => {
+          let newColumns = {
+            id: element._id,
+            email: element.email,
+            appointmentDate: new Date(),
+            name: element.firstName + " " + element.lastName
+          }
+          finalData.push(newColumns)
+        })
+        this.patientList = new MatTableDataSource(finalData)
+      }, error: (err) => {
+        console.log("err>>>>", err);
+      }
+    });
+  }
+  handlePageEvent(event: any) {
 
- 
-
+  }
+  reset() {
+    window.location.reload()
+  }
 }

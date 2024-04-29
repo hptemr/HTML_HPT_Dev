@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between">
-                <h3 class="mb-2 clr--1F2F3E">Patients</h3> 
+                <h3 class="mb-2 clr--1F2F3E">Patients</h3>
             </div>
             <div class="col-12 mt-2">
                 <div class="row">
@@ -14,34 +14,32 @@
                                 <option value="2">MP</option>
                                 <option value="3">UP</option>
                             </select>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Search Patient">
-                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                            <input (keyup)="searchRecords()" [(ngModel)]="searchPatient" type="text"
+                                class="form-control search--outer" placeholder="Search Patient">
+                            <!-- <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                            </button>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                            </button> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                                <div class="input-group">
+                            <div class="input-group">
                                 <input class="form-control" placeholder="Appointment Date" name="dp" [(ngModel)]="model"
-                                  ngbDatepicker #d="ngbDatepicker" />
+                                    ngbDatepicker #d="ngbDatepicker" />
                                 <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                  type="button">
-                                  <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                 </button>
-                              </div>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-2">
                         <div class="form-group">
-                            <button mat-stroked-button color="primary">Reset Filter</button>
+                            <button (click)="reset()" mat-stroked-button color="primary">Reset Filter</button>
                         </div>
                     </div>
                 </div>
@@ -49,49 +47,55 @@
         </div>
         <div class="card-body">
             <div class="col-12 cust--mat--table--wrapper">
-                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-                    class="cust--mat--table">  
+                <table mat-table [dataSource]="patientList" matSort (matSortChange)="announceSortChange($event)"
+                    class="cust--mat--table">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             Name
                         </th>
                         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                    </ng-container> 
+                    </ng-container>
                     <ng-container matColumnDef="email">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
                             Email Id
                         </th>
                         <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-                    </ng-container> 
+                    </ng-container>
                     <ng-container matColumnDef="appointmentDate">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
                             Appointment Date & Time
                         </th>
-                        <td mat-cell *matCellDef="let element"> {{element.appointmentDate}} </td>
-                    </ng-container> 
-                    
+                        <td mat-cell *matCellDef="let element"> {{element.appointmentDate | date:"medium"}} </td>
+                    </ng-container>
+
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                             Actions
                         </th>
-                        <td mat-cell *matCellDef="let element"> 
+                        <td mat-cell *matCellDef="let element">
                             <div class="w-100 d-flex align-items-center justify-content-end">
-                                <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/system-admin/user-managment/patient-details']">
-                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                <button mat-button class="flex-shrink-0 min-width-unset search--fields"
+                                    routerLink="/system-admin/user-managment/patient-details">
+                                    <mat-icon
+                                        class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
+                                    </mat-icon>
                                 </button>
-                            </div> 
+                            </div>
                         </td>
                     </ng-container>
-
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                                showFirstLastButtons
-                                aria-label="Select page of periodic elements">
+                <div class="align-items-center justify-content-center w-100"
+                    *ngIf="patientList.filteredData.length == 0">
+                    <div>
+                        <p class="">{{ validationMessages.noRecords }}</p>
+                    </div>
+                </div>
+                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
+                    [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
                 </mat-paginator>
             </div>
         </div>
     </div>
-</div> 
-   
+</div>

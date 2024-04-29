@@ -50,4 +50,8 @@ export class AdminService {
     return this.http.post(url, data).pipe();
   }
 
+  getPatientList(data: any): Observable<any> {
+    const url = `${environment.apiUrl}/patients/getPatientList`;
+    return this.http.post(url, data).pipe();
+  }
 }
