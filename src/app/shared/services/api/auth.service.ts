@@ -2,9 +2,19 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map,mergeMap } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
+//import { map } from 'rxjs/operators';
+import { serverUrl } from '../../../config'
 
+interface TokenResponse {
+  status: string,
+  data: {
+    token: string
+    userId: string
+    username: string
+  }
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -80,6 +90,69 @@ export class AuthService {
   resetPassword(data: any): Observable<any> {
     const url = `${environment.apiUrl}/auth/resetPassword`;
     return this.http.post(url, data).pipe();
+  }
+
+
+  //function to make request to server
+  public apiRequest(method: any, apiUrl: any, req_vars: any): Observable<any> {
+    return this.request(method, apiUrl, req_vars)
+  }
+  
+  //function to make request from frontend
+  private request(method: 'post' | 'get', type: string, data?: any): Observable<TokenResponse> {
+    console.log('type>>>',type)
+    let base
+    if (method === 'post') {
+      base = this.http.post(serverUrl + `/api/${type}`, data)
+    } else {
+      base = this.http.get(serverUrl + `/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` } })
+    }
+
+    const request = base.pipe(
+      map((response: any) => {
+        if (response.data && response.data.token) {
+          //check if user type is same
+          let userId = localStorage.getItem("endUserId");
+          if (userId != "sysadmin") {
+            const { token, userId, userType, username, authCode, emailApiType, userHeaderDetails, mainUserId } = response.data
+            return response
+          } else {
+            return { status: "error", data: { message: "Please check your credentials" } }
+          }
+        } else {
+          return response
+        }
+      })
+    )
+    return request
+  }
+  
+  //function to get token from localStorage
+  getToken(): string {
+    //if (!this.accessToken) {
+      let accessToken =  this.getKeyFromStorage('userToken')
+      //}
+      return accessToken
+    }
+
+      //function to get key from storages
+  private getKeyFromStorage(key:any): any {
+    if (localStorage.getItem(key)) {
+      return localStorage.getItem(key)
+    } else if (sessionStorage.getItem(key)) {
+      return sessionStorage.getItem(key)
+    }
+    return "";
+  }
+
+  //function to get key from storages
+  private removeKeyFromStorage(key:any): any {
+    if (localStorage.getItem(key)) {
+      localStorage.removeItem(key)
+    }
+    if (sessionStorage.getItem(key)) {
+      sessionStorage.removeItem(key)
+    }
   }
 
 }
