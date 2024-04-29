@@ -29,7 +29,7 @@ export class AdminSignupComponent {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.userId = "66226a6db72289a66453d317"// params['userId']
+      this.userId = params['userId'] //"66226a6db72289a66453d317"// 
     })
     this.initializeForm()
     this.getUserDetails()
