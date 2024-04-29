@@ -5,7 +5,7 @@ const commonMiddleware = require('../middlewares/commonMiddleware ');
 
 router.post('/userLogin', commonMiddleware.checkLoginValidation, authController.userLogin);
 router.post('/forgotPassword', authController.forgotPassword);
-router.get('/checkForgotPasswordToken/:userId/:token', authController.checkForgotPasswordTokenExpiry);
+router.get('/checkForgotPasswordToken', authController.checkForgotPasswordTokenExpiry);
 router.post('/resetPassword', authController.resetPassword);
 
 module.exports = router;
