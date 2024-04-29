@@ -182,12 +182,10 @@ const updateUser = async (req, res) => {
 const getUserDetails = async (req, res, next) => {
   try {
     const { query, params } = req.body
-    console.log("*********query*******",query)
     if (req.body.decryptUserId != undefined && req.body.decryptUserId == true) {
       let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
       query._id = decryptTokenData.userId
     }
-    console.log("*********query*******",query)
     const result = await User.findOne(query, params);
     commonHelper.sendResponse(res, 'success', result, '');
   } catch (error) {
