@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 
 @Component({
   selector: 'app-appointment-details', 
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './appointment-details.component.scss'
 })
 export class AppointmentDetailsComponent {
-
+ 
 }
