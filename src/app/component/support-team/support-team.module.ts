@@ -10,6 +10,7 @@ import { SystemFollowupModalComponent } from './system-followup-modal/system-fol
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
 import { ReferralsComponent } from './referrals/referrals.component';
+import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ReferralsComponent } from './referrals/referrals.component';
     SystemFollowupModalComponent,
     PatientProfileComponent,
     AppointmentRequestsComponent,
-    ReferralsComponent
+    ReferralsComponent,
+    CreateAppointmentComponent
   ],
   imports: [
     CommonModule,
