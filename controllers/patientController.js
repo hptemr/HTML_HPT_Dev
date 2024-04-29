@@ -11,19 +11,21 @@ const Patient = require('../models/patientModel');
 let ObjectId = require('mongoose').Types.ObjectId;
 const triggerEmail = require('../helpers/triggerEmail');
 
+
+
 const signup = async (req, res) => {
     try {
-        const { query,data } = req.body;
-        console.log('query>>>',query)
-        console.log(data.email,'data>>>',data)
-    
+        const { query, data } = req.body;
+        console.log('query>>>', query)
+        console.log(data.email, 'data>>>', data)
+
         let alreadyPatient = await Patient.findOne({ email: data.email });
         let found = await PatientTemp.findOne({ _id: query._id });
-        console.log('alreadyPatient >>>',alreadyPatient,'   found>>>',found)
+        console.log('alreadyPatient >>>', alreadyPatient, '   found>>>', found)
 
-        if(found){
+        if (found) {
 
-        }else{
+        } else {
             let newPatient = new PatientTemp(data);
             const result = await newPatient.save();
         }
@@ -45,15 +47,26 @@ const signup = async (req, res) => {
         //     role: userData.role, 
         //     token :token
         // };
-         commonHelper.sendResponse(res, 'success', result, commonMessage.login);
+        commonHelper.sendResponse(res, 'success', result, commonMessage.login);
     } catch (error) {
-        console.log('query>>>',error)
+        console.log('query>>>', error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 };
 
+const getPatientList = async (req, res) => {
+    try {
+        const { query, params } = req.body;
+        let patientList = await Patient.find(query, params);
+        let totalCount = await Patient.find(query).count()
+        commonHelper.sendResponse(res, 'success', { patientList, totalCount }, '');
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
 
 module.exports = {
-    signup
-   
+    signup,
+    getPatientList
+
 };
