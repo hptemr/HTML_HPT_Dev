@@ -112,13 +112,14 @@ export class AuthService {
       map((response: any) => {
         if (response.data && response.data.token) {
           //check if user type is same
-          let userId = localStorage.getItem("endUserId");
-          if (userId != "sysadmin") {
-            const { token, userId, userType, username, authCode, emailApiType, userHeaderDetails, mainUserId } = response.data
-            return response
-          } else {
-            return { status: "error", data: { message: "Please check your credentials" } }
-          }
+          // let userId = localStorage.getItem("endUserId");
+          // if (userId != "sysadmin") {
+          //   const { token, userId, userType, username, authCode, emailApiType, userHeaderDetails, mainUserId } = response.data
+          //   return response
+          // } else {
+          //   return { status: "error", data: { message: "Please check your credentials" } }
+          // }
+          return response
         } else {
           return response
         }
