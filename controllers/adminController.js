@@ -161,6 +161,36 @@ const changePassword = async (req, res, next) => {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
   };
+
+
+  const updateUser = async (req, res) => {
+    try {
+      const { query, updateInfo } = req.body
+      if (req.body.passwordReset != undefined && req.body.passwordReset == true) {
+        let salt = await bcrypt.genSalt(10)
+        let password = await bcrypt.hash(updateInfo.password, salt)
+        delete updateInfo.password
+        Object.assign(updateInfo, { salt: salt, hash_password: password })
+      }
+      let user = await User.findOneAndUpdate(query, updateInfo)
+      commonHelper.sendResponse(res, 'success', user, commonMessage.profileUpdate);
+    } catch (error) {
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+  
+  const getUserDetails = async (req, res, next) => {
+    try {
+      const { query, params } = req.body
+      if (req.body.decryptUserId != undefined && req.body.decryptUserId != '') {
+  
+      }
+      const result = await User.findOne(query, params);
+      commonHelper.sendResponse(res, 'success', result, '');
+    } catch (error) {
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
   
 
 
@@ -170,5 +200,7 @@ module.exports = {
     getAdminUsers,
     profile,
     updateProfile,
-    systemAdminSignUp
+    systemAdminSignUp,
+    updateUser,
+    getUserDetails
 };
