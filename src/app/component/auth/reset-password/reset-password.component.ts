@@ -77,7 +77,8 @@ export class ResetPasswordComponent {
   resetPassword(){
     if(this.passwordForm.valid){
       const resetBody = {
-        userId: this.userId,
+        // userId: this.userId,
+        token: this.token,
         password: this.passwordForm.value['confirmPassword']
       }
       this.authService.resetPassword(resetBody).subscribe({

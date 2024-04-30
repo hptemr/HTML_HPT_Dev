@@ -15,6 +15,7 @@ import { ManagePracticeComponent } from './manage-practice/manage-practice.compo
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { authGuard } from '../../shared/services/gaurd/auth.guard';
+import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
 
 const routes: Routes = [
   {
@@ -22,13 +23,23 @@ const routes: Routes = [
     children: [ 
       {
         path: 'practice-admin',
-        component: PracticeAdminComponent, 
+        component: UserListingComponent, 
         canActivate:[authGuard]
       },
       {
         path: 'therapists',
-        component: TherapistsComponent, 
+        component: UserListingComponent, 
+        canActivate:[authGuard]
       },
+      // {
+      //   path: 'practice-admin',
+      //   component: PracticeAdminComponent, 
+      //   canActivate:[authGuard]
+      // },
+      // {
+      //   path: 'therapists',
+      //   component: TherapistsComponent, 
+      // },
       {
         path: 'support-team',
         component: SupportTeamComponent, 

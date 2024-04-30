@@ -20,6 +20,7 @@ import { ConversationsComponent } from './conversations/conversations.component'
 import { CreateGroupComponent } from './conversations/create-group/create-group.component';
 import { AddParticipantsComponent } from './conversations/add-participants/add-participants.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
 
 
 @NgModule({
@@ -40,8 +41,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     ConversationsComponent,
     CreateGroupComponent,
     AddParticipantsComponent,
-    NotificationsComponent
-    
+    NotificationsComponent,
+    UserListingComponent
   ],
   imports: [
     CommonModule,
