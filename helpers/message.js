@@ -3,12 +3,14 @@ const messages = {
         emailExist:'Email already exists',
         userNotFound:'User not found',
         invalidCredentials: 'Invalid username or password',
-        emailNotExist:'User with given email does not exist',
+        emailNotExist:'The email address entered is not registered with us',
         resetPassLink:'password reset link sent to your email account',
-        passwordNotMatch:'password does not match with current password',
-        inviteSuccess:'invited successfully',
+        passwordNotMatch:'The password entered does not match the current password',
+        inviteSuccess:'Invited successfully',
         suspendedAccount:'User not found. Please contact system admin or support team for more details',
-        userBlocked: 'Your account is blocked due to multiple incorrect login attempts. Please contact system admin or support team.'
+        userBlocked: 'Your account is blocked due to multiple incorrect login attempts. Please contact system admin or support team.',
+        inactiveUser:'Your account is not active. Please contact system admin or support team.',
+        emailAlreadyRegister:'The email address entered is not registered with us. Please enter another email address or sign in with this one',
     },
     infoMessage:{
         updated: 'Updated successfully',

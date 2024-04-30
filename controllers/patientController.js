@@ -4,7 +4,6 @@ const commonHelper = require('../helpers/common');
 const userCommonHelper = require('../helpers/userCommon');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const ResetPasswordToken = require('../models/resetPasswordTokenModel');
 const User = require('../models/userModel');
 const PatientTemp = require('../models/patientTempModel');
 const Patient = require('../models/patientModel');

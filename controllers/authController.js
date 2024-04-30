@@ -4,7 +4,6 @@ const commonHelper = require('../helpers/common');
 const userCommonHelper = require('../helpers/userCommon');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const ResetPasswordToken = require('../models/resetPasswordTokenModel');
 const User = require('../models/userModel');
 let ObjectId = require('mongoose').Types.ObjectId;
 const triggerEmail = require('../helpers/triggerEmail');
@@ -28,6 +27,7 @@ const userLogin = async (req, res) => {
         };
         commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
     } catch (error) {
+        console.log("error>>>",error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 };
@@ -40,35 +40,24 @@ const forgotPassword = async (req, res) => {
             return commonHelper.sendResponse(res, 'info', null, userMessage.emailNotExist);
         }    
 
-        let token = await ResetPasswordToken.findOne({ userId: new ObjectId(userData._id) });
-        // Add 180 minutes to the current time
-        let tokenExpiry = Date.now() + (180 * 60 * 1000)
-        if (!token) {
-            token = await new ResetPasswordToken({
-                userId: userData._id,
-                token: commonHelper.generateToken(55),
-                expires:tokenExpiry
-            }).save();
-        }else{
-            const tokenExpire = await ResetPasswordToken.findOne({ userId: new ObjectId(userData._id), token: token, expires:{ $gte: Date.now() } });
-            if(!tokenExpire || tokenExpire==null){
-                const filter = { userId: new ObjectId(userData._id) };
-                const updateDoc = {
-                    $set: {
-                        token: commonHelper.generateToken(55),
-                        expires:tokenExpiry
-                    }
-                };
-                const options = { returnOriginal: false };
-                await ResetPasswordToken.findOneAndUpdate(filter, updateDoc, options);
-            }
+        // Add 120 minutes to the current time
+        let tokenObj = {
+            tokenExpiry : Date.now() + (120 * 60 * 1000),
+            userId :userData._id
         }
+        let encryptToken = commonHelper.encryptData(tokenObj,process.env.CRYPTO_SECRET)
 
-        let updatedTokenData = await ResetPasswordToken.findOne({ userId: new ObjectId(userData._id) });
+        const filter = { _id: new ObjectId(userData._id) };
+        const updateDoc = {
+            $set: {
+                resetPasswordToken: encryptToken
+            }
+        };
+        const options = { returnOriginal: false };
+        await User.findOneAndUpdate(filter, updateDoc, options);
 
         // Send email
-        const link = `${process.env.BASE_URL}/reset-password/${userData._id}/${updatedTokenData.token}`;
-        console.log("link>>>>",link)
+        const link = `${process.env.BASE_URL}/reset-password?token=${encryptToken}`;
         triggerEmail.invitePracticeAdminEmail(email,link)
 
         commonHelper.sendResponse(res, 'success', null , userMessage.resetPassLink);
@@ -80,42 +69,40 @@ const forgotPassword = async (req, res) => {
 
 const checkForgotPasswordTokenExpiry = async (req, res) => {
     try {
-        const { token, userId } = req.params
-        const tokenData = await ResetPasswordToken.findOne({ userId: new ObjectId(userId)});
-        console.log("tokenData1>>>",tokenData)
-        if(!tokenData && tokenData==null) return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
+        const { token } = req.query
+        let decryptTokenData = commonHelper.decryptData(token,process.env.CRYPTO_SECRET)
+        if(decryptTokenData && decryptTokenData!=null){
+            const userData = await User.findOne({ _id: decryptTokenData.userId});
+            if(!userData && userData==null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
+            if(!userData.resetPasswordToken) return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
 
-        const tokenExpire = await ResetPasswordToken.findOne({ userId: new ObjectId(userId), token: token, expires:{ $gte: Date.now() } });
-        
-        console.log("tokenData2>>>",tokenExpire)
-        if(!tokenExpire || tokenExpire==null){
-            commonHelper.sendResponse(res, 'info', null, infoMessage.linkExpired)
-        }else{
-            commonHelper.sendResponse(res, 'success', null , infoMessage.linkValid);  
+            if(Date.now() > decryptTokenData.tokenExpiry){
+                commonHelper.sendResponse(res, 'info', null, infoMessage.linkExpired)
+            }else{
+                commonHelper.sendResponse(res, 'success', null , infoMessage.linkValid);
+            }
         }
     } catch (error) {
-        console.log("error>>>",error)
-        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+        commonHelper.sendResponse(res, 'error', null, infoMessage.linkInvalid);
     }
 };
 
 const resetPassword = async (req, res) => {
     try {
-        const { userId, password } = req.body
-        const userData = await User.findOne({ _id: userId});
-        console.log("userData>>>",userData)
+        // const { userId, password } = req.body
+        const {  token, password } = req.body
+        let decryptTokenData = commonHelper.decryptData(token,process.env.CRYPTO_SECRET)
+        const userData = await User.findOne({ _id: decryptTokenData.userId});
         if(!userData && userData==null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
 
-        // Delete token doc
-        await ResetPasswordToken.findOneAndDelete({ userId: new ObjectId(userId) });
-        
         // Hash and salt the password
         let salt = await bcrypt.genSalt(10);
         const filter = { _id: userId };
         const updateDoc = {
             $set: {
                 salt:salt,
-                hash_password: await bcrypt.hash(password, salt)
+                hash_password: await bcrypt.hash(password, salt),
+                resetPasswordToken:""
             }
         };
         // Specify options for the update operation (e.g., return the updated document)

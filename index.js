@@ -7,55 +7,22 @@ var app = express()
 var cors = require('cors')
 var routesApi = require('./routes')
 var constants = require('./config/constants')
-//var passport = require('passport')
-//var busboy = require('connect-busboy');
-//var helmet = require('helmet')
-
-//const mongooseConnect = require('./config/database')
 const db = require('./config/database'); 
-//require('./helpers/passport')
-
-//mongooseConnect.dbConnect()
-
-
 var compress = require('compression');
 
 app.use(compress());
-//app.use(helmet())
-
 app.set('view engine', 'jade');
 app.use(logger('dev'))
-//app.use(busboy({ immediate: true }));
-
-// app.use(bodyParser.json({limit: "50mb"}));
-// app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 app.use(cookieParser())
 app.use(cors({}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-//app.use(cors({credentials: true, origin: constants.clientUrl}))
-//app.use(passport.initialize())
-
 app.use('/api', routesApi);
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', express.static(path.join(__dirname, 'dist')))
-// app.get('/*', (req, res) => {
-//   res.sendFile(__dirname + '/dist/index.html');
-// })
 
-
-/*
-app.use(function(req, res, next) {
-  console.log('hget')
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header('Access-Control-Allow-Methods', 'POST,GET');
-  next();
-});
-*/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found')
@@ -78,16 +45,6 @@ if (app.get('env') !== 'development') {
         }
     })
 }
-/*
-app.use(function (req, res, next) {
-  console.log('HERE 11')
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept,X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Methods', 'POST,GET');    
-    next();
-  });
-  */ 
 
 app.get('/robots.txt', function (req, res) {
     res.type('text/plain');

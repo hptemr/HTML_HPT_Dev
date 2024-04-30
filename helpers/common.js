@@ -1,3 +1,5 @@
+const CryptoJS = require('crypto-js');
+
 const sendResponse = (res, type, data, message) => {
     switch (type) {
       case 'success':
@@ -26,7 +28,37 @@ const generateToken = (n) =>{
   return token;
 }
 
+const generateRandomPassword = () =>{
+  const length = 8
+  const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}[]|;:,.<>?";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+  return password;
+}
+
+
+const encryptData = (data, key) =>{
+  const jsonString = JSON.stringify(data);
+  const encryptString = CryptoJS.AES.encrypt(jsonString, key).toString();
+  const base64Encoded = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encryptString));
+  return base64Encoded;
+}
+
+const decryptData = (data, key) =>{
+  const ciphertext = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
+  const decryptedData = CryptoJS.AES.decrypt(ciphertext, key).toString(CryptoJS.enc.Utf8);
+  const decryptedtString = JSON.parse(decryptedData);
+  return decryptedtString;
+}
+
+
 module.exports = {
     sendResponse,
-    generateToken
+    generateToken,
+    generateRandomPassword,
+    encryptData,
+    decryptData
 };

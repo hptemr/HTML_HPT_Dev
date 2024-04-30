@@ -1,5 +1,4 @@
 const User = require('../models/userModel');
-const practiceLocation = require('../models/practiceLocationModel');
 const role = require('../models/roleModel');
 
 const userGetByEmail = async (email) => {
@@ -12,11 +11,6 @@ const userGetById = async (_id) => {
     return userData
 } 
 
-const locationByCode = async (locationCode) => {
-    const locationData = await practiceLocation.findOne({ locationCode });
-    return locationData
-} 
-
 const roleByCode = async (code) => {
     const locationData = await role.findOne({ code });
     return locationData
@@ -25,6 +19,5 @@ const roleByCode = async (code) => {
 module.exports = {
     userGetByEmail,
     userGetById,
-    locationByCode,
     roleByCode
 };

@@ -8,7 +8,12 @@ const passworsResetEmail = async (email, link) => {
     await sendEmail(email, "Password reset", link);
 }
 
+const unblockUserEmail = async (email, password) => {
+    await sendEmail(email, "User unblocked successfully", password);
+}
+
 module.exports = {
     invitePracticeAdminEmail,
-    passworsResetEmail
+    passworsResetEmail,
+    unblockUserEmail
 };
