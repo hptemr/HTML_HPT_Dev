@@ -183,7 +183,8 @@ const changePassword = async (req, res, next) => {
     try {
       const { query, params } = req.body
       if (req.body.decryptUserId != undefined && req.body.decryptUserId != '') {
-  
+        let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
+        query._id = decryptTokenData.userId
       }
       const result = await User.findOne(query, params);
       commonHelper.sendResponse(res, 'success', result, '');
