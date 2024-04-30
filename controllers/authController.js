@@ -88,8 +88,10 @@ const checkForgotPasswordTokenExpiry = async (req, res) => {
 
 const resetPassword = async (req, res) => {
     try {
-        const { userId, password } = req.body
-        const userData = await User.findOne({ _id: userId});
+        // const { userId, password } = req.body
+        const {  token, password } = req.body
+        let decryptTokenData = commonHelper.decryptData(token,process.env.CRYPTO_SECRET)
+        const userData = await User.findOne({ _id: decryptTokenData.userId});
         if(!userData && userData==null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
 
         // Hash and salt the password

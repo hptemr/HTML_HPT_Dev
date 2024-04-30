@@ -109,7 +109,7 @@ const changePassword = async (req, res, next) => {
         role: userRole
       };
   
-      const practiceAdminData = await User.find(filter).lean();
+      const practiceAdminData = await User.find(filter).sort({createdAt:-1}).lean();
       commonHelper.sendResponse(res, 'success', practiceAdminData, '');
     } catch (error) {
       console.log("error>>>",error)
