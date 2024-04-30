@@ -12,5 +12,5 @@ export const validationMessages = {
   maxlength: (fieldName: string, length: number) => `${fieldName} should not exceed ${length} characters.`,
   pattern: (fieldName: string) => `Invalid input for ${fieldName}. Please check the format.`,
   noRecords: 'No records found!',
-  radioButton:'Gender is required'
+  radioButton:'Gender is required',
 };

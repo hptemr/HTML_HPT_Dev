@@ -10,28 +10,32 @@ import { AuthService } from '../../../../shared/services/api/auth.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  userData : any;
+  userData: any;
   constructor(
-    private router: Router, 
+    private router: Router,
     public dialog: MatDialog,
-    private authService:AuthService
-  ) { 
-    let userData:any = localStorage.getItem('user');
-    this.userData = (userData && userData!=null)?JSON.parse(userData):null
+    private authService: AuthService
+  ) {
+    let userData: any = localStorage.getItem('user');
+    this.userData = (userData && userData != null) ? JSON.parse(userData) : null
   }
 
   logOut() {
-    const dialogRef = this.dialog.open(AlertComponent,{
-      disableClose :true,
+    console.log(this.userData)
+    const dialogRef = this.dialog.open(AlertComponent, {
+      disableClose: true,
       panelClass: 'custom-alert-container',
-      data : {
+      data: {
         warningNote: 'Are you sure you want to log out?'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.authService.logout()
+      if (result) {
+        let req_vars = { _id: this.authService.getLoggedInInfo("_id") }
+        this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => {
+          this.authService.logout()
+        })
       }
     });
   }
