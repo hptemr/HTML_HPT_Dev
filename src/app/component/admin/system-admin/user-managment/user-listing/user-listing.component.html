@@ -2,10 +2,10 @@
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between">
-                <h3 class="mb-0 clr--1F2F3E">Practice Admin</h3> 
+                <h3 class="mb-0 clr--1F2F3E">{{pageTitle}}</h3> 
                 <button mat-raised-button color="primary" (click)="invitePopup()">
                     <mat-icon class="material-symbols-outlined flex-shrink-0"> person_add </mat-icon>
-                    Invite Practice Admin
+                    Invite {{pageTitle}}
                 </button>
                 
             </div>
@@ -14,19 +14,15 @@
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <select class="form-select form-control" aria-label="Default select example" #locationSelect (change)="onLocationChange($event)">
-                                <!-- <option selected>Practice Location</option>
-                                <option value="1">MH</option>
-                                <option value="2">MP</option>
-                                <option value="3">UP</option> -->
                                 <option value="" selected>Practice Location</option>
-                                <option *ngFor="let res of practiceLocationData" [value]="res.location">{{ res.location }}</option>
+                                <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
                             </select>
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Search Practice Admin" [formControl]="searchPracticeAdmin">
+                            <input type="text" class="form-control search--outer" placeholder="Search {{pageTitle}}" [formControl]="searchAdminUsers">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -40,7 +36,7 @@
                                 <option value="Pending">Pending</option>
                                 <option value="Active">Active</option>
                                 <option value="Suspended">Suspended</option>
-                                <option value="Delete">Delete</option>
+                                <option value="Deleted">Deleted</option>
                             </select>
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
@@ -55,7 +51,7 @@
         </div>
         <div class="card-body">
             <div class="col-12 cust--mat--table--wrapper">
-                <table mat-table [dataSource]="practiceAdminDataSource" matSort (matSortChange)="announceSortChange($event)"
+                <table mat-table [dataSource]="adminUsersDataSource" matSort (matSortChange)="announceSortChange($event)"
                     class="cust--mat--table">  
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
@@ -93,7 +89,11 @@
                         </th>
                         <td mat-cell *matCellDef="let element"> 
                             <div class="w-100 d-flex align-items-center justify-content-end">
-                                <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/system-admin/user-managment/practice-admin-profile',element._id]">
+                                <!-- <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/system-admin/user-managment/practice-admin-profile',element._id]">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                </button> -->
+
+                                <button mat-button class="flex-shrink-0 min-width-unset search--fields" (click)="navigateToAdminUserDetails(element._id)">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                 </button>
                             </div>

@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core'; 
 import { RouterModule, Routes } from '@angular/router';
-import { PracticeAdminComponent } from './user-managment/practice-admin/practice-admin.component';
-import { TherapistsComponent } from './user-managment/therapists/therapists.component';
-import { SupportTeamComponent } from './user-managment/support-team/support-team.component';
-import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
 import { PatientsComponent } from './user-managment/patients/patients.component';
 import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
 import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
@@ -15,6 +11,7 @@ import { ConversationsComponent } from './conversations/conversations.component'
 import { NotificationsComponent } from './notifications/notifications.component';
 import { authGuard } from 'src/app/shared/services/gaurd/auth.guard';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
+import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
 
 const routes: Routes = [
   {
@@ -22,20 +19,20 @@ const routes: Routes = [
     children: [ 
       {
         path: 'practice-admin',
-        component: PracticeAdminComponent, 
+        component: UserListingComponent, 
         canActivate:[authGuard]
       },
       {
         path: 'therapists',
-        component: TherapistsComponent, 
+        component: UserListingComponent, 
       },
       {
         path: 'support-team',
-        component: SupportTeamComponent, 
+        component: UserListingComponent, 
       },
       {
         path: 'billing-team',
-        component: BillingTeamComponent, 
+        component: UserListingComponent, 
       },
       {
         path: 'patients',
@@ -61,7 +58,7 @@ const routes: Routes = [
       }, 
       {
         path: 'billing-team',
-        component: BillingTeamComponent, 
+        component: UserListingComponent, 
       }, 
     ]
   },

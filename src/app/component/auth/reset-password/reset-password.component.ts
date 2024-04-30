@@ -17,7 +17,7 @@ export class ResetPasswordComponent {
   public showPass: boolean = false;
   public showConfirmPass: boolean = false;
   public userId: string;
-  public token: string;
+  public token: any;
   passwordForm: FormGroup;
 
   constructor(
@@ -26,10 +26,11 @@ export class ResetPasswordComponent {
     private commonService:CommonService,
     public router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this.token = this.route.snapshot.queryParamMap.get('token');
+  }
 
   ngOnInit() {
-    this.getRoutesParams()
     this.checkResetPassLink()
     this.initializePasswordForm()
   }
@@ -46,22 +47,22 @@ export class ResetPasswordComponent {
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const password:any = control.get('password');
     const confirmPassword:any = control.get('confirmPassword');
-    if (password.value !== confirmPassword.value) {
+    if (confirmPassword.value && password.value !== confirmPassword.value) {
       return { 'passwordMismatch': true };
     }
     return null;
   }
 
 
-  getRoutesParams(){
-    this.route.paramMap.subscribe(params => {
-      this.userId = params.get('userId') as string;
-      this.token = params.get('token') as string;
-    });
-  }
+  // getRoutesParams(){
+  //   this.route.paramMap.subscribe(params => {
+  //     this.userId = params.get('userId') as string;
+  //     this.token = params.get('token') as string;
+  //   });
+  // }
 
   checkResetPassLink(){
-      this.authService.checkForgotPasswordToken(this.userId,this.token).subscribe({
+      this.authService.checkForgotPasswordToken(this.token).subscribe({
         next: (res) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
@@ -76,7 +77,8 @@ export class ResetPasswordComponent {
   resetPassword(){
     if(this.passwordForm.valid){
       const resetBody = {
-        userId: this.userId,
+        // userId: this.userId,
+        token: this.token,
         password: this.passwordForm.value['confirmPassword']
       }
       this.authService.resetPassword(resetBody).subscribe({
@@ -86,7 +88,6 @@ export class ResetPasswordComponent {
             this.router.navigate(["/"]);
           }
         },error: (err) => {
-          console.log("err login>>>>",err);
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
         }
       });

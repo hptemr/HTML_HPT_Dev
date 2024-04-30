@@ -10,17 +10,20 @@ import { validationMessages } from '../../../utils/validation-messages'
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   validationMessages = validationMessages; 
   public show: boolean = false;
   public loginForm: FormGroup;
+  rememberMeObj: any = { email: '', password: '', rememberMe: false };
 
   constructor(
     private fb: FormBuilder, 
     public router: Router,
     private authService: AuthService,
     private commonService:CommonService
-    ) {}
+    ) {
+      let rememberMeData:any = localStorage.getItem('rememberMe');
+      if(rememberMeData!=null) { this.rememberMeObj = JSON.parse(rememberMeData) }
+    }
 
   ngOnInit() {
     this.initializeLoginForm()
@@ -28,8 +31,9 @@ export class LoginComponent implements OnInit {
 
   initializeLoginForm(){
     this.loginForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.required],
+      email: [this.rememberMeObj.email, [Validators.required, Validators.email]],
+      password: [this.rememberMeObj.password, Validators.required],
+      rememberMe: [this.rememberMeObj.rememberMe]
     });
   }
 
@@ -42,7 +46,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           console.log("res login>>>>",res);
-          localStorage.setItem('user', JSON.stringify(res.data));
+          
+          this.setLocalStorage(res,this.loginForm.value)
           this.router.navigate(["/system-admin/user-managment/practice-admin"]);
         },error: (err) => {
           console.log("err login>>>>",err);
@@ -51,6 +56,16 @@ export class LoginComponent implements OnInit {
       });
     }
     // this.router.navigate(["/system-admin/user-managment/practice-admin"]);
+  }
+
+  setLocalStorage(res:any,loginValues:any){
+    localStorage.setItem('user', JSON.stringify(res.data));
+
+    if(this.loginForm.controls['rememberMe'].value){
+      localStorage.setItem('rememberMe', JSON.stringify(loginValues));
+    }else{
+      localStorage.removeItem('rememberMe');
+    }
   }
 
 }
