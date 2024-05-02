@@ -1,0 +1,24 @@
+::ng-deep{
+    .cust--mat--table{
+        tbody{
+            tr{
+                td{ 
+                    &:last-child{ 
+                        .mat-icon{
+                            height: 24px;
+                            width: 24px;
+                            font-size: 24px;
+                        }
+                    }
+                    .img--box{
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 100%;
+                        overflow: hidden;
+                        margin-right: 15px;
+                    }
+                }
+            }
+        }
+    }
+}

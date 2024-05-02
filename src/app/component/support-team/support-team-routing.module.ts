@@ -7,6 +7,8 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
 import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
 import { ReferralsComponent } from './referrals/referrals.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
+import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { PatientsComponent } from './patients/patients.component';
 
 const routes: Routes = [ 
   {
@@ -36,6 +38,14 @@ const routes: Routes = [
   {
     path: 'create-appointment',
     component:CreateAppointmentComponent   
+  },
+  {
+    path: 'patient',
+    component:PatientsComponent   
+  },
+  {
+    path: 'patient-details',
+    component:PatientDetailsComponent   
   },
 ];
 

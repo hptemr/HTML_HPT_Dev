@@ -428,6 +428,7 @@ a{
     &.suspended{
         color: #D58625;
     }
+    &.rejected,
     &.declined,
     &.deleted{
         color: #DF0404;

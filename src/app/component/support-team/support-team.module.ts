@@ -11,6 +11,8 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
 import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
 import { ReferralsComponent } from './referrals/referrals.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
+import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { PatientsComponent } from './patients/patients.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { CreateAppointmentComponent } from './create-appointment/create-appointm
     PatientProfileComponent,
     AppointmentRequestsComponent,
     ReferralsComponent,
-    CreateAppointmentComponent
+    CreateAppointmentComponent,
+    PatientDetailsComponent,
+    PatientsComponent
   ],
   imports: [
     CommonModule,

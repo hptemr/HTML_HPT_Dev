@@ -110,15 +110,16 @@ export class SupportTeamNavservicesService {
       icon: 'person_outline',
       mainTitle: 'Patients',  
       headTitle1: '',
-      path: ' ',
+      path: '/support-team/patient',
       active: false, 
       type: 'link', 
       item: [ 
         {
-          title: 'person_outline Exercise',
-          icon: 'Patients',
+          title: 'Patients',
+          icon: 'person_outline',
           type: 'link',
           active: false,  
+          path: '/support-team/patient',
         },
       ]
     },
