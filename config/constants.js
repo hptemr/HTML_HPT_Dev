@@ -13,8 +13,8 @@ var constants = {
 	  secret: "",
     fromEmail: "pankajk@arkenea.com",
   },
-  clientUrl: process.env.clientUrl || 'http://ec2-34-239-203-1.compute-1.amazonaws.com:8080',
-  mailServerUrl : process.env.mailServerUri || 'http://ec2-34-239-203-1.compute-1.amazonaws.com:8080',
+  clientUrl: process.env.clientUrl || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
+  mailServerUrl : process.env.mailServerUri || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
 }
 
 module.exports = constants
