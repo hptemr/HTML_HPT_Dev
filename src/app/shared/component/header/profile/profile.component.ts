@@ -63,17 +63,21 @@ export class ProfileComponent {
   }
 
   logOut() {
-    const dialogRef = this.dialog.open(AlertComponent,{
-      disableClose :true,
+    console.log(this.userData)
+    const dialogRef = this.dialog.open(AlertComponent, {
+      disableClose: true,
       panelClass: 'custom-alert-container',
-      data : {
+      data: {
         warningNote: 'Are you sure you want to log out?'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.authService.logout()
+      if (result) {
+        let req_vars = { _id: this.authService.getLoggedInInfo("_id") }
+        this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => {
+          this.authService.logout()
+        })
       }
     });
   }

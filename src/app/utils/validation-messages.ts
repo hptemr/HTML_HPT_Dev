@@ -11,6 +11,6 @@ export const validationMessages = {
   minlength: (fieldName: string, length: number) => `${fieldName} should be at least ${length} characters.`,
   maxlength: (fieldName: string, length: number) => `${fieldName} should not exceed ${length} characters.`,
   noRecords: 'No records found!',
-  radioButton:'Radio required',
   requiredDropdown:(fieldName: string) => `Please select ${fieldName}`,
+  radioButton:'Gender is required',
 };
