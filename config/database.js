@@ -4,6 +4,8 @@ require('dotenv').config();
 // Connect to MongoDB
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true });
 
+mongoose.set('debug', true) //set false at live server.
+
 // Get the default connection
 const db = mongoose.connection;
 

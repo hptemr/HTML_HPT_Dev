@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   NPI:{ type: Number},
   SSN:{ type: String},
   siteLeaderForPracLocation: { type : String  },
+  loginCount: { type: Number, default: 0 },
   failedAttempts: { type: Number, default: 0 },
   practiceLocation: { type : Array , "default" : [] },
   status: { type: String, enum: ['Pending', 'Active', 'Suspended', 'Deleted','Blocked'], default: 'Pending'},

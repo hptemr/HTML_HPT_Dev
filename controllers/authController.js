@@ -12,22 +12,25 @@ const userLogin = async (req, res) => {
     try {
         const { email } = req.body;
         let userData = await userCommonHelper.userGetByEmail(email)
-
-        // Reset failed attempts on successful login
-        await User.findOneAndUpdate( { email : email, failedAttempts: { $gt: 0 } },{ $set: { failedAttempts: 0 } });
-
-        const token = jwt.sign({ _id: userData._id }, process.env.SECRET, { expiresIn: '1d' });
-        let returnData ={ 
-            _id:userData._id,
-            firstName: userData.firstName,
-            lastName: userData.lastName,  
-            email: userData.email, 
-            role: userData.role, 
-            token :token
-        };
-        commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
+        let loginCount = userData.loginCount + 1
+        if (loginCount > 2) {
+            commonHelper.sendResponse(res, 'error', null, userMessage.loginCounterMessage);
+        } else {
+            await User.findOneAndUpdate({ email: email }, { $set: { failedAttempts: 0, loginCount: loginCount } })
+            const token = jwt.sign({ _id: userData._id }, process.env.SECRET, { expiresIn: '1d' });
+            let returnData = {
+                _id: userData._id,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                email: userData.email,
+                role: userData.role,
+                token: token,
+                loginCount: loginCount
+            };
+            commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
+        }
     } catch (error) {
-        console.log("error>>>",error)
+        console.log("error>>>", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 };
@@ -36,16 +39,16 @@ const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
         let userData = await userCommonHelper.userGetByEmail(email)
-        if (!userData){
+        if (!userData) {
             return commonHelper.sendResponse(res, 'info', null, userMessage.emailNotExist);
-        }    
+        }
 
         // Add 120 minutes to the current time
         let tokenObj = {
-            tokenExpiry : Date.now() + (120 * 60 * 1000),
-            userId :userData._id
+            tokenExpiry: Date.now() + (120 * 60 * 1000),
+            userId: userData._id
         }
-        let encryptToken = commonHelper.encryptData(tokenObj,process.env.CRYPTO_SECRET)
+        let encryptToken = commonHelper.encryptData(tokenObj, process.env.CRYPTO_SECRET)
 
         const filter = { _id: new ObjectId(userData._id) };
         const updateDoc = {
@@ -58,9 +61,9 @@ const forgotPassword = async (req, res) => {
 
         // Send email
         const link = `${process.env.BASE_URL}/reset-password?token=${encryptToken}`;
-        triggerEmail.invitePracticeAdminEmail(email,link)
+        triggerEmail.invitePracticeAdminEmail(email, link)
 
-        commonHelper.sendResponse(res, 'success', null , userMessage.resetPassLink);
+        commonHelper.sendResponse(res, 'success', null, userMessage.resetPassLink);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
@@ -70,16 +73,16 @@ const forgotPassword = async (req, res) => {
 const checkForgotPasswordTokenExpiry = async (req, res) => {
     try {
         const { token } = req.query
-        let decryptTokenData = commonHelper.decryptData(token,process.env.CRYPTO_SECRET)
-        if(decryptTokenData && decryptTokenData!=null){
-            const userData = await User.findOne({ _id: decryptTokenData.userId});
-            if(!userData && userData==null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
-            if(!userData.resetPasswordToken) return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
+        let decryptTokenData = commonHelper.decryptData(token, process.env.CRYPTO_SECRET)
+        if (decryptTokenData && decryptTokenData != null) {
+            const userData = await User.findOne({ _id: decryptTokenData.userId });
+            if (!userData && userData == null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
+            if (!userData.resetPasswordToken) return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
 
-            if(Date.now() > decryptTokenData.tokenExpiry){
+            if (Date.now() > decryptTokenData.tokenExpiry) {
                 commonHelper.sendResponse(res, 'info', null, infoMessage.linkExpired)
-            }else{
-                commonHelper.sendResponse(res, 'success', null , infoMessage.linkValid);
+            } else {
+                commonHelper.sendResponse(res, 'success', null, infoMessage.linkValid);
             }
         }
     } catch (error) {
@@ -99,25 +102,40 @@ const resetPassword = async (req, res) => {
         const filter = { _id: userData._id };
         const updateDoc = {
             $set: {
-                salt:salt,
+                salt: salt,
                 hash_password: await bcrypt.hash(password, salt),
-                resetPasswordToken:""
+                resetPasswordToken: ""
             }
         };
         // Specify options for the update operation (e.g., return the updated document)
         const options = { returnOriginal: false };
         const updatedUser = await User.findOneAndUpdate(filter, updateDoc, options);
         commonHelper.sendResponse(res, 'success', updatedUser, infoMessage.passwordReset);
-        
+
     } catch (error) {
         console.log("error>>>>>>",error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
+}
+
+const logout = async (req, res) => {
+    try {
+        let userId = req.body._id
+        let userData = await userCommonHelper.userGetById(userId)
+        let loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
+        await User.findOneAndUpdate({ _id: userId }, { $set: { loginCount: loginCount } })
+        commonHelper.sendResponse(res, 'success', userId, 'logout');
+    } catch (error) {
+        console.log("========error=========", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
 };
+
 
 module.exports = {
     userLogin,
     forgotPassword,
     checkForgotPasswordTokenExpiry,
-    resetPassword
+    resetPassword,
+    logout
 };
