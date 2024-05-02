@@ -4,12 +4,11 @@ import { Router,ActivatedRoute, Params } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
 import { FormBuilder, FormGroup, AbstractControl, Validators} from '@angular/forms';
-import { validationMessages } from 'src/app/utils/validation-messages';
-import { CommonService } from 'src/app/shared/services/helper/common.service';
-import { AuthService } from 'src/app/shared/services/api/auth.service';
-import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { regex } from 'src/app/utils/regex-patterns';
-
+import { validationMessages } from '../../../../../utils/validation-messages';
+import { CommonService } from '../../../../../shared/services/helper/common.service';
+import { regex } from '../../../../../utils/regex-patterns';
+import { AdminService } from '../../../../../shared/services/api/admin.service';
+import { practiceLocations } from 'src/app/config';
 @Component({
   selector: 'app-practice-admin-profile', 
   templateUrl: './practice-admin-profile.component.html',
@@ -20,7 +19,7 @@ export class PracticeAdminProfileComponent {
   practiceAdminProfileForm: FormGroup;
   practiceAdminId:string;
   convertPhoneNumber: string = '';
-  practiceLocationData:any =[]
+  practiceLocationData:string[] = practiceLocations
   selectedLocations: string[] = [];
   userRole:string ='practice_admin'
 
@@ -30,7 +29,6 @@ export class PracticeAdminProfileComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private commonService:CommonService,
-    private authService:AuthService,
     private adminService:AdminService
   ) { 
     this.route.params.subscribe((params: Params) => {
@@ -43,14 +41,13 @@ export class PracticeAdminProfileComponent {
 
   ngOnInit() {
     this.initializePracticeAdminProfile()
-    this.getPracticeLocation()
     this.getProfile()
   }
 
   initializePracticeAdminProfile(){
     this.practiceAdminProfileForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
+      lastName: ['',[Validators.required,Validators.pattern(regex.alphabetic)]],
       // email: [{value:'',disabled: true}],
       email: ['',[Validators.required, Validators.email]],
       phoneNumber :["", [Validators.required,Validators.pattern(regex.usPhoneNumber)]],
@@ -59,26 +56,23 @@ export class PracticeAdminProfileComponent {
     });
   }
 
-  async getPracticeLocation() {
-    this.practiceLocationData = await this.commonService.getPracticeLocation().catch(()=>[])
-    console.log("this.practiceLocationData>>>",this.practiceLocationData)
-  }
-
   getProfile(){
     if(this.practiceAdminId){
-      this.adminService.profile(this.practiceAdminId).subscribe({
-        next: (res:any) => {
+      let bodyData ={
+        query: { _id : this.practiceAdminId},
+        params: { firstName:1,lastName:1,email:1,phoneNumber:1,status:1,practiceLocation:1 }
+      }
+      this.adminService.profile(bodyData).subscribe({
+        next: (res) => {
           if(res && !res.error){
-            console.log("practiceAdminId>>>",res)
             this.practiceAdminProfileForm.controls['firstName'].setValue(res.data?res.data.firstName:'');
             this.practiceAdminProfileForm.controls['lastName'].setValue(res.data?res.data.lastName:'');
             this.practiceAdminProfileForm.controls['email'].setValue(res.data?res.data.email:'');
             this.practiceAdminProfileForm.controls['phoneNumber'].setValue(res.data?res.data.phoneNumber:'');
             this.practiceAdminProfileForm.controls['status'].setValue(res.data?res.data.status:'');
             this.selectedLocations=res.data.practiceLocation
-            console.log("this.selectedLocations>>>",this.selectedLocations)
           }
-        },error: (err:any) => {
+        },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
         }
       });
@@ -96,12 +90,12 @@ export class PracticeAdminProfileComponent {
 
   updateProfile(profileData:any){
     this.adminService.updateProfile(profileData).subscribe({
-        next: (res:any) => {
+        next: (res) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
             this.getProfile()
           }
-        },error: (err:any) => {
+        },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
         }
       });
@@ -124,7 +118,7 @@ export class PracticeAdminProfileComponent {
       if(result && !result.error){
         let delBody ={
           userId : this.practiceAdminId,
-          status : 'Delete',
+          status : 'Deleted',
           clickAction : 'delete'
         }
         this.updateProfile(delBody)
@@ -151,12 +145,15 @@ export class PracticeAdminProfileComponent {
     if (index !== -1) {
       this.selectedLocations.splice(index, 1);
     }
-   }
+    console.log("removeLocation>>>>",this.selectedLocations)
+  }
 
   onLocationChange(event:any){
     if(event.target.value && !this.selectedLocations.includes(event.target.value)){
-         this.selectedLocations.push(event.target.value);
+      console.log("evt.target.value>>>>",event.target.value)
+        this.selectedLocations.push(event.target.value);
     }
     this.locationSelect.nativeElement.selectedIndex = 0;
-   }
+    console.log("onLocationChange>>>>",this.selectedLocations)
+  }
 }

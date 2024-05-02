@@ -25,5 +25,14 @@ export const s3Details = {
 export const webTitle = "HPT"
 export const serverUrl = serverUrlEnv
 export const serverUrlAuth = serverAuthUrl
-export const pageSize = 10
+export const pageSize = 5
 export const pageSizeOptions =[5, 10, 20, 25]
+export const practiceLocations = [
+      "Darby PT",
+      "Stevi PT",
+      "Corvallis PT",
+      "Frenchtown PT",
+      "Hamilton PT at The Canyons",
+      "PT Specialists of Florence",
+      "HNB"
+    ]

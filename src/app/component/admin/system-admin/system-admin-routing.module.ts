@@ -24,7 +24,8 @@ const routes: Routes = [
       },
       {
         path: 'therapists',
-        component: UserListingComponent, 
+        component: UserListingComponent,
+        canActivate:[authGuard] 
       },
       {
         path: 'support-team',
@@ -55,11 +56,7 @@ const routes: Routes = [
         path: 'therapist-admin-profile/:therapistId',
         component: TherapistsAdminProfileComponent, 
         canActivate:[authGuard]
-      }, 
-      {
-        path: 'billing-team',
-        component: UserListingComponent, 
-      }, 
+      } 
     ]
   },
   {

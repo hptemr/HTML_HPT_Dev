@@ -49,6 +49,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card-body">
             <div class="col-12 cust--mat--table--wrapper">
                 <table mat-table [dataSource]="adminUsersDataSource" matSort (matSortChange)="announceSortChange($event)"
@@ -104,9 +105,16 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                                showFirstLastButtons
-                                aria-label="Select page of periodic elements">
+                <div class="align-items-center justify-content-center w-100" *ngIf="adminUsersDataSource.filteredData.length == 0">
+                    <div>
+                        <p class="">{{ validationMessages.noRecords }}</p>
+                    </div>
+                </div>
+                <!-- <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
+                    [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
+                </mat-paginator> -->
+                <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
+                    [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
                 </mat-paginator>
             </div>
         </div>

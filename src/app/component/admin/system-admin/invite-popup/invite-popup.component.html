@@ -1,62 +1,61 @@
 <div class="inivite--wrapper d-flex flex-column">
-    <div class="inivite--header w-100">
-        <h1>{{heading}}</h1>
-    </div>
-    <div class="inivite--body w-100">
-        <form class="row" [formGroup]="inviteUserForm">
-            <div class="col-12">
+  <div class="inivite--header w-100">
+      <h1>{{heading}}</h1>
+  </div>
+  <div class="inivite--body w-100">
+      <form class="row" [formGroup]="inviteUserForm">
+          <div class="col-12">
               <div class="form-group">
-                  <label class="col-form-label fw-400">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                  <input class="form-control form-control-md" type="text" placeholder="Enter First Name" maxlength="32" formControlName="firstName">
-                  
-                  <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['firstName'].touched && inviteUserForm.controls['firstName'].hasError('required')">
-                    {{ validationMessages.required('First Name') }}
-                  </div>
+                <label class="col-form-label fw-400">First Name <span class="clr--DF0404 ms-1"> * </span></label>
+                <input class="form-control form-control-md" type="text" placeholder="Enter First Name" maxlength="35" formControlName="firstName">
+                
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['firstName'].touched && inviteUserForm.controls['firstName'].hasError('required')">
+                  {{ validationMessages.required('your First Name') }}
                 </div>
-                <div class="form-group">
-                  <label class="col-form-label fw-400">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
-                  <input class="form-control form-control-md" type="text" placeholder="Enter Last Name" maxlength="32" formControlName="lastName">
-                  
-                  <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['lastName'].touched && inviteUserForm.controls['lastName'].hasError('required')">
-                    {{ validationMessages.required('Last Name') }}
-                  </div>
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['firstName'].touched && inviteUserForm.controls['firstName'].hasError('pattern')">
+                  {{ validationMessages.alphabeticChar('First Name') }}
                 </div>
-                <div class="form-group">
-                  <label class="col-form-label fw-400">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                  <input class="form-control form-control-md" type="text" placeholder="Email" formControlName="email">
-                  
-                  <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['email'].touched && inviteUserForm.controls['email'].hasError('required')">
-                    {{ validationMessages.required('Email') }}
-                  </div>
-                  <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['email'].touched && inviteUserForm.controls['email'].hasError('email')">
-                      {{ validationMessages.email('email') }}
-                  </div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label fw-400">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
+                <input class="form-control form-control-md" type="text" placeholder="Enter Last Name" maxlength="35" formControlName="lastName">
+                
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['lastName'].touched && inviteUserForm.controls['lastName'].hasError('required')">
+                  {{ validationMessages.required('your Last Name') }}
                 </div>
-                <div class="form-group">
-                  <label class="col-form-label fw-400">Practice Location  </label>
-                  <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="practiceLocation">
-                    <option value="" disabled>Select</option>
-                    <!-- <option value="1">Hamilton PT at The Canyons</option>
-                    <option value="2">Darby PT</option>
-                    <option value="3">Corvallis PT</option>
-                    <option value="4">Stevi PT</option>
-                    <option value="5">PT Specialists of Florence</option>
-                    <option value="6">Frenchtown PT</option>
-                    <option value="7">HNB</option> -->
-                    <option *ngFor="let res of practiceLocationData" [value]="res.location">{{ res.location }}</option>
-                  </select>
-                  
-                  <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['practiceLocation'].touched && inviteUserForm.controls['practiceLocation'].hasError('required')">
-                    {{ validationMessages.required('Practice location') }}
-                  </div>
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['lastName'].touched && inviteUserForm.controls['lastName'].hasError('pattern')">
+                  {{ validationMessages.alphabeticChar('Last Name') }}
                 </div>
-            </div>
-        </form>
-    </div>
-    <div class="inivite--footer w-100 d-flex align-items-center justify-content-end">
-      <button mat-stroked-button color="primary" class="me-2" [mat-dialog-close]="false">Cancel</button> 
-      <button mat-raised-button color="primary" [disabled]="!inviteUserForm.valid" (click)="inviteUser()">Invite</button>
-      <!-- <button mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="!inviteUserForm.valid"
-      (click)="inviteUser()">Invite</button> -->
-    </div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label fw-400">Email <span class="clr--DF0404 ms-1"> * </span></label>
+                <input class="form-control form-control-md" type="text" placeholder="Email" formControlName="email" maxlength="50">
+                
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['email'].touched && inviteUserForm.controls['email'].hasError('required')">
+                  {{ validationMessages.required('an email address') }}
+                </div>
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['email'].touched && inviteUserForm.controls['email'].hasError('email')">
+                    {{ validationMessages.validEmail }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label fw-400">Practice Location  <span class="clr--DF0404 ms-1"> * </span></label>
+                <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="practiceLocation">
+                  <option value="" disabled>Select</option>
+                  <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
+                </select>
+                
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['practiceLocation'].touched && inviteUserForm.controls['practiceLocation'].hasError('required')">
+                  {{ validationMessages.requiredDropdown('the Practice location') }}
+                </div>
+              </div>
+          </div>
+      </form>
+  </div>
+  <div class="inivite--footer w-100 d-flex align-items-center justify-content-end">
+    <button mat-stroked-button color="primary" class="me-2" [mat-dialog-close]="false">Cancel</button> 
+    <button mat-raised-button color="primary" [disabled]="!inviteUserForm.valid" (click)="inviteUser()">Invite</button>
+    <!-- <button mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="!inviteUserForm.valid"
+    (click)="inviteUser()">Invite</button> -->
+  </div>
 </div>

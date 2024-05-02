@@ -12,9 +12,5 @@ export class GeneralService {
     private http: HttpClient
   ) { }
 
-  getPracticeLocation(): Observable<any> {
-    const url = `${environment.apiUrl}/comman/getPracticeLocation`;
-    return this.http.get(url).pipe();
-  }
 
 }

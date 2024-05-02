@@ -83,7 +83,7 @@ export class AuthService {
   }
 
   checkForgotPasswordToken(token: string): Observable<any> {
-    const url = `${environment.apiUrl}/auth/checkForgotPasswordToken/${token}`;
+    const url = `${environment.apiUrl}/auth/checkForgotPasswordToken?token=${token}`;
     return this.http.get(url).pipe();
   }
 

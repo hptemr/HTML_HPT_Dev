@@ -3,11 +3,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { GeneralService } from '../../../shared/services/api/general.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../api/auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
+  private userProfileSubject: BehaviorSubject<any> = new BehaviorSubject(null);
+
   constructor(
     private router: Router,
     public snackBar: MatSnackBar,
@@ -19,24 +22,6 @@ export class CommonService {
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 4000,
-    });
-  }
-
-  // ************* Get practice location *********************
-  getPracticeLocation() {
-    let _that = this
-    return new Promise(function (resolve, reject) {
-      _that.generalService.getPracticeLocation().subscribe({
-        next: (res) => {
-          let practiceLocationData: any = []
-          if (res && !res.error) {
-            practiceLocationData = res.data.length ? res.data.map((item: any) => ({ locationCode: item.locationCode, location: item.location })) : [];
-          }
-          resolve(practiceLocationData)
-        }, error: (_err) => {
-          reject()
-        }
-      });
     });
   }
 
@@ -55,6 +40,7 @@ export class CommonService {
     }
     return formattedNumber;
   }
+
   public formatDate(date: Date) {
     if (date && date != undefined) {
       const d = new Date(date)
@@ -108,12 +94,21 @@ export class CommonService {
         case 'support-team':
           return { userRole:'support_team', profileUrlSegment:'', pageTitle:'Support Team' }
         case 'billing-team': 
-          return { userRole:'billing_admin', profileUrlSegment:'', pageTitle:'Billing Team' }
+          return { userRole:'billing_team', profileUrlSegment:'', pageTitle:'Billing Team' }
         default:
           return roleObj;
       }
     }
     return roleObj;
   }
+
+  fetchLoginUserProfile(user:any): void {
+    this.userProfileSubject.next(user);
+  }
+
+  getLoginUserProfile(): Observable<any> {
+    return this.userProfileSubject.asObservable();
+  }
+
 
 }

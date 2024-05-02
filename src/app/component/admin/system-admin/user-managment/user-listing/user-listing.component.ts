@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, ViewChild, ElementRef  } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit  } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -11,7 +11,8 @@ import { debounceTime } from 'rxjs/operators';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { constant } from 'src/constant';
+import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
+import { validationMessages } from 'src/app/utils/validation-messages';
 
 export interface AdminUsers {
   name: string; 
@@ -21,6 +22,9 @@ export interface AdminUsers {
   action: string;  
   _id: string;  
 }
+// const ADMIN_USERS_DATA: AdminUsers[] = [
+//   {name: '', email: '', practiceLocation: '',status:'', action: '', _id:''}
+// ];
 const ADMIN_USERS_DATA: AdminUsers[] = [];
 
 @Component({
@@ -28,16 +32,21 @@ const ADMIN_USERS_DATA: AdminUsers[] = [];
   templateUrl: './user-listing.component.html',
   styleUrl: './user-listing.component.scss'
 })
-export class UserListingComponent {
-
+export class UserListingComponent implements AfterViewInit{
+  validationMessages = validationMessages; 
   adminUsersDataSource = new MatTableDataSource<AdminUsers>(ADMIN_USERS_DATA);
   displayedColumns: string[] = ['name', 'email', 'practiceLocation', 'status', 'action'];
 
-  practiceLocationData:string[] = constant.practiceLocations
+  practiceLocationData:string[] = practiceLocations
   searchAdminUsers = new FormControl('');
   userRole :string =''
   pageTitle :string =''
   profileUrlSegment: string =''
+
+  totalCount = 0
+  pageIndex = 0
+  pageSize = pageSize
+  pageSizeOptions = pageSizeOptions
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer, 
@@ -111,6 +120,7 @@ export class UserListingComponent {
             userDetails = this.mappingAdminUsersList( res.data)
           }
           this.adminUsersDataSource = new MatTableDataSource<AdminUsers>(userDetails);
+          this.totalCount = userDetails.length
         },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
         }
@@ -164,6 +174,10 @@ export class UserListingComponent {
 
     navigateToAdminUserDetails(userId: any){
       this.router.navigate([`/system-admin/user-managment/${this.profileUrlSegment}`, userId]);
+    }
+
+    handlePageEvent(event: any) {
+
     }
 
 }
