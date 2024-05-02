@@ -586,6 +586,17 @@ a{
     &:hover{
         background-color: transparent !important;
     } 
+    &.filled{
+        .mat-step-icon{ 
+            &.mat-step-icon{
+                background-color: #1DB823 !important; 
+                color: #fff !important; 
+            } 
+        }
+        .mat-step-label{
+            color: #000 !important;
+        }
+    }
 }
 .mat-step-icon{
     background-color: #F5F6F9 !important; 
