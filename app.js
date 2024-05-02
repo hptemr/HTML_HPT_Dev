@@ -1,28 +1,23 @@
-// require('dotenv').config();
 var app = require('./index')
 var debug = require('debug')('HPT:server')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const path = require('path');
-var port = normalizePort(process.env.PORT)// || '443'
-// const port = process.env.PORT || 3000;
+var port = normalizePort(process.env.PORT || '443')
 
-//  const server = http.createServer(app).listen(8080, () => {
-//    console.log('http server running at ' + 8080)
+//  const server = http.createServer(app).listen(80, () => {
+//    console.log('http server running at ' + 80)
 //  })
 
 const httpsOptions = {
     key: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.key'),
     cert: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt')
 }
-const server = https.createServer(httpsOptions, app).listen(process.env.PORT, () => {
-  console.log('https server running at ' + process.env.PORT)
+const server = https.createServer(httpsOptions, app).listen(443, () => {
+  console.log('https server running at ' + 443)
 })
 
-// app.listen(port, () => {
-//   console.log('Server is running on ',port);
-// });
 
 //  const server = http.createServer(function (req, res) {
 //   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
@@ -31,8 +26,8 @@ const server = https.createServer(httpsOptions, app).listen(process.env.PORT, ()
 
 //server.listen(port)
 //server.listen(443)
-// server.on('error', onError)
-// server.on('listening', onListening)
+server.on('error', onError)
+server.on('listening', onListening)
 
 
 function normalizePort(val) {
@@ -79,5 +74,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port
   debug('Listening on ' + bind)
-  console.log("server started on port " + addr.port)
+  console.log("server started on port" + addr.port)
 }
