@@ -151,11 +151,11 @@ const changePassword = async (req, res, next) => {
           $set: req.body
       };
       const options = { returnOriginal: false };
-      await User.findOneAndUpdate(filter, updateDoc, options);
+      let updateProfileData=await User.findOneAndUpdate(filter, updateDoc, options);
       
       let successMessage = (clickAction=='update') ? commonMessage.profileUpdate : 
       (clickAction=='delete') ? commonMessage.profileDelete :''
-      commonHelper.sendResponse(res, 'success', null, successMessage);
+      commonHelper.sendResponse(res, 'success', updateProfileData, successMessage);
     } catch (error) {
       console.log("error>>>",error)
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);

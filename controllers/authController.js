@@ -89,7 +89,6 @@ const checkForgotPasswordTokenExpiry = async (req, res) => {
 
 const resetPassword = async (req, res) => {
     try {
-        // const { userId, password } = req.body
         const {  token, password } = req.body
         let decryptTokenData = commonHelper.decryptData(token,process.env.CRYPTO_SECRET)
         const userData = await User.findOne({ _id: decryptTokenData.userId});
@@ -97,7 +96,7 @@ const resetPassword = async (req, res) => {
 
         // Hash and salt the password
         let salt = await bcrypt.genSalt(10);
-        const filter = { _id: userId };
+        const filter = { _id: userData._id };
         const updateDoc = {
             $set: {
                 salt:salt,
@@ -111,6 +110,7 @@ const resetPassword = async (req, res) => {
         commonHelper.sendResponse(res, 'success', updatedUser, infoMessage.passwordReset);
         
     } catch (error) {
+        console.log("error>>>>>>",error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 };
