@@ -12,6 +12,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { authGuard } from 'src/app/shared/services/gaurd/auth.guard';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
 import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
+import { AdminProfileComponent } from './user-managment/admin-profile/admin-profile.component';
 
 const routes: Routes = [
   {
@@ -47,9 +48,14 @@ const routes: Routes = [
         path: 'patient-profile',
         component: PatientProfileComponent, 
       },
+      // {
+      //   path: 'practice-admin-profile/:practiceAdminId',
+      //   component: PracticeAdminProfileComponent, 
+      //   canActivate:[authGuard]
+      // },
       {
-        path: 'practice-admin-profile/:practiceAdminId',
-        component: PracticeAdminProfileComponent, 
+        path: 'admin-profile/:adminId',
+        component: AdminProfileComponent, 
         canActivate:[authGuard]
       },
       {

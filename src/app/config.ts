@@ -36,3 +36,9 @@ export const practiceLocations = [
       "PT Specialists of Florence",
       "HNB"
     ]
+export const urlSegmentAndUserRole = [
+      {urlSegment:'practice-admin',userRole:'practice_admin'},
+      {urlSegment:'therapists',userRole:'therapist'},
+      {urlSegment:'support-team',userRole:'support_team'},
+      {urlSegment:'billing-team',userRole:'billing_team'}
+  ]

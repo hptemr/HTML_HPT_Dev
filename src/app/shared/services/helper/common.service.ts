@@ -4,7 +4,7 @@ import { GeneralService } from '../../../shared/services/api/general.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../api/auth.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-
+import { urlSegmentAndUserRole } from 'src/app/config';
 @Injectable({
   providedIn: 'root'
 })
@@ -82,24 +82,30 @@ export class CommonService {
   // ***** This function use for dynamic user listing bases on role. Taking userRole same as manage in user database. *****
   getUserRoleBaseOnUrlSegment(currentUrlSegments:any): any {
     let roleObj = { userRole:'', profileUrlSegment:'', pageTitle:'' }
-    const userUrlSegments = ['practice-admin', 'therapists','support-team','billing-team'];
     const urlSeg = currentUrlSegments.map((segment:any) => segment.path);
-    let matchingSegment = urlSeg.find((segment:any) => userUrlSegments.includes(segment));
-    if (matchingSegment) {
-      switch (matchingSegment) {
+    let matchingSegment:any = urlSegmentAndUserRole.find(mapping => mapping.urlSegment === urlSeg[0]);
+    if (matchingSegment && matchingSegment!=null) {
+      switch (matchingSegment.urlSegment) {
         case 'practice-admin':
-          return { userRole:'practice_admin', profileUrlSegment:'practice-admin-profile', pageTitle:'Practice Admin' }
+          // return { userRole:'practice_admin', profileUrlSegment:'practice-admin-profile', pageTitle:'Practice Admin' }
+          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Practice Admin' }
         case 'therapists':
-          return { userRole:'therapist', profileUrlSegment:'therapist-admin-profile', pageTitle:'Therapist' }
+          // return { userRole:matchingSegment.userRole, profileUrlSegment:'therapist-admin-profile', pageTitle:'Therapist' }
+          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Therapist' }
         case 'support-team':
-          return { userRole:'support_team', profileUrlSegment:'', pageTitle:'Support Team' }
+          return { userRole:matchingSegment.userRole, profileUrlSegment:'', pageTitle:'Support Team' }
         case 'billing-team': 
-          return { userRole:'billing_team', profileUrlSegment:'', pageTitle:'Billing Team' }
+          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Billing Team' }
         default:
           return roleObj;
       }
     }
     return roleObj;
+  }
+
+  getUrlSegmentBaseOnRole(userRole:any){
+    const mapping:any = urlSegmentAndUserRole.find(mapping => mapping.userRole === userRole);
+    return mapping.urlSegment || '';
   }
 
   fetchLoginUserProfile(user:any): void {

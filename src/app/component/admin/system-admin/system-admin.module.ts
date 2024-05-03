@@ -16,6 +16,7 @@ import { CreateGroupComponent } from './conversations/create-group/create-group.
 import { AddParticipantsComponent } from './conversations/add-participants/add-participants.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
+import { AdminProfileComponent } from './user-managment/admin-profile/admin-profile.component';
  
 @NgModule({
   declarations: [
@@ -31,8 +32,8 @@ import { UserListingComponent } from './user-managment/user-listing/user-listing
     ConversationsComponent,
     CreateGroupComponent,
     AddParticipantsComponent,
-    NotificationsComponent
-    
+    NotificationsComponent,
+    AdminProfileComponent
   ],
   imports: [
     CommonModule,
