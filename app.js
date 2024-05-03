@@ -15,7 +15,7 @@ const httpsOptions = {
     cert: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt')
 }
 const server = https.createServer(httpsOptions, app).listen(443, () => {
-  console.log('https server running at ' + 443)
+  console.log('https server running at '+ 443)
 })
 
 
