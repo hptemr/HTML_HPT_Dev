@@ -32,7 +32,7 @@ const ADMIN_USERS_DATA: AdminUsers[] = [];
   templateUrl: './user-listing.component.html',
   styleUrl: './user-listing.component.scss'
 })
-export class UserListingComponent implements AfterViewInit{
+export class UserListingComponent {
   validationMessages = validationMessages; 
   adminUsersDataSource = new MatTableDataSource<AdminUsers>(ADMIN_USERS_DATA);
   displayedColumns: string[] = ['name', 'email', 'practiceLocation', 'status', 'action'];
@@ -76,10 +76,6 @@ export class UserListingComponent implements AfterViewInit{
     this.adminUsers()
   }
 
-  ngAfterViewInit() {
-    this.adminUsersDataSource.sort = this.sort;
-    this.adminUsersDataSource.paginator = this.paginator;
-  }
 
     /** Announce the change in sort state for assistive technology. */
     announceSortChange(sortState: Sort) {
@@ -121,6 +117,9 @@ export class UserListingComponent implements AfterViewInit{
           }
           this.adminUsersDataSource = new MatTableDataSource<AdminUsers>(userDetails);
           this.totalCount = userDetails.length
+
+          this.adminUsersDataSource.sort = this.sort;
+          this.adminUsersDataSource.paginator = this.paginator;
         },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
         }
@@ -177,7 +176,7 @@ export class UserListingComponent implements AfterViewInit{
     }
 
     handlePageEvent(event: any) {
-
+      console.log("event>>>>",event)
     }
 
 }
