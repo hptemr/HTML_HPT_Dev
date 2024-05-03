@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
   loginCount: { type: Number, default: 0 },
   failedAttempts: { type: Number, default: 0 },
   practiceLocation: { type : Array , "default" : [] },
+  licenceNumber:{ type: String},
   status: { type: String, enum: ['Pending', 'Active', 'Suspended', 'Deleted','Blocked'], default: 'Pending'},
   resetPasswordToken:{ type: String },
   inviteToken:{ type: String },
