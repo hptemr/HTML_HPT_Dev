@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core'; 
 import { RouterModule, Routes } from '@angular/router';
 import { PatientsComponent } from './user-managment/patients/patients.component';
-import { PracticeAdminProfileComponent } from './user-managment/practice-admin-profile/practice-admin-profile.component';
-import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
  import { EFaxComponent } from './efax/efax.component';
 import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
 import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
@@ -48,21 +46,11 @@ const routes: Routes = [
         path: 'patient-profile',
         component: PatientProfileComponent, 
       },
-      // {
-      //   path: 'practice-admin-profile/:practiceAdminId',
-      //   component: PracticeAdminProfileComponent, 
-      //   canActivate:[authGuard]
-      // },
       {
         path: 'admin-profile/:adminId',
         component: AdminProfileComponent, 
         canActivate:[authGuard]
-      },
-      {
-        path: 'therapist-admin-profile/:therapistId',
-        component: TherapistsAdminProfileComponent, 
-        canActivate:[authGuard]
-      } 
+      }
     ]
   },
   {
