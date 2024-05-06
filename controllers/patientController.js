@@ -55,8 +55,8 @@ const signup = async (req, res) => {
 
 const getPatientList = async (req, res) => {
     try {
-        const { query, params } = req.body;
-        let patientList = await Patient.find(query, params);
+        const { query, params, order, offset, limit } = req.body;
+        let patientList = await Patient.find(query, params).sort(order).skip(offset).limit(limit);
         let totalCount = await Patient.find(query).count()
         commonHelper.sendResponse(res, 'success', { patientList, totalCount }, '');
     } catch (error) {
