@@ -93,29 +93,16 @@ const changePassword = async (req, res, next) => {
     }
   };
 
-
-  const getAdminUsers = async (req, res, next) => {
+  const getAdminUsers = async (req, res) => {
     try {
-      let searchQuery =  req.query.searchQuery
-      let userRole =  req.query.userRole
-      const filter = {
-        $or: [
-            { firstName: { $regex: searchQuery, $options: 'i' } },
-            { lastName: { $regex: searchQuery, $options: 'i' } },
-            { email: searchQuery },
-            { status: searchQuery },
-            { practiceLocation: searchQuery }
-        ],
-        role: userRole
-      };
-  
-      const practiceAdminData = await User.find(filter).sort({createdAt:-1}).lean();
-      commonHelper.sendResponse(res, 'success', practiceAdminData, '');
+      const { query, fields, order, offset, limit } = req.body;
+      let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit);
+      let totalCount = await User.find(query).count()
+      commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
     } catch (error) {
-      console.log("error>>>",error)
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
-  };
+  }
 
   const profile = async (req, res, next) => {
     try {
