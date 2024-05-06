@@ -6,7 +6,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt')
 let ObjectId = require('mongoose').Types.ObjectId;
 const triggerEmail = require('../helpers/triggerEmail');
-
+const { logger , dualLog} = require('../helpers/loggerService');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -113,6 +113,14 @@ const changePassword = async (req, res, next) => {
       commonHelper.sendResponse(res, 'success', practiceAdminData, '');
     } catch (error) {
       console.log("error>>>",error)
+      dualLog('Error occurred:', {
+        level: 'error',
+        method: req.method,
+        path: req.protocol + '://' + req.get('host') + req.originalUrl,
+        requestBody: req.body,
+        error: error
+      });
+      // commonHelper.log('Error occurred:','error',req,error)
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
   };

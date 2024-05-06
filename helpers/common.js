@@ -1,4 +1,5 @@
 const CryptoJS = require('crypto-js');
+const { logger , dualLog} = require('../helpers/loggerService');
 
 const sendResponse = (res, type, data, message) => {
     switch (type) {
@@ -54,11 +55,21 @@ const decryptData = (data, key) =>{
   return decryptedtString;
 }
 
+const log = ( message,level,req,error ) =>{
+  dualLog(message, {
+    level: level, // error, info
+    method: req.method,
+    path: req.protocol + '://' + req.get('host') + req.originalUrl,
+    requestBody: req.body,
+    error: error
+  });
+}
 
 module.exports = {
     sendResponse,
     generateToken,
     generateRandomPassword,
     encryptData,
-    decryptData
+    decryptData,
+    log
 };
