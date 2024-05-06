@@ -12,5 +12,6 @@ router.post('/profile', verifyToken, adminController.profile);
 router.post('/updateProfile', verifyToken, adminController.updateProfile);
 router.post('/updateUser', adminController.updateUser);
 router.post('/getUserDetails', adminController.getUserDetails);
+router.post('/getUserList', adminController.getUserList);
 
 module.exports = router;
