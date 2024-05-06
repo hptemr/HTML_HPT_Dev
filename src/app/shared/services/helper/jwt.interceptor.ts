@@ -11,7 +11,6 @@ export class JwtInterceptor implements HttpInterceptor {
         let userData:any = localStorage.getItem('user');
         userData = (userData && userData!=null)?JSON.parse(userData):null
         // const isApiUrl = request.url.startsWith(environment.apiUrl);
-        console.log("JwtInterceptor>>>>",this.authService.isTokenExpired())
         if (!this.authService.isTokenExpired() && userData!=null) {
             request = request.clone({
                 setHeaders: { Authorization: `Bearer ${userData.token}` }

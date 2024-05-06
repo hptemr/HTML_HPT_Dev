@@ -100,7 +100,6 @@ export class AuthService {
   
   //function to make request from frontend
   private request(method: 'post' | 'get', type: string, data?: any): Observable<TokenResponse> {
-    console.log('type>>>',type)
     let base
     if (method === 'post') {
       base = this.http.post(serverUrl + `/api/${type}`, data)

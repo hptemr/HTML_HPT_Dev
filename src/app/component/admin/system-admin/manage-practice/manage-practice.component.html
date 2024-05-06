@@ -10,40 +10,36 @@
                 </div>
                 <div class="col-12 col-lg-6 d-flex align-items-center justify-content-start justify-content-lg-end ">
                     <h3 class="mb-0 clr--1F2F3E fw-500 me-2">Practice Location:</h3>
-                    <select class="form-select form-control form-control-md practice--location"
+                    <select (change)="searchRecords($event)"
+                        class="form-select form-control form-control-md practice--location"
                         aria-label="Default select example">
-                        <option selected>Hamilton PT </option>
-                        <option value="2">Darby PT</option>
-                        <option value="3">Corvallis PT</option>
-                        <option value="4">Stevi PT</option>
-                        <option value="5">PT Specialists of Florence</option>
-                        <option value="6">Frenchtown PT</option>
-                        <option value="7">HNB</option>
+                        <option selected='All'>All </option>
+                        <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="col-12">
             <div class="card">
-                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="changeUser($event)">
                     <mat-tab label="Therapists">
                         <div class="card-body mt-4">
                             <div class="col-12 cust--mat--table--wrapper">
-                                <table mat-table [dataSource]="dataSource" matSort
+                                <table mat-table [dataSource]="userList" matSort
                                     (matSortChange)="announceSortChange($event)" class="cust--mat--table">
                                     <ng-container matColumnDef="name">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                            sortActionDescription="Sort by number">
+                                            sortActionDescription="Sort by name">
                                             Name
                                         </th>
                                         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                                     </ng-container>
-                                    <ng-container matColumnDef="emailId">
+                                    <ng-container matColumnDef="email">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                            sortActionDescription="Sort by name">
+                                            sortActionDescription="Sort by email">
                                             Email Id
                                         </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.emailId}} </td>
+                                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
                                     </ng-container>
                                     <ng-container matColumnDef="status">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header
@@ -51,11 +47,7 @@
                                             Status
                                         </th>
                                         <td mat-cell *matCellDef="let element">
-                                            <!-- {{element.status}}  -->
-                                            <p class="status">Active</p>
-                                            <p class="status pending" *ngIf="">Pending</p>
-                                            <p class="status suspended" *ngIf="">Suspended</p>
-                                            <p class="status deleted" *ngIf="">Deleted</p>
+                                            <p class="status {{element.statusClass}}">{{element.status}}</p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="assignAs">
@@ -63,13 +55,13 @@
                                             sortActionDescription="Sort by name">
                                             Assign As
                                         </th>
-                                        <td mat-cell *matCellDef="let element"> 
+                                        <td mat-cell *matCellDef="let element">
                                             <select class="form-select form-control form-control-md assing--td"
-                                            aria-label="Default select example">
-                                            <option selected>Site Leader </option>
-                                            <option value="2">None</option>
-                                            <option value="3">Corvallis</option> 
-                                        </select>     
+                                                aria-label="Default select example">
+                                                <option selected>Site Leader </option>
+                                                <option value="2">None</option>
+                                                <option value="3">Corvallis</option>
+                                            </select>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="action">
@@ -79,21 +71,26 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="w-100 d-flex align-items-center justify-content-end">
-                                                <button mat-button class="flex-shrink-0 min-width-unset search--fields" (click)="successModal()">
+                                                <button mat-button class="flex-shrink-0 min-width-unset search--fields">
                                                     <mat-icon
                                                         class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
                                                     </mat-icon>
                                                 </button>
                                             </div>
-                                            
                                         </td>
                                     </ng-container>
-
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                 </table>
-                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                                    aria-label="Select page of periodic elements">
+                                <div class="align-items-center justify-content-center w-100"
+                                    *ngIf="userList && userList.filteredData.length == 0">
+                                    <div>
+                                        <p class="">{{ validationMessages.noRecords }}</p>
+                                    </div>
+                                </div>
+                                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount"
+                                    [pageSize]="pageSize" [showFirstLastButtons]="true"
+                                    [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
                                 </mat-paginator>
                             </div>
                         </div>
@@ -101,7 +98,7 @@
                     <mat-tab label="Support Team">
                         <div class="card-body mt-4">
                             <div class="col-12 cust--mat--table--wrapper">
-                                <table mat-table [dataSource]="dataSource2" matSort
+                                <table mat-table [dataSource]="userList" matSort
                                     (matSortChange)="announceSortChange($event)" class="cust--mat--table">
                                     <ng-container matColumnDef="name">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header
@@ -110,12 +107,12 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                                     </ng-container>
-                                    <ng-container matColumnDef="emailId">
+                                    <ng-container matColumnDef="email">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header
                                             sortActionDescription="Sort by name">
                                             Email Id
                                         </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.emailId}} </td>
+                                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
                                     </ng-container>
                                     <ng-container matColumnDef="status">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header
@@ -123,13 +120,9 @@
                                             Status
                                         </th>
                                         <td mat-cell *matCellDef="let element">
-                                            <!-- {{element.status}}  -->
-                                            <p class="status">Active</p>
-                                            <p class="status pending" *ngIf="">Pending</p>
-                                            <p class="status suspended" *ngIf="">Suspended</p>
-                                            <p class="status deleted" *ngIf="">Deleted</p>
+                                            <p class="status {{element.statusClass}}">{{element.status}}</p>
                                         </td>
-                                    </ng-container> 
+                                    </ng-container>
                                     <ng-container matColumnDef="action">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header
                                             sortActionDescription="Sort by symbol">
@@ -137,27 +130,31 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="w-100 d-flex align-items-center justify-content-end">
-                                                <button mat-button class="flex-shrink-0 min-width-unset search--fields" >
+                                                <button mat-button class="flex-shrink-0 min-width-unset search--fields">
                                                     <mat-icon
                                                         class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
                                                     </mat-icon>
                                                 </button>
                                             </div>
-                                            
                                         </td>
                                     </ng-container>
-
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
                                 </table>
-                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                                    aria-label="Select page of periodic elements">
+                                <div class="align-items-center justify-content-center w-100"
+                                    *ngIf="userList && userList.filteredData.length == 0">
+                                    <div>
+                                        <p class="">{{ validationMessages.noRecords }}</p>
+                                    </div>
+                                </div>
+                                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount"
+                                    [pageSize]="pageSize" [showFirstLastButtons]="true"
+                                    [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
                                 </mat-paginator>
                             </div>
                         </div>
                     </mat-tab>
                 </mat-tab-group>
-
             </div>
         </div>
     </div>
