@@ -21,7 +21,6 @@ export class AdminProfileComponent {
   convertPhoneNumber: string = '';
   practiceLocationData:string[] = practiceLocations
   selectedLocations: string[] = [];
-  // userRole:string ='practice_admin'
   userRole:string =''
   isTherapist:boolean=false
 
@@ -113,7 +112,8 @@ export class AdminProfileComponent {
         next: (res) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
-            this.getProfile()
+            // this.getProfile()
+            this.navigateToAdminUserList()
           }
         },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
@@ -177,6 +177,10 @@ export class AdminProfileComponent {
   navigateToAdminUserList(){
     const adminUserListingUrlSegment=this.commonService.getUrlSegmentBaseOnRole(this.userRole)
     this.router.navigate([`/system-admin/user-managment/${adminUserListingUrlSegment}`]);
+  }
+
+  checkSpace(colName: any, event: any) {
+    this.practiceAdminProfileForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
 
 }

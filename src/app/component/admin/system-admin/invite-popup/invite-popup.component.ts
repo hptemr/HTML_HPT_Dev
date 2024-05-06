@@ -54,4 +54,8 @@ export class InvitePopupComponent {
     }
   }
 
+  checkSpace(colName: any, event: any) {
+    this.inviteUserForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
+
 }

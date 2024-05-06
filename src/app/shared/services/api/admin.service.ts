@@ -22,14 +22,6 @@ export class AdminService {
     return this.http.post(url, data).pipe();
   }
 
-  adminUsers(searchQuery: string, userRole: string): Observable<any> {
-    let params = new HttpParams()
-      .set('searchQuery', searchQuery)
-      .set('userRole', userRole);
-    const url = `${environment.apiUrl}/admin/users`;
-    return this.http.get(url, { params }).pipe();
-  }
-
   profile(data: any): Observable<any> {
     const url = `${environment.apiUrl}/admin/profile`;
     return this.http.post(url, data).pipe();

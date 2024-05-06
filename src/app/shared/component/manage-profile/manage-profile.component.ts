@@ -114,4 +114,8 @@ export class ManageProfileComponent {
       }
     });
   }
+
+  checkSpace(colName: any, event: any) {
+    this.updateProfileForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
 }
