@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 export interface PeriodicElement {
   name: string;
@@ -46,7 +47,7 @@ export class ManagePracticeComponent {
   pageSizeOptions = pageSizeOptions
   validationMessages = validationMessages;
   userList: any
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private authService: AuthService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private authService: AuthService, public commonService: CommonService,) { }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -86,7 +87,7 @@ export class ManagePracticeComponent {
   async getUserList() {
     let reqVars = {
       query: this.whereCond,
-      fields: { firstName: 1, lastName: 1, email: 1, status: 1 },
+      fields: { firstName: 1, lastName: 1, email: 1, status: 1, siteLeaderForPracLocation: 1 },
       order: this.orderBy,
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
@@ -100,6 +101,7 @@ export class ManagePracticeComponent {
           email: element.email,
           status: element.status,
           statusClass: element.status.toLowerCase(),
+          siteLeaderForPracLocation: element.siteLeaderForPracLocation,
           name: element.firstName + " " + element.lastName
         }
         finalData.push(newColumns)
@@ -112,6 +114,21 @@ export class ManagePracticeComponent {
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
     this.getUserList()
+  }
+
+  async assignAsFun(event: any, userId: any) {
+    if (event.target.value != "") {
+      let reqVars = {
+        query: { _id: userId },
+        updateInfo: {
+          siteLeaderForPracLocation: event.target.value,
+        }
+      }
+      await this.authService.apiRequest('post', 'admin/updateUser', reqVars).subscribe(async response => {
+        this.commonService.openSnackBar(response.message, "SUCCESS")
+        this.getUserList()
+      })
+    }
   }
 
 }
