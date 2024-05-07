@@ -11,6 +11,7 @@ interface AdminProfile {
   firstName: string;
   lastName: string;
   role: string;
+  userType: string;
 }
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,7 @@ interface AdminProfile {
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  adminProfile: AdminProfile = { _id:'',firstName: '',lastName: '',role: ''};
+  adminProfile: AdminProfile = { _id:'',firstName: '',lastName: '',role: '', userType:''};
   userData : any;
   constructor( 
     public dialog: MatDialog,
@@ -41,6 +42,8 @@ export class ProfileComponent {
           this.getProfile()
         }else{
           this.adminProfile = res
+          let { userType }= this.commonService.getUserBaseOnRole(res.role)
+          this.adminProfile['userType']= userType
         }
       },error: (_err) => {
         this.getProfile()
@@ -57,6 +60,8 @@ export class ProfileComponent {
       next: (res) => {
         if(res && !res.error){
           this.adminProfile = res.data
+          let { userType }= this.commonService.getUserBaseOnRole(res.data.role)
+          this.adminProfile['userType']= userType
         }
       },error: (_err) => {}
     });
