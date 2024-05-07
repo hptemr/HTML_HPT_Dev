@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';   
 import { TherapistNavservicesService, Menu } from '../../services/nav/therapistnavservices.service';
+import { AuthService } from '../../services/api/auth.service';
 
 @Component({
   selector: 'app-header-therapist',
@@ -16,14 +17,15 @@ export class TherapistHeaderComponent {
   public searchResultEmpty: boolean = false;
   public text: string = '';
   public open: boolean = false;
-
+  fullName:any
 
   @HostListener('window:resize', ['$event'])
   onResize(event: number) {
     this.navService.isDisplay = window.innerWidth < 1200 ? true : false;
   }
 
-  constructor(public navService: TherapistNavservicesService) {
+  constructor(public navService: TherapistNavservicesService,  private authService: AuthService,) {
+    this.fullName = this.authService.getFullName()
     this.navService.items.subscribe(menuItems => this.items = menuItems);
   }
 

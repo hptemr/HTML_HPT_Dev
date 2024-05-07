@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core'; 
 import { SupportTeamNavservicesService } from '../../services/nav/support-team-navservices.service';
 import { Menu, NavservicesService } from '../../services/nav/navservices.service';
+import { AuthService } from '../../services/api/auth.service';
 
 @Component({
   selector: 'app-support-team-header',
@@ -17,14 +18,15 @@ export class SupportTeamHeaderComponent {
   public searchResultEmpty: boolean = false;
   public text: string = '';
   public open: boolean = false;
-
+  fullName:any
 
   @HostListener('window:resize', ['$event'])
   onResize(event: number) {
     this.navService.isDisplay = window.innerWidth < 1200 ? true : false;
   }
 
-  constructor(public navService: SupportTeamNavservicesService) {
+  constructor(public navService: SupportTeamNavservicesService,private authService: AuthService) {
+    this.fullName = this.authService.getFullName()
     this.navService.items.subscribe(menuItems => this.items = menuItems);
   }
 

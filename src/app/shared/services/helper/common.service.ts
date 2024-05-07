@@ -64,7 +64,7 @@ export class CommonService {
     let redirect = ''
     let user_type = this.authService.getLoggedInInfo('role')
     if (user_type == "system_admin") {
-      redirect = 'system-signin'
+      redirect = 'system-admin'
     } else if (user_type == "practice_admin") {
       redirect = 'practice-admin'
     } else if (user_type == "support_team") {
