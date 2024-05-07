@@ -1,11 +1,11 @@
 var constants = {
   s3Details: {
-    url : "",
-    bucketName: "dev",
-    awsKey:"",
-    awsSecret:"",
-    profilePicturesPath:"profilePictures/",
-    serveUrl: ""
+    url : "https://s3.amazonaws.com/hpt.dev/",
+    bucketName: "hpt.dev",
+    awsKey:process.env.awsKey,
+    awsSecret:process.env.awsSecret,
+    serveUrl: "",
+    patientDocumentFolderPath: "patient-documents/",
   },
   ses: {
     region: 'us-east-1',

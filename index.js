@@ -4,6 +4,7 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var app = express()
+var busboy = require('connect-busboy');
 var cors = require('cors')
 var routesApi = require('./routes')
 var constants = require('./config/constants')
@@ -14,12 +15,16 @@ app.use(compress());
 app.set('view engine', 'jade');
 app.use(logger('dev'))
 app.use(cookieParser())
-app.use(cors({}))
+app.use(busboy({ immediate: true }));
+app.use(bodyParser.json({limit: "50mb"}))
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}))
+//app.use(cors({}))
+app.use(cors({credentials: true, origin: constants.clientUrl}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', routesApi);
-
+app.use(express.static('tmp'))
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', express.static(path.join(__dirname, 'dist')))
 
