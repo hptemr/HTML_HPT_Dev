@@ -11,12 +11,13 @@ import { validationMessages } from '../../../utils/validation-messages';
 import { CustomValidators  } from '../../../shared/services/helper/custom-validator';
 import { states_data } from '../../../state';
 import { cities_data } from '../../../city';
-import { FileUploader } from 'ng2-file-upload';
+import { FileUploader,FileSelectDirective  } from 'ng2-file-upload';
+import { serverUrl, s3Details } from '../../../config';
+const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
   state: string;
   state_code: string;
 }
-
 interface City {
   city: string;
   state_code: string;
@@ -48,15 +49,14 @@ export class SignupPatientComponent implements OnInit {
   secondFormGroupData: any
   readonly DT_FORMAT = 'MM/DD/YYYY';
   //stepper: MatStepper;
-
   filename: any;
-  userId: string = '';
+  userId: any = '';
   public uploader: FileUploader = new FileUploader({ url: `${URL}?` });
   public hasBaseDropZoneOver: boolean = false;
   documentsMissing = false;
   invalidMessage: string;
   documents_temps = false;
-  documentsList: any;
+  documentsList: any = [];
   uploadAll: boolean = false;
   fileErrors: any;
   thirdFormDisabled = false
@@ -88,8 +88,8 @@ export class SignupPatientComponent implements OnInit {
       }
       
     }
-    //console.log('>>>',this.firstFormGroupData)
-
+    this.userId = localStorage.getItem("userId");
+    this.uploader = new FileUploader({ url: `${URL}?userId=${this.userId}` });
     this.firstFormGroup = this.fb.group({
         firstName: [this.firstFormGroupData ? this.firstFormGroupData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
         middleName: [this.firstFormGroupData ? this.firstFormGroupData.middleName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator,  Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -157,7 +157,6 @@ export class SignupPatientComponent implements OnInit {
         "ConfirmPassword":''
       }
         //localStorage.setItem("signupPatientData",'');
-        console.log(' >>>> first_form_data>>>>>>>>',first_form_data)
         localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
         this.signupSubmit(steps,first_form_data)
     }
@@ -170,9 +169,8 @@ export class SignupPatientComponent implements OnInit {
         "state": userData.state,
         "zipcode": userData.zipcode
       }
-        //localStorage.setItem("signupPatientData",'');
-        console.log(' >>>> second_form_data >>>>>>>>',second_form_data)
         localStorage.setItem("secondFormGroupData", JSON.stringify(second_form_data));
+        this.signupSubmit(steps,second_form_data)
     }
 
     if (steps==1 && this.firstFormGroup.invalid) {
@@ -189,28 +187,24 @@ export class SignupPatientComponent implements OnInit {
     }
   }
 
-   signupSubmit(steps:any, data:any) {
-    // console.log('steps>>>>',steps,'>>>>>>>>>>>','data>>>>',data)
+  async signupSubmit(steps:any, data:any) {
       var query = {};
       const req_vars = {
         query: Object.assign({ _id: this.userId }, query),
         data: data
       }
-    
        //this.loader.open();
-    this.authService.apiRequest('post','patients/signup',req_vars).subscribe(result => {
        //this.loader.close();
-      if (result.status == "error") {
-        if(result.data.message){
+    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {
+      console.log('data response>>>>',response)
+      if (response.error) {
+        if(response.data.message){
           //this.snack.open(result.data.message, 'OK', { duration: 4000 })
         }
       } else {
-        
+        localStorage.setItem("userId", response.data);
+
       }
-    }, (err) => {
-       console.log("error", err)
-       //this.loader.close();
-       console.error(err)
     })
   }
 
@@ -259,6 +253,7 @@ export class SignupPatientComponent implements OnInit {
   }
   
   public fileOverBase(e: any): void {
+    
     this.thirdFormDisabled = true
     this.hasBaseDropZoneOver = e;
     var cnt = 0;
@@ -267,15 +262,19 @@ export class SignupPatientComponent implements OnInit {
     if(this.documentsList && this.documentsList.length>0){
       uploadCnt=this.documentsList.length;
     }
-    if(this.uploader.queue.length>50 || uploadCnt>50){
+    console.log('documentsList>>>>>',this.documentsList)
+    console.log('uploader>>>>>',this.uploader)
+    console.log('uploader queue.length>>>>>',this.uploader.queue.length)
+    if(this.uploader.queue.length>1 || uploadCnt>1){
       if(uploadCnt>0){
         this.thirdFormDisabled = false
       }
       //this.snack.open("You can't upload more than 50 documents.", 'OK', { duration: 4000 })
-      this.invalidMessage = "You can't upload more than 50 documents.";
+      this.invalidMessage = "You can't upload more than 1 document.";
       this.documentsMissing = true;
       this.uploader.clearQueue();
     }else{
+      console.log('uploader queue >>>>>',this.uploader.queue)
     this.uploader.queue.forEach((fileoOb) => {      
       this.filename = fileoOb.file.name;
       var extension = this.filename.substring(this.filename.lastIndexOf('.') + 1);
@@ -342,23 +341,23 @@ export class SignupPatientComponent implements OnInit {
     const req_vars = {
       query: Object.assign({ _id: this.userId }),
     }
-    this.authService.apiRequest('post', 'user/getProfileDetails', req_vars).subscribe(result => {
-      if (result.status == "error") {
+    // this.authService.apiRequest('post', 'user/getProfileDetails', req_vars).subscribe(result => {
+    //   if (result.status == "error") {
 
-      } else {
-        let profile = result.data;
-        this.documentsList = profile.documents;
-        if (profile.documents.length > 0) {
-          this.thirdFormGroup.controls['documents_temp'].setValue('1');
-          this.documentsMissing = false;
-        }
-        if (this.currentProgessinPercent == 100) {
-          this.currentProgessinPercent = 0;
-        }
-      }
-    }, (err) => {
-      console.error(err);
-    })
+    //   } else {
+    //     let profile = result.data;
+    //     this.documentsList = profile.documents;
+    //     if (profile.documents.length > 0) {
+    //       this.thirdFormGroup.controls['documents_temp'].setValue('1');
+    //       this.documentsMissing = false;
+    //     }
+    //     if (this.currentProgessinPercent == 100) {
+    //       this.currentProgessinPercent = 0;
+    //     }
+    //   }
+    // }, (err) => {
+    //   console.error(err);
+    // })
   }
 
 

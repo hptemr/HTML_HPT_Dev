@@ -21,6 +21,7 @@ export const s3Details = {
   awsserverUrl: "https://" + bucketName + ".s3.us-east-2.amazonaws.com/",
   bucketName: bucketName,
   userProfileFolderPath: "profile-images/",
+  userDocumentFolderPath: "patient-documents/",
 }
 export const webTitle = "HPT"
 export const serverUrl = serverUrlEnv

@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AdminSignupComponent } from './admin-signup/admin-signup.component';
- 
+import { FileUploadModule  } from 'ng2-file-upload';
 @NgModule({
   declarations: [ 
     LoginComponent,
@@ -25,7 +25,8 @@ import { AdminSignupComponent } from './admin-signup/admin-signup.component';
     SharedModule, 
     AuthRoutingModule, 
     MatStepperModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    FileUploadModule,
   ],
 })
 export class AuthModule {}

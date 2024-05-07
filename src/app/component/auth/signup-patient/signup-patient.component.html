@@ -220,12 +220,12 @@
                        <div class="row">
                         <div class="col-12">
                           <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
-                            <!-- <div  ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"> -->
-                              <input class="input--file" type="file" name="documents" ng2FileSelect  (ngModelChange)="fileOverBase('')" />
+                            <div class="upload--box" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader" (fileOver)="fileOverBase($event)">
+                              <input class="input--file" type="file" name="documents" ng2FileSelect [uploader]="uploader"  (ngModelChange)="fileOverBase('')" />
                               <mat-icon  > upload_file </mat-icon>
                                 <h6 class="font-18 fw-500">Upload Your Driver License or drag & drop it here</h6>
                                 <p class="mb-0 font-14 fw-500">JPEG, JPG, PNG, PDF formats, up to 5MB</p>
-                            <!-- </div> -->
+                            </div>
                           </div>
                         </div>
                         <mat-form-field class="full-width" *ngIf="documents_temps">

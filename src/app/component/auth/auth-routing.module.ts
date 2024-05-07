@@ -27,7 +27,7 @@ const routes: Routes = [
     component: ResetPasswordComponent
   },
   {
-    path: 'patient/signup',
+    path: 'signup',
     component: SignupPatientComponent
   },
   {
