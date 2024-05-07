@@ -113,5 +113,26 @@ export class CommonService {
   getLoginUserProfile(): Observable<any> {
     return this.userProfileSubject.asObservable();
   }
+
+  getUserBaseOnRole(role:any): any {
+    let returnObj = { userType:'' }
+    if (role) {
+      switch (role) {
+        case 'system_admin':
+          return { userType:'System Admin' }
+        case 'practice_admin':
+          return { userType:'Practice Admin' }
+        case 'therapist':
+          return { userType:'Therapist' }
+        case 'support_team':
+          return { userType:'Support Team' }
+        case 'billing_team': 
+          return { userType:'Billing Team' }
+        default:
+          return returnObj;
+      }
+    }
+    return returnObj;
+  }
   
 }
