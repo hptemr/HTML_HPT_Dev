@@ -15,7 +15,7 @@ var constants = {
   },
   gmail: {
     email: process.env.EMAIL,
-    secret: process.env.SECRET,
+    secret: process.env.EMAIL_SECRET,
     fromEmail: process.env.FROM_EMAIL,
   },
   clientUrl: process.env.clientUrl || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
