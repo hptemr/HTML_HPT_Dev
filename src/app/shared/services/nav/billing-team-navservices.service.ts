@@ -39,93 +39,110 @@ export class BillingTeamNavservicesService {
 
 
   Nvabarmenu: Menu[] = [  
+    // {
+    //   id: 1,
+    //   icon: 'dashboard_outline',
+    //   mainTitle: 'Dashboard',
+    //   headTitle1: 'Dashboard', 
+    //   path: '/billing-team/manage-profile',
+    //   active: false,
+    //   item: [ 
+    //     {
+    //       title: 'Manage Profile',
+    //       icon: 'dashboard_outline',
+    //       type: 'link',
+    //       active: false,  
+    //       path: '/billing-team/manage-profile',
+    //     },
+    //   ]
+    // },
+    // {
+    //   id: 2,
+    //   icon: 'pending_actions',
+    //   mainTitle: 'Appointments',  
+    //   headTitle1: '',
+    //   path: '/billing-team/appointments',
+    //   active: false, 
+    //   type: 'link', 
+    //   item: [ 
+    //     {
+    //       title: 'Appointments',
+    //       icon: 'pending_actions',
+    //       type: 'link',
+    //       active: false,  
+    //       path: '/billing-team/appointments',
+    //     },
+    //   ]
+    // }, 
+    // {
+    //   id: 3,
+    //   icon: 'assignment',
+    //   mainTitle: 'Reports',  
+    //   headTitle1: '',
+    //   path: ' ',
+    //   active: false, 
+    //   type: 'link', 
+    //   item: [ 
+    //     {
+    //       title: 'Reports',
+    //       icon: 'assignment',
+    //       type: 'link',
+    //       active: false,  
+    //     },
+    //   ]
+    // }, 
+    // {
+    //   id: 4,
+    //   icon: 'chat_bubble_outline',
+    //   mainTitle: 'Conversations',  
+    //   headTitle1: '',
+    //   path: ' ',
+    //   active: false, 
+    //   type: 'link', 
+    //   item: [ 
+    //     {
+    //       title: 'Conversations',
+    //       icon: 'chat_bubble_outline',
+    //       type: 'link',
+    //       active: false,  
+    //     },
+    //   ]
+    // }, 
+    // {
+    //   id: 5,
+    //   icon: 'person_outline',
+    //   mainTitle: 'Patients',  
+    //   headTitle1: '',
+    //   path: ' ',
+    //   active: false, 
+    //   type: 'link', 
+    //   item: [ 
+    //     {
+    //       title: 'person_outline Exercise',
+    //       icon: 'Patients',
+    //       type: 'link',
+    //       active: false,  
+    //     },
+    //   ]
+    // },
     {
-      id: 1,
-      icon: 'dashboard_outline',
-      mainTitle: 'Dashboard',
-      headTitle1: 'Dashboard', 
+      id: 6,
+      icon: 'people_outline',
+      mainTitle: 'Manage Profile',
+      headTitle1: '',
       path: '/billing-team/manage-profile',
       active: false,
-      item: [ 
+      type: 'link',
+      item: [
         {
           title: 'Manage Profile',
-          icon: 'dashboard_outline',
+          icon: 'portrait',
           type: 'link',
-          active: false,  
+          active: false,
           path: '/billing-team/manage-profile',
         },
       ]
     },
-    {
-      id: 2,
-      icon: 'pending_actions',
-      mainTitle: 'Appointments',  
-      headTitle1: '',
-      path: '/billing-team/appointments',
-      active: false, 
-      type: 'link', 
-      item: [ 
-        {
-          title: 'Appointments',
-          icon: 'pending_actions',
-          type: 'link',
-          active: false,  
-          path: '/billing-team/appointments',
-        },
-      ]
-    }, 
-    {
-      id: 3,
-      icon: 'assignment',
-      mainTitle: 'Reports',  
-      headTitle1: '',
-      path: ' ',
-      active: false, 
-      type: 'link', 
-      item: [ 
-        {
-          title: 'Reports',
-          icon: 'assignment',
-          type: 'link',
-          active: false,  
-        },
-      ]
-    }, 
-    {
-      id: 4,
-      icon: 'chat_bubble_outline',
-      mainTitle: 'Conversations',  
-      headTitle1: '',
-      path: ' ',
-      active: false, 
-      type: 'link', 
-      item: [ 
-        {
-          title: 'Conversations',
-          icon: 'chat_bubble_outline',
-          type: 'link',
-          active: false,  
-        },
-      ]
-    }, 
-    {
-      id: 5,
-      icon: 'person_outline',
-      mainTitle: 'Patients',  
-      headTitle1: '',
-      path: ' ',
-      active: false, 
-      type: 'link', 
-      item: [ 
-        {
-          title: 'person_outline Exercise',
-          icon: 'Patients',
-          type: 'link',
-          active: false,  
-        },
-      ]
-    },
-    
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
 

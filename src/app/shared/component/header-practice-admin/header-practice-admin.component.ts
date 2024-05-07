@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';  
 import { Menu } from '../../services/nav/navservices.service'; 
 import { PracticeAdminNavservicesService } from '../../services/nav/practice-admin-navservices.service';
+import { AuthService } from '../../services/api/auth.service';
 
 @Component({
   selector: 'app-header-practice-admin',
@@ -17,14 +18,15 @@ export class PracticeAdminHeaderComponent {
   public searchResultEmpty: boolean = false;
   public text: string = '';
   public open: boolean = false;
-
+  fullName:any
 
   @HostListener('window:resize', ['$event'])
   onResize(event: number) {
     this.navService.isDisplay = window.innerWidth < 1200 ? true : false;
   }
 
-  constructor(public navService: PracticeAdminNavservicesService) {
+  constructor(public navService: PracticeAdminNavservicesService,private authService: AuthService) {
+    this.fullName = this.authService.getFullName()
     this.navService.items.subscribe(menuItems => this.items = menuItems);
   }
 

@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           console.log("login:", res);
           this.setLocalStorage(res, this.loginForm.value)
-          this.router.navigate(["/system-admin/user-managment/practice-admin"]);
+          this.commonService.redirectToHome()
         }, error: (err) => {
           console.log("err:", err);
           err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
