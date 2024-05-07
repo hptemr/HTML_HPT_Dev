@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 let ObjectId = require('mongoose').Types.ObjectId;
 const triggerEmail = require('../helpers/triggerEmail');
-const sendEmailServices = require('../helpers/sendEmail');
+
 const userLogin = async (req, res) => {
     try {
         const { email } = req.body;
@@ -60,27 +60,7 @@ const forgotPassword = async (req, res) => {
         await User.findOneAndUpdate(filter, updateDoc, options);
 
         // Send email
-        const link = `${process.env.BASE_URL}/reset-password?token=${encryptToken}`;
-        triggerEmail.invitePracticeAdminEmail(email, link)
-
-        // sendEmailServices.getEmailTemplateByCode('forgotPassword').then((template) => {
-        //     if (template) {
-        //         let params = {
-        //         "{firstName}": userData.first_name,
-        //         "{link}": link
-        //         }
-        //         var mailOptions = {
-        //             to: [email],
-        //             subject: template.mail_subject,
-        //             html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
-        //         }
-        //         sendEmailServices.sendEmail(mailOptions)
-        //         res.send(resFormat.rSuccess({ message: message.forgot_password.success, induser: user }))
-        //     } else {
-        //         res.status(401).send(resFormat.rError({ message: message.emailTemplate404 }));
-        //     }
-        // })
-            
+        triggerEmail.resetPassword('resetPassword',userData, link)
 
         commonHelper.sendResponse(res, 'success', null, userMessage.resetPassLink);
     } catch (error) {

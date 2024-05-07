@@ -55,7 +55,7 @@ const invite = async (req, res, next) => {
 
       // Send email
       const link = `${process.env.BASE_URL}/admin/signup/${inviteEncryptedToken}`;
-      triggerEmail.invitePracticeAdminEmail(email,link)
+      triggerEmail.inviteAdmin('inviteAdmin',result, link)
 
       commonHelper.sendResponse(res, 'success', result, userMessage.inviteSuccess);
     }  
@@ -128,7 +128,7 @@ const changePassword = async (req, res, next) => {
         req.body.hash_password = await bcrypt.hash(randomPassword, salt)
         req.body.failedAttempts = 0
         // Email 
-        triggerEmail.unblockUserEmail(userData.email,randomPassword)
+        triggerEmail.unblockUser('unblockUser',userData, randomPassword)
       }
 
       // Update profile

@@ -1,19 +1,78 @@
-const { sendEmail } = require('./emailSender');
+const sendEmailServices = require('../helpers/sendEmail');
+require('dotenv').config();
 
-const invitePracticeAdminEmail = async (email, link) => {
-    await sendEmail(email, "Invite practice admin", link);
+const inviteAdmin = async (templateName, userData, link) => {
+    try {
+        sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
+            if (template) {
+                let params = {
+                "{firstName}": userData.firstName,
+                "{link}": link
+                }
+                var mailOptions = {
+                    to: [userData.email],
+                    subject: template.mail_subject,
+                    html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                }
+                sendEmailServices.sendEmail(mailOptions)
+            } else {
+                console.log("Templete not found>>>>")
+            }
+        })
+    } catch (error) {
+        console.log("inviteAdmin error>>>>",error)
+    } 
 }
 
-const passworsResetEmail = async (email, link) => {
-    await sendEmail(email, "Password reset", link);
+const unblockUser = async (templateName, userData, randomPassword) => {
+    try {
+        sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
+            if (template) {
+                let params = {
+                "{firstName}": userData.firstName,
+                "{password}": randomPassword,
+                "{link}": process.env.BASE_URL
+                }
+                var mailOptions = {
+                    to: [userData.email],
+                    subject: template.mail_subject,
+                    html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                }
+                sendEmailServices.sendEmail(mailOptions)
+            } else {
+                console.log("Templete not found>>>>")
+            }
+        })
+    } catch (error) {
+        console.log("unblockUser error>>>>",error)
+    } 
 }
 
-const unblockUserEmail = async (email, password) => {
-    await sendEmail(email, "User unblocked successfully", password);
+const resetPassword = async (templateName, userData, link) => {
+    try {
+        sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
+            if (template) {
+                let params = {
+                "{firstName}": userData.firstName,
+                "{link}": link
+                }
+                var mailOptions = {
+                    to: [userData.email],
+                    subject: template.mail_subject,
+                    html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                }
+                sendEmailServices.sendEmail(mailOptions)
+            } else {
+                console.log("Templete not found>>>>")
+            }
+        })
+    } catch (error) {
+        console.log("resetPassword error>>>>",error)
+    } 
 }
 
 module.exports = {
-    invitePracticeAdminEmail,
-    passworsResetEmail,
-    unblockUserEmail
+    inviteAdmin,
+    unblockUser,
+    resetPassword
 };
