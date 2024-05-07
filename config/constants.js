@@ -13,6 +13,11 @@ var constants = {
 	  secret: "",
     fromEmail: "pankajk@arkenea.com",
   },
+  gmail: {
+    email: process.env.EMAIL,
+    secret: process.env.SECRET,
+    fromEmail: process.env.FROM_EMAIL,
+  },
   clientUrl: process.env.clientUrl || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
   mailServerUrl : process.env.mailServerUri || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
 }

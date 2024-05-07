@@ -22,14 +22,15 @@ const messages = {
         linkExpired: 'Oops your link has expired',
         linkInvalid: 'Link is invalid',
         linkValid: 'Link is valid',
-        passwordChange: "Password has been changed successfully!"
+        passwordChange: "Password has been changed successfully!",
+        emailTemplate404: 'Template not found in the system', 
     },
     commonMessage: {
         created: 'created successfully',
         internalServerError: 'Internal server error',
         wentWrong: 'Something went wrong',
         profileUpdate: 'Profile update successfully',
-        profileDelete: 'Profile delete successfully'
+        profileDelete: 'Profile delete successfully',
     },
 };
 
