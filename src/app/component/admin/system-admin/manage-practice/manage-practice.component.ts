@@ -116,10 +116,10 @@ export class ManagePracticeComponent {
     this.getUserList()
   }
 
-  async assignAsFun(event: any, userId: any) {
+  async assignAsFun(event: any, userObj: any) {
     if (event.target.value != "") {
       let reqVars = {
-        query: { _id: userId },
+        query: { _id: userObj.id },
         updateInfo: {
           siteLeaderForPracLocation: event.target.value,
         }
@@ -127,6 +127,16 @@ export class ManagePracticeComponent {
       await this.authService.apiRequest('post', 'admin/updateUser', reqVars).subscribe(async response => {
         this.commonService.openSnackBar(response.message, "SUCCESS")
         this.getUserList()
+        let reqVarsEmail = {
+          query: { "code": "assignedAsSiteLeader" },
+          toEmail: userObj.email,
+          params: {
+            "{firstName}": userObj.name,
+            "{assignedAs}": event.target.value
+          }
+        }
+        this.authService.apiRequest('post', 'email/emailSend', reqVarsEmail).subscribe(async response => {
+        })
       })
     }
   }
