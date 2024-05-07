@@ -87,13 +87,11 @@ export class CommonService {
     if (matchingSegment && matchingSegment!=null) {
       switch (matchingSegment.urlSegment) {
         case 'practice-admin':
-          // return { userRole:'practice_admin', profileUrlSegment:'practice-admin-profile', pageTitle:'Practice Admin' }
           return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Practice Admin' }
         case 'therapists':
-          // return { userRole:matchingSegment.userRole, profileUrlSegment:'therapist-admin-profile', pageTitle:'Therapist' }
           return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Therapist' }
         case 'support-team':
-          return { userRole:matchingSegment.userRole, profileUrlSegment:'', pageTitle:'Support Team' }
+          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Support Team' }
         case 'billing-team': 
           return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Billing Team' }
         default:
@@ -115,6 +113,5 @@ export class CommonService {
   getLoginUserProfile(): Observable<any> {
     return this.userProfileSubject.asObservable();
   }
-
-
+  
 }

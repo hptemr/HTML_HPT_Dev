@@ -22,9 +22,6 @@ export interface AdminUsers {
   action: string;  
   _id: string;  
 }
-// const ADMIN_USERS_DATA: AdminUsers[] = [
-//   {name: '', email: '', practiceLocation: '',status:'', action: '', _id:''}
-// ];
 const ADMIN_USERS_DATA: AdminUsers[] = [];
 
 @Component({
@@ -43,10 +40,13 @@ export class UserListingComponent {
   pageTitle :string =''
   profileUrlSegment: string =''
 
+  orderBy: any = { createdAt: -1 }
+  whereCond: any = {}
   totalCount = 0
   pageIndex = 0
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
+  searchQuery:any =""
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer, 
@@ -58,13 +58,6 @@ export class UserListingComponent {
     private route: ActivatedRoute
   ) {
     this.searchControlAdminUsers()
-
-    this.route.url.subscribe(segments => {
-      const {userRole, profileUrlSegment, pageTitle} = this.commonService.getUserRoleBaseOnUrlSegment(segments);
-      this.userRole = userRole
-      this.pageTitle = pageTitle
-      this.profileUrlSegment = profileUrlSegment
-    });
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -73,6 +66,7 @@ export class UserListingComponent {
   @ViewChild('statusSelect') statusSelect: ElementRef;
 
   ngOnInit() {
+    this.getRouteSegment()
     this.adminUsers()
   }
 
@@ -107,40 +101,60 @@ export class UserListingComponent {
         }
       });
     }
-    
-    adminUsers(searchQuery:string=''){
-      this.adminService.adminUsers(searchQuery,this.userRole).subscribe({
-        next: (res) => {
-          let userDetails = []
-          if(!res.error && res.data.length){
-            userDetails = this.mappingAdminUsersList( res.data)
-          }
-          this.adminUsersDataSource = new MatTableDataSource<AdminUsers>(userDetails);
-          this.totalCount = userDetails.length
 
-          this.adminUsersDataSource.sort = this.sort;
-          this.adminUsersDataSource.paginator = this.paginator;
-        },error: (err) => {
-          err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
-        }
+    getRouteSegment(){
+      this.route.url.subscribe(segments => {
+        const {userRole, profileUrlSegment, pageTitle} = this.commonService.getUserRoleBaseOnUrlSegment(segments);
+        this.userRole = userRole
+        this.pageTitle = pageTitle
+        this.profileUrlSegment = profileUrlSegment
+  
+        this.whereCond = { role:  this.userRole }
       });
     }
 
-    mappingAdminUsersList(userData:any){
-      let userDetails = userData.map((user:any) => ({
-        name: `${user.firstName} ${user.lastName}`,
-        email: user.email,
-        practiceLocation: user.practiceLocation,
-        status: user.status,
-        _id: user._id
-      }));
-      return userDetails
+    async adminUsers() {
+      Object.assign(this.whereCond, { 
+        $or: [
+          { firstName: { $regex: this.searchQuery, $options: 'i' } },
+           { lastName: { $regex: this.searchQuery, $options: 'i' } },
+          { email: this.searchQuery },
+          { status: this.searchQuery },
+          { practiceLocation: this.searchQuery }
+        ]
+      })
+
+      let reqVars = {
+        query: this.whereCond,
+        fields: { _id:1, firstName: 1, lastName: 1, email: 1, status: 1, practiceLocation: 1 },
+        order: this.orderBy,
+        limit: this.pageSize,
+        offset: (this.pageIndex * this.pageSize)
+      }
+   
+      await this.authService.apiRequest('post', 'admin/users', reqVars).subscribe(async response => {
+        this.totalCount = response.data.totalCount
+        let userDetails: any = []
+        await response.data.userList.map((element: any) => {
+          let newColumns = {
+            name: `${element.firstName} ${element.lastName}`,
+            email: element.email,
+            practiceLocation: element.practiceLocation,
+            status: element.status,
+            _id: element._id,
+            statusClass: element.status.toLowerCase()
+          }
+          userDetails.push(newColumns)
+        })
+        this.adminUsersDataSource = new MatTableDataSource<AdminUsers>(userDetails)
+      })
     }
 
     onLocationChange(event:any){
       const practiceLocation = event.target.value;
       if(practiceLocation){
-        this.adminUsers(practiceLocation)
+        this.searchQuery = practiceLocation
+        this.adminUsers()
       }
     }
 
@@ -154,13 +168,15 @@ export class UserListingComponent {
     }
 
     searchAdminUsersByQuery(searchQuery: any) {
-      this.adminUsers(searchQuery)
+      this.searchQuery = searchQuery
+      this.adminUsers()
     }
 
     onStatusChange(event:any){
       let status = event.target.value;
       if(status){
-        this.adminUsers(status)
+        this.searchQuery = status
+        this.adminUsers()
       }
     }
 
@@ -168,6 +184,12 @@ export class UserListingComponent {
       this.locationSelect.nativeElement.selectedIndex = 0;
       this.statusSelect.nativeElement.selectedIndex = 0;
       this.searchAdminUsers.setValue('');
+      
+      this.totalCount = 0
+      this.pageIndex = 0
+      this.pageSize = pageSize
+      this.pageSizeOptions = pageSizeOptions
+      this.searchQuery =""
       this.adminUsers()
     }
 
@@ -176,7 +198,9 @@ export class UserListingComponent {
     }
 
     handlePageEvent(event: any) {
-      console.log("event>>>>",event)
+      this.pageSize = event.pageSize;
+      this.pageIndex = event.pageIndex;
+      this.adminUsers()
     }
 
 }
