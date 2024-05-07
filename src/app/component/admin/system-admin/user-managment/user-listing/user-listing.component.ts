@@ -71,18 +71,24 @@ export class UserListingComponent {
   }
 
 
-    /** Announce the change in sort state for assistive technology. */
-    announceSortChange(sortState: Sort) {
-      // This example uses English messages. If your application supports
-      // multiple language, you would internationalize these strings.
-      // Furthermore, you can customize the message to add additional
-      // details about the values being sorted.
-      if (sortState.direction) {
-        this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-      } else {
-        this._liveAnnouncer.announce('Sorting cleared');
+  announceSortChange(sortState: Sort) {
+    let order
+    if (sortState.direction == 'desc') {
+      order = -1
+    } else {
+      order = 1
+    }
+    if (sortState.active == 'name') {
+      this.orderBy = {
+        firstName:order
+      }
+    } else{
+      this.orderBy = {
+        [sortState.active]:order
       }
     }
+    this.adminUsers()
+  }
 
     invitePopup() {
       const dialogRef = this.dialog.open(InvitePopupComponent,{

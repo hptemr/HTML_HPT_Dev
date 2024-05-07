@@ -56,13 +56,23 @@ export class ManagePracticeComponent {
     this.getUserList()
   }
 
-  /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    let order
+    if (sortState.direction == 'desc') {
+      order = -1
     } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+      order = 1
     }
+    if (sortState.active == 'name') {
+      this.orderBy = {
+        firstName:order
+      }
+    } else{
+      this.orderBy = {
+        [sortState.active]:order
+      }
+    }
+    this.getUserList()
   }
 
   changeUser(event: any) {
