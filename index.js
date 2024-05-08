@@ -23,10 +23,14 @@ app.use(cors({credentials: true, origin: constants.clientUrl}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api', routesApi);
 app.use(express.static('tmp'))
+app.use('/api', routesApi);
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', express.static(path.join(__dirname, 'dist')))
+app.get('/*', (req, res) => {
+  res.sendFile(__dirname + '/dist/index.html');
+})
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
