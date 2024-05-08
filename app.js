@@ -10,6 +10,8 @@ if(port==3000){
   const server = http.createServer(app).listen(port, () => {
     console.log('http server running at ' + port)
   })
+  server.on('error', onError)
+  server.on('listening', onListening)
 }else{
   const httpsOptions = {
     key: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.key'),
@@ -18,13 +20,14 @@ if(port==3000){
   const server = https.createServer(httpsOptions, app).listen(port, () => {
     console.log('https server running at '+ port)
   })
+  server.on('error', onError)
+server.on('listening', onListening)
 }
 
 
 //server.listen(port)
 //server.listen(443)
-server.on('error', onError)
-server.on('listening', onListening)
+
 
 
 function normalizePort(val) {
