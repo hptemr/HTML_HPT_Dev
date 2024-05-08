@@ -18,7 +18,7 @@ var constants = {
     secret: process.env.EMAIL_SECRET,
     fromEmail: process.env.FROM_EMAIL,
   },
-  clientUrl: process.env.clientUrl || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
+  clientUrl: process.env.BASE_URL || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
   mailServerUrl : process.env.mailServerUri || 'https://ec2-34-239-203-1.compute-1.amazonaws.com',
 }
 
