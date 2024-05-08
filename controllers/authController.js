@@ -60,6 +60,7 @@ const forgotPassword = async (req, res) => {
         await User.findOneAndUpdate(filter, updateDoc, options);
 
         // Send email
+        const link = `${process.env.BASE_URL}/reset-password?token=${encryptToken}`;
         triggerEmail.resetPassword('resetPassword',userData, link)
 
         commonHelper.sendResponse(res, 'success', null, userMessage.resetPassLink);

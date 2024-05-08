@@ -93,17 +93,6 @@ const changePassword = async (req, res, next) => {
     }
   };
 
-  const getAdminUsers = async (req, res) => {
-    try {
-      const { query, fields, order, offset, limit } = req.body;
-      let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit);
-      let totalCount = await User.find(query).count()
-      commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
-    } catch (error) {
-      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
-    }
-  }
-
   const profile = async (req, res, next) => {
     try {
       const { query, params } = req.body
@@ -116,9 +105,14 @@ const changePassword = async (req, res, next) => {
   
   const updateProfile = async (req, res, next) => {
     try {
-      const { userId, clickAction, status } = req.body
-      
+      const { userId, clickAction, status, email } = req.body
       let userData = await userCommonHelper.userGetById(userId)
+      let emailExists = await User.findOne({ email: email, _id: {$ne: userId}});
+      // Check if the new email already exists in the database
+      if (emailExists) {
+          return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
+      }
+
       // Active bloked user
       if(clickAction=='update' && status=='Active' && userData.status=='Blocked'){
         const randomPassword = await commonHelper.generateRandomPassword()
@@ -153,6 +147,11 @@ const changePassword = async (req, res, next) => {
   const updateUser = async (req, res) => {
     try {
       const { query, updateInfo } = req.body
+      if (query._id && query._id != undefined) {
+        let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
+        query._id = decryptTokenData.userId
+      }
+
       if (req.body.passwordReset != undefined && req.body.passwordReset == true) {
         let salt = await bcrypt.genSalt(10)
         let password = await bcrypt.hash(updateInfo.password, salt)
@@ -194,7 +193,6 @@ const getUserList = async (req, res) => {
 module.exports = {
     invite,
     changePassword,
-    getAdminUsers,
     profile,
     updateProfile,
     systemAdminSignUp,
