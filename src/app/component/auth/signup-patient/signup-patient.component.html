@@ -222,7 +222,7 @@
                           <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
                             <div class="upload--box" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader" (fileOver)="fileOverBase($event)">
                               <input class="input--file" type="file" name="documents" ng2FileSelect [uploader]="uploader"  (ngModelChange)="fileOverBase('')" />
-                              <mat-icon  > upload_file </mat-icon>
+                                <mat-icon > upload_file </mat-icon>
                                 <h6 class="font-18 fw-500">Upload Your Driver License or drag & drop it here</h6>
                                 <p class="mb-0 font-14 fw-500">JPEG, JPG, PNG, PDF formats, up to 5MB</p>
                             </div>
@@ -238,26 +238,35 @@
                           <div class="row align-items-center w-100">
                             <div class="col-11">
                               <div class="d-flex align-items-center w-100">
-                                <div class="doc--pic d-flex align-items-center justify-content-center">
-                                  <img src="../../../../assets/images/ark/ark_license.png"  alt="document" class="img-fluid" />
-                                </div>
-                                <div class="d-flex flex-column w-100 doc--desc">
-                                    <h5 class="font-16">driverlicense.jpg</h5>
-                                    <p class="m-0 font-14">94 KB of 94 KB </p>
+                                <div class="doc--pic d-flex align-items-center justify-content-center" *ngIf="!documentsMissing">
+                                  <span *ngIf="fileType && fileType === 'image'">
+                                    <img [src]="documentsLink" alt="{{documentsName}}"  class="img-fluid" >
+                                  </span>
+                                  <span *ngIf="fileType && fileType === 'doc'">
+                                    <mat-icon> file_copy </mat-icon>
+                                  </span>
+                                  <span *ngIf="fileType && (fileType === 'pdf')">
+                                    <mat-icon> picture_as_pdf </mat-icon>
+                                      <!-- <iframe [src]="documentsLink" width="100%" height="100" frameborder="0"></iframe> -->
+                                  </span>
+                                  <span *ngIf="fileType && fileType === 'unknown'">
+                                    <mat-icon> file_copy </mat-icon>
+                                  </span>
+                                 </div>
+                                <div class="d-flex flex-column w-100 doc--desc" *ngIf="!documentsMissing">
+                                    <h5 class="font-16">{{documentsName}}</h5>
+                                    <p class="m-0 font-14" *ngIf="document_size">{{document_size}}</p>
                                 </div> 
                               </div>
                             </div>
-                            <div class="col-1 d-flex justify-content-end pe-0">
-                              <button mat-button class="p-0 flex-shrink-0 min-width-unset">
+                            <div class="col-1 d-flex justify-content-end pe-0" *ngIf="!documentsMissing">
+                              <button mat-button class="p-0 flex-shrink-0 min-width-unset" (click)="documentDelete();">
                                 <span class="material-icons cancel--btn">
                                   cancel
                                   </span>
                               </button>
                             </div>
                           </div>
-                          
-                          
-                         
                         </div>
                         <div class="col-12 d-flex align-items-center mb-3"> 
                           <mat-checkbox class="">By Clicking on ‘Sign Up’ you agree to the Privacy Policy and Terms of Services of the HPT-EHR platform.</mat-checkbox>

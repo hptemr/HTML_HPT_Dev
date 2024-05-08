@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 export class AlertComponent {
   warningNote = '';
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<AlertComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.warningNote = data.warningNote != undefined ? data.warningNote : this.warningNote;
- 
+    this.warningNote = data.warningNote != undefined ? data.warningNote : this.warningNote;    
   }
 }

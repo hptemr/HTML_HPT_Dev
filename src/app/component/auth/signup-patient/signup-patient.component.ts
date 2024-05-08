@@ -3,6 +3,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';//FormArray,
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
@@ -12,6 +13,8 @@ import { CustomValidators  } from '../../../shared/services/helper/custom-valida
 import { states_data } from '../../../state';
 import { cities_data } from '../../../city';
 import { FileUploader,FileSelectDirective  } from 'ng2-file-upload';
+import { AlertComponent } from '../../../shared/comman/alert/alert.component';
+import { MatDialog,MatDialogRef } from '@angular/material/dialog';
 import { serverUrl, s3Details } from '../../../config';
 const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
@@ -47,6 +50,7 @@ export class SignupPatientComponent implements OnInit {
   maxEndDate: any
   firstFormGroupData: any
   secondFormGroupData: any
+  thiredFormGroupData: any
   readonly DT_FORMAT = 'MM/DD/YYYY';
   //stepper: MatStepper;
   filename: any;
@@ -57,6 +61,10 @@ export class SignupPatientComponent implements OnInit {
   invalidMessage: string;
   documents_temps = false;
   documentsList: any = [];
+  documentsLink: string = '';
+  documentsName: string = '';
+  fileType: string = '';
+  document_size: string = '';
   uploadAll: boolean = false;
   fileErrors: any;
   thirdFormDisabled = false
@@ -65,7 +73,7 @@ export class SignupPatientComponent implements OnInit {
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private fb: FormBuilder, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter) {
+  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -85,9 +93,17 @@ export class SignupPatientComponent implements OnInit {
       }
       if(this.secondFormGroupData.state){
         this.getCitiesByState(this.secondFormGroupData.state);
-      }
-      
+      }      
     }
+
+    this.thiredFormGroupData = localStorage.getItem("thiredFormGroupData");
+    if(localStorage.getItem("thiredFormGroupData")){
+      this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
+      if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
+        this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
+      }
+    }
+
     this.userId = localStorage.getItem("userId");
     this.uploader = new FileUploader({ url: `${URL}?userId=${this.userId}` });
     this.firstFormGroup = this.fb.group({
@@ -191,20 +207,28 @@ export class SignupPatientComponent implements OnInit {
       var query = {};
       const req_vars = {
         query: Object.assign({ _id: this.userId }, query),
+        step:steps,
         data: data
       }
-       //this.loader.open();
-       //this.loader.close();
-    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {
-      console.log('data response>>>>',response)
+       this.commonService.showLoader();
+    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
+      this.commonService.hideLoader();
       if (response.error) {
-        if(response.data.message){
-          //this.snack.open(result.data.message, 'OK', { duration: 4000 })
+        if(response.message){
+          this.commonService.openSnackBar(response.message, "SUCCESS")   
         }
       } else {
         localStorage.setItem("userId", response.data);
-
-      }
+        if(response.message){
+          this.commonService.openSnackBar(response.message, "SUCCESS")   
+        }
+        if(steps && steps==3){
+          localStorage.removeItem('firstFormGroupData');
+          localStorage.removeItem('secondFormGroupData');
+          localStorage.removeItem('thiredFormGroupData');
+          this.router.navigate(['/'])
+        }     
+      }      
     })
   }
 
@@ -262,16 +286,13 @@ export class SignupPatientComponent implements OnInit {
     if(this.documentsList && this.documentsList.length>0){
       uploadCnt=this.documentsList.length;
     }
-    console.log('documentsList>>>>>',this.documentsList)
-    console.log('uploader>>>>>',this.uploader)
-    console.log('uploader queue.length>>>>>',this.uploader.queue.length)
     if(this.uploader.queue.length>1 || uploadCnt>1){
       if(uploadCnt>0){
         this.thirdFormDisabled = false
       }
       //this.snack.open("You can't upload more than 50 documents.", 'OK', { duration: 4000 })
       this.invalidMessage = "You can't upload more than 1 document.";
-      this.documentsMissing = true;
+      //this.documentsMissing = true;
       this.uploader.clearQueue();
     }else{
       console.log('uploader queue >>>>>',this.uploader.queue)
@@ -299,8 +320,26 @@ export class SignupPatientComponent implements OnInit {
       }
       this.uploader.uploadAll();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+        const respFile = JSON.parse(response);
         this.thirdFormGroup.controls['documents_temp'].setValue('');
-        this.getUploadedDocs();
+        let filename = ''; let original_name = '';let size = 0;
+        if(respFile.data.filename){
+          filename = respFile.data.filename          
+        }        
+        if(respFile.data.original_name){
+          original_name = respFile.data.original_name;          
+        }
+        if(respFile.data.document_size){
+          size = respFile.data.document_size;          
+        }
+        let thiredGroupData = {
+          "filename":filename,
+          "original_name": original_name,
+          "size": size
+        }
+        localStorage.setItem("thiredFormGroupData", JSON.stringify(thiredGroupData));
+        this.thirdFormGroup.controls['documents_temp'].setValue(filename);
+        this.getUploadedDocs(filename,original_name);
       };
       this.uploader.onCompleteAll = () => {
         this.thirdFormDisabled = false
@@ -336,28 +375,111 @@ export class SignupPatientComponent implements OnInit {
     return result;
   }
 
-  getUploadedDocs = (query = {}, search = false) => {
-
-    const req_vars = {
-      query: Object.assign({ _id: this.userId }),
+  async getUploadedDocs(filename:any,original_name:any) {
+    let query = {};
+    let req_vars = {
+      //query: Object.assign({ filePath: path }, query),
+      query: Object.assign({ _id: this.userId }, query),
+      fileName: filename
     }
-    // this.authService.apiRequest('post', 'user/getProfileDetails', req_vars).subscribe(result => {
-    //   if (result.status == "error") {
+    await this.authService.apiRequest('post', 'patients/getPreviewDocument', req_vars).subscribe(async response => {   
+      if (response.error) {
+          this.commonService.openSnackBar(response.message, "ERROR")           
+      } else {
+        let profile = response.data;
+        this.documentsName = original_name;
+        this.documentsLink = profile.document;
+        this.document_size = profile.document_size;
+        this.documentsMissing = true;
+        if (profile.document.length > 0) {
+          this.documentsMissing = false;
+        }
+        if (this.currentProgessinPercent == 100) {
+          this.currentProgessinPercent = 0;
+        }
+        this.thirdFormGroup.controls['documents_temp'].setValue(this.documentsName);
+        this.fileType = this.getFileType(this.documentsName);
+      }
+    }, (err) => {
+      console.error(err);
+    })
+  }
+  
+  getFileType(fileName: any) {
+    let status = 'unknown';
+    if(fileName){
+      const extension = fileName.split('.').pop().toLowerCase();
+      if (extension === 'pdf' || extension === 'PDF') {
+        status = 'pdf';
+      }else if (extension === 'docx' || extension === 'doc') {
+        status = 'doc';        
+      } else if (['jpg', 'jpeg', 'png', 'gif','JPG', 'JPEG', 'PNF', 'GIF'].includes(extension)) {
+          return 'image';
+      } 
+    }
+    console.log('status>>>',status)
+    return status;
+}
 
-    //   } else {
-    //     let profile = result.data;
-    //     this.documentsList = profile.documents;
-    //     if (profile.documents.length > 0) {
-    //       this.thirdFormGroup.controls['documents_temp'].setValue('1');
-    //       this.documentsMissing = false;
-    //     }
-    //     if (this.currentProgessinPercent == 100) {
-    //       this.currentProgessinPercent = 0;
-    //     }
-    //   }
-    // }, (err) => {
-    //   console.error(err);
-    // })
+  async documentDelete() {
+    let dialogRef: MatDialogRef<any> = this.dialog.open(AlertComponent, {
+      panelClass: 'custom-alert-container',
+      width: '520px',
+      data: {
+        warningNote: 'Do you really want to delete this file?'
+      }
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }else{
+        this.commonService.showLoader();
+        let query = {}
+        const req_vars = {
+          query: Object.assign({ _id: this.userId }, query),          
+        }
+        this.authService.apiRequest('post', 'patients/deleteDocument', req_vars).subscribe(async response => {
+          this.commonService.hideLoader();
+          console.log('Response >>>>',response)
+          if (response.error) {
+            this.commonService.openSnackBar(response.message, "SUCCESS")           
+          } else {          
+            this.documentsMissing = true;            
+            this.thirdFormGroup.controls['documents_temp'].setValue('');
+            localStorage.setItem("thiredFormGroupData", '');
+            this.commonService.hideLoader();
+            this.commonService.openSnackBar(response.message, "SUCCESS")
+          }
+        }, (err) => {
+          console.error(err)
+          this.commonService.hideLoader();
+        })   
+      }
+    })
+
+  }
+
+  
+ checkimg(link:string,docName:string) {
+    console.log('docName>>>',docName)
+    let status = '<mat-icon>file_copy</mat-icon>';
+    if (docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'jpg' ||
+      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'jpeg' ||
+      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'png' ||
+      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'JPG' ||
+      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'JPEG' ||
+      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'PNG') {
+      if (docName) {
+        status = '<img src="'+link+'" alt="'+docName+'" class="img-fluid" />';
+      }
+    } 
+    else if (docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'docx' || docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'doc') {
+      status = '<mat-icon>file_copy</mat-icon>';
+    } else if (docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'PDF' || docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'pdf') {
+      status = '<mat-icon>picture_as_pdf</mat-icon>';
+    }
+    console.log('docName status>>>',status)
+    return status;
   }
 
 
