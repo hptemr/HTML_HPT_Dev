@@ -139,7 +139,7 @@ export class UserListingComponent {
         offset: (this.pageIndex * this.pageSize)
       }
    
-      await this.authService.apiRequest('post', 'admin/users', reqVars).subscribe(async response => {
+      await this.authService.apiRequest('post', 'admin/getUserList', reqVars).subscribe(async response => {
         this.totalCount = response.data.totalCount
         let userDetails: any = []
         await response.data.userList.map((element: any) => {
