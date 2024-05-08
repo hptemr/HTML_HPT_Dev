@@ -5,9 +5,9 @@ const http = require('http')
 const https = require('https')
 const path = require('path');
 var port = normalizePort(process.env.PORT || '443')
-
+let server = '';
 if(port==3000){
-  const server = http.createServer(app).listen(port, () => {
+   server = http.createServer(app).listen(port, () => {
     console.log('http server running at ' + port)
   })
   server.on('error', onError)
@@ -17,11 +17,11 @@ if(port==3000){
     key: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.key'),
     cert: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt')
   }
-  const server = https.createServer(httpsOptions, app).listen(port, () => {
+   server = https.createServer(httpsOptions, app).listen(port, () => {
     console.log('https server running at '+ port)
   })
   server.on('error', onError)
-server.on('listening', onListening)
+  server.on('listening', onListening)
 }
 
 
