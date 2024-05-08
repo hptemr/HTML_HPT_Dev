@@ -95,6 +95,7 @@ export class ManagePracticeComponent {
   }
 
   async getUserList() {
+    this.commonService.showLoader()
     let reqVars = {
       query: this.whereCond,
       fields: { firstName: 1, lastName: 1, email: 1, status: 1, siteLeaderForPracLocation: 1 },
@@ -115,6 +116,7 @@ export class ManagePracticeComponent {
           name: element.firstName + " " + element.lastName
         }
         finalData.push(newColumns)
+        this.commonService.hideLoader()
       })
       this.userList = new MatTableDataSource(finalData)
     })

@@ -120,6 +120,7 @@ export class UserListingComponent {
     }
 
     async adminUsers() {
+      this.commonService.showLoader()
       Object.assign(this.whereCond, { 
         $or: [
           { firstName: { $regex: this.searchQuery, $options: 'i' } },
@@ -153,6 +154,7 @@ export class UserListingComponent {
           userDetails.push(newColumns)
         })
         this.adminUsersDataSource = new MatTableDataSource<AdminUsers>(userDetails)
+        this.commonService.hideLoader()
       })
     }
 

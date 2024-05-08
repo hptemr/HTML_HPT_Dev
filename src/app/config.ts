@@ -1,19 +1,16 @@
 
 let serverUrlEnv = ""
-let serverAuthUrl = ""
 let bucketName = "hpt.dev"
-let endpoint = "localhost:8080";
 if (window.location.hostname.indexOf("localhost") > -1) {
   serverUrlEnv = "http://localhost:3000"
-  serverAuthUrl = "http://localhost:4200"
-  endpoint = "localhost:3000";
-} else if (window.location.hostname.indexOf("dev") > -1) {
-  serverUrlEnv = ""
-  endpoint = "";
-  serverAuthUrl = serverUrlEnv
+} else if (window.location.hostname.indexOf("dev.hamiltonpt.com") > -1) {
+  serverUrlEnv = 'https://dev.hamiltonpt.com' //Development Server
+} else if (window.location.hostname.indexOf("stage.hamiltonpt.com") > -1) {
+  serverUrlEnv = 'https://stage.hamiltonpt.com' //Staging Server
 } else {
-
+  serverUrlEnv = 'https://ec2-34-239-203-1.compute-1.amazonaws.com'
 }
+
 export const s3Details = {
   url: "https://s3.us-east-2.amazonaws.com/" + bucketName,
   //awsserverUrl : "https://"+bucketName+".s3.amazonaws.com/",
@@ -25,7 +22,6 @@ export const s3Details = {
 }
 export const webTitle = "HPT"
 export const serverUrl = serverUrlEnv
-export const serverUrlAuth = serverAuthUrl
 export const pageSize = 5
 export const pageSizeOptions = [5, 10, 20, 25]
 export const practiceLocations = [

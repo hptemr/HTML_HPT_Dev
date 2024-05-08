@@ -12,6 +12,7 @@ import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { query } from '@angular/animations';
 import { pageSize, pageSizeOptions } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 export interface PeriodicElement {
   name: string;
@@ -39,7 +40,7 @@ export class PatientsComponent {
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
   validationMessages = validationMessages; 
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private adminService: AdminService,) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private adminService: AdminService, private commonService: CommonService) { }
 
   ngOnInit() {
     this.getPatientList()
@@ -69,6 +70,7 @@ export class PatientsComponent {
     this.getPatientList()
   }
   async getPatientList() {
+    this.commonService.showLoader()
     let params = {
       query: this.whereCond,
       params: { firstName: 1, lastName: 1, email: 1 }
@@ -87,6 +89,7 @@ export class PatientsComponent {
           finalData.push(newColumns)
         })
         this.patientList = new MatTableDataSource(finalData)
+        this.commonService.hideLoader()
       }, error: (err) => {
         console.log("err>>>>", err);
       }

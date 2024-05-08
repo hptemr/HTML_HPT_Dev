@@ -5,18 +5,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../api/auth.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { urlSegmentAndUserRole } from 'src/app/config';
+import { MatDialog } from '@angular/material/dialog';
+import { LoaderComponent } from '../../component/loader/loader.component';
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
   private userProfileSubject: BehaviorSubject<any> = new BehaviorSubject(null);
+  LoaderComponentRef: any
 
   constructor(
     private router: Router,
     public snackBar: MatSnackBar,
     public generalService: GeneralService,
     public authService: AuthService,
-
+    public dialog: MatDialog
   ) { }
 
   openSnackBar(message: string, action: string) {
@@ -80,20 +83,20 @@ export class CommonService {
   }
 
   // ***** This function use for dynamic user listing bases on role. Taking userRole same as manage in user database. *****
-  getUserRoleBaseOnUrlSegment(currentUrlSegments:any): any {
-    let roleObj = { userRole:'', profileUrlSegment:'', pageTitle:'' }
-    const urlSeg = currentUrlSegments.map((segment:any) => segment.path);
-    let matchingSegment:any = urlSegmentAndUserRole.find(mapping => mapping.urlSegment === urlSeg[0]);
-    if (matchingSegment && matchingSegment!=null) {
+  getUserRoleBaseOnUrlSegment(currentUrlSegments: any): any {
+    let roleObj = { userRole: '', profileUrlSegment: '', pageTitle: '' }
+    const urlSeg = currentUrlSegments.map((segment: any) => segment.path);
+    let matchingSegment: any = urlSegmentAndUserRole.find(mapping => mapping.urlSegment === urlSeg[0]);
+    if (matchingSegment && matchingSegment != null) {
       switch (matchingSegment.urlSegment) {
         case 'practice-admin':
-          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Practice Admin' }
+          return { userRole: matchingSegment.userRole, profileUrlSegment: 'admin-profile', pageTitle: 'Practice Admin' }
         case 'therapists':
-          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Therapist' }
+          return { userRole: matchingSegment.userRole, profileUrlSegment: 'admin-profile', pageTitle: 'Therapist' }
         case 'support-team':
-          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Support Team' }
-        case 'billing-team': 
-          return { userRole:matchingSegment.userRole, profileUrlSegment:'admin-profile', pageTitle:'Billing Team' }
+          return { userRole: matchingSegment.userRole, profileUrlSegment: 'admin-profile', pageTitle: 'Support Team' }
+        case 'billing-team':
+          return { userRole: matchingSegment.userRole, profileUrlSegment: 'admin-profile', pageTitle: 'Billing Team' }
         default:
           return roleObj;
       }
@@ -101,12 +104,12 @@ export class CommonService {
     return roleObj;
   }
 
-  getUrlSegmentBaseOnRole(userRole:any){
-    const mapping:any = urlSegmentAndUserRole.find(mapping => mapping.userRole === userRole);
+  getUrlSegmentBaseOnRole(userRole: any) {
+    const mapping: any = urlSegmentAndUserRole.find(mapping => mapping.userRole === userRole);
     return mapping.urlSegment || '';
   }
 
-  fetchLoginUserProfile(user:any): void {
+  fetchLoginUserProfile(user: any): void {
     this.userProfileSubject.next(user);
   }
 
@@ -114,25 +117,38 @@ export class CommonService {
     return this.userProfileSubject.asObservable();
   }
 
-  getUserBaseOnRole(role:any): any {
-    let returnObj = { userType:'' }
+  getUserBaseOnRole(role: any): any {
+    let returnObj = { userType: '' }
     if (role) {
       switch (role) {
         case 'system_admin':
-          return { userType:'System Admin' }
+          return { userType: 'System Admin' }
         case 'practice_admin':
-          return { userType:'Practice Admin' }
+          return { userType: 'Practice Admin' }
         case 'therapist':
-          return { userType:'Therapist' }
+          return { userType: 'Therapist' }
         case 'support_team':
-          return { userType:'Support Team' }
-        case 'billing_team': 
-          return { userType:'Billing Team' }
+          return { userType: 'Support Team' }
+        case 'billing_team':
+          return { userType: 'Billing Team' }
         default:
           return returnObj;
       }
     }
     return returnObj;
   }
-  
+
+  showLoader() {
+    this.LoaderComponentRef = this.dialog.open(LoaderComponent, {
+      width: '600px',
+      data: {}
+    });
+  }
+
+  hideLoader(timer = 500) {
+    setTimeout(() => {
+      this.LoaderComponentRef.close()
+    }, timer);
+  }
+
 }
