@@ -114,7 +114,7 @@ export class SignupPatientComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({    
-      documents_temp: ['', [Validators.required]]
+      documents_temp: ['']
     });
     this.filterStartDate();
   }
