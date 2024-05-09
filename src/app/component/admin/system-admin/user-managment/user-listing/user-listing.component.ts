@@ -189,16 +189,7 @@ export class UserListingComponent {
     }
 
     resetFilter(){
-      this.locationSelect.nativeElement.selectedIndex = 0;
-      this.statusSelect.nativeElement.selectedIndex = 0;
-      this.searchAdminUsers.setValue('');
-      
-      this.totalCount = 0
-      this.pageIndex = 0
-      this.pageSize = pageSize
-      this.pageSizeOptions = pageSizeOptions
-      this.searchQuery =""
-      this.adminUsers()
+      window.location.reload()
     }
 
     navigateToAdminUserDetails(userId: any){
