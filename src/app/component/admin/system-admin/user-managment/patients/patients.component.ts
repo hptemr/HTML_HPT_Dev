@@ -5,11 +5,9 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { query } from '@angular/animations';
 import { pageSize, pageSizeOptions } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
@@ -26,6 +24,7 @@ export interface PeriodicElement {
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.scss'
 })
+
 export class PatientsComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -39,25 +38,33 @@ export class PatientsComponent {
   pageIndex = 0
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
-  validationMessages = validationMessages; 
+  validationMessages = validationMessages;
+  orderBy: any = { createdAt: -1 }
   constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private adminService: AdminService, private commonService: CommonService) { }
 
   ngOnInit() {
     this.getPatientList()
   }
-  ngAfterViewInit() {
-    this.patientList.sort = this.sort;
-    this.patientList.paginator = this.paginator;
+
+  announceSortChange(sortState: Sort) {
+    let order
+    if (sortState.direction == 'desc') {
+      order = -1
+    } else {
+      order = 1
+    }
+    if (sortState.active == 'name') {
+      this.orderBy = {
+        firstName: order
+      }
+    } else {
+      this.orderBy = {
+        [sortState.active]: order
+      }
+    }
+    this.getPatientList()
   }
 
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
   searchRecords() {
     let searchStr = this.searchPatient.trim()
     if (searchStr != '') {
@@ -69,14 +76,19 @@ export class PatientsComponent {
     }
     this.getPatientList()
   }
+
   async getPatientList() {
     this.commonService.showLoader()
     let params = {
       query: this.whereCond,
-      params: { firstName: 1, lastName: 1, email: 1 }
+      params: { firstName: 1, lastName: 1, email: 1 },
+      order: this.orderBy,
+      limit: this.pageSize,
+      offset: (this.pageIndex * this.pageSize)
     }
     await this.adminService.getPatientList(params).subscribe({
       next: async (response) => {
+        this.commonService.hideLoader()
         this.totalCount = response.data.totalCount
         let finalData: any = []
         await response.data.patientList.map((element: any) => {
@@ -89,15 +101,18 @@ export class PatientsComponent {
           finalData.push(newColumns)
         })
         this.patientList = new MatTableDataSource(finalData)
-        this.commonService.hideLoader()
       }, error: (err) => {
         console.log("err>>>>", err);
       }
     });
   }
-  handlePageEvent(event: any) {
 
+  handlePageEvent(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.getPatientList()
   }
+
   reset() {
     window.location.reload()
   }
