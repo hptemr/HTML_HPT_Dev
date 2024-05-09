@@ -2,6 +2,7 @@ import { Component, NgZone } from '@angular/core';
 
 const MINUTES_UNITL_AUTO_LOGOUT = 180 //in Minutes => 3Hours
 const CHECK_INTERVALL = 60000 // in ms => 1 minute
+
 const STORE_KEY = 'lastAction';
 
 @Component({
@@ -11,6 +12,7 @@ const STORE_KEY = 'lastAction';
 })
 export class AppComponent {
   timediff = 0
+  isPopUpShow = true
   checkUserActivity: any
   constructor(private ngZone: NgZone) {
   }
@@ -45,7 +47,7 @@ export class AppComponent {
   initListener() {
     this.ngZone.runOutsideAngular(() => {
       document.body.addEventListener('click', () => this.reset());
-      document.body.addEventListener('mousemove', () => this.reset());
+      //document.body.addEventListener('mousemove', () => this.reset());
     });
   }
 
@@ -75,6 +77,11 @@ export class AppComponent {
     const timeleft = this.lastAction + MINUTES_UNITL_AUTO_LOGOUT * 60 * 1000;
     const diff = timeleft - now;
     const isTimeout = diff < 0;
+    if (this.isPopUpShow && diff < 600000) {
+      console.log("<==Show popup 10minutes before==>:")
+      this.isPopUpShow = false
+    }
+
     if (isTimeout && this.timediff >= 0) {
       localStorage.removeItem('user')
       window.location.href = '/'
