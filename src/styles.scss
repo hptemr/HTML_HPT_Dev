@@ -62,6 +62,11 @@ input, p,
     font-size: 20px;
     background: #ddfcfc;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
 }
 
 .card{
