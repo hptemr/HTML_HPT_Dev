@@ -29,18 +29,16 @@ const signup = async (req, res) => {
             found = await PatientTemp.findOne({ email: data.email });
         }
         let result_id = '';let message = '';
-        //console.log('alreadyPatient >>>', alreadyPatient, '   found>>>', found)
+
         if(alreadyPatient){
-             commonHelper.sendResponse(res, 'error', null, userMessage.patientEmailExist);
+             let validations = {'email':userMessage.patientEmailExist}
+             commonHelper.sendResponse(res, 'errorValidation', validations,'Please check the validation field.' );
         }else{
-            console.log(step,'step>>>',data)
             let result = {};
             if(data.password){
                 data.salt = await bcrypt.genSalt(10);                
                 data.hash_password = await bcrypt.hash(data.password, data.salt);
             }
-            console.log('data>>>',data)
-
             if (found) {
                 if(step==3){
                     let request_data = {
@@ -61,7 +59,7 @@ const signup = async (req, res) => {
                         document_name:found.document_name,
                         zipcode:found.document_temp_name,
                         document_size:found.document_size,
-                        status:found.status
+                        status:'Active'
                     }
 
                     let newPatient = new Patient(request_data);
@@ -89,7 +87,6 @@ const signup = async (req, res) => {
                 result = await newPatient.save();
                 result_id = result._id;
             }
-            console.log('result _id>>>', result_id)
             commonHelper.sendResponse(res, 'success', result_id, message);            
         }
     } catch (error) {
@@ -122,7 +119,7 @@ function isExtension(ext, extnArray) {
         }
     }
     return result;
-  }
+}
   
 const uploadPatientDocument = async function(req,res){
     try {
@@ -193,7 +190,6 @@ function bytesToMB(bytes) {
     return doc_size;
 }
 
-
 async function previewDocument(req,res) {
     let { query } = req.body; 
     let { fileName } = req.body; 
@@ -202,6 +198,12 @@ async function previewDocument(req,res) {
       if(fileName){
         let path = patientFilePath+fileName;
         try {
+            const url = await s3.s3.getSignedUrl('getObject', {
+                Bucket: constants.s3Details.bucketName,
+                Key: path,              
+                Expires:100,
+            });
+
             const params = {
                 Bucket: constants.s3Details.bucketName,
                 Key: path
@@ -210,11 +212,6 @@ async function previewDocument(req,res) {
             if(size.ContentLength){
                 fileSize = await bytesToMB(size.ContentLength);
             }              
-            const url = s3.s3.getSignedUrl('getObject', {
-                Bucket: constants.s3Details.bucketName,
-                Key: path,              
-                Expires:100,
-            });
             documentLink = url;
         } catch (error) {
             console.log('error>>>',error)
@@ -225,10 +222,9 @@ async function previewDocument(req,res) {
       let results = {'document':documentLink,document_size:fileSize};
       console.log('results>>>',results)
       commonHelper.sendResponse(res, 'success', results, 'Get file successfully!');
-  }
+}
 
-
-  const deleteDocument = async (req, res) => {
+const deleteDocument = async (req, res) => {
     try {
         const { query } = req.body;                
         let found = await PatientTemp.findOne({ _id: query._id });     
@@ -241,7 +237,7 @@ async function previewDocument(req,res) {
     } catch (error) {  
         commonHelper.sendResponse(res, 'error', null, 'Invalid request. '+error);  
     } 
-  }
+}
 
 module.exports = {
     signup,

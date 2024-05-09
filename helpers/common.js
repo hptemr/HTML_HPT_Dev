@@ -5,6 +5,8 @@ const sendResponse = (res, type, data, message) => {
     switch (type) {
       case 'success':
         return res.status(200).json({ error: false, data, message });
+      case 'errorValidation':
+        return res.status(200).json({ error: true, data, message });
       case 'created':
         return res.status(201).json({ error: false, data, message });
       case 'error':

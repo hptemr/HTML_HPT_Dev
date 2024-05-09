@@ -7,6 +7,7 @@ router.post('/userLogin', commonMiddleware.checkLoginValidation, authController.
 router.post('/forgotPassword', authController.forgotPassword);
 router.get('/checkForgotPasswordToken', authController.checkForgotPasswordTokenExpiry);
 router.post('/resetPassword', authController.resetPassword);
+router.post('/patientLogin',commonMiddleware.checkPatientLoginValidation, authController.patientLogin);
 router.post('/logout', authController.logout);
 
 module.exports = router;

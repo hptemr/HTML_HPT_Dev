@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const role = require('../models/roleModel');
+const Patient = require('../models/patientModel');
 
 const userGetByEmail = async (email) => {
     const existingUser = await User.findOne({ email });
@@ -16,8 +17,14 @@ const roleByCode = async (code) => {
     return locationData
 } 
 
+const patientGetByEmail = async (email) => {
+    const existingUser = await Patient.findOne({ email });
+    return existingUser
+}
+
 module.exports = {
     userGetByEmail,
     userGetById,
-    roleByCode
+    roleByCode,
+    patientGetByEmail
 };

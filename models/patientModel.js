@@ -22,7 +22,9 @@ const patientSchema = new mongoose.Schema({
   document_name:{ type: String },
   document_temp_name:{ type: String },
   document_size:{ type: String },
+  acceptConsent:{ type: Boolean, default: false },
   failedAttempts: { type: Number, default: 0 },  
+  loginCount: { type: Number, default: 0 },
   status: { type: String, enum: ['Pending','Active','Deleted','Blocked'], default: 'Pending'},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

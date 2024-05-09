@@ -5,6 +5,7 @@ const userCommonHelper = require('../helpers/userCommon');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const Patient = require('../models/patientModel');
 let ObjectId = require('mongoose').Types.ObjectId;
 const triggerEmail = require('../helpers/triggerEmail');
 
@@ -132,10 +133,39 @@ const logout = async (req, res) => {
 };
 
 
+const patientLogin = async (req, res) => {
+    try {
+        const { email,loginType } = req.body;
+        console.log('############loginType>>>',loginType)
+        let userData = await userCommonHelper.patientGetByEmail(email)
+        let loginCount = userData.loginCount + 1
+        if (loginCount > 2) {
+            commonHelper.sendResponse(res, 'error', null, userMessage.loginCounterMessage);
+        } else {
+            await Patient.findOneAndUpdate({ email: email }, { $set: { failedAttempts: 0, loginCount: loginCount } })
+            const token = jwt.sign({ _id: userData._id }, process.env.SECRET, { expiresIn: '1d' });
+            let returnData = {
+                _id: userData._id,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                email: userData.email,
+                role: 'patient',
+                token: token,
+                loginCount: loginCount
+            };
+            commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
+        }
+    } catch (error) {
+        console.log("error>>>", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+};
+
 module.exports = {
     userLogin,
     forgotPassword,
     checkForgotPasswordTokenExpiry,
     resetPassword,
+    patientLogin,
     logout
 };
