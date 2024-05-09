@@ -61,6 +61,7 @@ const resetPassword = async (templateName, userData, link) => {
                     subject: template.mail_subject,
                     html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
                 }
+                
                 sendEmailServices.sendEmail(mailOptions)
             } else {
                 console.log("Templete not found>>>>")

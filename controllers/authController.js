@@ -38,8 +38,15 @@ const userLogin = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
     try {
-        const { email } = req.body;
-        let userData = await userCommonHelper.userGetByEmail(email)
+        const { email,userType } = req.body;
+        let userData = '';
+
+        if(userType=='patient'){
+            userData = await userCommonHelper.patientGetByEmail(email)
+        }else{
+            userData = await userCommonHelper.userGetByEmail(email)
+        }
+        
         if (!userData) {
             return commonHelper.sendResponse(res, 'info', null, userMessage.emailNotExist);
         }
@@ -58,10 +65,18 @@ const forgotPassword = async (req, res) => {
             }
         };
         const options = { returnOriginal: false };
-        await User.findOneAndUpdate(filter, updateDoc, options);
-
+        if(userType=='patient'){
+            await Patient.findOneAndUpdate(filter, updateDoc, options);
+        }else{
+            await User.findOneAndUpdate(filter, updateDoc, options);
+        }
         // Send email
-        const link = `${process.env.BASE_URL}/reset-password?token=${encryptToken}`;
+        let  link = '';
+        if(userType=='patient'){
+            link = `${process.env.BASE_URL}/reset-password?token=${encryptToken}`;
+        }else{
+            link = `${process.env.BASE_URL}/admin/reset-password?token=${encryptToken}`;
+        }        
         triggerEmail.resetPassword('resetPassword',userData, link)
 
         commonHelper.sendResponse(res, 'success', null, userMessage.resetPassLink);
@@ -73,11 +88,17 @@ const forgotPassword = async (req, res) => {
 
 const checkForgotPasswordTokenExpiry = async (req, res) => {
     try {
-        const { token } = req.query
+        const { token,userType } = req.query
         let decryptTokenData = commonHelper.decryptData(token, process.env.CRYPTO_SECRET)
         if (decryptTokenData && decryptTokenData != null) {
-            const userData = await User.findOne({ _id: decryptTokenData.userId });
-            if (!userData && userData == null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
+            let userData = '';            
+            if(userType=='patient'){
+                userData = await Patient.findOne({ _id: decryptTokenData.userId });
+            }else{
+                userData = await User.findOne({ _id: decryptTokenData.userId });
+            }
+        
+        if (!userData && userData == null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
             if (!userData.resetPasswordToken) return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
 
             if (Date.now() > decryptTokenData.tokenExpiry) {
@@ -93,9 +114,17 @@ const checkForgotPasswordTokenExpiry = async (req, res) => {
 
 const resetPassword = async (req, res) => {
     try {
-        const {  token, password } = req.body
+        const {  token, password, userType } = req.body
+
         let decryptTokenData = commonHelper.decryptData(token,process.env.CRYPTO_SECRET)
-        const userData = await User.findOne({ _id: decryptTokenData.userId});
+        let userData = '';
+
+        if(userType=='patient'){
+            userData = await Patient.findOne({ _id: decryptTokenData.userId });
+        }else{
+            userData = await User.findOne({ _id: decryptTokenData.userId });
+        }
+
         if(!userData && userData==null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
 
         // Hash and salt the password
@@ -110,7 +139,12 @@ const resetPassword = async (req, res) => {
         };
         // Specify options for the update operation (e.g., return the updated document)
         const options = { returnOriginal: false };
-        const updatedUser = await User.findOneAndUpdate(filter, updateDoc, options);
+        let updatedUser = '';
+        if(userType=='patient'){
+            updatedUser = await Patient.findOneAndUpdate(filter, updateDoc, options);
+        }else{
+            updatedUser = await User.findOneAndUpdate(filter, updateDoc, options);
+        }
         commonHelper.sendResponse(res, 'success', updatedUser, infoMessage.passwordReset);
 
     } catch (error) {
@@ -122,9 +156,7 @@ const resetPassword = async (req, res) => {
 const logout = async (req, res) => {
     try {
         let userId = req.body._id
-        let userType = req.body.userType
-        console.log("========user Type=========",userType)
-        
+        let userType = req.body.userType        
         if(userType=='patient'){
             let userData = await userCommonHelper.patientGetById(userId)
             let loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
@@ -144,8 +176,7 @@ const logout = async (req, res) => {
 
 const patientLogin = async (req, res) => {
     try {
-        const { email,loginType } = req.body;
-        console.log('############loginType>>>',loginType)
+        const { email } = req.body;
         let userData = await userCommonHelper.patientGetByEmail(email)
         let loginCount = userData.loginCount + 1
         if (loginCount > 2) {
