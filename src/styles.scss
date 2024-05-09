@@ -57,6 +57,13 @@ input, p,
     }
 }
 
+.no--record--found{
+    min-height: 100px;
+    font-size: 20px;
+    background: #ddfcfc;
+    font-weight: bold;
+}
+
 .card{
     .card-header{
         padding: 30px 40px 18px 40px;

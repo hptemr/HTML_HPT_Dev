@@ -45,7 +45,7 @@ export class PracticeAdminNavservicesService {
       icon: 'person_outline',
       mainTitle: 'User Management',
       headTitle1: 'User Management',
-      // path: '/practice-admin/Practice Admin', 
+      path: '/practice-admin/user-managment/therapists', 
       active: false,
       item: [  
         {

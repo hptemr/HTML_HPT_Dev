@@ -23,7 +23,7 @@ export class SidebarPracticeAdminComponent {
     this.screenHeight = window.innerHeight;
   }
 
-  toggleMenu(item: Menu) {
+  toggleMenu(item: Menu) { 
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
         if (this.menus.includes(item)) {
@@ -49,6 +49,9 @@ export class SidebarPracticeAdminComponent {
   }
 
   toggle(item: Menu, mainMenu?: Menu) {
+    
+    console.log(item, mainMenu);
+    
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
         a.item?.forEach((child) => {
