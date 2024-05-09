@@ -34,10 +34,14 @@ export class AuthService {
     return this.http.post(url, data).pipe();
   }
 
-  logout(): void {
+  logout(userType:string): void {
     localStorage.removeItem('user');
     //this.router.navigate(['/']);
-    window.location.href = '/'
+    if(userType=='patient'){
+      window.location.href = '/'
+    }else{
+      window.location.href = '/admin/login'
+    }
   }
 
   hasRole(role: string): boolean {

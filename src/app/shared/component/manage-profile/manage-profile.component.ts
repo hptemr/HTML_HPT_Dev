@@ -18,6 +18,7 @@ export class ManageProfileComponent {
   validationMessages = validationMessages
   updateProfileForm: FormGroup;
   userData : any;
+  userType : any;
   userRole : string='system_admin'
 
   constructor(
@@ -32,6 +33,7 @@ export class ManageProfileComponent {
   }
 
   ngOnInit() {
+    this.userType = this.authService.getLoggedInInfo('role')
     this.initializeUpdateProfileForm()
     this.getProfile()
   }
@@ -110,7 +112,7 @@ export class ManageProfileComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log("changePassword>>>",result)
       if(result){
-        this.authService.logout()
+        this.authService.logout(this.userType)
       }
     });
   }

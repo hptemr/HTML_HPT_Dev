@@ -73,7 +73,7 @@ export class ProfileComponent {
   // }
 
   logOut() {
-    console.log(this.userData)
+    console.log('profile logOut userData >> ',this.userData,' >>>>>>>',this.userType)
     const dialogRef = this.dialog.open(AlertComponent, {
       disableClose: true,
       panelClass: 'custom-alert-container',
@@ -84,9 +84,9 @@ export class ProfileComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        let req_vars = { _id: this.authService.getLoggedInInfo("_id") }
+        let req_vars = { _id: this.authService.getLoggedInInfo("_id"),userType:this.userType }
         this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => {
-          this.authService.logout()
+          this.authService.logout(this.userType)
         })
       }
     });
