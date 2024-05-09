@@ -17,6 +17,11 @@ const roleByCode = async (code) => {
     return locationData
 } 
 
+const patientGetById = async (_id) => {
+    const userData = await Patient.findOne({ _id });
+    return userData
+} 
+
 const patientGetByEmail = async (email) => {
     const existingUser = await Patient.findOne({ email });
     return existingUser
@@ -26,5 +31,6 @@ module.exports = {
     userGetByEmail,
     userGetById,
     roleByCode,
-    patientGetByEmail
+    patientGetByEmail,
+    patientGetById
 };
