@@ -48,14 +48,19 @@
                               <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Date of Birth </label>
-                                  <div class="input-group">
+                                  <!-- <div class="input-group">
                                     <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp" [(ngModel)]="model"
                                       ngbDatepicker #d="ngbDatepicker" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                       type="button">
                                       <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                     </button>
-                                  </div>
+                                  </div> -->
+                                  <mat-form-field class="w-100 am--datepicker"> 
+                                    <input matInput [matDatepicker]="picker"> 
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                  </mat-form-field>
                                 </div>
                               </div>
                               <div class="col-12 col-lg-6 col-xl-6">

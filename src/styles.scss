@@ -38,6 +38,25 @@ input, p,
 .lh-24 {line-height: 24px !important;}
 .cursor-pointer{ cursor: pointer !important; }
 
+.am--datepicker{
+    .mat-mdc-form-field-subscript-wrapper{
+        display: none;
+    }
+    .mat-mdc-text-field-wrapper{
+        background-color: #fff !important;
+        border: 1px solid #DED2D9 !important;
+    }
+    .mdc-text-field--filled .mdc-line-ripple::before{
+        border: none !important;
+    }
+     
+    .mat-mdc-form-field-infix{
+        min-height: 44px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+}
+
 .card{
     .card-header{
         padding: 30px 40px 18px 40px;
