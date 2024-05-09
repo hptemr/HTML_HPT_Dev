@@ -101,12 +101,9 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
-                <div class="align-items-center justify-content-center w-100 mt-4" *ngIf="adminUsersDataSource.filteredData.length == 0">
+                <div class="no--record--found align-items-center justify-content-center w-100 mt-4" *ngIf="adminUsersDataSource.filteredData.length == 0">
                     {{ validationMessages.noRecords }}
                 </div>
-                <!-- <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
-                    [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
-                </mat-paginator> -->
                 <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
                     [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"
                     *ngIf="adminUsersDataSource.filteredData.length > 0" >

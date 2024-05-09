@@ -32,7 +32,8 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('user');
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
+    window.location.href = '/'
   }
 
   hasRole(role: string): boolean {
