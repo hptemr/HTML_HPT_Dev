@@ -1,6 +1,8 @@
 import { Component, NgZone } from '@angular/core';
 
-const MINUTES_UNITL_AUTO_LOGOUT = 180 //in Minutes => 3Hours
+//const MINUTES_UNITL_AUTO_LOGOUT = 180 //in Minutes => 3Hours
+
+const MINUTES_UNITL_AUTO_LOGOUT = 15 //in Minutes => for Testing purpose only actual is 3hours
 const CHECK_INTERVALL = 60000 // in ms => 1 minute
 
 const STORE_KEY = 'lastAction';
