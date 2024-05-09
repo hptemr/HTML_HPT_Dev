@@ -2,8 +2,6 @@ const fs = require('fs')
 const AWS = require('aws-sdk')
 const constants =  require('./../config/constants')
 const path = require("path")
-//const FileType = require('file-type');
-
 
 const s3 = new AWS.S3({
   accessKeyId: constants.s3Details.awsKey,
@@ -68,18 +66,23 @@ const uploadPrivateFile = (filename, path,mimetype) => {
          reject(err)
        }
       //let fileType = await FileType.fromBuffer(data)
-      //console.log('>#############>>>>>>','############>>>>>>>',constants.s3Details.bucketName)
-       const params = {
+      //console.log('>#############>>>>>>','############>>>>>>>',constants.s3Details.bucketName,')
+       //ContentEncoding:"base64",
+       const params = {         
           Bucket: constants.s3Details.bucketName,
           Key: path + filename,
           ContentType: mimetype ? mimetype : 'text/plain',
           Body: data,
-          //ACL: "public-read",// 
-          ACL: "bucket-owner-full-control"
+          //ACL: "public-read",
+          //ACL: "bucket-owner-full-control"
        }
   
-      console.log("Reading file")
+      console.log("Reading Private file",params)
       var upload =  s3.upload(params, function(s3Err, data) {
+        try{
+
+        
+        console.log(">>>>>>>>>>upload",upload)
          if (s3Err) {
            console.log("----------upload error----------")
            console.log(s3Err)
@@ -96,6 +99,9 @@ const uploadPrivateFile = (filename, path,mimetype) => {
              resolve(data);
            })
          }
+        }catch(e){
+          console.log("----------Error----------",e)
+        }
         }).on('httpUploadProgress', function(evt) {
           console.log("----------file uploaded----------")
         let response = {
@@ -136,13 +142,13 @@ const deleteFiles = (filearray, path) => {
 }
 
 //Delete single file
-const deleteFile = (path,filename) => {
+const deleteFile = async (path,filename) => {
   let filePath = path+filename;
  
   const params = {Bucket: constants.s3Details.bucketName,Key:filePath}
   let resMsg = false;
      try {
-         s3.headObject(params).promise()
+        await s3.headObject(params).promise()
          try {
             s3.deleteObject(params).promise()
             resMsg = true;     

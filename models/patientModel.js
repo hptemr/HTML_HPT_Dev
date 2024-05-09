@@ -21,6 +21,7 @@ const patientSchema = new mongoose.Schema({
   zipcode:{ type: String },
   document_name:{ type: String },
   document_temp_name:{ type: String },
+  document_size:{ type: String },
   failedAttempts: { type: Number, default: 0 },  
   status: { type: String, enum: ['Pending','Active','Deleted','Blocked'], default: 'Pending'},
   createdAt: { type: Date, default: Date.now },

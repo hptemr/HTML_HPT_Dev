@@ -8,9 +8,8 @@ var constants = require('./../config/constants')
 
 router.post('/signup',patientController.signup);
 router.post('/getPatientList',patientController.getPatientList);
-
 router.post('/patientDocument',cors({credentials: true, origin: constants.clientUrl}),patientController.uploadPatientDocument);
-
-
+router.post('/getPreviewDocument',patientController.previewDocument);
+router.post('/deleteDocument',patientController.deleteDocument);
 
 module.exports = router;

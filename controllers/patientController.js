@@ -16,51 +16,81 @@ const triggerEmail = require('../helpers/triggerEmail');
 var fs = require('fs')
 const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
+const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 
 const signup = async (req, res) => {
     try {
-        const { query, data } = req.body;
-        console.log('query>>>', query)
-        console.log(data.email, 'data>>>', data)
-
-        let alreadyPatient = await Patient.findOne({ email: data.email });
+        const { query, step, data } = req.body;
+          let alreadyPatient = await Patient.findOne({ email: data.email });
         let found = [];
         if(query._id){
             found = await PatientTemp.findOne({ _id: query._id });
         }else{
             found = await PatientTemp.findOne({ email: data.email });
         }
-        let result_id = '';
-       // console.log('alreadyPatient >>>', alreadyPatient, '   found>>>', found)
+        let result_id = '';let message = '';
+        //console.log('alreadyPatient >>>', alreadyPatient, '   found>>>', found)
         if(alreadyPatient){
-            commonHelper.sendResponse(res, 'error', null, userMessage.emailExist);
+             commonHelper.sendResponse(res, 'error', null, userMessage.patientEmailExist);
         }else{
+            console.log(step,'step>>>',data)
             let result = {};
+            if(data.password){
+                data.salt = await bcrypt.genSalt(10);                
+                data.hash_password = await bcrypt.hash(data.password, data.salt);
+            }
+            console.log('data>>>',data)
+
             if (found) {
-                result = await PatientTemp.updateOne({ _id: found._id }, { $set: data });
-                result_id = found._id
+                if(step==3){
+                    let request_data = {
+                        firstName:found.firstName,
+                        middleName:found.middleName,
+                        lastName:found.lastName,
+                        email:found.email,
+                        dob:found.dob,
+                        gender:found.gender,
+                        phoneNumber:found.phoneNumber,
+                        salt:found.salt,
+                        hash_password:found.hash_password,
+                        address1:found.address1,
+                        address2:found.address2,
+                        city:found.city,
+                        state:found.state,
+                        zipcode:found.zipcode,
+                        document_name:found.document_name,
+                        zipcode:found.document_temp_name,
+                        document_size:found.document_size,
+                        status:found.status
+                    }
+
+                    let newPatient = new Patient(request_data);
+                    result = await newPatient.save();
+                    if(result._id){
+                        result_id = result._id;
+                        await PatientTemp.deleteOne({ _id: found._id });
+                        
+                        let email_data = {
+                            firstName:found.firstName,
+                            email:found.email,
+                            link:constants.serveUrl
+                        }
+                        
+                        triggerEmail.patientSignup('patientsignup',email_data)
+                        message = userMessage.patientSignup;
+                    }
+             
+                }else{
+                    result = await PatientTemp.updateOne({ _id: found._id }, { $set: data });
+                    result_id = found._id;
+                }
             } else {
                 let newPatient = new PatientTemp(data);
                 result = await newPatient.save();
                 result_id = result._id;
             }
             console.log('result _id>>>', result_id)
-
-            // let userData = await userCommonHelper.userGetByEmail(email)
-
-            // // Reset failed attempts on successful login
-            // await User.findOneAndUpdate( { email : email, failedAttempts: { $gt: 0 } },{ $set: { failedAttempts: 0 } });
-
-            // const token = jwt.sign({ _id: userData._id }, process.env.SECRET, { expiresIn: '1d' });
-            // let returnData ={ 
-            //     _id:userData._id,
-            //     firstName: userData.firstName,
-            //     lastName: userData.lastName,  
-            //     email: userData.email, 
-            //     role: userData.role, 
-            //     token :token
-            // };
-            commonHelper.sendResponse(res, 'success', result_id, commonMessage.login);
+            commonHelper.sendResponse(res, 'success', result_id, message);            
         }
     } catch (error) {
         console.log('query>>>', error)
@@ -78,12 +108,6 @@ const getPatientList = async (req, res) => {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
-
-const uploadPatientDocument2 = async (req, res) => {
-
-}
-
-const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 
 function isExtension(ext, extnArray) {
     var result = false;
@@ -112,14 +136,15 @@ const uploadPatientDocument = async function(req,res){
                 req.busboy.on('file',async function (fieldname, file, fileObj) {
                     let restmpallfiles = {};
                     let oldTmpFiles = [];
+                    let fileSize = 0;
                     if(userId){
                        let result = await PatientTemp.findOne({ _id: userId });
                          if (result) {   
                             if(result.document_temp_name)  {
-                                await s3.deleteFile(patientFilePath+userId+'/',result.document_temp_name);
+                               await s3.deleteFile(patientFilePath+userId+'/',result.document_temp_name);
                             }
                             let filename = fileObj.filename;
-                            let encoding = fileObj.encoding;
+                            fileSize = fileObj.encoding;
                             let mimetype = fileObj.mimeType;
                             let ext = filename.split('.')
                             ext = ext[ext.length - 1];
@@ -131,10 +156,13 @@ const uploadPatientDocument = async function(req,res){
                                 file.pipe(fstream);
                                 fstream.on('close', async function () {
                                     let s3Response = await s3.uploadPrivateFile(newFilename,patientFilePath+userId+'/',mimetype);
-                                    let uploadDocs =  { "document_name": filename,"document_temp_name":newFilename }
+                                    if(s3Response.size){
+                                        fileSize = await bytesToMB(s3Response.size);
+                                    }
+                                    let uploadDocs =  { "document_name": filename,"document_temp_name":newFilename,document_size:fileSize }
                                     restmpallfiles = oldTmpFiles;
                                     await PatientTemp.updateOne({ _id: userId }, { $set: uploadDocs });
-                                    let results = { userId:userId, filepath:constants.s3Details.url+patientFilePath+userId+'/'+newFilename }                                        
+                                    let results = { userId:userId, filepath:constants.s3Details.url+patientFilePath, filename:userId+'/'+newFilename, original_name:filename,document_size:fileSize }                                        
                                     commonHelper.sendResponse(res, 'success', results, 'File Upload Successfully!');
                                 })
                             }else{
@@ -152,8 +180,73 @@ const uploadPatientDocument = async function(req,res){
         }
 }
 
+function bytesToMB(bytes) {
+    let doc_size = '';
+    if(bytes>999999){
+        doc_size = (bytes / (1024 * 1024)).toFixed(2);
+        doc_size = doc_size+' MB';
+    }else{
+        doc_size = (bytes/1000).toFixed(2);
+        doc_size = doc_size+' KB';
+    }
+   
+    return doc_size;
+}
+
+
+async function previewDocument(req,res) {
+    let { query } = req.body; 
+    let { fileName } = req.body; 
+    
+    let documentLink = '';let fileSize = '';
+      if(fileName){
+        let path = patientFilePath+fileName;
+        try {
+            const params = {
+                Bucket: constants.s3Details.bucketName,
+                Key: path
+            }; 
+            const size = await s3.s3.headObject(params).promise();
+            if(size.ContentLength){
+                fileSize = await bytesToMB(size.ContentLength);
+            }              
+            const url = s3.s3.getSignedUrl('getObject', {
+                Bucket: constants.s3Details.bucketName,
+                Key: path,              
+                Expires:100,
+            });
+            documentLink = url;
+        } catch (error) {
+            console.log('error>>>',error)
+            documentLink = '';fileSize = '';
+        }
+      }      
+      
+      let results = {'document':documentLink,document_size:fileSize};
+      console.log('results>>>',results)
+      commonHelper.sendResponse(res, 'success', results, 'Get file successfully!');
+  }
+
+
+  const deleteDocument = async (req, res) => {
+    try {
+        const { query } = req.body;                
+        let found = await PatientTemp.findOne({ _id: query._id });     
+        if(found && found.document_temp_name){        
+            await s3.deleteFile(patientFilePath+query._id+'/',found.document_temp_name);             
+            commonHelper.sendResponse(res, 'success', null, 'Document deleted successfully!');
+        }else{
+            commonHelper.sendResponse(res, 'error', null, 'Record not found.');
+        }
+    } catch (error) {  
+        commonHelper.sendResponse(res, 'error', null, 'Invalid request. '+error);  
+    } 
+  }
+
 module.exports = {
     signup,
     getPatientList,
-    uploadPatientDocument
+    uploadPatientDocument,
+    previewDocument:previewDocument,
+    deleteDocument:deleteDocument
 };

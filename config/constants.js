@@ -2,9 +2,9 @@ var constants = {
   s3Details: {
     url : "https://s3.amazonaws.com/hpt.dev/",
     bucketName: "hpt.dev",
-    awsKey:process.env.awsKey,
-    awsSecret:process.env.awsSecret,
-    serveUrl: "",
+    awsKey:process.env.AWS_KEY,
+    awsSecret:process.env.AWS_SECRET,
+    serveUrl: process.env.BASE_URL,
     patientDocumentFolderPath: "patient-documents/",
   },
   ses: {
