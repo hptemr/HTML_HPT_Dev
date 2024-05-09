@@ -1,4 +1,5 @@
 const CryptoJS = require('crypto-js');
+const _ = require('lodash');
 
 const sendResponse = (res, type, data, message) => {
     switch (type) {
@@ -29,14 +30,19 @@ const generateToken = (n) =>{
 }
 
 const generateRandomPassword = () =>{
-  const length = 8
-  const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}[]|;:,.<>?";
-  let password = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
-  }
-  return password;
+  let alpha = 3
+  let capital = 1
+  let numbers = 3
+  let special = 1
+  const alphaChars = 'abcdefghijklmnopqrstuvwxyz';
+  const capitalChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const numberChars = '0123456789';
+  const specialChars = '!$%&*=+?';
+  const pickedChars = _.sampleSize(alphaChars, alpha)
+    .concat(_.sampleSize(capitalChars, capital))
+    .concat(_.sampleSize(numberChars, numbers))
+    .concat(_.sampleSize(specialChars, special));
+  return _.shuffle(pickedChars).join('');
 }
 
 
