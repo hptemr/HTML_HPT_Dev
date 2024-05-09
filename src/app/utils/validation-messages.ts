@@ -13,4 +13,7 @@ export const validationMessages = {
   noRecords: 'No records found!',
   requiredDropdown:(fieldName: string) => `Please select ${fieldName}`,
   radioButton:'Gender is required',
+  requiredCheckbox:(fieldName: string) =>`Please check ${fieldName}`,
+  requiredProofDocument: 'Document uploaded, Please select ID Proof document type',
+  requiredDocument: 'ID Proof document type is slected, Please upload document',
 };

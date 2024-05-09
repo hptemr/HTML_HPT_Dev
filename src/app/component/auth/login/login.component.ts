@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   public show: boolean = false;
   public loginForm: FormGroup;
   rememberMeObj: any = { email: '', password: '', rememberMe: false };
+  loginType: string = 'patient';
 
   constructor(
     private fb: FormBuilder,
@@ -26,6 +27,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    const locationArray = location.href.split('/')
+    let lastParam = locationArray[locationArray.length - 2];
+    
+    if(lastParam=='admin'){
+      this.loginType = 'admin';
+    }
     this.initializeLoginForm()
   }
 
@@ -33,7 +41,8 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: [this.rememberMeObj.email, [Validators.required, Validators.email]],
       password: [this.rememberMeObj.password, Validators.required],
-      rememberMe: [this.rememberMeObj.rememberMe]
+      rememberMe: [this.rememberMeObj.rememberMe],
+      loginType:[this.loginType]
     });
   }
 

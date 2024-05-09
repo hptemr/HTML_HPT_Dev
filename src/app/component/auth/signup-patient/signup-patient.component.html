@@ -87,6 +87,9 @@
                                   <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['email'].touched && (firstFormGroup.controls['email'].hasError('required') || firstFormGroup.controls['email'].invalid)">
                                     {{ validationMessages.required('Email') }}
                                   </div>
+                                  <div class="text text-danger mt-1" *ngIf="emailError">
+                                      {{invalidEmailErrorMessage}}
+                                </div>
                                 </div>
                               </div>
                               <div class="col-12 col-lg-6">
@@ -172,11 +175,11 @@
                               <div class="form-group">
                                 <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
                                 <select class="form-select form-control" id="state" aria-label="Default select example" formControlName="state"  (ngModelChange)="onStateChange($event)">
-                                  <option selected>Select State</option>
+                                  <option selected value="">Select State</option>
                                   <option *ngFor="let item of states" value="{{item.state_code}}" [selected]="">{{item.state}}</option>
                                 </select>                               
                                 <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['state'].touched && secondFormGroup.controls['state'].hasError('required')">
-                                  {{ validationMessages.required('State') }}
+                                  {{ validationMessages.requiredDropdown('State') }}
                                 </div>
                               </div>
                             </div> 
@@ -184,13 +187,13 @@
                               <div class="form-group">
                                 <label class="col-form-label fw-600">City <span class="clr--DF0404 ms-1"> * </span></label>
                                 <select class="form-select form-control" id="city" aria-label="Default select example" [(ngModel)]="selectedCity" formControlName="city">
-                                  <option default>Select City</option>
+                                  <option selected value="">Select City</option>
                                   <option *ngFor="let item of cities" value="{{item.city}}" >{{item.city}}</option>
                                   <!-- [selected]="item.city==selectedCity" -->
                                 </select>
                                 
                                 <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['city'].touched && secondFormGroup.controls['city'].hasError('required')">
-                                  {{ validationMessages.required('City') }}
+                                  {{ validationMessages.requiredDropdown('City') }}
                                 </div>
                               </div>
                             </div>
@@ -216,8 +219,25 @@
 
                   <!-- Step 3 -->
                   <mat-step [stepControl]="step3" label="Verification">
-                     <form [formGroup]="thirdFormGroup" (ngSubmit)="signupSubmit(3,thirdFormGroup.value)">
+                     <form [formGroup]="thirdFormGroup" (ngSubmit)="goToNext(3,thirdFormGroup.value,stepper)">
                        <div class="row">
+
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label class="col-form-label fw-600">Type of ID Proof </label>
+                            <select class="form-select form-control" id="documents_type" aria-label="Default select example" [(ngModel)]="selectedDocumentsType" formControlName="documents_type">
+                              <option selected value="">Select Type of ID Proof</option>
+                              <option *ngFor="let item of documents_type_list" value="{{item}}" >{{item}}</option>                              
+                            </select>                            
+                            <div class="text text-danger mt-1" *ngIf="thirdFormGroup.controls['documents_type'].touched && thirdFormGroup.controls['documents_type'].hasError('required')">
+                              {{ validationMessages.requiredDropdown('ID Proof') }}
+                            </div>
+                            <div class="text text-danger mt-1" *ngIf="thirdFormGroup.errors?.['documents_type_empty']">
+                              {{ validationMessages.requiredProofDocument }}
+                            </div>
+                          </div>
+                        </div>
+
                         <div class="col-12">
                           <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
                             <div class="upload--box" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader" (fileOver)="fileOverBase($event)">
@@ -228,12 +248,14 @@
                             </div>
                           </div>
                         </div>
+
                         <mat-form-field class="full-width" *ngIf="documents_temps">
                           <input matInput name="documents_temp" formControlName="documents_temp" />
-                          <small *ngIf="thirdFormGroup.controls['documents_temp'].hasError('required') && thirdFormGroup.controls['documents_temp'].touched"
-                            class="form-error-msg"> Please drag your document. </small>
+      
                         </mat-form-field>
-                        
+                        <div class="text text-danger mt-1" *ngIf="thirdFormGroup.controls['documents_temp'].hasError('required') && thirdFormGroup.controls['documents_temp'].touched" class="form-error-msg"> Please drag your document. </div>
+                        <div class="text text-danger mt-1" class="form-error-msg" *ngIf="thirdFormGroup.errors?.['documents_temp_empty']"> {{ validationMessages.requiredDocument }} </div>
+
                         <div class="col-12 d-flex align-items-center mb-3">
                           <div class="row align-items-center w-100">
                             <div class="col-11">
@@ -269,13 +291,17 @@
                           </div>
                         </div>
                         <div class="col-12 d-flex align-items-center mb-3"> 
-                          <mat-checkbox class="">By Clicking on ‘Sign Up’ you agree to the Privacy Policy and Terms of Services of the HPT-EHR platform.</mat-checkbox>
+                          <mat-checkbox class="" formControlName="isChecked" required>By Clicking on ‘Sign Up’ you agree to the Privacy Policy and Terms of Services of the HPT-EHR platform.</mat-checkbox>
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="thirdFormGroup.controls['isChecked'].touched && thirdFormGroup.controls['isChecked'].hasError('required')">
+                          {{ validationMessages.requiredCheckbox('Privacy Policy and Terms of Services') }}
                         </div>
                        </div>
 
                       <div class="d-flex align-items-center justify-content-between mt-3">
                         <button mat-stroked-button color="primary" matStepperPrevious (click)="back()">Previous</button>
-                        <button mat-raised-button color="primary" matStepperNext>Sign Up</button>
+                        <button mat-raised-button color="primary" type="submit">Sign Up</button>
+                        <!-- matStepperNext -->
                       </div>
                     </form>
                   </mat-step> 

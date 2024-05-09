@@ -26,7 +26,11 @@ export class AuthService {
   ) { }
 
   login(data: any): Observable<any> {
-    const url = `${environment.apiUrl}/auth/userLogin`;
+    let loginUrl = 'userLogin';
+   if(data.loginType=='patient'){
+    loginUrl = 'patientLogin';
+   }
+    const url = `${environment.apiUrl}/auth/`+loginUrl;
     return this.http.post(url, data).pipe();
   }
 

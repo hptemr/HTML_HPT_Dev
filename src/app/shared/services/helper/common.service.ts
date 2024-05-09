@@ -76,6 +76,8 @@ export class CommonService {
       redirect = 'therapist'
     } else if (user_type == "billing_team") {
       redirect = 'billing-team'
+    } else if (user_type == "patient") {
+      redirect = 'patient/profile-details'
     } else {
       redirect = 'signin'
     }
@@ -120,6 +122,7 @@ export class CommonService {
 
   getUserBaseOnRole(role: any): any {
     let returnObj = { userType: '' }
+    console.log('>>>>>>> Role >>>>>>>>>',role)
     if (role) {
       switch (role) {
         case 'system_admin':
@@ -132,6 +135,8 @@ export class CommonService {
           return { userType: 'Support Team' }
         case 'billing_team':
           return { userType: 'Billing Team' }
+        case 'patient':
+          return { userType: 'Patient' }
         default:
           return returnObj;
       }

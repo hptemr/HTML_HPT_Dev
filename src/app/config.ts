@@ -39,3 +39,9 @@ export const urlSegmentAndUserRole = [
   { urlSegment: 'support-team', userRole: 'support_team' },
   { urlSegment: 'billing-team', userRole: 'billing_team' }
 ]
+export const documents_list = [
+  "Driver’s License",
+  "Military ID",
+  "Montana ID",
+  "Other"
+]

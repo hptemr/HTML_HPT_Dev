@@ -5,6 +5,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { LoginComponent } from './login/login.component'; 
 import { SignupPatientComponent } from './signup-patient/signup-patient.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -25,6 +26,7 @@ import { FileUploadModule  } from 'ng2-file-upload';
     SharedModule, 
     AuthRoutingModule, 
     MatStepperModule,
+    MatCheckboxModule,
     NgOptimizedImage,
     FileUploadModule,
   ],

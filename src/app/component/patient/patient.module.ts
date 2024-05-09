@@ -6,13 +6,14 @@ import { PatientRoutingModule } from './patient-routing.module';
 import { AppointmentsComponent } from './appointments/appointments/appointments.component';
 import { AppointmentDetailsComponent } from './appointments/appointment-details/appointment-details.component';
 import { AppointmentManageDetailsComponent } from './appointments/appointment-manage-details/appointment-manage-details.component';
-
+import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 
 @NgModule({
   declarations: [
     AppointmentsComponent, 
     AppointmentDetailsComponent,
-    AppointmentManageDetailsComponent
+    AppointmentManageDetailsComponent,
+    PatientProfileComponent
   ],
   imports: [
     CommonModule,

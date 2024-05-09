@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout'; 
 import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';//FormArray,
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
@@ -15,7 +16,7 @@ import { cities_data } from '../../../city';
 import { FileUploader,FileSelectDirective  } from 'ng2-file-upload';
 import { AlertComponent } from '../../../shared/comman/alert/alert.component';
 import { MatDialog,MatDialogRef } from '@angular/material/dialog';
-import { serverUrl, s3Details } from '../../../config';
+import { serverUrl, s3Details,documents_list } from '../../../config';
 const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
   state: string;
@@ -33,6 +34,7 @@ interface City {
   styleUrl: './signup-patient.component.scss', 
 })
 export class SignupPatientComponent implements OnInit {
+  @ViewChild('stepper') stepper: MatStepper;
   states: State[] = states_data;
   cities: City[] = []
   public show: boolean = false;
@@ -48,16 +50,21 @@ export class SignupPatientComponent implements OnInit {
   step3: FormGroup;
   minStartDate: any
   maxEndDate: any
+
+  emailError = false;
+  invalidEmailErrorMessage: string = '';
+
   firstFormGroupData: any
   secondFormGroupData: any
   thiredFormGroupData: any
   readonly DT_FORMAT = 'MM/DD/YYYY';
   //stepper: MatStepper;
+  
   filename: any;
   userId: any = '';
   public uploader: FileUploader = new FileUploader({ url: `${URL}?` });
   public hasBaseDropZoneOver: boolean = false;
-  documentsMissing = false;
+  documentsMissing = true;
   invalidMessage: string;
   documents_temps = false;
   documentsList: any = [];
@@ -69,6 +76,9 @@ export class SignupPatientComponent implements OnInit {
   fileErrors: any;
   thirdFormDisabled = false
   currentProgessinPercent: number = 0;
+  selectedDocumentsType: string;
+  documents_type_list:any=[];
+  isChecked = false
 
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
@@ -80,6 +90,8 @@ export class SignupPatientComponent implements OnInit {
   }
   
   ngOnInit() {    
+    this.documents_type_list = documents_list;
+
      this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
     if(localStorage.getItem("firstFormGroupData")){
       this.firstFormGroupData = JSON.parse(this.firstFormGroupData)
@@ -130,9 +142,36 @@ export class SignupPatientComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({    
-      documents_temp: ['']
+      documents_type: [null,[]],
+      documents_temp: ['',[]],
+      isChecked: [false, [Validators.requiredTrue]]
+    } , {
+        validator: this.dependentFieldValidator
     });
+    
+    console.log('thirdFormGroup  >>>>>',this.thirdFormGroup.controls["documents_type"]);
     this.filterStartDate();
+  }
+  
+
+  dependentFieldValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const field1:any = control.get('documents_type');
+    const field2:any = control.get('documents_temp');
+
+    
+    //this.thirdFormGroup.controls["documents_type"].markAsTouched();
+    //return field1.setValidators(Validators.required);
+    //console.log('######>>>>>',this.thirdFormGroup);//.controls["documents_type"],' ............',this.thirdFormGroup.controls["documents_temp"])
+    if (field1.value && (!field2.value || field2.value === undefined)) {  
+      console.log('field2 empty>>> ');
+      return { documents_temp_empty: true };
+    } else if ((!field1.value || field1.value === undefined) && field2.value) {
+      console.log('field1 empty>>> ');
+      return { documents_type_empty: true };
+    }else{
+      return null;
+    }
+
   }
 
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -145,15 +184,7 @@ export class SignupPatientComponent implements OnInit {
   }
 
   goToNext(steps:any, userData:any,stepper:MatStepper) {
-    // console.log('steps>>>>',steps)
-    // console.log('userData>>>>',userData)
-    // if (steps==2){
-    //   this.mainHeadTxt="Verify your account"
-    // } else{
-    //   this.mainHeadTxt="Create your account"
-    // }  
-    // stepper.next();
-    
+
     this.mainHeadTxt="Create your account";
     if (steps==1 && !this.firstFormGroup.invalid){
       //console.log('firstFormGroup >>>>',this.firstFormGroup.invalid,'==========',this.firstFormGroup.dirty,' >>>>> ',this.firstFormGroup)
@@ -189,17 +220,35 @@ export class SignupPatientComponent implements OnInit {
         this.signupSubmit(steps,second_form_data)
     }
 
+    if (steps==3 && !this.thirdFormGroup.invalid){
+      let thiredFormData = {
+        "documents_type":userData.documents_type,
+        "acceptConsent": userData.isChecked
+      }
+      
+      if(this.thiredFormGroupData){
+        console.log('thiredFormGroupData>>>',this.thiredFormGroupData)
+        const currentItems = JSON.parse(this.thiredFormGroupData) || [];
+        console.log(this.thiredFormGroupData,'currentItems>>>',currentItems)
+        const updatedItems = currentItems.concat(thiredFormData);
+        localStorage.setItem('thiredFormGroupData', JSON.stringify(updatedItems));
+      }      
+      this.signupSubmit(steps,thiredFormData)
+    }
+
     if (steps==1 && this.firstFormGroup.invalid) {
+      this.mainHeadTxt="Create your account"
       this.firstFormGroup.markAllAsTouched();
       return;
     }else if (steps==2 && this.secondFormGroup.invalid) {
+      this.mainHeadTxt="Verify your account";
         this.firstFormGroup.markAllAsTouched();
         return;      
-    }else{
-      if (steps==2){
-        this.mainHeadTxt="Verify your account";
-      }       
-      stepper.next();
+    }else if (steps==3 && this.thirdFormGroup.invalid) {
+      this.thirdFormGroup.markAllAsTouched();
+      return;  
+    }else{          
+      //stepper.next();
     }
   }
 
@@ -210,12 +259,24 @@ export class SignupPatientComponent implements OnInit {
         step:steps,
         data: data
       }
+     
        this.commonService.showLoader();
+       console.log(this.thirdFormGroup)
     await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
       this.commonService.hideLoader();
       if (response.error) {
+        if(steps && steps==1){
+          if(response.data.email){
+            this.firstFormGroup.controls["email"].markAsTouched();
+            //this.firstFormGroup.controls['email'].setValue('');
+            this.emailError = true;
+            this.invalidEmailErrorMessage = response.data.email;
+          }
+          this.stepper.previous();
+        }
+
         if(response.message){
-          this.commonService.openSnackBar(response.message, "SUCCESS")   
+          this.commonService.openSnackBar(response.message, "ERROR")   
         }
       } else {
         localStorage.setItem("userId", response.data);
@@ -227,7 +288,8 @@ export class SignupPatientComponent implements OnInit {
           localStorage.removeItem('secondFormGroupData');
           localStorage.removeItem('thiredFormGroupData');
           this.router.navigate(['/'])
-        }     
+        }  
+        this.stepper.next();   
       }      
     })
   }
@@ -290,7 +352,6 @@ export class SignupPatientComponent implements OnInit {
       if(uploadCnt>0){
         this.thirdFormDisabled = false
       }
-      //this.snack.open("You can't upload more than 50 documents.", 'OK', { duration: 4000 })
       this.invalidMessage = "You can't upload more than 1 document.";
       //this.documentsMissing = true;
       this.uploader.clearQueue();
@@ -338,8 +399,10 @@ export class SignupPatientComponent implements OnInit {
           "size": size
         }
         localStorage.setItem("thiredFormGroupData", JSON.stringify(thiredGroupData));
-        this.thirdFormGroup.controls['documents_temp'].setValue(filename);
-        this.getUploadedDocs(filename,original_name);
+        this.thirdFormGroup.controls['documents_temp'].setValue(filename);       
+        setTimeout(() => {
+          this.getUploadedDocs(filename,original_name);
+        },1200);
       };
       this.uploader.onCompleteAll = () => {
         this.thirdFormDisabled = false
@@ -375,7 +438,7 @@ export class SignupPatientComponent implements OnInit {
     return result;
   }
 
-  async getUploadedDocs(filename:any,original_name:any) {
+  async getUploadedDocs(filename:string,original_name:string) {
     let query = {};
     let req_vars = {
       //query: Object.assign({ filePath: path }, query),
@@ -386,6 +449,7 @@ export class SignupPatientComponent implements OnInit {
       if (response.error) {
           this.commonService.openSnackBar(response.message, "ERROR")           
       } else {
+        console.log('filename>>>',filename,'original_name<<<',original_name)
         let profile = response.data;
         this.documentsName = original_name;
         this.documentsLink = profile.document;
@@ -417,7 +481,6 @@ export class SignupPatientComponent implements OnInit {
           return 'image';
       } 
     }
-    console.log('status>>>',status)
     return status;
 }
 
@@ -440,12 +503,18 @@ export class SignupPatientComponent implements OnInit {
         }
         this.authService.apiRequest('post', 'patients/deleteDocument', req_vars).subscribe(async response => {
           this.commonService.hideLoader();
-          console.log('Response >>>>',response)
+          
           if (response.error) {
             this.commonService.openSnackBar(response.message, "SUCCESS")           
           } else {          
             this.documentsMissing = true;            
             this.thirdFormGroup.controls['documents_temp'].setValue('');
+           
+            if(this.thirdFormGroup.controls['documents_type'].value){
+              this.thirdFormGroup.controls['documents_temp'].setValidators(Validators.required);  
+             // this.dependentFieldValidator(this.thirdFormGroup);  
+              this.thirdFormGroup.reset();
+            }            
             localStorage.setItem("thiredFormGroupData", '');
             this.commonService.hideLoader();
             this.commonService.openSnackBar(response.message, "SUCCESS")
@@ -459,31 +528,6 @@ export class SignupPatientComponent implements OnInit {
 
   }
 
-  
- checkimg(link:string,docName:string) {
-    console.log('docName>>>',docName)
-    let status = '<mat-icon>file_copy</mat-icon>';
-    if (docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'jpg' ||
-      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'jpeg' ||
-      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'png' ||
-      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'JPG' ||
-      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'JPEG' ||
-      docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'PNG') {
-      if (docName) {
-        status = '<img src="'+link+'" alt="'+docName+'" class="img-fluid" />';
-      }
-    } 
-    else if (docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'docx' || docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'doc') {
-      status = '<mat-icon>file_copy</mat-icon>';
-    } else if (docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'PDF' || docName.substr((docName.lastIndexOf('.') + 1)).toLowerCase() == 'pdf') {
-      status = '<mat-icon>picture_as_pdf</mat-icon>';
-    }
-    console.log('docName status>>>',status)
-    return status;
-  }
-
-
-
   showPassword() {
     this.show = !this.show;
   }
@@ -491,10 +535,6 @@ export class SignupPatientComponent implements OnInit {
   showConfirmPassword() {
     this.showConfirmPass = !this.showConfirmPass;
   }
-
-  // next(){
-  //   this.mainHeadTxt="Verify your account"
-  // }
 
   back(){
     this.mainHeadTxt="Create your account"

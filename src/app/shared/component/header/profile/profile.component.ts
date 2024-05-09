@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { AuthService } from '../../../../shared/services/api/auth.service';
@@ -21,6 +21,8 @@ interface AdminProfile {
 export class ProfileComponent {
   adminProfile: AdminProfile = { _id:'',firstName: '',lastName: '',role: '', userType:''};
   userData : any;
+  fullName:any
+  userType:any
   constructor( 
     public dialog: MatDialog,
     private authService:AuthService,
@@ -32,40 +34,43 @@ export class ProfileComponent {
   }
 
   ngOnInit() {
-    this.getLoginUserProfile()
+
+    this.fullName = this.authService.getFullName()
+    this.userType = this.authService.getLoggedInInfo('role')
+    //this.getLoginUserProfile()
   }
 
-  getLoginUserProfile(){
-    this.commonService.getLoginUserProfile().subscribe({
-      next: (res) => {
-        if(!res && res==null){  
-          this.getProfile()
-        }else{
-          this.adminProfile = res
-          let { userType }= this.commonService.getUserBaseOnRole(res.role)
-          this.adminProfile['userType']= userType
-        }
-      },error: (_err) => {
-        this.getProfile()
-      }
-    });
-  }
+  // getLoginUserProfile(){
+  //   this.commonService.getLoginUserProfile().subscribe({
+  //     next: (res) => {
+  //       if(!res && res==null){  
+  //         this.getProfile()
+  //       }else{
+  //         this.adminProfile = res
+  //         let { userType }= this.commonService.getUserBaseOnRole(res.role)
+  //         this.adminProfile['userType']= userType
+  //       }
+  //     },error: (_err) => {
+  //       this.getProfile()
+  //     }
+  //   });
+  // }
 
-  getProfile(){
-    let bodyData ={
-      query: { _id : this.userData._id},
-      params: { firstName:1,lastName:1,role:1 }
-    }
-    this.adminService.profile(bodyData).subscribe({
-      next: (res) => {
-        if(res && !res.error){
-          this.adminProfile = res.data
-          let { userType }= this.commonService.getUserBaseOnRole(res.data.role)
-          this.adminProfile['userType']= userType
-        }
-      },error: (_err) => {}
-    });
-  }
+  // getProfile(){
+  //   let bodyData ={
+  //     query: { _id : this.userData._id},
+  //     params: { firstName:1,lastName:1,role:1 },
+  //   }    
+  //   this.adminService.profile(bodyData).subscribe({
+  //     next: (res) => {
+  //       if(res && !res.error){
+  //         this.adminProfile = res.data
+  //         let { userType }= this.commonService.getUserBaseOnRole(res.data.role)
+  //         this.adminProfile['userType']= userType
+  //       }
+  //     },error: (_err) => {}
+  //   });
+  // }
 
   logOut() {
     console.log(this.userData)
