@@ -1,4 +1,5 @@
 import { Component, NgZone } from '@angular/core';
+import { AuthService } from './shared/services/api/auth.service';
 
 //const MINUTES_UNITL_AUTO_LOGOUT = 180 //in Minutes => 3Hours
 
@@ -16,7 +17,7 @@ export class AppComponent {
   timediff = 0
   isPopUpShow = true
   checkUserActivity: any
-  constructor(private ngZone: NgZone) {
+  constructor(private ngZone: NgZone, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -85,8 +86,11 @@ export class AppComponent {
     }
 
     if (isTimeout && this.timediff >= 0) {
-      localStorage.removeItem('user')
-      window.location.href = '/'
+      let req_vars = { _id: this.authService.getLoggedInInfo("_id") }
+      this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => {
+        localStorage.removeItem('user')
+        window.location.href = '/'
+      })
     }
     this.timediff = diff
   }
