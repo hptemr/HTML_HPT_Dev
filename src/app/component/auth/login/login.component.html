@@ -41,13 +41,13 @@
                             </div>
                             <div class="form-group mb-0"> 
                                 <mat-checkbox class="" formControlName="rememberMe">Remember Me</mat-checkbox>
-                                <a class="link font-12 fw-600" [routerLink]="['/forgot-password']">Forgot password?</a>
+                                <a class="link font-12 fw-600" [routerLink]="forgetPasswordLink">Forgot password?</a>
                                 <div class="text-end mt-3">
                                     <button  class="btn btn-primary font-16 w-100" [disabled]="!loginForm.valid"
                                         (click)="login()" type="submit">Login</button>
                                 </div>
                             </div> 
-                            <p class="mt-4 mb-0 text-center">Not Registered Yet? 
+                            <p class="mt-4 mb-0 text-center" *ngIf="userType=='patient'">Not Registered Yet? 
                                 <a class="ms-2 font-16 fw-600" [routerLink]="['/signup']">Create an account
                                 </a>
                             </p>

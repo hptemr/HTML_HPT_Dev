@@ -13,6 +13,8 @@ import { validationMessages } from '../../../utils/validation-messages'
 export class ForgotPasswordComponent {
   validationMessages = validationMessages; 
   public forgotPasswordForm: FormGroup;
+  userType: string = 'patient';
+  signInLink: string ='/'
 
   constructor(
     private fb: FormBuilder,
@@ -22,8 +24,17 @@ export class ForgotPasswordComponent {
     ) {}
 
   ngOnInit() {
+    const locationArray = location.href.split('/')
+    let lastParam = locationArray[locationArray.length - 2];
+    
+    if(lastParam=='admin'){
+      this.userType = 'admin';
+      this.signInLink='/admin/login'
+    }
+
     this.forgotPasswordForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]]
+      email: ["", [Validators.required, Validators.email]],
+      userType:[this.userType]
     });
   }
 
@@ -33,7 +44,11 @@ export class ForgotPasswordComponent {
         next: (res) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
-            this.router.navigate(["/"]);
+            if(this.userType=='patient'){
+              this.router.navigate(["/"]);
+            }else{
+              this.router.navigate(["/admin"]);
+            }            
           }
         },error: (err) => {
           console.log("err login>>>>",err);

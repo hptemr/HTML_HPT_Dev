@@ -23,7 +23,15 @@ const routes: Routes = [
     component: ForgotPasswordComponent
   },
   {
+    path: 'admin/forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
     path: 'reset-password',
+    component: ResetPasswordComponent
+  },
+  {
+    path: 'admin/reset-password',
     component: ResetPasswordComponent
   },
   {

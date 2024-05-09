@@ -19,6 +19,7 @@ export class ResetPasswordComponent {
   public userId: string;
   public token: any;
   passwordForm: FormGroup;
+  userType: string = 'patient';
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +32,13 @@ export class ResetPasswordComponent {
   }
 
   ngOnInit() {
+    const locationArray = location.href.split('/')
+    let lastParam = locationArray[locationArray.length - 2];
+    
+    if(lastParam=='admin'){
+      this.userType = 'admin';
+    }
+
     this.checkResetPassLink()
     this.initializePasswordForm()
   }
@@ -38,7 +46,8 @@ export class ResetPasswordComponent {
   initializePasswordForm(){
     this.passwordForm = this.fb.group({
       password: ['', [Validators.required, Validators.pattern(regex.password)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      userType:[this.userType]
     }, {
       validator: this.passwordMatchValidator
     });
@@ -62,14 +71,19 @@ export class ResetPasswordComponent {
   // }
 
   checkResetPassLink(){
-      this.authService.checkForgotPasswordToken(this.token).subscribe({
+      this.authService.checkForgotPasswordToken(this.token,this.userType).subscribe({
         next: (res) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
           }
         },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
-          this.router.navigate(["/"]);
+          if(this.userType=='admin'){
+            this.router.navigate(["/admin/login"]);
+          }else{
+            this.router.navigate(["/"]);
+          }
+
         }
       });
   }
@@ -79,13 +93,18 @@ export class ResetPasswordComponent {
       const resetBody = {
         // userId: this.userId,
         token: this.token,
-        password: this.passwordForm.value['confirmPassword']
+        password: this.passwordForm.value['confirmPassword'],
+        userType:this.userType
       }
       this.authService.resetPassword(resetBody).subscribe({
         next: (res) => {
           if(res && !res.error){
             this.commonService.openSnackBar(res.message,"SUCCESS")
-            this.router.navigate(["/"]);
+            if(this.userType=='admin'){
+              this.router.navigate(["/admin/login"]);
+            }else{
+              this.router.navigate(["/"]);
+            }
           }
         },error: (err) => {
           err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''

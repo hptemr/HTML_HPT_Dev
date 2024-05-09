@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
   public show: boolean = false;
   public loginForm: FormGroup;
   rememberMeObj: any = { email: '', password: '', rememberMe: false };
-  loginType: string = 'patient';
+  userType: string = 'patient';
+  forgetPasswordLink:string = '/forgot-password'
 
   constructor(
     private fb: FormBuilder,
@@ -32,8 +33,10 @@ export class LoginComponent implements OnInit {
     let lastParam = locationArray[locationArray.length - 2];
     
     if(lastParam=='admin'){
-      this.loginType = 'admin';
+      this.userType = 'admin';
+      this.forgetPasswordLink = '/admin/forgot-password'
     }
+    
     this.initializeLoginForm()
   }
 
@@ -42,7 +45,7 @@ export class LoginComponent implements OnInit {
       email: [this.rememberMeObj.email, [Validators.required, Validators.email]],
       password: [this.rememberMeObj.password, Validators.required],
       rememberMe: [this.rememberMeObj.rememberMe],
-      loginType:[this.loginType]
+      userType:[this.userType]
     });
   }
 
@@ -54,7 +57,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
-          console.log("login:", res);
           this.setLocalStorage(res, this.loginForm.value)
           this.commonService.redirectToHome()
         }, error: (err) => {

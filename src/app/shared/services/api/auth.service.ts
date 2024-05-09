@@ -27,7 +27,7 @@ export class AuthService {
 
   login(data: any): Observable<any> {
     let loginUrl = 'userLogin';
-   if(data.loginType=='patient'){
+   if(data.userType=='patient'){
     loginUrl = 'patientLogin';
    }
     const url = `${environment.apiUrl}/auth/`+loginUrl;
@@ -91,8 +91,8 @@ export class AuthService {
     return this.http.post(url, data).pipe();
   }
 
-  checkForgotPasswordToken(token: string): Observable<any> {
-    const url = `${environment.apiUrl}/auth/checkForgotPasswordToken?token=${token}`;
+  checkForgotPasswordToken(token: string,userType: string,): Observable<any> {
+    const url = `${environment.apiUrl}/auth/checkForgotPasswordToken?token=${token}&userType=${userType}`;
     return this.http.get(url).pipe();
   }
 
