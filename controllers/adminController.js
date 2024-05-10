@@ -147,12 +147,11 @@ const changePassword = async (req, res, next) => {
   const updateUser = async (req, res) => {
     try {
       const { query, updateInfo } = req.body
-      if (query._id && query._id != undefined) {
+      
+      if (req.body.passwordReset != undefined && req.body.passwordReset == true) {
         let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
         query._id = decryptTokenData.userId
-      }
 
-      if (req.body.passwordReset != undefined && req.body.passwordReset == true) {
         let salt = await bcrypt.genSalt(10)
         let password = await bcrypt.hash(updateInfo.password, salt)
         delete updateInfo.password
