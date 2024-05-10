@@ -21,7 +21,7 @@ const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const signup = async (req, res) => {
     try {
         const { query, step, data } = req.body;
-        //console.log('data>>>',data)
+        console.log('data>>>',data)
           let alreadyPatient = await Patient.findOne({ email: data.email });
         let found = [];
         if(query._id){
@@ -62,20 +62,20 @@ const signup = async (req, res) => {
                         document_size:found.document_size,
                         status:'Active'
                     }
-
+                    console.log('request_data>>>',request_data)
                     let newPatient = new Patient(request_data);
                     result = await newPatient.save();
                     if(result._id){
                         result_id = result._id;
-                        await PatientTemp.deleteOne({ _id: found._id });
-                        
-                        let email_data = {
-                            firstName:found.firstName,
-                            email:found.email,
-                            link:constants.clientUrl
+                        if(found.email){
+                            await PatientTemp.deleteOne({ _id: found._id });
+                            let email_data = {
+                                firstName:found.firstName,
+                                email:found.email,
+                                link:constants.clientUrl
+                            }
+                            triggerEmail.patientSignup('patientsignup',email_data)
                         }
-                        
-                        triggerEmail.patientSignup('patientsignup',email_data)
                         message = userMessage.patientSignup;
                     }
              
@@ -88,7 +88,8 @@ const signup = async (req, res) => {
                 result = await newPatient.save();
                 result_id = result._id;
             }
-            commonHelper.sendResponse(res, 'success', result_id, message);            
+            let responsedata = {'user_id':result_id};
+            commonHelper.sendResponse(res, 'success', responsedata, message);            
         }
     } catch (error) {
         console.log('query>>>', error)
@@ -131,15 +132,13 @@ const uploadPatientDocument = async function(req,res){
                     authTokens[fieldname] = val
                 })
                 const {query:{userId}} = req;
-                req.busboy.on('file',async function (fieldname, file, fileObj) {
-                    let restmpallfiles = {};
-                    let oldTmpFiles = [];
+                req.busboy.on('file',async function (fieldname, file, fileObj) {                   
                     let fileSize = 0;
                     if(userId){
                        let result = await PatientTemp.findOne({ _id: userId });
                          if (result) {   
                             if(result.document_temp_name)  {
-                               await s3.deleteFile(patientFilePath+userId+'/',result.document_temp_name);
+                               await s3.deleteFile(patientFilePath+'/',result.document_temp_name);
                             }
                             let filename = fileObj.filename;
                             fileSize = fileObj.encoding;
@@ -153,14 +152,13 @@ const uploadPatientDocument = async function(req,res){
                                 fstream = fs.createWriteStream(__dirname + '/../tmp/' + newFilename)
                                 file.pipe(fstream);
                                 fstream.on('close', async function () {
-                                    let s3Response = await s3.uploadPrivateFile(newFilename,patientFilePath+userId+'/',mimetype);
+                                    let s3Response = await s3.uploadPrivateFile(newFilename,patientFilePath,mimetype);
                                     if(s3Response.size){
                                         fileSize = await bytesToMB(s3Response.size);
                                     }
-                                    let uploadDocs =  { "document_name": filename,"document_temp_name":newFilename,document_size:fileSize }
-                                    restmpallfiles = oldTmpFiles;
+                                    let uploadDocs =  { "document_name": filename,"document_temp_name":newFilename,document_size:fileSize }                       
                                     await PatientTemp.updateOne({ _id: userId }, { $set: uploadDocs });
-                                    let results = { userId:userId, filepath:constants.s3Details.url+patientFilePath, filename:userId+'/'+newFilename, original_name:filename,document_size:fileSize }                                        
+                                    let results = { userId:userId, filepath:constants.s3Details.url+patientFilePath, filename:newFilename, original_name:filename,document_size:fileSize }                                        
                                     commonHelper.sendResponse(res, 'success', results, 'File Upload Successfully!');
                                 })
                             }else{
@@ -221,16 +219,20 @@ async function previewDocument(req,res) {
       }      
       
       let results = {'document':documentLink,document_size:fileSize};
-      console.log('results>>>',results)
+      //console.log('results>>>',results)
       commonHelper.sendResponse(res, 'success', results, 'Get file successfully!');
 }
 
 const deleteDocument = async (req, res) => {
     try {
         const { query } = req.body;                
-        let found = await PatientTemp.findOne({ _id: query._id });     
+        let found = await PatientTemp.findOne({ _id: query._id });  
+        
         if(found && found.document_temp_name){        
-            await s3.deleteFile(patientFilePath+query._id+'/',found.document_temp_name);             
+            await s3.deleteFile(patientFilePath,found.document_temp_name);                 
+            let deleteDocs =  { "document_name": '',"document_temp_name":'',"document_size":'' }                       
+            await PatientTemp.updateOne({ _id:found._id }, { $set: deleteDocs });
+
             commonHelper.sendResponse(res, 'success', null, 'Document deleted successfully!');
         }else{
             commonHelper.sendResponse(res, 'error', null, 'Record not found.');
