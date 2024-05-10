@@ -76,10 +76,10 @@ export class ManageProfileComponent {
       this.updateProfileForm.value['clickAction'] = 'update'
       this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
         next: (res) => {
-          if (res && !res.error) {
-            this.commonService.fetchLoginUserProfile(this.modifyUpdatedProfileData(res.data))
-            this.commonService.openSnackBar(res.message, "SUCCESS")
-            this.getProfile()
+          if(res && !res.error){
+            this.updateProfileSetInLocalStorage(res.data)
+            this.commonService.openSnackBar(res.message,"SUCCESS")
+            // this.getProfile()
           }
         }, error: (err) => {
           err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
@@ -88,13 +88,12 @@ export class ManageProfileComponent {
     }
   }
 
-  modifyUpdatedProfileData(updateProfileData: any) {
-    return {
-      _id: updateProfileData._id,
-      firstName: updateProfileData.firstName,
-      lastName: updateProfileData.lastName,
-      role: updateProfileData.role
-    }
+  updateProfileSetInLocalStorage(updateProfileData:any){
+    let localSorageUserData:any = this.authService.getLoggedInInfo('all')
+    localSorageUserData.firstName = updateProfileData.firstName;
+    localSorageUserData.lastName = updateProfileData.lastName;
+    localStorage.setItem('user', JSON.stringify(localSorageUserData));
+    window.location.reload()
   }
 
   async changePhoto() {
@@ -105,7 +104,6 @@ export class ManageProfileComponent {
     });
 
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(":result:", result)
       this.commonService.showLoader()
       if (result !== false && result.image !== null && result.image !== undefined) {
         let reqVars = {
@@ -136,7 +134,7 @@ export class ManageProfileComponent {
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: 'Do you really want to delete this account?'
+        warningNote: 'Do you really want to remove this image?'
       }
     })
 

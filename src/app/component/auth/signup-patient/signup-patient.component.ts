@@ -26,8 +26,6 @@ interface City {
   city: string;
   state_code: string;
 }
-
-//import { CustomValidators } from 'ng2-validation';
 @Component({
   selector: 'app-signup-patient', 
   templateUrl: './signup-patient.component.html',
@@ -44,7 +42,7 @@ export class SignupPatientComponent implements OnInit {
   stepperOrientation: Observable<StepperOrientation>;
   selectedDate: NgbDateStruct;
   selectedCity: string;
-  //selected_date:string = '';
+    //stepper: MatStepper;
   step1: FormGroup;
   step2: FormGroup;
   step3: FormGroup;
@@ -58,8 +56,8 @@ export class SignupPatientComponent implements OnInit {
   secondFormGroupData: any
   thiredFormGroupData: any
   readonly DT_FORMAT = 'MM/DD/YYYY';
-  //stepper: MatStepper;
-  
+
+  convertPhoneNumber: string = '';
   filename: any;
   userId: any = '';
   public uploader: FileUploader = new FileUploader({ url: `${URL}?` });
@@ -70,6 +68,7 @@ export class SignupPatientComponent implements OnInit {
   documentsList: any = [];
   documentsLink: string = '';
   documentsName: string = '';
+  selected_date: string = '';
   fileType: string = '';
   document_size: string = '';
   uploadAll: boolean = false;
@@ -95,6 +94,7 @@ export class SignupPatientComponent implements OnInit {
      this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
     if(localStorage.getItem("firstFormGroupData")){
       this.firstFormGroupData = JSON.parse(this.firstFormGroupData)
+      if(this.firstFormGroupData.disply_dob)this.onDateChange(this.firstFormGroupData.disply_dob)
     }
 
     this.secondFormGroupData = localStorage.getItem("secondFormGroupData");
@@ -113,6 +113,7 @@ export class SignupPatientComponent implements OnInit {
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
         this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
+        console.log('>>>>',this.thiredFormGroupData);
       }
     }
 
@@ -122,13 +123,13 @@ export class SignupPatientComponent implements OnInit {
         firstName: [this.firstFormGroupData ? this.firstFormGroupData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
         middleName: [this.firstFormGroupData ? this.firstFormGroupData.middleName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator,  Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
         lastName: [this.firstFormGroupData ? this.firstFormGroupData.lastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
-        //increaing last chars from max 4 to 8.
         email: [this.firstFormGroupData ? this.firstFormGroupData.email : '', [Validators.required,Validators.email,CustomValidators.noWhitespaceValidator,]],//Validators.pattern(/^[a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/i)
-        dob: [this.firstFormGroupData ? this.firstFormGroupData.dob : '',[Validators.required]],
-        phoneNumber: [this.firstFormGroupData ? this.firstFormGroupData.phoneNumber : '',[Validators.required,Validators.pattern(/^(1\s?)?((\([0-9]{3}\))|[0-9]{3})[\s\-]?[\0-9]{3}[\s\-]?[0-9]{4}$/), Validators.maxLength(14)]],
+        dob: ['',[Validators.required]],
+        phoneNumber: [this.firstFormGroupData ? this.firstFormGroupData.phoneNumber : '',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
+        //,Validators.pattern(/^(1\s?)?((\([0-9]{3}\))|[0-9]{3})[\s\-]?[\0-9]{3}[\s\-]?[0-9]{4}$/)
         gender: [this.firstFormGroupData ? this.firstFormGroupData.gender : '', [Validators.required]],
         password:[this.firstFormGroupData ? this.firstFormGroupData.password : '', [Validators.required,Validators.pattern(regex.password)]],
-        confirmPassword:[this.firstFormGroupData ? this.firstFormGroupData.password :'', [Validators.required,]]
+        confirmPassword:['', [Validators.required,]]//this.firstFormGroupData ? this.firstFormGroupData.password
       } , {
           validator: this.passwordMatchValidator
       });
@@ -142,31 +143,34 @@ export class SignupPatientComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({    
-      documents_type: [null,[]],
-      documents_temp: ['',[]],
+      documents_type: [this.thiredFormGroupData ? this.thiredFormGroupData.documents_type : '', []],
+      documents_temp: ['', []],
       isChecked: [false, [Validators.requiredTrue]]
     } , {
         validator: this.dependentFieldValidator
     });
     
-    console.log('thirdFormGroup  >>>>>',this.thirdFormGroup.controls["documents_type"]);
+    
     this.filterStartDate();
   }
+
+  checkSpace(colName: any, event: any) {
+ 
+    colName.setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
   
+  onPhoneInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.convertPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
+  }
 
   dependentFieldValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const field1:any = control.get('documents_type');
     const field2:any = control.get('documents_temp');
-
-    
     //this.thirdFormGroup.controls["documents_type"].markAsTouched();
-    //return field1.setValidators(Validators.required);
-    //console.log('######>>>>>',this.thirdFormGroup);//.controls["documents_type"],' ............',this.thirdFormGroup.controls["documents_temp"])
     if (field1.value && (!field2.value || field2.value === undefined)) {  
-      console.log('field2 empty>>> ');
       return { documents_temp_empty: true };
     } else if ((!field1.value || field1.value === undefined) && field2.value) {
-      console.log('field1 empty>>> ');
       return { documents_type_empty: true };
     }else{
       return null;
@@ -184,26 +188,22 @@ export class SignupPatientComponent implements OnInit {
   }
 
   goToNext(steps:any, userData:any,stepper:MatStepper) {
-
+      
     this.mainHeadTxt="Create your account";
     if (steps==1 && !this.firstFormGroup.invalid){
-      //console.log('firstFormGroup >>>>',this.firstFormGroup.invalid,'==========',this.firstFormGroup.dirty,' >>>>> ',this.firstFormGroup)
-      let dob = '';
-      if(userData.dob && typeof userData.dob == 'object'){
-        dob = userData.dob.year+'-'+userData.dob.month+'-'+userData.dob.day;
-      }
+
       let first_form_data = {
         "firstName":userData.firstName,
         "middleName": userData.middleName,
         "lastName": userData.lastName,
         "email": userData.email,
-        "dob": dob,
+        "disply_dob":this.selectedDate,
+        "dob":this.selected_date,
         "phoneNumber": userData.phoneNumber,
         "gender": userData.gender,
         "password": userData.password,
         "ConfirmPassword":''
       }
-        //localStorage.setItem("signupPatientData",'');
         localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
         this.signupSubmit(steps,first_form_data)
     }
@@ -227,11 +227,9 @@ export class SignupPatientComponent implements OnInit {
       }
       
       if(this.thiredFormGroupData){
-        console.log('thiredFormGroupData>>>',this.thiredFormGroupData)
-        const currentItems = JSON.parse(this.thiredFormGroupData) || [];
-        console.log(this.thiredFormGroupData,'currentItems>>>',currentItems)
-        const updatedItems = currentItems.concat(thiredFormData);
-        localStorage.setItem('thiredFormGroupData', JSON.stringify(updatedItems));
+        this.thiredFormGroupData['documents_type']=userData.documents_type;
+        this.thiredFormGroupData['acceptConsent']=userData.isChecked
+         localStorage.setItem('thiredFormGroupData', JSON.stringify(this.thiredFormGroupData));
       }      
       this.signupSubmit(steps,thiredFormData)
     }
@@ -260,8 +258,7 @@ export class SignupPatientComponent implements OnInit {
         data: data
       }
      
-       this.commonService.showLoader();
-       console.log(this.thirdFormGroup)
+       this.commonService.showLoader();       
     await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
       this.commonService.hideLoader();
       if (response.error) {
@@ -300,37 +297,20 @@ export class SignupPatientComponent implements OnInit {
   }
 
   onDateChange(date: NgbDateStruct) {
-     //this.selectedDate = date;
-     //this.formatDate(this.selectedDate);
+     this.selectedDate = date;
+     return this.formatDate(this.selectedDate);
   }
   
-  // formatDate(date: NgbDateStruct):string {
-  //   let selected_date:any = '';
-  //   if(typeof date=='object'){
-  //     selected_date = this.convertDateFormat(this.ngbDateParserFormatter.format(date));
-  //   }
-  //    return selected_date;
-  // }
-
-  // convertDateFormat(dateString: string) {
-  //   const parts = dateString.split('-');
-  //   if (parts.length === 3) {
-  //     if(parts[0]!='' && parts[1]!='' && parts[2]!='') {
-  //       dateString = `${parts[1]}-${parts[2]}-${parts[0]}`;  
-  //       const year = parseInt(parts[2], 1000);
-  //       const month = parseInt(parts[0], 10);
-  //       const day = parseInt(parts[1], 10);
-  //       if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-  //         this.selectedDate =  { month, day, year };
-  //       }
-  //     }
-  //   }
-  //   if (!dateString.includes('undefined')) {
-  //     this.selected_date = dateString;
-  //     this.firstFormGroup.controls['dob'].setValue(this.selectedDate);
-  //   }
-  //   return this.selected_date;
-  // }
+  formatDate(dateObj: NgbDateStruct):any {
+    let selected_date:any = '';
+    if(typeof dateObj=='object'){
+      //this.ngbDateParserFormatter.format(date)
+      if(dateObj.day && dateObj.month && dateObj.year){
+        selected_date = dateObj.month+'-'+dateObj.day+'-'+dateObj.year;
+      }
+    }
+    this.selected_date = selected_date;     
+  }
 
   getMinDate(): NgbDateStruct {
     const today = new Date();
@@ -355,8 +335,7 @@ export class SignupPatientComponent implements OnInit {
       this.invalidMessage = "You can't upload more than 1 document.";
       //this.documentsMissing = true;
       this.uploader.clearQueue();
-    }else{
-      console.log('uploader queue >>>>>',this.uploader.queue)
+    }else{      
     this.uploader.queue.forEach((fileoOb) => {      
       this.filename = fileoOb.file.name;
       var extension = this.filename.substring(this.filename.lastIndexOf('.') + 1);
@@ -448,8 +427,7 @@ export class SignupPatientComponent implements OnInit {
     await this.authService.apiRequest('post', 'patients/getPreviewDocument', req_vars).subscribe(async response => {   
       if (response.error) {
           this.commonService.openSnackBar(response.message, "ERROR")           
-      } else {
-        console.log('filename>>>',filename,'original_name<<<',original_name)
+      } else {        
         let profile = response.data;
         this.documentsName = original_name;
         this.documentsLink = profile.document;
@@ -548,4 +526,39 @@ export class SignupPatientComponent implements OnInit {
   getCitiesByState(state_code: string): City[] {
     return this.cities = cities_data.filter(city => city.state_code === state_code);
   }
+
+  
+  // convertDateFormat(dateObj: any) {
+  //   console.log('date>>>',dateObj,'>>>>',dateObj.year,dateObj.month,dateObj.day)
+  //   let dateString:any = '';
+  //   if(dateObj.day && dateObj.month && dateObj.year){
+  //     dateString = dateObj.month+'-'+dateObj.day+'-'+dateObj.year;
+  //     //this.selectedDate = dateObj.day+'-'+dateObj.month+'-'+dateObj.year;
+  //   }
+  //   return dateString
+  // }
+
+  // asconvertDateFormat(dateString: any) {
+  //   console.log('date>>>',dateString)
+  //   const parts = dateString.split('-');
+  //   if (parts.length === 3) {
+  //     if(parts[0]!='' && parts[1]!='' && parts[2]!='') {
+  //       dateString = `${parts[1]}-${parts[2]}-${parts[0]}`;  
+  //       const year = parseInt(parts[2], 1000);
+  //       const month = parseInt(parts[0], 10);
+  //       const day = parseInt(parts[1], 10);
+  //       if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+  //         this.selectedDate =  { month, day, year };
+  //       }
+  //     }
+  //   }
+  //   if (!dateString.includes('undefined')) {
+  //     //this.selected_date = dateString;
+  //     console.log('this.selectedDate >>>',dateString)
+  //     //this.firstFormGroup.controls['dob'].setValue(this.selectedDate);
+  //     return dateString;
+  //   }
+  //   //this.selected_date;
+  // }
+
 }

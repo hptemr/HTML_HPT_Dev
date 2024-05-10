@@ -76,7 +76,7 @@ export class AdminSignupComponent {
         if (res && !res.error) {
           this.commonService.openSnackBar(res.message, "SUCCESS")
           localStorage.setItem('user', JSON.stringify(res.data));
-          this.router.navigate(["/"])
+          this.router.navigate(["/admin/login"])
         }
       }
     })

@@ -30,6 +30,7 @@ export class CommonService {
 
   // ************* Formated US phone no *********************
   formatPhoneNumber(input: string): string {
+    console.log('input>>>',input)
     const cleaned = input.replace(/\D/g, ''); // Remove non-numeric characters
     let formattedNumber = '';
     if (cleaned.length >= 3) {
@@ -67,15 +68,15 @@ export class CommonService {
     let redirect = ''
     let user_type = this.authService.getLoggedInInfo('role')
     if (user_type == "system_admin") {
-      redirect = 'system-admin'
+      redirect = 'system-admin/manage-profile'
     } else if (user_type == "practice_admin") {
-      redirect = 'practice-admin'
+      redirect = 'practice-admin/manage-profile'
     } else if (user_type == "support_team") {
-      redirect = 'support-team'
+      redirect = 'support-team/manage-profile'
     } else if (user_type == "therapist") {
-      redirect = 'therapist'
+      redirect = 'therapist/manage-profile'
     } else if (user_type == "billing_team") {
-      redirect = 'billing-team'
+      redirect = 'billing-team/manage-profile'
     } else if (user_type == "patient") {
       redirect = 'patient/profile-details'
     } else {

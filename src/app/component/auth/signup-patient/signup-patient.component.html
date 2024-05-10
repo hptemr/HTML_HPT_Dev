@@ -24,7 +24,7 @@
                         <div class="col-12">
                           <div class="form-group">
                             <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>                            
-                            <input class="form-control" type="text" required="" placeholder="Enter First Name" formControlName="firstName" />
+                            <input class="form-control" type="text" required="" placeholder="Enter First Name" (blur)="checkSpace(firstFormGroup.controls['firstName'], $event)" formControlName="firstName" maxlength="35"/>
                             <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['firstName'].touched && (firstFormGroup.controls['firstName'].hasError('required') || firstFormGroup.controls['firstName'].invalid)">
                               {{ validationMessages.required('First Name') }}
                             </div>                            
@@ -33,7 +33,7 @@
                             <div class="form-group">
                               <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> *
                                 </span></label>
-                              <input class="form-control" type="text" placeholder="Enter Middle Name" formControlName="middleName" />
+                              <input class="form-control" type="text" placeholder="Enter Middle Name" (blur)="checkSpace(firstFormGroup.controls['middleName'], $event)" formControlName="middleName" maxlength="35" />
                               <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['middleName'].touched && (firstFormGroup.controls['middleName'].hasError('required') || firstFormGroup.controls['middleName'].invalid)">
                                 {{ validationMessages.required('Middle Name') }}
                               </div>
@@ -44,7 +44,7 @@
                             <div class="form-group">
                               <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
                                 </span></label>
-                              <input class="form-control" type="text" placeholder="Enter Last Name" formControlName="lastName"/>
+                              <input class="form-control" type="text" placeholder="Enter Last Name" (blur)="checkSpace(firstFormGroup.controls['lastName'], $event)" formControlName="lastName" maxlength="35"/>
                               <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['lastName'].touched && (firstFormGroup.controls['lastName'].hasError('required') || firstFormGroup.controls['lastName'].invalid)">
                                 {{ validationMessages.required('Last Name') }}
                               </div>
@@ -57,12 +57,13 @@
                                   <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
                                   <div class="input-group">
                                     <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp" [(ngModel)]="selectedDate"
-                                      ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event)" formControlName="dob" [minDate]="getMinDate()"  [maxDate]="maxEndDate" />
+                                      ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event)" formControlName="dob"  [value]="selected_date" [minDate]="getMinDate()"  [maxDate]="maxEndDate" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                       type="button">
                                       <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                     </button>
                                   </div>
+                                 
                                   <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['dob'].hasError('required') && firstFormGroup.controls['dob'].touched">
                                     {{ validationMessages.required('Date of Birth') }}</div>
                                 </div>
@@ -83,7 +84,7 @@
                               <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span> </label>
-                                  <input class="form-control" type="text" placeholder="Enter Email" (ngModelChange)="onDateChange($event)" formControlName="email"/>
+                                  <input class="form-control text-lowercase" type="email" placeholder="Enter Email" formControlName="email"/>
                                   <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['email'].touched && (firstFormGroup.controls['email'].hasError('required') || firstFormGroup.controls['email'].invalid)">
                                     {{ validationMessages.required('Email') }}
                                   </div>
@@ -95,10 +96,13 @@
                               <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                   <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> * </span></label>
-                                  <input class="form-control" type="number" placeholder="Enter Phone Number" formControlName="phoneNumber"/>
+                                  <input class="form-control" type="text" placeholder="Enter Phone Number" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="14" formControlName="phoneNumber"/>                            
                                   <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['phoneNumber'].touched && firstFormGroup.controls['phoneNumber'].hasError('required')">
-                                    {{ validationMessages.required('Phone Number') }}
-                                  </div>
+                                    {{ validationMessages.required('a valid phone number') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['phoneNumber'].touched && firstFormGroup.controls['phoneNumber'].hasError('pattern')">
+                                    {{ validationMessages.invalidPhoneNumber }}
+                                </div>
                                 </div>
                               </div>
                               <div class="col-12 col-lg-6">
@@ -312,7 +316,7 @@
 
             <div class="d-flex align-items-center justify-content-center mt-3 ">
               <p class="mb-0 text-center font-nunito">Already have an account?
-                  <a href="#" class="ms-2 font-16 fw-600">Sign in </a>
+                  <a href="#" class="ms-2 font-16 fw-600"  [routerLink]="['/']">Sign in </a>
               </p>
             </div>
 
