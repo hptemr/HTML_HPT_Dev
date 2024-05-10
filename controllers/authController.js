@@ -156,15 +156,16 @@ const resetPassword = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        let userId = req.body._id
-        let userType = req.body.userType        
+        let userId = req.body._id;
+        let userType = req.body.userType;        
+        let userData = '';let loginCount = 0;
         if(userType=='patient'){
-            let userData = await userCommonHelper.patientGetById(userId)
-            let loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
+            userData = await userCommonHelper.patientGetById(userId)
+            loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
             await Patient.findOneAndUpdate({ _id: userId }, { $set: { loginCount: loginCount } })
         }else{
-            let userData = await userCommonHelper.userGetById(userId)
-            let loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
+            userData = await userCommonHelper.userGetById(userId)            
+            loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
             await User.findOneAndUpdate({ _id: userId }, { $set: { loginCount: loginCount } })
         }
         commonHelper.sendResponse(res, 'success', userId, 'logout');

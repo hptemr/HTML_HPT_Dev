@@ -109,14 +109,14 @@ const updateProfile = async (req, res, next) => {
   try {
     const { userId, clickAction, status, email } = req.body
     let userData = await userCommonHelper.userGetById(userId)
-    let emailExists = await User.findOne({ email: email, _id: { $ne: userId } });
+    let emailExists = await User.findOne({ email: email, _id: {$ne: userId}});
     // Check if the new email already exists in the database
     if (emailExists) {
-      return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
+        return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
     }
 
     // Active bloked user
-    if (clickAction == 'update' && status == 'Active' && userData.status == 'Blocked') {
+    if(clickAction=='update' && status=='Active' && userData.status=='Blocked'){
       const randomPassword = await commonHelper.generateRandomPassword()
       // Update random password
       let salt = await bcrypt.genSalt(10);
@@ -124,23 +124,23 @@ const updateProfile = async (req, res, next) => {
       req.body.hash_password = await bcrypt.hash(randomPassword, salt)
       req.body.failedAttempts = 0
       // Email 
-      triggerEmail.unblockUser('unblockUser', userData, randomPassword)
+      triggerEmail.unblockUser('unblockUser',userData, randomPassword)
     }
 
     // Update profile
     const filter = { _id: new ObjectId(userId) };
     req.body.updatedAt = Date.now()
     const updateDoc = {
-      $set: req.body
+        $set: req.body
     };
     const options = { returnOriginal: false };
-    let updateProfileData = await User.findOneAndUpdate(filter, updateDoc, options);
-
-    let successMessage = (clickAction == 'update') ? commonMessage.profileUpdate :
-      (clickAction == 'delete') ? commonMessage.profileDelete : ''
+    let updateProfileData=await User.findOneAndUpdate(filter, updateDoc, options);
+    
+    let successMessage = (clickAction=='update') ? commonMessage.profileUpdate : 
+    (clickAction=='delete') ? commonMessage.profileDelete :''
     commonHelper.sendResponse(res, 'success', updateProfileData, successMessage);
   } catch (error) {
-    console.log("error>>>", error)
+    console.log("error>>>",error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 };
@@ -149,6 +149,7 @@ const updateProfile = async (req, res, next) => {
 const updateUser = async (req, res) => {
   try {
     const { query, updateInfo } = req.body
+    
     if (req.body.passwordReset != undefined && req.body.passwordReset == true) {
       let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
       query._id = decryptTokenData.userId
@@ -164,7 +165,7 @@ const updateUser = async (req, res) => {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
-
+ 
 const getUserDetails = async (req, res, next) => {
   try {
     const { query, params } = req.body
