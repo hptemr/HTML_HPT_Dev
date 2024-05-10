@@ -3,8 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { padNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
+//import { padNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { s3Details } from 'src/app/config';
 
 interface AdminProfile {
   _id: string;
@@ -23,6 +24,7 @@ export class ProfileComponent {
   userData : any;
   fullName:any
   userType:any
+  profileImage:any
   constructor( 
     public dialog: MatDialog,
     private authService:AuthService,
@@ -34,7 +36,7 @@ export class ProfileComponent {
   }
 
   ngOnInit() {
-
+    this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
     this.fullName = this.authService.getFullName()
     this.userType = this.authService.getLoggedInInfo('role')
     //this.getLoginUserProfile()

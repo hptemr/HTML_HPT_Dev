@@ -1,0 +1,30 @@
+<div class="comman-popup">
+
+  <div class="d-flex  justify-content-between mat-header">
+    <div class="p-2">
+      <h2 class="fw-600 font-21 text--000">Upload Photo</h2>
+    </div> 
+    <div class="ml-auto p-2"><mat-icon class="ml-auto cursor-pointer" (click)="dialogRef.close(false)"
+        [mat-dialog-close]="true">close</mat-icon></div>
+  </div>
+
+  <div mat-dialog-content>
+    
+      <div class="d-flex justify-content-center">
+        <button mat-button class="browse-btn mb-3  text-center" (click)="fileInput.click()">Browse</button>
+      </div>
+    
+      <input #fileInput type="file" accept=".jpg, .jpeg, .png" style="display:none" (change)="fileChangeEvent($event)">
+      <image-cropper [roundCropper]='roundCropper' [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" output="base64"></image-cropper>
+   
+  </div>
+  <div *ngIf="isInvalidType">
+    <small class="err">Uploaded file is not a valid image</small>
+  </div>
+  <div mat-dialog-actions d-flex>
+    <button mat-button class="submit-btn mb-3" [mat-dialog-close]="{'image':croppedImage}"
+      *ngIf="saveButtonShow">Submit</button>
+  </div>
+</div>

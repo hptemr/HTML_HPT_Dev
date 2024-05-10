@@ -36,7 +36,6 @@ export class AuthService {
 
   logout(userType:string): void {
     localStorage.removeItem('user');
-    //this.router.navigate(['/']);
     if(userType=='patient'){
       window.location.href = '/'
     }else{

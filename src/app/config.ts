@@ -13,6 +13,7 @@ if (window.location.hostname.indexOf("localhost") > -1) {
 
 export const s3Details = {
   url: "https://s3.us-east-2.amazonaws.com/" + bucketName,
+  awsS3Url: "https://s3.amazonaws.com/" + bucketName + '/',
   //awsserverUrl : "https://"+bucketName+".s3.amazonaws.com/",
   awss3PublicUrl: "https://" + bucketName + ".s3.amazonaws.com",
   awsserverUrl: "https://" + bucketName + ".s3.us-east-2.amazonaws.com/",

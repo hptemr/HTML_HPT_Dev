@@ -35,6 +35,8 @@ import { SidebarBillingTeamComponent } from './component/sidebar-billing-team/si
 import { BillingTeamHeaderComponent } from './component/header-billing-team/header-billing-team.component';
 import { BillingTeamLayoutComponent } from './component/layout/billing-team-layout/billing-team-layout.component';
 import { ManageProfileComponent } from './component/manage-profile/manage-profile.component';
+import { UploadImgComponent } from './component/upload-img/upload-img.component';
+import { ImageCropperComponent } from 'ngx-image-cropper';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -72,7 +74,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SvgIconComponent,  
     TapToTopComponent,
     LoaderComponent, 
-    ManageProfileComponent
+    ManageProfileComponent,
+    UploadImgComponent
   ],
   imports: [
     CommonModule, 
@@ -82,6 +85,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgbModule,
     ReactiveFormsModule, 
     NgOptimizedImage,
+    ImageCropperComponent,
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot(),
   ],
@@ -98,8 +102,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TapToTopComponent,
     TranslateModule,
     NgbModule, 
-    MaterialModule,
-    ManageProfileComponent
+    MaterialModule
   ]
 })
 export class SharedModule { }
