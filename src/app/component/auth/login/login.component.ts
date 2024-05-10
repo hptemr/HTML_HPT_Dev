@@ -28,15 +28,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
     const locationArray = location.href.split('/')
-    let lastParam = locationArray[locationArray.length - 2];
-    
+    let lastParam = locationArray[locationArray.length - 2];    
     if(lastParam=='admin'){
       this.userType = 'admin';
       this.forgetPasswordLink = '/admin/forgot-password'
-    }
-    
+    }    
     this.initializeLoginForm()
   }
 
