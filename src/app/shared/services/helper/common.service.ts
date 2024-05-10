@@ -30,6 +30,7 @@ export class CommonService {
 
   // ************* Formated US phone no *********************
   formatPhoneNumber(input: string): string {
+    console.log('input>>>',input)
     const cleaned = input.replace(/\D/g, ''); // Remove non-numeric characters
     let formattedNumber = '';
     if (cleaned.length >= 3) {
