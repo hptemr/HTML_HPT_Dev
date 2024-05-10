@@ -25,7 +25,6 @@ export class ManageProfileComponent {
   userRole: string = 'system_admin'
   editOptions: any = false
   profileImage: any
-
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
@@ -76,9 +75,9 @@ export class ManageProfileComponent {
       this.updateProfileForm.value['clickAction'] = 'update'
       this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
         next: (res) => {
-          if(res && !res.error){
+          if (res && !res.error) {
             this.updateProfileSetInLocalStorage(res.data)
-            this.commonService.openSnackBar(res.message,"SUCCESS")
+            this.commonService.openSnackBar(res.message, "SUCCESS")
             // this.getProfile()
           }
         }, error: (err) => {
@@ -88,8 +87,8 @@ export class ManageProfileComponent {
     }
   }
 
-  updateProfileSetInLocalStorage(updateProfileData:any){
-    let localSorageUserData:any = this.authService.getLoggedInInfo('all')
+  updateProfileSetInLocalStorage(updateProfileData: any) {
+    let localSorageUserData: any = this.authService.getLoggedInInfo('all')
     localSorageUserData.firstName = updateProfileData.firstName;
     localSorageUserData.lastName = updateProfileData.lastName;
     localStorage.setItem('user', JSON.stringify(localSorageUserData));
@@ -121,6 +120,8 @@ export class ManageProfileComponent {
             location.reload();
           }, 3000)
         })
+      } else {
+        this.commonService.hideLoader()
       }
     })
 

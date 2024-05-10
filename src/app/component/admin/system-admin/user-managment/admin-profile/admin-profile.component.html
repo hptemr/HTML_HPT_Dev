@@ -13,14 +13,14 @@
         <div class="card-body d-flex flex-column flex-sm-row mb-5">
             <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
                 <div class="head--sec w-100">
-                    <mat-list>
-                        <mat-list-item>Change Photo</mat-list-item>
-                        <mat-list-item  (click)="deleteAccount()">Remove Photo</mat-list-item> 
+                    <mat-list *ngIf="editOptions" >
+                        <mat-list-item (click)="changePhoto()">Change Photo </mat-list-item>
+                        <mat-list-item (click)="removePhoto()">Remove Photo </mat-list-item> 
                     </mat-list>
                 </div> 
                 <div class="profile--round position-relative">
-                    <img src="assets/images/ark/user.png"  alt="" class="img-fluid user--img" />
-                    <button mat-raised-button color="primary" class="edit--btn"> 
+                    <img src="{{profileImage}}"  alt="" class="img-fluid user--img" />
+                    <button (click)="editProfile()" mat-raised-button color="primary" class="edit--btn"> 
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 "> edit </mat-icon> 
                     </button>
                 </div>
