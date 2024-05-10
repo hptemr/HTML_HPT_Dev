@@ -13,7 +13,9 @@ const messages = {
         emailAlreadyRegister: 'The email address entered is not registered with us. Please enter another email address or sign in with this one',
         loginCounterMessage: "You have already logged in two devices, please logout any one of them and try again!",
         patientSignup:'Patient account has been created successfully',
-        patientEmailExist:'Your Patient account already created. Please log in instead.'
+        patientEmailExist:'Your Patient account already created. Please log in instead.',
+        profileImageRemoved:"Your profile image has been removed successfully",
+        profileImageChanged:"Your profile image has been changed successfully"
     },
     infoMessage: {
         updated: 'Updated successfully',

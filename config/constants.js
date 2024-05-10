@@ -6,6 +6,8 @@ var constants = {
     awsSecret:process.env.AWS_SECRET,
     serveUrl: process.env.BASE_URL,
     patientDocumentFolderPath: "patient-documents/",
+    profileImageFolderPath: "profile-images/",
+    defaultProfileImageName:"default.png",
   },
   ses: {
     region: 'us-east-1',
