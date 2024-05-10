@@ -21,6 +21,7 @@ const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const signup = async (req, res) => {
     try {
         const { query, step, data } = req.body;
+        console.log('data>>>',data)
           let alreadyPatient = await Patient.findOne({ email: data.email });
         let found = [];
         if(query._id){

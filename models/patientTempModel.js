@@ -7,6 +7,7 @@ const patientTempSchema = new mongoose.Schema({
   lastName: { type: String },
   email: { type: String },
   dob:  { type: Date },
+  //dob:  { type: String },
   gender: {
     type: String,
     enum: ["Male", "Female", "Other"],
