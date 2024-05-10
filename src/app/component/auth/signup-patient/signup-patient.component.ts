@@ -113,6 +113,7 @@ export class SignupPatientComponent implements OnInit {
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
         this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
+        console.log('>>>>',this.thiredFormGroupData);
       }
     }
 
@@ -142,8 +143,8 @@ export class SignupPatientComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({    
-      documents_type: [null,[]],
-      documents_temp: ['',[]],
+      documents_type: [this.thiredFormGroupData ? this.thiredFormGroupData.documents_type : '', []],
+      documents_temp: ['', []],
       isChecked: [false, [Validators.requiredTrue]]
     } , {
         validator: this.dependentFieldValidator
@@ -226,9 +227,9 @@ export class SignupPatientComponent implements OnInit {
       }
       
       if(this.thiredFormGroupData){
-        const currentItems = JSON.parse(this.thiredFormGroupData) || [];
-        const updatedItems = currentItems.concat(thiredFormData);
-        localStorage.setItem('thiredFormGroupData', JSON.stringify(updatedItems));
+        this.thiredFormGroupData['documents_type']=userData.documents_type;
+        this.thiredFormGroupData['acceptConsent']=userData.isChecked
+         localStorage.setItem('thiredFormGroupData', JSON.stringify(this.thiredFormGroupData));
       }      
       this.signupSubmit(steps,thiredFormData)
     }
