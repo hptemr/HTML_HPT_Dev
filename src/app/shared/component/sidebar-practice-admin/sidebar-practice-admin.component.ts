@@ -13,6 +13,7 @@ export class SidebarPracticeAdminComponent {
   public mainMenu: boolean = false;
   public menuItem = {}
   public active: boolean = false;
+  public arkActive: any;
   public screenWidth: number;
   public screenHeight: number;
 
@@ -50,7 +51,7 @@ export class SidebarPracticeAdminComponent {
 
   toggle(item: Menu, mainMenu?: Menu) {
     
-    console.log(item, mainMenu);
+    console.log(item, mainMenu);  
     
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
@@ -70,6 +71,15 @@ export class SidebarPracticeAdminComponent {
       });
     }
     item.active = !item.active;
+
+    if(item.active){
+      this.arkActive = 'prashant';
+    }else{
+      this.arkActive = '';
+    }
+    
+    
+
     if (mainMenu) {
       mainMenu.active = false
       this.navService.isShow = false

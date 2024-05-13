@@ -68,6 +68,11 @@ input, p,
     text-align: center;
     width: 100%;
 }
+.close--sidebar{
+    border-bottom: 1px solid #ddd;
+    padding: 0px 15px 15px 5px;
+    margin-bottom: 26px;
+}
 
 .card{
     .card-header{
@@ -768,6 +773,12 @@ ngb-datepicker{
 
 // Book Appointement comman
 .book--appointment--wrapper{
+    &.st--intake--form{
+        .card{
+            opacity: 0.4;
+            pointer-events: none;
+        }
+    }
     .back--btn{
         min-width: 42px;
         .material-symbols-outlined{

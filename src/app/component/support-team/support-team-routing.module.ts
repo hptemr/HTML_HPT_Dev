@@ -9,6 +9,11 @@ import { ReferralsComponent } from './referrals/referrals.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { PatientsComponent } from './patients/patients.component';
+import { Step1Component } from './intake-form/step1/step1.component';
+import { Step2Component } from './intake-form/step2/step2.component';
+import { Step3Component } from './intake-form/step3/step3.component';
+import { Step4Component } from './intake-form/step4/step4.component'; 
+import { Step5Component } from './intake-form/step5/step5.component';
 
 const routes: Routes = [ 
   {
@@ -46,6 +51,31 @@ const routes: Routes = [
   {
     path: 'patient-details',
     component:PatientDetailsComponent   
+  },
+  {
+    path: 'intake-form',
+    children: [  
+      {
+        path: 'step-1',
+        component: Step1Component, 
+      },
+      {
+        path: 'step-2',
+        component: Step2Component, 
+      }, 
+      {
+        path: 'step-3',
+        component: Step3Component, 
+      },
+      {
+        path: 'step-4',
+        component: Step4Component, 
+      },
+      {
+        path: 'step-5',
+        component: Step5Component, 
+      },
+    ]
   },
 ];
 

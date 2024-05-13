@@ -16,7 +16,7 @@
         </li>
       @for(mainMenu of menus; track mainMenu){
        <li class="sidebar-list">
-         <a [routerLink]="mainMenu.path" class="sidebar-link sidebar-title" (click)=" toggleMenu(mainMenu)" [class.active]="mainMenu.active == true">
+         <a [routerLink]="mainMenu.path" class="sidebar-link sidebar-title {{arkActive}}" (click)=" toggleMenu(mainMenu)" [class.active]="mainMenu.active == true">
             @if(mainMenu.icon){
                <!-- <app-svg-icon [icon]="mainMenu.icon"></app-svg-icon> -->
                <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="mainMenu.icon"></mat-icon>
@@ -27,11 +27,15 @@
             <!-- <span>{{mainMenu.mainTitle! | translate }}</span> -->
           </a>
           <ul class="sidebar-submenu theme-scrollbar" [ngStyle]="{ 'display' : mainMenu.active ? 'block' : 'none' }">
+            <li class="close--sidebar d-flex align-items-center justify-content-end "  >
+              <i class="fa fa-angle-left me-2 font-20"> </i> 
+              <span class="font-14">Back</span> 
+            </li>
             <li class="sidebar-head">{{ mainMenu.headTitle1! | translate }}</li>
             <div *ngTemplateOutlet="recursiveMenu; context: { $implicit: mainMenu.item }"></div>
             <ng-template #recursiveMenu let-mainMenu.item>
             @for(item of mainMenu.item; track item){
-              @if(item.children){
+              @if(item.children){ 
               <li class="main-submenu">
                 <a class="d-flex sidebar-menu" href="javascrip:void(0)" (click)="toggle(item)" [routerLink]="item.path"
                   [ngClass]="item.active ? 'active' : ''">

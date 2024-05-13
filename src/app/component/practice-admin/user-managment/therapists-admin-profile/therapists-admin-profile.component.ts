@@ -10,6 +10,7 @@ import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-passw
   styleUrl: './therapists-admin-profile.component.scss'
 })
 export class TherapistsAdminProfileComponent {
+  editOptions: boolean=false;
   constructor(private router: Router, public dialog: MatDialog) { }
 
   deleteAccount() {
@@ -24,5 +25,8 @@ export class TherapistsAdminProfileComponent {
     const dialogRef = this.dialog.open(ChangePasswordModalComponent,{
       panelClass: 'change--password--modal',
     });
+  }
+  editProfile(){ 
+    this.editOptions=!this.editOptions;
   }
 }
