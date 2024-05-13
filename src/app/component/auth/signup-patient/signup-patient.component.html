@@ -204,7 +204,7 @@
                             <div class="col-12 col-lg-6">
                               <div class="form-group">
                                 <label class="col-form-label fw-600">Postal Code <span class="clr--DF0404 ms-1"> * </span>  </label>
-                                <input class="form-control" type="number" placeholder="Enter Postal Code" formControlName="zipcode" />
+                                <input class="form-control" type="number" placeholder="Enter Postal Code" formControlName="zipcode" maxlength="5"/>
                                 <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['zipcode'].touched && (secondFormGroup.controls['zipcode'].hasError('required') || secondFormGroup.controls['zipcode'].invalid)">
                                   {{ validationMessages.required('Zipcode') }}
                                 </div>
@@ -257,8 +257,8 @@
                           <input matInput name="documents_temp" formControlName="documents_temp" />
       
                         </mat-form-field>
-                        <div class="text text-danger mt-1" *ngIf="thirdFormGroup.controls['documents_temp'].hasError('required') && thirdFormGroup.controls['documents_temp'].touched" class="form-error-msg"> Please drag your document. </div>
-                        <div class="text text-danger mt-1" class="form-error-msg" *ngIf="thirdFormGroup.errors?.['documents_temp_empty']"> {{ validationMessages.requiredDocument }} </div>
+                        <div class="text text-danger mt-1 form-error-msg" *ngIf="thirdFormGroup.controls['documents_temp'].hasError('required') && thirdFormGroup.controls['documents_temp'].touched"> Please drag your document. </div>
+                        <div class="text text-danger mt-1 form-error-msg" *ngIf="thirdFormGroup.errors?.['documents_temp_empty']"> {{ validationMessages.requiredDocument }} </div>
 
                         <div class="col-12 d-flex align-items-center mb-3">
                           <div class="row align-items-center w-100">

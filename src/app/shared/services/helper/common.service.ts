@@ -30,7 +30,6 @@ export class CommonService {
 
   // ************* Formated US phone no *********************
   formatPhoneNumber(input: string): string {
-    console.log('input>>>',input)
     const cleaned = input.replace(/\D/g, ''); // Remove non-numeric characters
     let formattedNumber = '';
     if (cleaned.length >= 3) {
@@ -78,7 +77,7 @@ export class CommonService {
     } else if (user_type == "billing_team") {
       redirect = 'billing-team/manage-profile'
     } else if (user_type == "patient") {
-      redirect = 'patient/profile-details'
+      redirect = 'patient'
     } else {
       redirect = 'signin'
     }
@@ -136,7 +135,7 @@ export class CommonService {
         case 'billing_team':
           return { userType: 'Billing Team' }
         case 'patient':
-          return { userType: 'Patient' }
+          return { userType: 'patient' }
         default:
           return returnObj;
       }

@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout'; 
 import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';//FormArray,
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+//import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
@@ -89,6 +89,11 @@ export class SignupPatientComponent implements OnInit {
   }
   
   ngOnInit() {    
+    this.userId = localStorage.getItem("userId");
+    // localStorage.removeItem('userId');
+    // localStorage.removeItem('firstFormGroupData');
+    // localStorage.removeItem('secondFormGroupData');
+    // localStorage.removeItem('thiredFormGroupData');
     this.documents_type_list = documents_list;
 
      this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
@@ -113,11 +118,10 @@ export class SignupPatientComponent implements OnInit {
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
         this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
-        console.log('>>>>',this.thiredFormGroupData);
       }
     }
 
-    this.userId = localStorage.getItem("userId");
+
     this.uploader = new FileUploader({ url: `${URL}?userId=${this.userId}` });
     this.firstFormGroup = this.fb.group({
         firstName: [this.firstFormGroupData ? this.firstFormGroupData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
@@ -276,11 +280,20 @@ export class SignupPatientComponent implements OnInit {
           this.commonService.openSnackBar(response.message, "ERROR")   
         }
       } else {
-        localStorage.setItem("userId", response.data);
+        console.log('response.data>>>>',response.data)
+        if(response.data.user_id){
+          localStorage.setItem("userId", response.data.user_id);
+          this.userId = response.data.user_id;
+          this.uploader = new FileUploader({ url: `${URL}?userId=${response.data.user_id}` });
+        }
+        
         if(response.message){
           this.commonService.openSnackBar(response.message, "SUCCESS")   
         }
+
+        console.log('response.data>>>>',this.userId)
         if(steps && steps==3){
+          localStorage.removeItem('userId');
           localStorage.removeItem('firstFormGroupData');
           localStorage.removeItem('secondFormGroupData');
           localStorage.removeItem('thiredFormGroupData');
