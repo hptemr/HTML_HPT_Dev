@@ -1,4 +1,4 @@
-const constants = require('../../backend/config/constants')
+const constants = require('../config/constants')
 const nodemailer = require("nodemailer");
 const emailTemplateModel = require('../models/emailTemplateModel');
 var transporter = nodemailer.createTransport({
