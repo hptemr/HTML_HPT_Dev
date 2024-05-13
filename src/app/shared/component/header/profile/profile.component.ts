@@ -6,24 +6,15 @@ import { AdminService } from 'src/app/shared/services/api/admin.service';
 //import { padNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { s3Details } from 'src/app/config';
-
-interface AdminProfile {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  userType: string;
-}
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  adminProfile: AdminProfile = { _id:'',firstName: '',lastName: '',role: '', userType:''};
-  userData : any;
   fullName:any
   userType:any
+  userTypeLable:any = ''
   profileImage:any
   constructor( 
     public dialog: MatDialog,
@@ -31,15 +22,13 @@ export class ProfileComponent {
     public adminService:AdminService,
     public commonService:CommonService
   ) { 
-    let userData:any = localStorage.getItem('user');
-    this.userData = (userData && userData!=null)?JSON.parse(userData):null
   }
 
   ngOnInit() {
     this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
     this.fullName = this.authService.getFullName()
-    let userRole = this.authService.getLoggedInInfo('role')
-    this.userType = this.commonService.getUserBaseOnRole(userRole).userType
+    this.userType = this.authService.getLoggedInInfo('role')
+    this.userTypeLable = this.commonService.getUserBaseOnRole(this.userType).userTypeLable
   }
 
   logOut() {

@@ -121,22 +121,22 @@ export class CommonService {
   }
 
   getUserBaseOnRole(role: any): any {
-    let returnObj = { userType: '' }
+    let returnObj = { userTypeLable: '' }
     console.log('>>>>>>> Role >>>>>>>>>',role)
     if (role) {
       switch (role) {
         case 'system_admin':
-          return { userType: 'System Admin' }
+          return { userTypeLable: 'System Admin' }
         case 'practice_admin':
-          return { userType: 'Practice Admin' }
+          return { userTypeLable: 'Practice Admin' }
         case 'therapist':
-          return { userType: 'Therapist' }
+          return { userTypeLable: 'Therapist' }
         case 'support_team':
-          return { userType: 'Support Team' }
+          return { userTypeLable: 'Support Team' }
         case 'billing_team':
-          return { userType: 'Billing Team' }
+          return { userTypeLable: 'Billing Team' }
         case 'patient':
-          return { userType: 'patient' }
+          return { userTypeLable: 'Patient' }
         default:
           return returnObj;
       }
@@ -156,5 +156,15 @@ export class CommonService {
       this.LoaderComponentRef.close()
     }, timer);
   }
+
+  // Date MM-DD-YYYY
+  formattedDate = (dateObj: any) => {
+    return  this.padNumber(dateObj.month)+'-'+this.padNumber(dateObj.day)+'-'+dateObj.year;
+  };
+
+   // Function to pad single-digit numbers with leading zeros
+  padNumber = (num: number): string => {
+    return num.toString().padStart(2, '0'); // Ensures two-digit format with leading zero
+  };
 
 }

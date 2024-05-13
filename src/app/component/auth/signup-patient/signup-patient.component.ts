@@ -41,7 +41,7 @@ export class SignupPatientComponent implements OnInit {
   mainHeadTxt = "Create your account"
   stepperOrientation: Observable<StepperOrientation>;
   selectedDate: NgbDateStruct;
-  selectedCity: string;
+  selectedCity: string = "";
     //stepper: MatStepper;
   step1: FormGroup;
   step2: FormGroup;
@@ -140,10 +140,10 @@ export class SignupPatientComponent implements OnInit {
 
     this.secondFormGroup = this.fb.group({      
       address1: [this.secondFormGroupData ? this.secondFormGroupData.address1 : '', [Validators.required]],
-      address2: [this.secondFormGroupData ? this.secondFormGroupData.address2 : '', []],
+      address2: [this.secondFormGroupData ? this.secondFormGroupData.address2 : '', [Validators.required]],
       city: [this.secondFormGroupData ? this.secondFormGroupData.city : '', [Validators.required]],    
       state: [this.secondFormGroupData ? this.secondFormGroupData.state : '', [Validators.required]],
-      zipcode: [this.secondFormGroupData ? this.secondFormGroupData.zipcode : '', [Validators.pattern(/^[0-9]+$/i), Validators.required,Validators.minLength(1), Validators.maxLength(5)]],
+      zipcode: [this.secondFormGroupData ? this.secondFormGroupData.zipcode : '', [Validators.pattern(/^[0-9]+$/i), Validators.required,Validators.minLength(1), Validators.maxLength(6)]],
     });
 
     this.thirdFormGroup = this.fb.group({    
@@ -244,7 +244,7 @@ export class SignupPatientComponent implements OnInit {
       return;
     }else if (steps==2 && this.secondFormGroup.invalid) {
       this.mainHeadTxt="Verify your account";
-        this.firstFormGroup.markAllAsTouched();
+        this.secondFormGroup.markAllAsTouched();
         return;      
     }else if (steps==3 && this.thirdFormGroup.invalid) {
       this.thirdFormGroup.markAllAsTouched();
@@ -319,7 +319,8 @@ export class SignupPatientComponent implements OnInit {
     if(typeof dateObj=='object'){
       //this.ngbDateParserFormatter.format(date)
       if(dateObj.day && dateObj.month && dateObj.year){
-        selected_date = dateObj.month+'-'+dateObj.day+'-'+dateObj.year;
+        // selected_date = this.padNumber(dateObj.month)+'-'+this.padNumber(dateObj.day)+'-'+dateObj.year;
+        selected_date = this.commonService.formattedDate(dateObj)
       }
     }
     this.selected_date = selected_date;     

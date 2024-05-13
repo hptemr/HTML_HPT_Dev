@@ -204,7 +204,7 @@
                             <div class="col-12 col-lg-6">
                               <div class="form-group">
                                 <label class="col-form-label fw-600">Postal Code <span class="clr--DF0404 ms-1"> * </span>  </label>
-                                <input class="form-control" type="number" placeholder="Enter Postal Code" formControlName="zipcode" maxlength="5"/>
+                                <input class="form-control" type="text" placeholder="Enter Postal Code" formControlName="zipcode" maxlength="6"/>
                                 <div class="text text-danger mt-1" *ngIf="secondFormGroup.controls['zipcode'].touched && (secondFormGroup.controls['zipcode'].hasError('required') || secondFormGroup.controls['zipcode'].invalid)">
                                   {{ validationMessages.required('Zipcode') }}
                                 </div>
