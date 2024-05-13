@@ -1,9 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { AuthService } from './shared/services/api/auth.service';
 
-//const MINUTES_UNITL_AUTO_LOGOUT = 180 //in Minutes => 3Hours
-
-const MINUTES_UNITL_AUTO_LOGOUT = 15 //in Minutes => for Testing purpose only actual is 3hours
+const MINUTES_UNITL_AUTO_LOGOUT = 180 //in Minutes => 3Hours
 const CHECK_INTERVALL = 60000 // in ms => 1 minute
 
 const STORE_KEY = 'lastAction';
@@ -86,10 +84,15 @@ export class AppComponent {
     }
 
     if (isTimeout && this.timediff >= 0) {
+      let redirect = '/'
+      if (this.authService.getLoggedInInfo("role") != 'patient') {
+        redirect = '/admin/login'
+      }
+
       let req_vars = { _id: this.authService.getLoggedInInfo("_id") }
       this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => {
         localStorage.removeItem('user')
-        window.location.href = '/'
+        window.location.href = redirect
       })
     }
     this.timediff = diff

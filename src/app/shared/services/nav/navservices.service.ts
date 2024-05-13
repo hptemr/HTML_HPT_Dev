@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 export interface Menu {
   id?: number;
+  activeMenu?: string;
   headTitle1?: string;
   mainTitle?: string;
   path?: string;
@@ -58,6 +59,7 @@ export class NavservicesService {
     // },
     {
       id: 2,
+      activeMenu:'user-managment',
       icon: 'person_outline',
       mainTitle: 'User Management',
       headTitle1: 'User Management',
@@ -92,16 +94,6 @@ export class NavservicesService {
           active: false,
           path: '/system-admin/user-managment/billing-team', 
         }, 
-      ]
-    },
-    {
-      id: 11,
-      icon: 'group',
-      mainTitle: 'Patients',
-      headTitle1: '',
-      path: '/system-admin/user-managment/patients', 
-      active: false, 
-      item: [ 
         {
           title: 'Patients',
           icon: 'group',
@@ -111,8 +103,27 @@ export class NavservicesService {
         },
       ]
     },
+    // {
+    //   id: 11,
+    //   activeMenu:'user-managment',
+    //   icon: 'group',
+    //   mainTitle: 'Patients',
+    //   headTitle1: '',
+    //   path: '/system-admin/user-managment/patients', 
+    //   active: false, 
+    //   item: [ 
+    //     {
+    //       title: 'Patients',
+    //       icon: 'group',
+    //       type: 'link',
+    //       active: false,
+    //       path: '/system-admin/user-managment/patients', 
+    //     },
+    //   ]
+    // },
     {
       id: 3,
+      activeMenu:'manage-practice',
       icon: 'home',
       mainTitle: 'Manage Practice',
       headTitle1: 'Manage Practice',
@@ -137,6 +148,7 @@ export class NavservicesService {
     },
     {
       id: 4,
+      activeMenu:'conversations',
       icon: 'chat_bubble_outline',
       mainTitle: 'Conversations',
       headTitle1: '',
@@ -154,6 +166,7 @@ export class NavservicesService {
     },
     {
       id: 5,
+      activeMenu:'e-fax',
       icon: 'print',
       mainTitle: ' E-Fax',
       headTitle1: '',
@@ -171,6 +184,7 @@ export class NavservicesService {
     }, 
     {
       id: 6,
+      activeMenu:'manage-profile',
       icon: 'people_outline',
       mainTitle: 'Manage Profile',  
       headTitle1: '',
@@ -189,6 +203,7 @@ export class NavservicesService {
     }, 
     {
       id: 12,
+      activeMenu:'notifications',
       icon: 'notifications_none',
       mainTitle: 'Notifications',
       headTitle1: '',

@@ -123,7 +123,6 @@ export class CommonService {
 
   getUserBaseOnRole(role: any): any {
     let returnObj = { userType: '' }
-    console.log('>>>>>>> Role >>>>>>>>>',role)
     if (role) {
       switch (role) {
         case 'system_admin':

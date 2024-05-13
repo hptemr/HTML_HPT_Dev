@@ -87,7 +87,7 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
                 <div class="no--record--found align-items-center justify-content-center w-100"
-                    *ngIf="patientList.filteredData.length == 0">
+                    *ngIf="patientList && patientList.filteredData.length == 0">
                     <div>
                         <p class="">{{ validationMessages.noRecords }}</p>
                     </div>
