@@ -94,33 +94,33 @@ export class NavservicesService {
           active: false,
           path: '/system-admin/user-managment/billing-team', 
         }, 
+        // {
+        //   title: 'Patients',
+        //   icon: 'group',
+        //   type: 'link',
+        //   active: false,
+        //   path: '/system-admin/user-managment/patients', 
+        // },
+      ]
+    },
+    {
+      id: 11,
+      activeMenu:'patients',
+      icon: 'group',
+      mainTitle: 'Patients',
+      headTitle1: '',
+      path: '/system-admin/patients/list', 
+      active: false, 
+      item: [ 
         {
           title: 'Patients',
           icon: 'group',
           type: 'link',
           active: false,
-          path: '/system-admin/user-managment/patients', 
+          path: '/system-admin/patients/list', 
         },
       ]
     },
-    // {
-    //   id: 11,
-    //   activeMenu:'user-managment',
-    //   icon: 'group',
-    //   mainTitle: 'Patients',
-    //   headTitle1: '',
-    //   path: '/system-admin/user-managment/patients', 
-    //   active: false, 
-    //   item: [ 
-    //     {
-    //       title: 'Patients',
-    //       icon: 'group',
-    //       type: 'link',
-    //       active: false,
-    //       path: '/system-admin/user-managment/patients', 
-    //     },
-    //   ]
-    // },
     {
       id: 3,
       activeMenu:'manage-practice',
