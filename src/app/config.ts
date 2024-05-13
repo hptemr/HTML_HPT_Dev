@@ -8,7 +8,8 @@ if (window.location.hostname.indexOf("localhost") > -1) {
 } else if (window.location.hostname.indexOf("stage.hamiltonpt.com") > -1) {
   serverUrlEnv = 'https://stage.hamiltonpt.com' //Staging Server
 } else {
-  serverUrlEnv = 'https://ec2-34-239-203-1.compute-1.amazonaws.com'
+  //serverUrlEnv = 'https://ec2-34-239-203-1.compute-1.amazonaws.com' //dev
+  serverUrlEnv = 'https://ec2-3-91-254-185.compute-1.amazonaws.com'   //staging
 }
 
 export const s3Details = {
