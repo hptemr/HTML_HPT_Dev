@@ -33,9 +33,19 @@ const routes: Routes = [
       {
         path: 'billing-team',
         component: UserListingComponent, 
-      },
+      }, 
       {
-        path: 'patients',
+        path: 'admin-profile/:adminId',
+        component: AdminProfileComponent, 
+        canActivate:[authGuard]
+      }
+    ]
+  },  
+  {
+    path: 'patients',
+    children: [ 
+      {
+        path: 'list',
         component: PatientsComponent, 
       },
       {
@@ -45,11 +55,6 @@ const routes: Routes = [
       {
         path: 'patient-profile',
         component: PatientProfileComponent, 
-      },
-      {
-        path: 'admin-profile/:adminId',
-        component: AdminProfileComponent, 
-        canActivate:[authGuard]
       }
     ]
   },

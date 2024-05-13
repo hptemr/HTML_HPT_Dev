@@ -1,22 +1,30 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavservicesService, Menu } from '../../services/nav/navservices.service';
 import { LayoutService } from '../../services/layout/layout.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
 
+export class SidebarComponent {
   public menus = this.navService.Nvabarmenu;
   public mainMenu: boolean = false;
   public menuItem = {}
   public active: boolean = false;
   public screenWidth: number;
   public screenHeight: number;
-
-  constructor(public navService: NavservicesService, public layout: LayoutService) { }
+  public currentMainMenu: any = ''
+  constructor(public navService: NavservicesService, public layout: LayoutService, private router: Router) {
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        const locationArray = event.url.split('/')
+        this.currentMainMenu = locationArray[2]
+      }
+    })
+  }
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
