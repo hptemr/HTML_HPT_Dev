@@ -137,7 +137,7 @@ export class ManagePracticeComponent {
         }
       }
       await this.authService.apiRequest('post', 'admin/updateUser', reqVars).subscribe(async response => {
-        this.commonService.openSnackBar(response.message, "SUCCESS")
+        //this.commonService.openSnackBar(response.message, "SUCCESS")
         this.getUserList()
         let reqVarsEmail = {
           query: { "code": "assignedAsSiteLeader" },

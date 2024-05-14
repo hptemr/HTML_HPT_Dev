@@ -10,13 +10,14 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 
 export class SidebarComponent {
-  public menus = this.navService.Nvabarmenu;
+  public menus = this.navService.navigationMenu;
   public mainMenu: boolean = false;
   public menuItem = {}
   public active: boolean = false;
   public screenWidth: number;
   public screenHeight: number;
   public currentMainMenu: any = ''
+  public itemsLength: any = 0;
   constructor(public navService: NavservicesService, public layout: LayoutService, private router: Router) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -32,6 +33,7 @@ export class SidebarComponent {
   }
 
   toggleMenu(item: Menu) {
+    this.itemsLength = item.item?.length;
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
         if (this.menus.includes(item)) {
@@ -48,7 +50,9 @@ export class SidebarComponent {
         return;
       });
     }
-    item.active = !item.active;
+    if(this.itemsLength>0){
+      item.active = !item.active;
+    }
     if (item.active == true) {
       this.navService.isShow = true;
     } else {

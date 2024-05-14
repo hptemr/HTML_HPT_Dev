@@ -1,16 +1,15 @@
 import { Component, HostListener } from '@angular/core';
-import { LayoutService } from '../../../services/layout/layout.service'; 
+import { LayoutService } from '../../../services/layout/layout.service';
+import { NavservicesService } from '../../../services/nav/navservices.service';
 import * as feather from 'feather-icons';
-import { Router } from '@angular/router'; 
-import { PracticeAdminNavservicesService } from 'src/app/shared/services/nav/practice-admin-navservices.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-practice-admin-layout',
-  templateUrl: './practice-admin-layout.component.html',
-  styleUrls: ['./practice-admin-layout.component.scss']
+  selector: 'app-admin-layout',
+  templateUrl: './admin-layout.component.html',
+  styleUrls: ['./admin-layout.component.scss']
 })
-export class PracticeAdminLayoutComponent {
-
+export class AdminLayoutComponent {
   public isShow: boolean = false;
   public urrentRoute!: string;
   public urlPath!: string;
@@ -25,7 +24,7 @@ export class PracticeAdminLayoutComponent {
   }
 
   constructor(
-    public navService: PracticeAdminNavservicesService,
+    public navService: NavservicesService,
     public layout: LayoutService,
     private router: Router
   ) { }

@@ -8,6 +8,10 @@ import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/
 
 const routes: Routes = [
   {
+    path: 'dashboard',
+    component: AppointmentRequestsComponent
+  },
+  {
     path: 'appointments',
     component: AppointmentsComponent
   },

@@ -12,7 +12,7 @@ export class LoaderComponent {
   constructor() {
     setTimeout(() => {
       this.show = false;
-    }, 3000);
+    }, 700);
   }
 
 }

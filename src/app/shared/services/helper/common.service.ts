@@ -67,17 +67,17 @@ export class CommonService {
     let redirect = ''
     let user_type = this.authService.getLoggedInInfo('role')
     if (user_type == "system_admin") {
-      redirect = 'system-admin/manage-profile'
+      redirect = 'system-admin/dashboard'
     } else if (user_type == "practice_admin") {
-      redirect = 'practice-admin/manage-profile'
+      redirect = 'practice-admin/dashboard'
     } else if (user_type == "support_team") {
-      redirect = 'support-team/manage-profile'
+      redirect = 'support-team/dashboard'
     } else if (user_type == "therapist") {
-      redirect = 'therapist/manage-profile'
+      redirect = 'therapist/dashboard'
     } else if (user_type == "billing_team") {
-      redirect = 'billing-team/manage-profile'
+      redirect = 'billing-team/dashboard'
     } else if (user_type == "patient") {
-      redirect = 'patient'
+      redirect = 'patient/dashboard'
     } else {
       redirect = 'signin'
     }
@@ -122,7 +122,6 @@ export class CommonService {
 
   getUserBaseOnRole(role: any): any {
     let returnObj = { userTypeLable: '' }
-    console.log('>>>>>>> Role >>>>>>>>>',role)
     if (role) {
       switch (role) {
         case 'system_admin':

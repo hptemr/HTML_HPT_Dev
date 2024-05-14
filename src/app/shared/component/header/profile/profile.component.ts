@@ -31,6 +31,27 @@ export class ProfileComponent {
     this.userTypeLable = this.commonService.getUserBaseOnRole(this.userType).userTypeLable
   }
 
+  profile(){
+    let redirect = ''
+    let user_type = this.userType
+    if (user_type == "system_admin") {
+      redirect = 'system-admin/manage-profile'
+    } else if (user_type == "practice_admin") {
+      redirect = 'practice-admin/manage-profile'
+    } else if (user_type == "support_team") {
+      redirect = 'support-team/manage-profile'
+    } else if (user_type == "therapist") {
+      redirect = 'therapist/manage-profile'
+    } else if (user_type == "billing_team") {
+      redirect = 'billing-team/manage-profile'
+    } else if (user_type == "patient") {
+      redirect = 'patient/manage-details'
+    } else {
+      redirect = ''
+    }
+    window.location.href = '/' + redirect
+  }
+
   logOut() {
     const dialogRef = this.dialog.open(AlertComponent, {
       disableClose: true,
