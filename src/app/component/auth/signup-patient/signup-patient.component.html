@@ -227,10 +227,10 @@
 
                         <div class="col-12">
                           <div class="form-group">
-                            <label class="col-form-label fw-600">Type of ID Proof </label>
+                            <label class="col-form-label fw-600">Type of ID Proof {{selectedDocumentsType}}</label>
                             <select class="form-select form-control" id="documents_type" aria-label="Default select example" [(ngModel)]="selectedDocumentsType" formControlName="documents_type">
-                              <option selected value="">Select Type of ID Proof</option>
-                              <option *ngFor="let item of documents_type_list" value="{{item}}" >{{item}}</option>                              
+                              <option [selected]="!selectedDocumentsType" value="">Select Type of ID Proof</option>
+                              <option *ngFor="let item of documents_type_list" value="{{item}}" [selected]="selectedDocumentsType==item">{{item}}</option>                              
                             </select>                            
                             <div class="text text-danger mt-1" *ngIf="thirdFormGroup.controls['documents_type'].touched && thirdFormGroup.controls['documents_type'].hasError('required')">
                               {{ validationMessages.requiredDropdown('ID Proof') }}
