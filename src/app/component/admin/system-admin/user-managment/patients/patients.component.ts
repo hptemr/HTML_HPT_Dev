@@ -76,11 +76,13 @@ export class PatientsComponent {
     } else {
       delete this.whereCond['$or'];
     }
-    this.getPatientList()
+    this.getPatientList('search')
   }
 
-  async getPatientList() {
-    this.commonService.showLoader()
+  async getPatientList(action='') {
+    if(action==''){
+      this.commonService.showLoader()
+    }
     let params = {
       query: this.whereCond,
       params: { firstName: 1, lastName: 1, email: 1 },
@@ -123,6 +125,6 @@ export class PatientsComponent {
     this.pageIndex = 0
     this.pageSize = pageSize
     this.pageSizeOptions = pageSizeOptions
-    this.getPatientList()
+    this.getPatientList('reset')
   }
 }

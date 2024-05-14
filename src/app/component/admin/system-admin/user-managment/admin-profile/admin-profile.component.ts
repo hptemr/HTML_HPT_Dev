@@ -29,6 +29,7 @@ export class AdminProfileComponent {
   isTherapist: boolean = false
   editOptions: any = false
   profileImage: any
+  showProfileForm: boolean = false
 
   constructor(
     private router: Router,
@@ -46,11 +47,11 @@ export class AdminProfileComponent {
 
 
   ngOnInit() {
-    this.initializePracticeAdminProfile()
+    this.initializeAdminProfile()
     this.getProfile()
   }
 
-  initializePracticeAdminProfile() {
+  initializeAdminProfile() {
     this.practiceAdminProfileForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.pattern(regex.alphabetic)]],
       lastName: ['', [Validators.required, Validators.pattern(regex.alphabetic)]],
@@ -70,13 +71,15 @@ export class AdminProfileComponent {
   }
 
   getProfile() {
-    if (this.adminId) {
+    this.commonService.showLoader() 
       let bodyData = {
         query: { _id: this.adminId },
         params: { profileImage: 1, firstName: 1, lastName: 1, email: 1, phoneNumber: 1, status: 1, practiceLocation: 1, role: 1, NPI: 1, SSN: 1, siteLeaderForPracLocation: 1, licenceNumber: 1 }
       }
       this.adminService.profile(bodyData).subscribe({
         next: (res) => {
+          this.commonService.hideLoader() 
+          this.showProfileForm = true
           if (res && !res.error) {
             this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + res.data.profileImage
             this.practiceAdminProfileForm.controls['firstName'].setValue(res.data ? res.data.firstName : '');
@@ -98,10 +101,11 @@ export class AdminProfileComponent {
             }
           }
         }, error: (err) => {
+          this.commonService.hideLoader() 
+          this.showProfileForm = true
           err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
         }
       });
-    }
   }
 
   updatePracticeAdminProfile() {

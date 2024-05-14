@@ -54,7 +54,7 @@
   </div>
   <div class="inivite--footer w-100 d-flex align-items-center justify-content-end">
     <button mat-stroked-button color="primary" class="me-2" [mat-dialog-close]="false">Cancel</button> 
-    <button mat-raised-button color="primary" [disabled]="!inviteUserForm.valid" (click)="inviteUser()">Invite</button>
+    <button mat-raised-button color="primary" [disabled]="!inviteUserForm.valid || inviteButton" (click)="inviteUser()">Invite</button>
     <!-- <button mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="!inviteUserForm.valid"
     (click)="inviteUser()">Invite</button> -->
   </div>
