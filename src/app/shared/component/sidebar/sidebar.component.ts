@@ -17,6 +17,7 @@ export class SidebarComponent {
   public screenWidth: number;
   public screenHeight: number;
   public currentMainMenu: any = ''
+  public itemsLength: any = 0;
   constructor(public navService: NavservicesService, public layout: LayoutService, private router: Router) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -28,32 +29,37 @@ export class SidebarComponent {
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
+    this.screenHeight = window.innerHeight;   
   }
 
   toggleMenu(item: Menu) {
-    if (!item.active) {
-      this.menus.forEach((a: Menu) => {
-        if (this.menus.includes(item)) {
-          a.active = false;
-        }
-        if (!a.children) {
-          return false;
-        }
-        a.children.forEach((b: Menu) => {
-          if (a.children?.includes(item)) {
-            b.active = false;
+    this.itemsLength = item.item?.length;
+
+      if (!item.active) {
+        this.menus.forEach((a: Menu) => {
+          if (this.menus.includes(item)) {
+            a.active = false;
           }
+          if (!a.children) {
+            return false;
+          }
+          a.children.forEach((b: Menu) => {
+            if (a.children?.includes(item)) {
+              b.active = false;
+            }
+          });
+          return;
         });
-        return;
-      });
-    }
-    item.active = !item.active;
-    if (item.active == true) {
-      this.navService.isShow = true;
-    } else {
-      this.navService.isShow = false;
-    }
+      }
+     
+      if(this.itemsLength>0){
+        item.active = !item.active;
+      }
+      if (item.active == true) {
+        this.navService.isShow = true;
+      } else {
+        this.navService.isShow = false;
+      }  
   }
 
   toggle(item: Menu, mainMenu?: Menu) {
