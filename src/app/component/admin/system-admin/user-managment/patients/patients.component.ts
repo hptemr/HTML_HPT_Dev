@@ -116,6 +116,13 @@ export class PatientsComponent {
   }
 
   reset() {
-    window.location.reload()
+    this.searchPatient =""
+    this.whereCond = {}
+
+    this.totalCount = 0
+    this.pageIndex = 0
+    this.pageSize = pageSize
+    this.pageSizeOptions = pageSizeOptions
+    this.getPatientList()
   }
 }
