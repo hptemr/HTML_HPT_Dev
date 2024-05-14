@@ -81,8 +81,8 @@ export class CommonService {
     } else {
       redirect = 'signin'
     }
-    //this.router.navigate(['/' + redirect])
-    window.location.href = '/' + redirect //For Idle case execution, we used this. don't changed
+    this.router.navigate(['/' + redirect])
+    // window.location.href = '/' + redirect //For Idle case execution, we used this. don't changed
   }
 
   // ***** This function use for dynamic user listing bases on role. Taking userRole same as manage in user database. *****

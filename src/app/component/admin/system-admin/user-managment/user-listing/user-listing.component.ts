@@ -120,8 +120,10 @@ export class UserListingComponent {
       });
     }
 
-    async adminUsers() {
-      this.commonService.showLoader()
+    async adminUsers(action="") {
+      if(action==""){ 
+        this.commonService.showLoader() 
+      }
       Object.assign(this.whereCond, { 
         $or: [
           { firstName: { $regex: this.searchQuery, $options: 'i' } },
@@ -200,7 +202,7 @@ export class UserListingComponent {
       this.pageSize = pageSize
       this.pageSizeOptions = pageSizeOptions
       this.searchQuery =""
-      this.adminUsers()
+      this.adminUsers("reset")
     }
 
     navigateToAdminUserDetails(userId: any){
