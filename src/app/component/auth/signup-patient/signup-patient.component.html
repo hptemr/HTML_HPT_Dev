@@ -31,8 +31,7 @@
                           </div>
                           <div class="col-12">
                             <div class="form-group">
-                              <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> *
-                                </span></label>
+                              <label class="col-form-label fw-600">Middle Name </label>
                               <input class="form-control" type="text" placeholder="Enter Middle Name" (blur)="checkSpace(firstFormGroup.controls['middleName'], $event)" formControlName="middleName" maxlength="35" />
                               <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['middleName'].touched && (firstFormGroup.controls['middleName'].hasError('required') || firstFormGroup.controls['middleName'].invalid)">
                                 {{ validationMessages.required('Middle Name') }}
@@ -109,7 +108,7 @@
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Password <span class="clr--DF0404 ms-1"> * </span></label>
                                         <div class="form-input position-relative">
-                                            <input class="form-control" [type]="show ? 'text' : 'password'" placeholder="*********" formControlName="password"/>
+                                            <input class="form-control" [type]="show ? 'text' : 'password'" placeholder="Enter Password" formControlName="password"/>
                                             @if(!show){
                                             <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
                                             }@else{
@@ -128,7 +127,7 @@
                                   <div class="form-group">
                                     <label class="col-form-label fw-600">Confirm Password <span class="clr--DF0404 ms-1"> * </span> </label>
                                     <div class="form-input position-relative">
-                                        <input class="form-control" [type]="showConfirmPass ? 'text' : 'password'" placeholder="*********" formControlName="confirmPassword"/>
+                                        <input class="form-control" [type]="showConfirmPass ? 'text' : 'password'" placeholder="Enter Confirm Password" formControlName="confirmPassword"/>
                                         @if(!showConfirmPass){
                                         <div class="show-hide" (click)="showConfirmPassword()"><span class="show"> </span></div>
                                         }@else{
@@ -228,10 +227,10 @@
 
                         <div class="col-12">
                           <div class="form-group">
-                            <label class="col-form-label fw-600">Type of ID Proof </label>
+                            <label class="col-form-label fw-600">Type of ID Proof {{selectedDocumentsType}}</label>
                             <select class="form-select form-control" id="documents_type" aria-label="Default select example" [(ngModel)]="selectedDocumentsType" formControlName="documents_type">
-                              <option selected value="">Select Type of ID Proof</option>
-                              <option *ngFor="let item of documents_type_list" value="{{item}}" >{{item}}</option>                              
+                              <option [selected]="!selectedDocumentsType" value="">Select Type of ID Proof</option>
+                              <option *ngFor="let item of documents_type_list" value="{{item}}" [selected]="selectedDocumentsType==item">{{item}}</option>                              
                             </select>                            
                             <div class="text text-danger mt-1" *ngIf="thirdFormGroup.controls['documents_type'].touched && thirdFormGroup.controls['documents_type'].hasError('required')">
                               {{ validationMessages.requiredDropdown('ID Proof') }}
@@ -245,7 +244,7 @@
                         <div class="col-12">
                           <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
                             <div class="upload--box" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader" (fileOver)="fileOverBase($event)">
-                              <input class="input--file" type="file" name="documents" ng2FileSelect [uploader]="uploader"  (ngModelChange)="fileOverBase('')" />
+                              <input class="input--file" type="file" name="documents" ng2FileSelect [uploader]="uploader"  (change)="fileOverBase($event)" />
                                 <mat-icon > upload_file </mat-icon>
                                 <h6 class="font-18 fw-500">Upload Your Driver License or drag & drop it here</h6>
                                 <p class="mb-0 font-14 fw-500">JPEG, JPG, PNG, PDF formats, up to 5MB</p>
@@ -259,7 +258,8 @@
                         </mat-form-field>
                         <div class="text text-danger mt-1 form-error-msg" *ngIf="thirdFormGroup.controls['documents_temp'].hasError('required') && thirdFormGroup.controls['documents_temp'].touched"> Please drag your document. </div>
                         <div class="text text-danger mt-1 form-error-msg" *ngIf="thirdFormGroup.errors?.['documents_temp_empty']"> {{ validationMessages.requiredDocument }} </div>
-
+                        <div class="text text-danger mt-1 form-error-msg" *ngIf="fileErrors"> {{ fileErrors }} </div>
+                        
                         <div class="col-12 d-flex align-items-center mb-3">
                           <div class="row align-items-center w-100">
                             <div class="col-11">
@@ -286,11 +286,11 @@
                               </div>
                             </div>
                             <div class="col-1 d-flex justify-content-end pe-0" *ngIf="!documentsMissing">
-                              <button mat-button class="p-0 flex-shrink-0 min-width-unset" (click)="documentDelete();">
+                              <div mat-button class="p-0 flex-shrink-0 min-width-unset" (click)="documentDelete();">
                                 <span class="material-icons cancel--btn">
                                   cancel
                                   </span>
-                              </button>
+                              </div>
                             </div>
                           </div>
                         </div>

@@ -72,7 +72,7 @@ export class SignupPatientComponent implements OnInit {
   fileType: string = '';
   document_size: string = '';
   uploadAll: boolean = false;
-  fileErrors: any;
+  fileErrors: string='';
   thirdFormDisabled = false
   currentProgessinPercent: number = 0;
   selectedDocumentsType: string;
@@ -117,6 +117,14 @@ export class SignupPatientComponent implements OnInit {
     if(localStorage.getItem("thiredFormGroupData")){
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
+        console.log('thiredFormGroupData>>>>',this.thiredFormGroupData)
+        if(this.thiredFormGroupData.documents_type === undefined){
+          this.selectedDocumentsType = '';
+        }else{
+          this.selectedDocumentsType = this.thiredFormGroupData.documents_type;
+        }
+        
+        console.log('>>>>',this.selectedDocumentsType)
         this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
       }
     }
@@ -125,7 +133,7 @@ export class SignupPatientComponent implements OnInit {
     this.uploader = new FileUploader({ url: `${URL}?userId=${this.userId}` });
     this.firstFormGroup = this.fb.group({
         firstName: [this.firstFormGroupData ? this.firstFormGroupData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
-        middleName: [this.firstFormGroupData ? this.firstFormGroupData.middleName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator,  Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+        middleName: [this.firstFormGroupData ? this.firstFormGroupData.middleName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),Validators.maxLength(35)]],
         lastName: [this.firstFormGroupData ? this.firstFormGroupData.lastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
         email: [this.firstFormGroupData ? this.firstFormGroupData.email : '', [Validators.required,Validators.email,CustomValidators.noWhitespaceValidator,]],//Validators.pattern(/^[a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/i)
         dob: ['',[Validators.required]],
@@ -280,7 +288,6 @@ export class SignupPatientComponent implements OnInit {
           this.commonService.openSnackBar(response.message, "ERROR")   
         }
       } else {
-        console.log('response.data>>>>',response.data)
         if(response.data.user_id){
           localStorage.setItem("userId", response.data.user_id);
           this.userId = response.data.user_id;
@@ -290,8 +297,6 @@ export class SignupPatientComponent implements OnInit {
         if(response.message){
           this.commonService.openSnackBar(response.message, "SUCCESS")   
         }
-
-        console.log('response.data>>>>',this.userId)
         if(steps && steps==3){
           localStorage.removeItem('userId');
           localStorage.removeItem('firstFormGroupData');
@@ -332,12 +337,12 @@ export class SignupPatientComponent implements OnInit {
     return { month: minDate.getMonth() + 1, day: minDate.getDate(),year: minDate.getFullYear() };
   }
   
+
   public fileOverBase(e: any): void {
-    
     this.thirdFormDisabled = true
     this.hasBaseDropZoneOver = e;
     var cnt = 0;
-    this.fileErrors = [];
+    this.fileErrors = '';
     let uploadCnt = 0;
     if(this.documentsList && this.documentsList.length>0){
       uploadCnt=this.documentsList.length;
@@ -350,18 +355,20 @@ export class SignupPatientComponent implements OnInit {
       //this.documentsMissing = true;
       this.uploader.clearQueue();
     }else{      
-    this.uploader.queue.forEach((fileoOb) => {      
+    this.uploader.queue.forEach((fileoOb) => {  
+      console.log('fileoOb',fileoOb)    
       this.filename = fileoOb.file.name;
       var extension = this.filename.substring(this.filename.lastIndexOf('.') + 1);
-      var fileExts = ["jpg", "jpeg", "png", "txt", "pdf", "docx", "doc"];
+      console.log('extension',extension)    
+      var fileExts = ["jpg", "jpeg", "png","pdf"];//, "docx", "doc"
       let resp = this.isExtension(extension, fileExts);
+      console.log('resp>>>',resp)
       if (!resp) {
         var FileMsg = "This file '" + this.filename + "' is not supported";
         this.uploader.removeFromQueue(fileoOb);
-        let pushArry = { "error": FileMsg }
-        this.fileErrors.push(pushArry);
+        this.fileErrors = FileMsg;
         setTimeout(() => {
-          this.fileErrors = []
+          this.fileErrors = '';
         }, 5000);
         cnt++;
       }

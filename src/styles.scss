@@ -243,12 +243,12 @@ textarea{resize: none !important;}
 
 ::-ms-input-placeholder {  
     color: #1F2F3E !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
 }
 
 ::placeholder {
     color: #1F2F3E !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
 }
 
 // input[type=text] {
@@ -649,6 +649,10 @@ a{
         background-color: #1DB823 !important;
         color: #fff !important;
         font-weight: 600;
+    }
+    &:disabled{
+        color: #fff !important;
+        opacity: 0.5;
     }
 }
 .mdc-button{

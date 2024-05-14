@@ -153,16 +153,17 @@ export class NavservicesService {
       mainTitle: 'Conversations',
       headTitle1: '',
       path: '/system-admin/conversations', 
-      active: false, 
-      item: [ 
-        {
-          title: 'Conversations',
-          icon: 'chat',
-          type: 'link',
-          active: false,
-          path: '/system-admin/conversations', 
-        },
-      ]
+      active: false,
+      item: [],
+      // item: [ 
+      //   {
+      //     title: 'Conversations1',
+      //     icon: 'chat',
+      //     type: 'link',
+      //     active: false,
+      //     path: '/system-admin/conversations', 
+      //   },
+      // ]
     },
     {
       id: 5,
