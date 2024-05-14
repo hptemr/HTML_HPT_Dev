@@ -133,7 +133,6 @@ export class ManagePracticeComponent {
 
   
   async getLocationWiseUserList() {
-    console.log('whereCondPracticeAdmin>>>',this.whereCondPracticeAdmin)
     let orderBy = {
       ['createdAt']: -1
     }
@@ -144,7 +143,6 @@ export class ManagePracticeComponent {
       limit: 2
     }
     await this.authService.apiRequest('post', 'admin/getLocationWiseUserList', reqVars).subscribe(async response => {
-      console.log('userList>>>',response.data.userList)
       this.practiceAdminList = '';
       await response.data.userList.map((element: any) => {
         this.practiceAdminList += element.firstName + " " + element.lastName+', ';
