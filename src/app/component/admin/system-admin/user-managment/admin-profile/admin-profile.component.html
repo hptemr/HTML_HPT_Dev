@@ -29,7 +29,7 @@
                 <button mat-stroked-button color="warn" class="w-100 mt-1" (click)="deleteAccount()">Delete Account</button> 
                </div>
             </div>
-            <div class="profile--right d-flex flex-column w-100">
+            <div class="profile--right d-flex flex-column w-100"  *ngIf="showProfileForm">
                 <div class="card w-100 mb-0">
                     <div class="card-header pb-0">
                         <div class="col-12 d-flex align-items-center"> 
@@ -156,18 +156,6 @@
                                         <!-- <div class="text text-danger mt-1">Error here</div> -->
                                       </div>
                                       <div class="form-group">
-                                        <!-- <div class="chips d-inline-flex align-items-center">
-                                            Darby PT
-                                            <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1">
-                                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 ">close </mat-icon>
-                                            </button>
-                                        </div>
-                                        <div class="chips d-inline-flex align-items-center">
-                                            Stevi PT
-                                            <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1">
-                                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 ">close </mat-icon>
-                                            </button>
-                                        </div> -->
                                         <div class="chips d-inline-flex align-items-center"  *ngFor="let location of selectedLocations; let i = index" >
                                             {{location}}
                                             <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1" (click)="removeLocation(location)">
