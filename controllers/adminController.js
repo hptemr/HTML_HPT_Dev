@@ -71,10 +71,10 @@ const invite = async (req, res, next) => {
 const changePassword = async (req, res, next) => {
   try {
     const _id = req.body.userId
-    const { currentPassword, confirmPassword } = req.body;
+    const { confirmPassword } = req.body;
     let userData = await userCommonHelper.userGetById(_id)
-    if (!bcrypt.compareSync(currentPassword, userData.hash_password)) {
-      return commonHelper.sendResponse(res, 'info', null, userMessage.passwordNotMatch);
+    if (bcrypt.compareSync(confirmPassword, userData.hash_password)) {
+      return commonHelper.sendResponse(res, 'info', null, userMessage.enterCurrentPassword);
     }
 
     // Hash and salt the password
