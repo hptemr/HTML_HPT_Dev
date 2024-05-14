@@ -191,6 +191,18 @@ const getUserList = async (req, res) => {
   }
 }
 
+const getLocationWiseUserList = async (req, res) => {
+  try {
+    const { query, fields, order, offset, limit } = req.body;
+    let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit);
+    let totalCount = await User.find(query).count()
+    commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
 const deleteProfileImage = async (req, res) => {
   try {
     const { userId } = req.body
@@ -249,6 +261,7 @@ module.exports = {
   updateUser,
   getUserDetails,
   getUserList,
+  getLocationWiseUserList,
   deleteProfileImage,
   changeProfileImage
 };
