@@ -181,7 +181,7 @@ const patientLogin = async (req, res) => {
         const { email } = req.body;
         let userData = await userCommonHelper.patientGetByEmail(email)
         let loginCount = userData.loginCount + 1
-        if (loginCount > 2) {
+        if (loginCount > 20) {
             commonHelper.sendResponse(res, 'error', null, userMessage.loginCounterMessage);
         } else {
             await Patient.findOneAndUpdate({ email: email }, { $set: { failedAttempts: 0, loginCount: loginCount } })
@@ -193,7 +193,8 @@ const patientLogin = async (req, res) => {
                 email: userData.email,
                 role: 'patient',
                 token: token,
-                loginCount: loginCount
+                loginCount: loginCount,
+                profileImage: userData.profileImage
             };
             commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
         }

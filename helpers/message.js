@@ -15,7 +15,8 @@ const messages = {
         patientSignup:'Patient account has been created successfully',
         patientEmailExist:'Your Patient account already created. Please log in instead.',
         profileImageRemoved:"Your profile image has been removed successfully",
-        profileImageChanged:"Your profile image has been changed successfully"
+        profileImageChanged:"Your profile image has been changed successfully",
+        enterCurrentPassword: 'You have enter current password',
     },
     infoMessage: {
         updated: 'Updated successfully',
