@@ -48,6 +48,7 @@ export class NavservicesService implements OnInit {
       this.navigationMenu = [
         {
           id: 1,
+          activeMenu: 'dashboard',
           icon: 'dashboard_outline',
           mainTitle: 'Dashboard',
           headTitle1: 'Dashboard',
@@ -145,6 +146,7 @@ export class NavservicesService implements OnInit {
       this.navigationMenu = [
         {
           id: 1,
+          activeMenu: 'dashboard',
           icon: 'dashboard_outline',
           mainTitle: 'Dashboard',
           headTitle1: 'Dashboard',
@@ -207,6 +209,7 @@ export class NavservicesService implements OnInit {
       this.navigationMenu = [
         {
           id: 1,
+          activeMenu: 'dashboard',
           icon: 'dashboard_outline',
           mainTitle: 'Dashboard',
           headTitle1: 'Dashboard',
@@ -270,6 +273,7 @@ export class NavservicesService implements OnInit {
       this.navigationMenu = [
         {
           id: 1,
+          activeMenu: 'dashboard',
           icon: 'dashboard_outline',
           mainTitle: 'Dashboard',
           headTitle1: 'Dashboard',
@@ -333,6 +337,7 @@ export class NavservicesService implements OnInit {
       this.navigationMenu = [
         {
           id: 1,
+          activeMenu: 'dashboard',
           icon: 'dashboard_outline',
           mainTitle: 'Dashboard',
           headTitle1: 'Dashboard',

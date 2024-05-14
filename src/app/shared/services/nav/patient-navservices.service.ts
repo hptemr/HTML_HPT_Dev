@@ -39,7 +39,7 @@ export class PatientNavservicesService {
   Nvabarmenu: Menu[] = [
     {
       id: 1,
-      activeMenu: 'Dashboard',
+      activeMenu: 'dashboard',
       icon: 'dashboard_outline',
       mainTitle: 'Dashboard',
       headTitle1: 'Dashboard',

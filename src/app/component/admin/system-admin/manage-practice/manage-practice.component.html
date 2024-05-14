@@ -13,7 +13,6 @@
                     <select (change)="searchRecords($event)"
                         class="form-select form-control form-control-md practice--location"
                         aria-label="Default select example">
-                        <option selected='All'>All </option>
                         <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}</option>
                     </select>
                 </div>
