@@ -29,7 +29,7 @@ export class SidebarComponent {
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
+    this.screenHeight = window.innerHeight;   
   }
 
   toggleMenu(item: Menu) {
@@ -46,6 +46,15 @@ export class SidebarComponent {
           if (a.children?.includes(item)) {
             b.active = false;
           }
+          if (!a.children) {
+            return false;
+          }
+          a.children.forEach((b: Menu) => {
+            if (a.children?.includes(item)) {
+              b.active = false;
+            }
+          });
+          return;
         });
         return;
       });
