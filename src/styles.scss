@@ -207,14 +207,15 @@ input, p,
                         border-radius: 12px;
                         .chips{
                             border-radius: 5px;
-                            background: #31B7B7;
+                            background: #fff;
+                            border: 1px solid #31B7B7;
                             font-size: 14px;
-                            color: #fff;
+                            color: #31B7B7;
                             padding: 2px 9px;
                             margin: 0 10px 10px 0;
                             .chip--close--btn{
                                 height: auto;
-                                color: #fff;
+                                color: #31B7B7;
                                 .mat-icon{
                                     font-size: 14px;
                                     height: 14px;
