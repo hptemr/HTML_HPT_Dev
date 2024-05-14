@@ -17,6 +17,7 @@ export class AdminSignupComponent {
   userId: any
   pwdMatch = false
   termsConditionChecked = false
+  submitButton:boolean = true;
   constructor(
     private fb: FormBuilder,
     public router: Router,
@@ -71,6 +72,7 @@ export class AdminSignupComponent {
       },
       passwordReset: true
     }
+    this.submitButton = false;
     this.adminService.updateUser(params).subscribe({
       next: (res) => {
         if (res && !res.error) {

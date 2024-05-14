@@ -99,7 +99,7 @@
                         Services of the HPT-EHR platform.</mat-checkbox>
                     </div>
                     <div class="col-12 d-flex mb-4">
-                      <button [disabled]="signupForm.invalid || !termsConditionChecked || !pwdMatch" mat-raised-button
+                      <button [disabled]="signupForm.invalid || !termsConditionChecked || !pwdMatch || !submitButton" mat-raised-button
                         color="primary" class="w-100">
                         Sign Up
                       </button>
