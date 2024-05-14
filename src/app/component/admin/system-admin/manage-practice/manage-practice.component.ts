@@ -41,6 +41,8 @@ export class ManagePracticeComponent {
 
   orderBy: any = { createdAt: -1 }
   whereCond: any = {}
+  whereCondPracticeAdmin: any = {}
+  practiceAdminList: any = []
   totalCount = 0
   pageIndex = 0
   pageSize = pageSize
@@ -53,7 +55,9 @@ export class ManagePracticeComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.whereCond = { role: 'therapist' }
+    this.whereCondPracticeAdmin = { role: 'practice_admin',status:'Active' }
     this.getUserList()
+    this.getLocationWiseUserList()
   }
 
   announceSortChange(sortState: Sort) {
@@ -88,10 +92,14 @@ export class ManagePracticeComponent {
   searchRecords(event: any) {
     if (event.target.value != 'All') {
       Object.assign(this.whereCond, { practiceLocation: { $in: event.target.value } })
+      Object.assign(this.whereCondPracticeAdmin, { practiceLocation: { $in: event.target.value } })
     } else {
       Object.assign(this.whereCond, { practiceLocation: { $ne: event.target.value } })
+      Object.assign(this.whereCondPracticeAdmin, { practiceLocation: { $ne: event.target.value } })
     }
+
     this.getUserList()
+    this.getLocationWiseUserList()
   }
 
   async getUserList() {
@@ -121,6 +129,31 @@ export class ManagePracticeComponent {
       this.userList = new MatTableDataSource(finalData)
     })
   }
+
+
+  
+  async getLocationWiseUserList() {
+    console.log('whereCondPracticeAdmin>>>',this.whereCondPracticeAdmin)
+    let orderBy = {
+      ['createdAt']: -1
+    }
+    let reqVars = {
+      query: this.whereCondPracticeAdmin,
+      fields: { firstName: 1, lastName: 1, email: 1, status: 1, siteLeaderForPracLocation: 1,practiceLocation:1 },
+      order: orderBy,
+      limit: 2
+    }
+    await this.authService.apiRequest('post', 'admin/getLocationWiseUserList', reqVars).subscribe(async response => {
+      console.log('userList>>>',response.data.userList)
+      this.practiceAdminList = '';
+      await response.data.userList.map((element: any) => {
+        this.practiceAdminList += element.firstName + " " + element.lastName+', ';
+      })
+      this.practiceAdminList = this.practiceAdminList.replace(/,(\s*)$/, '');
+     
+    })
+  }
+
 
   handlePageEvent(e: PageEvent) {
     this.pageSize = e.pageSize;
