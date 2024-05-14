@@ -16,7 +16,7 @@ export class InvitePopupComponent {
   heading:string = '';
   inviteUserForm: FormGroup;
   practiceLocationData:string[] = practiceLocations
-
+  inviteButton:boolean = false;
   constructor(
     private commonService: CommonService,
     private adminService :AdminService,
@@ -42,6 +42,7 @@ export class InvitePopupComponent {
 
   inviteUser(){
     if(this.inviteUserForm.valid){
+      this.inviteButton = true;
       this.inviteUserForm.value['userRole']=this.data.userRole
       this.adminService.invite(this.inviteUserForm.value).subscribe({
         next: (res) => {
