@@ -12,8 +12,13 @@ import { ConversationsComponent } from './conversations/conversations.component'
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PatientProfileComponent } from '../support-team/patient-profile/patient-profile.component';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
+import { CommonAdminDashboardComponent } from 'src/app/shared/component/common-admin-dashboard/common-admin-dashboard.component';
 
 const routes: Routes = [
+  {
+    path: 'dashboard',
+    component: CommonAdminDashboardComponent,
+  },
   {
     path: 'user-managment',
     children: [

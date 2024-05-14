@@ -3,17 +3,16 @@
         <div class="col-12 my-4">
             <div class="row">
                 <div class="col-12 col-lg-6">
-                    <!-- <h3 class="mb-0 clr--1F2F3E fw-500 me-2">
+                    <h3 class="mb-0 clr--1F2F3E fw-500 me-2">
                         Practice Admin:
-                        <span class="fw-700">Darlene Robertson</span>
-                    </h3> -->
+                        <span class="fw-700">{{practiceAdminList}}</span>
+                    </h3>
                 </div>
                 <div class="col-12 col-lg-6 d-flex align-items-center justify-content-start justify-content-lg-end ">
                     <h3 class="mb-0 clr--1F2F3E fw-500 me-2">Practice Location:</h3>
                     <select (change)="searchRecords($event)"
                         class="form-select form-control form-control-md practice--location"
                         aria-label="Default select example">
-                        <option selected='All'>All </option>
                         <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}</option>
                     </select>
                 </div>

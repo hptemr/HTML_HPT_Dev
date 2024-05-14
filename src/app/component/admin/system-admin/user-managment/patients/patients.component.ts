@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { pageSize, pageSizeOptions } from 'src/app/config';
+import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
@@ -40,6 +40,8 @@ export class PatientsComponent {
   pageSizeOptions = pageSizeOptions
   validationMessages = validationMessages;
   orderBy: any = { createdAt: -1 }
+
+  practiceLocationData:string[] = practiceLocations
   constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private adminService: AdminService, private commonService: CommonService) { }
 
   ngOnInit() {
@@ -114,6 +116,13 @@ export class PatientsComponent {
   }
 
   reset() {
-    window.location.reload()
+    this.searchPatient =""
+    this.whereCond = {}
+
+    this.totalCount = 0
+    this.pageIndex = 0
+    this.pageSize = pageSize
+    this.pageSizeOptions = pageSizeOptions
+    this.getPatientList()
   }
 }

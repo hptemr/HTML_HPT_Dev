@@ -10,80 +10,54 @@ import { HeaderComponent } from './component/header/header.component';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { FeathericonComponent } from './component/feathericon/feathericon.component';
 import { FooterComponent } from './component/footer/footer.component';
-import { NotificationComponent } from './component/header/notification/notification.component';   
+import { NotificationComponent } from './component/header/notification/notification.component';
 import { ProfileComponent } from './component/header/profile/profile.component';
-import { SvgIconComponent } from './component/svg-icon/svg-icon.component'; 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
+import { SvgIconComponent } from './component/svg-icon/svg-icon.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TapToTopComponent } from './component/tap-to-top/tap-to-top.component';
-import { LoaderComponent } from './component/loader/loader.component'; 
+import { LoaderComponent } from './component/loader/loader.component';
 import { MaterialModule } from './material.module';
-import { SystemAdminLayoutComponent } from './component/layout/system-admin-layout/system-admin-layout.component'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientLayoutComponent } from './component/layout/patient-layout/patient-layout-layout.component';
 import { SidebarPatientComponent } from './component/sidebar-patient/sidebar-patient.component';
-import { SupportTeamLayoutComponent } from './component/layout/support-team-layout/support-team-layout.component';
-import { SupportTeamHeaderComponent } from './component/support-team-header/support-team-header.component';
-import { SidebarSupportTeamComponent } from './component/sidebar-support-team/sidebar-support-team.component';
 import { PatientHeaderComponent } from './component/header-patient/header-patient.component';
-import { PracticeAdminHeaderComponent } from './component/header-practice-admin/header-practice-admin.component';
-import { PracticeAdminLayoutComponent } from './component/layout/practice-admin-layout/practice-admin-layout.component';
-import { SidebarPracticeAdminComponent } from './component/sidebar-practice-admin/sidebar-practice-admin.component';
-import { TherapistLayoutComponent } from './component/layout/therapist-layout/therapist-layout.component';
-import { TherapistHeaderComponent } from './component/header-therapist/header-therapist.component';
-import { SidebarTherapistComponent } from './component/sidebar-therapist/sidebar-therapist.component';
-import { SidebarBillingTeamComponent } from './component/sidebar-billing-team/sidebar-billing-team.component';
-import { BillingTeamHeaderComponent } from './component/header-billing-team/header-billing-team.component';
-import { BillingTeamLayoutComponent } from './component/layout/billing-team-layout/billing-team-layout.component';
 import { ManageProfileComponent } from './component/manage-profile/manage-profile.component';
 import { UploadImgComponent } from './component/upload-img/upload-img.component';
 import { ImageCropperComponent } from 'ngx-image-cropper';
+import { AdminLayoutComponent } from './component/layout/admin-layout/admin-layout.component';
+import { CommonAdminDashboardComponent } from './component/common-admin-dashboard/common-admin-dashboard.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
 @NgModule({
-  declarations: [ 
+  declarations: [
     ContentComponent,
-
-    SystemAdminLayoutComponent,
-    PracticeAdminLayoutComponent,
+    AdminLayoutComponent,
     PatientLayoutComponent,
-    SupportTeamLayoutComponent,
-    TherapistLayoutComponent,
-    BillingTeamLayoutComponent,
-
     HeaderComponent,
-    SupportTeamHeaderComponent,
     PatientHeaderComponent,
-    PracticeAdminHeaderComponent,
-    TherapistHeaderComponent,
-    BillingTeamHeaderComponent,
-
     SidebarComponent,
     SidebarPatientComponent,
-    SidebarPracticeAdminComponent,
-    SidebarSupportTeamComponent,
-    SidebarTherapistComponent,
-    SidebarBillingTeamComponent,
-    
     FeathericonComponent,
     FooterComponent,
-    NotificationComponent,   
+    NotificationComponent,
     ProfileComponent,
-    SvgIconComponent,  
+    SvgIconComponent,
     TapToTopComponent,
-    LoaderComponent, 
+    LoaderComponent,
     ManageProfileComponent,
-    UploadImgComponent
+    UploadImgComponent,
+    CommonAdminDashboardComponent
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
     MaterialModule,
     SharedRoutingModule,
     NgbModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     NgOptimizedImage,
     ImageCropperComponent,
     AngularSvgIconModule.forRoot(),
@@ -94,14 +68,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     ContentComponent,
-    SystemAdminLayoutComponent,
+    AdminLayoutComponent,
     PatientLayoutComponent,
     FeathericonComponent,
     LoaderComponent,
-    SvgIconComponent, 
+    SvgIconComponent,
     TapToTopComponent,
     TranslateModule,
-    NgbModule, 
+    NgbModule,
     MaterialModule
   ]
 })

@@ -1,6 +1,5 @@
 import { Component, HostListener } from '@angular/core';
 import { Menu, NavservicesService } from '../../services/nav/navservices.service';
-import { PatientNavservicesService } from '../../services/nav/patient-navservices.service';
 
 @Component({
   selector: 'app-header',
@@ -9,15 +8,12 @@ import { PatientNavservicesService } from '../../services/nav/patient-navservice
 })
 
 export class HeaderComponent {
-
   public menuItems: Menu[] = [];
   public items: Menu[] = [];
-
   public searchResult: boolean = false;
   public searchResultEmpty: boolean = false;
   public text: string = '';
   public open: boolean = false;
-
 
   @HostListener('window:resize', ['$event'])
   onResize(event: number) {
@@ -27,7 +23,6 @@ export class HeaderComponent {
   constructor(public navService: NavservicesService) {
     this.navService.items.subscribe(menuItems => this.items = menuItems);
   }
-
 
   openSearch() {
     this.open = !this.open
@@ -79,7 +74,6 @@ export class HeaderComponent {
   clickOutside(): void {
     this.searchResult = false
     this.searchResultEmpty = false;
-    console.log('yee')
   }
 
   checkSearchResultEmpty(items: Menu[]) {

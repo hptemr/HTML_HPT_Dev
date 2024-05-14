@@ -3,14 +3,14 @@
     <img class="img-fluid" src="{{profileImage}}" alt="">
   </div>
   <div class="flex-grow-1 user"><span>{{fullName}}</span>
-    <p class="mb-0 font-nunito">{{userType}}</p>
+    <p class="mb-0 font-nunito">{{userTypeLable}}</p>
   </div>
 </div>
 <ul class="profile-dropdown onhover-show-div"> 
   <li>
-    <a [routerLink]="'/user/users-edit'">
+    <a (click)="profile()">
       <app-feathericon [icon]="'settings'"></app-feathericon>
-      <span>Settings</span>
+      <span>Profile</span>
     </a>
   </li>
   <li><a (click)="logOut()">

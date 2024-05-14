@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core'; 
 import { LayoutService } from '../../services/layout/layout.service';
 import { PatientNavservicesService, Menu } from '../../services/nav/patient-navservices.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar-patient',
@@ -15,8 +16,16 @@ export class SidebarPatientComponent {
   public active: boolean = false;
   public screenWidth: number;
   public screenHeight: number;
-
-  constructor(public navService: PatientNavservicesService, public layout: LayoutService) { }
+  public currentMainMenu: any = ''
+  public itemsLength: any = 0;
+  constructor(public navService: PatientNavservicesService, public layout: LayoutService, private router: Router) {
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        const locationArray = event.url.split('/')
+        this.currentMainMenu = locationArray[2]
+      }
+    })
+  }
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
@@ -24,6 +33,7 @@ export class SidebarPatientComponent {
   }
 
   toggleMenu(item: Menu) {
+    this.itemsLength = item.item?.length;
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
         if (this.menus.includes(item)) {
@@ -40,7 +50,9 @@ export class SidebarPatientComponent {
         return;
       });
     }
-    item.active = !item.active;
+    if(this.itemsLength>0){
+      item.active = !item.active;
+    }
     if (item.active == true) {
       this.navService.isShow = true;
     } else {

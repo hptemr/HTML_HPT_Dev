@@ -1,6 +1,6 @@
 <div>
   <div class="logo-wrapper">
-    <a [routerLink]="'/'">
+    <a>
       <img class="img-fluid for-light" ngSrc="assets/images/logo/logo.webp" alt="looginpage" width="60" height="60" priority rel="preload" fetchpriority="high">
     </a>
     <div class="back-btn"><i class="fa fa-angle-left"> </i></div>
@@ -16,7 +16,8 @@
         </li>
       @for(mainMenu of menus; track mainMenu){
        <li class="sidebar-list">
-         <a [routerLink]="mainMenu.path" class="sidebar-link sidebar-title" (click)=" toggleMenu(mainMenu)" [class.active]="mainMenu.active == true">
+         <a [routerLink]="mainMenu.path" class="sidebar-link sidebar-title active" (click)=" toggleMenu(mainMenu)"
+         [class.active]="mainMenu.activeMenu == currentMainMenu">
             @if(mainMenu.icon){
                <!-- <app-svg-icon [icon]="mainMenu.icon"></app-svg-icon> -->
                <mat-icon aria-hidden="false" aria-label="Example home icon" [fontIcon]="mainMenu.icon"></mat-icon>

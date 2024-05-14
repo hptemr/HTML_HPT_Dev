@@ -7,6 +7,10 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
 
 const routes: Routes = [ 
   {
+    path: 'dashboard',
+    component: AppointmentsComponent, 
+  },
+  {
     path: 'appointments',
     component: AppointmentsComponent, 
   }, 

@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 export interface Menu {
   id?: number;
+  activeMenu?: string;
   headTitle1?: string;
   mainTitle?: string;
   path?: string;
@@ -23,6 +24,7 @@ export interface Menu {
 
 )
 export class PatientNavservicesService {
+  @HostListener('window:resize', ['$event'])
 
   public language: boolean = false;
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
@@ -34,78 +36,71 @@ export class PatientNavservicesService {
 
   constructor() { }
 
-
-  @HostListener('window:resize', ['$event'])
-
-
-  Nvabarmenu: Menu[] = [  
+  Nvabarmenu: Menu[] = [
     {
       id: 1,
+      activeMenu: 'dashboard',
       icon: 'dashboard_outline',
       mainTitle: 'Dashboard',
-      headTitle1: 'Dashboard', 
+      headTitle1: 'Dashboard',
+      path: '/patient/dashboard',
       active: false,
-      item: [ 
-        {
-          title: 'Dashboard',
-          icon: 'notifications_none',
-          type: 'link',
-          active: false,  
-        },
-      ]
+      item: []
     },
-    {
-      id: 2,
-      icon: 'pending_actions',
-      mainTitle: 'Appointments',  
-      headTitle1: '',
-      path: '/patient/appointments',
-      active: false, 
-      type: 'link', 
-      item: [ 
-        {
-          title: 'Appointments',
-          icon: 'pending_actions',
-          type: 'link',
-          active: false,  
-        },
-      ]
-    }, 
-    {
-      id: 3,
-      icon: 'health_and_safety',
-      mainTitle: 'Insurance',  
-      headTitle1: '',
-      path: '/patient/appointments',
-      active: false, 
-      type: 'link', 
-      item: [ 
-        {
-          title: 'Insurance',
-          icon: 'health_and_safety',
-          type: 'link',
-          active: false,  
-        },
-      ]
-    }, 
-    {
-      id: 4,
-      icon: 'smart_display',
-      mainTitle: 'Home Exercise',  
-      headTitle1: '',
-      path: '/patient/appointments',
-      active: false, 
-      type: 'link', 
-      item: [ 
-        {
-          title: 'Home Exercise',
-          icon: 'smart_display',
-          type: 'link',
-          active: false,  
-        },
-      ]
-    }, 
-    
+    // {
+    //   id: 2,
+    //   activeMenu: 'appointments',
+    //   icon: 'pending_actions',
+    //   mainTitle: 'Appointments',
+    //   headTitle1: '',
+    //   path: '/patient/appointments',
+    //   active: false,
+    //   type: 'link',
+    //   item: [
+    //     {
+    //       title: 'Appointments',
+    //       icon: 'pending_actions',
+    //       type: 'link',
+    //       active: false,
+    //     },
+    //   ]
+    // },
+    // {
+    //   id: 3,
+    //   activeMenu: 'notifications',
+    //   icon: 'health_and_safety',
+    //   mainTitle: 'Insurance',
+    //   headTitle1: '',
+    //   path: '/patient/appointments',
+    //   active: false,
+    //   type: 'link',
+    //   item: [
+    //     {
+    //       title: 'Insurance',
+    //       icon: 'health_and_safety',
+    //       type: 'link',
+    //       active: false,
+    //     },
+    //   ]
+    // },
+    // {
+    //   id: 4,
+    //   activeMenu: 'notifications',
+    //   icon: 'smart_display',
+    //   mainTitle: 'Home Exercise',
+    //   headTitle1: '',
+    //   path: '/patient/appointments',
+    //   active: false,
+    //   type: 'link',
+    //   item: [
+    //     {
+    //       title: 'Home Exercise',
+    //       icon: 'smart_display',
+    //       type: 'link',
+    //       active: false,
+    //     },
+    //   ]
+    // },
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
 

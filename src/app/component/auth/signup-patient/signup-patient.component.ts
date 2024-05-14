@@ -41,7 +41,7 @@ export class SignupPatientComponent implements OnInit {
   mainHeadTxt = "Create your account"
   stepperOrientation: Observable<StepperOrientation>;
   selectedDate: NgbDateStruct;
-  selectedCity: string;
+  selectedCity: string = "";
     //stepper: MatStepper;
   step1: FormGroup;
   step2: FormGroup;
@@ -72,7 +72,7 @@ export class SignupPatientComponent implements OnInit {
   fileType: string = '';
   document_size: string = '';
   uploadAll: boolean = false;
-  fileErrors: any;
+  fileErrors: string='';
   thirdFormDisabled = false
   currentProgessinPercent: number = 0;
   selectedDocumentsType: string;
@@ -117,6 +117,11 @@ export class SignupPatientComponent implements OnInit {
     if(localStorage.getItem("thiredFormGroupData")){
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
+        if(this.thiredFormGroupData.documents_type === undefined){
+          this.selectedDocumentsType = '';
+        }else{
+          this.selectedDocumentsType = this.thiredFormGroupData.documents_type;
+        }
         this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
       }
     }
@@ -125,7 +130,7 @@ export class SignupPatientComponent implements OnInit {
     this.uploader = new FileUploader({ url: `${URL}?userId=${this.userId}` });
     this.firstFormGroup = this.fb.group({
         firstName: [this.firstFormGroupData ? this.firstFormGroupData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
-        middleName: [this.firstFormGroupData ? this.firstFormGroupData.middleName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator,  Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+        middleName: [this.firstFormGroupData ? this.firstFormGroupData.middleName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),Validators.maxLength(35)]],
         lastName: [this.firstFormGroupData ? this.firstFormGroupData.lastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
         email: [this.firstFormGroupData ? this.firstFormGroupData.email : '', [Validators.required,Validators.email,CustomValidators.noWhitespaceValidator,]],//Validators.pattern(/^[a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/i)
         dob: ['',[Validators.required]],
@@ -140,10 +145,10 @@ export class SignupPatientComponent implements OnInit {
 
     this.secondFormGroup = this.fb.group({      
       address1: [this.secondFormGroupData ? this.secondFormGroupData.address1 : '', [Validators.required]],
-      address2: [this.secondFormGroupData ? this.secondFormGroupData.address2 : '', []],
+      address2: [this.secondFormGroupData ? this.secondFormGroupData.address2 : '', [Validators.required]],
       city: [this.secondFormGroupData ? this.secondFormGroupData.city : '', [Validators.required]],    
       state: [this.secondFormGroupData ? this.secondFormGroupData.state : '', [Validators.required]],
-      zipcode: [this.secondFormGroupData ? this.secondFormGroupData.zipcode : '', [Validators.pattern(/^[0-9]+$/i), Validators.required,Validators.minLength(1), Validators.maxLength(5)]],
+      zipcode: [this.secondFormGroupData ? this.secondFormGroupData.zipcode : '', [Validators.pattern(/^[0-9]+$/i), Validators.required,Validators.minLength(1), Validators.maxLength(6)]],
     });
 
     this.thirdFormGroup = this.fb.group({    
@@ -152,9 +157,7 @@ export class SignupPatientComponent implements OnInit {
       isChecked: [false, [Validators.requiredTrue]]
     } , {
         validator: this.dependentFieldValidator
-    });
-    
-    
+    }); 
     this.filterStartDate();
   }
 
@@ -244,7 +247,7 @@ export class SignupPatientComponent implements OnInit {
       return;
     }else if (steps==2 && this.secondFormGroup.invalid) {
       this.mainHeadTxt="Verify your account";
-        this.firstFormGroup.markAllAsTouched();
+        this.secondFormGroup.markAllAsTouched();
         return;      
     }else if (steps==3 && this.thirdFormGroup.invalid) {
       this.thirdFormGroup.markAllAsTouched();
@@ -280,7 +283,6 @@ export class SignupPatientComponent implements OnInit {
           this.commonService.openSnackBar(response.message, "ERROR")   
         }
       } else {
-        console.log('response.data>>>>',response.data)
         if(response.data.user_id){
           localStorage.setItem("userId", response.data.user_id);
           this.userId = response.data.user_id;
@@ -290,8 +292,6 @@ export class SignupPatientComponent implements OnInit {
         if(response.message){
           this.commonService.openSnackBar(response.message, "SUCCESS")   
         }
-
-        console.log('response.data>>>>',this.userId)
         if(steps && steps==3){
           localStorage.removeItem('userId');
           localStorage.removeItem('firstFormGroupData');
@@ -319,7 +319,8 @@ export class SignupPatientComponent implements OnInit {
     if(typeof dateObj=='object'){
       //this.ngbDateParserFormatter.format(date)
       if(dateObj.day && dateObj.month && dateObj.year){
-        selected_date = dateObj.month+'-'+dateObj.day+'-'+dateObj.year;
+        // selected_date = this.padNumber(dateObj.month)+'-'+this.padNumber(dateObj.day)+'-'+dateObj.year;
+        selected_date = this.commonService.formattedDate(dateObj)
       }
     }
     this.selected_date = selected_date;     
@@ -331,12 +332,12 @@ export class SignupPatientComponent implements OnInit {
     return { month: minDate.getMonth() + 1, day: minDate.getDate(),year: minDate.getFullYear() };
   }
   
+
   public fileOverBase(e: any): void {
-    
     this.thirdFormDisabled = true
     this.hasBaseDropZoneOver = e;
     var cnt = 0;
-    this.fileErrors = [];
+    this.fileErrors = '';
     let uploadCnt = 0;
     if(this.documentsList && this.documentsList.length>0){
       uploadCnt=this.documentsList.length;
@@ -349,18 +350,17 @@ export class SignupPatientComponent implements OnInit {
       //this.documentsMissing = true;
       this.uploader.clearQueue();
     }else{      
-    this.uploader.queue.forEach((fileoOb) => {      
+    this.uploader.queue.forEach((fileoOb) => {  
       this.filename = fileoOb.file.name;
       var extension = this.filename.substring(this.filename.lastIndexOf('.') + 1);
-      var fileExts = ["jpg", "jpeg", "png", "txt", "pdf", "docx", "doc"];
+      var fileExts = ["jpg", "jpeg", "png","pdf"];//, "docx", "doc"
       let resp = this.isExtension(extension, fileExts);
       if (!resp) {
         var FileMsg = "This file '" + this.filename + "' is not supported";
         this.uploader.removeFromQueue(fileoOb);
-        let pushArry = { "error": FileMsg }
-        this.fileErrors.push(pushArry);
+        this.fileErrors = FileMsg;
         setTimeout(() => {
-          this.fileErrors = []
+          this.fileErrors = '';
         }, 5000);
         cnt++;
       }

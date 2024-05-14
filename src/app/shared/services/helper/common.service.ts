@@ -67,17 +67,17 @@ export class CommonService {
     let redirect = ''
     let user_type = this.authService.getLoggedInInfo('role')
     if (user_type == "system_admin") {
-      redirect = 'system-admin/manage-profile'
+      redirect = 'system-admin/dashboard'
     } else if (user_type == "practice_admin") {
-      redirect = 'practice-admin/manage-profile'
+      redirect = 'practice-admin/dashboard'
     } else if (user_type == "support_team") {
-      redirect = 'support-team/manage-profile'
+      redirect = 'support-team/dashboard'
     } else if (user_type == "therapist") {
-      redirect = 'therapist/manage-profile'
+      redirect = 'therapist/dashboard'
     } else if (user_type == "billing_team") {
-      redirect = 'billing-team/manage-profile'
+      redirect = 'billing-team/dashboard'
     } else if (user_type == "patient") {
-      redirect = 'patient'
+      redirect = 'patient/dashboard'
     } else {
       redirect = 'signin'
     }
@@ -121,21 +121,21 @@ export class CommonService {
   }
 
   getUserBaseOnRole(role: any): any {
-    let returnObj = { userType: '' }
+    let returnObj = { userTypeLable: '' }
     if (role) {
       switch (role) {
         case 'system_admin':
-          return { userType: 'System Admin' }
+          return { userTypeLable: 'System Admin' }
         case 'practice_admin':
-          return { userType: 'Practice Admin' }
+          return { userTypeLable: 'Practice Admin' }
         case 'therapist':
-          return { userType: 'Therapist' }
+          return { userTypeLable: 'Therapist' }
         case 'support_team':
-          return { userType: 'Support Team' }
+          return { userTypeLable: 'Support Team' }
         case 'billing_team':
-          return { userType: 'Billing Team' }
+          return { userTypeLable: 'Billing Team' }
         case 'patient':
-          return { userType: 'patient' }
+          return { userTypeLable: 'Patient' }
         default:
           return returnObj;
       }
@@ -155,5 +155,15 @@ export class CommonService {
       this.LoaderComponentRef.close()
     }, timer);
   }
+
+  // Date MM-DD-YYYY
+  formattedDate = (dateObj: any) => {
+    return  this.padNumber(dateObj.month)+'-'+this.padNumber(dateObj.day)+'-'+dateObj.year;
+  };
+
+   // Function to pad single-digit numbers with leading zeros
+  padNumber = (num: number): string => {
+    return num.toString().padStart(2, '0'); // Ensures two-digit format with leading zero
+  };
 
 }
