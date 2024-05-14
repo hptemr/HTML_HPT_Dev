@@ -39,6 +39,7 @@ export class UserListingComponent {
   userRole :string =''
   pageTitle :string =''
   profileUrlSegment: string =''
+  isUserList:boolean=true
 
   orderBy: any = { createdAt: -1 }
   whereCond: any = {}
@@ -154,6 +155,7 @@ export class UserListingComponent {
           userDetails.push(newColumns)
         })
         this.adminUsersDataSource = new MatTableDataSource<AdminUsers>(userDetails)
+        this.isUserList = this.totalCount>0?true:false
         this.commonService.hideLoader()
       })
     }
@@ -189,7 +191,16 @@ export class UserListingComponent {
     }
 
     resetFilter(){
-      window.location.reload()
+      this.locationSelect.nativeElement.selectedIndex = 0;
+      this.statusSelect.nativeElement.selectedIndex = 0;
+      this.searchAdminUsers.setValue('');
+      
+      this.totalCount = 0
+      this.pageIndex = 0
+      this.pageSize = pageSize
+      this.pageSizeOptions = pageSizeOptions
+      this.searchQuery =""
+      this.adminUsers()
     }
 
     navigateToAdminUserDetails(userId: any){
@@ -200,6 +211,19 @@ export class UserListingComponent {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
       this.adminUsers()
+    }
+
+    getFormattedPracticeLocation(array: any[], limit: number = 2, separator: string = ', '): string {
+      if (!Array.isArray(array) || array.length === 0) {
+        return '';
+      }
+      const truncatedArray = array.slice(0, limit);
+      let result = truncatedArray.join(separator);
+  
+      if (array.length > limit) {
+        result += '...';
+      }
+      return result;
     }
 
 }

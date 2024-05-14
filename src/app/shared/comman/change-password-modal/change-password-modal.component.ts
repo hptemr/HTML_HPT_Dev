@@ -41,7 +41,6 @@ export class ChangePasswordModalComponent {
 
   initializeChangePasswordForm(){
     this.changePasswordForm = this.fb.group({
-      currentPassword: ['', [Validators.required, Validators.pattern(regex.password)]],
       newPassword: ['', [Validators.required, Validators.pattern(regex.password)]],
       confirmPassword: ['', Validators.required]
     }, {
@@ -61,7 +60,6 @@ export class ChangePasswordModalComponent {
   changePassword(){
     if(this.changePasswordForm.valid){
       const resetBody = {
-        currentPassword: this.changePasswordForm.value['currentPassword'],
         confirmPassword: this.changePasswordForm.value['confirmPassword'],
         userId : this.data.userId
       }
