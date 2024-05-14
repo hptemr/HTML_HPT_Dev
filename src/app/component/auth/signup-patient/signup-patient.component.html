@@ -108,7 +108,7 @@
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Password <span class="clr--DF0404 ms-1"> * </span></label>
                                         <div class="form-input position-relative">
-                                            <input class="form-control" [type]="show ? 'text' : 'password'" placeholder="*********" formControlName="password"/>
+                                            <input class="form-control" [type]="show ? 'text' : 'password'" placeholder="Enter Password" formControlName="password"/>
                                             @if(!show){
                                             <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
                                             }@else{
@@ -127,7 +127,7 @@
                                   <div class="form-group">
                                     <label class="col-form-label fw-600">Confirm Password <span class="clr--DF0404 ms-1"> * </span> </label>
                                     <div class="form-input position-relative">
-                                        <input class="form-control" [type]="showConfirmPass ? 'text' : 'password'" placeholder="*********" formControlName="confirmPassword"/>
+                                        <input class="form-control" [type]="showConfirmPass ? 'text' : 'password'" placeholder="Enter Confirm Password" formControlName="confirmPassword"/>
                                         @if(!showConfirmPass){
                                         <div class="show-hide" (click)="showConfirmPassword()"><span class="show"> </span></div>
                                         }@else{
