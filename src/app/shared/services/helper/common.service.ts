@@ -150,7 +150,7 @@ export class CommonService {
     });
   }
 
-  hideLoader(timer = 500) {
+  hideLoader(timer = 300) {
     setTimeout(() => {
       this.LoaderComponentRef.close()
     }, timer);

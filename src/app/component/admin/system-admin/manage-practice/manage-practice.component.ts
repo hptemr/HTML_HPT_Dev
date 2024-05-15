@@ -112,6 +112,7 @@ export class ManagePracticeComponent {
       offset: (this.pageIndex * this.pageSize)
     }
     await this.authService.apiRequest('post', 'admin/getUserList', reqVars).subscribe(async response => {
+      this.commonService.hideLoader()
       this.totalCount = response.data.totalCount
       let finalData: any = []
       await response.data.userList.map((element: any) => {
@@ -124,7 +125,6 @@ export class ManagePracticeComponent {
           name: element.firstName + " " + element.lastName
         }
         finalData.push(newColumns)
-        this.commonService.hideLoader()
       })
       this.userList = new MatTableDataSource(finalData)
     })

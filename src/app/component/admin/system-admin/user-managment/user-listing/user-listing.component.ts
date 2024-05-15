@@ -141,8 +141,8 @@ export class UserListingComponent {
         limit: this.pageSize,
         offset: (this.pageIndex * this.pageSize)
       }
-   
       await this.authService.apiRequest('post', 'admin/getUserList', reqVars).subscribe(async response => {
+        this.commonService.hideLoader()
         this.totalCount = response.data.totalCount
         let userDetails: any = []
         await response.data.userList.map((element: any) => {
@@ -157,8 +157,7 @@ export class UserListingComponent {
           userDetails.push(newColumns)
         })
         this.adminUsersDataSource = new MatTableDataSource<AdminUsers>(userDetails)
-        this.isUserList = this.totalCount>0?true:false
-        this.commonService.hideLoader()
+        this.isUserList = this.totalCount>0?true:false 
       })
     }
 
