@@ -103,7 +103,7 @@ export class UserListingComponent {
 
       dialogRef.afterClosed().subscribe(result => {
         if(result && !result.error){
-          this.adminUsers()
+          this.adminUsers('invite')
           this.commonService.openSnackBar(result.message,"SUCCESS")
         }
       });
@@ -166,7 +166,7 @@ export class UserListingComponent {
       const practiceLocation = event.target.value;
       if(practiceLocation){
         this.searchQuery = practiceLocation
-        this.adminUsers()
+        this.adminUsers('search')
       }
     }
 
@@ -181,14 +181,14 @@ export class UserListingComponent {
 
     searchAdminUsersByQuery(searchQuery: any) {
       this.searchQuery = searchQuery
-      this.adminUsers()
+      this.adminUsers('search')
     }
 
     onStatusChange(event:any){
       let status = event.target.value;
       if(status){
         this.searchQuery = status
-        this.adminUsers()
+        this.adminUsers('search')
       }
     }
 
