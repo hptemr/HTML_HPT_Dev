@@ -21,18 +21,25 @@ const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const signup = async (req, res) => {
     try {
         const { query, step, data } = req.body;        
-        let alreadyPatient = '';
+        let alreadyPatient = ''; let alreadyAdmin = '';
         if(data.email){
             alreadyPatient = await Patient.findOne({ email: data.email });
         }          
+        // if(data.email){
+        //     alreadyAdmin = await User.findOne({ email: data.email });
+        // }
         let found = [];
         if(query._id){
             found = await PatientTemp.findOne({ _id: query._id });
         }else{
             found = await PatientTemp.findOne({ email: data.email });
         }
-        let result_id = '';let message = '';
-
+        let result_id = '';let userData = '';let message = '';
+        // if(alreadyAdmin){
+        //     let validations = {'email':userMessage.adminEmailExist}
+        //     commonHelper.sendResponse(res, 'errorValidation', validations,'Please check the validation field.' );
+        // }else 
+        
         if(alreadyPatient){
              let validations = {'email':userMessage.patientEmailExist}
              commonHelper.sendResponse(res, 'errorValidation', validations,'Please check the validation field.' );
@@ -69,6 +76,19 @@ const signup = async (req, res) => {
                     result = await newPatient.save();
                     if(result._id){
                         result_id = result._id;
+
+                        const token = jwt.sign({ _id: result_id }, process.env.SECRET, { expiresIn: '1d' });
+                        userData = {
+                            _id: result_id,
+                            firstName: found.firstName,
+                            middleName:found.middleName,
+                            lastName:found.lastName,
+                            email:found.email,
+                            role: 'patient',
+                            token: token,
+                            loginCount: 1,
+                            profileImage: ''
+                        };
                         if(found.email){
                             await PatientTemp.deleteOne({ _id: found._id });
                             let email_data = {
@@ -90,7 +110,7 @@ const signup = async (req, res) => {
                 result = await newPatient.save();
                 result_id = result._id;
             }
-            let responsedata = {'user_id':result_id};
+            let responsedata = {'user_id':result_id,'userData':userData};
             commonHelper.sendResponse(res, 'success', responsedata, message);            
         }
     } catch (error) {
