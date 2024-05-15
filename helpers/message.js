@@ -10,7 +10,7 @@ const messages = {
         suspendedAccount: 'User not found. Please contact system admin or support team for more details',
         userBlocked: 'Your account is blocked due to multiple incorrect login attempts. Please contact system admin or support team.',
         inactiveUser: 'Your account is not active. Please contact system admin or support team.',
-        emailAlreadyRegister: 'The email address entered is not registered with us. Please enter another email address or sign in with this one',
+        emailAlreadyRegister: 'The email address entered is registered with us. Please enter another email address or sign in with this one',
         loginCounterMessage: "You have already logged in two devices, please logout any one of them and try again!",
         patientSignup:'Patient account has been created successfully',
         patientEmailExist:'Your Patient account already created. Please log in instead.',
