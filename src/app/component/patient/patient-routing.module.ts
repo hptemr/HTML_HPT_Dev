@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';  
 import { AppointmentsComponent } from './appointments/appointments/appointments.component';
 import { AppointmentDetailsComponent } from './appointments/appointment-details/appointment-details.component';
-import { AppointmentManageDetailsComponent } from './appointments/appointment-manage-details/appointment-manage-details.component';
+import { UpdatePatientProfileComponent } from './update-patient-profile/update-patient-profile.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 
 const routes: Routes = [ 
@@ -19,8 +19,9 @@ const routes: Routes = [
     component: AppointmentDetailsComponent, 
   }, 
   {
+    
     path: 'manage-details',
-    component: AppointmentManageDetailsComponent, 
+    component: UpdatePatientProfileComponent, 
   },
   {
     path: 'profile-details',
