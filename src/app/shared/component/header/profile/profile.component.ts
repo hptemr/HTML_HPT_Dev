@@ -12,16 +12,17 @@ import { s3Details } from 'src/app/config';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  fullName:any
-  userType:any
-  userTypeLable:any = ''
-  profileImage:any
-  constructor( 
+  fullName: any
+  userId: any
+  userType: any
+  userTypeLable: any = ''
+  profileImage: any
+  constructor(
     public dialog: MatDialog,
-    private authService:AuthService,
-    public adminService:AdminService,
-    public commonService:CommonService
-  ) { 
+    private authService: AuthService,
+    public adminService: AdminService,
+    public commonService: CommonService
+  ) {
   }
 
   ngOnInit() {
@@ -29,9 +30,10 @@ export class ProfileComponent {
     this.fullName = this.authService.getFullName()
     this.userType = this.authService.getLoggedInInfo('role')
     this.userTypeLable = this.commonService.getUserBaseOnRole(this.userType).userTypeLable
+    this.userId = this.authService.getLoggedInInfo("_id")
   }
 
-  profile(){
+  profile() {
     let redirect = ''
     let user_type = this.userType
     if (user_type == "system_admin") {
@@ -59,16 +61,14 @@ export class ProfileComponent {
       data: {
         warningNote: 'Are you sure you want to log out?'
       }
-    });
-
+    })
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        let req_vars = { _id: this.authService.getLoggedInInfo("_id"),userType:this.userType }
-        this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => {
-          this.authService.logout(this.userType)
-        })
+      if (result) { 
+        let req_vars = { _id: this.userId, userType: this.userType }
+        this.authService.logout(this.userType)
+        this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => { })
       }
-    });
+    })
   }
 
 }
