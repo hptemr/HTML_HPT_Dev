@@ -87,7 +87,7 @@ const signup = async (req, res) => {
                             role: 'patient',
                             token: token,
                             loginCount: 1,
-                            profileImage: ''
+                            profileImage: 'default.png'
                         };
                         if(found.email){
                             await PatientTemp.deleteOne({ _id: found._id });
