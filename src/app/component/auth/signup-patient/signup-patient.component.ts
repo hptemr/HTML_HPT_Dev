@@ -88,7 +88,7 @@ export class SignupPatientComponent implements OnInit {
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
   
-  ngOnInit() {    
+  ngOnInit() {
     this.userId = localStorage.getItem("userId");
     // localStorage.removeItem('userId');
     // localStorage.removeItem('firstFormGroupData');
@@ -265,7 +265,7 @@ export class SignupPatientComponent implements OnInit {
         data: data
       }
      
-       this.commonService.showLoader();       
+      this.commonService.showLoader();       
     await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
       this.commonService.hideLoader();
       if (response.error) {
@@ -296,8 +296,12 @@ export class SignupPatientComponent implements OnInit {
           localStorage.removeItem('userId');
           localStorage.removeItem('firstFormGroupData');
           localStorage.removeItem('secondFormGroupData');
-          localStorage.removeItem('thiredFormGroupData');
-          this.router.navigate(['/'])
+          localStorage.removeItem('thiredFormGroupData');          
+          if(response.data.userData){
+            this.setLocalStorage(response.data.userData);
+          }else{
+            this.router.navigate(['/'])
+          }
         }  
         this.stepper.next();   
       }      
@@ -540,7 +544,11 @@ export class SignupPatientComponent implements OnInit {
     return this.cities = cities_data.filter(city => city.state_code === state_code);
   }
 
-  
+  setLocalStorage(res: any) {
+    localStorage.setItem('user', JSON.stringify(res));
+    this.router.navigate(["/patient/dashboard"])
+  }
+
   // convertDateFormat(dateObj: any) {
   //   console.log('date>>>',dateObj,'>>>>',dateObj.year,dateObj.month,dateObj.day)
   //   let dateString:any = '';
