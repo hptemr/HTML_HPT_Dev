@@ -1,8 +1,10 @@
+ 
+
+ 
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout'; 
-import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';//FormArray,
+import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
-//import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
@@ -26,26 +28,24 @@ interface City {
   city: string;
   state_code: string;
 }
+
 @Component({
-  selector: 'app-signup-patient', 
-  templateUrl: './signup-patient.component.html',
-  styleUrl: './signup-patient.component.scss', 
+  selector: 'app-update-patient-profile', 
+  templateUrl: './update-patient-profile.component.html',
+  styleUrl: './update-patient-profile.component.scss'
 })
-export class SignupPatientComponent implements OnInit {
-  @ViewChild('stepper') stepper: MatStepper;
+export class UpdatePatientProfileComponent implements OnInit {
+  selectedTab = 0;
+  model: NgbDateStruct;
+
   states: State[] = states_data;
   cities: City[] = []
-  public show: boolean = false;
-  public showConfirmPass: boolean = false;
   validationMessages = validationMessages; 
-  mainHeadTxt = "Create your account"
-  stepperOrientation: Observable<StepperOrientation>;
+
   selectedDate: NgbDateStruct;
   selectedCity: string = "";
-    //stepper: MatStepper;
-  step1: FormGroup;
-  step2: FormGroup;
-  step3: FormGroup;
+
+
   minStartDate: any
   maxEndDate: any
 
@@ -58,6 +58,8 @@ export class SignupPatientComponent implements OnInit {
   readonly DT_FORMAT = 'MM/DD/YYYY';
 
   convertPhoneNumber: string = '';
+  convertCellPhoneNumber: string = '';
+  convertWorkExtensionNumber: string = '';
   filename: any;
   userId: any = '';
   public uploader: FileUploader = new FileUploader({ url: `${URL}?` });
@@ -77,88 +79,46 @@ export class SignupPatientComponent implements OnInit {
   currentProgessinPercent: number = 0;
   selectedDocumentsType: string;
   documents_type_list:any=[];
-  isChecked = false
 
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter) {
-    this.stepperOrientation = breakpointObserver
-      .observe('(min-width: 800px)')
-      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
-  }
-  
+  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter) {}
+  //constructor(private _formBuilder: FormBuilder ) {} 
+
   ngOnInit() {
     this.userId = localStorage.getItem("userId");
-    // localStorage.removeItem('userId');
-    // localStorage.removeItem('firstFormGroupData');
-    // localStorage.removeItem('secondFormGroupData');
-    // localStorage.removeItem('thiredFormGroupData');
-    this.documents_type_list = documents_list;
-
-     this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
-    if(localStorage.getItem("firstFormGroupData")){
-      this.firstFormGroupData = JSON.parse(this.firstFormGroupData)
-      if(this.firstFormGroupData.disply_dob)this.onDateChange(this.firstFormGroupData.disply_dob)
-    }
-
-    this.secondFormGroupData = localStorage.getItem("secondFormGroupData");
-    if(localStorage.getItem("secondFormGroupData")){
-      this.secondFormGroupData = JSON.parse(this.secondFormGroupData)
-      if(this.secondFormGroupData && this.secondFormGroupData.city){
-        this.selectedCity = this.secondFormGroupData.city;
-      }
-      if(this.secondFormGroupData.state){
-        this.getCitiesByState(this.secondFormGroupData.state);
-      }      
-    }
-
-    this.thiredFormGroupData = localStorage.getItem("thiredFormGroupData");
-    if(localStorage.getItem("thiredFormGroupData")){
-      this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
-      if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
-        if(this.thiredFormGroupData.documents_type === undefined){
-          this.selectedDocumentsType = '';
-        }else{
-          this.selectedDocumentsType = this.thiredFormGroupData.documents_type;
-        }
-        this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
-      }
-    }
-
 
     this.uploader = new FileUploader({ url: `${URL}?userId=${this.userId}` });
     this.firstFormGroup = this.fb.group({
-        firstName: [this.firstFormGroupData ? this.firstFormGroupData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
-        middleName: [this.firstFormGroupData ? this.firstFormGroupData.middleName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),Validators.maxLength(35)]],
-        lastName: [this.firstFormGroupData ? this.firstFormGroupData.lastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
-        email: [this.firstFormGroupData ? this.firstFormGroupData.email : '', [Validators.required,Validators.email,CustomValidators.noWhitespaceValidator,]],//Validators.pattern(/^[a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/i)
+        firstName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
+        middleName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),Validators.maxLength(35)]],
+        lastName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
+        //email: ['', [Validators.required,Validators.email,CustomValidators.noWhitespaceValidator,]],//Validators.pattern(/^[a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/i)
+        email: [{ value: '', disabled: true }],
         dob: ['',[Validators.required]],
-        phoneNumber: [this.firstFormGroupData ? this.firstFormGroupData.phoneNumber : '',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
-        //,Validators.pattern(/^(1\s?)?((\([0-9]{3}\))|[0-9]{3})[\s\-]?[\0-9]{3}[\s\-]?[0-9]{4}$/)
-        gender: [this.firstFormGroupData ? this.firstFormGroupData.gender : '', [Validators.required]],
-        password:[this.firstFormGroupData ? this.firstFormGroupData.password : '', [Validators.required,Validators.pattern(regex.password)]],
-        confirmPassword:['', [Validators.required,]]//this.firstFormGroupData ? this.firstFormGroupData.password
-      } , {
-          validator: this.passwordMatchValidator
+        phoneNumber: ['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],   
+        cellPhoneNumber: ['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
+        workExtensionNumber: ['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
+        maritalStatus: ['', [Validators.required]],
+        gender: ['', [Validators.required]]               
       });
-
+      
     this.secondFormGroup = this.fb.group({      
-      address1: [this.secondFormGroupData ? this.secondFormGroupData.address1 : '', [Validators.required]],
-      address2: [this.secondFormGroupData ? this.secondFormGroupData.address2 : '', [Validators.required]],
-      city: [this.secondFormGroupData ? this.secondFormGroupData.city : '', [Validators.required]],    
-      state: [this.secondFormGroupData ? this.secondFormGroupData.state : '', [Validators.required]],
-      zipcode: [this.secondFormGroupData ? this.secondFormGroupData.zipcode : '', [Validators.pattern(/^[0-9]+$/i), Validators.required,Validators.minLength(1), Validators.maxLength(6)]],
+      address1: ['', [Validators.required]],
+      address2: ['', [Validators.required]],
+      city: ['', [Validators.required]],    
+      state: ['', [Validators.required]],
+      zipcode: ['', [Validators.pattern(/^[0-9]+$/i), Validators.required,Validators.minLength(1), Validators.maxLength(6)]],
     });
 
     this.thirdFormGroup = this.fb.group({    
-      documents_type: [this.thiredFormGroupData ? this.thiredFormGroupData.documents_type : '', []],
+      documents_type: ['', []],
       documents_temp: ['', []],
-      isChecked: [false, [Validators.requiredTrue]]
     } , {
         validator: this.dependentFieldValidator
     }); 
-    this.filterStartDate();
+
   }
 
   checkSpace(colName: any, event: any) {
@@ -171,10 +131,19 @@ export class SignupPatientComponent implements OnInit {
     this.convertPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
   }
 
+  onCellPhoneInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.convertCellPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  onWorkExtensionInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.convertWorkExtensionNumber = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
   dependentFieldValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const field1:any = control.get('documents_type');
     const field2:any = control.get('documents_temp');
-    //this.thirdFormGroup.controls["documents_type"].markAsTouched();
     if (field1.value && (!field2.value || field2.value === undefined)) {  
       return { documents_temp_empty: true };
     } else if ((!field1.value || field1.value === undefined) && field2.value) {
@@ -183,129 +152,6 @@ export class SignupPatientComponent implements OnInit {
       return null;
     }
 
-  }
-
-  passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const password:any = control.get('password');
-    const confirmPassword:any = control.get('confirmPassword');
-    if (password.value !== confirmPassword.value) {
-      return { 'passwordMismatch': true };
-    }
-    return null;
-  }
-
-  goToNext(steps:any, userData:any,stepper:MatStepper) {
-      
-    this.mainHeadTxt="Create your account";
-    if (steps==1 && !this.firstFormGroup.invalid){
-
-      let first_form_data = {
-        "firstName":userData.firstName,
-        "middleName": userData.middleName,
-        "lastName": userData.lastName,
-        "email": userData.email,
-        "disply_dob":this.selectedDate,
-        "dob":this.selected_date,
-        "phoneNumber": userData.phoneNumber,
-        "gender": userData.gender,
-        "password": userData.password,
-        "ConfirmPassword":''
-      }
-        localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
-        this.signupSubmit(steps,first_form_data)
-    }
-
-    if (steps==2 && !this.secondFormGroup.invalid){
-      let second_form_data = {
-        "address1":userData.address1,
-        "address2": userData.address2,
-        "city": userData.city,
-        "state": userData.state,
-        "zipcode": userData.zipcode
-      }
-        localStorage.setItem("secondFormGroupData", JSON.stringify(second_form_data));
-        this.signupSubmit(steps,second_form_data)
-    }
-
-    if (steps==3 && !this.thirdFormGroup.invalid){
-      let thiredFormData = {
-        "documents_type":userData.documents_type,
-        "acceptConsent": userData.isChecked
-      }
-      
-      if(this.thiredFormGroupData){
-        this.thiredFormGroupData['documents_type']=userData.documents_type;
-        this.thiredFormGroupData['acceptConsent']=userData.isChecked
-         localStorage.setItem('thiredFormGroupData', JSON.stringify(this.thiredFormGroupData));
-      }      
-      this.signupSubmit(steps,thiredFormData)
-    }
-
-    if (steps==1 && this.firstFormGroup.invalid) {
-      this.mainHeadTxt="Create your account"
-      this.firstFormGroup.markAllAsTouched();
-      return;
-    }else if (steps==2 && this.secondFormGroup.invalid) {
-      this.mainHeadTxt="Verify your account";
-        this.secondFormGroup.markAllAsTouched();
-        return;      
-    }else if (steps==3 && this.thirdFormGroup.invalid) {
-      this.thirdFormGroup.markAllAsTouched();
-      return;  
-    }else{          
-      //stepper.next();
-    }
-  }
-
-  async signupSubmit(steps:any, data:any) {
-      var query = {};
-      const req_vars = {
-        query: Object.assign({ _id: this.userId }, query),
-        step:steps,
-        data: data
-      }
-     
-      this.commonService.showLoader();       
-    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
-      this.commonService.hideLoader();
-      if (response.error) {
-        if(steps && steps==1){
-          if(response.data.email){
-            this.firstFormGroup.controls["email"].markAsTouched();
-            //this.firstFormGroup.controls['email'].setValue('');
-            this.emailError = true;
-            this.invalidEmailErrorMessage = response.data.email;
-          }
-          this.stepper.previous();
-        }
-
-        if(response.message){
-          this.commonService.openSnackBar(response.message, "ERROR")   
-        }
-      } else {
-        if(response.data.user_id){
-          localStorage.setItem("userId", response.data.user_id);
-          this.userId = response.data.user_id;
-          this.uploader = new FileUploader({ url: `${URL}?userId=${response.data.user_id}` });
-        }
-        
-        if(response.message){
-          this.commonService.openSnackBar(response.message, "SUCCESS")   
-        }
-        if(steps && steps==3){
-          localStorage.removeItem('userId');
-          localStorage.removeItem('firstFormGroupData');
-          localStorage.removeItem('secondFormGroupData');
-          localStorage.removeItem('thiredFormGroupData');          
-          if(response.data.userData){
-            this.setLocalStorage(response.data.userData);
-          }else{
-            this.router.navigate(['/'])
-          }
-        }  
-        this.stepper.next();   
-      }      
-    })
   }
 
   filterStartDate() {
@@ -507,7 +353,6 @@ export class SignupPatientComponent implements OnInit {
            
             if(this.thirdFormGroup.controls['documents_type'].value){
               this.thirdFormGroup.controls['documents_temp'].setValidators(Validators.required);  
-             // this.dependentFieldValidator(this.thirdFormGroup);  
               this.thirdFormGroup.reset();
             }            
             localStorage.setItem("thiredFormGroupData", '');
@@ -520,19 +365,6 @@ export class SignupPatientComponent implements OnInit {
         })   
       }
     })
-
-  }
-
-  showPassword() {
-    this.show = !this.show;
-  }
-
-  showConfirmPassword() {
-    this.showConfirmPass = !this.showConfirmPass;
-  }
-
-  back(){
-    this.mainHeadTxt="Create your account"
   }
 
   onStateChange(selected_state_code:any) {
@@ -544,42 +376,19 @@ export class SignupPatientComponent implements OnInit {
     return this.cities = cities_data.filter(city => city.state_code === state_code);
   }
 
-  setLocalStorage(res: any) {
-    localStorage.setItem('user', JSON.stringify(res));
-    this.router.navigate(["/patient/dashboard"])
+
+  gotostep2() {
+    this.selectedTab = 1  
   }
-
-  // convertDateFormat(dateObj: any) {
-  //   console.log('date>>>',dateObj,'>>>>',dateObj.year,dateObj.month,dateObj.day)
-  //   let dateString:any = '';
-  //   if(dateObj.day && dateObj.month && dateObj.year){
-  //     dateString = dateObj.month+'-'+dateObj.day+'-'+dateObj.year;
-  //     //this.selectedDate = dateObj.day+'-'+dateObj.month+'-'+dateObj.year;
-  //   }
-  //   return dateString
-  // }
-
-  // asconvertDateFormat(dateString: any) {
-  //   console.log('date>>>',dateString)
-  //   const parts = dateString.split('-');
-  //   if (parts.length === 3) {
-  //     if(parts[0]!='' && parts[1]!='' && parts[2]!='') {
-  //       dateString = `${parts[1]}-${parts[2]}-${parts[0]}`;  
-  //       const year = parseInt(parts[2], 1000);
-  //       const month = parseInt(parts[0], 10);
-  //       const day = parseInt(parts[1], 10);
-  //       if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-  //         this.selectedDate =  { month, day, year };
-  //       }
-  //     }
-  //   }
-  //   if (!dateString.includes('undefined')) {
-  //     //this.selected_date = dateString;
-  //     console.log('this.selectedDate >>>',dateString)
-  //     //this.firstFormGroup.controls['dob'].setValue(this.selectedDate);
-  //     return dateString;
-  //   }
-  //   //this.selected_date;
-  // }
+  backtoTab1(){
+    this.selectedTab = 0  
+  }
+  gotostep3() {
+    this.selectedTab = 2  
+  }
+  backtoTab2(){
+    this.selectedTab = 1  
+  }
+  
 
 }

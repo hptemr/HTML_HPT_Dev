@@ -30,6 +30,7 @@ export class AdminProfileComponent {
   editOptions: any = false
   profileImage: any
   showProfileForm: boolean = false
+  isDefaultImage:boolean = true
 
   constructor(
     private router: Router,
@@ -82,6 +83,7 @@ export class AdminProfileComponent {
           this.showProfileForm = true
           if (res && !res.error) {
             this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + res.data.profileImage
+            this.isDefaultImage =  res.data.profileImage== 'default.png'?false:true
             this.practiceAdminProfileForm.controls['firstName'].setValue(res.data ? res.data.firstName : '');
             this.practiceAdminProfileForm.controls['lastName'].setValue(res.data ? res.data.lastName : '');
             this.practiceAdminProfileForm.controls['email'].setValue(res.data ? res.data.email : '');
@@ -93,10 +95,10 @@ export class AdminProfileComponent {
             // Therapist Fields
             if (this.userRole == 'therapist') {
               this.initializeTherapistFields()
-              this.practiceAdminProfileForm.controls['siteLeaderForPracLocation'].setValue(res.data ? res.data.siteLeaderForPracLocation : '');
-              this.practiceAdminProfileForm.controls['NPI'].setValue(res.data ? res.data.NPI : '');
-              this.practiceAdminProfileForm.controls['SSN'].setValue(res.data ? res.data.SSN : '');
-              this.practiceAdminProfileForm.controls['licenceNumber'].setValue(res.data ? res.data.licenceNumber : '');
+              this.practiceAdminProfileForm.controls['siteLeaderForPracLocation'].setValue((res.data && res.data.siteLeaderForPracLocatio)? res.data.siteLeaderForPracLocation : '');
+              this.practiceAdminProfileForm.controls['NPI'].setValue((res.data && res.data.NPI)? res.data.NPI : '');
+              this.practiceAdminProfileForm.controls['SSN'].setValue((res.data && res.data.SSN)? res.data.SSN : '');
+              this.practiceAdminProfileForm.controls['licenceNumber'].setValue((res.data && res.data.licenceNumber)? res.data.licenceNumber : '');
               this.isTherapist = true
             }
           }
@@ -191,6 +193,7 @@ export class AdminProfileComponent {
 
 
   async changePhoto() {
+    this.editOptions = false
     const dialogRef = this.dialog.open(UploadImgComponent, {
       width: '600px',
       disableClose: true,
@@ -223,6 +226,7 @@ export class AdminProfileComponent {
   }
 
   removePhoto() {
+    this.editOptions = false
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
