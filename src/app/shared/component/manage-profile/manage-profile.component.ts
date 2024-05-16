@@ -20,11 +20,14 @@ import { s3Details } from 'src/app/config';
 export class ManageProfileComponent {
   validationMessages = validationMessages
   updateProfileForm: FormGroup;
-  userData: any;
   userType: any;
-  userRole: string = 'system_admin'
   editOptions: any = false
   profileImage: any
+  isTherapist:boolean = false
+  convertPhoneNumber: string = '';
+  userId:any
+  isDefaultImage:boolean = true
+
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
@@ -32,15 +35,19 @@ export class ManageProfileComponent {
     private authService: AuthService,
     private adminService: AdminService
   ) {
-    let userData: any = localStorage.getItem('user');
-    this.userData = (userData && userData != null) ? JSON.parse(userData) : null
   }
 
   ngOnInit() {
+    this.userId = this.authService.getLoggedInInfo('_id')
     this.userType = this.authService.getLoggedInInfo('role')
     this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
+    this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
     this.initializeUpdateProfileForm()
     this.getProfile()
+    if(this.userType == 'therapist'){
+      this.initializeTherapistFields()
+      this.isTherapist = true
+    }
   }
 
   initializeUpdateProfileForm() {
@@ -51,10 +58,18 @@ export class ManageProfileComponent {
     });
   }
 
+  // Therapist Fields
+  initializeTherapistFields() {
+    this.updateProfileForm.addControl('phoneNumber', this.fb.control('', [Validators.required, Validators.pattern(regex.usPhoneNumber)]));
+    this.updateProfileForm.addControl('NPI', this.fb.control('', [Validators.required, Validators.pattern(regex.onlyNumeric)]));
+    this.updateProfileForm.addControl('SSN', this.fb.control('', [Validators.required, Validators.pattern(regex.numericAndSpecialCharacter)]));
+    this.updateProfileForm.addControl('licenceNumber', this.fb.control('', []));
+  }
+
   getProfile() {
     let bodyData = {
-      query: { _id: this.userData._id },
-      params: { firstName: 1, lastName: 1, email: 1, phoneNumber: 1, status: 1, practiceLocation: 1 }
+      query: { _id: this.userId },
+      params: { firstName: 1, lastName: 1, email: 1, phoneNumber: 1, status: 1, practiceLocation: 1, NPI: 1, SSN: 1, licenceNumber: 1 }
     }
     this.adminService.profile(bodyData).subscribe({
       next: (res) => {
@@ -62,6 +77,14 @@ export class ManageProfileComponent {
           this.updateProfileForm.controls['firstName'].setValue(res.data ? res.data.firstName : '');
           this.updateProfileForm.controls['lastName'].setValue(res.data ? res.data.lastName : '');
           this.updateProfileForm.controls['email'].setValue(res.data ? res.data.email : '');
+
+          // Therapist Fields
+          if(this.userType == 'therapist') {
+            this.updateProfileForm.controls['phoneNumber'].setValue((res.data && res.data.phoneNumber)? res.data.phoneNumber : '');
+            this.updateProfileForm.controls['NPI'].setValue((res.data && res.data.NPI) ? res.data.NPI : '');
+            this.updateProfileForm.controls['SSN'].setValue((res.data && res.data.SSN) ? res.data.SSN : '');
+            this.updateProfileForm.controls['licenceNumber'].setValue((res.data && res.data.licenceNumber) ? res.data.licenceNumber : '');
+          }
         }
       }, error: (err) => {
         err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
@@ -71,7 +94,7 @@ export class ManageProfileComponent {
 
   updateProfile() {
     if (this.updateProfileForm.valid) {
-      this.updateProfileForm.value['userId'] = this.userData._id
+      this.updateProfileForm.value['userId'] = this.userId
       this.updateProfileForm.value['clickAction'] = 'update'
       this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
         next: (res) => {
@@ -96,6 +119,7 @@ export class ManageProfileComponent {
   }
 
   async changePhoto() {
+    this.editOptions = false
     const dialogRef = this.dialog.open(UploadImgComponent, {
       width: '600px',
       disableClose: true,
@@ -132,6 +156,7 @@ export class ManageProfileComponent {
   }
 
   removePhoto() {
+    this.editOptions = false
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
@@ -163,8 +188,8 @@ export class ManageProfileComponent {
       disableClose: true,
       panelClass: 'change--password--modal',
       data: {
-        userId: this.userData._id,
-        userRole: this.userRole
+        userId: this.userId,
+        userRole: this.userType
       }
     })
 
@@ -177,5 +202,10 @@ export class ManageProfileComponent {
 
   checkSpace(colName: any, event: any) {
     this.updateProfileForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
+
+  onPhoneInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.convertPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
   }
 }

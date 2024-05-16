@@ -14,7 +14,7 @@
                 <div class="head--sec w-100">
                     <mat-list *ngIf="editOptions" >
                         <mat-list-item (click)="changePhoto()">Change Photo </mat-list-item>
-                        <mat-list-item (click)="removePhoto()">Remove Photo </mat-list-item> 
+                        <mat-list-item (click)="removePhoto()" *ngIf="isDefaultImage">Remove Photo </mat-list-item> 
                     </mat-list>
                 </div> 
                 <div class="profile--round position-relative">
@@ -61,11 +61,54 @@
                                         </div>
                                       </div>
                                 </div>
-                                <div class="col-12  ">
+                                <div class="col-12 {{isTherapist?'col-lg-6':''}}">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
                                         <input class="form-control form-control-md" type="text" placeholder="Email " formControlName="email"/>
                                       </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6" *ngIf="isTherapist">
+                                    <div class="form-group">
+                                        <label class="col-form-label fw-600">Phone <span class="clr--DF0404 ms-1"> * </span></label>
+                                        <input class="form-control form-control-md" type="text" placeholder="Phone " formControlName="phoneNumber" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="15"/>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['phoneNumber'].touched && updateProfileForm.controls['phoneNumber'].hasError('required')">
+                                            {{ validationMessages.required('a valid phone number') }}
+                                        </div>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['phoneNumber'].touched && updateProfileForm.controls['phoneNumber'].hasError('pattern')">
+                                            {{ validationMessages.invalidPhoneNumber }}
+                                        </div>
+                                      </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6" *ngIf="isTherapist">
+                                    <div class="form-group">
+                                        <label class="col-form-label fw-600">NPI <span class="clr--DF0404 ms-1"> *</span></label>
+                                        <input class="form-control form-control-md" type="text" placeholder="NPI " formControlName="NPI" maxlength="10"/>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['NPI'].touched && (updateProfileForm.controls['NPI'].hasError('required') || updateProfileForm.controls['NPI'].hasError('pattern'))">
+                                            {{ validationMessages.required('a valid NPI number') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- Therapist Field -->
+                                <div class="col-12 col-lg-6" *ngIf="isTherapist">
+                                    <div class="form-group">
+                                        <label class="col-form-label fw-600">SSN <span class="clr--DF0404 ms-1"> *</span></label>
+                                        <input class="form-control form-control-md" type="text" placeholder="SSN " formControlName="SSN" maxlength="9"/>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['SSN'].touched && (updateProfileForm.controls['SSN'].hasError('required') || updateProfileForm.controls['SSN'].hasError('pattern'))">
+                                            {{ validationMessages.required('a valid SSN') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- Therapist Field -->
+                                 <div class="col-12 col-lg-6" *ngIf="isTherapist">
+                                    <div class="form-group">
+                                        <label class="col-form-label fw-600">Licence Number</label>
+                                        <input class="form-control form-control-md" type="text" placeholder="Licence Number " formControlName="licenceNumber" maxlength="15"/>
+                                        <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['licenceNumber'].touched && updateProfileForm.controls['licenceNumber'].hasError('required')">
+                                            {{ validationMessages.required('a valid Licence number') }}
+                                        </div>
+                                    </div>
                                 </div>
                                  
                                 <div class="col-12 my-2 d-flex justify-content-end">

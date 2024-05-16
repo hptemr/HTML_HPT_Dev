@@ -15,7 +15,7 @@
                 <div class="head--sec w-100">
                     <mat-list *ngIf="editOptions" >
                         <mat-list-item (click)="changePhoto()">Change Photo </mat-list-item>
-                        <mat-list-item (click)="removePhoto()">Remove Photo </mat-list-item> 
+                        <mat-list-item (click)="removePhoto()" *ngIf="isDefaultImage">Remove Photo </mat-list-item> 
                     </mat-list>
                 </div> 
                 <div class="profile--round position-relative">
