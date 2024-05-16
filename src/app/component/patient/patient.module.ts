@@ -5,14 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientRoutingModule } from './patient-routing.module';
 import { AppointmentsComponent } from './appointments/appointments/appointments.component';
 import { AppointmentDetailsComponent } from './appointments/appointment-details/appointment-details.component';
-import { AppointmentManageDetailsComponent } from './appointments/appointment-manage-details/appointment-manage-details.component';
+import { UpdatePatientProfileComponent } from './update-patient-profile/update-patient-profile.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
-
+import { FileUploadModule  } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     AppointmentsComponent, 
     AppointmentDetailsComponent,
-    AppointmentManageDetailsComponent,
+    UpdatePatientProfileComponent,
     PatientProfileComponent
   ],
   imports: [
@@ -21,6 +21,7 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
     FormsModule,
     ReactiveFormsModule, 
     SharedModule,  
+    FileUploadModule,
   ]
 })
 export class PatientModule { }
