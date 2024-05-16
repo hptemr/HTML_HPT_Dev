@@ -1,8 +1,7 @@
 <div class="container-fluid mp--wrapper app--managedetails--wrapper">
     <div class="row">
         <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn"
-                [routerLink]="['/patient/appointment-details']">
+            <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/patient/dashboard']">
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
             </button>
             <h3 class="mb-0 clr--1F2F3E fw-600">Manage Profile</h3>
@@ -12,7 +11,7 @@
         <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedTab">
             <mat-tab label="Personal Information">
                 <div class="card-body mt-4">                   
-                      <form class="row" [formGroup]="firstFormGroup">
+                    <form class="row" [formGroup]="firstFormGroup" (ngSubmit)="goToNext(0,firstFormGroup.value)">
                         <div class="col-12 col-sm-6 col-lg-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
@@ -41,97 +40,102 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Date of Birth </label>
-                              <div class="input-group">
-                                <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp" [(ngModel)]="selectedDate"
-                                ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event)" formControlName="dob" [value]="selected_date" [minDate]="getMinDate()"  [maxDate]="maxEndDate" />
-                               <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                type="button">
-                                <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                               </button>
-                              </div>
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['dob'].hasError('required') && firstFormGroup.controls['dob'].touched">
-                                {{ validationMessages.required('Date of Birth') }}</div>
-                              </div>
+                          <div class="form-group">
+                            <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
+                            <div class="input-group">
+                              <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp" [(ngModel)]="selectedDate"
+                              ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event)" formControlName="dob" [value]="selected_date" [minDate]="getMinDate()"  [maxDate]="maxEndDate" />
+                              <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                              type="button">
+                              <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                              </button>
+                            </div>
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['dob'].hasError('required') && firstFormGroup.controls['dob'].touched">
+                              {{ validationMessages.required('Date of Birth') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4">
+                          <div class="form-group">
+                            <label class="col-form-label fw-600">Marital Status <span class="clr--DF0404 ms-1"> * </span></label>
+                            <select class="form-select form-control" id="maritalStatus" aria-label="Default select example" formControlName="maritalStatus">
+                              <option selected>Select</option>
+                              <option value="Married">Married</option>
+                              <option value="Unmarried">Unmarried</option>                                 
+                            </select>                               
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['maritalStatus'].touched && firstFormGroup.controls['maritalStatus'].hasError('required')">
+                              {{ validationMessages.requiredDropdown('Marital Status') }}
+                            </div>                         
                           </div>
-                          <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Marital Status <span class="clr--DF0404 ms-1"> * </span></label>
-                              <select class="form-select form-control" id="maritalStatus" aria-label="Default select example" formControlName="maritalStatus">
-                                <option selected>Select</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>                                 
-                              </select>                               
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['maritalStatus'].touched && firstFormGroup.controls['maritalStatus'].hasError('required')">
-                                {{ validationMessages.requiredDropdown('Marital Status') }}
-                              </div>                         
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4">
+                          <div class="form-group">
+                              <label class="col-form-label fw-600">Gender <span class="clr--DF0404 ms-1"> * </span></label>  
+                              <mat-radio-group aria-label="Select an option" formControlName="gender" >
+                                <mat-radio-button value="Male" class="me-3">Male</mat-radio-button>
+                                <mat-radio-button value="Female">Female</mat-radio-button>
+                                <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['gender'].hasError('required') && firstFormGroup.controls['gender'].touched">
+                                  {{ validationMessages.radioButton }}</div>
+                              </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4">
+                          <div class="form-group">
+                            <label class="col-form-label fw-600">Email  <span class="clr--DF0404 ms-1"> * </span></label>
+                            <input class="form-control text-lowercase" type="email" placeholder="Enter Email" formControlName="email" readonly/>
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['email'].touched && (firstFormGroup.controls['email'].hasError('required') || firstFormGroup.controls['email'].invalid)">
+                              {{ validationMessages.required('Email') }}
+                            </div>
+                            <div class="text text-danger mt-1" *ngIf="emailError">
+                                {{invalidEmailErrorMessage}}
+                          </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4">
+                          <div class="form-group">
+                            <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> * </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Phone Number" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="14" formControlName="phoneNumber"/>                            
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['phoneNumber'].touched && firstFormGroup.controls['phoneNumber'].hasError('required')">
+                              {{ validationMessages.required('a valid phone number') }}
+                            </div>
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['phoneNumber'].touched && firstFormGroup.controls['phoneNumber'].hasError('pattern')">
+                                {{ validationMessages.invalidPhoneNumber }}
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Gender</label>  
-                                <mat-radio-group aria-label="Select an option" formControlName="gender" >
-                                  <mat-radio-button value="Male" class="me-3">Male</mat-radio-button>
-                                  <mat-radio-button value="Female">Female</mat-radio-button>
-                                  <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['gender'].hasError('required') && firstFormGroup.controls['gender'].touched">
-                                    {{ validationMessages.radioButton }}</div>
-                                </mat-radio-group>
-                              </div>
-                          </div>
-                          <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Email  <span class="clr--DF0404 ms-1"> * </span></label>
-                              <input class="form-control text-lowercase" type="text" placeholder="Enter Email" />
-                              <!-- <div class="text text-danger mt-1"> Middle Name required</div> -->
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4">
+                          <div class="form-group">
+                            <label class="col-form-label fw-600">Cell Phone Number  </label>
+                            <input class="form-control" type="text" placeholder="Enter Cell Phone Number" (input)="onCellPhoneInputChange($event)" [value]="convertCellPhoneNumber" maxlength="14" formControlName="cellPhoneNumber"/>                            
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['cellPhoneNumber'].touched && firstFormGroup.controls['cellPhoneNumber'].hasError('required')">
+                              {{ validationMessages.required('a valid cell phone number') }}
+                            </div>
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['cellPhoneNumber'].touched && firstFormGroup.controls['cellPhoneNumber'].hasError('pattern')">
+                                {{ validationMessages.invalidPhoneNumber }}
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> * </span></label>
-                              <input class="form-control" type="text" placeholder="Enter Phone Number" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="14" formControlName="phoneNumber"/>                            
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['phoneNumber'].touched && firstFormGroup.controls['phoneNumber'].hasError('required')">
-                                {{ validationMessages.required('a valid phone number') }}
-                              </div>
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['phoneNumber'].touched && firstFormGroup.controls['phoneNumber'].hasError('pattern')">
-                                  {{ validationMessages.invalidPhoneNumber }}
-                              </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4">
+                          <div class="form-group">
+                            <label class="col-form-label fw-600">Work Extension Number</label>
+                            <input class="form-control" type="text" placeholder="Enter Work Extension Number" (input)="onWorkExtensionInputChange($event)" [value]="convertWorkExtensionNumber" maxlength="14" formControlName="cellPhoneNumber"/>                            
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['workExtensionNumber'].touched && firstFormGroup.controls['workExtensionNumber'].hasError('required')">
+                              {{ validationMessages.required('a valid work extension number') }}
                             </div>
-                          </div>
-                          <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Cell Phone Number  </label>
-                              <input class="form-control" type="text" placeholder="Enter Cell Phone Number" (input)="onCellPhoneInputChange($event)" [value]="convertCellPhoneNumber" maxlength="14" formControlName="cellPhoneNumber"/>                            
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['cellPhoneNumber'].touched && firstFormGroup.controls['cellPhoneNumber'].hasError('required')">
-                                {{ validationMessages.required('a valid cell phone number') }}
-                              </div>
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['cellPhoneNumber'].touched && firstFormGroup.controls['cellPhoneNumber'].hasError('pattern')">
-                                  {{ validationMessages.invalidPhoneNumber }}
-                              </div>
+                            <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['workExtensionNumber'].touched && firstFormGroup.controls['workExtensionNumber'].hasError('pattern')">
+                                {{ validationMessages.invalidPhoneNumber }}
                             </div>
-                          </div>
-                          <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="form-group">
-                              <label class="col-form-label fw-600">Work Extension Number</label>
-                              <input class="form-control" type="text" placeholder="Enter Work Extension Number" (input)="onWorkExtensionInputChange($event)" [value]="convertWorkExtensionNumber" maxlength="14" formControlName="cellPhoneNumber"/>                            
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['workExtensionNumber'].touched && firstFormGroup.controls['workExtensionNumber'].hasError('required')">
-                                {{ validationMessages.required('a valid work extension number') }}
-                              </div>
-                              <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['workExtensionNumber'].touched && firstFormGroup.controls['workExtensionNumber'].hasError('pattern')">
-                                  {{ validationMessages.invalidPhoneNumber }}
-                              </div>
 
-                            </div>
                           </div>
-                          <div class="col-12 d-flex justify-content-end action--footer">
-                            <button mat-raised-button color="primary" class="btn btn-primary " (click)="gotostep2()">Save & Continue</button>
-                          </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end action--footer">
+                          <button mat-raised-button color="primary" class="btn btn-primary" type="submit">Save & Continue</button>
+                        </div>
                     </form> 
                 </div>
             </mat-tab>
             <mat-tab label="Additional Information">
                 <div class="card-body mt-4">
-                   <form class="row" [formGroup]="secondFormGroup">
+                   <form class="row" [formGroup]="secondFormGroup" (ngSubmit)="goToNext(1,secondFormGroup.value)">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Street Name<span class="clr--DF0404 ms-1"> * </span></label>
@@ -186,7 +190,7 @@
                             </div>
                         </div>
                           <div class="col-12 d-flex justify-content-between action--footer">
-                            <button mat-stroked-button color="primary" (click)="backtoTab1()">Previous</button>
+                            <a mat-stroked-button color="primary" (click)="backtoTab1()">Previous</a>
                             <button mat-raised-button color="primary"  (click)="gotostep3()">Save & Continue</button>
                           </div>
                     </form>
@@ -195,7 +199,23 @@
             </mat-tab>
             <mat-tab label="Verification">
                 <div class="card-body mt-4">
-                  <form class="row" [formGroup]="thirdFormGroup">
+                  <form class="row" [formGroup]="thirdFormGroup" (ngSubmit)="goToNext(2,thirdFormGroup.value)">
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label class="col-form-label fw-600">Type of ID Proof {{selectedDocumentsType}}</label>
+                              <select class="form-select form-control" id="documents_type" aria-label="Default select example" [(ngModel)]="selectedDocumentsType" formControlName="documents_type">
+                                <option [selected]="!selectedDocumentsType" value="">Select Type of ID Proof</option>
+                                <option *ngFor="let item of documents_type_list" value="{{item}}" [selected]="selectedDocumentsType==item">{{item}}</option>                              
+                              </select>                            
+                              <div class="text text-danger mt-1" *ngIf="thirdFormGroup.controls['documents_type'].touched && thirdFormGroup.controls['documents_type'].hasError('required')">
+                                {{ validationMessages.requiredDropdown('ID Proof') }}
+                              </div>
+                              <div class="text text-danger mt-1" *ngIf="thirdFormGroup.errors?.['documents_type_empty']">
+                                {{ validationMessages.requiredProofDocument }}
+                              </div>
+                            </div>
+                          </div>
+                          
                          <div class="col-12">
                             <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
                               <div class="upload--box" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader" (fileOver)="fileOverBase($event)">
@@ -240,17 +260,15 @@
                               </div>
                               <div class="col-1 d-flex justify-content-end pe-0" *ngIf="!documentsMissing">
                                 <div mat-button class="p-0 flex-shrink-0 min-width-unset" (click)="documentDelete();">
-                                  <span class="material-icons cancel--btn">
-                                    cancel
-                                    </span>
+                                  <span class="material-icons cancel--btn"> cancel </span>
                                 </div>
                               </div>
                             </div>
                            
                           </div>
                           <div class="col-12 d-flex justify-content-between action--footer">
-                            <button mat-stroked-button color="primary" (click)="backtoTab2()">Previous</button>
-                            <button mat-raised-button color="primary">Save </button>
+                            <a mat-stroked-button color="primary" (click)="backtoTab2()">Previous</a>
+                            <button mat-raised-button color="primary" type="submit">Save </button>
                           </div>
                     </form>
                 </div>
