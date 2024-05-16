@@ -74,9 +74,7 @@ export class UpdatePatientProfileComponent implements OnInit {
   currentProgessinPercent: number = 0;
   selectedDocumentsType: string;
   documents_type_list:any=[];
-
   user_data:any=[];
-
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
@@ -483,38 +481,20 @@ export class UpdatePatientProfileComponent implements OnInit {
             let dateObj = this.selected_date.split('-');
             let dateArray = dateObj.map(Number);
             let obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
-            this.onDateChange(obj);
+            //this.onDateChange(obj);
+            this.selected_date = this.commonService.formattedDate(obj)
           }
 
-          //if(typeof dateObj=='object'){
-            //this.ngbDateParserFormatter.format(date)
-        
-          //this.firstFormGroup.controls['dob'].setValue(
           if(user_data.document_temp_name){
             this.getUploadedDocs(user_data.document_temp_name,user_data.document_name);
-            // this.documents_temps = true;
-            // this.documentsMissing = false;
-            // this.document_size = user_data.document_size ? user_data.document_size : 0;
-            // this.documentsName  = user_data.document_name ? user_data.document_name : '';
-          }else{
-            //this.documentsMissing = true;
           }
-          
           this.thirdFormGroup.controls['documents_type'].setValue(user_data.documents_type);
           this.thirdFormGroup.controls['documents_temp'].setValue(user_data.document_temp_name);
         }
-
-        
-        // document_name
-        // document_temp_name
-        // document_size
       }      
     })
   }
 
-  // gotostep2() {
-  //   this.selectedTab = 1  
-  // }
 
   backtoTab1(){
     this.selectedTab = 0  
@@ -525,6 +505,6 @@ export class UpdatePatientProfileComponent implements OnInit {
   backtoTab2(){
     this.selectedTab = 1  
   }
-  
+ 
 
 }

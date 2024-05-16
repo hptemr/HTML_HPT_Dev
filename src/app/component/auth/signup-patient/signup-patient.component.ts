@@ -78,7 +78,7 @@ export class SignupPatientComponent implements OnInit {
   selectedDocumentsType: string;
   documents_type_list:any=[];
   isChecked = false
-
+  submitButton:boolean = true;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
@@ -264,7 +264,9 @@ export class SignupPatientComponent implements OnInit {
         step:steps,
         data: data
       }
-     
+      if(steps && steps==3){
+        this.submitButton = false;
+      }
       this.commonService.showLoader();       
     await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
       this.commonService.hideLoader();
