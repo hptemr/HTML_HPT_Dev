@@ -59,8 +59,8 @@
                             <label class="col-form-label fw-600">Marital Status <span class="clr--DF0404 ms-1"> * </span></label>
                             <select class="form-select form-control" id="maritalStatus" aria-label="Default select example" formControlName="maritalStatus">
                               <option selected>Select</option>
-                              <option value="Yes">Yes</option>
-                              <option value="No">No</option>                                 
+                              <option value="Married">Married</option>
+                              <option value="Unmarried">Unmarried</option>                                 
                             </select>                               
                             <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['maritalStatus'].touched && firstFormGroup.controls['maritalStatus'].hasError('required')">
                               {{ validationMessages.requiredDropdown('Marital Status') }}
