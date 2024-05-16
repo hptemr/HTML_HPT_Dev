@@ -14,6 +14,7 @@ const messages = {
         loginCounterMessage: "You have already logged in two devices, please logout any one of them and try again!",
         patientSignup:'Patient account has been created successfully',
         patientEmailExist:'Your Patient account already created. Please log in instead.',
+        adminEmailExist:'You have already signup as admin user.',
         profileImageRemoved:"Your profile image has been removed successfully",
         profileImageChanged:"Your profile image has been changed successfully",
         enterCurrentPassword: 'You have enter current password',
