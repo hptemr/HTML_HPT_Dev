@@ -3,6 +3,7 @@
  
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout'; 
+import { DatePipe } from '@angular/common';
 import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
@@ -28,30 +29,24 @@ interface City {
   city: string;
   state_code: string;
 }
-
 @Component({
   selector: 'app-update-patient-profile', 
   templateUrl: './update-patient-profile.component.html',
-  styleUrl: './update-patient-profile.component.scss'
+  styleUrl: './update-patient-profile.component.scss',
+  providers: [DatePipe]
 })
 export class UpdatePatientProfileComponent implements OnInit {
   selectedTab = 0;
   model: NgbDateStruct;
-
   states: State[] = states_data;
   cities: City[] = []
   validationMessages = validationMessages; 
-
   selectedDate: NgbDateStruct;
   selectedCity: string = "";
-
-
   minStartDate: any
   maxEndDate: any
-
   emailError = false;
   invalidEmailErrorMessage: string = '';
-
   firstFormGroupData: any
   secondFormGroupData: any
   thiredFormGroupData: any
@@ -70,7 +65,7 @@ export class UpdatePatientProfileComponent implements OnInit {
   documentsList: any = [];
   documentsLink: string = '';
   documentsName: string = '';
-  selected_date: string = '';
+  selected_date: any = '';
   fileType: string = '';
   document_size: string = '';
   uploadAll: boolean = false;
@@ -80,31 +75,34 @@ export class UpdatePatientProfileComponent implements OnInit {
   selectedDocumentsType: string;
   documents_type_list:any=[];
 
+  user_data:any=[];
+
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter) {}
+  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe) {}
   //constructor(private _formBuilder: FormBuilder ) {} 
 
   ngOnInit() {
-    this.userId = localStorage.getItem("userId");
-
-    this.uploader = new FileUploader({ url: `${URL}?userId=${this.userId}` });
+    this.userId = this.authService.getLoggedInInfo('_id')
+    this.user_data = localStorage.getItem("user");
+    this.documents_type_list = documents_list;
+    //console.log(this.userId,'user_data>>>>',this.user_data,' >>>>>>>>>>>>###>>>>>>>',this.authService.getLoggedInInfo('_id'))
+    this.uploader = new FileUploader({url:`${URL}?userId=${this.userId}&type=Patient`});
     this.firstFormGroup = this.fb.group({
         firstName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
         middleName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),Validators.maxLength(35)]],
         lastName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
-        //email: ['', [Validators.required,Validators.email,CustomValidators.noWhitespaceValidator,]],//Validators.pattern(/^[a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/i)
         email: [{ value: '', disabled: true }],
         dob: ['',[Validators.required]],
         phoneNumber: ['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],   
-        cellPhoneNumber: ['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
-        workExtensionNumber: ['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
+        cellPhoneNumber: ['',[Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
+        workExtensionNumber: ['',[Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
         maritalStatus: ['', [Validators.required]],
         gender: ['', [Validators.required]]               
       });
       
-    this.secondFormGroup = this.fb.group({      
+    this.secondFormGroup = this.fb.group({     
       address1: ['', [Validators.required]],
       address2: ['', [Validators.required]],
       city: ['', [Validators.required]],    
@@ -119,10 +117,11 @@ export class UpdatePatientProfileComponent implements OnInit {
         validator: this.dependentFieldValidator
     }); 
 
+    this.getUserData();
+    this.filterStartDate();
   }
 
   checkSpace(colName: any, event: any) {
- 
     colName.setValue(this.commonService.capitalize(event.target.value.trim()))
   }
   
@@ -151,7 +150,6 @@ export class UpdatePatientProfileComponent implements OnInit {
     }else{
       return null;
     }
-
   }
 
   filterStartDate() {
@@ -181,7 +179,6 @@ export class UpdatePatientProfileComponent implements OnInit {
     const minDate = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
     return { month: minDate.getMonth() + 1, day: minDate.getDate(),year: minDate.getFullYear() };
   }
-  
 
   public fileOverBase(e: any): void {
     this.thirdFormDisabled = true
@@ -323,7 +320,7 @@ export class UpdatePatientProfileComponent implements OnInit {
       } 
     }
     return status;
-}
+  }
 
   async documentDelete() {
     let dialogRef: MatDialogRef<any> = this.dialog.open(AlertComponent, {
@@ -340,7 +337,8 @@ export class UpdatePatientProfileComponent implements OnInit {
         this.commonService.showLoader();
         let query = {}
         const req_vars = {
-          query: Object.assign({ _id: this.userId }, query),          
+          query: Object.assign({ _id: this.userId }, query),      
+          type:'Patient'
         }
         this.authService.apiRequest('post', 'patients/deleteDocument', req_vars).subscribe(async response => {
           this.commonService.hideLoader();
@@ -376,10 +374,148 @@ export class UpdatePatientProfileComponent implements OnInit {
     return this.cities = cities_data.filter(city => city.state_code === state_code);
   }
 
+  goToNext(steps:any,userData:any) {
+      if (steps==0 && !this.firstFormGroup.invalid){
+        let first_form_data = {
+          "firstName":userData.firstName,
+          "middleName": userData.middleName,
+          "lastName": userData.lastName,         
+          "dob":this.selected_date,
+          "maritalStatus":userData.maritalStatus,
+          "cellPhoneNumber":userData.cellPhoneNumber,
+          "workExtensionNumber":userData.workExtensionNumber,
+          "phoneNumber": userData.phoneNumber,
+          "gender": userData.gender,
+        }
 
-  gotostep2() {
-    this.selectedTab = 1  
+        this.profileSubmit(steps,first_form_data,'Personal Information')
+      }
+
+      if (steps==1 && !this.secondFormGroup.invalid){
+        let second_form_data = {
+          "address1":userData.address1,
+          "address2": userData.address2,
+          "city": userData.city,
+          "state": userData.state,
+          "zipcode": userData.zipcode
+        }
+
+        this.profileSubmit(steps,second_form_data,'Additional Information')
+      }
+
+      if (steps==2 && !this.secondFormGroup.invalid){
+        let thiredFormData = {
+          "documents_type":userData.documents_type
+        }
+
+        this.profileSubmit(steps,thiredFormData,'Verification Information')
+      }
+
+
+      if (steps==0 && this.firstFormGroup.invalid) {
+        this.firstFormGroup.markAllAsTouched();
+        return;
+      }else if (steps==1 && this.secondFormGroup.invalid) {
+          this.secondFormGroup.markAllAsTouched();
+          return;      
+      }else if (steps==2 && this.thirdFormGroup.invalid) {
+        this.thirdFormGroup.markAllAsTouched();
+        return;  
+      }
+   // this.selectedTab = 1  
   }
+  
+  async profileSubmit(steps:any, data:any,title:string) {
+    var query = {};
+    const req_vars = {
+      query: Object.assign({ _id: this.userId }, query),
+      data: data,
+      formTitle:title
+    }
+    this.commonService.showLoader();       
+    await this.authService.apiRequest('post', 'patients/updateProfile', req_vars).subscribe(async response => {         
+      this.commonService.hideLoader();
+      if (response.error) {
+        if(response.message){
+          this.commonService.openSnackBar(response.message, "ERROR")   
+        }
+      } else {        
+        this.selectedTab = steps+1;
+        if(this.selectedTab==3){
+          this.commonService.openSnackBar('Profile details are updated successfully.', "SUCCESS")   
+          this.selectedTab = 0;
+        }        
+      }      
+    })
+  }
+
+  async getUserData() {
+     var query = {};
+    const req_vars = {
+      query: Object.assign({ _id: this.userId }, query),
+    }
+    await this.authService.apiRequest('post', 'patients/getPatientData', req_vars).subscribe(async response => {         
+      if (response.error) {
+        if(response.message){
+          this.commonService.openSnackBar(response.message, "ERROR")   
+        }
+      } else {
+        //console.log('user data >>>>',response.data.patientData)     
+        let user_data = response.data.patientData;
+        if(user_data){          
+          this.firstFormGroup.controls['firstName'].setValue(user_data.firstName ? user_data.firstName : '');
+          this.firstFormGroup.controls['middleName'].setValue(user_data.middleName ? user_data.middleName : '');
+          this.firstFormGroup.controls['lastName'].setValue(user_data.lastName ? user_data.lastName : '');
+          this.firstFormGroup.controls['email'].setValue(user_data.email ? user_data.email : '');
+          //this.firstFormGroup.controls['dob'].setValue(user_data.dob ? user_data.dob : '');
+          this.firstFormGroup.controls['phoneNumber'].setValue(user_data.phoneNumber ? user_data.phoneNumber : '');
+          this.firstFormGroup.controls['cellPhoneNumber'].setValue(user_data.cellPhoneNumber ? user_data.cellPhoneNumber : '');
+          this.firstFormGroup.controls['workExtensionNumber'].setValue(user_data.workExtensionNumber ? user_data.workExtensionNumber : '');
+          this.firstFormGroup.controls['maritalStatus'].setValue(user_data.maritalStatus ? user_data.maritalStatus : '');
+          this.firstFormGroup.controls['gender'].setValue(user_data.gender ? user_data.gender : '');
+          this.secondFormGroup.controls['address1'].setValue(user_data.address1 ? user_data.address1 : '');
+          this.secondFormGroup.controls['address2'].setValue(user_data.address2 ? user_data.address2 : '');
+          this.secondFormGroup.controls['city'].setValue(user_data.city ? user_data.city : '');
+          this.secondFormGroup.controls['state'].setValue(user_data.state ? user_data.state : '');
+          this.secondFormGroup.controls['zipcode'].setValue(user_data.zipcode ? user_data.zipcode : '');
+          if(user_data.dob){          
+            this.selected_date = this.datePipe.transform(user_data.dob, 'MM-dd-yyyy')
+            let dateObj = this.selected_date.split('-');
+            let dateArray = dateObj.map(Number);
+            let obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
+            this.onDateChange(obj);
+          }
+
+          //if(typeof dateObj=='object'){
+            //this.ngbDateParserFormatter.format(date)
+        
+          //this.firstFormGroup.controls['dob'].setValue(
+          if(user_data.document_temp_name){
+            this.getUploadedDocs(user_data.document_temp_name,user_data.document_name);
+            // this.documents_temps = true;
+            // this.documentsMissing = false;
+            // this.document_size = user_data.document_size ? user_data.document_size : 0;
+            // this.documentsName  = user_data.document_name ? user_data.document_name : '';
+          }else{
+            //this.documentsMissing = true;
+          }
+          
+          this.thirdFormGroup.controls['documents_type'].setValue(user_data.documents_type);
+          this.thirdFormGroup.controls['documents_temp'].setValue(user_data.document_temp_name);
+        }
+
+        
+        // document_name
+        // document_temp_name
+        // document_size
+      }      
+    })
+  }
+
+  // gotostep2() {
+  //   this.selectedTab = 1  
+  // }
+
   backtoTab1(){
     this.selectedTab = 0  
   }
