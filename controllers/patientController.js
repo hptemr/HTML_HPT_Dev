@@ -66,11 +66,11 @@ const signup = async (req, res) => {
                         city:found.city,
                         state:found.state,
                         zipcode:found.zipcode,
-                        documents_type:found.documents_type,
+                        documents_type:found.documents_type ? found.documents_type : data.documents_type,
                         document_name:found.document_name,
-                        document_temp_name:found.document_temp_name,
-                        zipcode:found.zipcode,
-                        document_size:found.document_size,
+                        document_temp_name:found.document_temp_name,                        
+                        document_size:found.document_size,                        
+                        acceptConsent:found.acceptConsent ? found.acceptConsent : data.acceptConsent,
                         status:'Active'
                     }
                     console.log('request_data>>>',request_data)
