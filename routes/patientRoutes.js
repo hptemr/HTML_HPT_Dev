@@ -11,5 +11,7 @@ router.post('/getPatientList',patientController.getPatientList);
 router.post('/patientDocument',cors({credentials: true, origin: constants.clientUrl}),patientController.uploadPatientDocument);
 router.post('/getPreviewDocument',patientController.previewDocument);
 router.post('/deleteDocument',patientController.deleteDocument);
+router.post('/getPatientData',patientController.getPatientData);
+router.post('/updateProfile',patientController.updateProfile);
 
 module.exports = router;

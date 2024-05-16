@@ -66,9 +66,11 @@ const signup = async (req, res) => {
                         city:found.city,
                         state:found.state,
                         zipcode:found.zipcode,
+                        documents_type:found.documents_type ? found.documents_type : data.documents_type,
                         document_name:found.document_name,
-                        zipcode:found.document_temp_name,
-                        document_size:found.document_size,
+                        document_temp_name:found.document_temp_name,                        
+                        document_size:found.document_size,                        
+                        acceptConsent:found.acceptConsent ? found.acceptConsent : data.acceptConsent,
                         status:'Active'
                     }
                     console.log('request_data>>>',request_data)
@@ -153,11 +155,17 @@ const uploadPatientDocument = async function(req,res){
                 req.busboy.on('field',async function (fieldname, val, something, encoding, mimetype) {
                     authTokens[fieldname] = val
                 })
-                const {query:{userId}} = req;
+                const {query:{userId,type}} = req;
                 req.busboy.on('file',async function (fieldname, file, fileObj) {                   
                     let fileSize = 0;
                     if(userId){
-                       let result = await PatientTemp.findOne({ _id: userId });
+                        let result = '';
+                        if(type && type=='Patient'){
+                            result = await Patient.findOne({ _id: userId });
+                        }else{
+                            result = await PatientTemp.findOne({ _id: userId });
+                        }
+                       
                          if (result) {   
                             if(result.document_temp_name)  {
                                await s3.deleteFile(patientFilePath+'/',result.document_temp_name);
@@ -178,8 +186,12 @@ const uploadPatientDocument = async function(req,res){
                                     if(s3Response.size){
                                         fileSize = await bytesToMB(s3Response.size);
                                     }
-                                    let uploadDocs =  { "document_name": filename,"document_temp_name":newFilename,document_size:fileSize }                       
-                                    await PatientTemp.updateOne({ _id: userId }, { $set: uploadDocs });
+                                    let uploadDocs =  { "document_name": filename,"document_temp_name":newFilename,document_size:fileSize }
+                                    if(type && type=='Patient'){                       
+                                        await Patient.updateOne({ _id: userId }, { $set: uploadDocs });
+                                    }else{
+                                        await PatientTemp.updateOne({ _id: userId }, { $set: uploadDocs });
+                                    }
                                     let results = { userId:userId, filepath:constants.s3Details.url+patientFilePath, filename:newFilename, original_name:filename,document_size:fileSize }                                        
                                     commonHelper.sendResponse(res, 'success', results, 'File Upload Successfully!');
                                 })
@@ -247,13 +259,22 @@ async function previewDocument(req,res) {
 
 const deleteDocument = async (req, res) => {
     try {
-        const { query } = req.body;                
-        let found = await PatientTemp.findOne({ _id: query._id });  
-        
+        const { query,type } = req.body;            
+        let found = '';
+        if(type && type=='Patient'){
+            found = await Patient.findOne({ _id: query._id });  
+        }else{
+            found = await PatientTemp.findOne({ _id: query._id });  
+        }
         if(found && found.document_temp_name){        
             await s3.deleteFile(patientFilePath,found.document_temp_name);                 
-            let deleteDocs =  { "document_name": '',"document_temp_name":'',"document_size":'' }                       
-            await PatientTemp.updateOne({ _id:found._id }, { $set: deleteDocs });
+            let deleteDocs =  { "document_name": '',"document_temp_name":'',"document_size":'' }   
+
+            if(type=='Patient'){
+                await Patient.updateOne({ _id:found._id }, { $set: deleteDocs });
+            }else{              
+                await PatientTemp.updateOne({ _id:found._id }, { $set: deleteDocs });
+            }
 
             commonHelper.sendResponse(res, 'success', null, 'Document deleted successfully!');
         }else{
@@ -264,10 +285,39 @@ const deleteDocument = async (req, res) => {
     } 
 }
 
+
+const getPatientData = async (req, res) => {
+    try {
+        const { query } = req.body;
+        let patientData = await Patient.findOne(query);
+        commonHelper.sendResponse(res, 'success', { patientData }, '');
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+const updateProfile = async (req, res) => {
+    try {
+        const { query,data } = req.body;
+        let found = await Patient.findOne(query);
+        console.log('patient  data  >>>',data)
+        if(found){
+           let res = await Patient.updateOne({ _id: found._id }, { $set: data });
+           //console.log('*** res **** ',res)
+        }
+      
+        commonHelper.sendResponse(res, 'success', { found }, '');
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
 module.exports = {
     signup,
-    getPatientList,
+    getPatientList,    
     uploadPatientDocument,
     previewDocument:previewDocument,
-    deleteDocument:deleteDocument
+    deleteDocument:deleteDocument,
+    getPatientData,
+    updateProfile
 };

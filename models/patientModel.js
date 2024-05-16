@@ -22,6 +22,7 @@ const patientSchema = new mongoose.Schema({
   city:{ type: String },
   state:{ type: String },
   zipcode:{ type: String },
+  documents_type:{ type: String },
   document_name:{ type: String },
   document_temp_name:{ type: String },
   document_size:{ type: String },
