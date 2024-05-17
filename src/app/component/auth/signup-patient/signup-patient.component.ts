@@ -16,6 +16,7 @@ import { cities_data } from '../../../city';
 import { FileUploader,FileSelectDirective  } from 'ng2-file-upload';
 import { AlertComponent } from '../../../shared/comman/alert/alert.component';
 import { MatDialog,MatDialogRef } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
 import { serverUrl, s3Details,documents_list } from '../../../config';
 const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
@@ -30,6 +31,7 @@ interface City {
   selector: 'app-signup-patient', 
   templateUrl: './signup-patient.component.html',
   styleUrl: './signup-patient.component.scss', 
+  providers: [DatePipe]
 })
 export class SignupPatientComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper;
@@ -48,7 +50,7 @@ export class SignupPatientComponent implements OnInit {
   step3: FormGroup;
   minStartDate: any
   maxEndDate: any
-
+  isRequired: boolean = false;
   emailError = false;
   invalidEmailErrorMessage: string = '';
 
@@ -68,21 +70,21 @@ export class SignupPatientComponent implements OnInit {
   documentsList: any = [];
   documentsLink: string = '';
   documentsName: string = '';
-  selected_date: string = '';
+  selected_date: any = '';
   fileType: string = '';
   document_size: string = '';
   uploadAll: boolean = false;
   fileErrors: string='';
   thirdFormDisabled = false
   currentProgessinPercent: number = 0;
-  selectedDocumentsType: string;
+  selectedDocumentsType: string='';
   documents_type_list:any=[];
   isChecked = false
   submitButton:boolean = true;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter) {
+  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -90,16 +92,22 @@ export class SignupPatientComponent implements OnInit {
   
   ngOnInit() {
     this.userId = localStorage.getItem("userId");
-    // localStorage.removeItem('userId');
-    // localStorage.removeItem('firstFormGroupData');
-    // localStorage.removeItem('secondFormGroupData');
-    // localStorage.removeItem('thiredFormGroupData');
+
     this.documents_type_list = documents_list;
 
      this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
     if(localStorage.getItem("firstFormGroupData")){
       this.firstFormGroupData = JSON.parse(this.firstFormGroupData)
-      if(this.firstFormGroupData.disply_dob)this.onDateChange(this.firstFormGroupData.disply_dob)
+
+      if(this.firstFormGroupData.dob){
+        this.selected_date = this.datePipe.transform(this.firstFormGroupData.dob, 'MM-dd-yyyy')
+        let dateObj = this.selected_date.split('-');
+        let dateArray = dateObj.map(Number);
+        let obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
+        this.selectedDate = obj;
+        this.selected_date = this.commonService.formattedDate(obj)
+      }     
+      //if(this.firstFormGroupData.disply_dob)this.onDateChange(this.firstFormGroupData.disply_dob)
     }
 
     this.secondFormGroupData = localStorage.getItem("secondFormGroupData");
@@ -114,6 +122,7 @@ export class SignupPatientComponent implements OnInit {
     }
 
     this.thiredFormGroupData = localStorage.getItem("thiredFormGroupData");
+    console.log('>>>>',this.thiredFormGroupData)
     if(localStorage.getItem("thiredFormGroupData")){
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
@@ -122,6 +131,7 @@ export class SignupPatientComponent implements OnInit {
         }else{
           this.selectedDocumentsType = this.thiredFormGroupData.documents_type;
         }
+        this.isRequired = true;
         this.getUploadedDocs(this.thiredFormGroupData.filename,this.thiredFormGroupData.original_name);
       }
     }
@@ -177,7 +187,7 @@ export class SignupPatientComponent implements OnInit {
     //this.thirdFormGroup.controls["documents_type"].markAsTouched();
     if (field1.value && (!field2.value || field2.value === undefined)) {  
       return { documents_temp_empty: true };
-    } else if ((!field1.value || field1.value === undefined) && field2.value) {
+    } else if ((!field1.value || field1.value === undefined) && field2.value) {      
       return { documents_type_empty: true };
     }else{
       return null;
@@ -439,7 +449,6 @@ export class SignupPatientComponent implements OnInit {
   async getUploadedDocs(filename:string,original_name:string) {
     let query = {};
     let req_vars = {
-      //query: Object.assign({ filePath: path }, query),
       query: Object.assign({ _id: this.userId }, query),
       fileName: filename
     }
@@ -460,6 +469,7 @@ export class SignupPatientComponent implements OnInit {
         }
         this.thirdFormGroup.controls['documents_temp'].setValue(this.documentsName);
         this.fileType = this.getFileType(this.documentsName);
+        this.isRequired = true;
       }
     }, (err) => {
       console.error(err);
@@ -504,7 +514,8 @@ export class SignupPatientComponent implements OnInit {
           if (response.error) {
             this.commonService.openSnackBar(response.message, "SUCCESS")           
           } else {          
-            this.documentsMissing = true;            
+            this.documentsMissing = true;   
+            this.isRequired = false;         
             this.thirdFormGroup.controls['documents_temp'].setValue('');
            
             if(this.thirdFormGroup.controls['documents_type'].value){
@@ -550,38 +561,4 @@ export class SignupPatientComponent implements OnInit {
     localStorage.setItem('user', JSON.stringify(res));
     this.router.navigate(["/patient/dashboard"])
   }
-
-  // convertDateFormat(dateObj: any) {
-  //   console.log('date>>>',dateObj,'>>>>',dateObj.year,dateObj.month,dateObj.day)
-  //   let dateString:any = '';
-  //   if(dateObj.day && dateObj.month && dateObj.year){
-  //     dateString = dateObj.month+'-'+dateObj.day+'-'+dateObj.year;
-  //     //this.selectedDate = dateObj.day+'-'+dateObj.month+'-'+dateObj.year;
-  //   }
-  //   return dateString
-  // }
-
-  // asconvertDateFormat(dateString: any) {
-  //   console.log('date>>>',dateString)
-  //   const parts = dateString.split('-');
-  //   if (parts.length === 3) {
-  //     if(parts[0]!='' && parts[1]!='' && parts[2]!='') {
-  //       dateString = `${parts[1]}-${parts[2]}-${parts[0]}`;  
-  //       const year = parseInt(parts[2], 1000);
-  //       const month = parseInt(parts[0], 10);
-  //       const day = parseInt(parts[1], 10);
-  //       if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-  //         this.selectedDate =  { month, day, year };
-  //       }
-  //     }
-  //   }
-  //   if (!dateString.includes('undefined')) {
-  //     //this.selected_date = dateString;
-  //     console.log('this.selectedDate >>>',dateString)
-  //     //this.firstFormGroup.controls['dob'].setValue(this.selectedDate);
-  //     return dateString;
-  //   }
-  //   //this.selected_date;
-  // }
-
 }

@@ -25,6 +25,11 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
+  isUserLoggedIn(): boolean {
+    const token = localStorage.getItem('user');
+    return !!token; // Returns true if token is present, false otherwise.
+  }
+  
   login(data: any): Observable<any> {
     let loginUrl = 'userLogin';
    if(data.userType=='patient'){
