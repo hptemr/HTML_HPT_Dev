@@ -25,6 +25,12 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
+  // Check if the user is logged in based on the presence of a JWT token in local storage.
+  isUserLoggedIn(): boolean {
+    const token = localStorage.getItem('user');
+    return !!token; // Returns true if token is present, false otherwise.
+  }
+
   login(data: any): Observable<any> {
     let loginUrl = 'userLogin';
    if(data.userType=='patient'){
@@ -45,7 +51,7 @@ export class AuthService {
 
   hasRole(role: string): boolean {
     if (role) {
-      let user_type = this.getLoggedInInfo('user_type')
+      let user_type = this.getLoggedInInfo('role')
       if (user_type == role) {
         return true
       }

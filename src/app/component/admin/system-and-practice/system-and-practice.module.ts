@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { SystemAdminRoutingModule } from './system-admin-routing.module'; 
 import { SharedModule } from 'src/app/shared/shared.module'; 
- import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EFaxComponent } from './efax/efax.component';
 import { InvitePopupComponent } from './invite-popup/invite-popup.component';
 import { PatientsComponent } from './user-managment/patients/patients.component';
@@ -15,6 +14,7 @@ import { AddParticipantsComponent } from './conversations/add-participants/add-p
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
 import { AdminProfileComponent } from './user-managment/admin-profile/admin-profile.component';
+import { SystemAndPracticeRoutingModule } from './system-and-practice-routing.module';
  
 @NgModule({
   declarations: [
@@ -33,10 +33,10 @@ import { AdminProfileComponent } from './user-managment/admin-profile/admin-prof
   ],
   imports: [
     CommonModule,
-    SystemAdminRoutingModule,
+    SystemAndPracticeRoutingModule,
     FormsModule,
     ReactiveFormsModule, 
     SharedModule,  
   ]
 })
-export class SystemAdminModule { }
+export class SystemAndPracticeModule { }
