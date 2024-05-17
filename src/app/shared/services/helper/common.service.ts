@@ -79,7 +79,7 @@ export class CommonService {
     } else if (user_type == "patient") {
       redirect = 'patient/dashboard'
     } else {
-      redirect = 'signin'
+      redirect = 'admin/login'
     }
     this.router.navigate(['/' + redirect])
     // window.location.href = '/' + redirect //For Idle case execution, we used this. don't changed
@@ -158,10 +158,10 @@ export class CommonService {
 
   // Date MM-DD-YYYY
   formattedDate = (dateObj: any) => {
-    return  this.padNumber(dateObj.month)+'-'+this.padNumber(dateObj.day)+'-'+dateObj.year;
+    return this.padNumber(dateObj.month) + '-' + this.padNumber(dateObj.day) + '-' + dateObj.year;
   };
 
-   // Function to pad single-digit numbers with leading zeros
+  // Function to pad single-digit numbers with leading zeros
   padNumber = (num: number): string => {
     return num.toString().padStart(2, '0'); // Ensures two-digit format with leading zero
   };

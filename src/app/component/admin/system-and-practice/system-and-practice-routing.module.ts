@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TherapistsComponent } from './user-managment/therapists/therapists.component';
-import { SupportTeamComponent } from './user-managment/support-team/support-team.component';
-import { BillingTeamComponent } from './user-managment/billing-team/billing-team.component';
 import { PatientsComponent } from './user-managment/patients/patients.component';
-import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
-import { TherapistsAdminProfileComponent } from './user-managment/therapists-admin-profile/therapists-admin-profile.component';
 import { EFaxComponent } from './efax/efax.component';
+import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
+import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { PatientProfileComponent } from '../support-team/patient-profile/patient-profile.component';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
+import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
+import { AdminProfileComponent } from './user-managment/admin-profile/admin-profile.component';
 import { CommonAdminDashboardComponent } from 'src/app/shared/component/common-admin-dashboard/common-admin-dashboard.component';
 
 const routes: Routes = [
@@ -23,19 +21,32 @@ const routes: Routes = [
     path: 'user-managment',
     children: [
       {
+        path: 'practice-admin',
+        component: UserListingComponent,
+      },
+      {
         path: 'therapists',
-        component: TherapistsComponent,
+        component: UserListingComponent,
       },
       {
         path: 'support-team',
-        component: SupportTeamComponent,
+        component: UserListingComponent,
       },
       {
         path: 'billing-team',
-        component: BillingTeamComponent,
+        component: UserListingComponent,
       },
       {
-        path: 'patients',
+        path: 'admin-profile/:adminId',
+        component: AdminProfileComponent,
+      }
+    ]
+  },
+  {
+    path: 'patients',
+    children: [
+      {
+        path: 'list',
         component: PatientsComponent,
       },
       {
@@ -45,15 +56,7 @@ const routes: Routes = [
       {
         path: 'patient-profile',
         component: PatientProfileComponent,
-      },
-      {
-        path: 'therapist-admin-profile',
-        component: TherapistsAdminProfileComponent,
-      },
-      {
-        path: 'billing-team',
-        component: BillingTeamComponent,
-      },
+      }
     ]
   },
   {
@@ -82,4 +85,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PracticeAdminRoutingModule { }
+export class SystemAndPracticeRoutingModule { }

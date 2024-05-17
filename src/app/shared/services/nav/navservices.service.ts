@@ -56,55 +56,58 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 2,
+          icon: 'person_outline',
+          mainTitle: 'User Management',
+          headTitle1: 'User Management',
+          path: '/practice-admin/user-managment/therapists',
+          active: false,
+          item: [
+            {
+              title: 'Therapists',
+              icon: 'accessibility',
+              type: 'link',
+              active: false,
+              path: '/practice-admin/user-managment/therapists',
+            },
+            {
+              title: 'Support Team',
+              icon: 'help_outline',
+              type: 'link',
+              active: false,
+              path: '/practice-admin/user-managment/support-team',
+            },
+            {
+              title: 'Billing Team',
+              icon: 'receipt',
+              type: 'link',
+              active: false,
+              path: '/practice-admin/user-managment/billing-team',
+            }, 
+          ]
+        },
+        {
+          id: 3,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/practice-admin/patients/list',
+          active: false,
+          item: []
+        },
+        {
+          id: 4,
+          icon: 'home',
+          mainTitle: 'Manage Practice',
+          headTitle1: 'Manage Practice',
+          path: '/practice-admin/manage-practice',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 2,
-        //   icon: 'person_outline',
-        //   mainTitle: 'User Management',
-        //   headTitle1: 'User Management',
-        //   path: '/practice-admin/user-managment/therapists',
-        //   active: false,
-        //   item: [
-        //     {
-        //       title: 'Therapists',
-        //       icon: 'accessibility',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/therapists',
-        //     },
-        //     {
-        //       title: 'Support Team',
-        //       icon: 'help_outline',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/support-team',
-        //     },
-        //     {
-        //       title: 'Billing Team',
-        //       icon: 'receipt',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/billing-team',
-        //     },
-        //     {
-        //       title: 'Patients',
-        //       icon: 'group',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/patients',
-        //     },
-        //   ]
-        // },
-        // {
-        //   id: 3,
-        //   icon: 'home',
-        //   mainTitle: 'Manage Practice',
-        //   headTitle1: 'Manage Practice',
-        //   path: '/practice-admin/manage-practice',
-        //   active: false,
-        //   item: []
-        // },
-        // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
         //   headTitle1: '',
@@ -113,7 +116,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 5,
+        //   id: 6,
         //   icon: 'print',
         //   mainTitle: ' E-Fax',
         //   headTitle1: '',
@@ -122,7 +125,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 6,
+        //   id: 7,
         //   icon: 'people_outline',
         //   mainTitle: 'Manage Profile',
         //   headTitle1: '',
@@ -132,7 +135,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 7,
+        //   id: 8,
         //   icon: 'notifications_none',
         //   mainTitle: 'Notifications',
         //   headTitle1: '',
