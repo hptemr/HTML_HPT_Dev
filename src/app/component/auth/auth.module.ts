@@ -11,6 +11,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AdminSignupComponent } from './admin-signup/admin-signup.component';
 import { FileUploadModule  } from 'ng2-file-upload';
+import { NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
+import { CustomDateParserFormatter } from './../../shared/comman/custom-date-parser-formatter';
 @NgModule({
   declarations: [ 
     LoginComponent,
@@ -30,5 +32,6 @@ import { FileUploadModule  } from 'ng2-file-upload';
     NgOptimizedImage,
     FileUploadModule,
   ],
+  providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }],
 })
 export class AuthModule {}

@@ -5,10 +5,8 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout'; 
 import { DatePipe } from '@angular/common';
 import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { StepperOrientation,MatStepper } from '@angular/material/stepper';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { Observable, map } from 'rxjs';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
 import { regex } from '../../../utils/regex-patterns';
@@ -157,6 +155,7 @@ export class UpdatePatientProfileComponent implements OnInit {
 
   onDateChange(date: NgbDateStruct) {
      this.selectedDate = date;
+     console.log('onDateChange >>> ',date,'>>>>',this.selectedDate)
      return this.formatDate(this.selectedDate);
   }
   
@@ -170,6 +169,7 @@ export class UpdatePatientProfileComponent implements OnInit {
       }
     }
     this.selected_date = selected_date;     
+    return this.selected_date;
   }
 
   getMinDate(): NgbDateStruct {
@@ -481,10 +481,10 @@ export class UpdatePatientProfileComponent implements OnInit {
             let dateObj = this.selected_date.split('-');
             let dateArray = dateObj.map(Number);
             let obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
-            //this.onDateChange(obj);
+            this.selectedDate = obj;
             this.selected_date = this.commonService.formattedDate(obj)
           }
-
+   
           if(user_data.document_temp_name){
             this.getUploadedDocs(user_data.document_temp_name,user_data.document_name);
           }

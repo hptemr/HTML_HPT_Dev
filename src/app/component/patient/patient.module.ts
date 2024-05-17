@@ -8,6 +8,10 @@ import { AppointmentDetailsComponent } from './appointments/appointment-details/
 import { UpdatePatientProfileComponent } from './update-patient-profile/update-patient-profile.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { FileUploadModule  } from 'ng2-file-upload';
+import { NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
+import { CustomDateParserFormatter } from './../../shared/comman/custom-date-parser-formatter';
+
+
 @NgModule({
   declarations: [
     AppointmentsComponent, 
@@ -22,6 +26,7 @@ import { FileUploadModule  } from 'ng2-file-upload';
     ReactiveFormsModule, 
     SharedModule,  
     FileUploadModule,
-  ]
+  ],
+  providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }],
 })
 export class PatientModule { }
