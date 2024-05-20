@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { MatRadioChange } from '@angular/material/radio';
-import { AppointmentReqModalComponent } from '../../appointment-req-modal/appointment-req-modal.component';
+import { MatRadioChange } from '@angular/material/radio'; 
 import { MatDialog } from '@angular/material/dialog';
+import { AppointmentReqModalComponent } from '../appointment-req-modal/appointment-req-modal.component';
 
 @Component({
   selector: 'app-step4', 
