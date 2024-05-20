@@ -4,11 +4,11 @@ let bucketName = "hpt.dev"
 if (window.location.hostname.indexOf("localhost") > -1) {
   serverUrlEnv = "http://localhost:3000"
 } else if (window.location.hostname.indexOf("dev.hamiltonpt.com") > -1) {
-  serverUrlEnv = 'https://dev.hamiltonpt.com' //Development Server
-} else if (window.location.hostname.indexOf("stage.hamiltonpt.com") > -1) {
-  serverUrlEnv = 'https://stage.hamiltonpt.com' //Staging Server
+  serverUrlEnv = 'http://dev.hamiltonpt.com' //Development Server
+} else if (window.location.hostname.indexOf("staging.hamiltonpt.com") > -1) {
+  serverUrlEnv = 'http://staging.hamiltonpt.com' //Staging Server
 } else {
-  serverUrlEnv = 'https://ec2-34-239-203-1.compute-1.amazonaws.com'
+  serverUrlEnv = 'http://ec2-34-239-203-1.compute-1.amazonaws.com'
 }
 
 export const s3Details = {
