@@ -47,24 +47,16 @@ export class PatientNavservicesService {
       active: false,
       item: []
     },
-    // {
-    //   id: 2,
-    //   activeMenu: 'appointments',
-    //   icon: 'pending_actions',
-    //   mainTitle: 'Appointments',
-    //   headTitle1: '',
-    //   path: '/patient/appointments',
-    //   active: false,
-    //   type: 'link',
-    //   item: [
-    //     {
-    //       title: 'Appointments',
-    //       icon: 'pending_actions',
-    //       type: 'link',
-    //       active: false,
-    //     },
-    //   ]
-    // },
+    {
+      id: 2,
+      activeMenu: 'appointments',
+      icon: 'pending_actions',
+      mainTitle: 'Appointments',
+      headTitle1: '',
+      path: '/patient/appointments',
+      active: false,
+      type: 'link', 
+    },
     // {
     //   id: 3,
     //   activeMenu: 'notifications',
