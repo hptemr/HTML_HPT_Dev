@@ -14,6 +14,7 @@ import { Step1Component } from './book-appointment/step1/step1.component';
 import { Step2Component } from './book-appointment/step2/step2.component';
 import { Step3Component } from './book-appointment/step3/step3.component';
 import { Step4Component } from './book-appointment/step4/step4.component';
+import { AppointmentReqModalComponent } from './appointment-req-modal/appointment-req-modal.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { Step4Component } from './book-appointment/step4/step4.component';
     Step1Component,
     Step2Component,
     Step3Component,
-    Step4Component
+    Step4Component,
+    AppointmentReqModalComponent
   ],
   imports: [
     CommonModule,
