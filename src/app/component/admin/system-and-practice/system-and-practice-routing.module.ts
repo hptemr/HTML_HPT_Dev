@@ -50,7 +50,7 @@ const routes: Routes = [
         component: PatientsComponent,
       },
       {
-        path: 'patient-details',
+        path: 'patient-details/:userId',
         component: PatientDetailsComponent,
       },
       {

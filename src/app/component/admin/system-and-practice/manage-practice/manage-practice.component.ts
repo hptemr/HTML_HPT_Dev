@@ -8,6 +8,7 @@ import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -49,7 +50,8 @@ export class ManagePracticeComponent {
   pageSizeOptions = pageSizeOptions
   validationMessages = validationMessages;
   userList: any
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private authService: AuthService, public commonService: CommonService,) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private authService: AuthService, 
+    public commonService: CommonService,private router: Router) { }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -182,6 +184,10 @@ export class ManagePracticeComponent {
         })
       })
     }
+  }
+
+  navigateToAdminUserDetails(userId: any){
+    this.router.navigate([ this.commonService.getLoggedInRoute()+ '/user-managment/admin-profile/', userId]);
   }
 
 }

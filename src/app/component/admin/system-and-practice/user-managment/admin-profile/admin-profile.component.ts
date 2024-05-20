@@ -187,10 +187,8 @@ export class AdminProfileComponent {
   }
 
   navigateToAdminUserList() {
-    const adminUserListingUrlSegment = this.commonService.getUrlSegmentBaseOnRole(this.userRole)
-    this.router.navigate([`/system-admin/user-managment/${adminUserListingUrlSegment}`]);
+    this.router.navigate([this.commonService.getLoggedInRoute()+'/user-managment/'+ this.commonService.getUrlSegmentBaseOnRole(this.userRole)]);
   }
-
 
   async changePhoto() {
     this.editOptions = false

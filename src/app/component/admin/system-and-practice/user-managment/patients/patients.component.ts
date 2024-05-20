@@ -11,6 +11,7 @@ import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -42,7 +43,9 @@ export class PatientsComponent {
   orderBy: any = { createdAt: -1 }
 
   practiceLocationData:string[] = practiceLocations
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private adminService: AdminService, private commonService: CommonService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, 
+    private adminService: AdminService, private commonService: CommonService,  private router: Router, ) {
+  }
 
   ngOnInit() {
     this.getPatientList()
@@ -119,12 +122,15 @@ export class PatientsComponent {
 
   reset() {
     this.searchPatient =""
-    this.whereCond = {}
-
+    this.whereCond = {} 
     this.totalCount = 0
     this.pageIndex = 0
     this.pageSize = pageSize
     this.pageSizeOptions = pageSizeOptions
     this.getPatientList('reset')
+  }
+
+  navigateToAdminUserDetails(userId: any){
+    this.router.navigate([ this.commonService.getLoggedInRoute()+ '/patients/patient-details/', userId]);
   }
 }

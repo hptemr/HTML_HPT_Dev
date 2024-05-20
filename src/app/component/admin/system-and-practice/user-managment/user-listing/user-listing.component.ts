@@ -205,7 +205,7 @@ export class UserListingComponent {
     }
 
     navigateToAdminUserDetails(userId: any){
-      this.router.navigate([`/system-admin/user-managment/${this.profileUrlSegment}`, userId]);
+      this.router.navigate([ this.commonService.getLoggedInRoute()+ '/user-managment/' + this.profileUrlSegment, userId]);
     }
 
     handlePageEvent(event: any) {
