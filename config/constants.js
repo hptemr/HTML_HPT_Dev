@@ -20,8 +20,8 @@ var constants = {
     secret: process.env.EMAIL_SECRET,
     fromEmail: process.env.FROM_EMAIL,
   },
-  clientUrl: process.env.BASE_URL || 'http://ec2-3-91-254-185.compute-1.amazonaws.com',
-  mailServerUrl : process.env.mailServerUri || 'http://ec2-3-91-254-185.compute-1.amazonaws.com',
+  clientUrl: process.env.BASE_URL || 'http://staging.hamiltonpt.com',
+  mailServerUrl : process.env.mailServerUri || 'http://staging.hamiltonpt.com',
 }
 
 module.exports = constants
