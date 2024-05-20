@@ -18,6 +18,7 @@ input, p,
 .clr--DF0404{color: #DF0404;}
 .clr--1F2F3E{color: #1F2F3E !important;}
 .clr--fff{color: #fff;}
+.clr--828282{color: #828282;}
 
 .font-12{font-size: 12px !important;}
 .font-14{font-size: 14px !important;}
@@ -26,11 +27,13 @@ input, p,
 .font-18{font-size: 18px !important;}
 .font-20{font-size: 20px !important;}
 
+.fw-400{font-weight: 400 !important;}
 .fw-500{font-weight: 500 !important;}
 .fw-600{font-weight: 600 !important;} 
 .fw-700{font-weight: 700 !important;} 
 .fw-800{font-weight: 800 !important;} 
 
+// Comman classes
 .min-width-unset{min-width: unset !important;}
 .lh-24 {line-height: 24px !important;}
 .cursor-pointer{ cursor: pointer !important; }
@@ -55,8 +58,8 @@ input, p,
 }
 
 .no--record--found{
-    min-height: 40px;
-    font-size: 15px;
+    min-height: 100px;
+    font-size: 20px;
     background: #ddfcfc;
     font-weight: bold;
     display: flex;
@@ -64,6 +67,11 @@ input, p,
     justify-content: center;
     text-align: center;
     width: 100%;
+}
+.close--sidebar{
+    border-bottom: 1px solid #ddd;
+    padding: 0px 15px 15px 5px;
+    margin-bottom: 26px;
 }
 
 .card{
@@ -207,15 +215,14 @@ input, p,
                         border-radius: 12px;
                         .chips{
                             border-radius: 5px;
-                            background: #fff;
-                            border: 1px solid #31B7B7;
+                            background: #31B7B7;
                             font-size: 14px;
-                            color: #31B7B7;
+                            color: #fff;
                             padding: 2px 9px;
                             margin: 0 10px 10px 0;
                             .chip--close--btn{
                                 height: auto;
-                                color: #31B7B7;
+                                color: #fff;
                                 .mat-icon{
                                     font-size: 14px;
                                     height: 14px;
@@ -244,17 +251,17 @@ textarea{resize: none !important;}
 
 ::-ms-input-placeholder {  
     color: #1F2F3E !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
 }
 
 ::placeholder {
     color: #1F2F3E !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
 }
 
-// input[type=text] {
-//     text-transform: capitalize;
-// }
+input[type=text] {
+    text-transform: capitalize;
+}
 
 .form-control{
     background-color: #fff !important;
@@ -457,6 +464,7 @@ a{
     &.suspended{
         color: #D58625;
     }
+    &.rejected,
     &.declined,
     &.deleted{
         color: #DF0404;
@@ -614,6 +622,17 @@ a{
     &:hover{
         background-color: transparent !important;
     } 
+    &.filled{
+        .mat-step-icon{ 
+            &.mat-step-icon{
+                background-color: #1DB823 !important; 
+                color: #fff !important; 
+            } 
+        }
+        .mat-step-label{
+            color: #000 !important;
+        }
+    }
 }
 .mat-step-icon{
     background-color: #F5F6F9 !important; 
@@ -650,10 +669,6 @@ a{
         background-color: #1DB823 !important;
         color: #fff !important;
         font-weight: 600;
-    }
-    &:disabled{
-        color: #fff !important;
-        opacity: 0.5;
     }
 }
 .mdc-button{
@@ -734,6 +749,7 @@ ngb-datepicker{
     font-size: 14px !important;
     color: #212529 !important;
     font-weight: 400 !important;
+    cursor: pointer;
 }
 .mdc-radio__background{
     width: 24px;
@@ -741,11 +757,61 @@ ngb-datepicker{
     .mdc-radio__outer-circle{
         border-width: 1px;
         border-color:#ccc;
+        background-color: #F5F6F9;
     }
 }
 .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle,
 .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle{
     border-color: #31B7B7 !important;
+} 
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle{
+    border-color:#ccc !important;
+}
+.mat-mdc-radio-button .mdc-radio{
+    padding-left: 0 !important;
+}
+
+// Book Appointement comman
+.book--appointment--wrapper{
+    &.st--intake--form{
+        .card{
+            opacity: 0.4;
+            pointer-events: none;
+        }
+    }
+    .back--btn{
+        min-width: 42px;
+        .material-symbols-outlined{
+            width: 24px;
+            height: 24px;
+            font-size: 24px; 
+        }
+    }
+    .card{
+        padding: 20px 40px;
+        height: calc(100vh - 285px);
+        overflow: auto; 
+        border-radius: 10px 10px 0px 0px;
+        .other--booking{
+            margin-top: 5px;
+        }
+    } 
+    .footer--btns{ 
+        padding: 15px 40px ;
+        box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.03);
+        border-radius:0 0 10px 10px ;
+        background-color: #fff;
+    }
+    
+    ::-ms-input-placeholder {  
+        color: #828282 !important;
+        font-size: 14px !important;
+    }
+    
+    ::placeholder {
+        color: #828282 !important;
+        font-size: 14px !important;
+    }
 } 
  
 /*----  Media Queries (Start here) -----*/
@@ -795,6 +861,16 @@ ngb-datepicker{
             border-left: 0;
         }
     } 
+    .book--appointment--wrapper{
+        .card{
+            padding: 15px;
+            height: calc(100vh - 250px); 
+             
+        }
+        .footer--btns{
+            padding: 15px;
+        }
+    }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
 @media only screen and (min-width: 980px) and (max-width: 1279px){}
@@ -804,6 +880,11 @@ ngb-datepicker{
     .card .card-body,
     .card .card-header{
         padding: 15px;
+    }
+    .book--appointment--wrapper{
+        .card{
+            height: auto;
+        }
     }
 }
 
