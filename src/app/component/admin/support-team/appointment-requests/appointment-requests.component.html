@@ -134,7 +134,7 @@
             </div>
             <div class="card-body">
                 <div class="col-12 cust--mat--table--wrapper">
-                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                    <table mat-table [dataSource]="appointmentsList" matSort (matSortChange)="announceSortChange($event)"
                         class="cust--mat--table box--row--table">  
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
