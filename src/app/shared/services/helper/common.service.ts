@@ -85,6 +85,26 @@ export class CommonService {
     // window.location.href = '/' + redirect //For Idle case execution, we used this. don't changed
   }
 
+  //get first route based on logged in user
+  getLoggedInRoute() {
+    let redirect = ''
+    let user_type = this.authService.getLoggedInInfo('role')
+    if (user_type == "system_admin") {
+      redirect = 'system-admin'
+    } else if (user_type == "practice_admin") {
+      redirect = 'practice-admin'
+    } else if (user_type == "support_team") {
+      redirect = 'support-team'
+    } else if (user_type == "therapist") {
+      redirect = 'therapist'
+    } else if (user_type == "billing_team") {
+      redirect = 'billing-team'
+    } else if (user_type == "patient") {
+      redirect = 'patient'
+    }
+    return redirect
+  }
+
   // ***** This function use for dynamic user listing bases on role. Taking userRole same as manage in user database. *****
   getUserRoleBaseOnUrlSegment(currentUrlSegments: any): any {
     let roleObj = { userRole: '', profileUrlSegment: '', pageTitle: '' }
