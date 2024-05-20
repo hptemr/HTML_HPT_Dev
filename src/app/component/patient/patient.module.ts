@@ -10,6 +10,11 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
 import { FileUploadModule  } from 'ng2-file-upload';
 import { NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDateParserFormatter } from './../../shared/comman/custom-date-parser-formatter';
+import { Step1Component } from './book-appointment/step1/step1.component';
+import { Step2Component } from './book-appointment/step2/step2.component';
+import { Step3Component } from './book-appointment/step3/step3.component';
+import { Step4Component } from './book-appointment/step4/step4.component'; 
+import { AppointmentReqModalComponent } from './book-appointment/appointment-req-modal/appointment-req-modal.component';
 
 
 @NgModule({
@@ -17,7 +22,12 @@ import { CustomDateParserFormatter } from './../../shared/comman/custom-date-par
     AppointmentsComponent, 
     AppointmentDetailsComponent,
     UpdatePatientProfileComponent,
-    PatientProfileComponent
+    PatientProfileComponent,
+    Step1Component,
+    Step2Component,
+    Step3Component,
+    Step4Component,
+    AppointmentReqModalComponent
   ],
   imports: [
     CommonModule,
