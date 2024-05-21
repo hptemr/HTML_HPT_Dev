@@ -4,5 +4,6 @@ const appointmentController = require('../controllers/appointmentController');
 const verifyToken = require('../middlewares/authMiddleware');
 
 router.post('/getAppointmentList', appointmentController.getAppointmentList);
+router.post('/updatePatientCheckIn', appointmentController.updatePatientCheckIn);
 
 module.exports = router;

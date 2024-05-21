@@ -11,6 +11,8 @@ const appointmentSchema = new mongoose.Schema({
         ref: "users"
     },
     practiceLocation: { type: String, default: "" },
+    checkIn:{ type: Boolean, default: false },
+    checkInDateTime:{ type: Date },
     status: { type: String, enum: ['Pending', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
