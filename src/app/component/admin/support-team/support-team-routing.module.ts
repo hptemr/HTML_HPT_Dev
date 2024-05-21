@@ -24,7 +24,7 @@ const routes: Routes = [
     component: AppointmentDetailsComponent
   },
   {
-    path: 'patient-profile',
+    path: 'patient-profile/:patientId',
     component: PatientProfileComponent
   },
   {
