@@ -10,14 +10,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
-//import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
-//import { FormControl } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
-import { validationMessages } from 'src/app/utils/validation-messages';
 
 export interface PeriodicElement {
   name: string;  
@@ -25,68 +21,7 @@ export interface PeriodicElement {
   action: string;  
   status: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  { 
-    name: 'Jane Cooper',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
-    action : ''
-  },  
-  { 
-    name: 'Leslie Alexander',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    action : ''
-  },
-  { 
-    name: 'Leslie Alexander',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    action : ''
-  },
-  { 
-    name: 'Maria Jones',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    action : ''
-  }, 
-  { 
-    name: 'Shirlene Walter',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'deleted',
-    action : ''
-  },  
-  { 
-    name: 'Jane Cooper',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
-    action : ''
-  },  
-  { 
-    name: 'Leslie Alexander',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    action : ''
-  },
-  { 
-    name: 'Leslie Alexander',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    action : ''
-  },
-  { 
-    name: 'Maria Jones',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    action : ''
-  }, 
-  { 
-    name: 'Shirlene Walter',   
-    updatedAt: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'deleted',
-    action : ''
-  }, 
-];
+const ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
   selector: 'app-appointment-requests', 
@@ -160,13 +95,12 @@ export class AppointmentRequestsComponent {
           }
           finalData.push(newColumns)
         })
-        if(response.data.appointmentList.length>0){
+        if(response.data && response.data.appointmentList && response.data.appointmentList.length>0){
           this.dayTwo = true;
           this.dayOne = false;
           this.appointmentsList = new MatTableDataSource(finalData)
         }
         this.isAppointmentsList = this.totalCount>0?true:false 
-        console.log('appointment list >>>>>',this.appointmentsList)
       })
     }
 

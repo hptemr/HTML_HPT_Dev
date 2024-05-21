@@ -20,7 +20,7 @@ const routes: Routes = [
     component: ManageProfileComponent
   },
   {
-    path: 'appointment-details',
+    path: 'appointment-details/:appointmentId',
     component: AppointmentDetailsComponent
   },
   {
