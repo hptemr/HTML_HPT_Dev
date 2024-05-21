@@ -9,6 +9,7 @@ import { Step1Component } from './book-appointment/step1/step1.component';
 import { Step2Component } from './book-appointment/step2/step2.component';
 import { Step3Component } from './book-appointment/step3/step3.component';
 import { Step4Component } from './book-appointment/step4/step4.component';
+import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
 
 const routes: Routes = [ 
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
     path: 'profile-details',
     component: PatientProfileComponent, 
   },
+  {
+    path: 'emergency-contact',
+    component: EmergencyContactComponent, 
+  }, 
   {
     path: 'book-appointment',
     children: [  
