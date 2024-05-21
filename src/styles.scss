@@ -774,10 +774,10 @@ ngb-datepicker{
 // Book Appointement comman
 .book--appointment--wrapper{
     &.st--intake--form{
-        .card{
-            opacity: 0.4;
-            pointer-events: none;
-        }
+        // .card{
+        //     opacity: 0.4;
+        //     pointer-events: none;
+        // }
     }
     .back--btn{
         min-width: 42px;

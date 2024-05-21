@@ -11,6 +11,11 @@ import { Step3Component } from './book-appointment/step3/step3.component';
 import { Step4Component } from './book-appointment/step4/step4.component';
 import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
 import { NotificationsComponent } from '../admin/system-and-practice/notifications/notifications.component';
+import { IntakeStep5Component } from './intake-form/intake-step5/intake-step5.component';
+import { IntakeStep1Component } from './intake-form/intake-step1/intake-step1.component';
+import { IntakeStep2Component } from './intake-form/intake-step2/intake-step2.component';
+import { IntakeStep3Component } from './intake-form/intake-step3/intake-step3.component';
+import { IntakeStep4Component } from './intake-form/intake-step4/intake-step4.component';
 
 const routes: Routes = [ 
   {
@@ -61,6 +66,31 @@ const routes: Routes = [
       {
         path: 'step-4',
         component: Step4Component, 
+      },
+    ]
+  },
+    {
+    path: 'intake-form',
+    children: [  
+      {
+        path: 'step-1',
+        component: IntakeStep1Component, 
+      },
+      {
+        path: 'step-2',
+        component: IntakeStep2Component, 
+      }, 
+      {
+        path: 'step-3',
+        component: IntakeStep3Component, 
+      },
+      {
+        path: 'step-4',
+        component: IntakeStep4Component, 
+      },
+      {
+        path: 'step-5',
+        component: IntakeStep5Component, 
       },
     ]
   },
