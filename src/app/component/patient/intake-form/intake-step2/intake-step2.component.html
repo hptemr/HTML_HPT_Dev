@@ -1,11 +1,11 @@
-<div class="container-fluid book--appointment--wrapper ba--step--two">
+<div class="container-fluid book--appointment--wrapper if--step--two st--intake--form">
     <div class="row">
         <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/patient/appointments']">
+            <button mat-stroked-button color="primary" class="me-3 back--btn">
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
             </button>
             <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Book Appointment </span>
+                <span class="me-3">Intake Form </span>
                 <span>(Step <span class="text-primary"> 2 </span> of 5)</span>
             </h3>
         </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-3">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Middle Name </label>
+                    <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="text" placeholder="Enter Middle Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
@@ -144,7 +144,11 @@
                                     <option value="3">Insurance 4</option>
                                 </select>
                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
-                            </div> 
+                            </div>
+                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                                Add Insurance
+                            </button>
                         </div>
                         <p class="font-15 lh-24">("Subscriber") is the person who holds the insurance plan whether
                             personally or through their employer.
@@ -156,21 +160,24 @@
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">First Name  </label>
+                            <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
                             <input class="form-control" type="text" placeholder="Enter First Name" />
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Middle Name </label>
+                            <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
                             <input class="form-control" type="text" placeholder="Enter Middle Name" />
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Last Name  </label>
+                            <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
                             <input class="form-control" type="text" placeholder="Enter Last Name" />
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
@@ -432,8 +439,7 @@
                         <div class="d-flex align-items-center flex-wrap ">
                             <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4">Policies Page</a>
                             <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
-                            <button mat-raised-button color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-2 ui--button">
-                                <input type="file">
+                            <button mat-raised-button color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-2">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
                                 Upload Insurance
                             </button>
@@ -445,21 +451,15 @@
                         </div>
                         <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must sign for minors)</p>
                     </div>
-                    <div class="col-12 d-flex justify-content-end w-100">
-                        <button mat-raised-button color="primary" class="flex-shrink-0 mt-2">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                            Add Insurance
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
-        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-1']">
+        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-1']">
             Previous
         </button>
-        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-3']">
+        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-3']">
             Next
         </button>
     </div>

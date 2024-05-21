@@ -8,7 +8,8 @@ import { SupportTeamRoutingModule } from './support-team-routing.module';
 import { SystemFollowupModalComponent } from './system-followup-modal/system-followup-modal.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
- 
+import { DatePipe } from '@angular/common';
+
 @NgModule({
   declarations: [ 
     AppointmentsComponent,
@@ -23,6 +24,7 @@ import { AppointmentRequestsComponent } from './appointment-requests/appointment
     FormsModule,
     ReactiveFormsModule, 
     SharedModule,  
+    DatePipe
   ]
 })
 export class SupportTeamModule { }

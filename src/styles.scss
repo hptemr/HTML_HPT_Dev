@@ -773,11 +773,11 @@ ngb-datepicker{
 
 // Book Appointement comman
 .book--appointment--wrapper{
-    &.st--intake--form{
-        .card{
-            opacity: 0.4;
-            pointer-events: none;
-        }
+    &.if--intake--form{
+        // .card{
+        //     opacity: 0.6;
+        //     pointer-events: none;
+        // }
     }
     .back--btn{
         min-width: 42px;

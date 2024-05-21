@@ -1,11 +1,11 @@
-<div class="container-fluid book--appointment--wrapper ba--step--three">
+<div class="container-fluid book--appointment--wrapper if--step--three st--intake--form">
     <div class="row">
         <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/patient/appointments']">
+            <button mat-stroked-button color="primary" class="me-3 back--btn">
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
             </button>
             <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Book Appointment </span>
+                <span class="me-3">Intake Form </span>
                 <span>(Step <span class="text-primary"> 3 </span> of 5)</span>
             </h3>
         </div>
@@ -17,14 +17,14 @@
             </div> 
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Full Name</label>
+                    <label class="col-form-label fw-600">Full Name <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="text" placeholder="Enter Full Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Date of Birth</label>
+                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
                     <div class="input-group">
                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
                             [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
@@ -37,7 +37,7 @@
             </div>  
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Date </label>
+                    <label class="col-form-label fw-600">Date  <span class="clr--DF0404 ms-1"> * </span></label>
                     <div class="input-group">
                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
                             [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
@@ -579,10 +579,10 @@
         </div>
     </div>
     <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
-        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-2']">
+        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-2']">
             Previous
         </button>
-        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-4']">
+        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-4']">
             Next
         </button>
     </div>
