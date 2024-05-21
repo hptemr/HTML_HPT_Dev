@@ -117,7 +117,7 @@
                         <div class="col-12 col-sm-6 col-lg-4">
                           <div class="form-group">
                             <label class="col-form-label fw-600">Work Extension Number</label>
-                            <input class="form-control" type="text" placeholder="Enter Work Extension Number" (input)="onWorkExtensionInputChange($event)" [value]="convertWorkExtensionNumber" maxlength="14" formControlName="cellPhoneNumber"/>                            
+                            <input class="form-control" type="text" placeholder="Enter Work Extension Number" (input)="onWorkExtensionInputChange($event)" [value]="convertWorkExtensionNumber" maxlength="14" formControlName="workExtensionNumber"/>                            
                             <div class="text text-danger mt-1" *ngIf="firstFormGroup.controls['workExtensionNumber'].touched && firstFormGroup.controls['workExtensionNumber'].hasError('required')">
                               {{ validationMessages.required('a valid work extension number') }}
                             </div>

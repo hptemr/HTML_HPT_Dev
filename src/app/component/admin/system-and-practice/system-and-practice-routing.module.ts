@@ -54,7 +54,7 @@ const routes: Routes = [
         component: PatientDetailsComponent,
       },
       {
-        path: 'patient-profile',
+        path: 'patient-profile/:userId',
         component: PatientProfileComponent,
       }
     ]
