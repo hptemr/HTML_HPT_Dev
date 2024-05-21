@@ -46,3 +46,10 @@ export const documents_list = [
   "Montana ID",
   "Other"
 ]
+export const bookingStatus = [
+  'Approved', 
+  'Cancelled', 
+  'Completed',  
+  'Pending', 
+  'Suspended'
+]
