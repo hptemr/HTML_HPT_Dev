@@ -59,11 +59,11 @@ export class PatientNavservicesService {
     },
     {
       id: 3,
-      activeMenu: 'health_and_safety',
+      activeMenu: 'insurance-listing',
       icon: 'health_and_safety',
       mainTitle: 'Insurance',
       headTitle1: '',
-      path: ' ',
+      path: '/patient/insurance-listing',
       active: false,
       type: 'link', 
     },

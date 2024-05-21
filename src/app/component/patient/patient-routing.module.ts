@@ -17,6 +17,8 @@ import { IntakeStep2Component } from './intake-form/intake-step2/intake-step2.co
 import { IntakeStep3Component } from './intake-form/intake-step3/intake-step3.component';
 import { IntakeStep4Component } from './intake-form/intake-step4/intake-step4.component';
 import { step5Component } from './book-appointment/step5/step5.component';
+import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
+import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view-edit-insurance.component';
 
 const routes: Routes = [ 
   {
@@ -74,7 +76,7 @@ const routes: Routes = [
       },
     ]
   },
-    {
+  {
     path: 'intake-form',
     children: [  
       {
@@ -99,6 +101,14 @@ const routes: Routes = [
       },
     ]
   },
+  {
+    path: 'insurance-listing',
+    component: InsuranceListingComponent, 
+  },
+  {
+    path: 'view-edit-insurance',
+    component: ViewEditInsuranceComponent, 
+  } 
 ];
 
 @NgModule({
