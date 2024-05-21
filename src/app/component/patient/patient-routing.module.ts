@@ -10,6 +10,7 @@ import { Step2Component } from './book-appointment/step2/step2.component';
 import { Step3Component } from './book-appointment/step3/step3.component';
 import { Step4Component } from './book-appointment/step4/step4.component';
 import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
+import { NotificationsComponent } from '../admin/system-and-practice/notifications/notifications.component';
 
 const routes: Routes = [ 
   {
@@ -37,6 +38,11 @@ const routes: Routes = [
     path: 'emergency-contact',
     component: EmergencyContactComponent, 
   }, 
+  {
+    path: 'notifications',
+    component: NotificationsComponent, 
+  }, 
+  
   {
     path: 'book-appointment',
     children: [  
