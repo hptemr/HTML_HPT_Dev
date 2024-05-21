@@ -56,14 +56,7 @@ export class PatientNavservicesService {
     //   path: '/patient/appointments',
     //   active: false,
     //   type: 'link',
-    //   item: [
-    //     {
-    //       title: 'Appointments',
-    //       icon: 'pending_actions',
-    //       type: 'link',
-    //       active: false,
-    //     },
-    //   ]
+    //   item: []
     // },
     // {
     //   id: 3,
