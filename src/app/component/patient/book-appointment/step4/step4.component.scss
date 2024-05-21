@@ -1,15 +1,7 @@
 .ba--step--four{ 
-    .card{   
-        .inlimit{ 
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .nolimit{
-            display: inline-flex;
-        }
-        
-    }  
+    .divider{
+        border-top: 1px solid #DED2D9;
+        margin: 25px 0;
+    }
 } 
  

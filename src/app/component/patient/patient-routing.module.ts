@@ -16,6 +16,7 @@ import { IntakeStep1Component } from './intake-form/intake-step1/intake-step1.co
 import { IntakeStep2Component } from './intake-form/intake-step2/intake-step2.component';
 import { IntakeStep3Component } from './intake-form/intake-step3/intake-step3.component';
 import { IntakeStep4Component } from './intake-form/intake-step4/intake-step4.component';
+import { step5Component } from './book-appointment/step5/step5.component';
 
 const routes: Routes = [ 
   {
@@ -66,6 +67,10 @@ const routes: Routes = [
       {
         path: 'step-4',
         component: Step4Component, 
+      },
+      {
+        path: 'step-5',
+        component: step5Component, 
       },
     ]
   },
