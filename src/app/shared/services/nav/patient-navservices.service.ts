@@ -47,53 +47,46 @@ export class PatientNavservicesService {
       active: false,
       item: []
     },
-    // {
-    //   id: 2,
-    //   activeMenu: 'appointments',
-    //   icon: 'pending_actions',
-    //   mainTitle: 'Appointments',
-    //   headTitle1: '',
-    //   path: '/patient/appointments',
-    //   active: false,
-    //   type: 'link',
-    //   item: []
-    // },
-    // {
-    //   id: 3,
-    //   activeMenu: 'notifications',
-    //   icon: 'health_and_safety',
-    //   mainTitle: 'Insurance',
-    //   headTitle1: '',
-    //   path: '/patient/appointments',
-    //   active: false,
-    //   type: 'link',
-    //   item: [
-    //     {
-    //       title: 'Insurance',
-    //       icon: 'health_and_safety',
-    //       type: 'link',
-    //       active: false,
-    //     },
-    //   ]
-    // },
-    // {
-    //   id: 4,
-    //   activeMenu: 'notifications',
-    //   icon: 'smart_display',
-    //   mainTitle: 'Home Exercise',
-    //   headTitle1: '',
-    //   path: '/patient/appointments',
-    //   active: false,
-    //   type: 'link',
-    //   item: [
-    //     {
-    //       title: 'Home Exercise',
-    //       icon: 'smart_display',
-    //       type: 'link',
-    //       active: false,
-    //     },
-    //   ]
-    // },
+    {
+      id: 2,
+      activeMenu: 'appointments',
+      icon: 'pending_actions',
+      mainTitle: 'Appointments',
+      headTitle1: '',
+      path: '/patient/appointments',
+      active: false,
+      type: 'link', 
+    },
+    {
+      id: 3,
+      activeMenu: 'notifications',
+      icon: 'health_and_safety',
+      mainTitle: 'Insurance',
+      headTitle1: '',
+      path: ' ',
+      active: false,
+      type: 'link', 
+    },
+    {
+      id: 4,
+      activeMenu: 'notifications',
+      icon: 'smart_display',
+      mainTitle: 'Home Exercise',
+      headTitle1: '',
+      path: '',
+      active: false,
+      type: 'link', 
+    },
+    {
+      id: 4,
+      activeMenu: 'emergency-contact',
+      icon: 'perm_phone_msg',
+      mainTitle: 'Emergency Contact',
+      headTitle1: '',
+      path: '/patient/emergency-contact',
+      active: false,
+      type: 'link', 
+    },
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
 

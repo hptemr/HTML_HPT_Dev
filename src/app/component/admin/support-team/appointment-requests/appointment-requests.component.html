@@ -3,7 +3,11 @@
     <div class="card" *ngIf="dayOne">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-                <h3 class="mb-0 clr--1F2F3E">Appointments Requests</h3> 
+                <h3 class="mb-0 clr--1F2F3E">Appointments</h3>
+                <button mat-raised-button color="primary"  [routerLink]="['/patient/book-appointment/step-1']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Book Appointment
+                </button>
             </div>
             <div class="col-12 mt-2">
                 <div class="row">
@@ -56,10 +60,11 @@
             </div>
         </div> 
         <div class="card-body day--one--wrapper d-flex align-items-center justify-content-center"> 
-            <div class="d-flex flex-column align-items-center justify-content-center w-100">
+            <div class="d-flex flex-column align-items-center justify-content-center w-100" (click)="showDayTwo()">
                 <img src="assets/images/ark/calendar-lg.png"  alt="" class="img-fluid mb-4" />
-                <!-- (click)="showDayTwo()" -->
-                <p class="fw-700 clr--1F2F3E text-center">Currently there are no appointments to show!</p>
+                
+                <p class="fw-700 clr--1F2F3E text-center mb-2">Currently there are no appointments to show!</p>
+                <p class="clr--1F2F3E text-center">Kindly click on “Book Appointment” to schedule a new appointment.</p>
             </div>
         </div> 
     </div>
@@ -69,9 +74,13 @@
     <!-- Day two scenario (start here) -->
     <div class="col-12" *ngIf="dayTwo">
         <div class="card">
-            <div class="card-header pb-0">
+            <div class="card-header pb-0"> 
                 <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-                    <h3 class="mb-0 clr--1F2F3E">Appointments Requests</h3> 
+                    <h3 class="mb-0 clr--1F2F3E">Appointments Requests</h3>
+                    <button mat-raised-button color="primary"  [routerLink]="['/patient/book-appointment/step-1']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                        Book Appointment
+                    </button>
                 </div>
                 <div class="col-12 mt-2">
                     <div class="row">
@@ -125,7 +134,7 @@
             </div>
             <div class="card-body">
                 <div class="col-12 cust--mat--table--wrapper">
-                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                    <table mat-table [dataSource]="appointmentsList" matSort (matSortChange)="announceSortChange($event)"
                         class="cust--mat--table box--row--table">  
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
@@ -171,7 +180,7 @@
                             </th>
                             <td mat-cell *matCellDef="let element">  
                                 <div class="w-100 d-flex align-items-center justify-content-end">
-                                    <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/support-team/manage-profile']">
+                                    <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/patient/appointment-details']">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                     </button>
                                 </div>

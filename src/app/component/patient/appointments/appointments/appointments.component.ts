@@ -75,9 +75,7 @@ export class AppointmentsComponent {
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
     }
-    
     console.log(":whereCond:", this.whereCond)
-   
     await this.authService.apiRequest('post', 'appointment/getAppointmentList', reqVars).subscribe(async response => {
       console.log("response", response.data)
       this.commonService.hideLoader()
