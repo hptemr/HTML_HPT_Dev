@@ -16,6 +16,22 @@ const getAppointmentList = async (req, res) => {
     }
 }
 
+
+const getAppointmentDetails = async (req, res) => {
+    try {
+        const { query, fields, patientFields, therapistFields } = req.body;
+
+        let appointmentData = await Appointment.findOne(query, fields)
+        .populate('patientId', patientFields)
+        .populate('therapistId', therapistFields);
+        
+        commonHelper.sendResponse(res, 'success', { appointmentData }, '');
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+
 const updatePatientCheckIn = async (req, res) => {
     try {
         const { query, updateInfo,  } = req.body;
@@ -34,4 +50,5 @@ const updatePatientCheckIn = async (req, res) => {
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
+    getAppointmentDetails,
 };
