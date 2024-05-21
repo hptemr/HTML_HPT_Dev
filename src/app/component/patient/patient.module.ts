@@ -21,6 +21,7 @@ import { IntakeStep2Component } from './intake-form/intake-step2/intake-step2.co
 import { IntakeStep3Component } from './intake-form/intake-step3/intake-step3.component';
 import { IntakeStep4Component } from './intake-form/intake-step4/intake-step4.component';
 import { IntakeStep5Component } from './intake-form/intake-step5/intake-step5.component';
+import { ContactModalComponent } from './book-appointment/contact-modal/contact-modal.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { IntakeStep5Component } from './intake-form/intake-step5/intake-step5.co
     IntakeStep3Component,
     IntakeStep4Component,
     IntakeStep5Component,
+    ContactModalComponent
   ],
   imports: [
     CommonModule,
