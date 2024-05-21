@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 export interface PeriodicElement {
@@ -54,10 +54,15 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class PatientDetailsComponent {
   displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-
+  userId:any
   model: NgbDateStruct;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private commonService: CommonService, private router: Router) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, 
+    private commonService: CommonService, private router: Router, private route: ActivatedRoute,) { 
+    this.route.params.subscribe((params: Params) => {
+      this.userId = params['userId']
+    })
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -77,6 +82,6 @@ export class PatientDetailsComponent {
   }
 
   navigateToAdminUserDetails() {
-    this.router.navigate([this.commonService.getLoggedInRoute() + '/patients/patient-profile/']);
+    this.router.navigate([this.commonService.getLoggedInRoute() + '/patients/patient-profile/' + this.userId]);
   }
 }

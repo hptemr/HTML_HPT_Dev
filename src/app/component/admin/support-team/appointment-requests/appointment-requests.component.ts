@@ -152,7 +152,8 @@ export class AppointmentRequestsComponent {
              createdAt:element.createdAt,
              appointmentDate:element.updatedAt,           
              status: element.status,
-             name: "Jane Cooper",//element.firstName + " " + element.lastName
+             statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
+             patientName: element.patientId?.firstName + " " + element.patientId?.lastName,             
              // email: element.email,
              // statusClass: element.status.toLowerCase(),
              // //siteLeaderForPracLocation: element.siteLeaderForPracLocation,             
