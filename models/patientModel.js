@@ -31,6 +31,7 @@ const patientSchema = new mongoose.Schema({
   loginCount: { type: Number, default: 0 },
   resetPasswordToken:{ type: String },
   profileImage: { type: String, default: 'default.png' },
+  ssn:{ type: String },
   status: { type: String, enum: ['Pending','Active','Deleted','Blocked'], default: 'Pending'},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
