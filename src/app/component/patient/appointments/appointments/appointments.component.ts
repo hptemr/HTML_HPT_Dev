@@ -1,8 +1,3 @@
-
-
-
-
-
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,7 +13,6 @@ import { validationMessages } from 'src/app/utils/validation-messages';
 
 export interface PeriodicElement {
   info: string;
-  //appointmentId: string,
   appointmentDate: string;
   action: string;
   status: string;
@@ -37,12 +31,12 @@ export class AppointmentsComponent {
   displayedColumns: string[] = ['info', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  model: NgbDateStruct;
   bookingStatus: any = bookingStatus
   practiceLocations: any = practiceLocations
   validationMessages: any = validationMessages
   orderBy: any = { createdAt: -1 }
   whereCond: any = {}
+  userQuery: any = {}
   whereCondPracticeAdmin: any = {}
   practiceAdminList: any = []
   totalCount = 0
@@ -50,10 +44,13 @@ export class AppointmentsComponent {
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
   appointmentList: any
-
+  toDate: any = ''
+  fromDate: any = ''
+  seachByName: any = ''
+  appStatusVal: any = ''
+  practiceLocVal: any = ''
   constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, private authService: AuthService,
     public commonService: CommonService, private router: Router) {
-
   }
 
   ngOnInit() {
@@ -68,16 +65,15 @@ export class AppointmentsComponent {
 
     let reqVars = {
       query: this.whereCond,
-      fields: { practiceLocation: 1, appointmentId: 1, createdAt: 1, status: 1 },
+      userQuery: this.userQuery,
+      fields: { practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1 },
       patientFields: { firstName: 1 },
       therapistFields: { firstName: 1, lastName: 1, profileImage: 1 },
       order: this.orderBy,
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
     }
-    console.log(":whereCond:", this.whereCond)
     await this.authService.apiRequest('post', 'appointment/getAppointmentList', reqVars).subscribe(async response => {
-      console.log("response", response.data)
       this.commonService.hideLoader()
       this.totalCount = response.data.totalCount
       let finalData: any = []
@@ -96,15 +92,28 @@ export class AppointmentsComponent {
           id: element._id,
           info: info,
           appointmentId: element.appointmentId,
-          appointmentDate: element.createdAt,
+          appointmentDate: element.appointmentDate,
           status: element.status,
           statusClass: element.status.toLowerCase(),
           practiceLocation: element.practiceLocation,
         }
         finalData.push(newColumns)
       })
+
       this.appointmentList = new MatTableDataSource(finalData)
     })
+  }
+
+  onDateChange(date: NgbDateStruct, colName: any) {
+    let selectedDate = date.year + '-' + date.month + '-' + date.day
+    let obj = {}
+    if (colName == 'fromDate') {
+      obj = { $gte: selectedDate }
+    } else {
+      obj = { $lte: selectedDate }
+    }
+    Object.assign(this.whereCond, { appointmentDate: obj })
+    this.getAppointmentList('search')
   }
 
   announceSortChange(sortState: Sort) {
@@ -114,9 +123,9 @@ export class AppointmentsComponent {
     } else {
       order = 1
     }
-    if (sortState.active == 'name') {
+    if (sortState.active == 'info') {
       this.orderBy = {
-        firstName: order
+        appointmentId: order
       }
     } else {
       this.orderBy = {
@@ -125,14 +134,19 @@ export class AppointmentsComponent {
     }
     this.getAppointmentList()
   }
-  searchRecords() {
-    let searchStr = ''//this.searchPatient.trim()
+
+  searchRecords(event: any) {
+    let searchStr = event.target.value.trim()
     if (searchStr != '') {
       searchStr = searchStr.replace("+", "\\+");
       let finalStr = { $regex: searchStr, $options: 'i' }
-      Object.assign(this.whereCond, { $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }] })
+      this.userQuery = {
+        status: "Active",
+        role: "therapist",
+        $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
+      }
     } else {
-      delete this.whereCond['$or'];
+      this.userQuery = {}
     }
     this.getAppointmentList('search')
   }
@@ -144,12 +158,27 @@ export class AppointmentsComponent {
   }
 
   reset() {
-    this.whereCond = {}
+    this.userQuery = {}
+    this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
     this.totalCount = 0
     this.pageIndex = 0
     this.pageSize = pageSize
     this.pageSizeOptions = pageSizeOptions
+    this.practiceLocVal = ''
+    this.appStatusVal = ''
+    this.fromDate = ''
+    this.toDate = ''
+    this.seachByName = ''
     this.getAppointmentList('reset')
+  }
+
+  filterDropDown(event: any, colName: any) {
+    if (event.target.value != "") {
+      Object.assign(this.whereCond, { [colName]: event.target.value })
+    } else {
+      delete this.whereCond[colName];
+    }
+    this.getAppointmentList('search')
   }
 
 }
