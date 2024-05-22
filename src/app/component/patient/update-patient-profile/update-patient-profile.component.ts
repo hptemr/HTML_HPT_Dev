@@ -18,6 +18,7 @@ import { FileUploader,FileSelectDirective  } from 'ng2-file-upload';
 import { AlertComponent } from '../../../shared/comman/alert/alert.component';
 import { MatDialog,MatDialogRef } from '@angular/material/dialog';
 import { serverUrl, s3Details,documents_list } from '../../../config';
+import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
 const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
   state: string;
@@ -34,6 +35,7 @@ interface City {
   providers: [DatePipe]
 })
 export class UpdatePatientProfileComponent implements OnInit {
+  editOptions: boolean=false;
   selectedTab = 0;
   model: NgbDateStruct;
   states: State[] = states_data;
@@ -504,6 +506,16 @@ export class UpdatePatientProfileComponent implements OnInit {
   }
   backtoTab2(){
     this.selectedTab = 1  
+  }
+
+  editProfilePic() { 
+    this.editOptions=!this.editOptions;
+  }
+
+  changePassword() {
+    const dialogRef = this.dialog.open(ChangePasswordModalComponent,{
+      panelClass: 'change--password--modal',
+    });
   }
  
 
