@@ -1,0 +1,33 @@
+<div class="reschedule--app--modal d-flex flex-column w-100">
+    <header class="w-100">
+        <h1 class="fw-600">Reschedule an Appointment</h1>
+    </header>
+    <div class="ra--body w-100">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Select Date & Time</label>
+                    <div class="input-group">
+                        <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp"
+                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                            type="button">
+                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 ">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Mention the cause </label>
+                        <textarea class="form-control " type="text" placeholder="Write your comment here" rows="4"></textarea>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-2">
+        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
+        <button mat-raised-button color="primary">Submit</button>
+    </div>
+</div>
