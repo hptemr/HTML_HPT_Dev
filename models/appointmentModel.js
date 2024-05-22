@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const appointmentSchema = new mongoose.Schema({
-    appointmentId: Number,
+    status: { type: String, enum: ['Pending', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
     patientId: {
         type: mongoose.Schema.ObjectId,
         ref: "patients"
@@ -10,8 +10,9 @@ const appointmentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "users"
     },
+    appointmentId: Number,
+    appointmentDate: { type: Date, default: Date.now },
     practiceLocation: { type: String, default: "" },
-    status: { type: String, enum: ['Pending', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })
