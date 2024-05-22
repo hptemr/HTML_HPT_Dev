@@ -9,7 +9,7 @@ const getAppointmentList = async (req, res) => {
             .populate('patientId', patientFields)
             .populate('therapistId', therapistFields)
             .sort(order).skip(offset).limit(limit);
-        let totalCount = await Appointment.find(query).count()
+        let totalCount = await Appointment.find(query).countDocuments()
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
