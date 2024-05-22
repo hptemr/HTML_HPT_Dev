@@ -48,7 +48,7 @@ export const documents_list = [
 ]
 export const appointmentStatus = [
   "Accepted",
-  "Reschedules",
+  "Rescheduled",
   "Pending",
   "Declined"
 ]
