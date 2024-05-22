@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.component';
+import { AddInsuranceModalComponent } from '../add-insurance-modal/add-insurance-modal.component';
 
 @Component({
   selector: 'app-step2', 
@@ -16,6 +17,11 @@ export class Step2Component {
   cmsModal(){
     const dialogRef = this.dialog.open(CmsModalComponent,{
       panelClass: 'cms--container', 
+    });
+  }
+  addInsurance(){
+    const dialogRef = this.dialog.open(AddInsuranceModalComponent,{
+      panelClass: 'custom-alert-container', 
     });
   }
 }
