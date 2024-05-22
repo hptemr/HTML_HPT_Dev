@@ -75,18 +75,22 @@
     <div class="col-12" *ngIf="dayTwo">
         <div class="card">
             <div class="card-header pb-0"> 
-                <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <!-- <div class="col-12 d-flex align-items-center justify-content-between mb-3">
                     <h3 class="mb-0 clr--1F2F3E">Appointments Requests</h3>
                     <button mat-raised-button color="primary"  [routerLink]="['/patient/book-appointment/step-1']">
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                         Book Appointment
                     </button>
-                </div>
+                </div> -->
                 <div class="col-12 mt-2">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="form-group">
-                                <select class="form-select form-control" aria-label="Default select example">
+                                <select (change)="searchRecords('practiceLocations',$event)" class="form-select form-control" aria-label="Default select example">
+                                    <option selected>Practice Location</option> 
+                                    <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}</option>
+                                </select>
+                                <!-- <select class="form-select form-control" aria-label="Default select example">
                                     <option selected>Practice Location</option> 
                                     <option value="1">Hamilton PT at The Canyons</option>
                                     <option value="2">Darby PT</option>
@@ -95,18 +99,15 @@
                                     <option value="5">PT Specialists of Florence</option>
                                     <option value="6">Frenchtown PT</option>
                                     <option value="7">HNB</option>
-                                </select>
-                                <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                </select> -->
                             </div>
                         </div> 
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="form-group">
-                                <select class="form-select form-control" aria-label="Default select example">
+                                
+                                <select (change)="searchRecords('status',$event)" class="form-select form-control" aria-label="Default select example">
                                     <option selected>Appointment Status</option> 
-                                    <option value="1">Accepted</option>
-                                    <option value="2">Reschedules</option> 
-                                    <option value="3">Pending</option> 
-                                    <option value="4">Declined</option> 
+                                    <option *ngFor="let element of appointmentStatus" value="{{element}}">{{element}}</option>
                                 </select>
                                 <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                             </div>
