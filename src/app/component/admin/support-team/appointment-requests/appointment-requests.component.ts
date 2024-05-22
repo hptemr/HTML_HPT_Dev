@@ -13,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
+import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus } from 'src/app/config';
 
 export interface PeriodicElement {
   name: string;  
@@ -43,20 +43,21 @@ export class AppointmentRequestsComponent {
   pageSizeOptions = pageSizeOptions
   searchQuery:any =""
   appointmentsList: any
+  practiceLocations: any = practiceLocations
+  appointmentStatus: any = appointmentStatus
+  
   constructor(private _liveAnnouncer: LiveAnnouncer,  
     public dialog: MatDialog,    
     private router: Router, 
     public authService:AuthService,
     public commonService:CommonService,
-    public adminService:AdminService,
-    private route: ActivatedRoute
-  
+    public adminService:AdminService,  
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    ngOnInit() {
+    ngOnInit() {      
      this.getAppointmentList('')
     }
 
@@ -65,13 +66,34 @@ export class AppointmentRequestsComponent {
       this.dataSource.paginator = this.paginator;
     }
 
+    searchRecords(fromType:string,event: any) {
+
+     if(fromType=='practiceLocations'){
+      if (event.target.value != 'All') {
+        Object.assign(this.whereCond, { practiceLocations: { $in: event.target.value } })
+      } else {
+        Object.assign(this.whereCond, { practiceLocation: { $ne: event.target.value } })
+      }
+     }
+     if(fromType=='status'){
+      if (event.target.value != 'All') {
+        Object.assign(this.whereCond, { status: { $in: event.target.value } })
+      } else {
+        Object.assign(this.whereCond, { status: { $ne: event.target.value } })
+      }
+     }
+     
+      this.getAppointmentList()
+    }
+
     async getAppointmentList(action="") {
       if(action==""){ 
         this.commonService.showLoader() 
       }
+      console.log('>>>whereCond>>>>',this.whereCond)
       let reqVars = {
         query: this.whereCond,
-        fields: {},//{ firstName: 1, lastName: 1, email: 1, status: 1, siteLeaderForPracLocation: 1,practiceLocation:1 },
+        fields: { firstName: 1, lastName: 1, email: 1, status: 1, practiceLocation:1 },
         order: this.orderBy,
         limit: this.pageSize,
         offset: (this.pageIndex * this.pageSize)
@@ -137,4 +159,5 @@ export class AppointmentRequestsComponent {
       this.dayOne = false;
     }
 
+  
 }
