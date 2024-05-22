@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.component';
 
 @Component({
   selector: 'app-step2', 
@@ -8,4 +10,12 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class Step2Component {
   model: NgbDateStruct;
+
+  constructor(public dialog: MatDialog) { }
+
+  cmsModal(){
+    const dialogRef = this.dialog.open(CmsModalComponent,{
+      panelClass: 'cms--container', 
+    });
+  }
 }

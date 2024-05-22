@@ -46,6 +46,12 @@ export const documents_list = [
   "Montana ID",
   "Other"
 ]
+export const appointmentStatus = [
+  "Accepted",
+  "Reschedules",
+  "Pending",
+  "Declined"
+]
 export const bookingStatus = [
   'Approved', 
   'Cancelled', 

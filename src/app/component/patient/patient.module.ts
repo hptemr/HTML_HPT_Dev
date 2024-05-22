@@ -23,6 +23,8 @@ import { IntakeStep4Component } from './intake-form/intake-step4/intake-step4.co
 import { IntakeStep5Component } from './intake-form/intake-step5/intake-step5.component';
 import { ContactModalComponent } from './book-appointment/contact-modal/contact-modal.component';
 import { step5Component } from './book-appointment/step5/step5.component';
+import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
+import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view-edit-insurance.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { step5Component } from './book-appointment/step5/step5.component';
     IntakeStep3Component,
     IntakeStep4Component,
     IntakeStep5Component,
-    ContactModalComponent
+    ContactModalComponent,
+    InsuranceListingComponent,
+    ViewEditInsuranceComponent
   ],
   imports: [
     CommonModule,

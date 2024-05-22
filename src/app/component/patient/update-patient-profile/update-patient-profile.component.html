@@ -12,6 +12,23 @@
             <mat-tab label="Personal Information">
                 <div class="card-body mt-4">                   
                     <form class="row" [formGroup]="firstFormGroup" (ngSubmit)="goToNext(0,firstFormGroup.value)">
+                        <div class="col-12 d-flex align-items-center mb-4">
+                          <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
+                              <div class="head--sec w-100" *ngIf="editOptions">
+                                  <mat-list>
+                                      <mat-list-item>Change Photo </mat-list-item>
+                                      <mat-list-item>Remove Photo </mat-list-item> 
+                                  </mat-list>
+                              </div> 
+                              <div class="profile--round position-relative">
+                                  <img src="assets/images/ark/user.png"  alt="" class="img-fluid user--img" />
+                                  <button mat-raised-button color="primary" class="edit--btn" (click)="editProfilePic()"> 
+                                      <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 "> edit </mat-icon> 
+                                  </button>
+                              </div> 
+                          </div>
+                          <button mat-stroked-button color="primary" (click)="changePassword()">Change Password</button> 
+                        </div>
                         <div class="col-12 col-sm-6 col-lg-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
