@@ -294,7 +294,7 @@
               width: 1px;
               height: 26px;
               top: 4px;
-              left: 44px;
+              left: 51px;
               [dir="rtl"] & {
                 right: 44px;
                 left: unset;
@@ -1508,7 +1508,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 9999;
+        z-index: 9;
         transition: all 0.5s ease-in-out;
         width: 110px;
         [dir="rtl"] & {
@@ -1689,9 +1689,6 @@
               }
               .sidebar-link {
                 text-align: center;
-                // &.prashant{
-                //   background-color:red;
-                // }
                 svg {
                   margin: 0 auto 6px;
                   width: 24px;
@@ -1994,7 +1991,7 @@
                 width: 1px;
                 height: 26px;
                 top: 4px;
-                left: 36px;
+                left: 46px;
                 [dir="rtl"] & {
                   right: 36px;
                   left: unset;
