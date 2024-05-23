@@ -3,6 +3,7 @@ import { SystemFollowupModalComponent } from '../system-followup-modal/system-fo
 import { MatDialog } from '@angular/material/dialog';
 import { WriteCommentModalComponent } from 'src/app/shared/comman/write-comment-modal/write-comment-modal.component';
 import { RescheduleAppointmentModalComponent } from 'src/app/shared/comman/reschedule-appointment-modal/reschedule-appointment-modal.component';
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 
 @Component({
   selector: 'app-appointment-details', 
@@ -27,6 +28,15 @@ export class AppointmentDetailsComponent {
   rescheduleModal(){
     const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent,{
       panelClass: 'custom-alert-container',
+    });
+  }
+
+  successModal() {
+    const dialogRef = this.dialog.open(SuccessModalComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        successNote: 'Kindly choose a therapist prior to confirming the appointment request.'
+      }
     });
   }
 }
