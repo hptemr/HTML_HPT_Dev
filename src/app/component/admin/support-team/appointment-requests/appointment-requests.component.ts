@@ -33,8 +33,10 @@ export class AppointmentRequestsComponent {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   orderBy: any = { createdAt: -1 }
   whereCond: any = {}
+  whereCondTotal: any = {}
   dayTwo = false;
   dayOne = true;
+  dayOneFlag = true;
   isAppointmentsList:boolean=true
   model: NgbDateStruct;
   totalCount = 0
@@ -45,7 +47,10 @@ export class AppointmentRequestsComponent {
   appointmentsList: any
   practiceLocations: any = practiceLocations
   appointmentStatus: any = appointmentStatus
-  
+  appStatusVal: any = ''
+  practiceLocationsVal: any = ''
+  toDate: any = ''
+  fieldValues:any = ['Accepted', 'Rescheduled'];
   constructor(private _liveAnnouncer: LiveAnnouncer,  
     public dialog: MatDialog,    
     private router: Router, 
@@ -58,6 +63,11 @@ export class AppointmentRequestsComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
     ngOnInit() {      
+     const today = new Date();
+     today.setHours(0, 0, 0, 0); 
+     const eodDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+     this.whereCond = Object.assign(this.whereCond, {status:{$in:this.fieldValues}, appointmentDate: { $gte: today,$lte: eodDate } })
+     this.whereCondTotal = Object.assign(this.whereCondTotal, {status:{$in:this.fieldValues}, appointmentDate: { $gte: today,$lte: eodDate } })
      this.getAppointmentList('')
     }
 
@@ -66,34 +76,58 @@ export class AppointmentRequestsComponent {
       this.dataSource.paginator = this.paginator;
     }
 
-    searchRecords(fromType:string,event: any) {
+    searchRecords(colName:string,event: any) {
+      //Object.assign(this.whereCond, { [colName]: { $in: event } })
+      if(colName=='practiceLocations'){
+        this.whereCond = Object.assign(this.whereCond, { practiceLocation: { $in: event } })
+      }else if(colName=='status'){
+        this.whereCond = Object.assign(this.whereCond, { status: { $in: event } })//event.target.value
+      }
+      this.getAppointmentList('search')
+    }
 
-     if(fromType=='practiceLocations'){
-      if (event.target.value != 'All') {
-        Object.assign(this.whereCond, { practiceLocations: { $in: event.target.value } })
-      } else {
-        Object.assign(this.whereCond, { practiceLocation: { $ne: event.target.value } })
-      }
-     }
-     if(fromType=='status'){
-      if (event.target.value != 'All') {
-        Object.assign(this.whereCond, { status: { $in: event.target.value } })
-      } else {
-        Object.assign(this.whereCond, { status: { $ne: event.target.value } })
-      }
-     }
-     
-      this.getAppointmentList()
+    reset() {
+      this.totalCount = 0
+      this.pageIndex = 0
+      this.pageSize = pageSize
+      this.pageSizeOptions = pageSizeOptions
+      this.toDate = ''
+      this.practiceLocationsVal = ''
+      this.appStatusVal = ''
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); 
+      const eodDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);      
+      this.whereCond = {};
+      this.whereCond = Object.assign(this.whereCond,{status:{$in:this.fieldValues},appointmentDate:{$gte:today,$lte:eodDate}})
+      this.getAppointmentList('reset')
+    }
+
+    onDateChange(date: NgbDateStruct) {
+      let selectedDate = date.year + '-' + date.month + '-' + date.day;
+
+      const today = new Date(selectedDate);
+      today.setHours(0, 0, 0,0); 
+
+      const eodDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      eodDate.setHours(24,0, 0,0); 
+
+      let obj = {}
+      obj = { $gte:selectedDate,$lte:eodDate}
+
+      Object.assign(this.whereCond, {status:{$in:this.fieldValues},appointmentDate: obj })
+      this.getAppointmentList('search')
     }
 
     async getAppointmentList(action="") {
       if(action==""){ 
         this.commonService.showLoader() 
       }
-      console.log('>>>whereCond>>>>',this.whereCond)
       let reqVars = {
         query: this.whereCond,
-        fields: { firstName: 1, lastName: 1, email: 1, status: 1, practiceLocation:1 },
+        queryTotal: this.whereCondTotal,
+        userQuery:'',
+        fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, createdAt:1, updatedAt:1, practiceLocation:1, appointmentDate:1 },
+        patientFields: { firstName: 1, lastName: 1, email: 1,profileImage:1, status: 1, practiceLocation:1 },
         order: this.orderBy,
         limit: this.pageSize,
         offset: (this.pageIndex * this.pageSize)
@@ -102,35 +136,36 @@ export class AppointmentRequestsComponent {
         this.commonService.hideLoader()
         this.totalCount = response.data.totalCount
         let finalData: any = []
-        await response.data.appointmentList.map((element: any) => {
-          let newColumns = {
-             id: element._id,
-             appointmentId:element.appointmentId,
-             createdAt:element.createdAt,
-             appointmentDate:element.updatedAt,           
-             status: element.status,
-             statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
-             patientName: element.patientId?.firstName + " " + element.patientId?.lastName,             
-             // email: element.email,
-             // statusClass: element.status.toLowerCase(),
-             // //siteLeaderForPracLocation: element.siteLeaderForPracLocation,             
-          }
-          finalData.push(newColumns)
-        })
-        if(response.data && response.data.appointmentList && response.data.appointmentList.length>0){
+        if(response.data.appointmentList.length>0){
+          await response.data.appointmentList.map((element: any) => {
+            let newColumns = {
+              id: element._id,
+              appointmentId:element.appointmentId,
+              createdAt:element.updatedAt,
+              appointmentDate:element.appointmentDate,           
+              status: element.status,
+              statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
+              patientName: element.patientId?.firstName + " " + element.patientId?.lastName,             
+              // email: element.email,
+              // statusClass: element.status.toLowerCase(),
+              // //siteLeaderForPracLocation: element.siteLeaderForPracLocation,             
+            }
+            finalData.push(newColumns)
+          })
           this.dayTwo = true;
           this.dayOne = false;
-          this.appointmentsList = new MatTableDataSource(finalData)
+          this.dayOneFlag = false;
+        }else{
+          this.dayTwo = false;
+          this.dayOne = true;
+          this.dayOneFlag = false;
         }
+        this.appointmentsList = new MatTableDataSource(finalData)
         this.isAppointmentsList = this.totalCount>0?true:false 
       })
     }
 
     resetFilter(){
-      // this.locationSelect.nativeElement.selectedIndex = 0;
-      // this.statusSelect.nativeElement.selectedIndex = 0;
-      // this.searchAdminUsers.setValue('');
-      
       this.totalCount = 0
       this.pageIndex = 0
       this.pageSize = pageSize

@@ -26,7 +26,8 @@ import { step5Component } from './book-appointment/step5/step5.component';
 import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
 import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view-edit-insurance.component';
 import { PatientDashboardComponent } from './dashboard/dashboard.component';
-
+import { AddInsuranceModalComponent } from './book-appointment/add-insurance-modal/add-insurance-modal.component';
+import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,9 @@ import { PatientDashboardComponent } from './dashboard/dashboard.component';
     ContactModalComponent,
     InsuranceListingComponent,
     ViewEditInsuranceComponent,
-    PatientDashboardComponent
+    PatientDashboardComponent,
+    AddInsuranceModalComponent,
+    HomeExerciseComponent
   ],
   imports: [
     CommonModule,
@@ -61,4 +64,5 @@ import { PatientDashboardComponent } from './dashboard/dashboard.component';
   ],
   providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }],
 })
+
 export class PatientModule { }

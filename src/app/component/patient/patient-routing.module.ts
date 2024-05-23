@@ -19,6 +19,7 @@ import { step5Component } from './book-appointment/step5/step5.component';
 import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
 import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view-edit-insurance.component';
 import { PatientDashboardComponent } from './dashboard/dashboard.component';
+import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,10 @@ const routes: Routes = [
     path: 'notifications',
     component: NotificationsComponent,
   },
-
+  {
+    path: 'home-exercise',
+    component: HomeExerciseComponent,
+  },
   {
     path: 'book-appointment',
     children: [
@@ -115,4 +119,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+
 export class PatientRoutingModule { }
