@@ -73,7 +73,7 @@ export class PatientNavservicesService {
       icon: 'smart_display',
       mainTitle: 'Home Exercise',
       headTitle1: '',
-      path: 'patient/home-exercise ',
+      path: '/patient/home-exercise',
       active: false,
       type: 'link', 
     }, 
