@@ -25,6 +25,7 @@ import { ContactModalComponent } from './book-appointment/contact-modal/contact-
 import { step5Component } from './book-appointment/step5/step5.component';
 import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
 import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view-edit-insurance.component';
+import { PatientDashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view
     IntakeStep5Component,
     ContactModalComponent,
     InsuranceListingComponent,
-    ViewEditInsuranceComponent
+    ViewEditInsuranceComponent,
+    PatientDashboardComponent
   ],
   imports: [
     CommonModule,

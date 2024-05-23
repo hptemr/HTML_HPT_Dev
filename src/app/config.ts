@@ -47,15 +47,24 @@ export const documents_list = [
   "Other"
 ]
 export const appointmentStatus = [
-  "Accepted",
-  "Reschedules",
   "Pending",
-  "Declined"
+  "Active",
+  "Rescheduled",
+  "Declined",
+  "Completed",
 ]
+
 export const bookingStatus = [
-  'Approved', 
-  'Cancelled', 
-  'Completed',  
-  'Pending', 
+  'Approved',
+  'Cancelled',
+  'Completed',
+  'Pending',
   'Suspended'
+]
+export const userStatus = [
+  'Pending',
+  'Active',
+  'Suspended',
+  'Deleted',
+  'Blocked'
 ]

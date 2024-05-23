@@ -1,13 +1,13 @@
- import { Component, ViewChild } from '@angular/core';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { appointmentStatus, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
-import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { AdminService } from 'src/app/shared/services/api/admin.service';
+import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus, s3Details } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 
 export interface PeriodicElement {
@@ -16,54 +16,62 @@ export interface PeriodicElement {
   action: string;
   status: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = []
+const ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
-  selector: 'app-appointments',
-  templateUrl: './appointments.component.html',
-  styleUrl: './appointments.component.scss'
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
-export class AppointmentsComponent {
+export class PatientDashboardComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['info', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  appointmentStatus: any = appointmentStatus
-  practiceLocations: any = practiceLocations
-  validationMessages: any = validationMessages
   orderBy: any = { createdAt: -1 }
   whereCond: any = {}
-  userQuery: any = {}
-
+  dayTwo = false;
+  dayOne = true;
+  model: NgbDateStruct;
   totalCount = 0
   pageIndex = 0
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
+
+  appointmentsList: any
+  practiceLocations: any = practiceLocations
+  appointmentStatus: any = appointmentStatus
+  validationMessages: any = validationMessages
+
   appointmentList: any
-  toDate: any = ''
   fromDate: any = ''
-  seachByName: any = ''
   appStatusVal: any = ''
   practiceLocVal: any = ''
-  constructor(public dialog: MatDialog, private authService: AuthService,
-    public commonService: CommonService, private router: Router) {
-  }
+  isLoading = true
+  constructor(
+    public dialog: MatDialog,
+    public authService: AuthService,
+    public commonService: CommonService,
+    public adminService: AdminService,
+  ) { }
 
   ngOnInit() {
-    this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
+    this.whereCond = {
+      status: "Pending",
+      appointmentDate: { $gte: new Date() },
+      patientId: this.authService.getLoggedInInfo('_id')
+    }
     this.getAppointmentList()
   }
+
 
   async getAppointmentList(action = '') {
     if (action == '') {
       this.commonService.showLoader()
     }
-
     let reqVars = {
       query: this.whereCond,
-      userQuery: this.userQuery,
       fields: { practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1 },
       patientFields: { firstName: 1 },
       therapistFields: { firstName: 1, lastName: 1, profileImage: 1 },
@@ -97,8 +105,12 @@ export class AppointmentsComponent {
         }
         finalData.push(newColumns)
       })
-
+      if (this.totalCount > 0) {
+        this.dayTwo = true;
+        this.dayOne = false;
+      }
       this.appointmentList = new MatTableDataSource(finalData)
+      this.isLoading = false
     })
   }
 
@@ -132,23 +144,6 @@ export class AppointmentsComponent {
     }
     this.getAppointmentList()
   }
-
-  searchRecords(event: any) {
-    let searchStr = event.target.value.trim()
-    if (searchStr != '') {
-      searchStr = searchStr.replace("+", "\\+");
-      let finalStr = { $regex: searchStr, $options: 'i' }
-      this.userQuery = {
-        status: "Active",
-        role: "therapist",
-        $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
-      }
-    } else {
-      this.userQuery = {}
-    }
-    this.getAppointmentList('search')
-  }
-
   handlePageEvent(event: any) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
@@ -156,8 +151,11 @@ export class AppointmentsComponent {
   }
 
   reset() {
-    this.userQuery = {}
-    this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
+    this.whereCond = {
+      status: "Pending",
+      appointmentDate: { $gte: new Date() },
+      patientId: this.authService.getLoggedInInfo('_id')
+    }
     this.totalCount = 0
     this.pageIndex = 0
     this.pageSize = pageSize
@@ -165,8 +163,6 @@ export class AppointmentsComponent {
     this.practiceLocVal = ''
     this.appStatusVal = ''
     this.fromDate = ''
-    this.toDate = ''
-    this.seachByName = ''
     this.getAppointmentList('reset')
   }
 
