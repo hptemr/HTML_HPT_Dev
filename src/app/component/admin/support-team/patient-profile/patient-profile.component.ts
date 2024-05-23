@@ -12,6 +12,34 @@ import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-passw
 export class PatientProfileComponent {
   constructor(private router: Router, public dialog: MatDialog) { }
 
+  ngOnInit() {
+    this.getPatientDetail()
+  }
+  
+  getPatientDetail(){
+    // let reqVars = {
+    //   query: { _id: this.patientId }
+    // }
+    // await this.authService.apiRequest('post', 'patients/getPatientData', reqVars).subscribe(async response => {
+    //   this.patientData = response.data.patientData
+    //   this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.patientData.profileImage
+
+    //   let req_vars = {
+    //     query: { _id: this.patientId },
+    //     fileName: this.patientData.document_temp_name
+    //   }
+    //   await this.authService.apiRequest('post', 'patients/getPreviewDocument', req_vars).subscribe(async response => {
+    //     this.commonService.hideLoader()
+    //     if (response.error) {
+    //       this.commonService.openSnackBar(response.message, "ERROR")
+    //     } else {
+    //       let profile = response.data;
+    //       this.documentsLink = profile.document;
+    //     }
+    //   })
+    // })
+  }
+
   deleteAccount() {
     const dialogRef = this.dialog.open(AlertComponent,{
       panelClass: 'custom-alert-container',

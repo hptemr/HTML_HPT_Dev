@@ -16,6 +16,7 @@ export class AppointmentDetailsComponent {
   statusFlag: string;
   appointmentData: any = [];
   appointment_flag:boolean=false
+  initialName: string = '';
 
   constructor(public dialog: MatDialog,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
@@ -42,6 +43,9 @@ export class AppointmentDetailsComponent {
         if(response.data && response.data.appointmentData){
           this.appointmentData = response.data.appointmentData;
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
+          if(this.appointmentData.patientId.firstName && this.appointmentData.patientId.lastName){
+            this.initialName = this.appointmentData.patientId.firstName.charAt(0)+this.appointmentData.patientId.lastName.charAt(0);
+          }          
           this.appointment_flag = true;
         }
       })

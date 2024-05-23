@@ -13,7 +13,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus } from 'src/app/config';
+import { validationMessages } from 'src/app/utils/validation-messages';
+import { s3Details, pageSize, pageSizeOptions, practiceLocations, appointmentStatus } from 'src/app/config';
 
 export interface PeriodicElement {
   name: string;  
@@ -31,13 +32,12 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 export class AppointmentRequestsComponent {
   displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  orderBy: any = { createdAt: -1 }
+  orderBy: any = { updatedAt: -1 }
   whereCond: any = {}
   whereCondTotal: any = {}
   dayTwo = false;
   dayOne = true;
-  dayOneFlag = true;
-  isAppointmentsList:boolean=true
+  dayOneFlag:boolean = true;
   model: NgbDateStruct;
   totalCount = 0
   pageIndex = 0
@@ -47,6 +47,7 @@ export class AppointmentRequestsComponent {
   appointmentsList: any
   practiceLocations: any = practiceLocations
   appointmentStatus: any = appointmentStatus
+  validationMessages: any = validationMessages
   appStatusVal: any = ''
   practiceLocationsVal: any = ''
   toDate: any = ''
@@ -67,7 +68,7 @@ export class AppointmentRequestsComponent {
      today.setHours(0, 0, 0, 0); 
      const eodDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
      this.whereCond = Object.assign(this.whereCond, {status:{$in:this.fieldValues}, appointmentDate: { $gte: today,$lte: eodDate } })
-     this.whereCondTotal = Object.assign(this.whereCondTotal, {status:{$in:this.fieldValues}, appointmentDate: { $gte: today,$lte: eodDate } })
+     //this.whereCondTotal = Object.assign(this.whereCondTotal, {status:{$in:this.fieldValues}, appointmentDate: { $gte: today,$lte: eodDate } })
      this.getAppointmentList('')
     }
 
@@ -124,7 +125,7 @@ export class AppointmentRequestsComponent {
       }
       let reqVars = {
         query: this.whereCond,
-        queryTotal: this.whereCondTotal,
+        //queryTotal: this.whereCondTotal,
         userQuery:'',
         fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, createdAt:1, updatedAt:1, practiceLocation:1, appointmentDate:1 },
         patientFields: { firstName: 1, lastName: 1, email: 1,profileImage:1, status: 1, practiceLocation:1 },
@@ -146,22 +147,28 @@ export class AppointmentRequestsComponent {
               status: element.status,
               statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
               patientName: element.patientId?.firstName + " " + element.patientId?.lastName,             
+              profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientId?.profileImage,
+              therapistName:element.therapistId?.firstName + " " + element.therapistId?.lastName,             
               // email: element.email,
               // statusClass: element.status.toLowerCase(),
               // //siteLeaderForPracLocation: element.siteLeaderForPracLocation,             
             }
             finalData.push(newColumns)
           })
+          // this.dayTwo = true;
+          // this.dayOne = false;
+          // this.dayOneFlag = false;
+        }
+        // else{
+        //   this.dayTwo = false;
+        //   this.dayOne = true;
+        //   this.dayOneFlag = false;
+        // }
+        if (this.totalCount > 0) {
           this.dayTwo = true;
           this.dayOne = false;
-          this.dayOneFlag = false;
-        }else{
-          this.dayTwo = false;
-          this.dayOne = true;
-          this.dayOneFlag = false;
         }
-        this.appointmentsList = new MatTableDataSource(finalData)
-        this.isAppointmentsList = this.totalCount>0?true:false 
+        this.appointmentsList = new MatTableDataSource(finalData)      
       })
     }
 
