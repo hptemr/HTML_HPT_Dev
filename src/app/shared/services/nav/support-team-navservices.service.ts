@@ -123,6 +123,24 @@ export class SupportTeamNavservicesService {
         },
       ]
     },
+    {
+      id: 5,
+      icon: 'description',
+      mainTitle: 'Documents',  
+      headTitle1: '',
+      path: '/',
+      active: false, 
+      type: 'link', 
+      item: [ 
+        {
+          title: 'Documents',
+          icon: 'description',
+          type: 'link',
+          active: false,  
+          path: '/',
+        },
+      ]
+    },
     
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);

@@ -31,8 +31,11 @@
                  <button mat-stroked-button color="primary" class="mp--btn" [routerLink]="['/support-team/patient-profile']"> 
                     View Patient Profile
                 </button>
-                <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
+                <!-- <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
                     System Followup History
+                </button> -->
+                <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
+                    Appointment Reminders
                 </button>
                </div>
             </div>
@@ -83,7 +86,7 @@
                                                         <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
                                                         <p class="mb-0 clr--1F2F3E font-16 fw-400">Tue, Nov 13, 2023 02:00 pm</p>
                                                     </div>
-                                                    <button mat-stroked-button color="primary" class="flex-shrink-0"> 
+                                                    <button mat-stroked-button color="primary" class="flex-shrink-0" (click)="rescheduleModal()"> 
                                                         <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> replay </mat-icon> 
                                                         Reschedule
                                                     </button>
@@ -93,7 +96,7 @@
                                         <div class="col-12">
                                             <div class="d-flex align-items-start mb-4">
                                                 <div class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                    <mat-icon class="material-symbols-outlined text-primary">published_with_changes</mat-icon> 
+                                                    <mat-icon class="material-symbols-outlined text-primary">call</mat-icon> 
                                                 </div> 
                                                 <div class="d-flex flex-column">
                                                     <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Status</h3>
@@ -148,7 +151,20 @@
                                                 <label class="col-form-label fw-600">High Deductibles</label>
                                                 <input class="form-control form-control-md" type="number" placeholder="$" />
                                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                              </div>
+                                              </div> 
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">Insurance Type</label>
+                                                <select class="form-select form-control" aria-label="Default select example">
+                                                    <option selected>Medicare</option> 
+                                                    <option value="1">Insurance 1</option>
+                                                    <option value="2">Insurance 2</option> 
+                                                    <option value="3">Insurance 3</option>  
+                                                </select>
+                                              </div> 
+                                        </div>
+                                        <div class="col-12 p-0"> 
                                               <mat-checkbox class="" checked>Patient Checked-In</mat-checkbox>
                                         </div>
                                     </div>
@@ -159,48 +175,12 @@
                 </div>
             </div> 
         </div>
-        <div class="card-body d-flex  w-100 mb-3 mt-0">
-            <div class="medical--edu--video d-flex flex-column w-100">
-                <h2 class="mb-3 clr--1F2F3E fw-600">Medical Educational Videos</h2>
-                <div class="d-flex align-items-center w-100 v--outer">
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="v--box flex-shrink-0">
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div> 
-        </div>
+         
         <div class="d-flex align-items-center justify-content-center w-100 footer--btns">
             <button mat-raised-button color="green--btn" class="m-1"> 
                 Accept Appointment
             </button>
-            <button mat-raised-button color="warn" class="m-1"> 
+            <button mat-raised-button color="warn" class="m-1" (click)=" writeComment()">  
                 Cancel Appointment
             </button>
         </div>
