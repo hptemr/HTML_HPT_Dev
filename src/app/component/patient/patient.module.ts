@@ -26,6 +26,7 @@ import { step5Component } from './book-appointment/step5/step5.component';
 import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
 import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view-edit-insurance.component';
 import { AddInsuranceModalComponent } from './book-appointment/add-insurance-modal/add-insurance-modal.component';
+import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { AddInsuranceModalComponent } from './book-appointment/add-insurance-mod
     ContactModalComponent,
     InsuranceListingComponent,
     ViewEditInsuranceComponent,
-    AddInsuranceModalComponent
+    AddInsuranceModalComponent,
+    HomeExerciseComponent
   ],
   imports: [
     CommonModule,

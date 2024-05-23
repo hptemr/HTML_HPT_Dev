@@ -69,11 +69,11 @@ export class PatientNavservicesService {
     },
     {
       id: 4,
-      activeMenu: '',
+      activeMenu: 'home-exercise',
       icon: 'smart_display',
       mainTitle: 'Home Exercise',
       headTitle1: '',
-      path: ' ',
+      path: 'patient/home-exercise ',
       active: false,
       type: 'link', 
     }, 
