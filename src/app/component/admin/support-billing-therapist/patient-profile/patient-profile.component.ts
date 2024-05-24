@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
   selector: 'app-patient-profile', 
@@ -10,7 +12,7 @@ import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-passw
   styleUrl: './patient-profile.component.scss'
 })
 export class PatientProfileComponent {
-  constructor(private router: Router, public dialog: MatDialog) { }
+  constructor(private router: Router, public dialog: MatDialog,private navigationService: NavigationService,public commonService:CommonService) { }
 
   ngOnInit() {
     this.getPatientDetail()
@@ -54,4 +56,13 @@ export class PatientProfileComponent {
       panelClass: 'change--password--modal',
     });
   }
+
+  navigateToAppointmentDetails(){
+    if(this.navigationService.getPreviousUrl()){
+      this.router.navigate([this.navigationService.getPreviousUrl()]);
+    }else{
+      this.router.navigate([this.commonService.getLoggedInRoute()+ '/dashboard/']);
+    } 
+  }
+
 }

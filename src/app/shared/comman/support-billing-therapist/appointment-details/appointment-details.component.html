@@ -31,8 +31,11 @@
                  <button mat-stroked-button color="primary" class="mp--btn" [routerLink]="['/support-team/patient-profile',appointmentData.patientId._id]"> 
                     View Patient Profile
                 </button>
-                <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
+                <!-- <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
                     System Followup History
+                </button> -->
+                <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
+                    Appointment Reminders
                 </button>
                </div>
             </div>
@@ -83,7 +86,7 @@
                                                         <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
                                                         <p class="mb-0 clr--1F2F3E font-16 fw-400">{{appointmentData.appointmentDate | date:'EEE, MMM d, y h:mm a' }}</p>
                                                     </div>
-                                                    <button mat-stroked-button color="primary" class="flex-shrink-0"> 
+                                                    <button mat-stroked-button color="primary" class="flex-shrink-0" (click)="rescheduleModal()"> 
                                                         <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> replay </mat-icon> 
                                                         Reschedule
                                                     </button>
@@ -197,10 +200,10 @@
             </div> 
         </div> -->
         <div class="d-flex align-items-center justify-content-center w-100 footer--btns">
-            <button mat-raised-button color="green--btn" class="m-1"> 
+            <button mat-raised-button color="green--btn" class="m-1" (click)="successModal()" > 
                 Accept Appointment
             </button>
-            <button mat-raised-button color="warn" class="m-1"> 
+            <button mat-raised-button color="warn" class="m-1" (click)=" writeComment()">  
                 Cancel Appointment
             </button>
         </div>

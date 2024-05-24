@@ -27,6 +27,11 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
 import { AdminLayoutComponent } from './component/layout/admin-layout/admin-layout.component';
 import { CommonAdminDashboardComponent } from './component/common-admin-dashboard/common-admin-dashboard.component';
 
+// import { AppointmentsComponent } from './comman/support-billing-therapist/appointments/appointments.component';
+// import { AppointmentDetailsComponent } from './comman/support-billing-therapist/appointment-details/appointment-details.component';
+// import { SystemFollowupModalComponent } from './comman/support-billing-therapist/system-followup-modal/system-followup-modal.component';
+// import { AppointmentRequestsComponent } from './comman/support-billing-therapist/appointment-requests/appointment-requests.component';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -49,7 +54,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoaderComponent,
     ManageProfileComponent,
     UploadImgComponent,
-    CommonAdminDashboardComponent
+    CommonAdminDashboardComponent,
+
+    // AppointmentsComponent,
+    // AppointmentDetailsComponent,
+    // SystemFollowupModalComponent,
+    // AppointmentRequestsComponent
   ],
   imports: [
     CommonModule,
