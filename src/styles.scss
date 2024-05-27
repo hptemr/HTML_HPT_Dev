@@ -17,6 +17,7 @@ input, p,
 .text-primary {color: $primary-color !important;;}
 .clr--DF0404{color: #DF0404;}
 .clr--1F2F3E{color: #1F2F3E !important;}
+.clr--292D32{color: #292D32 !important;}
 .clr--fff{color: #fff;}
 .clr--828282{color: #828282;}
 
@@ -55,6 +56,15 @@ input, p,
         padding-top: 10px !important;
         padding-bottom: 10px !important;
     }
+}
+
+.breadcrumb-item + .breadcrumb-item::before{
+    content: '';
+    background-image: url('assets/images/ark/breadcrumb-arrow.svg');
+    height: 10px;
+    width: 7px;
+    background-repeat: no-repeat;
+    margin: 5px 4px 4px 1px;
 }
 
 .no--record--found{
@@ -889,6 +899,12 @@ ngb-datepicker{
         .footer--btns{
             padding: 15px;
         }
+    }
+    .breadcrumb {
+        margin-top: 10px;
+    }
+    .breadcrumb-item + .breadcrumb-item::before{
+        margin: 7px 4px 4px 0px;
     }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
