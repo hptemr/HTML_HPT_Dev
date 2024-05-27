@@ -200,11 +200,11 @@
             </div> 
         </div> -->
         <div class="d-flex align-items-center justify-content-center w-100 footer--btns">
-            <button mat-raised-button color="green--btn" class="m-1" (click)="successModal()" > 
-                Accept Appointment
+            <button mat-raised-button color="green--btn" class="m-1" (click)="acceptAppointment(appointmentData._id)"  [disabled]="appointmentData.status =='Accepted' || appointmentData.status =='Cancelled'"> 
+                {{appointmentData.status =='Accepted' ? 'Accepted' : 'Accept Appointment'}}
             </button>
-            <button mat-raised-button color="warn" class="m-1" (click)=" writeComment()">  
-                Cancel Appointment
+            <button mat-raised-button color="warn" class="m-1" (click)="writeComment(appointmentData._id)" [disabled]="appointmentData.status =='Cancelled' || appointmentData.status =='Accepted'">                
+                {{appointmentData.status =='Cancelled' ? 'Cancelled' : 'Cancel Appointment'}}
             </button>
         </div>
     </div>

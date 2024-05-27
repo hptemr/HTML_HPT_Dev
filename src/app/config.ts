@@ -51,6 +51,7 @@ export const appointmentStatus = [
   "Pending",
   "Active",
   "Rescheduled",
+  "Cancelled",
   "Declined",
   "Completed",
 ]

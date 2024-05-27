@@ -1,10 +1,14 @@
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule,FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../../shared.module';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { validationMessages } from '../../../utils/validation-messages';
+import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
   selector: 'app-write-comment-modal',
@@ -14,5 +18,56 @@ import { SharedModule } from '../../shared.module';
   styleUrl: './write-comment-modal.component.scss'
 })
 export class WriteCommentModalComponent {
+  validationMessages = validationMessages; 
+  rejectCommentForm: FormGroup;inviteButton:boolean = false;
+  appointmentId:string='';
+  userRole:string='';
+  fromId:string='';
+  
+  constructor(
+    private commonService: CommonService,
+    private authService :AuthService,
+    private fb: FormBuilder, 
+    public dialogRef: MatDialogRef<WriteCommentModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.appointmentId = data.appointmentId != undefined ? data.appointmentId : '';
+    this.userRole = data.userRole != undefined ? data.userRole : '';
+    this.fromId = data.fromId != undefined ? data.fromId : '';
+  }
+
+  ngOnInit() {
+    this.initializeForm()
+  }
+
+  initializeForm(){
+    this.rejectCommentForm = this.fb.group({
+      rejectComment: ['',[Validators.required,Validators.minLength(1), Validators.maxLength(100)]],
+    });
+  }
+
+  trimInput() {    
+    const isWhitespace = (this.rejectCommentForm.controls['rejectComment'].value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    if (!isValid) {
+      this.rejectCommentForm.controls['rejectComment'].setValue('');
+    }
+  }
+
+ async submitForm(data:any) {    
+    if(this.appointmentId){ 
+      let reqVars = {
+        query: {_id:this.appointmentId},
+        fromId: this.fromId,
+        fromRole:this.userRole,
+        commentText:data.rejectComment      
+      }
+      this.commonService.showLoader();
+      await this.authService.apiRequest('post', 'appointment/cancelAppointment', reqVars).subscribe(async response => {
+        this.commonService.hideLoader();
+        this.dialogRef.close(response);
+      })
+    }
+ }
 
 }

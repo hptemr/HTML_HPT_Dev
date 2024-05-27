@@ -20,6 +20,8 @@ export class AppointmentDetailsComponent {
   appointmentData: any = [];
   appointment_flag:boolean=false
   initialName: string = '';
+  public userId: string;
+  public userRole: string;
 
   constructor(public dialog: MatDialog,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
@@ -28,6 +30,8 @@ export class AppointmentDetailsComponent {
   }
 
   ngOnInit() {
+    this.userId = this.authService.getLoggedInInfo('_id') 
+    this.userRole = this.authService.getLoggedInInfo('role')  
     this.getAppointmentDetail()
   }
 
@@ -86,10 +90,25 @@ export class AppointmentDetailsComponent {
   }
 
 
-  writeComment(){
+  writeComment(appointmentId:string){
     const dialogRef = this.dialog.open(WriteCommentModalComponent,{
+      disableClose :true,
       panelClass: 'custom-alert-container',
+      data : {
+       // heading: `Invite ${this.pageTitle}`,
+        appointmentId:appointmentId,
+        userRole:this.userRole,
+        fromId: this.userId,
+      }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+        this.getAppointmentDetail();
+        this.commonService.openSnackBar(result.message,"SUCCESS")
+      }
+    });
+
   }
  
   rescheduleModal(){
@@ -106,6 +125,28 @@ export class AppointmentDetailsComponent {
       }
     });
   }
+
+  async acceptAppointment(appointmentId:string){
+    if(appointmentId){ 
+      //this.commonService.showLoader(); 
+      let reqVars = {
+        query: {_id:appointmentId},
+        fromId: this.userId,
+        fromRole:this.userRole      
+      }
+      await this.authService.apiRequest('post', 'appointment/acceptAppointment', reqVars).subscribe(async response => {
+        this.commonService.hideLoader();     
+        if (response.error) {
+          this.commonService.openSnackBar(response.message, "ERROR")
+        }else{
+          this.commonService.openSnackBar(response.message, "SUCCESS")
+          this.getAppointmentDetail()
+          this.successModal(); 
+        }        
+      })
+    }
+  }
+
 
   navigateTopatientDetails(patientId:string){
     this.router.navigate([this.commonService.getLoggedInRoute()+ '/patient-profile/',patientId]);
