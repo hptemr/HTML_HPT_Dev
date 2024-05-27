@@ -38,6 +38,10 @@ const messages = {
         profileUpdate: 'Profile update successfully',
         profileDelete: 'Profile delete successfully',
     },
+    appointmentMessage: {
+        accepted: 'Appointment has been accepted successfully',
+        cancelled: 'Appointment has been cancelled successfully',
+    }
 };
 
 module.exports = messages;

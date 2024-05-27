@@ -1,4 +1,4 @@
-const { commonMessage } = require('../helpers/message');
+const { commonMessage,appointmentMessage } = require('../helpers/message');
 const commonHelper = require('../helpers/common');
 const Appointment = require('../models/appointmentModel');
 const User = require('../models/userModel');
@@ -56,8 +56,31 @@ const updatePatientCheckIn = async (req, res) => {
     }
 }
 
+const acceptAppointment = async (req, res) => {
+    try {
+        const { query,  } = req.body;
+        await Appointment.findOneAndUpdate({ _id: query._id }, { status: 'Accepted' });        
+        commonHelper.sendResponse(res, 'success', null, appointmentMessage.accepted);
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+const cancelAppointment = async (req, res) => {
+    try {
+        const { query,commentText  } = req.body;
+
+        await Appointment.findOneAndUpdate({ _id: query._id }, { status: 'Cancelled',rejectComment:commentText });
+        commonHelper.sendResponse(res, 'success', null, appointmentMessage.cancelled);
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
     getAppointmentDetails,
+    acceptAppointment,
+    cancelAppointment
 };
