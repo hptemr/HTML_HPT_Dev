@@ -15,16 +15,16 @@
                 </div> 
                 <div class="profile--round position-relative">
                     <div class="user--name d-flex align-items-center justify-content-center">
-                        <span class="text-primary fw-600">JS</span>
+                        <span class="text-primary fw-600">{{initialName}}</span>
                     </div> 
                 </div>
                <div class="d-flex flex-column align-items-center justify-content-center w-100 body--sec">
-                 <h3 class="font-18 fw-700">John Cooper</h3>
+                 <h3 class="font-18 fw-700">{{patientData.firstName}} {{patientData.lastName}}</h3>
                  <div class="d-flex align-items-center user--email"> 
                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">mail </mat-icon>
-                    <p class="my-2 font-16">johncooper&#64;gmail.com</p> 
+                    <p class="my-2 font-16">{{patientData.email}}</p> 
                  </div>
-                 <h3 class="font-16 fw-700 my-2">SSN <span class="fw-500">722-02-4862</span> </h3>
+                 <h3 class="font-16 fw-700 my-2" *ngIf="patientData.ssn">SSN <span class="fw-500">{{patientData?.ssn ? patientData.ssn : ''}}</span> </h3>
                </div>
             </div>
             <div class="profile--right d-flex flex-column w-100">
@@ -46,7 +46,7 @@
                                                 </div>
                                                 <div class="d-flex flex-column">
                                                     <h3 class="m-0 clr--1F2F3E font-16 fw-700">Home Phone Number</h3>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">+1 1234-567-890</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{patientData.phoneNumber ? '+1 '+patientData.phoneNumber : 'N/A'}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,7 +57,7 @@
                                                 </div> 
                                                 <div class="d-flex flex-column">
                                                     <h3 class="m-0 clr--1F2F3E font-16 fw-700">Cell Phone Number</h3>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">+1 1234-567-890</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{patientData.cellPhoneNumber ? '+1 '+patientData.cellPhoneNumber : 'N/A'}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@
                                                 </div> 
                                                 <div class="d-flex flex-column">
                                                     <h3 class="m-0 clr--1F2F3E font-16 fw-700">Work Extension Number</h3>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">+1 1234-567-890</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{patientData.workExtensionNumber ? '+1 '+patientData.workExtensionNumber : 'N/A'}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -79,7 +79,7 @@
                                                 </div> 
                                                 <div class="d-flex flex-column">
                                                     <h3 class="m-0 clr--1F2F3E font-16 fw-700">Gender</h3>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">Male</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{patientData.gender}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                                                 </div> 
                                                 <div class="d-flex flex-column">
                                                     <h3 class="m-0 clr--1F2F3E font-16 fw-700">Date of Birth</h3>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">02/24/1980</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{birthdate | date:'M/d/yyyy'}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,9 +105,9 @@
                                                 </div>
                                                 <div class="d-flex flex-column">
                                                     <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Mailing Address</h3>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span class="fw-700">City: </span> Savannah</p>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span class="fw-700">State/province/area: </span>  Georgia</p>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span class="fw-700">Postal Code: </span>  31405</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span class="fw-700">City: </span> {{patientData.city}}</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span class="fw-700">State/province/area: </span>  {{patientData.state}}</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span class="fw-700">Postal Code: </span>  {{patientData.zipcode}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,9 +117,9 @@
                                                     <mat-icon class="material-symbols-outlined text-primary">assignment_ind</mat-icon> 
                                                 </div>
                                                 <div class="d-flex flex-column">
-                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">Driving License</h3>
-                                                    <div class="document--box">
-                                                        <img src="/assets/images/ark/ark_license_lg.png"  alt="" class="img-fluid" />
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">{{patientData.documents_type}}</h3>
+                                                    <div class="document--box" *ngIf="patientData.documents_type && documentsLink">
+                                                        <img src="{{documentsLink}}"  alt="{{patientData.documents_type}}" class="img-fluid" />
                                                     </div>  
                                                 </div>
                                             </div>
