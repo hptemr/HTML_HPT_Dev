@@ -76,7 +76,7 @@ export class PatientNavservicesService {
       icon: 'health_and_safety',
       mainTitle: 'Insurance',  
       headTitle1: '',
-      path: '/patient/appointments',
+      path: '/patient/insurance-listing',
       active: false, 
       type: 'link', 
       item: [ 
@@ -88,23 +88,34 @@ export class PatientNavservicesService {
         },
       ]
     }, 
+  
     {
-      id: 4,
+      id: 37, 
       icon: 'smart_display',
-      mainTitle: 'Home Exercise',  
+      mainTitle: 'Home Exercise',
       headTitle1: '',
-      path: '/patient/appointments',
-      active: false, 
+      path: '/patient/home-exercise',
+      active: false,
       type: 'link', 
-      item: [ 
-        {
-          title: 'Home Exercise',
-          icon: 'smart_display',
-          type: 'link',
-          active: false,  
-        },
-      ]
     }, 
+    {
+      id: 45, 
+      icon: 'perm_phone_msg',
+      mainTitle: 'Emergency Contact',
+      headTitle1: '',
+      path: '/patient/emergency-contact',
+      active: false,
+      type: 'link', 
+    },
+    {
+      id: 44, 
+      icon: 'notifications',
+      mainTitle: 'Notifications',
+      headTitle1: '',
+      path: '/patient/notifications',
+      active: false,
+      type: 'link', 
+    },
     
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);

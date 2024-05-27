@@ -128,7 +128,7 @@ export class SupportTeamNavservicesService {
       icon: 'description',
       mainTitle: 'Documents',  
       headTitle1: '',
-      path: '/',
+      path: '/support-team/document-listing',
       active: false, 
       type: 'link', 
       item: [ 
@@ -137,7 +137,7 @@ export class SupportTeamNavservicesService {
           icon: 'description',
           type: 'link',
           active: false,  
-          path: '/',
+          path: '/support-team/document-listing',
         },
       ]
     },

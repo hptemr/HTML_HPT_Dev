@@ -18,6 +18,8 @@ import { Step2Component } from './intake-form/step2/step2.component';
 import { Step3Component } from './intake-form/step3/step3.component';
 import { Step4Component } from './intake-form/step4/step4.component'; 
 import { Step5Component } from './intake-form/step5/step5.component';
+import { DocumentDetailingComponent } from './document/document-detailing/document-detailing.component';
+import { DocumentListingComponent } from './document/document-listing/document-listing.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { Step5Component } from './intake-form/step5/step5.component';
     Step2Component,
     Step3Component,
     Step4Component,
-    Step5Component
+    Step5Component,
+    DocumentDetailingComponent,
+    DocumentListingComponent
   ],
   imports: [
     CommonModule,

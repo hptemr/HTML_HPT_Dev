@@ -1,0 +1,45 @@
+.document--detailing--wrapper{
+    .card-header{
+        .back--btn{
+            min-width: 42px;
+            .material-symbols-outlined{
+                width: 24px;
+                height: 24px;
+                font-size: 24px; 
+            }
+        } 
+        .form-group{
+            .search--fields{
+                right: 6px;
+            }
+        }
+    }
+    ::ng-deep{
+        table{
+            tbody{
+                tr{
+                    td{
+                        padding: 12px 10px !important;
+                        &:first-child{
+                            .mat-icon{
+                                height: 36px;
+                                width: 36px;
+                                font-size: 36px;
+                                color: #bae9e9;
+                                flex-shrink: 0;
+                            } 
+                        }
+                        &:last-child{
+                            .mat-icon{
+                                height: 24px;
+                                width: 24px;
+                                font-size: 24px;
+                                color: #bae9e9;
+                            } 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -14,6 +14,8 @@ import { Step2Component } from './intake-form/step2/step2.component';
 import { Step3Component } from './intake-form/step3/step3.component';
 import { Step4Component } from './intake-form/step4/step4.component'; 
 import { Step5Component } from './intake-form/step5/step5.component';
+import { DocumentDetailingComponent } from './document/document-detailing/document-detailing.component';
+import { DocumentListingComponent } from './document/document-listing/document-listing.component';
 
 const routes: Routes = [ 
   {
@@ -51,6 +53,14 @@ const routes: Routes = [
   {
     path: 'patient-details',
     component:PatientDetailsComponent   
+  },
+  {
+    path: 'document-detailing',
+    component:DocumentDetailingComponent   
+  },
+  {
+    path: 'document-listing',
+    component:DocumentListingComponent   
   },
   {
     path: 'intake-form',
