@@ -2,19 +2,23 @@
     <header class="w-100">
         <h1 class="fw-600 font-18 mb-4">Write a Comment</h1>
     </header>
-    <div class="w-100">
-        <div class="row"> 
-            <div class="col-12 ">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Mention the cause </label>
-                    <textarea class="form-control " type="text" placeholder="Write your comment here" rows="4"></textarea>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+    <form class="row" [formGroup]="rejectCommentForm" (ngSubmit)="submitForm(rejectCommentForm.value)">
+        <div class="w-100">
+            <div class="row"> 
+                <div class="col-12 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Mention the cause </label>
+                        <textarea class="form-control " type="text" placeholder="Write your comment here" (blur)="trimInput()" formControlName="rejectComment" rows="4"></textarea>
+                        <div class="text text-danger mt-1" *ngIf="rejectCommentForm.controls['rejectComment'].touched && rejectCommentForm.controls['rejectComment'].hasError('required')">
+                            {{ validationMessages.required('your comment') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-3">
-        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary">Submit</button>
-    </div>
+        <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-3">
+            <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </div>
+    </form>
 </div>

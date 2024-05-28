@@ -157,7 +157,6 @@ export class UpdatePatientProfileComponent implements OnInit {
 
   onDateChange(date: NgbDateStruct) {
      this.selectedDate = date;
-     console.log('onDateChange >>> ',date,'>>>>',this.selectedDate)
      return this.formatDate(this.selectedDate);
   }
   

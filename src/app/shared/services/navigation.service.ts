@@ -16,6 +16,7 @@ export class NavigationService {
   }
 
   public getPreviousUrl(): string | null {
+    //console.log('history url >>>>',this.history)
     if (this.history.length > 1) {
       return this.history[this.history.length - 2];
     }
