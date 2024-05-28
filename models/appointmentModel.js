@@ -1,7 +1,14 @@
 const mongoose = require('mongoose')
 
 const appointmentSchema = new mongoose.Schema({
-    status: { type: String, enum: ['Pending', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
+    status: { type: String, enum: ['Pending', 'Accepted', 'Declined', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
+    // "Accepted",
+    // "Pending",
+    // "Active",
+    // "Rescheduled",
+    // "Cancelled"
+    // "Declined",
+    // "Completed",
     patientId: {
         type: mongoose.Schema.ObjectId,
         ref: "patients"
@@ -11,6 +18,7 @@ const appointmentSchema = new mongoose.Schema({
         ref: "users"
     },
     appointmentId: Number,
+    caseName: { type: String, default: "" },
     appointmentDate: { type: Date, default: Date.now },
     practiceLocation: { type: String, default: "" },
     checkIn: { type: Boolean, default: false },
@@ -54,7 +62,7 @@ const appointmentSchema = new mongoose.Schema({
         default: 'No'
     },
     reminderViaEmailId: { type: String, default: "" },
-
+    rejectComment: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })
