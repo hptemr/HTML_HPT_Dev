@@ -1,19 +1,14 @@
 const mongoose = require('mongoose')
-
 const emergencyContactSchema = new mongoose.Schema({
-    
-    emergencyContactOneFirstName: { type: String, default: "" },
-    emergencyContactOneLastName: { type: String, default: "" },
-    emergencyContactOneDob: { type: Date, default: "" },
-    emergencyContactOneRelationWithPatient: { type: String, default: "" },
-
-    emergencyContactOneOtherRelation: { type: String, default: "" },
-    emergencyContactOnePhoneNumber: { type: String, default: "" },
-   
-    emergencyContactOneMyTreatmentCheckbox: { type: Boolean, default: false },
-    emergencyContactOneMyAccountCheckbox: { type: Boolean, default: false },
-
-
+    emergencyContactFirstName: { type: String, default: "" },
+    emergencyContactLastName: { type: String, default: "" },
+    emergencyContactDob: { type: Date, default: "" },
+    emergencyContactRelationWithPatient: { type: String, default: "" },
+    emergencyContactOtherRelation: { type: String, default: "" },
+    emergencyContactPhoneNumber: { type: String, default: "" },
+    emergencyContactMyTreatmentCheckbox: { type: Boolean, default: false },
+    emergencyContactMyAccountCheckbox: { type: Boolean, default: false },
+    orderIndex: { type: Number }, //1,2
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })
