@@ -37,6 +37,7 @@ const insurnaceSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    status:{ type: String, default: "Active" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })
