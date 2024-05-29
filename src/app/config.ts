@@ -70,3 +70,11 @@ export const userStatus = [
   'Deleted',
   'Blocked'
 ]
+export const relationWithPatient = [
+  'Friend',
+  'Father',
+  'Mother',
+  'Wife',
+  'Husband',
+  'Other'
+]

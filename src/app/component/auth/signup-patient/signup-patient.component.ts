@@ -48,7 +48,6 @@ export class SignupPatientComponent implements OnInit {
   step1: FormGroup;
   step2: FormGroup;
   step3: FormGroup;
-  minStartDate: any
   maxEndDate: any
   isRequired: boolean = false;
   emailError = false;
@@ -122,7 +121,6 @@ export class SignupPatientComponent implements OnInit {
     }
 
     this.thiredFormGroupData = localStorage.getItem("thiredFormGroupData");
-    console.log('>>>>',this.thiredFormGroupData)
     if(localStorage.getItem("thiredFormGroupData")){
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){

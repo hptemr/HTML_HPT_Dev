@@ -111,9 +111,22 @@ export class AppointmentDetailsComponent {
 
   }
  
-  rescheduleModal(){
+  rescheduleModal(appointmentId:string){
     const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent,{
+      disableClose :true,
       panelClass: 'custom-alert-container',
+      data : {
+        // heading: `Invite ${this.pageTitle}`,
+         appointmentId:appointmentId,
+         userRole:this.userRole,
+         fromId: this.userId,
+       }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+        this.getAppointmentDetail();
+        this.commonService.openSnackBar(result.message,"SUCCESS")
+      }
     });
   }
 
