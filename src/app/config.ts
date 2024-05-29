@@ -63,10 +63,26 @@ export const bookingStatus = [
   'Pending',
   'Suspended'
 ]
+
 export const userStatus = [
   'Pending',
   'Active',
   'Suspended',
   'Deleted',
   'Blocked'
+]
+
+export const maritalStatus = [
+  'Single',
+  'Married',
+  'Divorced',
+  'Widowed'
+]
+
+export const relationWithPatient = [
+  'Friend',
+  'Father',
+  'Mother',
+  'Wife',
+  'Husband'
 ]

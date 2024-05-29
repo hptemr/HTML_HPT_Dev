@@ -28,6 +28,7 @@ import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view
 import { PatientDashboardComponent } from './dashboard/dashboard.component';
 import { AddInsuranceModalComponent } from './book-appointment/add-insurance-modal/add-insurance-modal.component';
 import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
+import { IMaskModule } from 'angular-imask'; 
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
     ReactiveFormsModule, 
     SharedModule,  
     FileUploadModule,
+    IMaskModule
   ],
   providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }],
 })
