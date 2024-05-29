@@ -3,7 +3,7 @@ import { MatRadioChange } from '@angular/material/radio';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ContactModalComponent } from '../contact-modal/contact-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { practiceLocations, maritalStatus, relationWithPatient } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
@@ -17,7 +17,6 @@ import { validationMessages } from 'src/app/utils/validation-messages';
 })
 export class Step1Component {
   model: NgbDateStruct;
-  dob: any
   maxDate: any
   selectedValue: any;
   isReadonly = true
@@ -29,6 +28,9 @@ export class Step1Component {
   relationWithPatient = relationWithPatient
   validationMessages = validationMessages
 
+  dob: any
+  appointmentDate: any
+
   constructor(public dialog: MatDialog, private router: Router,
     private fb: FormBuilder, private commonService: CommonService,
     private authService: AuthService) {
@@ -37,16 +39,21 @@ export class Step1Component {
   ngOnInit() {
     const today = new Date();
     this.maxDate = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
-    this.patientInfo = this.authService.getLoggedInInfo() 
-    this.step1FormData = localStorage.getItem("step1FormData") 
-    if (this.step1FormData == null) {
+    this.patientInfo = this.authService.getLoggedInInfo()
+    this.step1FormData = localStorage.getItem("step1FormData")
+    let appToday
+    if (this.step1FormData == null) { 
+      this.loadForm()
       this.selectedValue = 'Myself'
       this.setValue('Myself')
+      //appToday = new Date(this.patientInfo.dob);
     } else {
-      this.step1FormData = JSON.parse(this.step1FormData)
+      //appToday = new Date("08-03-2024");
+      this.step1FormData = JSON.parse(this.step1FormData) 
+      this.loadForm()
     }
-    console.log("step1FormData:", this.step1FormData) 
-    this.loadForm()
+    //this.dob = { month: appToday.getMonth() + 1, day: appToday.getDate(), year: appToday.getFullYear() }
+    console.log("***ngOnInit step1FormData***", this.step1FormData)
   }
 
   onChange(event: MatRadioChange) {
@@ -75,7 +82,6 @@ export class Step1Component {
       firstName = this.patientInfo.firstName
       middleName = this.patientInfo.middleName
       lastName = this.patientInfo.lastName
-      dob = this.patientInfo.dob
       martialStatus = this.patientInfo.martialStatus
       gender = this.patientInfo.gender
       email = this.patientInfo.email
@@ -84,13 +90,12 @@ export class Step1Component {
       workExtensionNumber = this.patientInfo.workExtensionNumber
     }
 
-    const today = new Date(dob);
-    this.dob = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
+    // const today = new Date(dob);
+    // this.dob = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
     this.step1Form.controls['bookingFor'].setValue(this.selectedValue)
     this.step1Form.controls['firstName'].setValue(firstName)
     this.step1Form.controls['middleName'].setValue(middleName)
     this.step1Form.controls['lastName'].setValue(lastName)
-    this.step1Form.controls['dob'].setValue(dob)
     this.step1Form.controls['martialStatus'].setValue(martialStatus)
     this.step1Form.controls['gender'].setValue(gender)
     this.step1Form.controls['email'].setValue(email)
@@ -100,22 +105,38 @@ export class Step1Component {
   }
 
   loadForm() {
-    this.step1Form = this.fb.group({
-      practiceLocation: [this.step1FormData ? this.step1FormData.practiceLocation : ''],
-      appointmentDate: [this.step1FormData ? this.step1FormData.appointmentDate : ''],
-      bookingFor: [this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue],
-      relationWithPatient: [this.step1FormData ? this.step1FormData.relationWithPatient : ''],
-      firstName: [this.step1FormData ? this.step1FormData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      middleName: [this.step1FormData ? this.step1FormData.middleName : ''],
-      lastName: [this.step1FormData ? this.step1FormData.lastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      dob: [this.step1FormData ? this.step1FormData.dob : '', [Validators.required]],
-      martialStatus: [this.step1FormData ? this.step1FormData.martialStatus : ''],
-      gender: [this.step1FormData ? this.step1FormData.gender : ''],
-      email: [this.step1FormData ? this.step1FormData.email : '', [Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
-      phoneNumber: [this.step1FormData ? this.step1FormData.phoneNumber : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      cellPhoneNumber: [this.step1FormData ? this.step1FormData.cellPhoneNumber : ''],
-      workExtensionNumber: [this.step1FormData ? this.step1FormData.workExtensionNumber : ''],
-    });
+    this.step1Form = new FormGroup({
+      practiceLocation: new FormControl((this.step1FormData ? this.step1FormData.practiceLocation : ''), Validators.compose([Validators.required])),
+      appointmentDate: new FormControl('', Validators.compose([Validators.required])),
+      bookingFor: new FormControl((this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue)),
+      relationWithPatient: new FormControl((this.step1FormData ? this.step1FormData.relationWithPatient : '')),
+      firstName: new FormControl((this.step1FormData ? this.step1FormData.firstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      middleName: new FormControl((this.step1FormData ? this.step1FormData.middleName : '')),
+      lastName: new FormControl((this.step1FormData ? this.step1FormData.lastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      dob: new FormControl('', Validators.compose([Validators.required])),
+      martialStatus: new FormControl((this.step1FormData ? this.step1FormData.martialStatus : '')),
+      gender: new FormControl((this.step1FormData ? this.step1FormData.gender : '')),
+      email: new FormControl((this.step1FormData ? this.step1FormData.email : ''), Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
+      phoneNumber: new FormControl((this.step1FormData ? this.step1FormData.phoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
+      cellPhoneNumber: new FormControl((this.step1FormData ? this.step1FormData.cellPhoneNumber : '')),
+      workExtensionNumber: new FormControl((this.step1FormData ? this.step1FormData.workExtensionNumber : ''))
+ 
+      // practiceLocation: [this.step1FormData ? this.step1FormData.practiceLocation : '', [Validators.required]],
+      // appointmentDate: [this.step1FormData ? this.commonService.getCalendarDate(this.step1FormData.appointmentDate) : '', [Validators.required]],
+      // bookingFor: [this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue],
+      // relationWithPatient: [this.step1FormData ? this.step1FormData.relationWithPatient : ''],
+      // firstName: [this.step1FormData ? this.step1FormData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      // middleName: [this.step1FormData ? this.step1FormData.middleName : ''],
+      // lastName: [this.step1FormData ? this.step1FormData.lastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      // dob: [this.step1FormData ? this.step1FormData.dob : '', [Validators.required]],
+      // martialStatus: [this.step1FormData ? this.step1FormData.martialStatus : ''],
+      // gender: [this.step1FormData ? this.step1FormData.gender : ''],
+      // email: [this.step1FormData ? this.step1FormData.email : '', [Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
+      // phoneNumber: [this.step1FormData ? this.step1FormData.phoneNumber : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      // cellPhoneNumber: [this.step1FormData ? this.step1FormData.cellPhoneNumber : ''],
+      // workExtensionNumber: [this.step1FormData ? this.step1FormData.workExtensionNumber : ''],
+    })
+
   }
 
   bookAppointmentStep1() {

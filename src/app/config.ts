@@ -86,3 +86,9 @@ export const relationWithPatient = [
   'Wife',
   'Husband'
 ]
+
+export const carrierNameList = [
+  'Carrier 1',
+  'Carrier 2',
+  'Carrier 3',
+]
