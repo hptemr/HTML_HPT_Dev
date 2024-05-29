@@ -39,15 +39,15 @@ const userLogin = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
     try {
-        const { email,userType } = req.body;
+        const { email, userType } = req.body;
         let userData = '';
 
-        if(userType=='patient'){
+        if (userType == 'patient') {
             userData = await userCommonHelper.patientGetByEmail(email)
-        }else{
+        } else {
             userData = await userCommonHelper.userGetByEmail(email)
         }
-        
+
         if (!userData) {
             return commonHelper.sendResponse(res, 'info', null, userMessage.emailNotExist);
         }
@@ -66,19 +66,19 @@ const forgotPassword = async (req, res) => {
             }
         };
         const options = { returnOriginal: false };
-        if(userType=='patient'){
+        if (userType == 'patient') {
             await Patient.findOneAndUpdate(filter, updateDoc, options);
-        }else{
+        } else {
             await User.findOneAndUpdate(filter, updateDoc, options);
         }
         // Send email
-        let  link = '';
-        if(userType=='patient'){
+        let link = '';
+        if (userType == 'patient') {
             link = `${process.env.BASE_URL}/reset-password?token=${encryptToken}`;
-        }else{
+        } else {
             link = `${process.env.BASE_URL}/admin/reset-password?token=${encryptToken}`;
-        }        
-        triggerEmail.resetPassword('resetPassword',userData, link)
+        }
+        triggerEmail.resetPassword('resetPassword', userData, link)
 
         commonHelper.sendResponse(res, 'success', null, userMessage.resetPassLink);
     } catch (error) {
@@ -89,17 +89,17 @@ const forgotPassword = async (req, res) => {
 
 const checkForgotPasswordTokenExpiry = async (req, res) => {
     try {
-        const { token,userType } = req.query
+        const { token, userType } = req.query
         let decryptTokenData = commonHelper.decryptData(token, process.env.CRYPTO_SECRET)
         if (decryptTokenData && decryptTokenData != null) {
-            let userData = '';            
-            if(userType=='patient'){
+            let userData = '';
+            if (userType == 'patient') {
                 userData = await Patient.findOne({ _id: decryptTokenData.userId });
-            }else{
+            } else {
                 userData = await User.findOne({ _id: decryptTokenData.userId });
             }
-        
-        if (!userData && userData == null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
+
+            if (!userData && userData == null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
             if (!userData.resetPasswordToken) return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
 
             if (Date.now() > decryptTokenData.tokenExpiry) {
@@ -115,18 +115,18 @@ const checkForgotPasswordTokenExpiry = async (req, res) => {
 
 const resetPassword = async (req, res) => {
     try {
-        const {  token, password, userType } = req.body
+        const { token, password, userType } = req.body
 
-        let decryptTokenData = commonHelper.decryptData(token,process.env.CRYPTO_SECRET)
+        let decryptTokenData = commonHelper.decryptData(token, process.env.CRYPTO_SECRET)
         let userData = '';
 
-        if(userType=='patient'){
+        if (userType == 'patient') {
             userData = await Patient.findOne({ _id: decryptTokenData.userId });
-        }else{
+        } else {
             userData = await User.findOne({ _id: decryptTokenData.userId });
         }
 
-        if(!userData && userData==null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
+        if (!userData && userData == null) return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound)
 
         // Hash and salt the password
         let salt = await bcrypt.genSalt(10);
@@ -141,15 +141,15 @@ const resetPassword = async (req, res) => {
         // Specify options for the update operation (e.g., return the updated document)
         const options = { returnOriginal: false };
         let updatedUser = '';
-        if(userType=='patient'){
+        if (userType == 'patient') {
             updatedUser = await Patient.findOneAndUpdate(filter, updateDoc, options);
-        }else{
+        } else {
             updatedUser = await User.findOneAndUpdate(filter, updateDoc, options);
         }
         commonHelper.sendResponse(res, 'success', updatedUser, infoMessage.passwordReset);
 
     } catch (error) {
-        console.log("error>>>>>>",error)
+        console.log("error>>>>>>", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -157,14 +157,14 @@ const resetPassword = async (req, res) => {
 const logout = async (req, res) => {
     try {
         let userId = req.body._id;
-        let userType = req.body.userType;        
-        let userData = '';let loginCount = 0;
-        if(userType=='patient'){
+        let userType = req.body.userType;
+        let userData = ''; let loginCount = 0;
+        if (userType == 'patient') {
             userData = await userCommonHelper.patientGetById(userId)
             loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
             await Patient.findOneAndUpdate({ _id: userId }, { $set: { loginCount: loginCount } })
-        }else{
-            userData = await userCommonHelper.userGetById(userId)            
+        } else {
+            userData = await userCommonHelper.userGetById(userId)
             loginCount = userData.loginCount > 0 ? userData.loginCount - 1 : 0
             await User.findOneAndUpdate({ _id: userId }, { $set: { loginCount: loginCount } })
         }
@@ -194,7 +194,15 @@ const patientLogin = async (req, res) => {
                 role: 'patient',
                 token: token,
                 loginCount: loginCount,
-                profileImage: userData.profileImage
+                profileImage: userData.profileImage,
+
+                middleName: userData.middleName,
+                dob: userData.dob,
+                martialStatus: userData.martialStatus,
+                gender: userData.gender,
+                phoneNumber: userData.phoneNumber,
+                cellPhoneNumber: userData.cellPhoneNumber,
+                workExtensionNumber: userData.workExtensionNumber
             };
             commonHelper.sendResponse(res, 'success', returnData, commonMessage.login);
         }

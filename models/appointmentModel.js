@@ -37,17 +37,47 @@ const appointmentSchema = new mongoose.Schema({
         enum: ['Selfpay', 'Insurance'],
         default: 'Selfpay'
     },
-    
     payViaInsuranceInfo: {
+        // insuranceName: { type: String, default: "" },
+        // subscriberFirstName: { type: String, default: "" },
+        // subscriberMiddleName: { type: String, default: "" },
+        // subscriberLastName: { type: String, default: "" },
+        // subscriberDob: { type: Date, default: "" },
+        // subscriberRelationWithPatient: { type: String, default: "" },
+
+        // primaryInsuranceCompany: { type: String, default: "" },
+        // primaryInsuranceIdPolicy: { type: String, default: "" },
+        // primaryInsuranceGroup: { type: String, default: "" },
+        // primaryInsuranceCustomerServicePh: { type: String, default: "" },
+
+        // secondaryInsuranceCompany: { type: String, default: "" },
+        // secondaryInsuranceIdPolicy: { type: String, default: "" },
+        // secondaryInsuranceGroup: { type: String, default: "" },
+        // secondaryInsuranceCustomerServicePh: { type: String, default: "" },
+
+        // injuryRelelatedTo: { type: String, default: "" },
+        // carrierName: { type: String, default: "" },
+        // dateOfInjury: { type: String, default: "" },
+        // state: { type: String, default: "" },
+        // claim: { type: String, default: "" },
+        // adjusterName: { type: String, default: "" },
+        // adjusterPhone: { type: String, default: "" },
+        // reportedEmployer: { type: String, default: "" },
+
+        // employerName: { type: String, default: "" },
+        // employerPhone: { type: String, default: "" },
+        // employerAddress: { type: String, default: "" },
+
+        // attorneyName: { type: String, default: "" },
+        // attorneyPhone: { type: String, default: "" },
+        // insuranceDocuments: {
+        //     type: Array,
+        //     default: []
+        // },
         type: Object //all the info will save in this object, if patient select payVia insurance only.
     },
-    responsiblePartyGuarantor: {
-        //If you are not the patient but responsible for charges then info will save in this column "responsiblePartyGuarantor"
-        type: Object //all the info will save in this object
-    },
 
-    emergencyContact1: { type: Object },
-    emergencyContact2: { type: Object },
+    emergencyContact: { type: Array, default: [] },
 
     reminderViaMobile: {
         type: String,

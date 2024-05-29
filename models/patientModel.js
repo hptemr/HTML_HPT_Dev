@@ -11,6 +11,7 @@ const patientSchema = new mongoose.Schema({
     type: String,
     enum: ["Male", "Female", "Other"],
   },
+  martialStatus:{ type: String, "default" : "" },
   phoneNumber:{ type: String, "default" : "" },
   cellPhoneNumber:{ type: String, "default" : "" },
   workExtensionNumber:{ type: String, "default" : "" },
