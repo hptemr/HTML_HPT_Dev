@@ -238,6 +238,9 @@ export class Step2Component {
   addInsurance() {
     const dialogRef = this.dialog.open(AddInsuranceModalComponent, {
       panelClass: 'custom-alert-container',
-    });
+    })
+    dialogRef.afterClosed().subscribe(async insuranceName => {
+      console.log("insuranceName:", insuranceName)
+    })
   }
 }
