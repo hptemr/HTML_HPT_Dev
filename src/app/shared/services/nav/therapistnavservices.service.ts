@@ -113,7 +113,7 @@ export class TherapistNavservicesService {
       icon: 'person_outline',
       mainTitle: 'Patients',  
       headTitle1: '',
-      path: ' ',
+      path: '/support-team/patient',
       active: false, 
       type: 'link', 
       item: [ 
@@ -121,7 +121,26 @@ export class TherapistNavservicesService {
           title: 'person_outline Exercise',
           icon: 'Patients',
           type: 'link',
+          path: '/support-team/patient',
           active: false,  
+        },
+      ]
+    },
+    {
+      id: 55,
+      icon: 'description',
+      mainTitle: 'Documents',  
+      headTitle1: '',
+      path: '/support-team/document-listing',
+      active: false, 
+      type: 'link', 
+      item: [ 
+        {
+          title: 'Documents',
+          icon: 'description',
+          type: 'link',
+          active: false,  
+          path: '/support-team/document-listing',
         },
       ]
     },

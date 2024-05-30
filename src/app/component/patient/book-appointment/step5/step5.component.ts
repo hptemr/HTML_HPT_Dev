@@ -1,19 +1,16 @@
 import { Component } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio'; 
 import { MatDialog } from '@angular/material/dialog';
-import { MatRadioChange } from '@angular/material/radio';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AppointmentReqModalComponent } from '../appointment-req-modal/appointment-req-modal.component';
 
 @Component({
-  selector: 'app-step4', 
-  templateUrl: './step4.component.html',
-  styleUrl: './step4.component.scss'
+  selector: 'app-step5', 
+  templateUrl: './step5.component.html',
+  styleUrl: './step5.component.scss'
 })
-export class Step4Component {
+export class step5Component {
   toggle:boolean = true;
   selectedValue: number;
-
-  model: NgbDateStruct;
 
   constructor(public dialog: MatDialog) { }
   

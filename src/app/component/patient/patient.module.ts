@@ -14,6 +14,10 @@ import { InsuranceListingComponent } from './insurance/insurance-listing/insuran
 import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view-edit-insurance.component';
 import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
+import { ContactModalComponent } from './book-appointment/contact-modal/contact-modal.component';
+import { AddInsuranceModalComponent } from './book-appointment/add-insurance-modal/add-insurance-modal.component';
+import { AppointmentReqModalComponent } from './book-appointment/appointment-req-modal/appointment-req-modal.component';
+import { step5Component } from './book-appointment/step5/step5.component';
 
 
 @NgModule({
@@ -25,10 +29,14 @@ import { EmergencyContactComponent } from './emergency-contact/emergency-contact
     Step2Component,
     Step3Component,
     Step4Component,
+    step5Component,
     InsuranceListingComponent,
     ViewEditInsuranceComponent,
     HomeExerciseComponent,
-    EmergencyContactComponent
+    EmergencyContactComponent,
+    ContactModalComponent,
+    AddInsuranceModalComponent,
+    AppointmentReqModalComponent
   ],
   imports: [
     CommonModule,

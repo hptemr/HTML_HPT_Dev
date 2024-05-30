@@ -57,6 +57,15 @@ input, p,
         padding-bottom: 10px !important;
     }
 }
+.cdk-overlay-pane.mat-datepicker-popup{
+    overflow: unset !important;
+}
+.mat-calendar-body-cell-content{
+    font-family: "Nunito Sans", sans-serif !important;
+}
+.mat-calendar-body-selected{
+    background-color:#31B7B7 !important
+}
 
 .breadcrumb-item + .breadcrumb-item::before{
     content: '';
