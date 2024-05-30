@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 const emergencyContactSchema = new mongoose.Schema({
+    patientId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "patients"
+    },
     firstName: { type: String, default: "" },
     lastName: { type: String, default: "" },
     dob: { type: Date, default: "" },
@@ -13,4 +17,4 @@ const emergencyContactSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now }
 })
 
-module.exports = mongoose.model('emergencyContacts', emergencyContactSchema)
+module.exports = mongoose.model('emergency_contacts', emergencyContactSchema)
