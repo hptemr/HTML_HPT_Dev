@@ -802,11 +802,11 @@ ngb-datepicker{
 
 // Book Appointement comman
 .book--appointment--wrapper{
-    &.if--intake--form{
-        // .card{
-        //     opacity: 0.6;
-        //     pointer-events: none;
-        // }
+    &.read--only--form{
+        .card{
+            opacity: 0.6;
+            pointer-events: none;
+        }
     }
     .back--btn{
         min-width: 42px;
