@@ -21,7 +21,7 @@ const insurnaceSchema = new mongoose.Schema({
     injuryRelelatedTo: { type: String, default: "" },
     carrierName: { type: String, default: "" },
     dateOfInjury: { type: String, default: "" },
-    state: { type: String, default: "" },
+    insuranceState: { type: String, default: "" },
     claim: { type: String, default: "" },
     adjusterName: { type: String, default: "" },
     adjusterPhone: { type: String, default: "" },
