@@ -41,6 +41,11 @@ const messages = {
     appointmentMessage: {
         accepted: 'Appointment has been accepted successfully',
         cancelled: 'Appointment has been cancelled successfully',
+    },
+    emergencyContactsMessage: {
+        saved: 'Contact Details have been saved successfully!',
+
+
     }
 };
 
