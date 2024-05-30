@@ -9,24 +9,26 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { relationWithPatient } from 'src/app/config';
 import { regex } from '../../../utils/regex-patterns';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
 @Component({
   selector: 'app-emergency-contact', 
   templateUrl: './emergency-contact.component.html',
   styleUrl: './emergency-contact.component.scss'
 })
 export class EmergencyContactComponent implements OnInit {
-  selectedDate_0: NgbDateStruct;
-  selectedDate_1: NgbDateStruct;
-  
-  selected_date_0: any = '';
-  selected_date_1: any = '';
+  // selectedDate_0: NgbDateStruct;
+  // selectedDate_1: NgbDateStruct;
+  selected_date: any = [];  
   public userId: string;
   public userRole: string;
   public emergencyContactFormGroup: FormGroup;
   maxEndDate: any
-  relationWithPatientList: any = relationWithPatient
-  validationMessages = validationMessages; 
-  convertPhoneNumber: string = '';
+  relationWithPatientList: any = relationWithPatient;
+  validationMessages = validationMessages;
+  convertPhoneNumber: any = [];
+  //convertPhoneNumber: Observable<string[]>;
 
   constructor(public dialog: MatDialog,private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {}
 
@@ -43,8 +45,8 @@ export class EmergencyContactComponent implements OnInit {
           relationWithPatient: ['',[Validators.required]],
           otherRelation: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
           phoneNumber:['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
-          myTreatmentCheckbox: [false, [Validators.requiredTrue]],
-          myAccountCheckbox:  [false, [Validators.requiredTrue]]
+          myTreatmentCheckbox: [false, []],
+          myAccountCheckbox:  [false, []]
         })
       ]),
     });
@@ -74,22 +76,36 @@ export class EmergencyContactComponent implements OnInit {
       relationWithPatient: ['',[Validators.required]],
       otherRelation: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
       phoneNumber:['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
-      myTreatmentCheckbox: [false, [Validators.requiredTrue]],
-      myAccountCheckbox:  [false, [Validators.requiredTrue]]
+      myTreatmentCheckbox: [false, []],
+      myAccountCheckbox:  [false, []]
     }));
   }
 
+  async formSubmit(formData:any=null){
+    console.log(' formData >>>> ',formData);
 
-
-  formSubmit(formData:any=null){
-    console.log(' formData >>>>',formData)
+    console.log(' invalid >>>> ',this.emergencyContactFormGroup);
     if (this.emergencyContactFormGroup.invalid) {
-      this.emergencyContactFormGroup.markAllAsTouched();
-      return;
+        this.emergencyContactFormGroup.markAllAsTouched();
+        return;
     }else{
-      this.successModal();
+        var query = {};
+        const req_vars = {
+          query: Object.assign({ _id: this.userId }, query),
+          data: formData
+        }
+        this.commonService.showLoader();       
+        await this.authService.apiRequest('post', 'emergencyContact/addUpdateContactData', req_vars).subscribe(async response => {         
+          this.commonService.hideLoader();
+          if (response.error) {
+            if(response.message){
+              this.commonService.openSnackBar(response.message, "ERROR")   
+            }
+          } else {        
+            this.successModal();        
+          }      
+        })
     }
-    
   }
 
   
@@ -97,30 +113,34 @@ export class EmergencyContactComponent implements OnInit {
     colName.setValue(this.commonService.capitalize(event.target.value.trim()))
   }
 
-  onPhoneInputChange(event: Event): void {
+
+  onPhoneInputChange(event: Event, index:number): void {    
     const inputElement = event.target as HTMLInputElement;
-    this.convertPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
+    const val = inputElement.value    
+    this.convertPhoneNumber[index] = this.commonService.formatPhoneNumber(val)    
   }
 
-
   onDateChange(dateObj: NgbDateStruct,index:number) {
-    //console.log('ppctrls1 >>>',ppctrls.controls['dob'])
+    if(index)
+      // if(index==0){
+      //   this.selectedDate_0 = dateObj;
+      // }else if(index==1){
+      //   this.selectedDate_1 = dateObj;
+      // }
     if(typeof dateObj=='object'){
       if(dateObj.day && dateObj.month && dateObj.year){
-        // selected_date = this.commonService.formattedDate(dateObj)
-        // let ppctrls = <any>'';
-        // ppctrls = <FormArray>this.emergencyContactFormGroup.controls['dob'];
-
-        let ppctrls = <any>'';
-        ppctrls = <FormArray>this.contactsInfo.at(index);
-        
-       // console.log('ppctrls>>>',ppctrls.controls['dob'].value)
-        //return ppctrls.controls['dob'].setValue(ppctrls.controls['dob'].value); 
-        //const dateControl = this.contactsInfo.at(index).get('dob');
-        // if (dateControl) {
-         //dateControl.setValue(`${dateObj.year}-${dateObj.month}-${dateObj.day}`);
-         //dateControl.setValue(`${dateObj.month}-${dateObj.day}-${dateObj.year}`);
-        //}
+          this.selected_date[index] = this.commonService.formattedDate(dateObj);
+          //let ppctrls = <any>'';
+          // ppctrls = <FormArray>this.emergencyContactFormGroup.controls['dob'];
+          //let ppctrls = <any>'';
+          //ppctrls = <FormArray>this.contactsInfo.at(index);        
+          // console.log('ppctrls>>>',ppctrls.controls['dob'].value)
+          //return ppctrls.controls['dob'].setValue(ppctrls.controls['dob'].value); 
+          //const dateControl = this.contactsInfo.at(index).get('dob');
+          // if (dateControl) {
+            //dateControl.setValue(`${dateObj.year}-${dateObj.month}-${dateObj.day}`);
+            //dateControl.setValue(`${dateObj.month}-${dateObj.day}-${dateObj.year}`);
+          //}
       }
     }
  }

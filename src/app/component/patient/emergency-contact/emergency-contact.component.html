@@ -35,8 +35,7 @@
                     <div class="form-group">
                         <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
                         <div class="input-group">
-                            <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp" readonly ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event,pointIndex)" formControlName="dob" [minDate]="getMinDate(pointIndex)"  [maxDate]="maxEndDate" />
-                            <!-- [(ngModel)]="selectedDate_{{pointIndex}}"  [value]="selected_date_{{pointIndex}}"  -->
+                            <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp" readonly ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event,pointIndex)" [value]="selected_date[pointIndex]" formControlName="dob" [minDate]="getMinDate(pointIndex)" [maxDate]="maxEndDate"/>
                             <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()" type="button">
                                 <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                             </button>
@@ -58,13 +57,13 @@
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Other Relation</label>
-                        <input class="form-control" type="text" placeholder="Enter Other Relation" formControlName="otherRelation" maxlength="25"/>
+                        <input class="form-control" type="text" placeholder="Enter Other Relation" formControlName="otherRelation" maxlength="55"/>
                     </div>
                 </div>  
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
-                        <input class="form-control" type="text" imask="{mask: '(000) 000-0000'}" placeholder="Enter Phone Number" maxlength="14" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" formControlName="phoneNumber"/>
+                        <input class="form-control" type="text" imask="{mask: '(000) 000-0000'}" placeholder="Enter Phone Number" maxlength="14" (input)="onPhoneInputChange($event,pointIndex)" [value]="convertPhoneNumber[pointIndex]" formControlName="phoneNumber"/>
                         <div class="text text-danger mt-1" *ngIf="contactsInfo.at(pointIndex).get('phoneNumber')?.touched && contactsInfo.at(pointIndex).get('phoneNumber')?.hasError('required')">
                             {{ validationMessages.required('Phone Number') }}
                         </div>
