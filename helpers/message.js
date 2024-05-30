@@ -43,7 +43,7 @@ const messages = {
         cancelled: 'Appointment has been cancelled successfully',
     },
     emergencyContactsMessage: {
-        saved: 'Contact Details have been saved successfully!',
+        saved: 'Contact details have been saved successfully!',
 
 
     }
