@@ -84,8 +84,7 @@ export class UpdatePatientProfileComponent implements OnInit {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.user_data = localStorage.getItem("user");
-    this.documents_type_list = documents_list;
-    //console.log(this.userId,'user_data>>>>',this.user_data,' >>>>>>>>>>>>###>>>>>>>',this.authService.getLoggedInInfo('_id'))
+    this.documents_type_list = documents_list;    
     this.uploader = new FileUploader({url:`${URL}?userId=${this.userId}&type=Patient`});
     this.firstFormGroup = this.fb.group({
         firstName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
@@ -459,14 +458,12 @@ export class UpdatePatientProfileComponent implements OnInit {
           this.commonService.openSnackBar(response.message, "ERROR")   
         }
       } else {
-        //console.log('user data >>>>',response.data.patientData)     
         let user_data = response.data.patientData;
         if(user_data){          
           this.firstFormGroup.controls['firstName'].setValue(user_data.firstName ? user_data.firstName : '');
           this.firstFormGroup.controls['middleName'].setValue(user_data.middleName ? user_data.middleName : '');
           this.firstFormGroup.controls['lastName'].setValue(user_data.lastName ? user_data.lastName : '');
           this.firstFormGroup.controls['email'].setValue(user_data.email ? user_data.email : '');
-          //this.firstFormGroup.controls['dob'].setValue(user_data.dob ? user_data.dob : '');
           this.firstFormGroup.controls['phoneNumber'].setValue(user_data.phoneNumber ? user_data.phoneNumber : '');
           this.firstFormGroup.controls['cellPhoneNumber'].setValue(user_data.cellPhoneNumber ? user_data.cellPhoneNumber : '');
           this.firstFormGroup.controls['workExtensionNumber'].setValue(user_data.workExtensionNumber ? user_data.workExtensionNumber : '');

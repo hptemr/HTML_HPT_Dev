@@ -9,17 +9,16 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { relationWithPatient } from 'src/app/config';
 import { regex } from '../../../utils/regex-patterns';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-
+import { DatePipe } from '@angular/common';
+// import { Observable } from 'rxjs';
+// import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-emergency-contact', 
   templateUrl: './emergency-contact.component.html',
-  styleUrl: './emergency-contact.component.scss'
+  styleUrl: './emergency-contact.component.scss',
+  providers: [DatePipe]
 })
 export class EmergencyContactComponent implements OnInit {
-  // selectedDate_0: NgbDateStruct;
-  // selectedDate_1: NgbDateStruct;
   selected_date: any = [];  
   public userId: string;
   public userRole: string;
@@ -28,9 +27,8 @@ export class EmergencyContactComponent implements OnInit {
   relationWithPatientList: any = relationWithPatient;
   validationMessages = validationMessages;
   convertPhoneNumber: any = [];
-  //convertPhoneNumber: Observable<string[]>;
 
-  constructor(public dialog: MatDialog,private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {}
+  constructor(public dialog: MatDialog,private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService,private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id') 
@@ -50,20 +48,62 @@ export class EmergencyContactComponent implements OnInit {
         })
       ]),
     });
-
   }
 
   ngAfterViewInit() {
     this.filterStartDate();
-    this.addContactsInfo();
     this.getEmergencyContactDetail()
 
   }
 
-  getEmergencyContactDetail(){
-
-    
+  async getEmergencyContactDetail(){
+    var query = {};
+    const req_vars = {
+      query: Object.assign({ _id: this.userId }, query)
+    }
+    this.commonService.showLoader();       
+    await this.authService.apiRequest('post', 'emergencyContact/getContactData', req_vars).subscribe(async response => {         
+      this.commonService.hideLoader();
+      if (response.error) {
+        if(response.message){
+          this.commonService.openSnackBar(response.message, "ERROR")   
+        }
+      } else {        
+          if(response && response.data){
+               const ctrls = this.emergencyContactFormGroup.get('contacts') as FormArray;
+               response.data.forEach((element: any,index:number) => {
+                ctrls.removeAt(index)
+                ctrls.push(this.getEmergencyContact(element))
+               })
+          }else{
+            this.addContactsInfo();
+          }
+      }      
+    })
   }
+
+
+  getEmergencyContact(Obj:any) {
+    let dob_obj = {'month':'','day':'','year':''};
+    if(Obj.dob){          
+      this.selected_date = this.datePipe.transform(Obj.dob, 'MM-dd-yyyy')
+      let dateObj = this.selected_date.split('-');
+      let dateArray = dateObj.map(Number);
+      dob_obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
+    }
+
+    return this.fb.group({      
+      firstName: [Obj.firstName, Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
+      lastName: [Obj.lastName, Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
+      dob: [dob_obj,[Validators.required]],
+      relationWithPatient: [Obj.relationWithPatient,[Validators.required]],
+      otherRelation: [Obj.otherRelation, Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
+      phoneNumber:[Obj.phoneNumber,[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
+      myTreatmentCheckbox: [Obj.myTreatmentCheckbox, []],
+      myAccountCheckbox:  [Obj.myAccountCheckbox, []]
+    });
+  }
+
   get contactsInfo() {
     return this.emergencyContactFormGroup.get('contacts') as FormArray;
   }
@@ -82,9 +122,6 @@ export class EmergencyContactComponent implements OnInit {
   }
 
   async formSubmit(formData:any=null){
-    console.log(' formData >>>> ',formData);
-
-    console.log(' invalid >>>> ',this.emergencyContactFormGroup);
     if (this.emergencyContactFormGroup.invalid) {
         this.emergencyContactFormGroup.markAllAsTouched();
         return;
@@ -122,31 +159,13 @@ export class EmergencyContactComponent implements OnInit {
 
   onDateChange(dateObj: NgbDateStruct,index:number) {
     if(index)
-      // if(index==0){
-      //   this.selectedDate_0 = dateObj;
-      // }else if(index==1){
-      //   this.selectedDate_1 = dateObj;
-      // }
     if(typeof dateObj=='object'){
       if(dateObj.day && dateObj.month && dateObj.year){
           this.selected_date[index] = this.commonService.formattedDate(dateObj);
-          //let ppctrls = <any>'';
-          // ppctrls = <FormArray>this.emergencyContactFormGroup.controls['dob'];
-          //let ppctrls = <any>'';
-          //ppctrls = <FormArray>this.contactsInfo.at(index);        
-          // console.log('ppctrls>>>',ppctrls.controls['dob'].value)
-          //return ppctrls.controls['dob'].setValue(ppctrls.controls['dob'].value); 
-          //const dateControl = this.contactsInfo.at(index).get('dob');
-          // if (dateControl) {
-            //dateControl.setValue(`${dateObj.year}-${dateObj.month}-${dateObj.day}`);
-            //dateControl.setValue(`${dateObj.month}-${dateObj.day}-${dateObj.year}`);
-          //}
       }
     }
  }
  
- 
-
  getMinDate(index:number): NgbDateStruct {
     const today = new Date();
     const minDate = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
