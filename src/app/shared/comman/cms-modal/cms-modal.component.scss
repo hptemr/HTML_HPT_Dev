@@ -1,0 +1,27 @@
+::ng-deep{
+    .cms--container{
+        width: 100%;
+        .cms--wrapper{ 
+            .cms--header,
+            .cms--body,
+            .cms--footer{
+                padding: 20px;
+            }
+            .cms--header{
+                padding-bottom: 0;
+                h1{
+                    color: #1F2F3E;
+                    font-size: 20px;
+                    margin-bottom: 5px;
+                    font-weight: 800;
+                    border-bottom: 1px solid #ddd;
+                    padding-bottom: 20px;
+                }
+            }
+            .cms--body{
+                height: calc(100vh - 200px);
+                overflow: auto;
+            }
+        }
+    }
+}

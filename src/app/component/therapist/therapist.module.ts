@@ -9,6 +9,7 @@ import { AppointmentDetailsComponent } from './appointment-details/appointment-d
 import { SystemFollowupModalComponent } from './system-followup-modal/system-followup-modal.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
+import { AdditionalFormComponent } from './additional-form/additional-form.component';
  
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AppointmentRequestsComponent } from './appointment-requests/appointment
     AppointmentDetailsComponent,
     SystemFollowupModalComponent,
     PatientProfileComponent,
-    AppointmentRequestsComponent
+    AppointmentRequestsComponent,
+    AdditionalFormComponent
   ],
   imports: [
     CommonModule,
