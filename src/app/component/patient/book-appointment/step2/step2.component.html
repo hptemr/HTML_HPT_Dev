@@ -156,14 +156,13 @@
                         <div class="col-12">
                             <h2 class="mb-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">
                                 Insurances
-                                <span class="clr--DF0404 ms-1"> *</span>
                             </h2>
                         </div>
                         <div class="col-12 col-xl-8">
                             <div class="d-flex align-items-center w-100">
                                 <div class="form-group w-100">
-                                    <!-- <label class="col-form-label fw-600">Select Insurance</label> -->
-                                    <select placeholder="test" (change)="getInsuranceDetails($event)" formControlName="selectInsurance"
+                                    <!-- <label class="col-form-label fw-600">Select from added Insurance</label> -->
+                                    <select (change)="getInsuranceDetails($event)" formControlName="selectInsurance"
                                         class="form-select form-control" aria-label="Default select example">
                                         <option value="" selected>Select Insurance</option>
                                         <option value="{{i}}" *ngFor="let element of insuranceList; let i=index">
@@ -219,15 +218,15 @@
                                     </span></label>
                                 <div class="input-group">
                                     <input readonly class="form-control" placeholder="MM-DD-YYYY" ngbDatepicker
-                                        #d2="ngbDatepicker" formControlName="subscriberDob" [maxDate]="maxDate" />
+                                        #d3="ngbDatepicker" formControlName="subscriberDob" [maxDate]="maxDate" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn"
-                                        (click)="d2.toggle()" type="button">
+                                        (click)="d3.toggle()" type="button">
                                         <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                     </button>
-                                    <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['subscriberDob'].touched && (step2Form.controls['subscriberDob'].hasError('required') || step2Form.controls['subscriberDob'].invalid)">
-                                        {{ validationMessages.required('Date of Birth') }}
-                                    </div>
+                                </div>
+                                <div class="text text-danger mt-1"
+                                    *ngIf="step2Form.controls['subscriberDob'].touched && (step2Form.controls['subscriberDob'].hasError('required') || step2Form.controls['subscriberDob'].invalid)">
+                                    {{ validationMessages.required('Date of Birth') }}
                                 </div>
                             </div>
                         </div>
@@ -375,12 +374,14 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Is your injury related to</label>
                                 <mat-radio-group formControlName="injuryRelelatedTo" aria-label="Select an option">
-                                    <mat-radio-button value="1" class="me-3">Worker's Compensation
-                                        (WCOMP)</mat-radio-button>
-                                    <mat-radio-button value="2" class="me-3">Motar Vehicle Accident
-                                        (MVA)</mat-radio-button>
+                                    <mat-radio-button value="Worker's Compensation (WCOMP)" class="me-3">
+                                        Worker's Compensation (WCOMP)</mat-radio-button>
+                                    <mat-radio-button value="Motar Vehicle Accident (MVA)" class="me-3">
+                                        Motar Vehicle Accident (MVA)</mat-radio-button>
                                     <div class="d-inline-flex flex-column">
-                                        <mat-radio-button value="2">Other Personal Injury</mat-radio-button>
+                                        <mat-radio-button value="Other Personal Injury">
+                                            Other Personal Injury
+                                        </mat-radio-button>
                                         <div class="form-group" *ngIf="">
                                             <input class="form-control" type="text" placeholder="Enter Other Injury" />
                                         </div>
@@ -426,7 +427,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <select formControlName="state" class="form-select form-control"
+                                <select formControlName="insuranceState" class="form-select form-control"
                                     aria-label="Default select example">
                                     <option value="" selected>Select State</option>
                                     <option *ngFor="let item of states" value="{{item.state}}">
@@ -434,7 +435,7 @@
                                     </option>
                                 </select>
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['state'].touched && (step2Form.controls['state'].hasError('required') || step2Form.controls['state'].invalid)">
+                                    *ngIf="step2Form.controls['insuranceState'].touched && (step2Form.controls['insuranceState'].hasError('required') || step2Form.controls['insuranceState'].invalid)">
                                     {{ validationMessages.required('State') }}
                                 </div>
                             </div>
@@ -598,7 +599,7 @@
                         </div>
                         <div class="col-12">
                             <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
-                            <p class="font-16 clr--1F2F3E lh-24">User Name - I hereby authorize this PT clinic and/or
+                            <p class="font-16 clr--1F2F3E lh-24">{{fullNameForSign}} - I hereby authorize this PT clinic and/or
                                 it's
                                 Individual Therapists and Assistants to evaluate and administer PT treatments to the
                                 minor
@@ -624,7 +625,7 @@
                         </div>
                         <div class="col-12 d-flex flex-column w-100">
                             <div class="signature--box d-flex align-items-center justify-content-center">
-                                <img src="assets/images/ark/M.S.Johnson.png" alt="" class="img-fluid" />
+                                {{fullNameForSign}}
                             </div>
                             <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must
                                 sign

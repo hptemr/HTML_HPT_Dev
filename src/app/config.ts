@@ -73,10 +73,8 @@ export const userStatus = [
 ]
 
 export const maritalStatus = [
-  'Single',
   'Married',
-  'Divorced',
-  'Widowed'
+  'Unmarried',
 ]
 
 export const relationWithPatient = [

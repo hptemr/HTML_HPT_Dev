@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { states_data } from 'src/app/state';
+
 interface State {
   state: string;
   state_code: string;
@@ -40,6 +41,7 @@ export class Step2Component {
   carrierNameList = carrierNameList
   insuranceList: any
   states: State[] = states_data
+  fullNameForSign: any
 
   constructor(public dialog: MatDialog, private router: Router,
     private fb: FormBuilder, private commonService: CommonService,
@@ -60,15 +62,15 @@ export class Step2Component {
     }
     this.loadForm()
     this.getInsuranceList()
+
+    this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value
   }
 
-  ngAfterViewInit() {
-    console.log("ngAfterViewInit")
-  }
+  // ngAfterViewInit() {
+  //   console.log("ngAfterViewInit")
+  // }
 
   loadForm() {
-    console.log("subscriberRelationWithPatient:", this.step2FormData.subscriberRelationWithPatient)
-
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
       relationWithPatient: [this.step2FormData ? this.step2FormData.relationWithPatient : this.step1FormData.relationWithPatient],
@@ -99,7 +101,7 @@ export class Step2Component {
       injuryRelelatedTo: [this.step2FormData ? this.step2FormData.injuryRelelatedTo : ''],
       carrierName: [this.step2FormData && this.step2FormData.carrierName ? this.step2FormData.carrierName : '', [Validators.required]],
       dateOfInjury: [this.step2FormData ? this.step2FormData.dateOfInjury : '', [Validators.required]],
-      state: [this.step2FormData && this.step2FormData.state ? this.step2FormData.state : '', [Validators.required]],
+      insuranceState: [this.step2FormData && this.step2FormData.insuranceState ? this.step2FormData.insuranceState : '', [Validators.required]],
       claim: [this.step2FormData ? this.step2FormData.claim : '', [Validators.required]],
       adjusterName: [this.step2FormData ? this.step2FormData.adjusterName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       adjusterPhone: [this.step2FormData ? this.step2FormData.adjusterPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
@@ -112,40 +114,92 @@ export class Step2Component {
     });
   }
 
-  getInsuranceDetails(event:any) {
-    console.log("element:", event)
-    console.log("value:", event.value)
-    console.log("target:", event.target.value)
-    //this.step2Form.controls['subscriberFirstName'].setValue("martialStatus")
+  getInsuranceDetails(event: any) {
+    let currentIndex = event.target.value
+    console.log(":currentIndex:", currentIndex)
+    let subscriberFirstName = ''
+    let subscriberMiddleName = ''
+    let subscriberLastName = ''
+    let subscriberDob
+    let subscriberRelationWithPatient = ''
+    let primaryInsuranceCompany = ''
+    let primaryInsuranceIdPolicy = ''
+    let primaryInsuranceGroup = ''
+    let primaryInsuranceCustomerServicePh = ''
+    let secondaryInsuranceCompany = ''
+    let secondaryInsuranceIdPolicy = ''
+    let secondaryInsuranceGroup = ''
+    let secondaryInsuranceCustomerServicePh = ''
+    let injuryRelelatedTo = ''
+    let carrierName = ''
+    let dateOfInjury
+    let insuranceState = ''
+    let claim = ''
+    let adjusterName = ''
+    let adjusterPhone = ''
+    let reportedEmployer = ''
+    let employerName = ''
+    let employerPhone = ''
+    let employerAddress = ''
+    let attorneyName = ''
+    let attorneyPhone = ''
 
-    // subscriberFirstName: [this.step2FormData ? this.step2FormData.subscriberFirstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-    // subscriberMiddleName: [this.step2FormData ? this.step2FormData.subscriberMiddleName : ''],
-    // subscriberLastName: [this.step2FormData ? this.step2FormData.subscriberLastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-    // subscriberDob: [this.step2FormData ? this.step2FormData.subscriberDob : ''],
-    // subscriberRelationWithPatient: [this.step2FormData && this.step2FormData.subscriberRelationWithPatient ? this.step2FormData.subscriberRelationWithPatient : ''],
-    // primaryInsuranceCompany: [this.step2FormData ? this.step2FormData.primaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-    // primaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.primaryInsuranceIdPolicy : '', [Validators.required]],
-    // primaryInsuranceGroup: [this.step2FormData ? this.step2FormData.primaryInsuranceGroup : '', [Validators.required]],
-    // primaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.primaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-    // secondaryInsuranceCompany: [this.step2FormData ? this.step2FormData.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-    // secondaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.secondaryInsuranceIdPolicy : '', [Validators.required]],
-    // secondaryInsuranceGroup: [this.step2FormData ? this.step2FormData.secondaryInsuranceGroup : '', [Validators.required]],
-    // secondaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.secondaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-    // injuryRelelatedTo: [this.step2FormData ? this.step2FormData.injuryRelelatedTo : ''],
-    // carrierName: [this.step2FormData && this.step2FormData.carrierName ? this.step2FormData.carrierName : '', [Validators.required]],
-    // dateOfInjury: [this.step2FormData ? this.step2FormData.dateOfInjury : '', [Validators.required]],
-    // state: [this.step2FormData && this.step2FormData.state ? this.step2FormData.state : '', [Validators.required]],
-    // claim: [this.step2FormData ? this.step2FormData.claim : '', [Validators.required]],
-    // adjusterName: [this.step2FormData ? this.step2FormData.adjusterName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-    // adjusterPhone: [this.step2FormData ? this.step2FormData.adjusterPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-    // reportedEmployer: [this.step2FormData ? this.step2FormData.reportedEmployer : ''],
-    // employerName: [this.step2FormData ? this.step2FormData.employerName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-    // employerPhone: [this.step2FormData ? this.step2FormData.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-    // employerAddress: [this.step2FormData ? this.step2FormData.employerAddress : '', [Validators.required]],
-    // attorneyName: [this.step2FormData ? this.step2FormData.attorneyName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-    // attorneyPhone: [th
+    if (currentIndex && currentIndex >= 0) {
+      let info = this.insuranceList[currentIndex]
+      subscriberFirstName = info.subscriberFirstName
+      subscriberMiddleName = info.subscriberMiddleName
+      subscriberLastName = info.subscriberLastName
+      subscriberDob = info.subscriberDob
+      subscriberRelationWithPatient = info.subscriberRelationWithPatient
+      primaryInsuranceCompany = info.primaryInsuranceCompany
+      primaryInsuranceIdPolicy = info.primaryInsuranceIdPolicy
+      primaryInsuranceGroup = info.primaryInsuranceGroup
+      primaryInsuranceCustomerServicePh = info.primaryInsuranceCustomerServicePh
+      secondaryInsuranceCompany = info.secondaryInsuranceCompany
+      secondaryInsuranceIdPolicy = info.secondaryInsuranceIdPolicy
+      secondaryInsuranceGroup = info.secondaryInsuranceGroup
+      secondaryInsuranceCustomerServicePh = info.secondaryInsuranceCustomerServicePh
+      injuryRelelatedTo = info.injuryRelelatedTo
+      carrierName = info.carrierName
+      dateOfInjury = info.dateOfInjury
+      insuranceState = info.insuranceState
+      claim = info.claim
+      adjusterName = info.adjusterName
+      adjusterPhone = info.adjusterPhone
+      reportedEmployer = info.reportedEmployer
+      employerName = info.employerName
+      employerPhone = info.employerPhone
+      employerAddress = info.employerAddress
+      attorneyName = info.attorneyName
+      attorneyPhone = info.attorneyPhone
+    }
 
-    //this.step2Form.controls['subscriberFirstName'].setValue(martialStatus)
+    this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
+    this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
+    this.step2Form.controls['subscriberLastName'].setValue(subscriberLastName)
+    this.step2Form.controls['subscriberDob'].setValue(subscriberDob)
+    this.step2Form.controls['subscriberRelationWithPatient'].setValue(subscriberRelationWithPatient)
+    this.step2Form.controls['primaryInsuranceCompany'].setValue(primaryInsuranceCompany)
+    this.step2Form.controls['primaryInsuranceIdPolicy'].setValue(primaryInsuranceIdPolicy)
+    this.step2Form.controls['primaryInsuranceGroup'].setValue(primaryInsuranceGroup)
+    this.step2Form.controls['primaryInsuranceCustomerServicePh'].setValue(primaryInsuranceCustomerServicePh)
+    this.step2Form.controls['secondaryInsuranceCompany'].setValue(secondaryInsuranceCompany)
+    this.step2Form.controls['secondaryInsuranceIdPolicy'].setValue(secondaryInsuranceIdPolicy)
+    this.step2Form.controls['secondaryInsuranceGroup'].setValue(secondaryInsuranceGroup)
+    this.step2Form.controls['secondaryInsuranceCustomerServicePh'].setValue(secondaryInsuranceCustomerServicePh)
+    this.step2Form.controls['injuryRelelatedTo'].setValue(injuryRelelatedTo)
+    this.step2Form.controls['carrierName'].setValue(carrierName)
+    this.step2Form.controls['dateOfInjury'].setValue(dateOfInjury)
+    this.step2Form.controls['insuranceState'].setValue(insuranceState)
+    this.step2Form.controls['claim'].setValue(claim)
+    this.step2Form.controls['adjusterName'].setValue(adjusterName)
+    this.step2Form.controls['adjusterPhone'].setValue(adjusterPhone)
+    this.step2Form.controls['reportedEmployer'].setValue(reportedEmployer)
+    this.step2Form.controls['employerName'].setValue(employerName)
+    this.step2Form.controls['employerPhone'].setValue(employerPhone)
+    this.step2Form.controls['employerAddress'].setValue(employerAddress)
+    this.step2Form.controls['attorneyName'].setValue(attorneyName)
+    this.step2Form.controls['attorneyPhone'].setValue(attorneyPhone)
   }
 
   async getInsuranceList() {
