@@ -27,7 +27,7 @@ export class AppointmentDetailsComponent {
  
   rescheduleModal(){
     const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent,{
-      panelClass: 'custom-alert-container',
+      panelClass: ['custom-alert-container', 'rechedule--wrapper'],
     });
   }
 
