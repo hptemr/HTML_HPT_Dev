@@ -585,43 +585,88 @@
                     <div class="col-12" *ngIf="selectedValue == 012">
                         <div class="row">
                             <div class="col-12 col-lg-7">
-                                <div class="d-flex align-items-center w-100">
+                                <!-- *ngFor="let allergy of allergies; let i = index" -->
+                                <div class="d-flex align-items-center w-100" >
                                     <div class="form-group w-100">
                                         <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
                                         <input class="form-control" type="text" placeholder="Enter Allergy" />
                                         <!-- <div class="text text-danger mt-1">Error here</div> -->
                                     </div>
-                                    <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                        Add Another
+                                    <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn" >
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
                                     </button>
                                 </div>
+                                <div class="d-flex align-items-center w-100" >
+                                    <div class="form-group w-100">
+                                        <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
+                                        <input class="form-control" type="text" placeholder="Enter Allergy" />
+                                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                    </div>
+                                    <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn" >
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
+                                    </button>
+                                </div>
+                                
                             </div>
                             <div class="col-12 ">
                                 <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                     Previous surgeries and dates
                                 </p> 
                             </div>
-                            <div class="col-12 col-lg-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="col-form-label fw-600">Surgery Details </label>
-                                    <input class="form-control" type="text" placeholder="Enter Surgery Details" />
-                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="col-form-label fw-600">Surgery Date </label>
-                                    <div class="input-group">
-                                        <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                            type="button">
-                                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                        </button>
+                            <div class="col-12">
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label fw-600">Surgery Details </label>
+                                            <input class="form-control" type="text" placeholder="Enter Surgery Details" />
+                                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                        </div>
                                     </div>
+                                    <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
+                                        <div class="form-group w-100">
+                                            <label class="col-form-label fw-600">Surgery Date </label>
+                                            <div class="input-group">
+                                                <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
+                                                    [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                                                    type="button">
+                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
+                                        </button>
+                                    </div>  
                                 </div>
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label fw-600">Surgery Details </label>
+                                            <input class="form-control" type="text" placeholder="Enter Surgery Details" />
+                                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
+                                        <div class="form-group w-100">
+                                            <label class="col-form-label fw-600">Surgery Date </label>
+                                            <div class="input-group">
+                                                <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
+                                                    [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                                                    type="button">
+                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
+                                        </button>
+                                    </div>  
+                                </div>
+                               
                             </div>
+
                             <div class="col-12 ">
                                 <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                     Medications you are currently using:
@@ -634,11 +679,21 @@
                                         <input class="form-control" type="text" placeholder="Enter Medication" />
                                         <!-- <div class="text text-danger mt-1">Error here</div> -->
                                     </div>
-                                    <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                        Add Another
+                                    <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> delete </mat-icon> 
                                     </button>
                                 </div>
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="form-group w-100">
+                                        <label class="col-form-label fw-600">Medication</label>
+                                        <input class="form-control" type="text" placeholder="Enter Medication" />
+                                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                    </div>
+                                    <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> add_circle </mat-icon> 
+                                    </button>
+                                </div>
+                               
                             </div>
                         </div>
                     </div>  

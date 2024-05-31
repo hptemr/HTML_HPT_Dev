@@ -28,6 +28,14 @@
             border-top: 1px solid #DED2D9;
             margin: 25px 0;
         }
+        .add--btn{
+            height: 45px;
+            .mat-icon{
+                font-size: 21px;
+                width: 21px;
+                height: 21px;
+            }
+        }
         .select--ans{
             list-style-type: none;
             li{

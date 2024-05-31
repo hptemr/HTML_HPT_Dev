@@ -20,4 +20,14 @@ export class Step3Component {
     {number: '7'}, {number: '8'}, {number: '9'},
     {number: '10'}
   ];
+
+  // allergies = [
+  //   {
+  //     label: 'Enter Allergy'
+  //   }, 
+  // ];
+
+  addAnotherAllergy() {
+    // this.allergies.push({new allergies()})
+  }
 }
