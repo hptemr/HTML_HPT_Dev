@@ -114,7 +114,7 @@ export class AppointmentDetailsComponent {
   rescheduleModal(appointmentId:string){
     const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent,{
       disableClose :true,
-      panelClass: 'custom-alert-container',
+      panelClass: ['custom-alert-container', 'rechedule--wrapper'],
       data : {
         // heading: `Invite ${this.pageTitle}`,
          appointmentId:appointmentId,

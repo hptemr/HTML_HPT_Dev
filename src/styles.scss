@@ -57,6 +57,15 @@ input, p,
         padding-bottom: 10px !important;
     }
 }
+.cdk-overlay-pane.mat-datepicker-popup{
+    overflow: unset !important;
+}
+.mat-calendar-body-cell-content{
+    font-family: "Nunito Sans", sans-serif !important;
+}
+.mat-calendar-body-selected{
+    background-color:#31B7B7 !important
+}
 
 .breadcrumb-item + .breadcrumb-item::before{
     content: '';
@@ -290,6 +299,31 @@ textarea{resize: none !important;}
 
 input[type=text] {
     text-transform: capitalize;
+}
+.input-group{
+    &.prefix--field{
+        .input-group-prepend{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            .input-group-text{
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+                border-color: #CCC;
+                background: transparent;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                padding-right: 0;
+                height: 40px;
+                font-size: 14px;
+            }
+        }
+        .form-control{
+            border-left: none;
+            &:focus{
+                border-left: 0 !important;
+            }
+        }
+    } 
 }
 
 .form-control{
@@ -577,7 +611,16 @@ a{
             }
         }
     }
+
+    &.rechedule--wrapper{
+        overflow: unset !important;
+        .mdc-dialog__surface{
+            overflow-y: unset ;
+        }
+    }
 }
+
+
 // Alert Modal (End here) 
 
 // Bootstrap Modal (Start here)
@@ -802,11 +845,11 @@ ngb-datepicker{
 
 // Book Appointement comman
 .book--appointment--wrapper{
-    &.if--intake--form{
-        // .card{
-        //     opacity: 0.6;
-        //     pointer-events: none;
-        // }
+    &.read--only--form{
+        .card{
+            opacity: 0.6;
+            pointer-events: none;
+        }
     }
     .back--btn{
         min-width: 42px;
@@ -818,7 +861,7 @@ ngb-datepicker{
     }
     .card{
         padding: 20px 40px;
-        height: calc(100vh - 285px);
+        height: calc(100vh - 240px);
         overflow: auto; 
         border-radius: 10px 10px 0px 0px;
         .other--booking{

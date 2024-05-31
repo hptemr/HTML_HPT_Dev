@@ -13,7 +13,7 @@ export class AppointmentDetailsComponent {
   constructor(private router: Router, public dialog: MatDialog) { }
   rescheduleModal(){
     const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent,{
-      panelClass: 'custom-alert-container',
+      panelClass: ['custom-alert-container', 'rechedule--wrapper'],
     });
   }
   writeComment(){
