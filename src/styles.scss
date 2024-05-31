@@ -75,6 +75,9 @@ input, p,
     background-repeat: no-repeat;
     margin: 5px 4px 4px 1px;
 }
+.breadcrumb-item.active{
+    text-transform: lowercase;
+}
 
 .no--record--found{
     min-height: 100px;
@@ -211,6 +214,7 @@ input, p,
                     width: 85px;
                     height: 85px; 
                     margin: -45px auto 38px auto; 
+                    border-radius: 100%;
                     .user--img{
                         border-radius: 100%;
                     }
@@ -846,10 +850,10 @@ ngb-datepicker{
 // Book Appointement comman
 .book--appointment--wrapper{
     &.read--only--form{
-        .card{
-            opacity: 0.6;
-            pointer-events: none;
-        }
+        // .card{
+        //     opacity: 0.6;
+        //     pointer-events: none;
+        // }
     }
     .back--btn{
         min-width: 42px;
