@@ -1,13 +1,20 @@
 <div class="container-fluid book--appointment--wrapper ba--step--three read--only--form">
     <div class="row">
-        <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn">
-                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
-            </button>
-            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Intake Form </span>
-                <span>(Step <span class="text-primary"> 3 </span> of 5)</span>
-            </h3>
+        <div class="col-12 d-flex align-items-center mt-0 mb-2">
+            <div class="row w-100 align-items-center">
+                <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/support-team/appointment-details']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Intake Form </span>
+                        <span>(Step <span class="text-primary"> 3 </span> of 5)</span> 
+                    </h3>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
+                    <p class="mb-0 clr--1F2F3E fw-700 font-16">John Walter <span class="fw-500">(Appointment #: 123456)</span> </p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card m-0">
@@ -17,14 +24,14 @@
             </div> 
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Full Name <span class="clr--DF0404 ms-1"> * </span></label>
+                    <label class="col-form-label fw-600">Full Name</label>
                     <input class="form-control" type="text" placeholder="Enter Full Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
+                    <label class="col-form-label fw-600">Date of Birth</label>
                     <div class="input-group">
                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
                             [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
@@ -37,7 +44,7 @@
             </div>  
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Date  <span class="clr--DF0404 ms-1"> * </span></label>
+                    <label class="col-form-label fw-600">Date </label>
                     <div class="input-group">
                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
                             [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
@@ -212,6 +219,151 @@
                                     </div> 
                                 </div>
                             </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Stroke?</label>  
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="301" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 301">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="family--box">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="302" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 302">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoporosis?</label>  
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="303" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 303">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="family--box">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="304" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoarthritis?</label>  
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="305" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="family--box">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="306" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 306">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatoid arthritis?</label>  
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="307" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 307">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="family--box">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="308" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 308">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600"> Bleeding disorders?</label>  
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="310" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 310">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="family--box">
+                                    <div class="d-flex flex-column w-100">
+                                        <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="311" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 311">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
                         </div>
                     </div>  
                 </div>
@@ -308,6 +460,118 @@
                                     </div> 
                                 </div> 
                             </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in appetite?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="21" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 21">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Difficulty swallowing?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="22" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 22">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in bowel/bladder function?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="23" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 23">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Shortness of breath? </label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="24" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 24">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600"> Dizziness?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="25" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 25">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Upper respiratory infection?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="26" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 26">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Urinary tract infection?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="27" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 27">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div> 
                         </div>
                     </div> 
                 </div> 
@@ -462,6 +726,102 @@
                                     </div> 
                                 </div> 
                             </div> 
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatic fever?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="35" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 35">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Ulcers? </label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="36" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 36">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Sexually transmitted disease? </label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="37" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 37">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Seizures?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="38" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 38">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have a pacemaker?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="39" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 39">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="dd--row w-100 d-flex align-items-start">
+                                <div class="disease--box">
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have any metal in your body?</label>
+                                </div>
+                                <div class="self--box ">
+                                    <div class="d-flex flex-column w-100"> 
+                                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                            <mat-radio-button  [value]="40" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <div class="form-group mt-2 w-100" *ngIf="selectedValue == 40">
+                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div> 
                         </div>
                     </div> 
                 </div> 
@@ -562,13 +922,15 @@
                     <div class="col-12 select--ans d-flex align-items-center">
                         <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
                         <ul class="m-0 p-0 d-flex flex-wrap">
-                            <li>1</li> <li>2</li> <li>3</li> <li>4</li> <li class="active">5</li> <li>6</li> <li>7</li> <li>8</li> <li>9</li> <li>10</li>
+                             <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
+                                 {{i}}
+                             </li>
                         </ul>
                     </div>  
                     <div class="col-12">
-                        <p class="clr--1F2F3E font-16 lh-24 mt-4">Congress passed the Health Insurance Portability and Accountability Act, or HIPAA, in 1996. Its primary purpose is to ensure that people who change jobs cannot be denied health insurance in a new job because of a pre-existing health condition. The law also established minimum standards of privacy and security to ensure that sensitive information about individuals' health would remain confidential.
-                            I hereby acknowledge that I have received and have been given an opportunity to read a copy of the clinic's Notice of Privacy Practices (NPP). I understand that if I have any questions regarding the Notice or my privacy rights, I can contact the clinic's HR department at (406) 375-9034; or by email at hradmin&#64;hamiltonpt.com.
-                            I acknowledge that I have been given an opportunity to review the NPP, and that it's available in hard copy upon request. I also understand that the NPP is available on the practice's website at hamiltonpt.com, darbypt.com, corvallispt.com, stevipt.com, florencept.com, frenchtownpt.com and a copy is available to me at the clinic's front desk.</p>
+                        <p class="clr--1F2F3E font-16 lh-24 mt-4 mb-0">Congress passed the Health Insurance Portability and Accountability Act, or HIPAA, in 1996. Its primary purpose is to ensure that people who change jobs cannot be denied health insurance in a new job because of a pre-existing health condition. The law also established minimum standards of privacy and security to ensure that sensitive information about individuals' health would remain confidential.</p>
+                            <p class="clr--1F2F3E font-16 lh-24 mb-0">   I hereby acknowledge that I have received and have been given an opportunity to read a copy of the clinic's Notice of Privacy Practices (NPP). I understand that if I have any questions regarding the Notice or my privacy rights, I can contact the clinic's HR department at (406) 375-9034; or by email at hradmin&#64;hamiltonpt.com.</p>
+                                <p class="clr--1F2F3E font-16 lh-24"> I acknowledge that I have been given an opportunity to review the NPP, and that it's available in hard copy upon request. I also understand that the NPP is available on the practice's website at hamiltonpt.com, darbypt.com, corvallispt.com, stevipt.com, florencept.com, frenchtownpt.com and a copy is available to me at the clinic's front desk.</p>
                     </div>
                     <div class="col-12">
                         <i class="clr--1F2F3E font-14 mt-4">**Please note if the appropriate boxes are not checked for contacts listed, we cannot legally speak with them regarding your appointments and/or account**</i>

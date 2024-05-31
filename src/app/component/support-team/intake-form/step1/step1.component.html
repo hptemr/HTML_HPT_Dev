@@ -1,18 +1,25 @@
 <div class="container-fluid book--appointment--wrapper read--only--form">
     <div class="row">
-        <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/support-team/appointment-details']">
-                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
-            </button>
-            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Intake Form </span>
-                <span>(Step <span class="text-primary"> 1 </span> of 5)</span> 
-            </h3>
+        <div class="col-12 d-flex align-items-center mt-0 mb-2">
+            <div class="row w-100 align-items-center">
+                <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/support-team/appointment-details']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Intake Form </span>
+                        <span>(Step <span class="text-primary"> 1 </span> of 5)</span> 
+                    </h3>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
+                    <p class="mb-0 clr--1F2F3E fw-700 font-16">John Walter <span class="fw-500">(Appointment #: 123456)</span> </p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card m-0"> 
         <div class="row"> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6  ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Practice Location</label>
                     <select class="form-select form-control" aria-label="Default select example">
@@ -28,7 +35,7 @@
                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Select Date & Time </label>
                     <div class="input-group">
@@ -41,7 +48,20 @@
                     </div>
                   </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label fw-600">Booking For</label>  
+                  <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                    <mat-radio-button value="111" class="me-3" checked>Myself</mat-radio-button>
+                    <mat-radio-button value="222">Other</mat-radio-button>
+                  </mat-radio-group> 
+                  <div class="form-group other--booking"  *ngIf="selectedValue == 222"> 
+                    <input class="form-control" type="text" placeholder="Enter other booking for" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Relationship with Patient</label>
                     <select class="form-select form-control" aria-label="Default select example">
@@ -57,50 +77,29 @@
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                <div class="form-group">
-                  <label class="col-form-label fw-600">Booking For</label>  
-                  <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                    <mat-radio-button value="111" class="me-3" checked>Myself</mat-radio-button>
-                    <mat-radio-button value="222">Other</mat-radio-button>
-                  </mat-radio-group> 
-                  <div class="form-group other--booking"  *ngIf="selectedValue == 222"> 
-                    <input class="form-control" type="text" placeholder="Enter other booking for" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="text" placeholder="Enter First Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> * </span></label>
+                    <label class="col-form-label fw-600">Middle Name</label>
                     <input class="form-control" type="text" placeholder="Enter Middle Name"/>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="text" placeholder="Enter Last Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                <div class="form-group">
-                  <label class="col-form-label fw-600">Gender</label>  
-                  <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1" class="me-3">Male</mat-radio-button>
-                    <mat-radio-button value="2">Female</mat-radio-button>
-                  </mat-radio-group> 
-                </div>
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Date of Birth </label>
                     <div class="input-group">
@@ -113,14 +112,7 @@
                     </div>
                   </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="email" placeholder="Enter Email" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Marital Status</label>
                     <select class="form-select form-control" aria-label="Default select example">
@@ -133,21 +125,39 @@
                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12">
+                <div class="form-group">
+                  <label class="col-form-label fw-600">Gender</label>  
+                  <mat-radio-group aria-label="Select an option">
+                    <mat-radio-button value="1" class="me-3">Male</mat-radio-button>
+                    <mat-radio-button value="2">Female</mat-radio-button>
+                  </mat-radio-group> 
+                </div>
+            </div> 
+           
+            <div class="col-12 col-lg-6 col-md-6 ">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
+                    <input class="form-control" type="email" placeholder="Enter Email" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                  </div>
+            </div>
+            
+            <div class="col-12 col-lg-6 col-md-6  ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="number" placeholder="Enter Phone Number"/>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>  
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Cell Phone Number </label>
                     <input class="form-control" type="number" placeholder="Enter Cell Phone Number" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Work Extension </label>
                     <input class="form-control" type="number" placeholder="Enter Work Extension Number" />

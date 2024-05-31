@@ -37,7 +37,7 @@
                             </th>
                             <td class="cursor-pointer" mat-cell *matCellDef="let element" [routerLink]="['/support-team/document-detailing']"> 
                                <div class="d-flex align-items-center">
-                                    <mat-icon class="me-3">description</mat-icon>
+                                    <mat-icon class="me-3"> {{element.icon}}</mat-icon>
                                     <p class="font-14 clr--292D32">{{element.name}}</p>
                                </div>
                             </td>

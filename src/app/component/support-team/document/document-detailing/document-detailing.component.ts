@@ -9,30 +9,67 @@ import { MatTableDataSource } from '@angular/material/table';
 export interface PeriodicElement {
   name: string;   
   actions: string;
+  icon : string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: '19G NOTE VERBIAGE',  
-    actions: ''   
+    actions: '' ,
+    icon: 'folder'  
   }, 
   { 
     name: 'ADDING PROVIDER STEPS',  
-    actions: ''   
+    actions: '',
+    icon: 'edit'    
   }, 
   { 
     name: 'CST FAXES',  
+    icon: 'picture_as_pdf',   
     actions: ''   
   }, 
   { 
-    name: 'EXT LIST',  
+    name: 'EXT LIST',
+    icon: 'folder',  
     actions: ''   
   },   
   { 
-    name: 'MEDICAID PPA Instuctions',  
+    name: 'MEDICAID PPA Instuctions',
+    icon: 'picture_as_pdf',  
     actions: ''   
   },
   { 
-    name: 'NRO POC Track Sheet',  
+    name: 'NRO POC Track Sheet',
+    icon: 'description',  
+    actions: ''   
+  },
+  { 
+    name: '19G NOTE VERBIAGE',  
+    actions: '' ,
+    icon: 'description'  
+  }, 
+  { 
+    name: 'ADDING PROVIDER STEPS',  
+    actions: '',
+    icon: 'edit'    
+  }, 
+  { 
+    name: 'CST FAXES',  
+    icon: 'picture_as_pdf',   
+    actions: ''   
+  }, 
+  { 
+    name: 'EXT LIST',
+    icon: 'edit',  
+    actions: ''   
+  },   
+  { 
+    name: 'MEDICAID PPA Instuctions',
+    icon: 'picture_as_pdf',  
+    actions: ''   
+  },
+  { 
+    name: 'NRO POC Track Sheet',
+    icon: 'description',  
     actions: ''   
   },
    
