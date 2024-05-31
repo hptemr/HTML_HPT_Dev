@@ -42,14 +42,14 @@ export class Step1Component {
     this.patientInfo = this.authService.getLoggedInInfo()
     this.step1FormData = localStorage.getItem("step1FormData")
     let appToday
-    if (this.step1FormData == null) { 
+    if (this.step1FormData == null) {
       this.loadForm()
       this.selectedValue = 'Myself'
       this.setValue('Myself')
       //appToday = new Date(this.patientInfo.dob);
     } else {
       //appToday = new Date("08-03-2024");
-      this.step1FormData = JSON.parse(this.step1FormData) 
+      this.step1FormData = JSON.parse(this.step1FormData)
       this.loadForm()
     }
     //this.dob = { month: appToday.getMonth() + 1, day: appToday.getDate(), year: appToday.getFullYear() }
@@ -85,6 +85,7 @@ export class Step1Component {
       martialStatus = this.patientInfo.martialStatus
       gender = this.patientInfo.gender
       email = this.patientInfo.email
+      dob = this.patientInfo.dob
       phoneNumber = this.patientInfo.phoneNumber
       cellPhoneNumber = this.patientInfo.cellPhoneNumber
       workExtensionNumber = this.patientInfo.workExtensionNumber
@@ -99,6 +100,7 @@ export class Step1Component {
     this.step1Form.controls['martialStatus'].setValue(martialStatus)
     this.step1Form.controls['gender'].setValue(gender)
     this.step1Form.controls['email'].setValue(email)
+    this.step1Form.controls['dob'].setValue(dob)
     this.step1Form.controls['phoneNumber'].setValue(phoneNumber)
     this.step1Form.controls['cellPhoneNumber'].setValue(cellPhoneNumber)
     this.step1Form.controls['workExtensionNumber'].setValue(workExtensionNumber)
@@ -107,20 +109,20 @@ export class Step1Component {
   loadForm() {
     this.step1Form = new FormGroup({
       practiceLocation: new FormControl((this.step1FormData ? this.step1FormData.practiceLocation : ''), Validators.compose([Validators.required])),
-      appointmentDate: new FormControl('', Validators.compose([Validators.required])),
+      appointmentDate: new FormControl((this.step1FormData ? this.step1FormData.appointmentDate : ''), Validators.compose([Validators.required])),
       bookingFor: new FormControl((this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue)),
       relationWithPatient: new FormControl((this.step1FormData ? this.step1FormData.relationWithPatient : '')),
       firstName: new FormControl((this.step1FormData ? this.step1FormData.firstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       middleName: new FormControl((this.step1FormData ? this.step1FormData.middleName : '')),
       lastName: new FormControl((this.step1FormData ? this.step1FormData.lastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
-      dob: new FormControl('', Validators.compose([Validators.required])),
+      dob: new FormControl((this.step1FormData ? this.step1FormData.dob : ''), Validators.compose([Validators.required])),
       martialStatus: new FormControl((this.step1FormData ? this.step1FormData.martialStatus : '')),
       gender: new FormControl((this.step1FormData ? this.step1FormData.gender : '')),
       email: new FormControl((this.step1FormData ? this.step1FormData.email : ''), Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
       phoneNumber: new FormControl((this.step1FormData ? this.step1FormData.phoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
       cellPhoneNumber: new FormControl((this.step1FormData ? this.step1FormData.cellPhoneNumber : '')),
       workExtensionNumber: new FormControl((this.step1FormData ? this.step1FormData.workExtensionNumber : ''))
- 
+
       // practiceLocation: [this.step1FormData ? this.step1FormData.practiceLocation : '', [Validators.required]],
       // appointmentDate: [this.step1FormData ? this.commonService.getCalendarDate(this.step1FormData.appointmentDate) : '', [Validators.required]],
       // bookingFor: [this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue],

@@ -81,12 +81,18 @@
                             Date of Birth <span class="clr--DF0404 ms-1"> * </span>
                         </label>
                         <div class="input-group">
-                            <input readonly class="form-control" placeholder="MM-DD-YYYY" ngbDatepicker
+                            <!-- <input readonly class="form-control" placeholder="MM-DD-YYYY" ngbDatepicker
                                 #d2="ngbDatepicker" formControlName="dob" [(ngModel)]="dob" [maxDate]="maxDate" />
                             <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d2.toggle()"
                                 type="button">
                                 <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                            </button>
+                            </button> -->
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput
+                                    [matDatepicker]="picker">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
                         </div>
                         <div class="text text-danger mt-1"
                             *ngIf="step2Form.controls['dob'].touched && (step2Form.controls['dob'].hasError('required') || step2Form.controls['dob'].invalid)">
@@ -217,12 +223,18 @@
                                 <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
                                     </span></label>
                                 <div class="input-group">
-                                    <input readonly class="form-control" placeholder="MM-DD-YYYY" ngbDatepicker
+                                    <!-- <input readonly class="form-control" placeholder="MM-DD-YYYY" ngbDatepicker
                                         #d3="ngbDatepicker" formControlName="subscriberDob" [maxDate]="maxDate" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn"
                                         (click)="d3.toggle()" type="button">
                                         <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button>
+                                    </button> -->
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input formControlName="subscriberDob" readonly placeholder="MM-DD-YYYY"
+                                            matInput [matDatepicker]="picker2">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['subscriberDob'].touched && (step2Form.controls['subscriberDob'].hasError('required') || step2Form.controls['subscriberDob'].invalid)">
@@ -410,12 +422,18 @@
                                 <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> *
                                     </span> </label>
                                 <div class="input-group">
-                                    <input readonly formControlName="dateOfInjury" class="form-control  "
+                                    <!-- <input readonly formControlName="dateOfInjury" class="form-control  "
                                         placeholder="Select Date" name="dp" ngbDatepicker #d="ngbDatepicker" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                         type="button">
                                         <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button>
+                                    </button> -->
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input formControlName="dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput
+                                            [matDatepicker]="picker3">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker>
+                                    </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['dateOfInjury'].touched && (step2Form.controls['dateOfInjury'].hasError('required') || step2Form.controls['dateOfInjury'].invalid)">
@@ -633,8 +651,8 @@
                                 for minors)</p>
                         </div>
                         <div class="col-12 d-flex justify-content-end w-100">
-                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-2"
-                                (click)="addInsurance()">
+                            <button [disabled]="step2Form.invalid" mat-raised-button color="primary"
+                                class="flex-shrink-0 mt-2" (click)="addInsurance()">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                                 Add Insurance
                             </button>

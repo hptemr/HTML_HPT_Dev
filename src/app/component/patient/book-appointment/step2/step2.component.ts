@@ -219,12 +219,6 @@ export class Step2Component {
     this.payViaSelected = event.value
   }
 
-  bookAppointmentStep2() {
-    console.log("step2FormData:", this.step2Form.value)
-    localStorage.setItem("step2FormData", JSON.stringify(this.step2Form.value));
-    this.router.navigate(['/patient/book-appointment/step-3'])
-  }
-
   checkSpace(colName: any, event: any) {
     this.step2Form.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
@@ -235,12 +229,29 @@ export class Step2Component {
     });
   }
 
+  bookAppointmentStep2() {
+    let formData = this.step2Form.value
+    Object.assign(formData, { patientId: this.authService.getLoggedInInfo('_id') })
+    localStorage.setItem("step2FormData", JSON.stringify(formData));
+
+    console.log("step2FormData:", formData)
+    this.router.navigate(['/patient/book-appointment/step-3'])
+  }
+
   addInsurance() {
     const dialogRef = this.dialog.open(AddInsuranceModalComponent, {
       panelClass: 'custom-alert-container',
     })
     dialogRef.afterClosed().subscribe(async insuranceName => {
+      let formData = this.step2Form.value
+      Object.assign(formData, { insuranceName: insuranceName, patientId: this.authService.getLoggedInInfo('_id') })
       console.log("insuranceName:", insuranceName)
+      console.log("formData:", formData)
+      await this.authService.apiRequest('post', 'insurance/addInsurance', formData).subscribe(async response => {
+        console.log("addInsurance response:", response)
+        localStorage.setItem("step2FormData", JSON.stringify(formData));
+        this.router.navigate(['/patient/book-appointment/step-3'])
+      })
     })
   }
 }
