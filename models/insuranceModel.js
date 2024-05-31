@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const insurnaceSchema = new mongoose.Schema({
+    patientId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "patients"
+    },
     insuranceName: { type: String, default: "" },
     subscriberFirstName: { type: String, default: "" },
     subscriberMiddleName: { type: String, default: "" },
@@ -33,11 +37,8 @@ const insurnaceSchema = new mongoose.Schema({
 
     attorneyName: { type: String, default: "" },
     attorneyPhone: { type: String, default: "" },
-    insuranceDocuments: {
-        type: Array,
-        default: []
-    },
-    status:{ type: String, default: "Active" },
+
+    status: { type: String, default: "Active" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })
