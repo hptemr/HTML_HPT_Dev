@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'; 
 import { MatRadioChange } from '@angular/material/radio';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap'; 
 
 @Component({
   selector: 'app-intake-step1', 
@@ -12,5 +12,5 @@ export class IntakeStep1Component {
   selectedValue: number;
   onChange(event: MatRadioChange) {
     console.log(this.selectedValue = event.value)
-  }
+  } 
 }

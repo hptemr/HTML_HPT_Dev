@@ -1,13 +1,20 @@
-<div class="container-fluid book--appointment--wrapper if--step--two st--intake--form">
+<div class="container-fluid book--appointment--wrapper ba--step--two read--only--form">
     <div class="row">
-        <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn">
-                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
-            </button>
-            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Intake Form </span>
-                <span>(Step <span class="text-primary"> 2 </span> of 5)</span>
-            </h3>
+        <div class="col-12 d-flex align-items-center mt-0 mb-2">
+            <div class="row w-100 align-items-center">
+                <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/patient/appointment-details']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Intake Form </span>
+                        <span>(Step <span class="text-primary"> 2 </span> of 5)</span> 
+                    </h3>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
+                    <p class="mb-0 clr--1F2F3E fw-700 font-16">John Walter <span class="fw-500">(Appointment #: 123456)</span> </p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card m-0">
@@ -27,7 +34,7 @@
                     If you are not the patient but responsible for charges - Please check relationship below.
                 </p>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Relationship with Patient</label>
                     <select class="form-select form-control" aria-label="Default select example">
@@ -37,34 +44,37 @@
                         <option value="3">Relation 3</option>
                     </select>
                     <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div>
-                <div class="form-group" *ngIf="">
-                    <input class="form-control" type="text" placeholder="Enter other relation" />
+                </div> 
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 ">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Other Relation </label>
+                    <input class="form-control" type="text" placeholder="Specify Relation" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="text" placeholder="Enter First Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> * </span></label>
+                    <label class="col-form-label fw-600">Middle Name </label>
                     <input class="form-control" type="text" placeholder="Enter Middle Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="text" placeholder="Enter Last Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Date of Birth </label>
                     <div class="input-group">
@@ -77,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Marital Status</label>
                     <select class="form-select form-control" aria-label="Default select example">
@@ -90,14 +100,7 @@
                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="email" placeholder="Enter Email" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Gender</label>
                     <mat-radio-group aria-label="Select an option">
@@ -106,21 +109,29 @@
                     </mat-radio-group>
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
+                    <input class="form-control" type="email" placeholder="Enter Email" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+           
+            <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
                     <input class="form-control" type="number" placeholder="Enter Phone Number" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Cell Phone Number </label>
                     <input class="form-control" type="number" placeholder="Enter Cell Phone Number" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+            <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Work Extension </label>
                     <input class="form-control" type="number" placeholder="Enter Work Extension Number" />
@@ -144,11 +155,7 @@
                                     <option value="3">Insurance 4</option>
                                 </select>
                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
-                            </div>
-                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                Add Insurance
-                            </button>
+                            </div> 
                         </div>
                         <p class="font-15 lh-24">("Subscriber") is the person who holds the insurance plan whether
                             personally or through their employer.
@@ -160,24 +167,21 @@
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> *
-                                </span></label>
+                            <label class="col-form-label fw-600">First Name  </label>
                             <input class="form-control" type="text" placeholder="Enter First Name" />
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Middle Name <span class="clr--DF0404 ms-1"> *
-                                </span></label>
+                            <label class="col-form-label fw-600">Middle Name </label>
                             <input class="form-control" type="text" placeholder="Enter Middle Name" />
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
-                                </span></label>
+                            <label class="col-form-label fw-600">Last Name  </label>
                             <input class="form-control" type="text" placeholder="Enter Last Name" />
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
@@ -431,25 +435,73 @@
                         </div>
                     </div> 
                     <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Attorney Address <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <textarea class="form-control " type="text" placeholder="Enter Address" rows="4"></textarea>
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-end">
+                        <button mat-raised-button color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
+                            <input type="file">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
+                            Upload Insurance
+                        </button>
+                    </div>
+                    <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="doc--pic d-flex align-items-center justify-content-center me-3">
+                                <img src="../../../../assets/images/ark/ark_license.png"  alt="" class="img-fluid" />
+                                </div>
+                                <div class="d-flex flex-column  doc--desc">
+                                    <h5 class="font-16">driverlicense.jpg</h5>
+                                    <p class="m-0 font-14">94 KB of 94 KB </p>
+                                </div> 
+                          </div>
+                          <button mat-raised-button color="primary" class="flex-shrink-0"> 
+                                <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
+                                Delete
+                            </button> 
+                    </div>
+                    <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="doc--pic d-flex align-items-center justify-content-center me-3">
+                            <img src="../../../../assets/images/ark/ark_license.png"  alt="" class="img-fluid" />
+                            </div>
+                            <div class="d-flex flex-column  doc--desc">
+                                <h5 class="font-16">driverlicense.jpg</h5>
+                                <p class="m-0 font-14">94 KB of 94 KB </p>
+                            </div> 
+                      </div>
+                      <button mat-raised-button color="primary" class="flex-shrink-0"> 
+                            <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
+                            Delete
+                        </button> 
+                </div>
+                    <div class="col-12">
                         <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
                         <p class="font-16 clr--1F2F3E lh-24">User Name - I hereby authorize this PT clinic and/or it's Individual Therapists and Assistants to evaluate and administer PT treatments to the minor patient listed above. This authorization is in effect as of the date this form is signed. This authorization shall remain valid for current and future PT cases until written notice
                             is given by me revoking said authorization. I understand that I am financially responsible for all services rendered to the above patient whether I am present at the time of treatment or not.</p>
                     </div>
                     <div class="col-12">
                         <div class="d-flex align-items-center flex-wrap ">
-                            <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4">Policies Page</a>
-                            <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
-                            <button mat-raised-button color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-2">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
-                                Upload Insurance
-                            </button>
+                            <a class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4 cursor-pointer" (click)="cmsModal()">Policies Page</a>
+                            <a class="text-primary text-decoration-underline fw-700 font-16 mt-2 cursor-pointer" (click)="cmsModal()">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
+                            
                         </div>
                     </div>
                     <div class="col-12 d-flex flex-column w-100">
                         <div class="signature--box d-flex align-items-center justify-content-center">
-                            <img src="assets/images/ark/M.S.Johnson.png"  alt="" class="img-fluid" />
+                            M.S.Johnson
                         </div>
                         <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must sign for minors)</p>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end w-100">
+                        <button mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addInsurance()">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                            Add Insurance
+                        </button>
                     </div>
                 </div>
             </div>
