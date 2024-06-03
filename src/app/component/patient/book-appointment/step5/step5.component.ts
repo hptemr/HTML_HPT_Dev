@@ -17,7 +17,7 @@ export class step5Component {
   selectedValue: any;
   step5Form: FormGroup
   validationMessages = validationMessages
-
+  isProcessing = false
   constructor(private fb: FormBuilder, private router: Router, private commonService: CommonService, private authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -53,6 +53,7 @@ export class step5Component {
   }
 
   async finalSubmit() {
+    this.isProcessing = true
     this.commonService.showLoader()
     let step1FormData: any = localStorage.getItem('step1FormData')
     let step2FormData: any = localStorage.getItem('step2FormData')
