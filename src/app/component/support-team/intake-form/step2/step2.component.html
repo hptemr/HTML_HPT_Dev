@@ -146,7 +146,7 @@
                     <div class="col-12 col-xl-8">
                         <div class="d-flex align-items-center w-100">
                             <div class="form-group w-100">
-                                <label class="col-form-label fw-600">Select Insurance</label>
+                                <label class="col-form-label fw-600">Select from added Insurance</label>
                                 <select class="form-select form-control" aria-label="Default select example">
                                     <option selected>Select</option>
                                     <option value="1">Insurance 1</option>
@@ -452,14 +452,14 @@
                     <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
                             <div class="d-flex align-items-center">
                                 <div class="doc--pic d-flex align-items-center justify-content-center me-3">
-                                <img src="../../../../assets/images/ark/ark_license.png"  alt="" class="img-fluid" />
+                                     <mat-icon>picture_as_pdf</mat-icon>
                                 </div>
                                 <div class="d-flex flex-column  doc--desc">
                                     <h5 class="font-16">driverlicense.jpg</h5>
                                     <p class="m-0 font-14">94 KB of 94 KB </p>
                                 </div> 
                           </div>
-                          <button mat-raised-button color="primary" class="flex-shrink-0"> 
+                          <button mat-raised-button color="warn" class="flex-shrink-0"> 
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
                                 Delete
                             </button> 
@@ -467,18 +467,33 @@
                     <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
                         <div class="d-flex align-items-center">
                             <div class="doc--pic d-flex align-items-center justify-content-center me-3">
-                            <img src="../../../../assets/images/ark/ark_license.png"  alt="" class="img-fluid" />
-                            </div>
+                                <mat-icon>description</mat-icon>
+                           </div>
                             <div class="d-flex flex-column  doc--desc">
                                 <h5 class="font-16">driverlicense.jpg</h5>
                                 <p class="m-0 font-14">94 KB of 94 KB </p>
                             </div> 
                       </div>
-                      <button mat-raised-button color="primary" class="flex-shrink-0"> 
+                      <button mat-raised-button color="warn" class="flex-shrink-0"> 
                             <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
                             Delete
                         </button> 
                 </div>
+                <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="doc--pic d-flex align-items-center justify-content-center me-3">
+                            <mat-icon>image</mat-icon>
+                       </div>
+                        <div class="d-flex flex-column  doc--desc">
+                            <h5 class="font-16">driverlicense.jpg</h5>
+                            <p class="m-0 font-14">94 KB of 94 KB </p>
+                        </div> 
+                  </div>
+                  <button mat-raised-button color="warn" class="flex-shrink-0"> 
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
+                        Delete
+                    </button> 
+            </div>
                     <div class="col-12">
                         <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
                         <p class="font-16 clr--1F2F3E lh-24">User Name - I hereby authorize this PT clinic and/or it's Individual Therapists and Assistants to evaluate and administer PT treatments to the minor patient listed above. This authorization is in effect as of the date this form is signed. This authorization shall remain valid for current and future PT cases until written notice
@@ -500,7 +515,7 @@
                     <div class="col-12 d-flex justify-content-end w-100">
                         <button mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addInsurance()">
                             <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                            Add Insurance
+                            Save Insurance As
                         </button>
                     </div>
                 </div>

@@ -847,6 +847,16 @@ ngb-datepicker{
     padding-left: 0 !important;
 }
 
+.doc--pic{
+    width: 45px;
+    .mat-icon{
+        font-size: 30px;
+        width: 30px;
+        height: 30px;
+        color: #31b7b7;
+    }
+}
+
 // Book Appointement comman
 .book--appointment--wrapper{
     &.read--only--form{
