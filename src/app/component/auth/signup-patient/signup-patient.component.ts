@@ -346,7 +346,6 @@ export class SignupPatientComponent implements OnInit {
     return { month: minDate.getMonth() + 1, day: minDate.getDate(),year: minDate.getFullYear() };
   }
   
-
   public fileOverBase(e: any): void {
     this.thirdFormDisabled = true
     this.hasBaseDropZoneOver = e;
