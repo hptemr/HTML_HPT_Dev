@@ -81,12 +81,6 @@
                             Date of Birth <span class="clr--DF0404 ms-1"> * </span>
                         </label>
                         <div class="input-group">
-                            <!-- <input readonly class="form-control" placeholder="MM-DD-YYYY" ngbDatepicker
-                                #d2="ngbDatepicker" formControlName="dob" [(ngModel)]="dob" [maxDate]="maxDate" />
-                            <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d2.toggle()"
-                                type="button">
-                                <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                            </button> -->
                             <mat-form-field class="w-100 am--datepicker">
                                 <input formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput
                                     [matDatepicker]="picker">
@@ -140,7 +134,6 @@
                             *ngIf="step2Form.controls['phoneNumber'].touched && (step2Form.controls['phoneNumber'].hasError('required') || step2Form.controls['phoneNumber'].invalid)">
                             {{ validationMessages.required('valid Phone Number') }}
                         </div>
-
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
@@ -176,8 +169,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <p class="font-15 lh-24">("Subscriber") is the person who holds the insurance plan whether
-                                personally or through their employer.
+                            <p class="font-15 lh-24">
+                                ("Subscriber") is the person who holds the insurance plan whether personally or through
+                                their employer.
                                 <br> Please also provide a copy of your insurance card(s) to our receptionist
                             </p>
                         </div>
@@ -223,12 +217,6 @@
                                 <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
                                     </span></label>
                                 <div class="input-group">
-                                    <!-- <input readonly class="form-control" placeholder="MM-DD-YYYY" ngbDatepicker
-                                        #d3="ngbDatepicker" formControlName="subscriberDob" [maxDate]="maxDate" />
-                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn"
-                                        (click)="d3.toggle()" type="button">
-                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button> -->
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input formControlName="subscriberDob" readonly placeholder="MM-DD-YYYY"
                                             matInput [matDatepicker]="picker2">
@@ -421,13 +409,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> *
                                     </span> </label>
-                                <div class="input-group">
-                                    <!-- <input readonly formControlName="dateOfInjury" class="form-control  "
-                                        placeholder="Select Date" name="dp" ngbDatepicker #d="ngbDatepicker" />
-                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                        type="button">
-                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button> -->
+                                <div class="input-group"> 
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input formControlName="dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput
                                             [matDatepicker]="picker3">

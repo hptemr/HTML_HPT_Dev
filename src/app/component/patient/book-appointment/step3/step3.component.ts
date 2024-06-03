@@ -21,13 +21,7 @@ export class Step3Component {
 
   step1FormData: any
   step2FormData: any
-  step3FormData: any 
-  tabs = [
-    { number: '1' }, { number: '2' }, { number: '3' },
-    { number: '4' }, { number: '5' }, { number: '6' },
-    { number: '7' }, { number: '8' }, { number: '9' },
-    { number: '10' }
-  ];
+  step3FormData: any
 
   constructor(public dialog: MatDialog, private router: Router,
     private fb: FormBuilder, private commonService: CommonService,
@@ -206,12 +200,10 @@ export class Step3Component {
     this.step3Form.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
 
-
   bookAppointmentStep3() {
     console.log("step3Form:", this.step3Form.value)
     localStorage.setItem("step3FormData", JSON.stringify(this.step3Form.value));
     this.router.navigate(['/patient/book-appointment/step-4'])
   }
-
 
 }

@@ -66,10 +66,6 @@ export class Step2Component {
     this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value
   }
 
-  // ngAfterViewInit() {
-  //   console.log("ngAfterViewInit")
-  // }
-
   loadForm() {
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
@@ -116,7 +112,6 @@ export class Step2Component {
 
   getInsuranceDetails(event: any) {
     let currentIndex = event.target.value
-    console.log(":currentIndex:", currentIndex)
     let subscriberFirstName = ''
     let subscriberMiddleName = ''
     let subscriberLastName = ''
@@ -209,9 +204,7 @@ export class Step2Component {
       order: { insuranceName: 1 },
     }
     await this.authService.apiRequest('post', 'insurance/getInsuranceList', reqVars).subscribe(async response => {
-
       this.insuranceList = response.data.insuranceList
-      console.log(this.insuranceList)
     })
   }
 
@@ -233,7 +226,6 @@ export class Step2Component {
     let formData = this.step2Form.value
     Object.assign(formData, { patientId: this.authService.getLoggedInInfo('_id') })
     localStorage.setItem("step2FormData", JSON.stringify(formData));
-
     console.log("step2FormData:", formData)
     this.router.navigate(['/patient/book-appointment/step-3'])
   }
@@ -244,7 +236,6 @@ export class Step2Component {
     })
     dialogRef.afterClosed().subscribe(async insuranceName => {
       if (insuranceName != '') {
-        console.log("insuranceName:", insuranceName)
         let formData = this.step2Form.value
         Object.assign(formData, { insuranceName: insuranceName, patientId: this.authService.getLoggedInInfo('_id') })
         console.log("formData:", formData)
@@ -253,8 +244,6 @@ export class Step2Component {
           localStorage.setItem("step2FormData", JSON.stringify(formData));
           this.router.navigate(['/patient/book-appointment/step-3'])
         })
-      } else {
-        console.log("only close for insurance:", insuranceName)
       }
     })
   }

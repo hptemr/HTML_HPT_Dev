@@ -41,22 +41,17 @@ export class Step1Component {
     this.maxDate = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
     this.patientInfo = this.authService.getLoggedInInfo()
     this.step1FormData = localStorage.getItem("step1FormData")
-    let appToday
     if (this.step1FormData == null) {
       this.loadForm()
       this.selectedValue = 'Myself'
       this.setValue('Myself')
-      //appToday = new Date(this.patientInfo.dob);
     } else {
       this.isReadonly = false
       this.selectedValue = 'Other'
-      //appToday = new Date("08-03-2024");
       this.step1FormData = JSON.parse(this.step1FormData)
       this.loadForm()
     }
-    //this.dob = { month: appToday.getMonth() + 1, day: appToday.getDate(), year: appToday.getFullYear() }
     console.log("***ngOnInit step1FormData***", this.step1FormData)
-    console.log("***selectedValue***", this.selectedValue)
   }
 
   onChange(event: MatRadioChange) {
@@ -92,7 +87,7 @@ export class Step1Component {
       phoneNumber = this.patientInfo.phoneNumber
       cellPhoneNumber = this.patientInfo.cellPhoneNumber
       workExtensionNumber = this.patientInfo.workExtensionNumber
-    }else if(this.step1FormData){
+    } else if (this.step1FormData) {
       firstName = this.step1FormData.firstName
       middleName = this.step1FormData.middleName
       lastName = this.step1FormData.lastName
@@ -104,9 +99,6 @@ export class Step1Component {
       cellPhoneNumber = this.step1FormData.cellPhoneNumber
       workExtensionNumber = this.step1FormData.workExtensionNumber
     }
-
-    // const today = new Date(dob);
-    // this.dob = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
     this.step1Form.controls['bookingFor'].setValue(this.selectedValue)
     this.step1Form.controls['firstName'].setValue(firstName)
     this.step1Form.controls['middleName'].setValue(middleName)
