@@ -15,6 +15,7 @@ import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view
 import { NotificationsComponent } from '../system-admin/notifications/notifications.component';
 import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
+import { AddEditContactComponent } from './emergency-contact/add-edit-contact/add-edit-contact.component';
 
 
 const routes: Routes = [ 
@@ -75,7 +76,12 @@ const routes: Routes = [
     path: 'emergency-contact',
     component: EmergencyContactComponent, 
   },
+  {
+    path: 'add-edit-contact',
+    component: AddEditContactComponent, 
+  },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

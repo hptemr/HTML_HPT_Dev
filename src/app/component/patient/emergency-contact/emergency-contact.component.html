@@ -1,151 +1,86 @@
-<div class="container-fluid book--appointment--wrapper emergency--contact--wrapper">
-    <div class="row">
-        <div class="col-12 d-flex align-items-center mb-4 mt-4"> 
-            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Emergency Contact </span> 
-            </h3>
-        </div>
-    </div>
-    <div class="card m-0"> 
-        <div class="row"> 
-            <div class="col-12">
-                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 1</p> 
+<div class="col-12 emergency--contact--wrapper">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h3 class="mb-0 clr--1F2F3E">Emergency Contact</h3>
+                <button mat-raised-button color="primary" [routerLink]="['/patient/add-edit-contact']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Add Contact
+                </button>
             </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="text" placeholder="Enter First Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            <div class="col-12 col-lg-6 ">
+                <div class="form-group position-relative">
+                    <input type="text" class="form-control search--outer" placeholder="Search Contacts">
+                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                    </button> 
                 </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control" type="text" placeholder="Enter Last Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
-                    <div class="input-group">
-                        <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp"
-                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                            type="button">
-                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Relationship with Patient</label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Select Relation</option>
-                        <option value="1">Relation 1</option>
-                        <option value="2">Relation 2</option>
-                        <option value="3">Relation 3</option>
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div> 
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Other Relation</label>
-                    <input class="form-control" type="text" placeholder="Enter Other Relation" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>  
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="number" placeholder="Enter Phone Number"/>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div> 
-            <div class="col-12 ps-0">
-                <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
-                 </div>
-                 <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
-                 </div>
-            </div>
-            <div class="col-12">
-                <div class="divider"></div>
             </div>
         </div>
-        <div class="row"> 
-            <div class="col-12">
-                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 2</p> 
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="text" placeholder="Enter First Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
+        <div class="card-body">
+            <div class="col-12 cust--mat--table--wrapper">
+                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                    class="cust--mat--table box--row--table">  
+                    <ng-container matColumnDef="fname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            First Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.fname}}     
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Last Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.name}}     
+                        </td>
+                    </ng-container>   
+                    
+                    <ng-container matColumnDef="relation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Relationship with Patient
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.relation}}     
+                        </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="phoneNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Phone Number
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.phoneNumber}}     
+                        </td>
+                    </ng-container>  
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                            Actions
+                        </th>
+                        <td mat-cell *matCellDef="let element">  
+                            <div class="w-100 d-flex align-items-center justify-content-end">
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/add-edit-contact']">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                </button>
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/add-edit-contact']">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                </button>
+                                <button mat-button class="flex-shrink-0 min-width-unset" (click)="deleteAccount()" >
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                                showFirstLastButtons
+                                aria-label="Select page of periodic elements">
+                </mat-paginator>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control" type="text" placeholder="Enter Last Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
-                    <div class="input-group">
-                        <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp"
-                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                            type="button">
-                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Relationship with Patient</label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Select Relation</option>
-                        <option value="1">Relation 1</option>
-                        <option value="2">Relation 2</option>
-                        <option value="3">Relation 3</option>
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div> 
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Other Relation</label>
-                    <input class="form-control" type="text" placeholder="Enter Other Relation" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>  
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="number" placeholder="Enter Phone Number"/>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div> 
-            <div class="col-12 ps-0">
-                <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
-                 </div>
-                 <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
-                 </div>
-            </div> 
         </div>
-    </div>
-    <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
-        <button mat-raised-button color="primary" class="m-1" (click)="successModal()"> 
-            Save
-        </button>
     </div>
 </div>
