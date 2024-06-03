@@ -247,4 +247,8 @@ export class Step2Component {
       }
     })
   }
+
+  fileOverBase(event:any){
+    console.log(event)
+  }
 }

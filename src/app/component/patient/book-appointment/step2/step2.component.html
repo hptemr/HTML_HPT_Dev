@@ -160,7 +160,7 @@
                         <div class="col-12 col-xl-8">
                             <div class="d-flex align-items-center w-100">
                                 <div class="form-group w-100">
-                                    <!-- <label class="col-form-label fw-600">Select from added Insurance</label> -->
+                                    <label class="col-form-label fw-600">Select from added Insurance</label>
                                     <select (change)="getInsuranceDetails($event)" class="form-select form-control"
                                         aria-label="Default select example">
                                         <option value="" selected>Select Insurance</option>
@@ -409,7 +409,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> *
                                     </span> </label>
-                                <div class="input-group"> 
+                                <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input formControlName="dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput
                                             [matDatepicker]="picker3">
@@ -562,41 +562,33 @@
                         <div class="col-12 d-flex align-items-center justify-content-end">
                             <button mat-raised-button color="primary"
                                 class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
-                                <input type="file">
+                                <input (change)="fileOverBase($event)" type="file">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
                                 Upload Insurance
                             </button>
                         </div>
+
+
                         <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
                             <div class="d-flex align-items-center">
                                 <div class="doc--pic d-flex align-items-center justify-content-center me-3">
-                                    <img src="../../../../assets/images/ark/ark_license.png" alt="" class="img-fluid" />
+                                    <!-- <mat-icon>picture_as_pdf</mat-icon>
+                                    <mat-icon>description</mat-icon> -->
+                                    <mat-icon>image</mat-icon>
                                 </div>
                                 <div class="d-flex flex-column  doc--desc">
                                     <h5 class="font-16">driverlicense.jpg</h5>
-                                    <p class="m-0 font-14">94 KB of 94 KB </p>
+                                    <p class="m-0 font-14">94 KB </p>
                                 </div>
                             </div>
-                            <button mat-raised-button color="primary" class="flex-shrink-0">
+                            <button mat-raised-button color="warn" class="flex-shrink-0">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
                                 Delete
                             </button>
                         </div>
-                        <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="doc--pic d-flex align-items-center justify-content-center me-3">
-                                    <img src="../../../../assets/images/ark/ark_license.png" alt="" class="img-fluid" />
-                                </div>
-                                <div class="d-flex flex-column  doc--desc">
-                                    <h5 class="font-16">driverlicense.jpg</h5>
-                                    <p class="m-0 font-14">94 KB of 94 KB </p>
-                                </div>
-                            </div>
-                            <button mat-raised-button color="primary" class="flex-shrink-0">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
-                                Delete
-                            </button>
-                        </div>
+
+
+
                         <div class="col-12">
                             <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
                             <p class="font-16 clr--1F2F3E lh-24">{{fullNameForSign}} - I hereby authorize this PT clinic
