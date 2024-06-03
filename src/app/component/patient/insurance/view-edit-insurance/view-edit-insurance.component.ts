@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { AddInsuranceModalComponent } from '../../book-appointment/add-insurance-modal/add-insurance-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-view-edit-insurance', 
@@ -8,4 +10,10 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ViewEditInsuranceComponent {
   model: NgbDateStruct;
+  constructor(  public dialog: MatDialog) {}
+  addInsurance(){
+    const dialogRef = this.dialog.open(AddInsuranceModalComponent,{
+      panelClass: 'custom-alert-container', 
+    });
+  }
 }

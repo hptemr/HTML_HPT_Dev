@@ -25,20 +25,22 @@
                 &.mat-mdc-table{ 
                     thead{
                         tr{
-                            th:nth-child(1){ width: 35%; }
-                            th:nth-child(2){ width: 30%; }
-                            th:nth-child(3){ width: 200px; }
+                            th:nth-child(1){ width: 30%; }
+                            th:nth-child(2){ width: 20%; }
+                            th:nth-child(3){ width: 15%; }
                             th:nth-child(4){ width: 200px; }
                             th:nth-child(5){ width: 200px; }
+                            th:nth-child(6){ width: 200px; }
                         }
                     }
                     tbody{ 
                         tr{ 
-                            td:nth-child(1){ width: 35%; }
-                            td:nth-child(2){ width: 30%; }
-                            td:nth-child(3){ width: 200px; }
+                            td:nth-child(1){ width: 30%; }
+                            td:nth-child(2){ width: 20%; }
+                            td:nth-child(3){ width: 15%; }
                             td:nth-child(4){ width: 200px; }
                             td:nth-child(5){ width: 200px; }
+                            td:nth-child(6){ width: 200px; }
                         }
                     }
                 } 
@@ -56,18 +58,20 @@
                         width: 860px;
                         thead{
                             tr{
-                                th:nth-child(1){ width: 35%; }
-                                th:nth-child(2){ width: 28%; }
-                                th:nth-child(3){ width: 200px; }
-                                th:nth-child(4){ width: 225px; }
+                                th:nth-child(1){ width: 20%; }
+                                th:nth-child(2){ width: 20%; }
+                                th:nth-child(3){ width: 15%; }
+                                th:nth-child(4){ width: 200px; }
+                                th:nth-child(5){ width: 225px; }
                             }
                         }
                         tbody{ 
                             tr{ 
-                                td:nth-child(1){ width: 35%; }
-                                td:nth-child(2){ width: 28%; }
-                                td:nth-child(3){ width: 200px; }
-                                td:nth-child(4){ width: 225px; }
+                                td:nth-child(1){ width: 20%; }
+                                td:nth-child(2){ width: 20%; }
+                                td:nth-child(3){ width: 15%; }
+                                td:nth-child(4){ width: 200px; }
+                                td:nth-child(5){ width: 225px; }
                             }
                         }
                     }
@@ -86,18 +90,20 @@
                     &.mat-mdc-table{
                         thead{
                             tr{
-                                th:nth-child(1){ width: 30%; }
-                                th:nth-child(2){ width: 28%; }
-                                th:nth-child(3){ width: 200px; }
-                                th:nth-child(4){ width: 225px; }
+                                th:nth-child(1){ width: 25%; }
+                                th:nth-child(2){ width: 25%; }
+                                th:nth-child(3){ width: 15%; }
+                                th:nth-child(4){ width: 200px; }
+                                th:nth-child(5){ width: 225px; }
                             }
                         }
                         tbody{ 
                             tr{ 
-                                td:nth-child(1){ width: 30%; }
-                                td:nth-child(2){ width: 28%; }
-                                td:nth-child(3){ width: 200px; }
-                                td:nth-child(4){ width: 225px; }
+                                td:nth-child(1){ width: 25%; }
+                                td:nth-child(2){ width: 25%; }
+                                td:nth-child(3){ width: 15%; }
+                                td:nth-child(4){ width: 200px; }
+                                td:nth-child(5){ width: 225px; }
                             }
                         }
                     }

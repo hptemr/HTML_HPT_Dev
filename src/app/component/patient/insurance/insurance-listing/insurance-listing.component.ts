@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 export interface PeriodicElement {
   name: string;   
+  inname : string;
   idpolicy: string;   
   group: string;   
   validThrough: string;   
@@ -16,6 +17,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'United Healthcare',   
     idpolicy: '115423658500',
+    inname: 'lorem insurnace',
     group: '154236',
     validThrough: '02/11/2027',
     action : ''
@@ -23,6 +25,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'Sigma ',   
     idpolicy: '115423658500',
+    inname: 'lorem insurnace',
     group: '154236',
     validThrough: '02/11/2027',
     action : ''
@@ -30,6 +33,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'Health-choice Healthcare',   
     idpolicy: '115423658500',
+    inname: 'lorem insurnace',
     group: '154236',
     validThrough: '02/11/2027',
     action : ''
@@ -46,7 +50,7 @@ export class InsuranceListingComponent {
 
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
 
-  displayedColumns: string[] = ['name','idpolicy','group','validThrough', 'action'];
+  displayedColumns: string[] = ['inname', 'name','idpolicy','group','validThrough', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
