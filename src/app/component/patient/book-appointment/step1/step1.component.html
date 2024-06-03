@@ -67,7 +67,7 @@
                         <label class="col-form-label fw-600">Booking For</label>
                         <mat-radio-group formControlName="bookingFor" aria-label="Select an option"
                             (change)="onChange($event)">
-                            <mat-radio-button value="Myself" class="me-3" [checked]="true">Myself</mat-radio-button>
+                            <mat-radio-button value="Myself" class="me-3">Myself</mat-radio-button>
                             <mat-radio-button value="Other">Other</mat-radio-button>
                         </mat-radio-group>
                         <div class="form-group other--booking" *ngIf="selectedValue == 'Other'">

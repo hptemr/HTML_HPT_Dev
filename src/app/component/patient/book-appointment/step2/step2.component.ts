@@ -243,15 +243,19 @@ export class Step2Component {
       panelClass: 'custom-alert-container',
     })
     dialogRef.afterClosed().subscribe(async insuranceName => {
-      let formData = this.step2Form.value
-      Object.assign(formData, { insuranceName: insuranceName, patientId: this.authService.getLoggedInInfo('_id') })
-      console.log("insuranceName:", insuranceName)
-      console.log("formData:", formData)
-      await this.authService.apiRequest('post', 'insurance/addInsurance', formData).subscribe(async response => {
-        console.log("addInsurance response:", response)
-        localStorage.setItem("step2FormData", JSON.stringify(formData));
-        this.router.navigate(['/patient/book-appointment/step-3'])
-      })
+      if (insuranceName != '') {
+        console.log("insuranceName:", insuranceName)
+        let formData = this.step2Form.value
+        Object.assign(formData, { insuranceName: insuranceName, patientId: this.authService.getLoggedInInfo('_id') })
+        console.log("formData:", formData)
+        await this.authService.apiRequest('post', 'insurance/addInsurance', formData).subscribe(async response => {
+          console.log("addInsurance response:", response)
+          localStorage.setItem("step2FormData", JSON.stringify(formData));
+          this.router.navigate(['/patient/book-appointment/step-3'])
+        })
+      } else {
+        console.log("only close for insurance:", insuranceName)
+      }
     })
   }
 }

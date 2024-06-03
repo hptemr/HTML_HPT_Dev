@@ -48,12 +48,15 @@ export class Step1Component {
       this.setValue('Myself')
       //appToday = new Date(this.patientInfo.dob);
     } else {
+      this.isReadonly = false
+      this.selectedValue = 'Other'
       //appToday = new Date("08-03-2024");
       this.step1FormData = JSON.parse(this.step1FormData)
       this.loadForm()
     }
     //this.dob = { month: appToday.getMonth() + 1, day: appToday.getDate(), year: appToday.getFullYear() }
     console.log("***ngOnInit step1FormData***", this.step1FormData)
+    console.log("***selectedValue***", this.selectedValue)
   }
 
   onChange(event: MatRadioChange) {
@@ -89,6 +92,17 @@ export class Step1Component {
       phoneNumber = this.patientInfo.phoneNumber
       cellPhoneNumber = this.patientInfo.cellPhoneNumber
       workExtensionNumber = this.patientInfo.workExtensionNumber
+    }else if(this.step1FormData){
+      firstName = this.step1FormData.firstName
+      middleName = this.step1FormData.middleName
+      lastName = this.step1FormData.lastName
+      martialStatus = this.step1FormData.martialStatus
+      gender = this.step1FormData.gender
+      email = this.step1FormData.email
+      dob = this.step1FormData.dob
+      phoneNumber = this.step1FormData.phoneNumber
+      cellPhoneNumber = this.step1FormData.cellPhoneNumber
+      workExtensionNumber = this.step1FormData.workExtensionNumber
     }
 
     // const today = new Date(dob);
@@ -122,21 +136,6 @@ export class Step1Component {
       phoneNumber: new FormControl((this.step1FormData ? this.step1FormData.phoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
       cellPhoneNumber: new FormControl((this.step1FormData ? this.step1FormData.cellPhoneNumber : '')),
       workExtensionNumber: new FormControl((this.step1FormData ? this.step1FormData.workExtensionNumber : ''))
-
-      // practiceLocation: [this.step1FormData ? this.step1FormData.practiceLocation : '', [Validators.required]],
-      // appointmentDate: [this.step1FormData ? this.commonService.getCalendarDate(this.step1FormData.appointmentDate) : '', [Validators.required]],
-      // bookingFor: [this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue],
-      // relationWithPatient: [this.step1FormData ? this.step1FormData.relationWithPatient : ''],
-      // firstName: [this.step1FormData ? this.step1FormData.firstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      // middleName: [this.step1FormData ? this.step1FormData.middleName : ''],
-      // lastName: [this.step1FormData ? this.step1FormData.lastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      // dob: [this.step1FormData ? this.step1FormData.dob : '', [Validators.required]],
-      // martialStatus: [this.step1FormData ? this.step1FormData.martialStatus : ''],
-      // gender: [this.step1FormData ? this.step1FormData.gender : ''],
-      // email: [this.step1FormData ? this.step1FormData.email : '', [Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
-      // phoneNumber: [this.step1FormData ? this.step1FormData.phoneNumber : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      // cellPhoneNumber: [this.step1FormData ? this.step1FormData.cellPhoneNumber : ''],
-      // workExtensionNumber: [this.step1FormData ? this.step1FormData.workExtensionNumber : ''],
     })
 
   }
