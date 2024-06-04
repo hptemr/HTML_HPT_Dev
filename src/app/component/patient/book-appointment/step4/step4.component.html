@@ -1,4 +1,4 @@
-<div class="container-fluid book--appointment--wrapper ba--step--four  ">
+<!-- <div class="container-fluid book--appointment--wrapper ba--step--four  ">
     <div class="row">
         <div class="col-12 d-flex align-items-center mt-0 mb-2">
             <button mat-stroked-button color="primary" class="me-3 back--btn">
@@ -12,6 +12,196 @@
     </div>
     <div class="card m-0">
         <div class="row"> 
+            <div class="col-12">
+                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 1</p> 
+            </div> 
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
+                    <input class="form-control" type="text" placeholder="Enter First Name" />
+                    
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Last Name </label>
+                    <input class="form-control" type="text" placeholder="Enter Last Name" />
+                    
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
+                    <div class="input-group">
+                        <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp"
+                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                            type="button">
+                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Relationship with Patient</label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option selected>Select Relation</option>
+                        <option value="1">Relation 1</option>
+                        <option value="2">Relation 2</option>
+                        <option value="3">Relation 3</option>
+                    </select>
+                    
+                </div> 
+            </div> 
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Other Relation</label>
+                    <input class="form-control" type="text" placeholder="Enter Other Relation" />
+                    
+                </div>
+            </div>  
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
+                    <input class="form-control" type="number" placeholder="Enter Phone Number"/>
+                    
+                  </div>
+            </div> 
+            <div class="col-12 ps-0">
+                <div class="form-group mb-0"> 
+                    <mat-checkbox class="">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
+                 </div>
+                 <div class="form-group mb-0"> 
+                    <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
+                 </div>
+            </div>
+            <div class="col-12">
+                <div class="divider"></div>
+            </div>
+        </div>
+        <div class="row"> 
+            <div class="col-12">
+                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 2</p> 
+            </div> 
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
+                    <input class="form-control" type="text" placeholder="Enter First Name" />
+                    
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Last Name </label>
+                    <input class="form-control" type="text" placeholder="Enter Last Name" />
+                    
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
+                    <div class="input-group">
+                        <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp"
+                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                            type="button">
+                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Relationship with Patient</label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option selected>Select Relation</option>
+                        <option value="1">Relation 1</option>
+                        <option value="2">Relation 2</option>
+                        <option value="3">Relation 3</option>
+                    </select>
+                    
+                </div> 
+            </div> 
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Other Relation</label>
+                    <input class="form-control" type="text" placeholder="Enter Other Relation" />
+                    
+                </div>
+            </div>  
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
+                    <input class="form-control" type="number" placeholder="Enter Phone Number"/>
+                    
+                  </div>
+            </div> 
+            <div class="col-12 ps-0">
+                <div class="form-group mb-0"> 
+                    <mat-checkbox class="">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
+                 </div>
+                 <div class="form-group mb-0"> 
+                    <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
+                 </div>
+            </div> 
+        </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
+        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-3']">
+            Previous
+        </button>
+        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-5']">
+            Next
+        </button>
+    </div>
+</div> -->
+
+
+<div class="container-fluid book--appointment--wrapper ba--step--four ">
+    <div class="row">
+        <div class="col-12 d-flex align-items-center mt-0 mb-2">
+            <div class="row w-100 align-items-center">
+                <div class="col-12 d-flex align-items-center">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn"
+                        [routerLink]="['/support-team/appointment-details']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Book Appointment </span>
+                        <span>(Step <span class="text-primary"> 4 </span> of 5)</span>
+                    </h3>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="card m-0">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <h3 class="fw-700 font-18 mb-2 mt-2">EMERGENCY CONTACT</h3>
+            </div>
+            <div class="col-12 col-lg-4 d-flex align-items-center justify-content-end header">
+                <select class="form-select form-control m-1" aria-label="Default select example">
+                    <option selected>Select from Added Contacts</option>
+                    <option value="1">Joseph Bravo</option>
+                    <option value="2">Braden Garza</option>
+                    <option value="3">Remy Parker</option>
+                    <option value="4">Charlotte Elliott</option>
+                    <option value="5">Lilly Parks</option>
+                </select>
+                <button mat-raised-button color="primary" class="flex-shrink-0 m-1 add--new--btn" (click)="addNewContact()">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Add New Contact
+                </button>
+            </div> 
+        </div> 
+        <div class="row" *ngIf="dayOne">
+            <div class="col-12 text-center mt-5">
+                <p class="font-16 mb-0">There are no contacts. </p>
+                <p class="font-16">Please click on Add New Contact button to add new contact</p>
+            </div>
+        </div>
+        <div class="row"  *ngIf="contact1">
             <div class="col-12">
                 <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 1</p> 
             </div> 
@@ -75,12 +265,21 @@
                  <div class="form-group mb-0"> 
                     <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
                  </div>
+                 <div class="form-group mb-0"> 
+                    <mat-checkbox class="">Add to Contact List.</mat-checkbox>
+                 </div>
             </div>
             <div class="col-12">
                 <div class="divider"></div>
             </div>
+            <div class="col-12 d-flex justify-content-end">
+                <button mat-raised-button color="primary" class="flex-shrink-0 m-1 add--new--btn" (click)="addAnotherContact()" *ngIf="addAnotherContactBtn">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Add Another Contact
+                </button>
+            </div>
         </div>
-        <div class="row"> 
+        <div class="row" *ngIf="contact2">
             <div class="col-12">
                 <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 2</p> 
             </div> 
@@ -143,6 +342,9 @@
                  </div>
                  <div class="form-group mb-0"> 
                     <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
+                 </div>
+                 <div class="form-group mb-0"> 
+                    <mat-checkbox class="">Add to Contact List.</mat-checkbox>
                  </div>
             </div> 
         </div>

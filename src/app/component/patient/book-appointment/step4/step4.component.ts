@@ -10,6 +10,10 @@ import { AppointmentReqModalComponent } from '../appointment-req-modal/appointme
   styleUrl: './step4.component.scss'
 })
 export class Step4Component {
+  contact2 = false;
+  contact1 = false;
+  dayOne = true;
+  addAnotherContactBtn = true;
   toggle:boolean = true;
   selectedValue: number;
 
@@ -29,6 +33,16 @@ export class Step4Component {
     const dialogRef = this.dialog.open(AppointmentReqModalComponent,{
       panelClass: 'custom-alert-container', 
     });
+  }
+
+  addNewContact() {
+    this.contact1 = true;
+    this.dayOne = false;
+  }
+
+  addAnotherContact(){
+    this.contact2 = true;
+    this.addAnotherContactBtn = false
   }
 
 }
