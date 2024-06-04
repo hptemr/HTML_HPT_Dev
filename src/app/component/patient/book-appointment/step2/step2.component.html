@@ -560,34 +560,39 @@
                             </div>
                         </div>
                         <div class="col-12 d-flex align-items-center justify-content-end">
-                            <button mat-raised-button color="primary"
-                                class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
-                                <input (change)="fileOverBase($event)" type="file">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
-                                Upload Insurance
-                            </button>
-                        </div>
-
-
-                        <div class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="doc--pic d-flex align-items-center justify-content-center me-3">
-                                    <!-- <mat-icon>picture_as_pdf</mat-icon>
-                                    <mat-icon>description</mat-icon> -->
-                                    <mat-icon>image</mat-icon>
-                                </div>
-                                <div class="d-flex flex-column  doc--desc">
-                                    <h5 class="font-16">driverlicense.jpg</h5>
-                                    <p class="m-0 font-14">94 KB </p>
+                            <div class="form-group">
+                                <button [disabled]="uploadedInsuranceFilesTotal >= 5" mat-raised-button
+                                    color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
+                                    <input accept="image/*, application/pdf,.doc, .docx"
+                                        (change)="uploadInsurance($event)" type="file">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
+                                    Upload Insurance
+                                </button>
+                                <div class="text text-danger mt-1" *ngIf="fileError !=''">
+                                    {{ fileError }}
                                 </div>
                             </div>
-                            <button mat-raised-button color="warn" class="flex-shrink-0">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
-                                Delete
-                            </button>
                         </div>
-
-
+ 
+                        <div *ngIf="uploadedInsuranceFiles"
+                            class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
+                            <div *ngFor="let fileObj of uploadedInsuranceFiles; let i=index">
+                                <div class="d-flex align-items-center">
+                                    <div class="doc--pic d-flex align-items-center justify-content-center me-3">
+                                        <mat-icon>{{fileObj.icon}}</mat-icon>
+                                    </div>
+                                    <div class="d-flex flex-column  doc--desc">
+                                        <h5 class="font-16">{{fileObj.name}}</h5>
+                                        <!-- <p class="m-0 font-14">{{fileObj.size}} </p> -->
+                                    </div>
+                                </div>
+                                <button (click)="deleteInsurance(i)" mat-raised-button color="warn"
+                                    class="flex-shrink-0">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
+                                    Delete
+                                </button>
+                            </div>
+                        </div> 
 
                         <div class="col-12">
                             <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
