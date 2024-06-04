@@ -91,13 +91,13 @@
 @media only screen and (min-width: 1441px) and (max-width: 1550px){}
 @media screen and (orientation:landscape) and (max-width: 850px){
     
-    .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:last-child,
-    .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:last-child{ 
-        width: 10%; 
-     }
-    .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:nth-child(3),
-    .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:nth-child(3){ 
-        width: 25%; 
-    } 
+    // .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:last-child,
+    // .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:last-child{ 
+    //     width: 10%; 
+    //  }
+    // .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:nth-child(3),
+    // .emergency--contact--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table thead tr th:nth-child(3){ 
+    //     width: 25%; 
+    // } 
      
 }
