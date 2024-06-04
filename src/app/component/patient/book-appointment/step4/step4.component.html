@@ -178,9 +178,9 @@
     <div class="card m-0">
         <div class="row">
             <div class="col-12 col-lg-8">
-                <h3 class="fw-700 font-18 mb-2 mt-2">EMERGENCY CONTACT</h3>
+                <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0" >EMERGENCY CONTACT</h3> 
             </div>
-            <div class="col-12 col-lg-4 d-flex align-items-center justify-content-end header">
+            <div class="col-12 col-lg-4 mb-4">
                 <select class="form-select form-control m-1" aria-label="Default select example">
                     <option selected>Select from Added Contacts</option>
                     <option value="1">Joseph Bravo</option>
@@ -189,23 +189,9 @@
                     <option value="4">Charlotte Elliott</option>
                     <option value="5">Lilly Parks</option>
                 </select>
-                <button mat-raised-button color="primary" class="flex-shrink-0 m-1 add--new--btn" (click)="addNewContact()">
-                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                    Add New Contact
-                </button>
             </div> 
-        </div> 
-        <div class="row" *ngIf="dayOne">
-            <div class="col-12 text-center day--one--wrapper d-flex align-items-center justify-content-center flex-column">
-                <img src="assets/images/ark/calendar-lg.png"  alt="" class="img-fluid mb-4" />
-                <p class="font-16 mb-0">There are no contacts. </p>
-                <p class="font-16">Please click on Add New Contact button to add new contact</p>
-            </div>
-        </div>
-        <div class="row"  *ngIf="contact1">
-            <div class="col-12">
-                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 1</p> 
-            </div> 
+        </div>  
+        <div class="row" > 
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
@@ -272,18 +258,24 @@
             </div>
             <div class="col-12">
                 <div class="divider"></div>
-            </div>
-            <div class="col-12 d-flex justify-content-end">
-                <button mat-raised-button color="primary" class="flex-shrink-0 m-1 add--new--btn" (click)="addAnotherContact()" *ngIf="addAnotherContactBtn">
-                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                    Add Another Contact
-                </button>
-            </div>
-        </div>
-        <div class="row" *ngIf="contact2">
-            <div class="col-12">
-                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 2</p> 
             </div> 
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0" >EMERGENCY CONTACT 2</h3> 
+            </div>
+            <div class="col-12 col-lg-4 mb-4">
+                <select class="form-select form-control m-1" aria-label="Default select example">
+                    <option selected>Select from Added Contacts</option>
+                    <option value="1">Joseph Bravo</option>
+                    <option value="2">Braden Garza</option>
+                    <option value="3">Remy Parker</option>
+                    <option value="4">Charlotte Elliott</option>
+                    <option value="5">Lilly Parks</option>
+                </select>
+            </div> 
+        </div> 
+        <div class="row" > 
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
