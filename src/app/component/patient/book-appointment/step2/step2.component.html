@@ -1,6 +1,6 @@
 <div class="container-fluid book--appointment--wrapper ba--step--two">
     <div class="row">
-        <div class="col-12 d-flex align-items-center mb-4 mt-4">
+        <div class="col-12 d-flex align-items-center mt-0 mb-2">
             <button mat-stroked-button color="primary" class="me-3 back--btn"
                 [routerLink]="['/patient/book-appointment/step-1']">
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
@@ -575,8 +575,8 @@
                         </div>
  
                         <div *ngIf="uploadedInsuranceFiles"
-                            class="col-12 d-flex flex-column flex-sm-row align-items-center mb-3">
-                            <div *ngFor="let fileObj of uploadedInsuranceFiles; let i=index">
+                            class="col-12 ">
+                            <div *ngFor="let fileObj of uploadedInsuranceFiles; let i=index" class="d-flex flex-column flex-sm-row align-items-center mb-3 w-100">
                                 <div class="d-flex align-items-center">
                                     <div class="doc--pic d-flex align-items-center justify-content-center me-3">
                                         <mat-icon>{{fileObj.icon}}</mat-icon>
@@ -629,11 +629,12 @@
                                 sign
                                 for minors)</p>
                         </div>
-                        <div class="col-12 d-flex justify-content-end w-100">
-                            <button [disabled]="step2Form.invalid" mat-raised-button color="primary"
+                        <!-- [disabled]="step2Form.invalid" -->
+                        <div class="col-12 d-flex justify-content-end w-100"> 
+                            <button  mat-raised-button color="primary"
                                 class="flex-shrink-0 mt-2" (click)="addInsurance()">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                Add Insurance
+                                Save Insurance As 
                             </button>
                         </div>
                     </div>
