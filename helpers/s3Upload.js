@@ -153,14 +153,16 @@ const getFile = (path, callback) => {
   return url
 };
 
-//upload file to s3
+//upload file to s3 by manoj
 const uploadFileNew = (params) => {
   return new Promise(function (resolve, reject) {
     var options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
     s3.upload(params, options, async (err, data) => {
       if (err) {
+        console.log("*********uploadFileNew Error********", err)
         resolve(false);
       } else {
+        console.log("*********uploadFileNew Done********")
         resolve(true);
       }
     })

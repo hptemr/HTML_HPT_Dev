@@ -4,6 +4,9 @@ const Appointment = require('../models/appointmentModel');
 const User = require('../models/userModel');
 const sendEmailServices = require('../helpers/sendEmail');
 const emailTemplateModel = require('../models/emailTemplateModel');
+const s3 = require('./../helpers/s3Upload')
+var constants = require('./../config/constants')
+const s3Details = constants.s3Details;
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -84,6 +87,26 @@ const addAppointment = async (req, res) => {
         let newRecord = new Appointment(req.body)
         newRecord.appointmentId = appointmentData.appointmentId + 1
         await newRecord.save()
+        commonHelper.sendResponse(res, 'success', null, commonMessage.commonMessage);
+
+        let uploadedInsuranceFiles = req.body.uploadedInsuranceFiles
+        if (uploadedInsuranceFiles && uploadedInsuranceFiles.length > 0) {
+            var s3InsurancePath = constants.s3Details.patientInsuranceFolderPath;
+            for (let i = 0; i < uploadedInsuranceFiles.length; i++) {
+                let fileName = uploadedInsuranceFiles[i].name
+                let fileSelected = uploadedInsuranceFiles[i].data
+                let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
+                let params = {
+                    ContentEncoding: "base64",
+                    ACL: "bucket-owner-full-control",
+                    ContentType: fileSelected.split(";")[0],
+                    Bucket: constants.s3Details.bucketName,
+                    Body: fileBuffer,
+                    Key: `${s3InsurancePath}${fileName}`,
+                };
+                await s3.uploadFileNew(params)
+            }
+        }
 
         let template = await emailTemplateModel.findOne({ code: "bookAppointment" })
         if (template) {
@@ -98,7 +121,6 @@ const addAppointment = async (req, res) => {
             sendEmailServices.sendEmail(mailOptions)
         }
 
-        commonHelper.sendResponse(res, 'success', null, commonMessage.commonMessage);
     } catch (error) {
         console.log("********addAppointment***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
