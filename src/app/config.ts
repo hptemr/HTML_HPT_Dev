@@ -55,7 +55,6 @@ export const appointmentStatus = [
   "Declined",
   "Completed",
 ]
-
 export const bookingStatus = [
   'Approved',
   'Cancelled',
@@ -70,6 +69,10 @@ export const userStatus = [
   'Deleted',
   'Blocked'
 ]
+export const maritalStatus = [
+  'Married',
+  'Unmarried',
+]
 export const relationWithPatient = [
   'Friend',
   'Father',
@@ -77,4 +80,9 @@ export const relationWithPatient = [
   'Wife',
   'Husband',
   'Other'
+]
+export const carrierNameList = [
+  'Carrier 1',
+  'Carrier 2',
+  'Carrier 3',
 ]

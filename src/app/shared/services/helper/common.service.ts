@@ -54,6 +54,38 @@ export class CommonService {
     }
   }
 
+  public getCalendarDate(date: any) {
+    let selectedDate
+    const today = new Date();
+    selectedDate = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
+    //this.dob = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
+
+   //console.log("getCalendarDate:", date)
+
+    // let selectedDate = "0"+date.month + "-" + date.day + "-" + date.year
+    // const today = new Date(selectedDate);
+    //console.log("selectedDate:", selectedDate)
+    // console.log("final:", today)
+    return selectedDate
+    // day
+    // :
+    // 23
+    // month
+    // :
+    // 5
+    // year
+    // :
+    // 2024
+
+
+    //return { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
+
+    // console.log("getCalendarDate:", date)
+    // const today = new Date(date);
+    // console.log("today:", today)
+    // return today
+  }
+
   public capitalize = function (str: any) {
     if (str && str != "") {
       var firstLetter = str.substr(0, 1);

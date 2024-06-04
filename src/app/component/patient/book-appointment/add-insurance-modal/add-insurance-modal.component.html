@@ -2,19 +2,31 @@
     <header class="w-100">
         <h1 class="fw-600 font-18 mb-3">Save Insurance As</h1>
     </header>
-    <div class="w-100">
-        <div class="row"> 
-            <div class="col-12 ">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Insurance Name</label>
-                    <input class="form-control form-control-md" type="text" placeholder="Enter here" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+    <form [formGroup]="addInsuranceForm" class="w-100">
+        <div class="w-100">
+            <div class="row">
+                <div class="col-12 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Insurance Name</label>
+                        <input (keyup)="checkSpace($event)" formControlName="insuranceName"
+                            class="form-control form-control-md" type="text" placeholder="Enter Insurance Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="isUnique && addInsuranceForm.controls['insuranceName'].touched && (addInsuranceForm.controls['insuranceName'].hasError('required') || addInsuranceForm.controls['insuranceName'].invalid)">
+                            {{ validationMessages.required('Insurance Name') }}
+                        </div>
+
+                        <div class="text text-danger mt-1"
+                            *ngIf="!isUnique">
+                            {{ validationMessages.isUnique('Insurance Name') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-3">
-        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary" mat-dialog-close>Submit</button>
-    </div>
+        <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-3">
+            <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button>
+            <button (click)="addInsurance()" mat-raised-button color="primary"
+                [disabled]="addInsuranceForm.invalid || !isUnique">Submit</button>
+        </div>
+    </form>
 </div>
