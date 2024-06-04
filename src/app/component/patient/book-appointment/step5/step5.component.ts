@@ -103,7 +103,7 @@ export class step5Component {
       setTimeout(() => {
         dialogRef.close()
         this.router.navigate(['/patient/appointments'])
-      }, 6000)
+      }, 5000)
     })
   }
 
