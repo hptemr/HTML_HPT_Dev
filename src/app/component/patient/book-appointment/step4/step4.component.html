@@ -1,158 +1,237 @@
-<div class="container-fluid book--appointment--wrapper ba--step--four  ">
+<div class="container-fluid book--appointment--wrapper ba--step--four ">
     <div class="row">
-        <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn"  [routerLink]="['/patient/book-appointment/step-3']">
-                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+        <div class="col-12 d-flex align-items-center mt-0 mb-2">
+            <div class="row w-100 align-items-center">
+                <div class="col-12 d-flex align-items-center">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn"
+                        [routerLink]="['/patient/book-appointment/step-3']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Book Appointment </span>
+                        <span>(Step <span class="text-primary"> 4 </span> of 5)</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="step4Form">
+        <div class="card m-0">
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0">EMERGENCY CONTACT 1</h3>
+                </div>
+                <div class="col-12 col-lg-4 mb-4">
+                    <select (change)="getContact(1,$event)" class="form-select form-control m-1"
+                        aria-label="Default select example">
+                        <option value="" selected>Select from Added Contacts</option>
+                        <option value="{{i}}" *ngFor="let element of emergencyContactList; let i=index">
+                            {{element.firstName}} {{element.lastName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">First Name
+                            <span class="clr--DF0404 ms-1"> *</span>
+                        </label>
+                        <input (blur)="checkSpace('ec1FirstName', $event)" formControlName="ec1FirstName"
+                            class="form-control" type="text" placeholder="Enter First Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step4Form.controls['ec1FirstName'].touched && (step4Form.controls['ec1FirstName'].hasError('required') || step4Form.controls['ec1FirstName'].invalid)">
+                            {{ validationMessages.required('First Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name
+                            <span class="clr--DF0404 ms-1"> *</span>
+                        </label>
+                        <input (blur)="checkSpace('ec1LastName', $event)" formControlName="ec1LastName"
+                            class="form-control" type="text" placeholder="Enter Last Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step4Form.controls['ec1LastName'].touched && (step4Form.controls['ec1LastName'].hasError('required') || step4Form.controls['ec1LastName'].invalid)">
+                            {{ validationMessages.required('Last Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
+                            </span></label>
+                        <div class="input-group">
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input formControlName="ec1Dob" readonly placeholder="MM-DD-YYYY" matInput
+                                    [matDatepicker]="picker">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+
+                            <div class="text text-danger mt-1"
+                                *ngIf="step4Form.controls['ec1Dob'].touched && (step4Form.controls['ec1Dob'].hasError('required') || step4Form.controls['ec1Dob'].invalid)">
+                                {{ validationMessages.required('Date of Birth') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Relationship with Patient</label>
+                        <select formControlName="ec1RelationWithPatient" class="form-select form-control"
+                            aria-label="Default select example">
+                            <option value="" selected>Select Relation</option>
+                            <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf="step4Form.controls['ec1RelationWithPatient'].value == 'Other'"
+                    class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Other Relation</label>
+                        <input class="form-control" type="text" placeholder="Enter Other Relation" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> *
+                            </span></label>
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="ec1PhoneNumber" class="form-control"
+                            type="text" placeholder="Enter Phone Number" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step4Form.controls['ec1PhoneNumber'].touched && (step4Form.controls['ec1PhoneNumber'].hasError('required') || step4Form.controls['ec1PhoneNumber'].invalid)">
+                            {{ validationMessages.required('Phone Number') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 ps-0">
+                    <div class="form-group mb-0">
+                        <mat-checkbox formControlName="ec1myTreatmentCheckbox" class="">
+                            Okay to release information pertaining to my treatments, records & appointments.
+                        </mat-checkbox>
+                    </div>
+                    <div class="form-group mb-0">
+                        <mat-checkbox formControlName="ec1myAccountCheckbox" class="">
+                            Okay to release information pertaining to my account regarding all billing inquiries.
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0">EMERGENCY CONTACT 2</h3>
+                </div>
+                <div class="col-12 col-lg-4 mb-4">
+                    <select (change)="getContact(2,$event)" class="form-select form-control m-1"
+                        aria-label="Default select example">
+                        <option value="" selected>Select from Added Contacts</option>
+                        <option value="{{i}}" *ngFor="let element of emergencyContactList; let i=index">
+                            {{element.firstName}} {{element.lastName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">First Name
+                            <span class="clr--DF0404 ms-1"> * </span>
+                        </label>
+                        <input (blur)="checkSpace('ec2FirstName', $event)" formControlName="ec2FirstName"
+                            class="form-control" type="text" placeholder="Enter First Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step4Form.controls['ec2FirstName'].touched && (step4Form.controls['ec2FirstName'].hasError('required') || step4Form.controls['ec2FirstName'].invalid)">
+                            {{ validationMessages.required('First Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name
+                            <span class="clr--DF0404 ms-1"> * </span>
+                        </label>
+                        <input (blur)="checkSpace('ec2LastName', $event)" formControlName="ec2LastName"
+                            class="form-control" type="text" placeholder="Enter Last Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step4Form.controls['ec2LastName'].touched && (step4Form.controls['ec2LastName'].hasError('required') || step4Form.controls['ec2LastName'].invalid)">
+                            {{ validationMessages.required('Last Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
+                            </span></label>
+                        <div class="input-group">
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input formControlName="ec2Dob" readonly placeholder="MM-DD-YYYY" matInput
+                                    [matDatepicker]="picker2">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                            <div class="text text-danger mt-1"
+                                *ngIf="step4Form.controls['ec2Dob'].touched && (step4Form.controls['ec2Dob'].hasError('required') || step4Form.controls['ec2Dob'].invalid)">
+                                {{ validationMessages.required('Date of Birth') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Relationship with Patient</label>
+                        <select formControlName="ec2RelationWithPatient" class="form-select form-control"
+                            aria-label="Default select example">
+                            <option value="" selected>Select Relation</option>
+                            <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf="step4Form.controls['ec2RelationWithPatient'].value == 'Other'"
+                    class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Other Relation</label>
+                        <input class="form-control" type="text" placeholder="Enter Other Relation" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> *
+                            </span></label>
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="ec2PhoneNumber" class="form-control"
+                            type="text" placeholder="Enter Phone Number" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step4Form.controls['ec2PhoneNumber'].touched && (step4Form.controls['ec2PhoneNumber'].hasError('required') || step4Form.controls['ec2PhoneNumber'].invalid)">
+                            {{ validationMessages.required('Phone Number') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 ps-0">
+                    <div class="form-group mb-0">
+                        <mat-checkbox formControlName="ec2myTreatmentCheckbox" class="">
+                            Okay to release information pertaining to my treatments, records & appointments.
+                        </mat-checkbox>
+                    </div>
+                    <div class="form-group mb-0">
+                        <mat-checkbox formControlName="ec2myAccountCheckbox" class="">
+                            Okay to release information pertaining to my account regarding all billing inquiries.
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
+            <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-3']">
+                Previous
             </button>
-            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Book Appointment </span>
-                <span>(Step <span class="text-primary"> 4 </span> of 5)</span>
-            </h3>
+            <button [disabled]="step4Form.invalid" (click)="bookAppointmentStep4()" mat-raised-button color="primary"
+                class="m-1">
+                Next
+            </button>
         </div>
-    </div>
-    <div class="card m-0">
-        <div class="row"> 
-            <div class="col-12">
-                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 1</p> 
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="text" placeholder="Enter First Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control" type="text" placeholder="Enter Last Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
-                    <div class="input-group">
-                        <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp"
-                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                            type="button">
-                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Relationship with Patient</label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Select Relation</option>
-                        <option value="1">Relation 1</option>
-                        <option value="2">Relation 2</option>
-                        <option value="3">Relation 3</option>
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div> 
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Other Relation</label>
-                    <input class="form-control" type="text" placeholder="Enter Other Relation" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>  
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="number" placeholder="Enter Phone Number"/>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div> 
-            <div class="col-12 ps-0">
-                <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
-                 </div>
-                 <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
-                 </div>
-            </div>
-            <div class="col-12">
-                <div class="divider"></div>
-            </div>
-        </div>
-        <div class="row"> 
-            <div class="col-12">
-                <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT 2</p> 
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="text" placeholder="Enter First Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control" type="text" placeholder="Enter Last Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
-                    <div class="input-group">
-                        <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp"
-                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                            type="button">
-                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Relationship with Patient</label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Select Relation</option>
-                        <option value="1">Relation 1</option>
-                        <option value="2">Relation 2</option>
-                        <option value="3">Relation 3</option>
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div> 
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Other Relation</label>
-                    <input class="form-control" type="text" placeholder="Enter Other Relation" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>  
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="number" placeholder="Enter Phone Number"/>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div> 
-            <div class="col-12 ps-0">
-                <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
-                 </div>
-                 <div class="form-group mb-0"> 
-                    <mat-checkbox class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
-                 </div>
-            </div> 
-        </div>
-    </div>
-    <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
-        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-3']">
-            Previous
-        </button>
-        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-5']">
-            Next
-        </button>
-    </div>
+    </form>
 </div>
