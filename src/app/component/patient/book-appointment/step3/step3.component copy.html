@@ -48,6 +48,47 @@
                     </div>
                 </div>
 
+<!-- 
+                <div class="col-12 col-lg-9">
+                    <div class="row">
+                        <div formArrayName="newBuildings">
+                            <div fxLayout="row wrap"  *ngFor="let list of getNewBuildings.controls; let i = index"  [formGroupName]="i">
+                              <div fxFlex.xs="100" fxFlex.sm="50" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50" class="cust--gapp">
+                                <mat-form-field class="full--width">
+                                  <input matInput placeholder="Street Name" class="capitalize" type="text" formControlName="name">
+                                </mat-form-field>
+                              </div>
+                              
+                              <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.lg="100" fxFlex.xl="100"
+                                class="add--more--footer">
+                                <div class="add--more" *ngIf="i == getNewBuildings.controls.length-1 " (click)="addRow()">
+                                  <mat-icon>add_circle </mat-icon>
+                                  Add More
+                                </div>
+                                 <button mat-raised-button class="red-button" *ngIf="i != getNewBuildings.controls.length-1" (click)="deleteRow(i)">Delete </button>
+                              </div>
+                            </div>
+                          </div>
+                    
+                    </div>
+                </div> 
+            -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="col-12 col-lg-9">
                     <div class="row">
                         <div class="col-12">
@@ -686,47 +727,66 @@
                         </div>
                         <div class="col-12" *ngIf="form['allergiesToMedicationsSelf'].value == 'Yes'">
                             <div class="row">
-                                <div formArrayName="allergiesToMedications_AllergyArray" class="col-12 col-lg-7">
-                                    <div *ngFor="let list of getNewAllergy.controls; let i = index" [formGroupName]="i"
-                                        class="d-flex align-items-center w-100">
+                                <div formArrayName="phones" class="col-12 col-lg-7">
+                                    <div class="d-flex align-items-center w-100">
                                         <div class="form-group w-100">
                                             <label class="col-form-label fw-600">
                                                 Enter Allergy
                                                 <span class="clr--DF0404 ms-1"></span>
                                             </label>
-                                            <input formControlName="name" placeholder="Enter Allergy"
-                                                class="form-control" type="text" />
+                                            <input class="form-control" type="text" placeholder="Enter Allergy" />
                                         </div>
-                                        <button *ngIf="i == getNewAllergy.controls.length-1 " (click)="addNewAllergy()"
-                                            mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                        <button (click)="addPhone()" mat-raised-button color="primary"
+                                            class="flex-shrink-0 mt-3 ms-3 add--btn">
                                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
                                                 add_circle
                                             </mat-icon>
                                         </button>
-
-                                        <button (click)="deleteAllergy(i)" *ngIf="i != getNewAllergy.controls.length-1"
-                                            mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
-                                                delete
-                                            </mat-icon>
-                                        </button>
+                                    </div>
+                                    <div *ngIf="allergyAddMore">
+                                        <div *ngFor="let phone of getPhonesFormControls(); let i = index;"
+                                            class="d-flex align-items-center w-100">
+                                            <div [formGroupName]="i" class="form-group w-100">
+                                                <label class="col-form-label fw-600">
+                                                    Enter Allergy
+                                                    <span class="clr--DF0404 ms-1"></span>
+                                                </label>
+                                                <input formGroupName="i" class="form-control" type="text"
+                                                    placeholder="Enter Allergy" />
+                                            </div>
+                                            <button (click)="removePhone(i)" mat-raised-button color="warn"
+                                                class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete
+                                                </mat-icon>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
 
-                                <div class="col-12 ">
+
+
+
+
+
+
+
+
+
+
+
+                                <!-- <div class="col-12 ">
                                     <p
                                         class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                         Previous surgeries and dates
                                     </p>
                                 </div>
-                                <div class="col-12" formArrayName="allergiesToMedications_SurgeryArray">
-                                    <div *ngFor="let list of getNewSurgery.controls; let i = index" [formGroupName]="i"
-                                        class="row align-items-center">
+                                <div class="col-12">
+                                    <div class="row align-items-center">
                                         <div class="col-12 col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label fw-600">Surgery Details </label>
-                                                <input formControlName="details" class="form-control" type="text"
+                                                <input class="form-control" type="text"
                                                     placeholder="Enter Surgery Details" />
                                             </div>
                                         </div>
@@ -735,31 +795,23 @@
                                                 <label class="col-form-label fw-600">Surgery Date </label>
                                                 <div class="input-group">
                                                     <mat-form-field class="w-100 am--datepicker">
-                                                        <input formControlName="surDate" readonly
-                                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker">
+                                                        <input readonly placeholder="MM-DD-YYYY" matInput
+                                                            [matDatepicker]="picker">
                                                         <mat-datepicker-toggle matIconSuffix
                                                             [for]="picker"></mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
-                                            <button *ngIf="i == getNewSurgery.controls.length-1 "
-                                                (click)="addNewSurgery()" mat-raised-button color="primary"
+                                            <button mat-raised-button color="primary"
                                                 class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
                                                     add_circle
                                                 </mat-icon>
                                             </button>
-
-                                            <button (click)="deleteSurgery(i)"
-                                                *ngIf="i != getNewSurgery.controls.length-1" mat-raised-button
-                                                color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                                <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
-                                                    delete
-                                                </mat-icon>
-                                            </button>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div class="col-12 ">
@@ -768,31 +820,21 @@
                                         Medications you are currently using:
                                     </p>
                                 </div>
-                                <div formArrayName="allergiesToMedications_MedicationArray" class="col-12 col-lg-7">
-                                    <div *ngFor="let list of getNewMedication.controls; let i = index"
-                                        [formGroupName]="i" class="d-flex align-items-center w-100">
+                                <div class="col-12 col-lg-7">
+                                    <div class="d-flex align-items-center w-100">
                                         <div class="form-group w-100">
                                             <label class="col-form-label fw-600">Medication</label>
-                                            <input formControlName="name" class="form-control" type="text"
-                                                placeholder="Enter Medication" />
+                                            <input class="form-control" type="text" placeholder="Enter Medication" />
                                         </div>
-                                        <button *ngIf="i == getNewMedication.controls.length-1 "
-                                            (click)="addNewMedication()" mat-raised-button color="primary"
+                                        <button mat-raised-button color="primary"
                                             class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0">
                                                 add_circle
                                             </mat-icon>
                                         </button>
-
-                                        <button (click)="deleteMedication(i)"
-                                            *ngIf="i != getNewMedication.controls.length-1" mat-raised-button
-                                            color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
-                                                delete
-                                            </mat-icon>
-                                        </button>
                                     </div>
-                                </div>
+
+                                </div> -->
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatRadioChange } from '@angular/material/radio';
 import { Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
@@ -22,6 +23,9 @@ export class Step3Component {
   step2FormData: any
   step3FormData: any
 
+  allergyAddMore = 0
+  phones: FormArray
+
   constructor(public dialog: MatDialog, private router: Router,
     private fb: FormBuilder, private commonService: CommonService,
     private authService: AuthService) {
@@ -31,6 +35,7 @@ export class Step3Component {
     let step1: any
     step1 = localStorage.getItem("step1FormData")
     this.step1FormData = JSON.parse(step1)
+    console.log(" this.step1FormData :", this.step1FormData)
 
     this.step3FormData = localStorage.getItem("step3FormData")
     if (this.step3FormData == null) {
@@ -142,17 +147,17 @@ export class Step3Component {
       urinaryTractInfectionSelfYes: new FormControl((this.step3FormData ? this.step3FormData.urinaryTractInfectionSelfYes : '')),
 
       allergiesToMedicationsSelf: new FormControl((this.step3FormData ? this.step3FormData.allergiesToMedicationsSelf : 'No')),
+      //allergiesToMedicationsSelfYes: new FormControl((this.step3FormData ? this.step3FormData.allergiesToMedicationsSelfYes : '')),
+      // allergiesToMedications: this.fb.array([
+      //   this.fb.control(null)
+      // ]),
+      // phones: this.fb.array([
+      //   this.fb.control(null)
+      // ]),
 
-      allergiesToMedications_AllergyArray: this.fb.array([this.fb.group({
-        name: [""]
-      })]),
+      phones: new FormArray([]),
 
-      allergiesToMedications_SurgeryArray: this.fb.array([this.fb.group({
-        details: [""],
-        surDate: [""]
-      })]),
-
-      allergiesToMedications_MedicationArray: this.fb.array([this.fb.group({
+      newBuildings: this.fb.array([this.fb.group({
         name: [""]
       })]),
 
@@ -204,43 +209,6 @@ export class Step3Component {
     this.step3Form.controls['dob'].setValue(this.step1FormData.dob)
     this.step3Form.controls['appointmentDate'].setValue(this.step1FormData.appointmentDate)
     this.step3Form.controls['fullName'].setValue(this.step1FormData.firstName + " " + this.step1FormData.middleName + " " + this.step1FormData.lastName)
-
-    let allergies = this.step3FormData ? this.step3FormData.allergiesToMedications_AllergyArray : []
-    if (allergies && allergies.length > 0) {
-      this.getNewAllergy.removeAt(0)
-      for (let i = 0; i < allergies.length; i++) {
-        if (allergies[i].name && allergies[i].name.trim() != '') {
-          this.getNewAllergy.push(this.fb.group({
-            name: [allergies[i].name]
-          }))
-        }
-      }
-    }
-
-    let surgery = this.step3FormData ? this.step3FormData.allergiesToMedications_SurgeryArray : []
-    if (surgery && surgery.length > 0) {
-      this.getNewSurgery.removeAt(0)
-      for (let i = 0; i < surgery.length; i++) {
-        if (surgery[i].details && surgery[i].details.trim() != '' || surgery[i].surDate) {
-          this.getNewSurgery.push(this.fb.group({
-            details: [surgery[i].details],
-            surDate: [surgery[i].surDate]
-          }))
-        }
-      }
-    }
-
-    let medication = this.step3FormData ? this.step3FormData.allergiesToMedications_MedicationArray : []
-    if (medication && medication.length > 0) {
-      this.getNewMedication.removeAt(0)
-      for (let i = 0; i < medication.length; i++) {
-        if (medication[i].name && medication[i].name.trim() != '') {
-          this.getNewMedication.push(this.fb.group({
-            name: [medication[i].name]
-          }))
-        }
-      }
-    }
   }
 
   checkSpace(colName: any, event: any) {
@@ -249,51 +217,39 @@ export class Step3Component {
 
   bookAppointmentStep3() {
     console.log("step3Form:", this.step3Form.value)
+    console.log("phones:", this.step3Form.value.phones)
     localStorage.setItem("step3FormData", JSON.stringify(this.step3Form.value));
-    this.router.navigate(['/patient/book-appointment/step-4'])
+    //this.router.navigate(['/patient/book-appointment/step-4'])
   }
 
-  get getNewAllergy() {
-    return this.step3Form.get('allergiesToMedications_AllergyArray') as FormArray;
+
+  addPhone(): void {
+    (this.step3Form.get('phones') as FormArray).push(
+      this.fb.control('')
+    );
+    this.allergyAddMore++
   }
 
-  addNewAllergy() {
-    this.getNewAllergy.push(this.fb.group({
+  removePhone(index: any) {
+    this.allergyAddMore--
+    (this.step3Form.get('phones') as FormArray).removeAt(index);
+  }
+
+  getPhonesFormControls(): AbstractControl[] {
+    return (<FormArray>this.step3Form.get('phones')).controls
+  }
+
+  get getNewBuildings() {
+    return this.step3Form.get('newBuildings') as FormArray;
+  }
+
+  addRow() {
+    this.getNewBuildings.push(this.fb.group({
       name: [""]
     }))
   }
 
-  deleteAllergy(i: any) {
-    this.getNewAllergy.removeAt(i)
+  deleteRow(i: any) {
+    this.getNewBuildings.removeAt(i)
   }
-
-  get getNewSurgery() {
-    return this.step3Form.get('allergiesToMedications_SurgeryArray') as FormArray;
-  }
-
-  addNewSurgery() {
-    this.getNewSurgery.push(this.fb.group({
-      details: [""],
-      surDate: [""],
-    }))
-  }
-
-  deleteSurgery(i: any) {
-    this.getNewSurgery.removeAt(i)
-  }
-
-  get getNewMedication() {
-    return this.step3Form.get('allergiesToMedications_MedicationArray') as FormArray;
-  }
-
-  addNewMedication() {
-    this.getNewMedication.push(this.fb.group({
-      name: [""]
-    }))
-  }
-
-  deleteMedication(i: any) {
-    this.getNewMedication.removeAt(i)
-  }
-
 }

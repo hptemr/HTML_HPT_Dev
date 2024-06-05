@@ -71,6 +71,8 @@ export class Step2Component {
       console.log(" this.step2FormData :", this.step2FormData)
       this.payViaSelected = this.step2FormData.payVia
     }
+    console.log(" this.step2FormData :", this.step2FormData)
+
     this.loadForm()
     this.getInsuranceList()
     this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value
@@ -91,6 +93,7 @@ export class Step2Component {
       cellPhoneNumber: [this.step2FormData ? this.step2FormData.cellPhoneNumber : this.step1FormData.cellPhoneNumber],
       workExtensionNumber: [this.step2FormData ? this.step2FormData.workExtensionNumber : this.step1FormData.workExtensionNumber],
 
+      insuranceName: [this.step2FormData ? this.step2FormData.insuranceName : ''],
       subscriberFirstName: [this.step2FormData ? this.step2FormData.subscriberFirstName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberMiddleName: [this.step2FormData ? this.step2FormData.subscriberMiddleName : ''],
       subscriberLastName: [this.step2FormData ? this.step2FormData.subscriberLastName : '', [Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -122,6 +125,7 @@ export class Step2Component {
 
   getInsuranceDetails(event: any) {
     let currentIndex = event.target.value
+    let insuranceName = ''
     let subscriberFirstName = ''
     let subscriberMiddleName = ''
     let subscriberLastName = ''
@@ -149,8 +153,9 @@ export class Step2Component {
     let attorneyName = ''
     let attorneyPhone = ''
 
-    if (currentIndex && currentIndex >= 0) {
-      let info = this.insuranceList[currentIndex]
+    if (currentIndex != '') {
+      let info = this.insuranceList.filter((item: any) => item.insuranceName === currentIndex)[0]
+      insuranceName = info.insuranceName
       subscriberFirstName = info.subscriberFirstName
       subscriberMiddleName = info.subscriberMiddleName
       subscriberLastName = info.subscriberLastName
@@ -178,7 +183,7 @@ export class Step2Component {
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
     }
-
+    this.step2Form.controls['insuranceName'].setValue(insuranceName)
     this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.step2Form.controls['subscriberLastName'].setValue(subscriberLastName)
