@@ -4,6 +4,8 @@ import { AppointmentsComponent } from './appointments/appointments.component';
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
+import { ReportsComponent } from './report/reports/reports.component';
+import { MissedNoteComponent } from './report/missed-note/missed-note.component';
 
 const routes: Routes = [ 
   {
@@ -22,6 +24,19 @@ const routes: Routes = [
     path: 'patient-profile',
     component:PatientProfileComponent   
   }, 
+  {
+    path: 'reports', 
+    children: [  
+      {
+        path: 'all-reports',
+        component: ReportsComponent, 
+      },
+      {
+        path: 'missed-notes',
+        component: MissedNoteComponent, 
+      }, 
+    ]
+  },
 ];
 
 @NgModule({

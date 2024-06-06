@@ -31,4 +31,5 @@ export class Step3Component {
     // this.allergies.push({new allergies()})
   }
   
+  
 }

@@ -8,6 +8,8 @@ import { ManageProfileComponent } from './manage-profile/manage-profile.componen
 import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
 import { SystemFollowupModalComponent } from './system-followup-modal/system-followup-modal.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
+import { ReportsComponent } from './report/reports/reports.component';
+import { MissedNoteComponent } from './report/missed-note/missed-note.component';
  
 
 @NgModule({
@@ -17,6 +19,8 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
     AppointmentDetailsComponent,
     SystemFollowupModalComponent,
     PatientProfileComponent, 
+    ReportsComponent,
+    MissedNoteComponent
   ],
   imports: [
     CommonModule,
