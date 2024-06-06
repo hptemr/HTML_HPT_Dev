@@ -95,8 +95,9 @@
                                                 <mat-radio-button value="No" checked>No</mat-radio-button>
                                             </mat-radio-group>
                                             <div class="form-group mt-2 w-100"
-                                                *ngIf="form['cancerFamilyYes'].value == 'Yes'">
-                                                <input class="form-control" type="text" placeholder="Add Description" />
+                                                *ngIf="form['cancerFamily'].value == 'Yes'">
+                                                <input formControlName="cancerFamilyYes" class="form-control"
+                                                    type="text" placeholder="Add Description" />
                                             </div>
                                         </div>
                                     </div>
@@ -1095,7 +1096,8 @@
                                 <div class="d-flex align-items-center">
                                     <span class="flex-shrink-0 me-2">The Same </span>
                                     <div class="form-group mt-2 w-100" *ngIf="form['symptoms'].value == 'The Same'">
-                                        <input formControlName="symptomsSame" class="form-control" type="text" placeholder="Add Description" />
+                                        <input formControlName="symptomsSame" class="form-control" type="text"
+                                            placeholder="Add Description" />
                                     </div>
                                 </div>
                             </mat-radio-button>

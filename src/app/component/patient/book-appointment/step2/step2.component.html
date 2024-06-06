@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
-                    <div *ngIf="step2Form.controls['relationWithPatient'].value=='Other'">
+                    <div>
                         <div class="form-group">
                             <label class="col-form-label fw-600">Other Relation </label>
                             <input class="form-control" type="text" placeholder="Specify Relation" />
@@ -250,8 +250,11 @@
                                     {{ validationMessages.required('Relationship with Patient') }}
                                 </div>
                             </div>
-                            <div class="form-group"
-                                *ngIf="step2Form.controls['subscriberRelationWithPatient'].value=='other'">
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Other Relation</label>
                                 <input class="form-control" type="text" placeholder="Enter other relation" />
                             </div>
                         </div>
@@ -416,8 +419,8 @@
                                     </span> </label>
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input [max]="todayDate" formControlName="dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput
-                                            [matDatepicker]="picker3">
+                                        <input [max]="todayDate" formControlName="dateOfInjury" readonly
+                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                         <mat-datepicker #picker3></mat-datepicker>
                                     </mat-form-field>
