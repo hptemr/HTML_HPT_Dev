@@ -84,8 +84,8 @@
                         </label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker">
+                                <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY"
+                                    matInput [matDatepicker]="picker">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
@@ -222,8 +222,8 @@
                                     </span></label>
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input formControlName="subscriberDob" readonly placeholder="MM-DD-YYYY"
-                                            matInput [matDatepicker]="picker2">
+                                        <input [max]="todayDate" formControlName="subscriberDob" readonly
+                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                         <mat-datepicker #picker2></mat-datepicker>
                                     </mat-form-field>
@@ -269,7 +269,7 @@
                                     type="text" placeholder="Enter Company Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['primaryInsuranceCompany'].touched && (step2Form.controls['primaryInsuranceCompany'].hasError('required') || step2Form.controls['primaryInsuranceCompany'].invalid)">
-                                    {{ validationMessages.required('Company') }}
+                                    {{ validationMessages.required('Insurance Company') }}
                                 </div>
                             </div>
                         </div>
@@ -416,7 +416,7 @@
                                     </span> </label>
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input formControlName="dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput
+                                        <input [max]="todayDate" formControlName="dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput
                                             [matDatepicker]="picker3">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                         <mat-datepicker #picker3></mat-datepicker>

@@ -45,8 +45,8 @@
                         </label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker">
+                                <input [min]="todayDate" [max]="maxAppntDate" formControlName="appointmentDate" readonly
+                                    placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
@@ -67,7 +67,7 @@
                         </mat-radio-group>
                         <div class="form-group other--booking" *ngIf="selectedValue == 'Other'">
                             <input class="form-control" type="text" placeholder="Enter other booking for" />
-                         </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
@@ -98,8 +98,9 @@
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Middle Name</label>
-                        <input (blur)="checkSpace('middleName', $event)" formControlName="middleName"
-                            class="form-control" type="text" placeholder="Enter Middle Name" />
+                        <input [readonly]="isReadonly" (blur)="checkSpace('middleName', $event)"
+                            formControlName="middleName" class="form-control" type="text"
+                            placeholder="Enter Middle Name" />
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
@@ -115,15 +116,16 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
+                        <label class="col-form-label fw-600">Date of Birth<span class="clr--DF0404 ms-1"> *
                             </span></label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker2">
+                                <input readonly="isReadonly" [max]="todayDate" formControlName="dob"
+                                    placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
                             </mat-form-field>
+
                         </div>
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['dob'].touched && (step1Form.controls['dob'].hasError('required') || step1Form.controls['dob'].invalid)">

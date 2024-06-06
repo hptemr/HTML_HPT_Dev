@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from 'src/app/shared/services/api/auth.service';
+ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
@@ -12,12 +11,8 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
   styleUrl: './step3.component.scss'
 })
 export class Step3Component {
-  clickedIndex = 0;
-  model: NgbDateStruct;
-  selectedValue: number;
-
   step3Form: FormGroup
-
+  clickedIndex = 0
   step1FormData: any
   step2FormData: any
   step3FormData: any
@@ -197,10 +192,13 @@ export class Step3Component {
       areYouUnderStressSelfYes: new FormControl((this.step3FormData ? this.step3FormData.areYouUnderStressSelfYes : '')),
 
       symptoms: new FormControl((this.step3FormData ? this.step3FormData.symptoms : '')),
+      symptomsSame: new FormControl((this.step3FormData ? this.step3FormData.symptomsSame : '')), 
+
       rateYourPain: new FormControl((this.step3FormData ? this.step3FormData.rateYourPain : '')),
 
     })
 
+    this.clickedIndex = this.step3FormData ? this.step3FormData.rateYourPain : 0
     this.step3Form.controls['dob'].setValue(this.step1FormData.dob)
     this.step3Form.controls['appointmentDate'].setValue(this.step1FormData.appointmentDate)
     this.step3Form.controls['fullName'].setValue(this.step1FormData.firstName + " " + this.step1FormData.middleName + " " + this.step1FormData.lastName)
@@ -245,6 +243,11 @@ export class Step3Component {
 
   checkSpace(colName: any, event: any) {
     this.step3Form.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
+
+  painRate(i: any) {
+    this.clickedIndex = i
+    this.step3Form.controls['rateYourPain'].setValue(i)
   }
 
   bookAppointmentStep3() {

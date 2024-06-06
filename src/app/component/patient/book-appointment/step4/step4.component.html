@@ -64,7 +64,7 @@
                             </span></label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input formControlName="ec1Dob" readonly placeholder="MM-DD-YYYY" matInput
+                                <input [max]="todayDate" formControlName="ec1Dob" readonly placeholder="MM-DD-YYYY" matInput
                                     [matDatepicker]="picker">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
@@ -169,7 +169,7 @@
                             </span></label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input formControlName="ec2Dob" readonly placeholder="MM-DD-YYYY" matInput
+                                <input [max]="todayDate" formControlName="ec2Dob" readonly placeholder="MM-DD-YYYY" matInput
                                     [matDatepicker]="picker2">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>

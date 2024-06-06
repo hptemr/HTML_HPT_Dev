@@ -20,7 +20,7 @@ export class AddInsuranceModalComponent {
 
   ngOnInit() {
     this.addInsuranceForm = this.fb.group({
-      insuranceName: new FormControl('', Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      insuranceName: new FormControl('', Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
     })
   }
   async checkSpace(event: any) {

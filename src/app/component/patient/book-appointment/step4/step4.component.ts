@@ -18,35 +18,35 @@ export class Step4Component {
   relationWithPatient = relationWithPatient
   validationMessages = validationMessages
   emergencyContactList: any
-
+  todayDate = new Date() 
+  
   constructor(public dialog: MatDialog, private router: Router,
     private commonService: CommonService,
     private authService: AuthService) {
-
   }
 
 
   ngOnInit() {
-    this.getEmergencyContactList() 
+    this.getEmergencyContactList()
     let step4: any
     step4 = localStorage.getItem("step4FormData")
     this.step4FormData = JSON.parse(step4)
-    console.log(" this.step4FormData :", this.step4FormData) 
+    console.log(" this.step4FormData :", this.step4FormData)
     this.loadForm()
   }
 
   loadForm() {
     this.step4Form = new FormGroup({
-      ec1FirstName: new FormControl((this.step4FormData ? this.step4FormData.ec1FirstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
-      ec1LastName: new FormControl((this.step4FormData ? this.step4FormData.ec1LastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      ec1FirstName: new FormControl((this.step4FormData ? this.step4FormData.ec1FirstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      ec1LastName: new FormControl((this.step4FormData ? this.step4FormData.ec1LastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       ec1Dob: new FormControl((this.step4FormData ? this.step4FormData.ec1Dob : ''), Validators.compose([Validators.required])),
       ec1RelationWithPatient: new FormControl((this.step4FormData ? this.step4FormData.ec1RelationWithPatient : '')),
       ec1PhoneNumber: new FormControl((this.step4FormData ? this.step4FormData.ec1PhoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
       ec1myTreatmentCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec1myTreatmentCheckbox : false)),
       ec1myAccountCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec1myAccountCheckbox : false)),
 
-      ec2FirstName: new FormControl((this.step4FormData ? this.step4FormData.ec2FirstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
-      ec2LastName: new FormControl((this.step4FormData ? this.step4FormData.ec2LastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z0-9.'-]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      ec2FirstName: new FormControl((this.step4FormData ? this.step4FormData.ec2FirstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      ec2LastName: new FormControl((this.step4FormData ? this.step4FormData.ec2LastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       ec2Dob: new FormControl((this.step4FormData ? this.step4FormData.ec2Dob : ''), Validators.compose([Validators.required])),
       ec2RelationWithPatient: new FormControl((this.step4FormData ? this.step4FormData.ec2RelationWithPatient : '')),
       ec2PhoneNumber: new FormControl((this.step4FormData ? this.step4FormData.ec2PhoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
