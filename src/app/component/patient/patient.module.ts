@@ -19,6 +19,7 @@ import { AddInsuranceModalComponent } from './book-appointment/add-insurance-mod
 import { AppointmentReqModalComponent } from './book-appointment/appointment-req-modal/appointment-req-modal.component';
 import { step5Component } from './book-appointment/step5/step5.component';
 import { AddEditContactComponent } from './emergency-contact/add-edit-contact/add-edit-contact.component';
+import { BodyDetailsModalComponent } from './book-appointment/step3/body-details-modal/body-details-modal.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { AddEditContactComponent } from './emergency-contact/add-edit-contact/ad
     ContactModalComponent,
     AddInsuranceModalComponent,
     AppointmentReqModalComponent,
-    AddEditContactComponent
+    AddEditContactComponent,
+    BodyDetailsModalComponent
   ],
   imports: [
     CommonModule,

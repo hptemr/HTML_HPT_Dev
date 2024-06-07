@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { BodyDetailsModalComponent } from './body-details-modal/body-details-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-step3', 
@@ -30,6 +32,12 @@ export class Step3Component {
   addAnotherAllergy() {
     // this.allergies.push({new allergies()})
   }
-  
+  constructor(public dialog: MatDialog) { }
+
+  bodyClick() {
+    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+      panelClass: 'custom-alert-container', 
+    });
+  }
   
 }
