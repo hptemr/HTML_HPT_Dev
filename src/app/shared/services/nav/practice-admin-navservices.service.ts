@@ -27,7 +27,7 @@ export class PracticeAdminNavservicesService {
   public language: boolean = false;
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
   public horizontal: boolean = window.innerWidth < 991 ? false : true;
-  public isDisplay: boolean;
+  public isDisplay: boolean = window.innerWidth < 1080 ? true : false;
   public pinned: boolean;
   public search: boolean;
   public isShow: boolean = false;
