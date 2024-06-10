@@ -60,6 +60,7 @@ export class step5Component {
     let step3FormData: any = localStorage.getItem('step3FormData')
     let step4FormData: any = localStorage.getItem('step4FormData')
     let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
+    let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
     step1FormData = JSON.parse(step1FormData)
 
     let finalReqBody: any = {
@@ -84,7 +85,8 @@ export class step5Component {
         cellPhoneNumber: step1FormData.cellPhoneNumber,
         workExtensionNumber: step1FormData.workExtensionNumber,
       },
-      uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles)
+      uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
+      uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles),
     }
     Object.assign(finalReqBody, this.step5Form.value)
     console.log("finalReqBody:", finalReqBody)
@@ -96,7 +98,7 @@ export class step5Component {
       localStorage.removeItem('step4FormData')
       localStorage.removeItem('step5FormData')
       localStorage.removeItem('uploadedInsuranceFiles')
-
+      localStorage.removeItem('uploadedPrescriptionFiles')
       const dialogRef = this.dialog.open(AppointmentReqModalComponent, {
         panelClass: 'custom-alert-container',
       })

@@ -16,6 +16,11 @@ export class Step3Component {
   step1FormData: any
   step2FormData: any
   step3FormData: any
+  
+  allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
+  fileError: any = ''
+  uploadedPrescriptionFiles: any = []
+  uploadedPrescriptionFilesTotal = 0
 
   constructor(public dialog: MatDialog, private router: Router,
     private fb: FormBuilder, private commonService: CommonService,
@@ -297,6 +302,54 @@ export class Step3Component {
 
   deleteMedication(i: any) {
     this.getNewMedication.removeAt(i)
+  }
+
+  getExtension(fileName: any) {
+    if (fileName && fileName != undefined) {
+      return fileName.split(/[#?]/)[0].split('.').pop().trim();
+    }
+  }
+
+  deletePrescription(index: any) {
+    this.uploadedPrescriptionFiles.splice(index, 1);
+    localStorage.setItem("uploadedPrescriptionFiles", JSON.stringify(this.uploadedPrescriptionFiles))
+    this.uploadedPrescriptionFilesTotal = this.uploadedPrescriptionFiles.length
+  }
+
+  uploadPrescription($event: any) {
+    let file: File = $event.target.files[0]
+    let fileType = this.getExtension(file.name)
+    let datenow = Date.now()
+    if (!this.allowedFileTypes.includes(fileType)) {
+      this.fileError = "File type should be pdf, image, doc only"
+    } else if (file.size / (1024 * 1024) >= 5) {
+      this.fileError = 'File max size should be less than 5MB'
+    } else {
+      let icon = ''
+      this.fileError = ""
+      if (['png', 'jpg', 'jpeg', 'webp'].includes(fileType)) {
+        icon = 'image'
+      } else if (['doc', 'docx'].includes(fileType)) {
+        icon = 'description'
+      } else {
+        icon = 'picture_as_pdf'
+      }
+
+      let myReader: FileReader = new FileReader()
+      myReader.readAsDataURL(file)
+      let that = this
+      myReader.onloadend = function (loadEvent: any) {
+        that.uploadedPrescriptionFiles = that.uploadedPrescriptionFiles || [];
+        that.uploadedPrescriptionFiles.push({
+          //size: file.size,
+          name: datenow + "." + fileType,
+          data: loadEvent.target.result,
+          icon: icon
+        })
+        that.uploadedPrescriptionFilesTotal = that.uploadedPrescriptionFiles.length
+        localStorage.setItem("uploadedPrescriptionFiles", JSON.stringify(that.uploadedPrescriptionFiles))
+      }
+    }
   }
 
 }
