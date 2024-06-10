@@ -331,7 +331,7 @@
                                     type="text" placeholder="Enter Company Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['secondaryInsuranceCompany'].touched && (step2Form.controls['secondaryInsuranceCompany'].hasError('required') || step2Form.controls['secondaryInsuranceCompany'].invalid)">
-                                    {{ validationMessages.required('Company') }}
+                                    {{ validationMessages.required('Insurance Company') }}
                                 </div>
                             </div>
                         </div>
@@ -637,9 +637,8 @@
                                 sign
                                 for minors)</p>
                         </div>
-                        <!-- [disabled]="step2Form.invalid" -->
                         <div class="col-12 d-flex justify-content-end w-100"> 
-                            <button  mat-raised-button color="primary"
+                            <button [disabled]="step2Form.invalid"  mat-raised-button color="primary"
                                 class="flex-shrink-0 mt-2" (click)="addInsurance()">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                                 Save Insurance As 
