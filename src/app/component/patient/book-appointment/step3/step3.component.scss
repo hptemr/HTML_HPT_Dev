@@ -69,6 +69,25 @@
                 }
             }
         }
+
+        .ui--button{
+            input[type=file]{
+                z-index: 999999;
+                opacity: 0;
+                position: absolute;
+                left: -38px;
+                top: -6px;
+                height: 36px;
+                width: 173px;
+            } 
+        }
+        .doc--desc{
+            width: 230px;
+            margin-right: 20px;
+            h5{
+                word-break: break-all;
+            }
+        }
     }
 }
 
