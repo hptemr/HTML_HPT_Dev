@@ -1,4 +1,4 @@
- import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -47,6 +47,8 @@ export class AppointmentsComponent {
   seachByName: any = ''
   appStatusVal: any = ''
   practiceLocVal: any = ''
+
+  todayDate = new Date()
   constructor(public dialog: MatDialog, private authService: AuthService,
     public commonService: CommonService, private router: Router) {
   }

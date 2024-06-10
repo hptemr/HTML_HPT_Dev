@@ -247,7 +247,7 @@
                                 </select>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['subscriberRelationWithPatient'].touched && (step2Form.controls['subscriberRelationWithPatient'].hasError('required') || step2Form.controls['subscriberRelationWithPatient'].invalid)">
-                                    {{ validationMessages.required('Relationship with Patient') }}
+                                    {{ validationMessages.requiredDropdown('Relationship with Patient') }}
                                 </div>
                             </div>
                         </div>
@@ -409,7 +409,7 @@
                                 </select>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['carrierName'].touched && (step2Form.controls['carrierName'].hasError('required') || step2Form.controls['carrierName'].invalid)">
-                                    {{ validationMessages.required('Carrier Name') }}
+                                    {{ validationMessages.requiredDropdown('Carrier Name') }}
                                 </div>
                             </div>
                         </div>
@@ -444,7 +444,7 @@
                                 </select>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['insuranceState'].touched && (step2Form.controls['insuranceState'].hasError('required') || step2Form.controls['insuranceState'].invalid)">
-                                    {{ validationMessages.required('State') }}
+                                    {{ validationMessages.requiredDropdown('State') }}
                                 </div>
                             </div>
                         </div>

@@ -49,6 +49,8 @@ export class PatientDashboardComponent {
   appStatusVal: any = ''
   practiceLocVal: any = ''
   isLoading = true
+  todayDate = new Date()
+
   constructor(
     public dialog: MatDialog,
     public authService: AuthService,

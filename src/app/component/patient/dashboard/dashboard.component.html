@@ -92,13 +92,13 @@
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input readonly (ngModelChange)="onDateChange($event, 'fromDate')"
-                                        [(ngModel)]="fromDate" class="form-control" placeholder="Appointment Date"
-                                        name="dp" ngbDatepicker #d="ngbDatepicker" />
-                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                        type="button">
-                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button>
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input (ngModelChange)="onDateChange($event, 'fromDate')" readonly="isReadonly"
+                                            [max]="todayDate" formControlName="dp" placeholder="Appointment Date"
+                                            matInput [matDatepicker]="picker">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
                                 </div>
                             </div>
                         </div>

@@ -22,7 +22,8 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <div class="form-group">
-                            <input [(ngModel)]="seachByName" (keyup)="searchRecords($event)" type="text" class="form-control search--outer" placeholder="Appointment #">
+                            <input [(ngModel)]="seachByName" (keyup)="searchRecords($event)" type="text"
+                                class="form-control search--outer" placeholder="Appointment #">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -33,31 +34,34 @@
                             <select [(ngModel)]="appStatusVal" (change)="filterDropDown($event, 'status')"
                                 class="form-select form-control" aria-label="Default select example">
                                 <option value="" selected>Appointment Status</option>
-                                <option value="{{element}}" *ngFor="let element of appointmentStatus">{{element}}</option>
+                                <option value="{{element}}" *ngFor="let element of appointmentStatus">{{element}}
+                                </option>
                             </select>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <div class="form-group">
                             <div class="input-group">
-                                <input readonly (ngModelChange)="onDateChange($event, 'fromDate')" [(ngModel)]="fromDate" class="form-control" placeholder="From Date" name="dp"
-                                    ngbDatepicker #d="ngbDatepicker" />
-                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input (ngModelChange)="onDateChange($event, 'fromDate')" readonly="isReadonly"
+                                        [max]="todayDate" formControlName="fromDate" placeholder="From Date" matInput
+                                        [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <div class="form-group">
                             <div class="input-group">
-                                <input readonly (ngModelChange)="onDateChange($event, 'toDate')" [(ngModel)]="toDate" class="form-control" placeholder="To Date" name="dp2"
-                                    ngbDatepicker #d2="ngbDatepicker" />
-                                <button  class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d2.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input (ngModelChange)="onDateChange($event, 'toDate')" readonly="isReadonly"
+                                        [max]="todayDate" formControlName="toDate" placeholder="To Date" matInput
+                                        [matDatepicker]="picker2">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
                             </div>
                         </div>
                     </div>

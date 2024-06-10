@@ -34,7 +34,7 @@
                     </div>
                     <div class="text text-danger mt-1"
                         *ngIf="step1Form.controls['practiceLocation'].touched && step1Form.controls['practiceLocation'].hasError('required')">
-                        {{ validationMessages.required('Practice Location') }}
+                        {{ validationMessages.requiredDropdown('Practice Location') }}
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 ">
