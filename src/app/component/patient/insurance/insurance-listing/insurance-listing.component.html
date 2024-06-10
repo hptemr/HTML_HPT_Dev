@@ -19,39 +19,38 @@
         </div>
         <div class="card-body">
             <div class="col-12 cust--mat--table--wrapper">
-                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                <table mat-table [dataSource]="insuranceList" matSort (matSortChange)="announceSortChange($event)"
                     class="cust--mat--table box--row--table">  
-                    <ng-container matColumnDef="inname">
+                    <ng-container matColumnDef="insuranceName">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             Insurance Name
                         </th>
                         <td mat-cell *matCellDef="let element"> 
-                            {{element.inname}}     
+                            {{element.insuranceName}}     
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="name">
+                    <ng-container matColumnDef="primaryInsuranceCompany">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             Company Name
                         </th>
                         <td mat-cell *matCellDef="let element"> 
-                            {{element.name}}     
+                            {{element.primaryInsuranceCompany}}     
                         </td>
-                    </ng-container>   
-                    
-                    <ng-container matColumnDef="idpolicy">
+                    </ng-container>                       
+                    <ng-container matColumnDef="primaryInsuranceIdPolicy">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             ID/Policy #
                         </th>
                         <td mat-cell *matCellDef="let element"> 
-                            {{element.idpolicy}}     
+                            {{element.primaryInsuranceIdPolicy}}     
                         </td>
                     </ng-container> 
-                    <ng-container matColumnDef="group">
+                    <ng-container matColumnDef="primaryInsuranceGroup">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             Group #
                         </th>
                         <td mat-cell *matCellDef="let element"> 
-                            {{element.group}}     
+                            {{element.primaryInsuranceGroup}}     
                         </td>
                     </ng-container> 
                     <ng-container matColumnDef="validThrough">
@@ -59,19 +58,19 @@
                             Valid Through
                         </th>
                         <td mat-cell *matCellDef="let element"> 
-                            {{element.validThrough}}     
+                            N/A     
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="action">
+                    <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                             Actions
                         </th>
                         <td mat-cell *matCellDef="let element">  
                             <div class="w-100 d-flex align-items-center justify-content-end">
-                                <button mat-button class="flex-shrink-0 min-width-unset me-3" [routerLink]="['/patient/view-edit-insurance']">
+                                <button mat-button class="flex-shrink-0 min-width-unset me-3" [routerLink]="['/patient/view-edit-insurance/',element.id]">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                 </button>
-                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/view-edit-insurance']">
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/view-edit-insurance/',element.id]">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                 </button>
                             </div>
@@ -81,10 +80,8 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                                showFirstLastButtons
-                                aria-label="Select page of periodic elements">
-                </mat-paginator>
+
+                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"></mat-paginator>
             </div>
         </div>
     </div>
