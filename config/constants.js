@@ -9,6 +9,7 @@ var constants = {
     patientDocumentFolderPath: "patient-documents/",
     profileImageFolderPath: "profile-images/",
     patientInsuranceFolderPath: "patient-insurance/",
+    patientPrescriptionFolderPath: "patient-prescription/",
   },
   ses: {
     region: 'us-east-1',

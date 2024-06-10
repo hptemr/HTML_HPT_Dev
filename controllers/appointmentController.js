@@ -108,6 +108,26 @@ const addAppointment = async (req, res) => {
             }
         }
 
+        let uploadedPrescriptionFiles = req.body.uploadedPrescriptionFiles
+        if (uploadedPrescriptionFiles && uploadedPrescriptionFiles.length > 0) {
+            var s3PrescriptionPath = constants.s3Details.patientPrescriptionFolderPath;
+            for (let i = 0; i < uploadedPrescriptionFiles.length; i++) {
+                let fileName = uploadedPrescriptionFiles[i].name
+                let fileSelected = uploadedPrescriptionFiles[i].data
+                let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
+                let params = {
+                    ContentEncoding: "base64",
+                    ACL: "bucket-owner-full-control",
+                    ContentType: fileSelected.split(";")[0],
+                    Bucket: constants.s3Details.bucketName,
+                    Body: fileBuffer,
+                    Key: `${s3PrescriptionPath}${fileName}`,
+                };
+                await s3.uploadFileNew(params)
+            }
+        }
+
+
         let template = await emailTemplateModel.findOne({ code: "bookAppointment" })
         if (template) {
             let params = {
