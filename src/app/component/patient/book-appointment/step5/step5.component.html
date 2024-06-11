@@ -76,7 +76,7 @@
                             <div class="form-group" *ngIf="step5Form.controls['reminderViaEmail'].value == 'Yes'">
                                 <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input formControlName="reminderViaEmailYes" class="form-control" type="text"
+                                <input formControlName="reminderViaEmailYes" class="form-control" type="email"
                                     placeholder="Enter Email" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="step5Form.controls['reminderViaEmailYes'].touched && (step5Form.controls['reminderViaEmailYes'].hasError('required') || step5Form.controls['reminderViaEmailYes'].invalid)">

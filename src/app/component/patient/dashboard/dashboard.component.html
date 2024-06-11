@@ -177,9 +177,10 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
-                    <div class="no--record--found align-items-center justify-content-center w-100"
+                    <div class="no--record--found d-flex align-items-center justify-content-center w-100"
                         *ngIf="appointmentList && appointmentList.filteredData.length == 0">
-                        <div>
+                        <div class="d-flex flex-column align-items-center w-100">
+                            <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
                             <p class="">{{ validationMessages.noRecords }}</p>
                         </div>
                     </div>
