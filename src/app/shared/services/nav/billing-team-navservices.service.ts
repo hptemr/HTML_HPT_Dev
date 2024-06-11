@@ -27,7 +27,7 @@ export class BillingTeamNavservicesService {
   public language: boolean = false;
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
   public horizontal: boolean = window.innerWidth < 991 ? false : true;
-  public isDisplay: boolean;
+  public isDisplay: boolean = window.innerWidth < 1080 ? true : false;
   public pinned: boolean;
   public search: boolean;
   public isShow: boolean = false;
@@ -79,7 +79,7 @@ export class BillingTeamNavservicesService {
       icon: 'assignment',
       mainTitle: 'Reports',  
       headTitle1: '',
-      path: ' ',
+      path: '/billing-team/reports/all-reports',
       active: false, 
       type: 'link', 
       item: [ 
@@ -87,7 +87,8 @@ export class BillingTeamNavservicesService {
           title: 'Reports',
           icon: 'assignment',
           type: 'link',
-          active: false,  
+          active: false,
+          path: '/billing-team/reports/all-reports',  
         },
       ]
     }, 
