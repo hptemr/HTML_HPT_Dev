@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +23,8 @@ interface State {
   styleUrl: './step2.component.scss'
 })
 export class Step2Component {
+  @ViewChild('insuranceFileInput') insuranceFileInput: any
+
   model: NgbDateStruct;
   payViaSelected: any
 
@@ -294,9 +296,11 @@ export class Step2Component {
   }
 
   deleteInsurance(index: any) {
+    this.insuranceFileInput.nativeElement.value = '';
     this.uploadedInsuranceFiles.splice(index, 1);
     localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.uploadedInsuranceFiles))
     this.uploadedInsuranceFilesTotal = this.uploadedInsuranceFiles.length
+    console.log("uploadedInsuranceFiles:", this.uploadedInsuranceFiles)
   }
 
   uploadInsurance($event: any) {

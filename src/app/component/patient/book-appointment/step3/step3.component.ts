@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
   styleUrl: './step3.component.scss'
 })
 export class Step3Component {
+  @ViewChild('insuranceFileInput') insuranceFileInput: any
+
   step3Form: FormGroup
   clickedIndex = 0
   step1FormData: any
@@ -311,6 +313,7 @@ export class Step3Component {
   }
 
   deletePrescription(index: any) {
+    this.insuranceFileInput.nativeElement.value = ''; 
     this.uploadedPrescriptionFiles.splice(index, 1);
     localStorage.setItem("uploadedPrescriptionFiles", JSON.stringify(this.uploadedPrescriptionFiles))
     this.uploadedPrescriptionFilesTotal = this.uploadedPrescriptionFiles.length
