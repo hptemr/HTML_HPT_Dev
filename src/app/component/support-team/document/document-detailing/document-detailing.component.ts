@@ -20,7 +20,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'ADDING PROVIDER STEPS',  
     actions: '',
-    icon: 'edit'    
+    icon: 'description'    
   }, 
   { 
     name: 'CST FAXES',  
@@ -50,7 +50,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'ADDING PROVIDER STEPS',  
     actions: '',
-    icon: 'edit'    
+    icon: 'description'    
   }, 
   { 
     name: 'CST FAXES',  
@@ -59,7 +59,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   }, 
   { 
     name: 'EXT LIST',
-    icon: 'edit',  
+    icon: 'description',  
     actions: ''   
   },   
   { 
