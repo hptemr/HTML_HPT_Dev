@@ -276,7 +276,7 @@ export class SignupPatientComponent implements OnInit {
         this.submitButton = false;
       }
       this.commonService.showLoader();       
-    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
+    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => { 
       this.commonService.hideLoader();
       if (response.error) {
         if(steps && steps==1){
@@ -306,7 +306,15 @@ export class SignupPatientComponent implements OnInit {
           localStorage.removeItem('userId');
           localStorage.removeItem('firstFormGroupData');
           localStorage.removeItem('secondFormGroupData');
-          localStorage.removeItem('thiredFormGroupData');          
+          localStorage.removeItem('thiredFormGroupData');
+
+          localStorage.removeItem('step1FormData')
+          localStorage.removeItem('step2FormData')
+          localStorage.removeItem('step3FormData')
+          localStorage.removeItem('step4FormData')
+          localStorage.removeItem('step5FormData')
+          localStorage.removeItem('uploadedInsuranceFiles')
+          localStorage.removeItem('uploadedPrescriptionFiles')
           if(response.data.userData){
             this.setLocalStorage(response.data.userData);
           }else{
