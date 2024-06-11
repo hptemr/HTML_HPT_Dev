@@ -746,6 +746,9 @@ a{
         color: #fff !important;
         font-weight: 600;
     }
+    &:disabled{
+        background-color: #c1bebe !important;
+    }
 }
 .mdc-button{
     letter-spacing: unset !important;
