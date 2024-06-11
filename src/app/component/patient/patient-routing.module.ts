@@ -112,6 +112,10 @@ const routes: Routes = [
   {
     path: 'view-edit-insurance/:insuranceId',
     component: ViewEditInsuranceComponent,
+  },
+  {
+    path: 'add-insurance',
+    component: ViewEditInsuranceComponent,
   }
 ];
 
