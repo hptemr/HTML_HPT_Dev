@@ -80,15 +80,16 @@ input, p,
 }
 
 .no--record--found{
-    min-height: 100px;
     font-size: 20px;
-    background: #ddfcfc;
+    background: #f3fbfb;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
     width: 100%;
+    padding: 50px 20px;
+
+    .sad--img{
+        width: 52px;
+    }
 }
 .close--sidebar{
     border-bottom: 1px solid #ddd;
@@ -112,6 +113,20 @@ input, p,
                     border: 1px solid #b9c1cc;
                     box-shadow: none !important;
                 } 
+            }
+            .am--datepicker{ 
+                .mat-mdc-text-field-wrapper{
+                    background-color: #f5f6f9 !important; 
+                }  
+                .mat-mdc-form-field-infix{
+                    min-height: 36px !important;
+                    padding-top: 5px !important;
+                    padding-bottom: 5px !important;
+                }
+                .mat-mdc-icon-button.mat-mdc-button-base{
+                    height: 20px;
+                    padding: 0;
+                }
             }
             &.sort--button{
                 position: relative;
