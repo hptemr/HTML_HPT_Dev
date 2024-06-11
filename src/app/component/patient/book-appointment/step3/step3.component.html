@@ -1,5 +1,5 @@
     <!-- Human Body //-->
-    <div class="human-body">
+    <!-- <div class="human-body">
         <svg (click)="bodyClick()" data-position='head' id='head' class='head' xmlns='http://www.w3.org/2000/svg' width='56.594' height='95.031' viewBox='0 0 56.594 95.031'><path d='M15.92 68.5l8.8 12.546 3.97 13.984-9.254-7.38-4.622-15.848zm27.1 0l-8.8 12.546-3.976 13.988 9.254-7.38 4.622-15.848zm6.11-27.775l.108-11.775-21.16-14.742L8.123 26.133 8.09 40.19l-3.24.215 1.462 9.732 5.208 1.81 2.36 11.63 9.72 11.018 10.856-.324 9.56-10.37 1.918-11.952 5.207-1.81 1.342-9.517zm-43.085-1.84l-.257-13.82L28.226 11.9l23.618 15.755-.216 10.37 4.976-17.085L42.556 2.376 25.49 0 10.803 3.673.002 24.415z'/></svg>
         <svg (click)="bodyClick()" data-position='left-shoulder' id='left-shoulder' class='left-shoulder' xmlns='http://www.w3.org/2000/svg' width='109.532' height='46.594' viewBox='0 0 109.532 46.594'><path d='m 38.244,-0.004 1.98,9.232 -11.653,2.857 -7.474,-2.637 z M 17.005,10.536 12.962,8.35 0.306,22.35 0.244,27.675 c 0,0 16.52,-17.015 16.764,-17.14 z m 1.285,0.58 C 18.3,11.396 0.528,30.038 0.528,30.038 L -0.01,46.595 6.147,36.045 18.017,30.989 26.374,15.6 Z'/></svg>
         <svg (click)="bodyClick()" data-position='right-shoulder' id='right-shoulder' class='right-shoulder' xmlns='http://www.w3.org/2000/svg' width='109.532' height='46.594' viewBox='0 0 109.532 46.594'><path d='m 3.2759972,-0.004 -1.98,9.232 11.6529998,2.857 7.473999,-2.637 z m 21.2379988,10.54 4.044,-2.187 12.656,14 0.07,5.33 c 0,0 -16.524,-17.019 -16.769,-17.144 z m -1.285,0.58 c -0.008,0.28 17.762,18.922 17.762,18.922 l 0.537,16.557 -6.157,-10.55 -11.871,-5.057 L 15.147997,15.6 Z'/></svg>
@@ -13,13 +13,13 @@
         <svg data-position='right-hand' id='right-hand' class='right-hand' xmlns='http://www.w3.org/2000/svg' width='90' height='38.938' viewBox='0 0 90 38.938'><path d='m 13.793386,-0.00198533 -2.88,6.90000163 -8.4120002,1.335 -0.664,12.4579837 4.427,17.8 2.878,-0.22 -2.8,-11.847 2.99,-0.084 4.6760002,12.6 3.544,-0.446 -4.4,-12.736 3.072,-0.584 5.978,13.543 4.428,-0.445 -6.088,-14.1 2.1,-1.25 7.528,12.012 3.764,-0.445 -11.286,-21.589 1.107,-1.78 10.628,4.45 0.665,-2.447 -8.635,-7.7859837 z'/></svg>
         <svg data-position='left-foot' id='left-foot' class='left-foot' xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><path d='m 19.558357,1.92821 c -22.1993328,20.55867 -11.0996668,10.27933 0,0 z m 5.975,5.989 -0.664,18.415 -1.55,6.435 -4.647,0 -1.327,-4.437 -1.55,-0.222 0.332,4.437 -5.864,-1.778 -1.5499998,-0.887 -6.64,-1.442 -0.22,-5.214 6.418,-10.87 4.4259998,-5.548 c 9.991542,-3.26362 9.41586,-8.41457 12.836,1.111 z'/></svg>
         <svg data-position='right-foot' id='right-foot' class='right-foot' xmlns='http://www.w3.org/2000/svg' width='90' height='38.938' viewBox='0 0 90 38.938'><path d='m 11.723492,2.35897 c -40.202667,20.558 -20.1013335,10.279 0,0 z m -5.9740005,5.989 0.663,18.415 1.546,6.435 4.6480005,0 1.328,-4.437 1.55,-0.222 -0.333,4.437 5.863,-1.778 1.55,-0.887 6.638,-1.442 0.222,-5.214 -6.418,-10.868 -4.426,-5.547 -10.8440005,-4.437 z'/> </svg>
-    </div>
+    </div> -->
     <!--// Human Body -->
 
     <!-- Data Showing //-->
-    <div id="area" class="mb-5">
+    <!-- <div id="area" class="mb-5">
         Area: <span id="data"></span>
-    </div>
+    </div> -->
     <!--// Data Showing -->
 
     
@@ -36,6 +36,137 @@
         }
     } 
     </script> -->
+
+
+
+
+    <div class="human--body--wrapper">
+        <div class="img--outer head--box">
+            <img id="header" (click)="bodyClick()"  class="body--part default--img" src="/assets/images/human_body/upper_head.png" alt="">
+            <img id="header" (click)="bodyClick()"  class="body--part hover--img" src="/assets/images/human_body/coloured/upper_head.png" alt="">
+        </div> 
+        <div class="img--outer ">
+            <img (click)="bodyClick()" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png" alt="">
+        </div> 
+        <div class="img--outer  ">
+            <img (click)="bodyClick()" class="body--part default--img throat" src="/assets/images/human_body/throat.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img throat" src="/assets/images/human_body/coloured/throat.png" alt=""> 
+        </div>
+        <div class="img--outer ">
+            <img (click)="bodyClick()" class="body--part default--img left--shoulder" src="/assets/images/human_body/left_shoulder.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--shoulder" src="/assets/images/human_body/coloured/left_shoulder.png" alt=""> 
+        </div>
+        
+        <div class="img--outer  ">
+            <img (click)="bodyClick()" class="body--part default--img right--shoulder" src="/assets/images/human_body/right_shoulder.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img right--shoulder" src="/assets/images/human_body/coloured/right_shoulder.png" alt=""> 
+        </div>
+
+        <div class="img--outer ">
+            <img (click)="bodyClick()" class="body--part default--img left--chest" src="/assets/images/human_body/left_chest.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--chest" src="/assets/images/human_body/coloured/left_chest.png" alt=""> 
+        </div>
+
+        <div class="img--outer ">
+            <img (click)="bodyClick()" class="body--part default--img right--chest" src="/assets/images/human_body/right_chest.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--chest" src="/assets/images/human_body/coloured/right_chest.png" alt="">
+        </div> 
+
+        <div class="img--outer  ">
+            <img (click)="bodyClick()" class="body--part default--img left--biceps" src="/assets/images/human_body/left_biceps.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--biceps" src="/assets/images/human_body/coloured/left_biceps.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--biceps" src="/assets/images/human_body/right_biceps.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--biceps" src="/assets/images/human_body/coloured/right_biceps.png" alt="">
+        </div>
+        
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--hand" src="/assets/images/human_body/left_hand_part_1.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--hand" src="/assets/images/human_body/coloured/left_hand_part_1.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--hand" src="/assets/images/human_body/right_hand_part_1.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--hand" src="/assets/images/human_body/coloured/right_hand_part_1.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--hand--palm" src="/assets/images/human_body/left_hand_palm.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--hand--palm" src="/assets/images/human_body/coloured/left_hand_palm.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--hand--palm" src="/assets/images/human_body/right_hand_palm.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--hand--palm" src="/assets/images/human_body/coloured/right_hand_palm.png" alt="">
+        </div>
+        
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--ribs" src="/assets/images/human_body/left_ribs.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--ribs" src="/assets/images/human_body/coloured/left_ribs.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--ribs" src="/assets/images/human_body/right_ribs.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--ribs" src="/assets/images/human_body/coloured/right_ribs.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img main--belly" src="/assets/images/human_body/main_belly.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img main--belly" src="/assets/images/human_body/coloured/main_belly.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--belly" src="/assets/images/human_body/left_belly.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--belly" src="/assets/images/human_body/coloured/left_belly.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--belly" src="/assets/images/human_body/right_belly.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--belly" src="/assets/images/human_body/coloured/right_belly.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img genitalia" src="/assets/images/human_body/genitalia.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img genitalia" src="/assets/images/human_body/coloured/genitalia.png" alt="">
+        </div>
+        
+        
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--inner--things" src="/assets/images/human_body/left_inner_thigh.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--inner--things" src="/assets/images/human_body/coloured/left_inner_thigh.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--inner--things" src="/assets/images/human_body/right_inner_thigh.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--inner--things" src="/assets/images/human_body/coloured/right_inner_thigh.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--things" src="/assets/images/human_body/left_thigh.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--things" src="/assets/images/human_body/coloured/left_thigh.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--things" src="/assets/images/human_body/right_thigh.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--things" src="/assets/images/human_body/coloured/right_thigh.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--knee" src="/assets/images/human_body/left_knee.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--knee" src="/assets/images/human_body/coloured/left_knee.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--knee" src="/assets/images/human_body/right_knee.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--knee" src="/assets/images/human_body/coloured/right_knee.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--leg" src="/assets/images/human_body/left_leg.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--leg" src="/assets/images/human_body/coloured/left_leg.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--leg" src="/assets/images/human_body/right_leg.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--leg" src="/assets/images/human_body/coloured/right_leg.png" alt="">
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img left--leg--botton" src="/assets/images/human_body/left_leg_bottom.png" alt=""> 
+            <img (click)="bodyClick()" class="body--part hover--img left--leg--botton" src="/assets/images/human_body/coloured/left_leg_bottom.png" alt=""> 
+        </div>
+        <div class="img--outer">
+            <img (click)="bodyClick()" class="body--part default--img right--leg--botton" src="/assets/images/human_body/right_leg_bottom.png" alt="">
+            <img (click)="bodyClick()" class="body--part hover--img right--leg--botton" src="/assets/images/human_body/coloured/right_leg_bottom.png" alt="">
+        </div>   
+
+    </div>
 
 <div class="container-fluid book--appointment--wrapper ba--step--three">
     <div class="row">

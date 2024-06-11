@@ -32,12 +32,16 @@ export class Step3Component {
   addAnotherAllergy() {
     // this.allergies.push({new allergies()})
   }
+
+  bodyposition = 'head';
+  
   constructor(public dialog: MatDialog) { }
 
   bodyClick() {
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 
-    });
+    }); 
+    console.log(this.bodyposition)
   }
   
 }
