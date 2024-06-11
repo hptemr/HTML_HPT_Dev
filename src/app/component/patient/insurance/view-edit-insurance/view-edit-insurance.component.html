@@ -18,8 +18,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Insurance Name <span class="clr--DF0404 ms-1"> * </span></label>
                                 <input (blur)="checkSpace('insuranceName', $event)" formControlName="insuranceName" class="form-control" type="text"  placeholder="Enter Insurance Name" />
-                                <div class="text text-danger mt-1"
-                                    *ngIf="insuranceForm.controls['insuranceName'].touched && (insuranceForm.controls['insuranceName'].hasError('required') || insuranceForm.controls['insuranceName'].invalid)">
+                                <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['insuranceName'].touched && (insuranceForm.controls['insuranceName'].hasError('required') || insuranceForm.controls['insuranceName'].invalid)">
                                     {{ validationMessages.required('Insurance Name') }}
                                 </div>
                             </div>
@@ -378,9 +377,9 @@
                                 is given by me revoking said authorization. I understand that I am financially responsible for all services rendered to the above patient whether I am present at the time of treatment or not.</p>
                         </div>
                         <div class="col-12">
-                            <div class="d-flex align-items-center flex-wrap ">
-                                <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4">Policies Page</a>
-                                <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
+                            <div class="d-flex align-items-center flex-wrap">
+                                <a (click)="cmsModal()" class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4 cursor-pointer">Policies Page</a>
+                                <a (click)="cmsModal()" class="text-primary text-decoration-underline fw-700 font-16 mt-2 cursor-pointer">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
                                 <button mat-raised-button color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-2 ui--button">
                                     <input type="file">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
@@ -390,7 +389,7 @@
                         </div>
                         <div class="col-12 d-flex flex-column w-100">
                             <div class="signature--box d-flex align-items-center justify-content-center">
-                                <img src="assets/images/ark/M.S.Johnson.png"  alt="" class="img-fluid" />
+                                {{fullNameForSign}}
                             </div>
                             <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must sign for minors)</p>
                         </div>

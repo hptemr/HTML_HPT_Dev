@@ -5,7 +5,7 @@ import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-import { AddInsuranceModalComponent } from '../../book-appointment/add-insurance-modal/add-insurance-modal.component';
+import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList } from 'src/app/config';
@@ -43,6 +43,8 @@ export class ViewEditInsuranceComponent {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id') 
     this.userRole = this.authService.getLoggedInInfo('role')  
+    this.fullNameForSign = this.authService.getLoggedInInfo('firstName') +' '+ this.authService.getLoggedInInfo('lastName') 
+
     this.loadForm();
     this.getInsuranceDetail();
   }
@@ -73,33 +75,33 @@ export class ViewEditInsuranceComponent {
 
   loadForm() {
     this.insuranceForm = this.fb.group({      
-      insuranceName: [this.insuranceFormData ? this.insuranceFormData.insuranceName :  [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberFirstName: [this.insuranceFormData ? this.insuranceFormData.subscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberMiddleName: [this.insuranceFormData ? this.insuranceFormData.subscriberMiddleName : ''],
-      subscriberLastName: [this.insuranceFormData ? this.insuranceFormData.subscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberDob: [this.insuranceFormData ? this.insuranceFormData.subscriberDob : ''],
-      subscriberRelationWithPatient: [this.insuranceFormData && this.insuranceFormData.subscriberRelationWithPatient ? this.insuranceFormData.subscriberRelationWithPatient : '', [Validators.required]],
-      primaryInsuranceCompany: [this.insuranceFormData ? this.insuranceFormData.primaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      primaryInsuranceIdPolicy: [this.insuranceFormData ? this.insuranceFormData.primaryInsuranceIdPolicy : '', [Validators.required]],
-      primaryInsuranceGroup: [this.insuranceFormData ? this.insuranceFormData.primaryInsuranceGroup : '', [Validators.required]],
-      primaryInsuranceCustomerServicePh: [this.insuranceFormData ? this.insuranceFormData.primaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      secondaryInsuranceCompany: [this.insuranceFormData ? this.insuranceFormData.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      secondaryInsuranceIdPolicy: [this.insuranceFormData ? this.insuranceFormData.secondaryInsuranceIdPolicy : '', [Validators.required]],
-      secondaryInsuranceGroup: [this.insuranceFormData ? this.insuranceFormData.secondaryInsuranceGroup : '', [Validators.required]],
-      secondaryInsuranceCustomerServicePh: [this.insuranceFormData ? this.insuranceFormData.secondaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      injuryRelelatedTo: [this.insuranceFormData ? this.insuranceFormData.injuryRelelatedTo : ''],
-      carrierName: [this.insuranceFormData && this.insuranceFormData.carrierName ? this.insuranceFormData.carrierName : '', [Validators.required]],
-      dateOfInjury: [this.insuranceFormData ? this.insuranceFormData.dateOfInjury : '', [Validators.required]],
-      insuranceState: [this.insuranceFormData && this.insuranceFormData.insuranceState ? this.insuranceFormData.insuranceState : '', [Validators.required]],
-      claim: [this.insuranceFormData ? this.insuranceFormData.claim : '', [Validators.required]],
-      adjusterName: [this.insuranceFormData ? this.insuranceFormData.adjusterName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      adjusterPhone: [this.insuranceFormData ? this.insuranceFormData.adjusterPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      reportedEmployer: [this.insuranceFormData ? this.insuranceFormData.reportedEmployer : ''],
-      employerName: [this.insuranceFormData ? this.insuranceFormData.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      employerPhone: [this.insuranceFormData ? this.insuranceFormData.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      employerAddress: [this.insuranceFormData ? this.insuranceFormData.employerAddress : '', [Validators.required]],
-      attorneyName: [this.insuranceFormData ? this.insuranceFormData.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      attorneyPhone: [this.insuranceFormData ? this.insuranceFormData.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      insuranceName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      subscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      subscriberMiddleName: [''],
+      subscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      subscriberDob: [''],
+      subscriberRelationWithPatient: ['', [Validators.required]],
+      primaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      primaryInsuranceIdPolicy: ['', [Validators.required]],
+      primaryInsuranceGroup: ['', [Validators.required]],
+      primaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      secondaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      secondaryInsuranceIdPolicy: ['', [Validators.required]],
+      secondaryInsuranceGroup: ['', [Validators.required]],
+      secondaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      injuryRelelatedTo: [''],
+      carrierName: ['', [Validators.required]],
+      dateOfInjury: ['', [Validators.required]],
+      insuranceState: ['', [Validators.required]],
+      claim: ['', [Validators.required]],
+      adjusterName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      adjusterPhone: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      reportedEmployer: [''],
+      employerName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      employerPhone: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      employerAddress: ['', [Validators.required]],
+      attorneyName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      attorneyPhone: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
     });
   }
 
@@ -228,6 +230,12 @@ export class ViewEditInsuranceComponent {
 
   checkSpace(colName: any, event: any) {
     this.insuranceForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
+
+  cmsModal() {
+    const dialogRef = this.dialog.open(CmsModalComponent, {
+      panelClass: 'cms--container',
+    });
   }
 
   // addInsurance(){
