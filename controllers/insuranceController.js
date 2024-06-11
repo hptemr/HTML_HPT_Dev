@@ -1,4 +1,4 @@
-const { commonMessage, appointmentMessage } = require('../helpers/message');
+const { commonMessage, appointmentMessage,insuranceMessage } = require('../helpers/message');
 const commonHelper = require('../helpers/common');
 const Insurance = require('../models/insuranceModel');
 
@@ -27,9 +27,27 @@ const getInsuranceDetails = async (req, res) => {
 
 const addInsurance = async (req, res) => {
     try {
+        console.log('req.body>>>>',req.body)
+
         let newRecord = new Insurance(req.body)
         await newRecord.save();
-        commonHelper.sendResponse(res, 'success', null, commonMessage.commonMessage);
+        commonHelper.sendResponse(res, 'success', null, insuranceMessage.created);
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+const updateInsurance = async (req, res) => {
+    try {
+        const { query, data } = req.body;
+        console.log('data >>>>',data)
+
+        let result = await Insurance.findOneAndUpdate({ _id: query._id }, data);
+        if(result){
+            commonHelper.sendResponse(res, 'success', null, insuranceMessage.updated);
+        }else{
+            commonHelper.sendResponse(res, 'success', null, commonMessage.wentWrong);
+        }        
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
@@ -37,6 +55,7 @@ const addInsurance = async (req, res) => {
 
 module.exports = {
     addInsurance,
+    updateInsurance,
     getInsuranceList,
     getInsuranceDetails,
 };
