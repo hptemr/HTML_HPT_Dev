@@ -29,6 +29,7 @@ const getAppointmentList = async (req, res) => {
 
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
+        console.log("********Appointment***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -42,6 +43,7 @@ const getAppointmentDetails = async (req, res) => {
             .populate('therapistId', therapistFields);
         commonHelper.sendResponse(res, 'success', { appointmentData }, '');
     } catch (error) {
+        console.log("********Appointment***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }

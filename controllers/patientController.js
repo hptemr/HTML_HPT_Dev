@@ -89,7 +89,14 @@ const signup = async (req, res) => {
                             role: 'patient',
                             token: token,
                             loginCount: 1,
-                            profileImage: 'default.png'
+                            profileImage: 'default.png',
+                            
+                            martialStatus : found.martialStatus,
+                            gender : found.gender,
+                            dob : found.dob,
+                            phoneNumber : found.phoneNumber,
+                            cellPhoneNumber: found.cellPhoneNumber,
+                            workExtensionNumber: found.workExtensionNumber
                         };
                         if(found.email){
                             await PatientTemp.deleteOne({ _id: found._id });
