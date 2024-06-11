@@ -4,7 +4,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { appointmentStatus, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
+import { appointmentStatus, maxAppoinmentFutureMonths, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
@@ -41,19 +41,26 @@ export class AppointmentsComponent {
   pageIndex = 0
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
-  appointmentList: any
-  toDate: any = ''
-  fromDate: any = ''
+  appointmentList: any 
   seachByName: any = ''
   appStatusVal: any = ''
   practiceLocVal: any = ''
-
-  todayDate = new Date()
+ 
+  fromDate:any
+  toDate:any
+  maxFromDate:any 
+  maxToDate:any
+    
   constructor(public dialog: MatDialog, private authService: AuthService,
     public commonService: CommonService, private router: Router) {
   }
 
   ngOnInit() {
+    let todayDate = new Date()
+    todayDate.setMonth(todayDate.getMonth() + maxAppoinmentFutureMonths)
+    this.maxFromDate = todayDate
+    this.maxToDate = todayDate
+
     this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
     this.getAppointmentList()
   }
@@ -73,6 +80,7 @@ export class AppointmentsComponent {
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
     }
+    console.log("whereCond:", this.whereCond)
     await this.authService.apiRequest('post', 'appointment/getAppointmentList', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
       this.totalCount = response.data.totalCount
@@ -104,15 +112,22 @@ export class AppointmentsComponent {
     })
   }
 
-  onDateChange(date: NgbDateStruct, colName: any) {
-    let selectedDate = date.year + '-' + date.month + '-' + date.day
+  onDateChange(event: any, colName: any) {
+    let selectedDate = new Date(event.target.value)
     let obj = {}
     if (colName == 'fromDate') {
       obj = { $gte: selectedDate }
     } else {
       obj = { $lte: selectedDate }
     }
+    console.log("appointmentDate:", this.whereCond.appointmentDate)
     Object.assign(this.whereCond, { appointmentDate: obj })
+   
+    if(this.whereCond.appointmentDate){
+      Object.assign(this.whereCond.appointmentDate, { appointmentDate: obj })
+    }
+    
+    console.log("whereCond:", this.whereCond) 
     this.getAppointmentList('search')
   }
 

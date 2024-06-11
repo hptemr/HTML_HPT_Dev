@@ -571,7 +571,7 @@
                             <div class="form-group">
                                 <button [disabled]="uploadedInsuranceFilesTotal >= 5" mat-raised-button color="primary"
                                     class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
-                                    <input accept="image/*, application/pdf,.doc, .docx"
+                                    <input #insuranceFileInput accept="image/*, application/pdf,.doc, .docx"
                                         (change)="uploadInsurance($event)" type="file">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
                                     Upload Insurance

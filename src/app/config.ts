@@ -25,6 +25,7 @@ export const webTitle = "HPT"
 export const serverUrl = serverUrlEnv
 export const pageSize = 5
 export const pageSizeOptions = [5, 10, 20, 25]
+export const maxAppoinmentFutureMonths = 9
 export const practiceLocations = [
   "Corvallis PT",
   "Darby PT",

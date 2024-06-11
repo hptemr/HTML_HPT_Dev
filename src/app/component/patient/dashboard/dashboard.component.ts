@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus, s3Details } from 'src/app/config';
+import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus, s3Details, maxAppoinmentFutureMonths } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 
 export interface PeriodicElement {
@@ -49,7 +49,8 @@ export class PatientDashboardComponent {
   appStatusVal: any = ''
   practiceLocVal: any = ''
   isLoading = true
-  todayDate = new Date()
+  appntDate: any
+  maxAppntDate: any
 
   constructor(
     public dialog: MatDialog,
@@ -59,6 +60,8 @@ export class PatientDashboardComponent {
   ) { }
 
   ngOnInit() {
+    this.maxAppntDate = new Date()
+    this.maxAppntDate.setMonth(this.maxAppntDate.getMonth() + maxAppoinmentFutureMonths);
     this.whereCond = {
       status: "Pending",
       appointmentDate: { $gte: new Date() },
@@ -116,15 +119,8 @@ export class PatientDashboardComponent {
     })
   }
 
-  onDateChange(date: NgbDateStruct, colName: any) {
-    let selectedDate = date.year + '-' + date.month + '-' + date.day
-    let obj = {}
-    if (colName == 'fromDate') {
-      obj = { $gte: selectedDate }
-    } else {
-      obj = { $lte: selectedDate }
-    }
-    Object.assign(this.whereCond, { appointmentDate: obj })
+  onDateChange(event: any) {
+    Object.assign(this.whereCond, { appointmentDate: { $gte: new Date(event.target.value) } })
     this.getAppointmentList('search')
   }
 
@@ -164,7 +160,7 @@ export class PatientDashboardComponent {
     this.pageSizeOptions = pageSizeOptions
     this.practiceLocVal = ''
     this.appStatusVal = ''
-    this.fromDate = ''
+    this.appntDate = null
     this.getAppointmentList('reset')
   }
 

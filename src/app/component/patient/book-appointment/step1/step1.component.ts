@@ -4,7 +4,7 @@ import { ContactModalComponent } from '../contact-modal/contact-modal.component'
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { practiceLocations, maritalStatus, relationWithPatient } from 'src/app/config';
+import { practiceLocations, maritalStatus, relationWithPatient, maxAppoinmentFutureMonths } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
@@ -38,7 +38,7 @@ export class Step1Component {
 
   ngOnInit() {
     this.maxAppntDate = new Date()
-    this.maxAppntDate.setMonth(this.maxAppntDate.getMonth() + 9);
+    this.maxAppntDate.setMonth(this.maxAppntDate.getMonth() + maxAppoinmentFutureMonths);
     this.patientInfo = this.authService.getLoggedInInfo()
     this.step1FormData = localStorage.getItem("step1FormData")
     if (this.step1FormData == null) {

@@ -72,7 +72,7 @@
 
                             <div class="text text-danger mt-1"
                                 *ngIf="step4Form.controls['ec1Dob'].touched && (step4Form.controls['ec1Dob'].hasError('required') || step4Form.controls['ec1Dob'].invalid)">
-                                {{ validationMessages.required('Date of Birth') }}
+                                {{ validationMessages.requiredDropdown('Date of Birth') }}
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                             </mat-form-field>
                             <div class="text text-danger mt-1"
                                 *ngIf="step4Form.controls['ec2Dob'].touched && (step4Form.controls['ec2Dob'].hasError('required') || step4Form.controls['ec2Dob'].invalid)">
-                                {{ validationMessages.required('Date of Birth') }}
+                                {{ validationMessages.requiredDropdown('Date of Birth') }}
                             </div>
                         </div>
                     </div>
