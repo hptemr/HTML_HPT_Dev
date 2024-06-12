@@ -50,8 +50,22 @@ const appointmentSchema = new mongoose.Schema({
         default: 'No'
     },
     reminderViaEmailYes: { type: String, default: "" },
-    rejectComment: { type: String, default: "" },
 
+    rejectComment: { type: String, default: "" },
+    rejectDate: { type: Date, default: Date.now },
+
+    acceptInfo: {
+        type: Object,  //keys will be ==> "fromPatientId , fromAdminId, acceptedDate, userRole"
+        default: {}
+    },
+    rejectInfo: {
+        type: Object, //keys will be ==> "fromPatientId , fromAdminId, rejectedDate, comment, userRole"
+        default: {}
+    },
+    rescheduleInfo: {
+        type: Object, //keys will be ==> "fromPatientId , fromAdminId, rescheduleDate, comment, userRole"
+        default: {}  // "rescheduleDate" this date will be "appointmentDate". Always use "appointmentDate" value
+    },
     patientMedicalHistory: {
         type: Object,
         default: {}

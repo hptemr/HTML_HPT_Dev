@@ -74,8 +74,8 @@ const acceptAppointment = async (req, res) => {
 
 const cancelAppointment = async (req, res) => {
     try {
-        const { query, commentText } = req.body;
-        await Appointment.findOneAndUpdate({ _id: query._id }, { status: 'Cancelled', rejectComment: commentText });
+        const { query, updateInfo } = req.body;
+        await Appointment.findOneAndUpdate(query, updateInfo);
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.cancelled);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -148,6 +148,15 @@ const addAppointment = async (req, res) => {
     }
 }
 
+const updateAppointment = async (req, res) => {
+    try {
+        const { query, updateInfo } = req.body;
+        await Appointment.findOneAndUpdate(query, updateInfo);
+        commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
 
 module.exports = {
     getAppointmentList,
@@ -155,5 +164,6 @@ module.exports = {
     getAppointmentDetails,
     acceptAppointment,
     cancelAppointment,
-    addAppointment
+    addAppointment,
+    updateAppointment
 };
