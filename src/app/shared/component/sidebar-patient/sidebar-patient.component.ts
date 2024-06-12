@@ -18,12 +18,14 @@ export class SidebarPatientComponent {
   public screenHeight: number;
   public currentMainMenu: any = ''
   public itemsLength: any = 0;
+  public subMenus: any = ["book-appointment", "appointment-details"]
+
   constructor(public navService: PatientNavservicesService, public layout: LayoutService, private router: Router) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         const locationArray = event.url.split('/')
         this.currentMainMenu = locationArray[2]
-        if (this.currentMainMenu == "book-appointment") {
+        if (this.subMenus.includes(this.currentMainMenu)) {
           this.currentMainMenu = 'appointments'
         }
       }

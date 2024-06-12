@@ -4,12 +4,17 @@
     </header>
     <form class="row" [formGroup]="rejectCommentForm" (ngSubmit)="submitForm(rejectCommentForm.value)">
         <div class="w-100">
-            <div class="row"> 
+            <div class="row">
                 <div class="col-12 ">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Mention the cause </label>
-                        <textarea class="form-control " type="text" placeholder="Write your comment here" (blur)="trimInput()" formControlName="rejectComment" rows="4"></textarea>
-                        <div class="text text-danger mt-1" *ngIf="rejectCommentForm.controls['rejectComment'].touched && rejectCommentForm.controls['rejectComment'].hasError('required')">
+                        <label class="col-form-label fw-600">
+                            Mention the cause
+                            <span class="clr--DF0404 ms-1"> *</span>
+                        </label>
+                        <textarea class="form-control " type="text" placeholder="Write your comment here"
+                            (blur)="trimInput()" formControlName="rejectComment" rows="4"></textarea>
+                        <div class="text text-danger mt-1"
+                            *ngIf="rejectCommentForm.controls['rejectComment'].touched && rejectCommentForm.controls['rejectComment'].hasError('required')">
                             {{ validationMessages.required('your comment') }}
                         </div>
                     </div>
@@ -17,8 +22,9 @@
             </div>
         </div>
         <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-3">
-            <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-            <button mat-raised-button color="primary" type="submit">Submit</button>
+            <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button>
+            <button [disabled]="rejectCommentForm.invalid" mat-raised-button color="primary"
+                type="submit">Submit</button>
         </div>
     </form>
 </div>

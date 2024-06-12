@@ -32,10 +32,10 @@ export class AppointmentDetailsComponent {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id') 
     this.userRole = this.authService.getLoggedInInfo('role')  
-    this.getAppointmentDetail()
+    this.getAppointmentDetails()
   }
 
-  async getAppointmentDetail() {
+  async getAppointmentDetails() {
     if(this.appointmentId){ 
       this.commonService.showLoader(); 
       let reqVars = {
@@ -45,7 +45,7 @@ export class AppointmentDetailsComponent {
         therapistFields:{}
       }
 
-      await this.authService.apiRequest('post', 'appointment/getAppointmentDetail', reqVars).subscribe(async response => {
+      await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
         this.commonService.hideLoader();
         if(response.data && response.data.appointmentData){
           this.appointmentData = response.data.appointmentData;
@@ -95,16 +95,15 @@ export class AppointmentDetailsComponent {
       disableClose :true,
       panelClass: 'custom-alert-container',
       data : {
-       // heading: `Invite ${this.pageTitle}`,
         appointmentId:appointmentId,
         userRole:this.userRole,
-        fromId: this.userId,
+        userId: this.userId,
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
-        this.getAppointmentDetail();
+        this.getAppointmentDetails();
         this.commonService.openSnackBar(result.message,"SUCCESS")
       }
     });
@@ -119,12 +118,12 @@ export class AppointmentDetailsComponent {
         // heading: `Invite ${this.pageTitle}`,
          appointmentId:appointmentId,
          userRole:this.userRole,
-         fromId: this.userId,
+         userId: this.userId,
        }
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
-        this.getAppointmentDetail();
+        this.getAppointmentDetails();
         this.commonService.openSnackBar(result.message,"SUCCESS")
       }
     });
@@ -144,7 +143,7 @@ export class AppointmentDetailsComponent {
       //this.commonService.showLoader(); 
       let reqVars = {
         query: {_id:appointmentId},
-        fromId: this.userId,
+        userId: this.userId,
         fromRole:this.userRole      
       }
       await this.authService.apiRequest('post', 'appointment/acceptAppointment', reqVars).subscribe(async response => {
@@ -153,7 +152,7 @@ export class AppointmentDetailsComponent {
           this.commonService.openSnackBar(response.message, "ERROR")
         }else{
           this.commonService.openSnackBar(response.message, "SUCCESS")
-          this.getAppointmentDetail()
+          this.getAppointmentDetails()
           this.successModal(); 
         }        
       })

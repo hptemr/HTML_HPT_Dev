@@ -28,10 +28,10 @@ export class AppointmentDetailsComponent {
   }
 
   ngOnInit() {
-    this.getAppointmentDetail()
+    this.getAppointmentDetails()
   }
 
-  async getAppointmentDetail() {
+  async getAppointmentDetails() {
     if(this.appointmentId){ 
       this.commonService.showLoader(); 
       let reqVars = {
@@ -40,8 +40,7 @@ export class AppointmentDetailsComponent {
         patientFields:{},
         therapistFields:{}
       }
-
-      await this.authService.apiRequest('post', 'appointment/getAppointmentDetail', reqVars).subscribe(async response => {
+      await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
         this.commonService.hideLoader();
         if(response.data && response.data.appointmentData){
           this.appointmentData = response.data.appointmentData;

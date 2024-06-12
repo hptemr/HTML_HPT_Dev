@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule,FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,35 +18,35 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
   styleUrl: './write-comment-modal.component.scss'
 })
 export class WriteCommentModalComponent {
-  validationMessages = validationMessages; 
-  rejectCommentForm: FormGroup;inviteButton:boolean = false;
-  appointmentId:string='';
-  userRole:string='';
-  fromId:string='';
-  
+  validationMessages = validationMessages;
+  rejectCommentForm: FormGroup; inviteButton: boolean = false;
+  appointmentId: string = '';
+  userRole: string = '';
+  userId: string = '';
+
   constructor(
     private commonService: CommonService,
-    private authService :AuthService,
-    private fb: FormBuilder, 
+    private authService: AuthService,
+    private fb: FormBuilder,
     public dialogRef: MatDialogRef<WriteCommentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.appointmentId = data.appointmentId != undefined ? data.appointmentId : '';
     this.userRole = data.userRole != undefined ? data.userRole : '';
-    this.fromId = data.fromId != undefined ? data.fromId : '';
+    this.userId = data.userId != undefined ? data.userId : '';
   }
 
   ngOnInit() {
     this.initializeForm()
   }
 
-  initializeForm(){
+  initializeForm() {
     this.rejectCommentForm = this.fb.group({
-      rejectComment: ['',[Validators.required,Validators.minLength(1), Validators.maxLength(100)]],
+      rejectComment: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     });
   }
 
-  trimInput() {    
+  trimInput() {
     const isWhitespace = (this.rejectCommentForm.controls['rejectComment'].value || '').trim().length === 0;
     const isValid = !isWhitespace;
     if (!isValid) {
@@ -54,20 +54,25 @@ export class WriteCommentModalComponent {
     }
   }
 
- async submitForm(data:any) {    
-    if(this.appointmentId){ 
+  async submitForm(data: any) {
+    if (this.appointmentId) {
       let reqVars = {
-        query: {_id:this.appointmentId},
-        fromId: this.fromId,
-        fromRole:this.userRole,
-        commentText:data.rejectComment      
+        query: { _id: this.appointmentId },
+        updateInfo: {
+          status: 'Cancelled',
+          rejectInfo: {
+            fromPatientId: this.userId,
+            fromAdminId: this.userId,
+            userRole: this.userRole,
+            comment: data.rejectComment,
+            rejectedDate: new Date()
+          }
+        }
       }
-      this.commonService.showLoader();
       await this.authService.apiRequest('post', 'appointment/cancelAppointment', reqVars).subscribe(async response => {
-        this.commonService.hideLoader();
         this.dialogRef.close(response);
       })
     }
- }
+  }
 
 }

@@ -57,8 +57,8 @@
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
                                     <input [(ngModel)]="toDate" (dateChange)="onDateChange($event, 'toDate')"
-                                        readonly="isReadonly" [min]="minToDate" [max]="maxToDate" placeholder="To Date" matInput
-                                        [matDatepicker]="picker2">
+                                        readonly="isReadonly" [min]="minToDate" [max]="maxToDate" placeholder="To Date"
+                                        matInput [matDatepicker]="picker2">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>
@@ -124,7 +124,7 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="w-100 d-flex align-items-center justify-content-end">
                                 <button mat-button class="flex-shrink-0 min-width-unset search--fields"
-                                    [routerLink]="['/patient/appointment-details']">
+                                    [routerLink]="['/patient/appointment-details/',element.id]">
                                     <mat-icon
                                         class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
                                     </mat-icon>
