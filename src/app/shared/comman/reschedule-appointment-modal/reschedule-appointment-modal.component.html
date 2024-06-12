@@ -7,31 +7,38 @@
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Select Date & Time</label>
+                        <label class="col-form-label fw-600">Select Date</label>
                         <div class="input-group">
-                            <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp"
-                                [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                            <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                type="button">
-                                <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                            </button>
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input [min]="todayDate" [max]="maxAppntDate"
+                                    formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput
+                                    [matDatepicker]="picker">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="text text-danger mt-1"
+                            *ngIf="rescheduleForm.controls['appointmentDate'].touched && rescheduleForm.controls['appointmentDate'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Appointment Date') }}
                         </div>
                     </div>
                 </div>
                 <div class="col-12 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Mention the cause </label>
-                            <textarea class="form-control " type="text" placeholder="Write your comment here"  (blur)="trimInput()" formControlName="rejectComment" rows="4"></textarea>
-                            <div class="text text-danger mt-1" *ngIf="rescheduleForm.controls['rejectComment'].touched && rescheduleForm.controls['rejectComment'].hasError('required')">
-                                {{ validationMessages.required('your comment') }}
-                            </div>
+                        <textarea class="form-control " type="text" placeholder="Write your comment here"
+                            (blur)="trimInput()" formControlName="comment" rows="4"></textarea>
+                        <div class="text text-danger mt-1"
+                            *ngIf="rescheduleForm.controls['comment'].touched && rescheduleForm.controls['comment'].hasError('required')">
+                            {{ validationMessages.required('your comment') }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-2">
-            <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-            <button mat-raised-button color="primary" type="submit">Submit</button>
+            <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button>
+            <button [disabled]="rescheduleForm.invalid" mat-raised-button color="primary" type="submit">Submit</button>
         </div>
     </form>
 </div>

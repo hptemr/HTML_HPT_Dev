@@ -53,7 +53,14 @@ export class AppointmentDetailsComponent {
         userRole: this.info.role,
         userId: this.info._id,
       }
-    });
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && !result.error) {
+        this.commonService.openSnackBar(result.message, "SUCCESS")
+        this.router.navigate(['/patient/appointments'])
+      }
+    })
   }
 
   writeComment() {
@@ -68,9 +75,9 @@ export class AppointmentDetailsComponent {
     })
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){
-      this.commonService.openSnackBar(result.message, "SUCCESS")
-      this.router.navigate(['/patient/appointments'])
+      if (result && !result.error) {
+        this.commonService.openSnackBar(result.message, "SUCCESS")
+        this.router.navigate(['/patient/appointments'])
       }
     })
   }

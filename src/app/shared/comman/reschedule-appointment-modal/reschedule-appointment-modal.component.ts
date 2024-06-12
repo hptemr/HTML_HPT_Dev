@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { validationMessages } from '../../../utils/validation-messages';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { maxAppoinmentFutureMonths } from 'src/app/config';
+
 @Component({
   selector: 'app-reschedule-appointment-modal',
   standalone: true,
@@ -17,6 +19,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
   templateUrl: './reschedule-appointment-modal.component.html',
   styleUrl: './reschedule-appointment-modal.component.scss'
 })
+
 export class RescheduleAppointmentModalComponent {
   model: NgbDateStruct;
   validationMessages = validationMessages;
@@ -24,6 +27,8 @@ export class RescheduleAppointmentModalComponent {
   appointmentId: string = '';
   userRole: string = '';
   userId: string = '';
+  todayDate: any = new Date()
+  maxAppntDate: any
 
   constructor(
     private commonService: CommonService,
@@ -38,20 +43,23 @@ export class RescheduleAppointmentModalComponent {
   }
 
   ngOnInit() {
+    this.maxAppntDate = new Date()
+    this.maxAppntDate.setMonth(this.maxAppntDate.getMonth() + maxAppoinmentFutureMonths);
     this.initializeForm()
   }
 
   initializeForm() {
     this.rescheduleForm = this.fb.group({
-      rejectComment: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      appointmentDate: ['', [Validators.required]],
+      comment: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     });
   }
 
   trimInput() {
-    const isWhitespace = (this.rescheduleForm.controls['rejectComment'].value || '').trim().length === 0;
+    const isWhitespace = (this.rescheduleForm.controls['comment'].value || '').trim().length === 0;
     const isValid = !isWhitespace;
     if (!isValid) {
-      this.rescheduleForm.controls['rejectComment'].setValue('');
+      this.rescheduleForm.controls['comment'].setValue('');
     }
   }
 
@@ -59,13 +67,19 @@ export class RescheduleAppointmentModalComponent {
     if (this.appointmentId) {
       let reqVars = {
         query: { _id: this.appointmentId },
-        userId: this.userId,
-        fromRole: this.userRole,
-        commentText: data.rejectComment
+        updateInfo: {
+          status: 'Rescheduled',
+          appointmentDate: data.appointmentDate,
+          rescheduleInfo: {
+            fromPatientId: this.userId,
+            fromAdminId: this.userId,
+            userRole: this.userRole,
+            comment: data.comment,
+            //rescheduleDate: data.appointmentDate
+          }
+        }
       }
-      this.commonService.showLoader();
       await this.authService.apiRequest('post', 'appointment/rescheduleAppointment', reqVars).subscribe(async response => {
-        this.commonService.hideLoader();
         this.dialogRef.close(response);
       })
     }
