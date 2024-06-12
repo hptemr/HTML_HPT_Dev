@@ -18,7 +18,7 @@ export class SidebarPatientComponent {
   public screenHeight: number;
   public currentMainMenu: any = ''
   public itemsLength: any = 0;
-  public subMenus: any = ["book-appointment", "appointment-details"]
+  public subMenus: any = ["book-appointment", "appointment-details", "intake-form"]
 
   constructor(public navService: PatientNavservicesService, public layout: LayoutService, private router: Router) {
     this.router.events.subscribe((event: any) => {
