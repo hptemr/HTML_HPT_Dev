@@ -107,6 +107,7 @@ export class ViewEditInsuranceComponent {
 
   
   getInsuranceData() {
+    let insuranceName = ''
     let subscriberFirstName = ''
     let subscriberMiddleName = ''
     let subscriberLastName = ''
@@ -135,6 +136,7 @@ export class ViewEditInsuranceComponent {
     let attorneyPhone = ''
 
     let info = this.insuranceData;
+    insuranceName = info.insuranceName
     subscriberFirstName = info.subscriberFirstName
     subscriberMiddleName = info.subscriberMiddleName
     subscriberLastName = info.subscriberLastName
@@ -162,6 +164,7 @@ export class ViewEditInsuranceComponent {
     attorneyName = info.attorneyName
     attorneyPhone = info.attorneyPhone
 
+    this.insuranceForm.controls['insuranceName'].setValue(insuranceName)
     this.insuranceForm.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.insuranceForm.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.insuranceForm.controls['subscriberLastName'].setValue(subscriberLastName)
@@ -212,7 +215,7 @@ export class ViewEditInsuranceComponent {
             data: formData
            }
         }
-        console.log("req_vars:", req_vars)
+        console.log(apiKey,"----req_vars----", req_vars)
 
         this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'insurance/'+apiKey, req_vars).subscribe(async response => {         

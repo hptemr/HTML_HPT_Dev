@@ -80,6 +80,7 @@ export class SignupPatientComponent implements OnInit {
   documents_type_list:any=[];
   isChecked = false
   submitButton:boolean = true;
+  maxFileSize:any = 0;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
@@ -373,20 +374,31 @@ export class SignupPatientComponent implements OnInit {
     }else{      
     this.uploader.queue.forEach((fileoOb) => {  
       this.filename = fileoOb.file.name;
+      this.maxFileSize = fileoOb.file.size;
       var extension = this.filename.substring(this.filename.lastIndexOf('.') + 1);
       var fileExts = ["jpg", "jpeg", "png","pdf"];//, "docx", "doc"
       let resp = this.isExtension(extension, fileExts);
+      
       if (!resp) {
         var FileMsg = "This file '" + this.filename + "' is not supported";
         this.uploader.removeFromQueue(fileoOb);
         this.fileErrors = FileMsg;
         setTimeout(() => {
           this.fileErrors = '';
-        }, 5000);
+        }, 8000);
         cnt++;
-      }
+      }else if(this.maxFileSize>99999999){
+        var FileMsg = "File size should be below 100MB";
+        this.uploader.removeFromQueue(fileoOb);
+        this.fileErrors = FileMsg;
+        setTimeout(() => {
+          this.fileErrors = '';
+        }, 8000);        
+      } 
     });
  
+    console.log('getNotUploadedItems >>>  ',this.uploader.getNotUploadedItems().length)
+    console.log('uploader>>>>>>',this.uploader);
     if (this.uploader.getNotUploadedItems().length) {
       this.currentProgessinPercent = 1;
       this.uploader.onProgressItem = (progress: any) => {
