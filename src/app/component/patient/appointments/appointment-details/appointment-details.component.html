@@ -95,12 +95,15 @@
                                                         <p class="mb-0 clr--1F2F3E font-16 fw-400">
                                                             {{appInfo.appointmentDate | date:"mediumDate"}}</p>
                                                     </div>
-                                                    <button mat-stroked-button color="primary"
-                                                        (click)="rescheduleModal()">
-                                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-1">
-                                                            replay </mat-icon>
-                                                        Reschedule
-                                                    </button>
+                                                    <div *ngIf="appInfo.status == 'Pending'">
+                                                        <button mat-stroked-button color="primary"
+                                                            (click)="rescheduleModal()">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined flex-shrink-0 me-1">
+                                                                replay </mat-icon>
+                                                            Reschedule
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
