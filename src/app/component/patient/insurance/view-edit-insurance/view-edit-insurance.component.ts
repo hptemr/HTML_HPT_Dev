@@ -33,10 +33,18 @@ export class ViewEditInsuranceComponent {
   states: State[] = states_data
   fullNameForSign: any
   todayDate = new Date()
-
+  pageName:any = '';
+  isReadOnly:boolean=false
   constructor(public dialog: MatDialog,private fb: FormBuilder,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
-      if(params['insuranceId'])this.insuranceId = params['insuranceId'];
+      const locationArray = location.href.split('/')
+      if(params['insuranceId']){
+        this.insuranceId = params['insuranceId'];
+        this.pageName = locationArray[locationArray.length - 2];
+      }else{
+        this.pageName = locationArray[locationArray.length - 1];
+      }
+      if(this.pageName=='view-insurance')this.isReadOnly = true
     })
   }
 
@@ -67,7 +75,6 @@ export class ViewEditInsuranceComponent {
               this.insuranceData = response.data.insuranceData;
               this.getInsuranceData();
             }
-            console.log('>>>>>  insurance data >>>>>>>',this.insuranceData)
         }      
       })
     }
@@ -103,10 +110,43 @@ export class ViewEditInsuranceComponent {
       attorneyName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       attorneyPhone: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
     });
+
+
+    if(this.isReadOnly){
+      this.insuranceForm.controls['insuranceName'].disable();
+      this.insuranceForm.controls['subscriberFirstName'].disable();
+      this.insuranceForm.controls['subscriberMiddleName'].disable();
+      this.insuranceForm.controls['subscriberLastName'].disable();
+      this.insuranceForm.controls['subscriberDob'].disable();
+      this.insuranceForm.controls['subscriberRelationWithPatient'].disable();
+      this.insuranceForm.controls['primaryInsuranceCompany'].disable();
+      this.insuranceForm.controls['primaryInsuranceIdPolicy'].disable();
+      this.insuranceForm.controls['primaryInsuranceGroup'].disable();
+      this.insuranceForm.controls['primaryInsuranceCustomerServicePh'].disable();
+      this.insuranceForm.controls['secondaryInsuranceCompany'].disable();
+      this.insuranceForm.controls['secondaryInsuranceIdPolicy'].disable();
+      this.insuranceForm.controls['secondaryInsuranceGroup'].disable();
+      this.insuranceForm.controls['secondaryInsuranceCustomerServicePh'].disable();
+      this.insuranceForm.controls['injuryRelelatedTo'].disable();
+      this.insuranceForm.controls['carrierName'].disable();
+      this.insuranceForm.controls['dateOfInjury'].disable();
+      this.insuranceForm.controls['insuranceState'].disable();
+      this.insuranceForm.controls['claim'].disable();
+      this.insuranceForm.controls['adjusterName'].disable();
+      this.insuranceForm.controls['adjusterPhone'].disable();
+      this.insuranceForm.controls['reportedEmployer'].disable();
+      this.insuranceForm.controls['employerName'].disable();
+      this.insuranceForm.controls['employerPhone'].disable();
+      this.insuranceForm.controls['employerAddress'].disable();
+      this.insuranceForm.controls['attorneyName'].disable();
+      this.insuranceForm.controls['attorneyPhone'].disable();
+    }
+    
   }
 
   
   getInsuranceData() {
+    let insuranceName = ''
     let subscriberFirstName = ''
     let subscriberMiddleName = ''
     let subscriberLastName = ''
@@ -135,6 +175,7 @@ export class ViewEditInsuranceComponent {
     let attorneyPhone = ''
 
     let info = this.insuranceData;
+    insuranceName = info.insuranceName
     subscriberFirstName = info.subscriberFirstName
     subscriberMiddleName = info.subscriberMiddleName
     subscriberLastName = info.subscriberLastName
@@ -162,6 +203,7 @@ export class ViewEditInsuranceComponent {
     attorneyName = info.attorneyName
     attorneyPhone = info.attorneyPhone
 
+    this.insuranceForm.controls['insuranceName'].setValue(insuranceName)
     this.insuranceForm.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.insuranceForm.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.insuranceForm.controls['subscriberLastName'].setValue(subscriberLastName)
@@ -212,7 +254,7 @@ export class ViewEditInsuranceComponent {
             data: formData
            }
         }
-        console.log("req_vars:", req_vars)
+        console.log(apiKey,"----req_vars----", req_vars)
 
         this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'insurance/'+apiKey, req_vars).subscribe(async response => {         

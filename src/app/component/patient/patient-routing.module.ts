@@ -110,7 +110,11 @@ const routes: Routes = [
     component: InsuranceListingComponent,
   },
   {
-    path: 'view-edit-insurance/:insuranceId',
+    path: 'view-insurance/:insuranceId',
+    component: ViewEditInsuranceComponent,
+  },
+  {
+    path: 'edit-insurance/:insuranceId',
     component: ViewEditInsuranceComponent,
   },
   {
