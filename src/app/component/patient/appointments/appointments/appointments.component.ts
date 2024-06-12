@@ -171,8 +171,6 @@ export class AppointmentsComponent {
         role: "therapist",
         $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
       }
-      Object.assign(this.whereCond, { $or: [{ appointmentId: finalStr }, { practiceLocation: finalStr }] })
-      
     } else {
       this.userQuery = {}
     }
