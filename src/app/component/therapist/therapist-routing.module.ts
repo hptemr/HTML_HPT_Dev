@@ -11,6 +11,7 @@ import { ObjectiveComponent } from './initial-examination/objective/objective.co
 import { AssessmentComponent } from './initial-examination/assessment/assessment.component';
 import { PlanComponent } from './initial-examination/plan/plan.component';
 import { BillingComponent } from './initial-examination/billing/billing.component';
+import { InitialExaminationComponent } from './initial-examination/initial-examination/initial-examination.component';
  
 const routes: Routes = [ 
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
   }, 
   {
     path: 'initial-examination',
+    component:InitialExaminationComponent ,
     children: [  
       {
         path: 'subjective',

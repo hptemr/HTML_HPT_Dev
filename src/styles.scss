@@ -80,15 +80,16 @@ input, p,
 }
 
 .no--record--found{
-    min-height: 100px;
     font-size: 20px;
-    background: #ddfcfc;
+    background: #f3fbfb;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
     width: 100%;
+    padding: 50px 20px;
+
+    .sad--img{
+        width: 52px;
+    }
 }
 .close--sidebar{
     border-bottom: 1px solid #ddd;
@@ -112,6 +113,20 @@ input, p,
                     border: 1px solid #b9c1cc;
                     box-shadow: none !important;
                 } 
+            }
+            .am--datepicker{ 
+                .mat-mdc-text-field-wrapper{
+                    background-color: #f5f6f9 !important; 
+                }  
+                .mat-mdc-form-field-infix{
+                    min-height: 36px !important;
+                    padding-top: 5px !important;
+                    padding-bottom: 5px !important;
+                }
+                .mat-mdc-icon-button.mat-mdc-button-base{
+                    height: 20px;
+                    padding: 0;
+                }
             }
             &.sort--button{
                 position: relative;
@@ -746,6 +761,9 @@ a{
         color: #fff !important;
         font-weight: 600;
     }
+    &:disabled{
+        background-color: #c1bebe !important;
+    }
 }
 .mdc-button{
     letter-spacing: unset !important;
@@ -899,6 +917,62 @@ ngb-datepicker{
         font-size: 14px !important;
     }
 } 
+
+// SOAP Note ()
+.note--wrapper{
+    .note--header{
+        h1{
+            font-size: 22px;
+            color: #1F2F3E;
+        }
+    }
+    .tab--header{ 
+        margin-top: 25px;
+        ul{
+            li{
+                padding: 11px 15px;
+                background-color: #fff;
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+                &:first-child{ 
+                    padding-left: 16px;
+                    border-top-left-radius: 5px;
+                }
+                &:last-child{
+                    padding-right: 16px;
+                    border-top-right-radius: 5px;
+                }
+                &.active-link{
+                    border-bottom: 2px solid #32B7B7;
+                    a{
+                        color: #33B8B8;
+                        font-weight: 600;
+                    }
+                }
+                a{
+                    color: #1F2F3E;
+                    font-size: 14px;
+                    font-weight: 400;   
+                }
+            }
+        }
+    }
+    .note--body{
+        border-radius: 0px 0px 12px 12px;
+        border-top: 1px solid #BCDADA;
+        background: #FFF;
+        padding: 20px 30px;
+        height: calc(100vh - 245px);
+        overflow: auto;
+    }
+}
+
+
+
+
+
+
+
  
 /*----  Media Queries (Start here) -----*/
 

@@ -15,6 +15,7 @@ import { ObjectiveComponent } from './initial-examination/objective/objective.co
 import { AssessmentComponent } from './initial-examination/assessment/assessment.component';
 import { PlanComponent } from './initial-examination/plan/plan.component';
 import { BillingComponent } from './initial-examination/billing/billing.component';
+import { InitialExaminationComponent } from './initial-examination/initial-examination/initial-examination.component';
  
 
 @NgModule({
@@ -27,6 +28,7 @@ import { BillingComponent } from './initial-examination/billing/billing.componen
     AppointmentRequestsComponent,
     AdditionalFormComponent,
 
+    InitialExaminationComponent,
     SubjectiveComponent,
     ObjectiveComponent,
     AssessmentComponent,
