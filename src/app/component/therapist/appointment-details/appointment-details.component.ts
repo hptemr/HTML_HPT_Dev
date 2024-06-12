@@ -7,11 +7,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 export interface PeriodicElement {
   note: string;  
   dateAddedOn: string;   
   noteAddedOn: string;
+  status: string;
   action: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -19,72 +21,84 @@ const ELEMENT_DATA: PeriodicElement[] = [
     note: 'Case Note',   
     dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Draft',
     action : ''
   }, 
   { 
     note: 'Initial Examination',   
     dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
     noteAddedOn: 'Mark Swift',
+    status: 'Finalized',
     action : ''
   }, 
   { 
     note: 'Daily Note',   
     dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Draft',
     action : ''
   },
   { 
     note: 'Case Note',   
     dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Draft',
     action : ''
   }, 
   { 
     note: 'Initial Examination',   
     dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
     noteAddedOn: 'Mark Swift',
+    status: 'Draft',
     action : ''
   }, 
   { 
     note: 'Daily Note',   
     dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Draft',
     action : ''
   },
   { 
     note: 'Case Note',   
     dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Draft',
     action : ''
   }, 
   { 
     note: 'Initial Examination',   
     dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
     noteAddedOn: 'Mark Swift',
+    status: 'Draft',
     action : ''
   }, 
   { 
     note: 'Daily Note',   
     dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Finalized',
     action : ''
   },
   { 
     note: 'Case Note',   
     dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Finalized',
     action : ''
   }, 
   { 
     note: 'Initial Examination',   
     dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
     noteAddedOn: 'Mark Swift',
+    status: 'Draft',
     action : ''
   }, 
   { 
     note: 'Daily Note',   
     dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
     noteAddedOn: 'Taylor Stafford',
+    status: 'Finalized',
     action : ''
   },
 ];
@@ -95,6 +109,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './appointment-details.component.scss'
 })
 export class AppointmentDetailsComponent {
+  
+  model: NgbDateStruct;
+
   constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog) {}
 
   systemFollowup() {
@@ -131,7 +148,7 @@ export class AppointmentDetailsComponent {
         this._liveAnnouncer.announce('Sorting cleared');
       }
     }
-  displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'action'];
+  displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
 }
