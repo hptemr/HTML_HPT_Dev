@@ -8,7 +8,8 @@ router.post('/updatePatientCheckIn', appointmentController.updatePatientCheckIn)
 router.post('/getAppointmentDetails', appointmentController.getAppointmentDetails);
 router.post('/acceptAppointment', appointmentController.acceptAppointment);
 router.post('/cancelAppointment', appointmentController.cancelAppointment);
-router.post('/addAppointment', appointmentController.addAppointment);
+router.post('/addAppointment', appointmentController.addAppointment); 
+router.post('/rescheduleAppointment', appointmentController.rescheduleAppointment); 
 router.post('/updateAppointment', appointmentController.updateAppointment); 
 
 module.exports = router;

@@ -148,6 +148,16 @@ const addAppointment = async (req, res) => {
     }
 }
 
+const rescheduleAppointment = async (req, res) => {
+    try {
+        const { query, updateInfo } = req.body;
+        await Appointment.findOneAndUpdate(query, updateInfo);
+        commonHelper.sendResponse(res, 'success', null, appointmentMessage.rescheduled);
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
 const updateAppointment = async (req, res) => {
     try {
         const { query, updateInfo } = req.body;
@@ -165,5 +175,6 @@ module.exports = {
     acceptAppointment,
     cancelAppointment,
     addAppointment,
-    updateAppointment
+    updateAppointment,
+    rescheduleAppointment,
 };
