@@ -44,9 +44,11 @@ const messages = {
     },
     emergencyContactsMessage: {
         saved: 'Contact details have been saved successfully!',
-
-
-    }
+    },
+    insuranceMessage: {
+        created: 'insurance data has been created successfully',
+        updated: 'insurance data has been updated successfully',
+    },
 };
 
 module.exports = messages;
