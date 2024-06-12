@@ -9,140 +9,111 @@
                 
             </div> 
         </div>
-        <div class="card-body d-flex flex-column flex-sm-row  ">
-            <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
-                <div class="head--sec w-100"> 
-                </div> 
-                <div class="profile--round position-relative">
-                    <div class="user--name d-flex align-items-center justify-content-center">
-                        <span class="text-primary fw-700 text-uppercase">JW</span>
-                    </div> 
-                </div>
-               <div class="d-flex flex-column align-items-center justify-content-center w-100 body--sec">
-                 <h3 class="font-18 fw-700">John Walter</h3>
-                 <div class="d-flex align-items-center user--email"> 
-                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">mail </mat-icon>
-                    <p class="my-2 font-15">johnwalter1991&#64;gmail.com</p> 
-                 </div>
-                 <div class="d-flex align-items-center user--email"> 
-                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">call </mat-icon>
-                    <p class="my-2 font-15">+1 1234-567-8902-4862</p> 
-                 </div> 
-                 <button mat-stroked-button color="primary" class="mp--btn" [routerLink]="['/therapist/patient-profile']"> 
-                    View Patient Profile
-                </button>
-                <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
-                    System Followup History
-                </button>
-               </div>
-            </div>
+        <div class="card-body d-flex flex-column flex-sm-row">
             <div class="profile--right d-flex flex-column w-100">
-                <div class="card w-100 mb-0"> 
-                    <div class="card-body mt-4">
-                        <div class="col-12 d-flex align-items-center flex-wrap"> 
-                            <button mat-raised-button color="primary" class="me-3">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                Add  Protocol
-                            </button>
-                            <ul class="p-0 m-0 protocol--links d-flex align-items-center flex-wrap">
-                                <li class="d-flex align-items-center">
-                                    <a class="text-decoration-underline clr--1F2F3E font-16 ">Medial Patella Ligament Reconstruction</a>
-                                    <button mat-button class="flex-shrink-0 close--btn">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">cancel </mat-icon>
+                <div class="w-100 mb-0"> 
+                    <mat-accordion class="appointment-information-header-wrapper">
+                        <mat-expansion-panel class="exp-class" expanded="true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title class="text-primary font-18 fw-600">
+                                    Appointment Information
+                                </mat-panel-title>
+                                <mat-panel-description class="justify-content-end align-items-center">
+                                    <button mat-raised-button color="primary" class="">
+                                        View Intake Form
                                     </button>
-                                </li> 
-                                <li class="d-flex align-items-center">
-                                    <a class="text-decoration-underline clr--1F2F3E font-16 ">Posterolateral Corner Reconstruction</a>
-                                    <button mat-button class="flex-shrink-0 close--btn">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">cancel </mat-icon>
-                                    </button>
-                                </li> 
-                            </ul>
-                        </div>
-                        <div class="col-12">
-                            <h1 class="my-3 text-primary font-18 fw-600">Appointment Information</h1>
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-12 col-lg-4 mb-2">
-                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Location</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">Corvallis PT</p>
-                                        </div>
-                                        <div class="col-12 col-sm-12 col-lg-4 mb-2">
-                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment #</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">123456</p>
-                                        </div>
-                                        <div class="col-12 col-sm-12 col-lg-4 mb-2">
-                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Status</h3>
-                                            <p class="mb-0 font-16 fw-400 status pending">Pending</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5 d-flex align-items-center">
-                                    <div class="me-2 mb-2">
-                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Date and Time</h3>
-                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">Tue, Nov 13, 2023 02:00 pm</p>
-                                    </div>
-                                    <button mat-stroked-button color="primary" class="px-2 flex-shrink-0 mb-2" (click)="rescheduleModal()"> 
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> replay </mat-icon> 
-                                        Reschedule
-                                    </button>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-12 col-lg-4 mb-2">
-                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Case Name</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">Neck Pain</p>
-                                        </div>
-                                        <div class="col-12 col-sm-12 col-lg-6 mb-2">
-                                            <div class="form-group">
-                                                <label class="col-form-label fw-600">High Deductibles</label>
-                                                <div class="input-group prefix--field">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="col-12">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
+                                        <div class="w-100 mb-2">
+                                            <div class="d-flex flex-row flex-wrap gap-10 align-items-center">
+                                                <div class="img--box flex-shrink-0">
+                                                    <img src="assets/images/ark/user.png" alt="" class="img-fluid" />
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="mb-1 clr--1F2F3E font-18 fw-700">John Walter</h3>
+                                                    <div class="mb-1 d-flex align-items-center">
+                                                        <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">johnwalter1991&#64;gmail.com</p>
                                                     </div>
-                                                    <input type="number" class="form-control form-control-md">
-                                                </div>  
-                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                                    <div class="mb-1 d-flex align-items-center">
+                                                        <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
+                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 1234-567-8902-4862</p>
+                                                    </div>
+                                                    
+                                                </div>
                                             </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5 d-flex align-items-center">
-                                    <div class="me-2 mb-2">
-                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
-                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">Insurance/Self Pay</p>
-                                    </div>
-                                    <button mat-stroked-button color="primary" class="flex-shrink-0 mb-2 px-2" [routerLink]="['/patient/view-edit-insurance']"> 
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> visibility </mat-icon> 
-                                        View Insurance
-                                    </button>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-8">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-12 col-lg-4 mb-2">
-                                            <mat-checkbox checked class="font-12"> Patient Checked-In </mat-checkbox>
                                         </div>
-                                        <div class="col-12 col-sm-12 col-lg-8 mb-2">
-                                            <button mat-raised-button color="primary" class="me-3 mb-2">
-                                                View Intake Form
-                                            </button>
-                                            <button mat-raised-button color="warn" class="mb-2 " (click)=" writeComment()">  
-                                                Cancel Appointment
-                                            </button>
-                                        </div> 
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
+                                        <div class="d-flex flex-row flex-wrap align-items-center">
+                                            <div class="col-12 col-sm-12 col-lg-4 mb-2">
+                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
+                                                <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-lg-8 mb-2">
+                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
+                                                <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">OT $200 Used out of $1000, PT/SLP $350 Used out of $1200</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 d-flex justify-content-end">
-                                    <a class="cursor-pointer d-flex align-items-center" [routerLink]="['/therapist/additional-form']">
-                                        <mat-icon class="me-2">folder</mat-icon>
-                                        <p class="mb-0 font-16 clr--1F2F3E">Additional Forms </p>
-                                    </a>
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-row flex-wrap align-items-center">
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Neck Pain</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Jacob Jones</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Return to Doctor</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Fri, Nov 16, 2023</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">12/1/24 - 12/10/2024</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Insurance Type</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Medicare</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <mat-checkbox class="">Patient Check in Status</mat-checkbox>
+                                        </div>
+                                        <!-- <div class="d-flex flex-column me-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Neck Pain</p>
+                                        </div>
+                                        <div class="d-flex flex-column me-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Jacob Jones</p>
+                                        </div>
+                                        <div class="d-flex flex-column me-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Return to Doctor</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Fri, Nov 16, 2023</p>
+                                        </div>
+                                        <div class="d-flex flex-column me-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">12/1/24 - 12/10/2024</p>
+                                        </div>
+                                        <div class="d-flex flex-column me-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Insurance Type</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Medicare</p>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
+                                        </div> -->
+                                    </div>
                                 </div>
                             </div>
-                        </div> 
-                       
-                    </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </div>
             </div> 
         </div>
@@ -153,40 +124,101 @@
         <div class="card-body mt-0">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="clr--1F2F3E fw-500 mb-1 font-20">Notes</h1>
+                    <h3 class="mb-3 clr--1F2F3E fw-600 font-22">Notes</h3>
                 </div>
-                <div class="col-12 col-sm-7 col-lg-6 mb-2">
-                    <div class="d-flex flex-sm-row flex-column align-items-start align-items-sm-center">
-                        <label class="col-form-label fw-700 flex-shrink-0 me-3">Patient Record Action Note</label>
-                        <select class="form-select form-control" aria-label="Default select example">
-                            <option selected>Select Note to Add</option> 
-                            <option value="1">Initial Examination</option>
-                            <option value="2">Daily Note</option> 
-                            <option value="3">Progress Note</option> 
-                            <option value="4">Discharge Note</option> 
-                        </select> 
+                <div class="col-12 col-sm-10 col-lg-10 mb-2">
+                    <div class="d-flex flex-row flex-wrap gap-10">
+                        <button class="flex-shrink-0" mat-stroked-button color="primary">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            Initial Examination
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            Daily Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            Progress Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            Discharge Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            Case Note
+                        </button>
                     </div>
                 </div>
-                <div class="col-12 col-sm-5 col-lg-6 d-flex justify-content-end mb-2">
-                    <button mat-raised-button color="primary" class="px-3 me-2">
-                        Finalize 
-                    </button>
-                    <button class="px-3" mat-stroked-button color="primary" > 
-                        <mat-icon>print </mat-icon>
+                <div class="col-12 col-sm-2 col-lg-2 d-flex justify-content-end mb-2">
+                    <button class="flex-shrink-0" mat-stroked-button color="primary">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> print </mat-icon>
                         E-Fax
                     </button>
                 </div>
                 <div class="col-12 mb-2">
-                    <div class="d-flex notes--table w-100 mt-3">
+                    <div class="d-flex notes--table w-100 mt-2 mb-2">
                         <div class="row w-100">
-                            <div class="col-12 col-lg-6">
-                                <div class="d-flex flex-sm-row flex-column align-items-start align-items-sm-center">
-                                    <label class="col-form-label fw-700 flex-shrink-0 me-3">Records</label>
-                                    <div class="form-group position-relative mb-0 w-100">
-                                        <input type="text" class="form-control search--outer p-1 font-14" placeholder="Search ">
-                                        <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                                        </button> 
+                            <div class="col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-4">
+                                        <div class="form-group position-relative w-100">
+                                            <input type="text" class="form-control search--outer p-2 font-14" placeholder="Search ">
+                                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                                            </button>
+                                            <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                                <input type="search" matInput placeholder="Search">
+                                                <mat-icon matSuffix>search</mat-icon>
+                                            </mat-form-field> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-4">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Status</option> 
+                                                <option value="1">Draft</option>
+                                                <option value="2">Finalized</option> 
+                                                <option value="3">Pending</option> 
+                                                <option value="4">Declined</option> 
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-4">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Note Type</option>
+                                                <option value="1">Case Note</option>
+                                                <option value="2">Initial Examination</option>
+                                                <option value="3">Daily Note</option>
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="From Date" name="dp" [(ngModel)]="model" ngbDatepicker
+                                                    #d="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()" type="button">
+                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="To Date" name="dp" [(ngModel)]="model" ngbDatepicker
+                                                    #d="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()" type="button">
+                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -206,7 +238,7 @@
                                         </td>
                                     </ng-container>  
                                     <ng-container matColumnDef=" dateAddedOn">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                                        <th mat-header-cell *matHeaderCellDef>
                                             Date Added on
                                         </th>
                                         <td mat-cell *matCellDef="let element"> 
@@ -223,27 +255,41 @@
                                             <p class="mt-1 "> Taylor Stafford</p>
                                         </td>
                                     </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element.status}}
+                                        </td>
+                                    </ng-container>
                                     <ng-container matColumnDef="action">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                                        <th mat-header-cell *matHeaderCellDef>
                                             Actions
                                         </th>
                                         <td mat-cell *matCellDef="let element">  
-                                            <div class="w-100 d-flex align-items-center justify-content-end">
-                                                <select class="form-select form-control action--dd" aria-label="Default select example">
+                                            <div class="w-100 d-flex align-items-center">
+                                                <!-- <select class="form-select form-control action--dd" aria-label="Default select example">
                                                     <option selected>Complete this Initial Examination</option> 
                                                     <option value="1">Complete Note</option>
                                                     <option value="2">Create Addendum</option>  
                                                     <option value="1">Delete Note</option>
                                                     <option value="2">Save as Draft</option> 
-                                                </select> 
-                                                <button mat-button class="flex-shrink-0 min-width-unset">
-                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
+                                                </select>  -->
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">font_download </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset " >
-                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete_forever</mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
                                                 </button>
                                             </div>
                                         </td>
@@ -252,13 +298,12 @@
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                 </table>
-                                <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                                                showFirstLastButtons
-                                                aria-label="Select page of periodic elements">
-                                </mat-paginator>
+                                
                             </div>
                         </div>
                     </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    </mat-paginator>
                 </div>
                 <div class="col-12">
                     <div class="home--exce d-flex flex-column w-100">
