@@ -10,6 +10,11 @@ import { SystemFollowupModalComponent } from './system-followup-modal/system-fol
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
 import { AdditionalFormComponent } from './additional-form/additional-form.component';
+import { SubjectiveComponent } from './initial-examination/subjective/subjective.component';
+import { ObjectiveComponent } from './initial-examination/objective/objective.component';
+import { AssessmentComponent } from './initial-examination/assessment/assessment.component';
+import { PlanComponent } from './initial-examination/plan/plan.component';
+import { BillingComponent } from './initial-examination/billing/billing.component';
  
 
 @NgModule({
@@ -20,7 +25,13 @@ import { AdditionalFormComponent } from './additional-form/additional-form.compo
     SystemFollowupModalComponent,
     PatientProfileComponent,
     AppointmentRequestsComponent,
-    AdditionalFormComponent
+    AdditionalFormComponent,
+
+    SubjectiveComponent,
+    ObjectiveComponent,
+    AssessmentComponent,
+    PlanComponent,
+    BillingComponent,
   ],
   imports: [
     CommonModule,
