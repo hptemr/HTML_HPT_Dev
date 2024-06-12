@@ -3,12 +3,12 @@
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between mb-3">
                 <h3 class="mb-0 clr--1F2F3E">Insurance</h3>
-                <button mat-raised-button color="primary" [routerLink]="['/patient/view-edit-insurance']">
+                <button mat-raised-button color="primary" [routerLink]="['/patient/add-insurance']">
                     <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                     Add Insurance
                 </button>
             </div> 
-            <div class="col-12 col-lg-6 ">
+            <div class="col-12 col-lg-6">
                 <div class="form-group position-relative">
                     <input type="text" class="form-control search--outer" placeholder="Search Insurance">
                     <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
@@ -19,8 +19,7 @@
         </div>
         <div class="card-body">
             <div class="col-12 cust--mat--table--wrapper">
-                <table mat-table [dataSource]="insuranceList" matSort (matSortChange)="announceSortChange($event)"
-                    class="cust--mat--table box--row--table">  
+                <table mat-table [dataSource]="insuranceList" matSort (matSortChange)="announceSortChange($event)" class="cust--mat--table box--row--table">
                     <ng-container matColumnDef="insuranceName">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             Insurance Name

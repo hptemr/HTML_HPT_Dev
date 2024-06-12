@@ -9,11 +9,21 @@
             </h3>
         </div>
     </div>
-    <form [formGroup]="step2Form">
+    <form [formGroup]="insuranceForm"  (ngSubmit)="formSubmit(insuranceForm.value)">
         <div class="card m-0">
             <div class="row"> 
                 <div class="col-12 my-4">
                     <div class="row"> 
+                        <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Insurance Name <span class="clr--DF0404 ms-1"> * </span></label>
+                                <input (blur)="checkSpace('insuranceName', $event)" formControlName="insuranceName" class="form-control" type="text"  placeholder="Enter Insurance Name" />
+                                <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['insuranceName'].touched && (insuranceForm.controls['insuranceName'].hasError('required') || insuranceForm.controls['insuranceName'].invalid)">
+                                    {{ validationMessages.required('Insurance Name') }}
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-12"> 
                             <p class="font-15 lh-24">("Subscriber") is the person who holds the insurance plan whether
                                 personally or through their employer.
@@ -25,10 +35,10 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">First Name  </label>
+                                <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
                                 <input (blur)="checkSpace('subscriberFirstName', $event)" formControlName="subscriberFirstName" class="form-control" type="text"  placeholder="Enter First Name" />
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['subscriberFirstName'].touched && (step2Form.controls['subscriberFirstName'].hasError('required') || step2Form.controls['subscriberFirstName'].invalid)">
+                                    *ngIf="insuranceForm.controls['subscriberFirstName'].touched && (insuranceForm.controls['subscriberFirstName'].hasError('required') || insuranceForm.controls['subscriberFirstName'].invalid)">
                                     {{ validationMessages.required('Subscriber First Name') }}
                                 </div>
                             </div>
@@ -41,17 +51,17 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Last Name  </label>
+                                <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
                                 <input (blur)="checkSpace('subscriberLastName', $event)" formControlName="subscriberLastName" class="form-control" type="text" placeholder="Enter Last Name" />
                             <div class="text text-danger mt-1"
-                                *ngIf="step2Form.controls['subscriberLastName'].touched && (step2Form.controls['subscriberLastName'].hasError('required') || step2Form.controls['subscriberLastName'].invalid)">
+                                *ngIf="insuranceForm.controls['subscriberLastName'].touched && (insuranceForm.controls['subscriberLastName'].hasError('required') || insuranceForm.controls['subscriberLastName'].invalid)">
                                 {{ validationMessages.required('Subscriber Last Name') }}
                             </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Date of Birth </label>
+                                <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
                                 <!-- <div class="input-group">
                                     <input class="form-control text-lowercase" placeholder="mm-dd-yyyy" name="dp"
                                         [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
@@ -69,7 +79,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['subscriberDob'].touched && (step2Form.controls['subscriberDob'].hasError('required') || step2Form.controls['subscriberDob'].invalid)">
+                                    *ngIf="insuranceForm.controls['subscriberDob'].touched && (insuranceForm.controls['subscriberDob'].hasError('required') || insuranceForm.controls['subscriberDob'].invalid)">
                                     {{ validationMessages.required('Date of Birth') }}
                                 </div>
 
@@ -77,13 +87,13 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Relationship with Patient</label>
+                                <label class="col-form-label fw-600">Relationship with Patient <span class="clr--DF0404 ms-1"> * </span></label>
                                 <select formControlName="subscriberRelationWithPatient" class="form-select form-control" aria-label="Default select example">
                                     <option value="" selected>Select Relation</option>
                                     <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}} </option>
                                 </select>
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['subscriberRelationWithPatient'].touched && (step2Form.controls['subscriberRelationWithPatient'].hasError('required') || step2Form.controls['subscriberRelationWithPatient'].invalid)">
+                                    *ngIf="insuranceForm.controls['subscriberRelationWithPatient'].touched && (insuranceForm.controls['subscriberRelationWithPatient'].hasError('required') || insuranceForm.controls['subscriberRelationWithPatient'].invalid)">
                                     {{ validationMessages.required('Relationship with Patient') }}
                                 </div>
                             </div>
@@ -103,7 +113,7 @@
                                     </span></label>
                                     <input formControlName="primaryInsuranceCompany" (blur)="checkSpace('primaryInsuranceCompany', $event)" class="form-control" type="text" placeholder="Enter Company Name" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['primaryInsuranceCompany'].touched && (step2Form.controls['primaryInsuranceCompany'].hasError('required') || step2Form.controls['primaryInsuranceCompany'].invalid)">
+                                        *ngIf="insuranceForm.controls['primaryInsuranceCompany'].touched && (insuranceForm.controls['primaryInsuranceCompany'].hasError('required') || insuranceForm.controls['primaryInsuranceCompany'].invalid)">
                                         {{ validationMessages.required('Insurance Company') }}
                                     </div>
                             </div>
@@ -113,7 +123,7 @@
                                 <label class="col-form-label fw-600">ID/Policy # <span class="clr--DF0404 ms-1"> * </span></label>
                                 <input (blur)="checkSpace('primaryInsuranceIdPolicy', $event)" formControlName="primaryInsuranceIdPolicy" class="form-control" type="text" placeholder="Enter ID/Policy" />
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['primaryInsuranceIdPolicy'].touched && (step2Form.controls['primaryInsuranceIdPolicy'].hasError('required') || step2Form.controls['primaryInsuranceIdPolicy'].invalid)">
+                                    *ngIf="insuranceForm.controls['primaryInsuranceIdPolicy'].touched && (insuranceForm.controls['primaryInsuranceIdPolicy'].hasError('required') || insuranceForm.controls['primaryInsuranceIdPolicy'].invalid)">
                                     {{ validationMessages.required('ID/Policy') }}
                                 </div>
                             </div>
@@ -123,7 +133,7 @@
                                 <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> * </span></label>
                                     <input (blur)="checkSpace('primaryInsuranceGroup', $event)" formControlName="primaryInsuranceGroup" class="form-control" type="text" placeholder="Enter Group" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['primaryInsuranceGroup'].touched && (step2Form.controls['primaryInsuranceGroup'].hasError('required') || step2Form.controls['primaryInsuranceGroup'].invalid)">
+                                        *ngIf="insuranceForm.controls['primaryInsuranceGroup'].touched && (insuranceForm.controls['primaryInsuranceGroup'].hasError('required') || insuranceForm.controls['primaryInsuranceGroup'].invalid)">
                                         {{ validationMessages.required('Group') }}
                                     </div>                           
                             </div>
@@ -134,7 +144,7 @@
                                     </span></label>
                                     <input [imask]="{mask: '(000) 000-0000'}"  formControlName="primaryInsuranceCustomerServicePh" class="form-control" type="text"  placeholder="Enter Customer Service Ph" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['primaryInsuranceCustomerServicePh'].touched && (step2Form.controls['primaryInsuranceCustomerServicePh'].hasError('required') || step2Form.controls['primaryInsuranceCustomerServicePh'].invalid)">
+                                        *ngIf="insuranceForm.controls['primaryInsuranceCustomerServicePh'].touched && (insuranceForm.controls['primaryInsuranceCustomerServicePh'].hasError('required') || insuranceForm.controls['primaryInsuranceCustomerServicePh'].invalid)">
                                         {{ validationMessages.required('Customer Service Ph') }}
                                     </div>
                             </div>
@@ -151,7 +161,7 @@
                                     </span></label>
                                     <input formControlName="secondaryInsuranceCompany" (blur)="checkSpace('secondaryInsuranceCompany', $event)" class="form-control"  type="text" placeholder="Enter Company Name" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['secondaryInsuranceCompany'].touched && (step2Form.controls['secondaryInsuranceCompany'].hasError('required') || step2Form.controls['secondaryInsuranceCompany'].invalid)">
+                                        *ngIf="insuranceForm.controls['secondaryInsuranceCompany'].touched && (insuranceForm.controls['secondaryInsuranceCompany'].hasError('required') || insuranceForm.controls['secondaryInsuranceCompany'].invalid)">
                                         {{ validationMessages.required('Company') }}
                                     </div>
                             </div>
@@ -162,7 +172,7 @@
                                     </span></label>
                                     <input (blur)="checkSpace('secondaryInsuranceIdPolicy', $event)" formControlName="secondaryInsuranceIdPolicy" class="form-control" type="text"  placeholder="Enter ID/Policy" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['secondaryInsuranceIdPolicy'].touched && (step2Form.controls['secondaryInsuranceIdPolicy'].hasError('required') || step2Form.controls['secondaryInsuranceIdPolicy'].invalid)">
+                                        *ngIf="insuranceForm.controls['secondaryInsuranceIdPolicy'].touched && (insuranceForm.controls['secondaryInsuranceIdPolicy'].hasError('required') || insuranceForm.controls['secondaryInsuranceIdPolicy'].invalid)">
                                         {{ validationMessages.required('ID/Policy') }}
                                     </div>
                             </div>
@@ -173,7 +183,7 @@
                                     </span></label>
                                     <input (blur)="checkSpace('secondaryInsuranceGroup', $event)" formControlName="secondaryInsuranceGroup" class="form-control" type="text" placeholder="Enter Group" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['secondaryInsuranceGroup'].touched && (step2Form.controls['secondaryInsuranceGroup'].hasError('required') || step2Form.controls['secondaryInsuranceGroup'].invalid)">
+                                        *ngIf="insuranceForm.controls['secondaryInsuranceGroup'].touched && (insuranceForm.controls['secondaryInsuranceGroup'].hasError('required') || insuranceForm.controls['secondaryInsuranceGroup'].invalid)">
                                         {{ validationMessages.required('Group') }}
                                     </div>
                             </div>
@@ -184,7 +194,7 @@
                                     </span></label>
                                     <input [imask]="{mask: '(000) 000-0000'}" formControlName="secondaryInsuranceCustomerServicePh" class="form-control" type="text" placeholder="Enter Customer Service Ph" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['secondaryInsuranceCustomerServicePh'].touched && (step2Form.controls['secondaryInsuranceCustomerServicePh'].hasError('required') || step2Form.controls['secondaryInsuranceCustomerServicePh'].invalid)">
+                                        *ngIf="insuranceForm.controls['secondaryInsuranceCustomerServicePh'].touched && (insuranceForm.controls['secondaryInsuranceCustomerServicePh'].hasError('required') || insuranceForm.controls['secondaryInsuranceCustomerServicePh'].invalid)">
                                         {{ validationMessages.required('Customer Service Ph') }}
                                     </div>
                             </div>
@@ -221,7 +231,7 @@
                                         </option>
                                     </select>
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['carrierName'].touched && (step2Form.controls['carrierName'].hasError('required') || step2Form.controls['carrierName'].invalid)">
+                                        *ngIf="insuranceForm.controls['carrierName'].touched && (insuranceForm.controls['carrierName'].hasError('required') || insuranceForm.controls['carrierName'].invalid)">
                                         {{ validationMessages.required('Carrier Name') }}
                                     </div>
                             </div>
@@ -238,7 +248,7 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['dateOfInjury'].touched && (step2Form.controls['dateOfInjury'].hasError('required') || step2Form.controls['dateOfInjury'].invalid)">
+                                        *ngIf="insuranceForm.controls['dateOfInjury'].touched && (insuranceForm.controls['dateOfInjury'].hasError('required') || insuranceForm.controls['dateOfInjury'].invalid)">
                                         {{ validationMessages.required('Date of Injury') }}
                                     </div>
                             </div>
@@ -254,7 +264,7 @@
                                         </option>
                                     </select>
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['insuranceState'].touched && (step2Form.controls['insuranceState'].hasError('required') || step2Form.controls['insuranceState'].invalid)">
+                                        *ngIf="insuranceForm.controls['insuranceState'].touched && (insuranceForm.controls['insuranceState'].hasError('required') || insuranceForm.controls['insuranceState'].invalid)">
                                         {{ validationMessages.required('State') }}
                                     </div>
                             </div>
@@ -264,7 +274,7 @@
                                 <label class="col-form-label fw-600">Claim # <span class="clr--DF0404 ms-1"> * </span></label>
                                     <input (blur)="checkSpace('claim', $event)" formControlName="claim" class="form-control" type="text" placeholder="Enter Claim" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['claim'].touched && (step2Form.controls['claim'].hasError('required') || step2Form.controls['claim'].invalid)">
+                                        *ngIf="insuranceForm.controls['claim'].touched && (insuranceForm.controls['claim'].hasError('required') || insuranceForm.controls['claim'].invalid)">
                                         {{ validationMessages.required('Claim') }}
                                     </div>
                             </div>
@@ -275,19 +285,18 @@
                                     </span></label>
                                     <input (blur)="checkSpace('adjusterName', $event)" formControlName="adjusterName" class="form-control" type="text" placeholder="Enter Adjuster Name" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['adjusterName'].touched && (step2Form.controls['adjusterName'].hasError('required') || step2Form.controls['adjusterName'].invalid)">
+                                        *ngIf="insuranceForm.controls['adjusterName'].touched && (insuranceForm.controls['adjusterName'].hasError('required') || insuranceForm.controls['adjusterName'].invalid)">
                                         {{ validationMessages.required('Adjuster Name') }}
                                     </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Adjuster Phone # <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
+                                <label class="col-form-label fw-600">Adjuster Phone # <span class="clr--DF0404 ms-1"> * </span></label>
                                     <input [imask]="{mask: '(000) 000-0000'}" formControlName="adjusterPhone"
                                     class="form-control" type="text" placeholder="Enter Adjuster Phone" />
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['adjusterPhone'].touched && (step2Form.controls['adjusterPhone'].hasError('required') || step2Form.controls['adjusterPhone'].invalid)">
+                                    *ngIf="insuranceForm.controls['adjusterPhone'].touched && (insuranceForm.controls['adjusterPhone'].hasError('required') || insuranceForm.controls['adjusterPhone'].invalid)">
                                     {{ validationMessages.required('Adjuster Phone') }}
                                 </div>
                             </div>
@@ -312,7 +321,7 @@
                                 <label class="col-form-label fw-600">Employer Name <span class="clr--DF0404 ms-1"> * </span></label>
                                     <input (blur)="checkSpace('employerName', $event)" formControlName="employerName"  class="form-control" type="text" placeholder="Enter Employer Name" />
                                     <div class="text text-danger mt-1"
-                                        *ngIf="step2Form.controls['employerName'].touched && (step2Form.controls['employerName'].hasError('required') || step2Form.controls['employerName'].invalid)">
+                                        *ngIf="insuranceForm.controls['employerName'].touched && (insuranceForm.controls['employerName'].hasError('required') || insuranceForm.controls['employerName'].invalid)">
                                         {{ validationMessages.required('Employer Name') }}
                                     </div>
                             </div>
@@ -322,7 +331,7 @@
                                 <label class="col-form-label fw-600">Employer Phone <span class="clr--DF0404 ms-1"> * </span></label>
                                 <input [imask]="{mask: '(000) 000-0000'}" formControlName="employerPhone" class="form-control" type="text" placeholder="Enter Employer Phone" />
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['employerPhone'].touched && (step2Form.controls['employerPhone'].hasError('required') || step2Form.controls['employerPhone'].invalid)">
+                                    *ngIf="insuranceForm.controls['employerPhone'].touched && (insuranceForm.controls['employerPhone'].hasError('required') || insuranceForm.controls['employerPhone'].invalid)">
                                     {{ validationMessages.required('Employer Phone') }}
                                 </div>
                             </div>
@@ -332,7 +341,7 @@
                                 <label class="col-form-label fw-600">Employer Address <span class="clr--DF0404 ms-1"> * </span></label>
                                 <textarea (blur)="checkSpace('employerAddress', $event)" formControlName="employerAddress" class="form-control" type="text" placeholder="Enetr Address" rows="4"></textarea>
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['employerAddress'].touched && (step2Form.controls['employerAddress'].hasError('required') || step2Form.controls['employerAddress'].invalid)">
+                                    *ngIf="insuranceForm.controls['employerAddress'].touched && (insuranceForm.controls['employerAddress'].hasError('required') || insuranceForm.controls['employerAddress'].invalid)">
                                     {{ validationMessages.required('Employer Address') }}
                                 </div>
                             </div>
@@ -347,7 +356,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> * </span></label>
                                 <input (blur)="checkSpace('attorneyName', $event)" formControlName="attorneyName" class="form-control" type="text" placeholder="Enter Attorney Name" />
-                                <div class="text text-danger mt-1" *ngIf="step2Form.controls['attorneyName'].touched && (step2Form.controls['attorneyName'].hasError('required') || step2Form.controls['attorneyName'].invalid)">
+                                <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['attorneyName'].touched && (insuranceForm.controls['attorneyName'].hasError('required') || insuranceForm.controls['attorneyName'].invalid)">
                                     {{ validationMessages.required('Attorney Name') }}
                                 </div>
                             </div>
@@ -357,7 +366,7 @@
                                 <label class="col-form-label fw-600">Attorney Phone <span class="clr--DF0404 ms-1"> * </span></label>
                                 <input [imask]="{mask: '(000) 000-0000'}" formControlName="attorneyPhone" class="form-control" type="text" placeholder="Enter Attorney Phone" />
                                 <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['attorneyPhone'].touched && (step2Form.controls['attorneyPhone'].hasError('required') || step2Form.controls['attorneyPhone'].invalid)">
+                                    *ngIf="insuranceForm.controls['attorneyPhone'].touched && (insuranceForm.controls['attorneyPhone'].hasError('required') || insuranceForm.controls['attorneyPhone'].invalid)">
                                     {{ validationMessages.required('Attorney Phone') }}
                                 </div>
                             </div>
@@ -368,9 +377,9 @@
                                 is given by me revoking said authorization. I understand that I am financially responsible for all services rendered to the above patient whether I am present at the time of treatment or not.</p>
                         </div>
                         <div class="col-12">
-                            <div class="d-flex align-items-center flex-wrap ">
-                                <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4">Policies Page</a>
-                                <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-2">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
+                            <div class="d-flex align-items-center flex-wrap">
+                                <a (click)="cmsModal()" class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4 cursor-pointer">Policies Page</a>
+                                <a (click)="cmsModal()" class="text-primary text-decoration-underline fw-700 font-16 mt-2 cursor-pointer">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
                                 <button mat-raised-button color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-2 ui--button">
                                     <input type="file">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
@@ -380,7 +389,7 @@
                         </div>
                         <div class="col-12 d-flex flex-column w-100">
                             <div class="signature--box d-flex align-items-center justify-content-center">
-                                <img src="assets/images/ark/M.S.Johnson.png"  alt="" class="img-fluid" />
+                                {{fullNameForSign}}
                             </div>
                             <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must sign for minors)</p>
                         </div>
@@ -393,8 +402,8 @@
             <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/insurance-listing']">
             Cancel
             </button>
-            <button mat-raised-button color="primary" class="m-1"  >
-                Add Insurance
+            <button mat-raised-button color="primary" class="m-1" type="submit" >
+                {{insuranceId ? 'Update' : 'Add'}} Insurance
             </button>
         </div>
     </form>
