@@ -41,16 +41,19 @@ export class AppointmentsComponent {
   pageIndex = 0
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
-  appointmentList: any 
+  appointmentList: any
   seachByName: any = ''
   appStatusVal: any = ''
   practiceLocVal: any = ''
- 
-  fromDate:any
-  toDate:any
-  maxFromDate:any 
-  maxToDate:any
-    
+
+  fromDate: any
+  toDate: any
+  maxFromDate: any
+  maxToDate: any
+
+  minFromDate: any
+  minToDate: any
+
   constructor(public dialog: MatDialog, private authService: AuthService,
     public commonService: CommonService, private router: Router) {
   }
@@ -113,21 +116,29 @@ export class AppointmentsComponent {
   }
 
   onDateChange(event: any, colName: any) {
-    let selectedDate = new Date(event.target.value)
-    let obj = {}
     if (colName == 'fromDate') {
-      obj = { $gte: selectedDate }
+      this.minToDate = new Date(event.target.value)
+    }
+    let dateCond
+    if (this.fromDate && this.toDate) {
+      dateCond = {
+        appointmentDate: {
+          $gte: this.fromDate,
+          $lte: this.toDate
+        }
+      }
     } else {
-      obj = { $lte: selectedDate }
+      if (this.fromDate) {
+        dateCond = {
+          appointmentDate: { $gte: this.fromDate }
+        }
+      } else {
+        dateCond = {
+          appointmentDate: { $lte: this.toDate }
+        }
+      }
     }
-    console.log("appointmentDate:", this.whereCond.appointmentDate)
-    Object.assign(this.whereCond, { appointmentDate: obj })
-   
-    if(this.whereCond.appointmentDate){
-      Object.assign(this.whereCond.appointmentDate, { appointmentDate: obj })
-    }
-    
-    console.log("whereCond:", this.whereCond) 
+    Object.assign(this.whereCond, dateCond)
     this.getAppointmentList('search')
   }
 
@@ -160,6 +171,8 @@ export class AppointmentsComponent {
         role: "therapist",
         $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
       }
+      Object.assign(this.whereCond, { $or: [{ appointmentId: finalStr }, { practiceLocation: finalStr }] })
+      
     } else {
       this.userQuery = {}
     }
