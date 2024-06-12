@@ -402,7 +402,7 @@
             <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/insurance-listing']">
             Cancel
             </button>
-            <button mat-raised-button color="primary" class="m-1" type="submit" >
+            <button mat-raised-button color="primary" class="m-1" type="submit"  *ngIf="pageName=='add-insurance' || pageName=='edit-insurance'">
                 {{insuranceId ? 'Update' : 'Add'}} Insurance
             </button>
         </div>

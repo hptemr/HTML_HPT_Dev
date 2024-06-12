@@ -66,10 +66,10 @@
                         </th>
                         <td mat-cell *matCellDef="let element">  
                             <div class="w-100 d-flex align-items-center justify-content-end">
-                                <button mat-button class="flex-shrink-0 min-width-unset me-3" [routerLink]="['/patient/view-edit-insurance/',element.id]">
+                                <button mat-button class="flex-shrink-0 min-width-unset me-3" [routerLink]="['/patient/view-insurance/',element.id]">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                 </button>
-                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/view-edit-insurance/',element.id]">
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/edit-insurance/',element.id]">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                 </button>
                             </div>
