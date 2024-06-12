@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core'; 
+import { Component, HostListener } from '@angular/core';
 import { LayoutService } from '../../services/layout/layout.service';
 import { PatientNavservicesService, Menu } from '../../services/nav/patient-navservices.service';
 import { NavigationEnd, Router } from '@angular/router';
@@ -23,6 +23,9 @@ export class SidebarPatientComponent {
       if (event instanceof NavigationEnd) {
         const locationArray = event.url.split('/')
         this.currentMainMenu = locationArray[2]
+        if (this.currentMainMenu == "book-appointment") {
+          this.currentMainMenu = 'appointments'
+        }
       }
     })
   }
@@ -50,7 +53,7 @@ export class SidebarPatientComponent {
         return;
       });
     }
-    if(this.itemsLength>0){
+    if (this.itemsLength > 0) {
       item.active = !item.active;
     }
     if (item.active == true) {

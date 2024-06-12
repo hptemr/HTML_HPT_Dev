@@ -83,6 +83,7 @@ export class Step1Component {
   }
 
   setValue(current = '') {
+    console.log("patientInfo:", this.patientInfo) 
     let firstName = ''
     let middleName = ''
     let lastName = ''
@@ -97,13 +98,13 @@ export class Step1Component {
       firstName = this.patientInfo.firstName
       middleName = this.patientInfo.middleName
       lastName = this.patientInfo.lastName
-      martialStatus = this.patientInfo.martialStatus
+      martialStatus = this.patientInfo.martialStatus ? this.patientInfo.martialStatus : ""
       gender = this.patientInfo.gender
       email = this.patientInfo.email
       dob = new Date(this.patientInfo.dob)
       phoneNumber = this.patientInfo.phoneNumber
-      cellPhoneNumber = this.patientInfo.cellPhoneNumber
-      workExtensionNumber = this.patientInfo.workExtensionNumber
+      cellPhoneNumber = this.patientInfo.cellPhoneNumber ? this.patientInfo.cellPhoneNumber : ""
+      workExtensionNumber = this.patientInfo.workExtensionNumber ? this.patientInfo.workExtensionNumber : ""
     } else if (this.step1FormData) {
       firstName = this.step1FormData.firstName
       middleName = this.step1FormData.middleName

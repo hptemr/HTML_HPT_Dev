@@ -53,7 +53,7 @@
                         </div>
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['appointmentDate'].touched && step1Form.controls['appointmentDate'].hasError('required')">
-                            {{ validationMessages.required('Appointment Date') }}
+                            {{ validationMessages.requiredDropdown('Appointment Date') }}
                         </div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                         </div>
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['dob'].touched && (step1Form.controls['dob'].hasError('required') || step1Form.controls['dob'].invalid)">
-                            {{ validationMessages.required('Date of Birth') }}
+                            {{ validationMessages.requiredDropdown('Date of Birth') }}
                         </div>
                     </div>
                 </div>

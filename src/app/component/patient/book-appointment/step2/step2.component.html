@@ -92,7 +92,7 @@
                         </div>
                         <div class="text text-danger mt-1"
                             *ngIf="step2Form.controls['dob'].touched && (step2Form.controls['dob'].hasError('required') || step2Form.controls['dob'].invalid)">
-                            {{ validationMessages.required('Date of Birth') }}
+                            {{ validationMessages.requiredDropdown('Date of Birth') }}
                         </div>
                     </div>
                 </div>
@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['subscriberDob'].touched && (step2Form.controls['subscriberDob'].hasError('required') || step2Form.controls['subscriberDob'].invalid)">
-                                    {{ validationMessages.required('Date of Birth') }}
+                                    {{ validationMessages.requiredDropdown('Date of Birth') }}
                                 </div>
                             </div>
                         </div>
@@ -427,7 +427,7 @@
                                 </div>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['dateOfInjury'].touched && (step2Form.controls['dateOfInjury'].hasError('required') || step2Form.controls['dateOfInjury'].invalid)">
-                                    {{ validationMessages.required('Date of Injury') }}
+                                    {{ validationMessages.requiredDropdown('Date of Injury') }}
                                 </div>
                             </div>
                         </div>
