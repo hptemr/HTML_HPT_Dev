@@ -11,7 +11,6 @@ const s3Details = constants.s3Details;
 const getAppointmentList = async (req, res) => {
     try {
         const { query, fields, order, offset, limit, patientFields, therapistFields, userQuery } = req.body;
-
         if (userQuery && Object.keys(userQuery).length) {
             let userList = await User.find(userQuery, { _id: 1 });
             if (userList && userList.length > 0) {
