@@ -59,8 +59,7 @@
                             }
                         }
                     .exp-class{
-                        ::ng-deep{
-                            .mat-expansion-panel-content{}
+                        ::ng-deep{ 
                             .mat-expansion-panel-body{
                                 padding: 0px 24px 5px 24px !important;
                             }
