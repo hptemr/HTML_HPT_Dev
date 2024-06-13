@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { s3Details } from 'src/app/config';
 import { RescheduleAppointmentModalComponent } from 'src/app/shared/comman/reschedule-appointment-modal/reschedule-appointment-modal.component';
+import { ViewInsuranceModalComponent } from 'src/app/shared/comman/view-insurance-modal/view-insurance-modal.component';
 import { WriteCommentModalComponent } from 'src/app/shared/comman/write-comment-modal/write-comment-modal.component';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
@@ -80,5 +81,11 @@ export class AppointmentDetailsComponent {
         this.router.navigate(['/patient/appointments'])
       }
     })
+  }
+
+  viewInsuranveModal() {
+    const dialogRef = this.dialog.open(ViewInsuranceModalComponent, {
+      panelClass: 'modal--wrapper',
+    });
   }
 }
