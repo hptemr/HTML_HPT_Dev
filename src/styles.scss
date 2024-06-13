@@ -20,7 +20,6 @@ input, p,
 .clr--292D32{color: #292D32 !important;}
 .clr--fff{color: #fff;}
 .clr--828282{color: #828282;}
-.clr--31B7B7{color: #31B7B7 !important;}
 
 .font-12{font-size: 12px !important;}
 .font-14{font-size: 14px !important;}
@@ -46,16 +45,22 @@ input, p,
     }
     .mat-mdc-text-field-wrapper{
         background-color: #fff !important;
-        border: 1px solid #DED2D9 !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 5px;
     }
     .mdc-text-field--filled .mdc-line-ripple::before{
         border: none !important;
     }
      
     .mat-mdc-form-field-infix{
-        min-height: 44px !important;
+        min-height: 40px !important;
         padding-top: 10px !important;
-        padding-bottom: 10px !important;
+        padding-bottom: 5px !important;
+        font-size: 14px;
+    }
+    .mat-mdc-icon-button.mat-mdc-button-base{
+        height: 44px;
+        padding: 5px;
     }
 }
 .cdk-overlay-pane.mat-datepicker-popup{
@@ -643,33 +648,32 @@ a{
 
 // Alert Modal (End here) 
 
-// Bootstrap Modal (Start here)
-.cust--modal--wrapper{
-    .modal-dialog{
-        &.modal-md{
-            max-width: 423px;
-            .modal-content{
-                .modal-header{
-                    border:none;
-                    .modal-title{
-                        color: #1F2F3E;
-                        font-size: 18px;
-                        font-weight: 600;
-                        font-family: "Nunito Sans", sans-serif !important;
-                    }
-                }
-                .modal-body{
-                    padding: 0 15px;
-                }
-                .modal-footer{
-                    padding: 15px;
-                    border: none;
-                }
-            }
+// Custom Modal (Start here) 
+.modal--wrapper{ 
+    width: 100%;
+    .modal--header,
+    .modal--body,
+    .modal--footer{
+        padding: 20px;
+    }
+    .modal--header{
+        padding-bottom: 0;
+        h1{
+            color: #1F2F3E;
+            font-size: 20px;
+            margin-bottom: 5px;
+            font-weight: 800;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
         }
     }
+    .modal--body{
+        height: calc(100vh - 200px);
+        overflow: auto;
+    }
 }
-// Bootstrap Modal (End here)
+ 
+// Custom Modal (End here)
 
 .checkbox--rounded{
     label{
