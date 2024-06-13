@@ -50,35 +50,47 @@
                 padding-left: 0px;
                 border-left: none;
                 .appointment-information-header-wrapper{
-                    .exp-class{
                         .mat-expansion-panel{
                             border-radius: 12px !important;
                             background: #FFF !important;
+                            box-shadow: -3px 9px 32px 0px #9fa2bf26 !important;
                             &:hover{
                                 background-color: #FFF !important;
                             }
                         }
+                    .exp-class{
                         ::ng-deep{
                             .mat-expansion-panel-content{}
                             .mat-expansion-panel-body{
                                 padding: 0px 24px 5px 24px !important;
                             }
+                            .mat-expansion-indicator::after{
+                                color: #31B7B7 !important;
+                                padding: 5px !important;
+                            }
                         }
                         .mat-expansion-panel-header{
-                            padding: 10px 24px;
+                            padding: 10px 24px 5px 24px;
                         }
                         .mat-expansion-panel-header-title{
                             flex-grow: 2;
+                            font-family: 'Nunito Sans';
                         }
                         .mat-expansion-panel-header-description{
                             flex-grow: 3;
+                            .intake-btn{
+                                margin-left: auto;
+                                margin-right: 50px;
+                            }
                         }
-                        .img--box{
-                            width: 80px;
-                            height: 80px;
-                            border-radius: 100%;
-                            overflow: hidden;
-                            margin-right: 5px;
+                        .profile--img--box{
+                            .img--box{
+                                width: 80px;
+                                height: 80px;
+                                border-radius: 100%;
+                                overflow: hidden;
+                                margin-right: 5px;
+                            }
                         }
                     }
                 }
@@ -111,13 +123,42 @@
                 background-color: #F3FBFB;
                 .search--fields{
                     position: absolute;
-                    top: 0px;
+                    top: -2px;
                     right: 4px;
                     .mat-icon{
                         font-size: 19px;
                         width: 19px;
                         height: 19px;
                         color: #1F2F3E;
+                    }
+                }
+                ::ng-deep{
+                    .mat-mdc-text-field-wrapper {
+                        border: 1px solid #CCC !important;
+                        background-color: #F5F6F9 !important;
+                        max-height: 38px;
+                    }
+                    .mat-mdc-form-field-infix{
+                        min-height: 38px !important;
+                        padding-top: 7px !important;
+                        padding-bottom: 7px !important;
+                    }
+                    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__leading,.mdc-notched-outline__trailing{
+                        border: none !important;
+                    }
+                    .mdc-text-field__input{
+                        font-size: 14px;
+                        color: #212529;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                    }
+                    .mat-mdc-icon-button.mat-mdc-button-base{
+                        color: #fff !important;
+                        background: #31B7B7 !important;
+                        border-radius: inherit !important;
+                        height: 38px;
+                        display: flex;
+                        align-items: center;
                     }
                 }
                 .cust--mat--table--wrapper{
@@ -134,7 +175,7 @@
                                                 font-family: "Nunito Sans", sans-serif !important;
                                                 padding: 10px;
                                                 &:last-child{
-                                                    width: 15%;
+                                                    width: 21%;
                                                 } 
                                             }
                                         }
@@ -160,6 +201,11 @@
                         .mat-mdc-button:disabled{
                             .mat-icon{
                                 color: #CCCCCC !important;
+                            }
+                        }
+                        .icon-img{
+                            img{
+                                width: 21px;
                             }
                         }
                     }
@@ -195,6 +241,14 @@
     .app--details--wrapper.profile--right--wrapper .profile--right {
         margin-left: 0 !important; 
         padding-left: 0 !important;
+        .appointment-information-header-wrapper .exp-class {
+            .profile--img--box{
+                gap: 10px;
+            }
+            .mat-expansion-panel-header-description .intake-btn {
+                margin-right: 0px !important;
+            }
+        }
     }
     .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
         padding: 5px 5px 0px 0 !important;
@@ -208,6 +262,8 @@
         margin-top: 0px;
     }
     .min-h{min-height: 0px !important;}
+    .form-group{margin-bottom: 15px !important;}
+
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){
     .cust--mat--table--wrapper{
@@ -217,8 +273,11 @@
         }
     }
     .min-h{min-height: 0px !important;}
+    .form-group{margin-bottom: 15px !important;}
 }
-@media only screen and (min-width: 980px) and (max-width: 1279px){}
+@media only screen and (min-width: 980px) and (max-width: 1279px){
+    .form-group{margin-bottom: 15px !important;}
+}
 @media only screen and (min-width: 1280px) and (max-width: 1440px){}
 @media only screen and (min-width: 1441px) and (max-width: 1550px){}
 @media screen and (orientation:landscape) and (max-width: 850px){
@@ -232,8 +291,18 @@
 .wb-ba{word-break: break-all;}
 
 .form-group {
+    margin-bottom: 0px;
     .form-control{
         border: 1px solid #CCC;
         background-color: #F5F6F9 !important;
+        padding: 8px 10px;
+    }
+    .search--outer{
+        padding: 3px 10px !important;
+        font-family: "Nunito Sans" !important;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: -0.14px;
+        color: #1F2F3E;
     }
 }
