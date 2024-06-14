@@ -1,20 +1,23 @@
 import { Component } from '@angular/core';
-import { MatRadioChange } from '@angular/material/radio';
-import { ContactModalComponent } from '../contact-modal/contact-modal.component';
-import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatRadioChange } from '@angular/material/radio';
 import { Router } from '@angular/router';
-import { practiceLocations, maritalStatus, relationWithPatient } from 'src/app/config';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ContactModalComponent } from 'src/app/component/patient/book-appointment/contact-modal/contact-modal.component';
+import { maritalStatus, practiceLocations, relationWithPatient } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 
 @Component({
-  selector: 'app-step1',
-  templateUrl: './step1.component.html',
-  styleUrl: './step1.component.scss'
+  selector: 'app-intake-step1',
+  templateUrl: './intake-step1.component.html',
+  styleUrl: './intake-step1.component.scss'
 })
-export class Step1Component {
+export class IntakeStep1Component {
+  model: NgbDateStruct;
+
   selectedValue: any;
   isReadonly = true
   step1Form: FormGroup;
@@ -24,9 +27,6 @@ export class Step1Component {
   maritalStatus = maritalStatus
   relationWithPatient = relationWithPatient
   validationMessages = validationMessages
-
-  dob: any
-  appointmentDate: any
 
   todayDate = new Date();
   maxAppntDate = this.commonService.getMaxAppoinmentFutureMonths()
@@ -81,7 +81,7 @@ export class Step1Component {
   }
 
   setValue(current = '') {
-    console.log("patientInfo:", this.patientInfo) 
+    console.log("patientInfo:", this.patientInfo)
     let firstName = ''
     let middleName = ''
     let lastName = ''
@@ -172,5 +172,7 @@ export class Step1Component {
   checkSpace(colName: any, event: any) {
     this.step1Form.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
+
+
 
 }

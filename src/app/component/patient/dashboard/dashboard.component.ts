@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
-import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus, s3Details, maxAppoinmentFutureMonths } from 'src/app/config';
+import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus, s3Details } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 
 export interface PeriodicElement {
@@ -50,7 +50,7 @@ export class PatientDashboardComponent {
   practiceLocVal: any = ''
   isLoading = true
   appntDate: any
-  maxAppntDate: any
+  maxAppntDate  = this.commonService.getMaxAppoinmentFutureMonths()
 
   constructor(
     public dialog: MatDialog,
@@ -59,9 +59,7 @@ export class PatientDashboardComponent {
     public adminService: AdminService,
   ) { }
 
-  ngOnInit() {
-    this.maxAppntDate = new Date()
-    this.maxAppntDate.setMonth(this.maxAppntDate.getMonth() + maxAppoinmentFutureMonths);
+  ngOnInit() { 
     this.whereCond = {
       status: "Pending",
       appointmentDate: { $gte: new Date() },

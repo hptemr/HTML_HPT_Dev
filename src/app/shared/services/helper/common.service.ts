@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GeneralService } from '../../../shared/services/api/general.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../api/auth.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { urlSegmentAndUserRole } from 'src/app/config';
+import { maxAppoinmentFutureMonths, urlSegmentAndUserRole } from 'src/app/config';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderComponent } from '../../component/loader/loader.component';
 @Injectable({
@@ -52,38 +52,6 @@ export class CommonService {
     } else {
       return 'NA'
     }
-  }
-
-  public getCalendarDate(date: any) {
-    let selectedDate
-    const today = new Date();
-    selectedDate = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
-    //this.dob = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
-
-   //console.log("getCalendarDate:", date)
-
-    // let selectedDate = "0"+date.month + "-" + date.day + "-" + date.year
-    // const today = new Date(selectedDate);
-    //console.log("selectedDate:", selectedDate)
-    // console.log("final:", today)
-    return selectedDate
-    // day
-    // :
-    // 23
-    // month
-    // :
-    // 5
-    // year
-    // :
-    // 2024
-
-
-    //return { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear() }
-
-    // console.log("getCalendarDate:", date)
-    // const today = new Date(date);
-    // console.log("today:", today)
-    // return today
   }
 
   public capitalize = function (str: any) {
@@ -217,5 +185,12 @@ export class CommonService {
   padNumber = (num: number): string => {
     return num.toString().padStart(2, '0'); // Ensures two-digit format with leading zero
   };
+
+
+  getMaxAppoinmentFutureMonths() {
+    let maxAppntDate = new Date()
+    maxAppntDate.setMonth(maxAppntDate.getMonth() + maxAppoinmentFutureMonths);
+    return maxAppntDate
+  }
 
 }

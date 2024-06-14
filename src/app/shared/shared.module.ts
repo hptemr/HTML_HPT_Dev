@@ -26,6 +26,12 @@ import { UploadImgComponent } from './component/upload-img/upload-img.component'
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { AdminLayoutComponent } from './component/layout/admin-layout/admin-layout.component';
 import { CommonAdminDashboardComponent } from './component/common-admin-dashboard/common-admin-dashboard.component';
+import { IntakeStep1Component } from './component/intake-form/intake-step1/intake-step1.component';
+import { IntakeStep2Component } from './component/intake-form/intake-step2/intake-step2.component';
+import { IntakeStep3Component } from './component/intake-form/intake-step3/intake-step3.component';
+import { IntakeStep4Component } from './component/intake-form/intake-step4/intake-step4.component';
+import { IntakeStep5Component } from './component/intake-form/intake-step5/intake-step5.component';
+import { IMaskModule } from 'angular-imask';
 
 // import { AppointmentsComponent } from './comman/support-billing-therapist/appointments/appointments.component';
 // import { AppointmentDetailsComponent } from './comman/support-billing-therapist/appointment-details/appointment-details.component';
@@ -55,7 +61,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     ManageProfileComponent,
     UploadImgComponent,
     CommonAdminDashboardComponent,
-
+    IntakeStep1Component,
+    IntakeStep2Component,
+    IntakeStep3Component,
+    IntakeStep4Component,
+    IntakeStep5Component,
     // AppointmentsComponent,
     // AppointmentDetailsComponent,
     // SystemFollowupModalComponent,
@@ -72,6 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ImageCropperComponent,
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot(),
+    IMaskModule
   ],
   exports: [
     CommonModule,

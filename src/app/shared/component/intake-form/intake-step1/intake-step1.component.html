@@ -1,31 +1,37 @@
-<div class="container-fluid book--appointment--wrapper">
+<div class="container-fluid book--appointment--wrapper read--only--form">
     <div class="row">
         <div class="col-12 d-flex align-items-center mt-0 mb-2">
-            <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/patient/appointments']">
-                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
-            </button>
-            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Book Appointment </span>
-                <span>(Step <span class="text-primary"> 1 </span> of 5)</span>
-            </h3>
+            <div class="row w-100 align-items-center">
+                <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn"
+                        [routerLink]="['/patient/appointment-details']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Intake Form </span>
+                        <span>(Step <span class="text-primary"> 1 </span> of 5)</span>
+                    </h3>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
+                    <p class="mb-0 clr--1F2F3E fw-700 font-16">
+                        {{patientInfo.firstName}} {{patientInfo.lastName}}
+                        <span class="fw-500">
+                            (Appointment #: 123456)
+                        </span>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <form [formGroup]="step1Form">
         <div class="card m-0">
             <div class="row">
-                <div class="col-12 text-center">
-                    <p class="font-16">
-                        <span class="fw-700 cl">*Note</span> If you need immediate assistance please
-                        <a (click)="contactModal()"
-                            class="text-primary font-16 text-decoration-underline fw-600 cursor-pointer ">contact</a>
-                        our
-                        office
-                    </p>
-                </div>
                 <div class="col-12 col-lg-6 col-md-6  ">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Practice Location
-                            <span class="clr--DF0404 ms-1">*</span></label>
+                        <label class="col-form-label fw-600">
+                            Practice Location
+                            <span class="clr--DF0404 ms-1">*</span>
+                        </label>
                         <select formControlName="practiceLocation" class="form-select form-control"
                             aria-label="Default select example">
                             <option value="" selected>Practice Location</option>
@@ -40,13 +46,14 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">
-                            Select Date 
+                            Select Date
                             <span class="clr--DF0404 ms-1">*</span>
                         </label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input (focus)="picker.open()" [min]="todayDate" [max]="maxAppntDate" formControlName="appointmentDate" readonly
-                                    placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker">
+                                <input (focus)="picker.open()" [min]="todayDate" [max]="maxAppntDate"
+                                    formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput
+                                    [matDatepicker]="picker">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
@@ -79,11 +86,15 @@
                             <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}</option>
                         </select>
                     </div>
+                    <div class="form-group" *ngIf="">
+                        <input class="form-control" type="text" placeholder="Enter other relation" />
+                    </div>
                 </div>
 
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">First Name
+                        <label class="col-form-label fw-600">
+                            First Name
                             <span class="clr--DF0404 ms-1"> *</span>
                         </label>
                         <input (blur)="checkSpace('firstName', $event)" [readonly]="isReadonly"
@@ -116,15 +127,17 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Date of Birth<span class="clr--DF0404 ms-1"> *
-                            </span></label>
+                        <label class="col-form-label fw-600">
+                            Date of Birth
+                            <span class="clr--DF0404 ms-1">*</span>
+                        </label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
                                 <input readonly="isReadonly" [max]="todayDate" formControlName="dob"
                                     placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field> 
+                            </mat-form-field>
                         </div>
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['dob'].touched && (step1Form.controls['dob'].hasError('required') || step1Form.controls['dob'].invalid)">
@@ -174,7 +187,6 @@
                             *ngIf="step1Form.controls['phoneNumber'].touched && (step1Form.controls['phoneNumber'].hasError('required') || step1Form.controls['phoneNumber'].invalid)">
                             {{ validationMessages.required('valid Phone Number') }}
                         </div>
-
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 ">

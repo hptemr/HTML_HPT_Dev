@@ -10,8 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { validationMessages } from '../../../utils/validation-messages';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-import { maxAppoinmentFutureMonths } from 'src/app/config';
-
+ 
 @Component({
   selector: 'app-reschedule-appointment-modal',
   standalone: true,
@@ -28,7 +27,7 @@ export class RescheduleAppointmentModalComponent {
   userRole: string = '';
   userId: string = '';
   todayDate: any = new Date()
-  maxAppntDate: any
+  maxAppntDate  = this.commonService.getMaxAppoinmentFutureMonths()
 
   constructor(
     private commonService: CommonService,
@@ -43,9 +42,7 @@ export class RescheduleAppointmentModalComponent {
   }
 
   ngOnInit() {
-    this.maxAppntDate = new Date()
-    this.maxAppntDate.setMonth(this.maxAppntDate.getMonth() + maxAppoinmentFutureMonths);
-    this.initializeForm()
+     this.initializeForm()
   }
 
   initializeForm() {

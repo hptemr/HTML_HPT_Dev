@@ -16,11 +16,6 @@ import { Step3Component } from './book-appointment/step3/step3.component';
 import { Step4Component } from './book-appointment/step4/step4.component'; 
 import { AppointmentReqModalComponent } from './book-appointment/appointment-req-modal/appointment-req-modal.component';
 import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
-import { IntakeStep1Component } from './intake-form/intake-step1/intake-step1.component';
-import { IntakeStep2Component } from './intake-form/intake-step2/intake-step2.component';
-import { IntakeStep3Component } from './intake-form/intake-step3/intake-step3.component';
-import { IntakeStep4Component } from './intake-form/intake-step4/intake-step4.component';
-import { IntakeStep5Component } from './intake-form/intake-step5/intake-step5.component';
 import { ContactModalComponent } from './book-appointment/contact-modal/contact-modal.component';
 import { step5Component } from './book-appointment/step5/step5.component';
 import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
@@ -28,8 +23,7 @@ import { ViewEditInsuranceComponent } from './insurance/view-edit-insurance/view
 import { PatientDashboardComponent } from './dashboard/dashboard.component';
 import { AddInsuranceModalComponent } from './book-appointment/add-insurance-modal/add-insurance-modal.component';
 import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
-import { IMaskModule } from 'angular-imask'; 
-
+import { IMaskModule } from 'angular-imask';  
 @NgModule({
   declarations: [
     AppointmentsComponent, 
@@ -42,12 +36,7 @@ import { IMaskModule } from 'angular-imask';
     Step4Component,
     step5Component,
     AppointmentReqModalComponent,
-    EmergencyContactComponent,
-    IntakeStep1Component,
-    IntakeStep2Component,
-    IntakeStep3Component,
-    IntakeStep4Component,
-    IntakeStep5Component,
+    EmergencyContactComponent, 
     ContactModalComponent,
     InsuranceListingComponent,
     ViewEditInsuranceComponent,

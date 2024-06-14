@@ -3,8 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { appointmentStatus, maxAppoinmentFutureMonths, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
+import { appointmentStatus, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
@@ -59,11 +58,9 @@ export class AppointmentsComponent {
   }
 
   ngOnInit() {
-    let todayDate = new Date()
-    todayDate.setMonth(todayDate.getMonth() + maxAppoinmentFutureMonths)
+    let todayDate = this.commonService.getMaxAppoinmentFutureMonths()
     this.maxFromDate = todayDate
     this.maxToDate = todayDate
-
     this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
     this.getAppointmentList()
   }
