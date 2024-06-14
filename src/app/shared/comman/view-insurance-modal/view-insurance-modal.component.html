@@ -4,7 +4,6 @@
     </div>
     <div class="modal--body w-100  ">
         <div class="row">
-          
             <div class="col-12">
                 <p class="fw-700 font-16 mb-0">Responsible Party/Guarantor (RP)</p>
                 <p class="font-16">
@@ -14,112 +13,106 @@
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Relationship with Patient</label>
-                    <input class="form-control" type="text" disabled placeholder="Father" />
-                    
+                    <input cdkFocusInitial value="{{info.relationWithPatient}}" class="form-control" type="text"
+                        disabled />
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Other Relation </label>
                     <input class="form-control" type="text" disabled placeholder="Specify Relation" />
-                    
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">First Name </label>
-                    <input class="form-control" type="text" disabled placeholder="Enter First Name" />
-                    
+                    <input value="{{info.firstName}}" class="form-control" type="text" disabled />
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Middle Name </label>
-                    <input class="form-control" type="text" disabled placeholder="Enter Middle Name" />
-                    
+                    <input value="{{info.middleName}}" class="form-control" type="text" disabled
+                        placeholder="Enter Middle Name" />
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control" type="text" disabled placeholder="Enter Last Name" />
-                    
+                    <input value="{{info.lastName}}" class="form-control" type="text" disabled
+                        placeholder="Enter Last Name" />
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Date of Birth </label>
-                    <mat-form-field class="w-100 am--datepicker"> 
-                        <input matInput [matDatepicker]="picker"  disabled placeholder="13/05/1990"> 
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input value="{{info.dob}}" matInput [matDatepicker]="picker" disabled placeholder="13/05/1990">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
+                    </mat-form-field>
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Marital Status</label>
                     <select class="form-select form-control" aria-label="Default select example" disabled>
-                        <option selected>Married</option> 
+                        <option selected>{{info.maritalStatus}}</option>
                     </select>
-                    
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Gender</label>
                     <mat-radio-group aria-label="Select an option" disabled>
-                        <mat-radio-button value="1" class="me-3" checked>Male</mat-radio-button> 
+                        <mat-radio-button value="1" class="me-3" checked>{{info.gender}}</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Email </label>
-                    <input class="form-control" type="email" disabled placeholder="lorem@arkenea.com" />
-                    
+                    <input value="{{info.email}}" class="form-control" type="email" disabled />
                 </div>
             </div>
 
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Phone Number </label>
-                    <input class="form-control" type="number" disabled placeholder="770888800" />
-                    
+                    <input value="{{info.phoneNumber}}" class="form-control" type="text" disabled />
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Cell Phone Number </label>
-                    <input class="form-control" type="number" disabled placeholder="32569874" />
-                    
+                    <input value="{{info.cellPhoneNumber}}" class="form-control" type="text" disabled />
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Work Extension </label>
-                    <input class="form-control" type="number" disabled placeholder="020-5478965" />
-                    
+                    <input value="{{info.workExtensionNumber}}" class="form-control" type="text" disabled />
                 </div>
             </div>
             <div class="col-12 my-4">
                 <div class="row">
                     <div class="col-12">
-                        <h2 class="mb-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Insurances  </h2>
+                        <h2 class="mb-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Insurances </h2>
                     </div>
                     <div class="col-12 col-xl-8">
                         <div class="d-flex align-items-center w-100">
                             <div class="form-group w-100">
                                 <label class="col-form-label fw-600">Selected Insurance</label>
                                 <select class="form-select form-control" aria-label="Default select example" disabled>
-                                    <option selected>Insurance 1</option> 
+                                    <option selected>{{info.insuranceName}}</option>
                                 </select>
-                                
                             </div>
                         </div>
-                        <p class="font-15 lh-24">("Subscriber") is the person who holds the insurance plan whether
-                            personally or through their employer.
-                            <br> Please also provide a copy of your insurance card(s) to our receptionist
+                        <p class="font-15 lh-24">
+                            ("Subscriber") is the person who holds the insurance plan whether personally or through
+                            their employer.
+                            <br>
+                            Please also provide a copy of your insurance card(s) to our receptionist
                         </p>
                     </div>
                     <div class="col-12">
@@ -128,45 +121,44 @@
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">First Name </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter First Name" />
-                            
+                            <input value="{{info.subscriberFirstName}}" class="form-control" type="text" disabled
+                                placeholder="Enter First Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Middle Name </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Middle Name" />
-                            
+                            <input value="{{info.subscriberMiddleName}}" class="form-control" type="text" disabled
+                                placeholder="Enter Middle Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Last Name </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Last Name" />
-                            
+                            <input value="{{info.subscriberLastName}}" class="form-control" type="text" disabled
+                                placeholder="Enter Last Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Date of Birth </label>
-                            <mat-form-field class="w-100 am--datepicker"> 
-                                <input matInput [matDatepicker]="picker" placeholder="MM/DD/YY" disabled> 
-                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                              </mat-form-field>
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input value="{{info.subscriberDob}}" matInput [matDatepicker]="picker2"
+                                    placeholder="MM/DD/YY" disabled>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Relationship with Patient</label>
                             <select class="form-select form-control" aria-label="Default select example" disabled>
-                                <option selected>Relation 1</option> 
+                                <option selected>{{info.subscriberRelationWithPatient}}</option>
                             </select>
-                            
                         </div>
                         <div class="form-group" *ngIf="">
-                            <input class="form-control" type="text" placeholder="Enter other relation" />
-                            
+                            <input value="s" class="form-control" type="text" placeholder="Enter other relation" />
                         </div>
                     </div>
                 </div>
@@ -177,29 +169,29 @@
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Company </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Company Name" />
-                            
+                            <input value="{{info.primaryInsuranceCompany}}" class="form-control" type="text" disabled
+                                placeholder="Enter Company Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">ID/Policy # </label>
-                            <input class="form-control" type="number" disabled placeholder="Enter ID/Policy" />
-                            
+                            <input value="{{info.primaryInsuranceIdPolicy}}" class="form-control" type="text" disabled
+                                placeholder="Enter ID/Policy" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Group # </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Group" />
-                            
+                            <input value="{{info.primaryInsuranceGroup}}" class="form-control" type="text" disabled
+                                placeholder="Enter Group" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Customer Service Ph # </label>
-                            <input class="form-control" type="number" disabled placeholder="Enter Customer Service Ph" />
-                            
+                            <input value="{{info.primaryInsuranceCustomerServicePh}}" class="form-control" type="text"
+                                disabled placeholder="Enter Customer Service Ph" />
                         </div>
                     </div>
                 </div>
@@ -211,29 +203,29 @@
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Company </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Company Name" />
-                            
+                            <input value="{{info.secondaryInsuranceCompany}}" class="form-control" type="text" disabled
+                                placeholder="Enter Company Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">ID/Policy # </label>
-                            <input class="form-control" type="number" disabled placeholder="Enter ID/Policy" />
-                            
+                            <input value="{{info.secondaryInsuranceIdPolicy}}" class="form-control" type="text" disabled
+                                placeholder="Enter ID/Policy" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Group # </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Group" />
-                            
+                            <input value="{{info.secondaryInsuranceGroup}}" class="form-control" type="text" disabled
+                                placeholder="Enter Group" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Customer Service Ph # </label>
-                            <input class="form-control" type="number" disabled placeholder="Enter Customer Service Ph" />
-                            
+                            <input value="{{info.secondaryInsuranceCustomerServicePh}}" class="form-control" type="text"
+                                disabled placeholder="Enter Customer Service Ph" />
                         </div>
                     </div>
                 </div>
@@ -242,17 +234,18 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Is your injury related to</label>
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="1" class="me-3">Worker's Compensation
+                            <mat-radio-group aria-label="Select an option" disabled>
+                                <mat-radio-button checked class="me-3">{{info.injuryRelelatedTo}}</mat-radio-button>
+                                <!-- <mat-radio-button value="1" class="me-3">Worker's Compensation
                                     (WCOMP)</mat-radio-button>
                                 <mat-radio-button value="2" class="me-3">Motar Vehicle Accident (MVA)</mat-radio-button>
                                 <div class="d-inline-flex flex-column">
                                     <mat-radio-button value="2">Other Personal Injury</mat-radio-button>
-                                    <div class="form-group" >
-                                        <input class="form-control" disabled type="text" placeholder="Enter Other Injury" />
-                                        
+                                    <div class="form-group">
+                                        <input value="{{info.sssss}}" class="form-control" disabled type="text"
+                                            placeholder="Enter Other Injury" /> 
                                     </div>
-                                </div>
+                                </div> -->
                             </mat-radio-group>
                         </div>
                     </div>
@@ -260,49 +253,49 @@
                         <div class="form-group">
                             <label class="col-form-label fw-600">Carrier Name </label>
                             <select class="form-select form-control" aria-label="Default select example" disabled>
-                                <option selected>Carrier 1</option> 
+                                <option selected>{{info.carrierName}}</option>
                             </select>
-                            
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Date of Injury  </label>
-                                <mat-form-field class="w-100 am--datepicker"> 
-                                    <input matInput [matDatepicker]="picker" placeholder="MM/DD/YY" disabled> 
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                  </mat-form-field>
+                            <label class="col-form-label fw-600">Date of Injury </label>
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input value="{{info.dateOfInjury}}" matInput [matDatepicker]="picker3"
+                                    placeholder="MM/DD/YY" disabled>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
+                            </mat-form-field>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">State </label>
                             <select class="form-select form-control" aria-label="Default select example" disabled>
-                                <option selected>State 1</option> 
+                                <option selected>{{info.insuranceState}}</option>
                             </select>
-                            
+
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Claim # </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Claim" />
-                            
+                            <input value="{{info.claim}}" class="form-control" type="text" disabled
+                                placeholder="Enter Claim" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Adjuster Name # </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Adjuster Name" />
-                            
+                            <input value="{{info.adjusterName}}" class="form-control" type="text" disabled
+                                placeholder="Enter Adjuster Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Adjuster Phone # </label>
-                            <input class="form-control" type="number" disabled placeholder="Enter Adjuster Phone" />
-                            
+                            <input value="{{info.adjusterPhone}}" class="form-control" type="text" disabled
+                                placeholder="Enter Adjuster Phone" />
                         </div>
                     </div>
                 </div>
@@ -312,7 +305,8 @@
                         <div class="form-group">
                             <label class="col-form-label fw-600">Was this reported to your employer?</label>
                             <mat-radio-group aria-label="Select an option" disabled>
-                                <mat-radio-button value="1" class="me-3" checked>Yes</mat-radio-button> 
+                                <mat-radio-button value="1" class="me-3"
+                                    checked>{{info.reportedEmployer}}</mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>
@@ -322,22 +316,22 @@
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Employer Name </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Employer Name" />
-                            
+                            <input value="{{info.employerName}}" class="form-control" type="text" disabled
+                                placeholder="Enter Employer Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Employer Phone </label>
-                            <input class="form-control" type="number" disabled placeholder="Enter Employer Phone" />
-                            
+                            <input value="{{info.employerPhone}}" class="form-control" type="text" disabled
+                                placeholder="Enter Employer Phone" />
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Employer Address </label>
-                            <textarea class="form-control " type="text" disabled placeholder="Enetr Address" rows="4"></textarea>
-                            
+                            <textarea class="form-control " type="text" disabled placeholder="Enetr Address"
+                                rows="4">{{info.employerAddress}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -349,75 +343,50 @@
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Attorney Name </label>
-                            <input class="form-control" type="text" disabled placeholder="Enter Attorney Name" />
-                            
+                            <input value="{{info.attorneyName}}" class="form-control" type="text" disabled
+                                placeholder="Enter Attorney Name" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Attorney Phone </label>
-                            <input class="form-control" type="number" disabled placeholder="Enter Attorney Phone" />
-                            
+                            <input value="{{info.attorneyPhone}}" class="form-control" type="text" disabled
+                                placeholder="Enter Attorney Phone" />
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Attorney Address </label>
-                            <textarea class="form-control " type="text" disabled placeholder="Enter Address" rows="4"></textarea>
-                            
+                            <textarea class="form-control " type="text" disabled placeholder="Enter Address"
+                                rows="4">{{info.attorneyAddress}}</textarea>
                         </div>
                     </div>
                     <div class="col-12">
-                         <p class="fw-700">Uploaded documents :</p>
+                        <p class="fw-700">Uploaded documents :</p>
                     </div>
-                    <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center mb-3">
-                        <div class="doc--desc d-flex align-items-start align-items-sm-center ">
-                            <div class="doc--pic d-flex align-items-start align-items-sm-center justify-content-center me-3">
-                                <mat-icon>picture_as_pdf</mat-icon>
+                    <div *ngIf="info.insuranceFiles && info.insuranceFiles.length > 0">
+                        <div *ngFor="let row of info.insuranceFiles"
+                            class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center mb-3">
+                            <div class="doc--desc d-flex align-items-start align-items-sm-center ">
+                                <div
+                                    class="doc--pic d-flex align-items-start align-items-sm-center justify-content-center me-3">
+                                    <mat-icon>{{getIcon(row)}}</mat-icon>
+                                </div>
+                                <div class="d-flex flex-column  doc--desc">
+                                    <h5 class="font-16">{{row}}</h5>
+                                </div>
                             </div>
-                            <div class="d-flex flex-column  doc--desc">
-                                <h5 class="font-16">driverlicense.jpg</h5>
-                                <p class="m-0 font-14">94 KB of 94 KB </p>
-                            </div>
+                            <button (click)="download(row)" mat-raised-button color="accent" class="flex-shrink-0">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0"> download </mat-icon>
+                                Download
+                            </button>
                         </div>
-                        <button mat-raised-button color="accent" class="flex-shrink-0">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0"> download </mat-icon>
-                            Download
-                        </button>
                     </div>
-                    <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center mb-3">
-                        <div class="doc--desc d-flex align-items-start align-items-sm-center  ">
-                            <div class="doc--pic d-flex align-items-center justify-content-center me-3">
-                                <mat-icon>description</mat-icon>
-                            </div>
-                            <div class="d-flex flex-column  doc--desc">
-                                <h5 class="font-16">driverlicense.jpg</h5>
-                                <p class="m-0 font-14">94 KB of 94 KB </p>
-                            </div>
-                        </div>
-                        <button mat-raised-button color="accent" class="flex-shrink-0">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0"> download </mat-icon>
-                            Download
-                        </button>
-                    </div>
-                    <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center mb-3">
-                        <div class="doc--desc d-flex align-items-start align-items-sm-center ">
-                            <div class="doc--pic d-flex align-items-center justify-content-center me-3">
-                                <mat-icon>image</mat-icon>
-                            </div>
-                            <div class="d-flex flex-column  doc--desc">
-                                <h5 class="font-16">driverlicense.jpg</h5>
-                                <p class="m-0 font-14">94 KB of 94 KB </p>
-                            </div>
-                        </div>
-                        <button mat-raised-button color="accent" class="flex-shrink-0">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0"> download </mat-icon>
-                            Download
-                        </button>
-                    </div>
+
                     <div class="col-12">
                         <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
-                        <p class="font-16 clr--1F2F3E lh-24">User Name - I hereby authorize this PT clinic and/or it's
+                        <p class="font-16 clr--1F2F3E lh-24">{{info.firstName}} {{info.lastName}} - I hereby authorize
+                            this PT clinic and/or it's
                             Individual Therapists and Assistants to evaluate and administer PT treatments to the minor
                             patient listed above. This authorization is in effect as of the date this form is signed.
                             This authorization shall remain valid for current and future PT cases until written notice
@@ -431,24 +400,21 @@
                                 (click)="cmsModal()">Policies Page</a>
                             <a class="text-primary text-decoration-underline fw-700 font-16 mt-2 cursor-pointer"
                                 (click)="cmsModal()">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
-
                         </div>
                     </div>
                     <div class="col-12 d-flex flex-column w-100">
                         <div class="signature--box d-flex align-items-center justify-content-center">
-                            M.S.Johnson
+                            {{info.firstName}} {{info.lastName}}
                         </div>
-                        <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must sign
-                            for minors)</p>
+                        <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">
+                            Patient/Guardian Signature (Guardians must sign for minors)
+                        </p>
                     </div>
-                     
                 </div>
             </div>
         </div>
-
     </div>
     <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
-        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button>
-        <button mat-raised-button color="primary" mat-dialog-close>Ok</button>
+        <button mat-raised-button color="primary" mat-dialog-close>Close</button>
     </div>
 </div>

@@ -89,7 +89,7 @@ export class Step2Component {
       middleName: [this.step2FormData ? this.step2FormData.middleName : this.step1FormData.middleName],
       lastName: [this.step2FormData ? this.step2FormData.lastName : this.step1FormData.lastName, [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       dob: [this.step2FormData ? this.step2FormData.dob : this.step1FormData.dob],
-      martialStatus: [this.step2FormData ? this.step2FormData.martialStatus : this.step1FormData.martialStatus],
+      maritalStatus: [this.step2FormData ? this.step2FormData.maritalStatus : this.step1FormData.maritalStatus],
       gender: [this.step2FormData ? this.step2FormData.gender : this.step1FormData.gender],
       email: [this.step2FormData ? this.step2FormData.email : this.step1FormData.email, [Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
       phoneNumber: [this.step2FormData ? this.step2FormData.phoneNumber : this.step1FormData.phoneNumber, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
@@ -123,7 +123,9 @@ export class Step2Component {
       employerAddress: [this.step2FormData ? this.step2FormData.employerAddress : '', [Validators.required]],
       attorneyName: [this.step2FormData ? this.step2FormData.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       attorneyPhone: [this.step2FormData ? this.step2FormData.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      attorneyAddress: [this.step2FormData ? this.step2FormData.attorneyAddress : '', [Validators.required]],
     });
+    
   }
 
   getInsuranceDetails(event: any) {
@@ -155,6 +157,7 @@ export class Step2Component {
     let employerAddress = ''
     let attorneyName = ''
     let attorneyPhone = ''
+    let attorneyAddress = ''
 
     if (currentIndex != '') {
       let info = this.insuranceList.filter((item: any) => item.insuranceName === currentIndex)[0]
@@ -185,6 +188,7 @@ export class Step2Component {
       employerAddress = info.employerAddress
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
+      attorneyAddress = info.attorneyAddress
     }
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
     this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
@@ -213,6 +217,7 @@ export class Step2Component {
     this.step2Form.controls['employerAddress'].setValue(employerAddress)
     this.step2Form.controls['attorneyName'].setValue(attorneyName)
     this.step2Form.controls['attorneyPhone'].setValue(attorneyPhone)
+    this.step2Form.controls['attorneyAddress'].setValue(attorneyAddress)
   }
 
   async getInsuranceList() {

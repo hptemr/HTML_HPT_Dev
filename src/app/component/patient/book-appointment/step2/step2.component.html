@@ -99,7 +99,7 @@
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Marital Status</label>
-                        <select formControlName="martialStatus" class="form-select form-control"
+                        <select formControlName="maritalStatus" class="form-select form-control"
                             aria-label="Default select example">
                             <option value="" selected>Select Marital Status</option>
                             <option value="{{element}}" *ngFor="let element of maritalStatus;">{{element}}</option>
@@ -545,8 +545,10 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
+                                <label class="col-form-label fw-600">
+                                    Attorney Name
+                                    <span class="clr--DF0404 ms-1"> * </span>
+                                </label>
                                 <input (blur)="checkSpace('attorneyName', $event)" formControlName="attorneyName"
                                     class="form-control" type="text" placeholder="Enter Attorney Name" />
                                 <div class="text text-danger mt-1"
@@ -557,13 +559,30 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Attorney Phone <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
+                                <label class="col-form-label fw-600">
+                                    Attorney Phone
+                                    <span class="clr--DF0404 ms-1"> *</span>
+                                </label>
                                 <input [imask]="{mask: '(000) 000-0000'}" formControlName="attorneyPhone"
                                     class="form-control" type="text" placeholder="Enter Attorney Phone" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['attorneyPhone'].touched && (step2Form.controls['attorneyPhone'].hasError('required') || step2Form.controls['attorneyPhone'].invalid)">
                                     {{ validationMessages.required('Attorney Phone') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">
+                                    Attorney Address
+                                    <span class="clr--DF0404 ms-1"> *</span>
+                                </label>
+                                <textarea (blur)="checkSpace('attorneyAddress', $event)"
+                                    formControlName="attorneyAddress" class="form-control " type="text"
+                                    placeholder="Enter Address" rows="4"></textarea>
+                                <div class="text text-danger mt-1"
+                                    *ngIf="step2Form.controls['attorneyAddress'].touched && (step2Form.controls['attorneyAddress'].hasError('required') || step2Form.controls['attorneyAddress'].invalid)">
+                                    {{ validationMessages.required('Attorney Address') }}
                                 </div>
                             </div>
                         </div>
@@ -582,9 +601,9 @@
                             </div>
                         </div>
 
-                        <div *ngIf="uploadedInsuranceFiles"
-                            class="col-12 ">
-                            <div *ngFor="let fileObj of uploadedInsuranceFiles; let i=index" class="d-flex flex-column flex-sm-row align-items-center mb-3 w-100">
+                        <div *ngIf="uploadedInsuranceFiles" class="col-12 ">
+                            <div *ngFor="let fileObj of uploadedInsuranceFiles; let i=index"
+                                class="d-flex flex-column flex-sm-row align-items-center mb-3 w-100">
                                 <div class="d-flex align-items-center">
                                     <div class="doc--pic d-flex align-items-center justify-content-center me-3">
                                         <mat-icon>{{fileObj.icon}}</mat-icon>
@@ -637,11 +656,11 @@
                                 sign
                                 for minors)</p>
                         </div>
-                        <div class="col-12 d-flex justify-content-end w-100"> 
-                            <button [disabled]="step2Form.invalid"  mat-raised-button color="primary"
+                        <div class="col-12 d-flex justify-content-end w-100">
+                            <button [disabled]="step2Form.invalid" mat-raised-button color="primary"
                                 class="flex-shrink-0 mt-2" (click)="addInsurance()">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                Save Insurance As 
+                                Save Insurance As
                             </button>
                         </div>
                     </div>

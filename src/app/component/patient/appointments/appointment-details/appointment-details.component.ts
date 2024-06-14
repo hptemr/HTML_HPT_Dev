@@ -35,7 +35,7 @@ export class AppointmentDetailsComponent {
   async getAppointmentDetails() {
     const req_vars = {
       query: { _id: this.appId },
-      fields: { practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1, payVia: 1, payViaInsuranceInfo: 1 },
+      fields: { practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1, patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1 },
       patientFields: { _id: 1 },
       therapistFields: { _id: 1 }
     }
@@ -86,6 +86,7 @@ export class AppointmentDetailsComponent {
   viewInsuranveModal() {
     const dialogRef = this.dialog.open(ViewInsuranceModalComponent, {
       panelClass: 'modal--wrapper',
+      data: this.appInfo
     });
   }
 }

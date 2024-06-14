@@ -20,6 +20,8 @@ export const s3Details = {
   bucketName: bucketName,
   userProfileFolderPath: "profile-images/",
   userDocumentFolderPath: "patient-documents/",
+  patientInsuranceFolderPath: "patient-insurance/",
+  patientPrescriptionFolderPath: "patient-prescription/",
 }
 export const webTitle = "HPT"
 export const serverUrl = serverUrlEnv

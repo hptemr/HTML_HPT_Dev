@@ -58,12 +58,12 @@ export class IntakeStep1Component {
     if (this.isReadonly) {
       this.step1Form.controls['dob'].disable()
       this.step1Form.controls['gender'].disable()
-      this.step1Form.controls['martialStatus'].disable()
+      this.step1Form.controls['maritalStatus'].disable()
       this.setValue('Myself')
     } else {
       this.step1Form.controls['dob'].enable()
       this.step1Form.controls['gender'].enable()
-      this.step1Form.controls['martialStatus'].enable()
+      this.step1Form.controls['maritalStatus'].enable()
       this.setValue('Other')
     }
   }
@@ -86,7 +86,7 @@ export class IntakeStep1Component {
     let middleName = ''
     let lastName = ''
     let dob = null
-    let martialStatus = ''
+    let maritalStatus = ''
     let gender = ''
     let email = ''
     let phoneNumber = ''
@@ -96,7 +96,7 @@ export class IntakeStep1Component {
       firstName = this.patientInfo.firstName
       middleName = this.patientInfo.middleName
       lastName = this.patientInfo.lastName
-      martialStatus = this.patientInfo.martialStatus ? this.patientInfo.martialStatus : ""
+      maritalStatus = this.patientInfo.maritalStatus ? this.patientInfo.maritalStatus : ""
       gender = this.patientInfo.gender
       email = this.patientInfo.email
       dob = new Date(this.patientInfo.dob)
@@ -107,7 +107,7 @@ export class IntakeStep1Component {
       firstName = this.step1FormData.firstName
       middleName = this.step1FormData.middleName
       lastName = this.step1FormData.lastName
-      martialStatus = this.step1FormData.martialStatus
+      maritalStatus = this.step1FormData.maritalStatus
       gender = this.step1FormData.gender
       email = this.step1FormData.email
       dob = new Date(this.step1FormData.dob)
@@ -119,7 +119,7 @@ export class IntakeStep1Component {
     this.step1Form.controls['firstName'].setValue(firstName)
     this.step1Form.controls['middleName'].setValue(middleName)
     this.step1Form.controls['lastName'].setValue(lastName)
-    this.step1Form.controls['martialStatus'].setValue(martialStatus)
+    this.step1Form.controls['maritalStatus'].setValue(maritalStatus)
     this.step1Form.controls['gender'].setValue(gender)
     this.step1Form.controls['email'].setValue(email)
     this.step1Form.controls['dob'].setValue(dob)
@@ -138,7 +138,7 @@ export class IntakeStep1Component {
       middleName: new FormControl((this.step1FormData ? this.step1FormData.middleName : '')),
       lastName: new FormControl((this.step1FormData ? this.step1FormData.lastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       dob: new FormControl((this.step1FormData ? new Date(this.step1FormData.dob) : ''), Validators.compose([Validators.required])),
-      martialStatus: new FormControl((this.step1FormData ? this.step1FormData.martialStatus : '')),
+      maritalStatus: new FormControl((this.step1FormData ? this.step1FormData.maritalStatus : '')),
       gender: new FormControl((this.step1FormData ? this.step1FormData.gender : '')),
       email: new FormControl((this.step1FormData ? this.step1FormData.email : ''), Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
       phoneNumber: new FormControl((this.step1FormData ? this.step1FormData.phoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
@@ -154,7 +154,7 @@ export class IntakeStep1Component {
       finalReqBody = {
         dob: this.patientInfo.dob,
         gender: this.patientInfo.gender,
-        martialStatus: this.patientInfo.martialStatus,
+        maritalStatus: this.patientInfo.maritalStatus,
       }
       Object.assign(finalReqBody, this.step1Form.value)
     }

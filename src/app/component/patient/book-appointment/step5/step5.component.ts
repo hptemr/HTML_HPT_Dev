@@ -78,7 +78,7 @@ export class step5Component {
         middleName: step1FormData.middleName,
         lastName: step1FormData.lastName,
         dob: step1FormData.dob,
-        martialStatus: step1FormData.martialStatus,
+        maritalStatus: step1FormData.maritalStatus,
         gender: step1FormData.gender,
         email: step1FormData.email,
         phoneNumber: step1FormData.phoneNumber,
