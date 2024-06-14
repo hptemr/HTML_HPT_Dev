@@ -15,51 +15,16 @@
                     <mat-accordion class="appointment-information-header-wrapper">
                         <mat-expansion-panel class="exp-class" expanded="true">
                             <mat-expansion-panel-header>
-                                <mat-panel-title class="clr--31B7B7 font-18 fw-600">
+                                <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
                                     Appointment Information
                                 </mat-panel-title>
-                                <mat-panel-description class="align-items-center">
+                                <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                     <button mat-raised-button color="primary" class="intake-btn">
                                         View Intake Form
                                     </button>
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <div class="col-12">
-                                <!-- <div class="d-flex flex-wrap">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
-                                        <div class="w-100 mb-2">
-                                            <div class="d-flex flex-row flex-wrap gap-10 align-items-center">
-                                                <div class="img--box flex-shrink-0">
-                                                    <img src="assets/images/ark/user.png" alt="" class="img-fluid" />
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                    <h3 class="mb-1 clr--1F2F3E font-18 fw-700">John Walter</h3>
-                                                    <div class="mb-1 d-flex align-items-center">
-                                                        <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
-                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">johnwalter1991&#64;gmail.com</p>
-                                                    </div>
-                                                    <div class="mb-1 d-flex align-items-center">
-                                                        <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
-                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 1234-567-8902-4862</p>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
-                                        <div class="d-flex flex-row flex-wrap align-items-center">
-                                            <div class="col-12 col-sm-12 col-lg-4 mb-2">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
-                                                <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-lg-8 mb-2">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
-                                                <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">OT $200 Used out of $1000, PT/SLP $350 Used out of $1200</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
 
                                 <div class="col-12 mt-2">
                                     <div class="d-flex flex-wrap justify-content-between align-items-baseline">
@@ -120,31 +85,7 @@
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <mat-checkbox class="">Patient Check in Status</mat-checkbox>
-                                        </div>
-                                        <!-- <div class="d-flex flex-column me-2">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Neck Pain</p>
-                                        </div>
-                                        <div class="d-flex flex-column me-2">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Jacob Jones</p>
-                                        </div>
-                                        <div class="d-flex flex-column me-2">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Return to Doctor</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Fri, Nov 16, 2023</p>
-                                        </div>
-                                        <div class="d-flex flex-column me-2">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">12/1/24 - 12/10/2024</p>
-                                        </div>
-                                        <div class="d-flex flex-column me-2">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Insurance Type</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Medicare</p>
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
-                                        </div> -->
+                                        </div>  
                                     </div>
                                 </div>
                             </div>
@@ -165,30 +106,30 @@
                 <div class="col-12 col-sm-10 col-lg-10 mb-2">
                     <div class="d-flex flex-row flex-wrap gap-10">
                         <button class="flex-shrink-0" mat-stroked-button color="primary">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Initial Examination
                         </button>
                         <button class="flex-shrink-0" mat-stroked-button color="primary">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Daily Note
                         </button>
                         <button class="flex-shrink-0" mat-stroked-button color="primary">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Progress Note
                         </button>
                         <button class="flex-shrink-0" mat-stroked-button color="primary">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Discharge Note
                         </button>
                         <button class="flex-shrink-0" mat-stroked-button color="primary">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon>
+                            <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
                             Case Note
                         </button>
                     </div>
                 </div>
                 <div class="col-12 col-sm-2 col-lg-2 d-flex justify-content-end mb-2">
                     <button class="flex-shrink-0" mat-stroked-button color="primary">
-                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> print </mat-icon>
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> print </mat-icon>
                         E-Fax
                     </button>
                 </div>
@@ -203,10 +144,6 @@
                                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                             </button>
-                                            <!-- <mat-form-field class="example-full-width" appearance="outline">
-                                                <input type="search" matInput placeholder="Search">
-                                                <mat-icon matSuffix>search</mat-icon>
-                                            </mat-form-field> -->
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
@@ -223,13 +160,6 @@
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
-                                            <!-- <div class="input-group">
-                                                <input class="form-control" placeholder="From Date" name="dp" [(ngModel)]="model" ngbDatepicker
-                                                    #d="ngbDatepicker" />
-                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()" type="button">
-                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                                </button>
-                                            </div> -->
                                             <mat-form-field class="w-100 am--datepicker" appearance="outline">
                                                 <input matInput [matDatepicker]="picker" placeholder="From Date">
                                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -240,13 +170,6 @@
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
-                                            <!-- <div class="input-group">
-                                                <input class="form-control" placeholder="To Date" name="dp" [(ngModel)]="model" ngbDatepicker
-                                                    #d="ngbDatepicker" />
-                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()" type="button">
-                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                                </button>
-                                            </div> -->
                                             <mat-form-field class="w-100 am--datepicker" appearance="outline">
                                                 <input matInput [matDatepicker]="picker1" placeholder="To Date">
                                                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -316,13 +239,7 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element">  
                                             <div class="w-100 d-flex align-items-center">
-                                                <!-- <select class="form-select form-control action--dd" aria-label="Default select example">
-                                                    <option selected>Complete this Initial Examination</option> 
-                                                    <option value="1">Complete Note</option>
-                                                    <option value="2">Create Addendum</option>  
-                                                    <option value="1">Delete Note</option>
-                                                    <option value="2">Save as Draft</option> 
-                                                </select>  -->
+                                                
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                                 </button>
@@ -335,7 +252,7 @@
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" disabled>
                                                     <!-- <div class="icon-img flex-shrink-0">
                                                         <img src="assets/images/ark/delete-icon.svg" alt="" class="img-fluid" />
                                                     </div> -->

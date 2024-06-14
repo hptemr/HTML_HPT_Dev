@@ -1,9 +1,13 @@
 .app--details--wrapper{
     &.profile--right--wrapper{ 
         .card{
+            .card-header {
+                padding: 5px 40px 18px 40px;
+            }
             .card-body {
                 padding-right: 15px;
                 margin-top: 20px;
+                padding-bottom: 10px;
             }
             .profile--left{
                 padding-bottom: 15px;
@@ -88,7 +92,7 @@
                                 height: 80px;
                                 border-radius: 100%;
                                 overflow: hidden;
-                                margin-right: 5px;
+                                margin-right: 9px;
                             }
                         }
                     }
@@ -113,7 +117,7 @@
             }
             .divider{
                 border-top: 1px solid  rgba(49, 184, 184, 0.30);;
-                margin: 25px 0;
+                margin: 18px 0;
             }
             .notes--table{
                 border: 1px solid #31B7B7;
@@ -204,7 +208,7 @@
                         }
                         .icon-img{
                             img{
-                                width: 21px;
+                                width: 18px;
                             }
                         }
                     }
@@ -231,7 +235,6 @@
                 background: transparent;
             }
         }
-          
     }
 } 
 
@@ -247,6 +250,9 @@
             .mat-expansion-panel-header-description .intake-btn {
                 margin-right: 0px !important;
             }
+            .mat-mdc-checkbox {
+                margin-left: -10px !important;
+            }
         }
     }
     .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
@@ -255,6 +261,17 @@
     .cust--mat--table--wrapper{ 
         .cust--mat--table{
             width: 906px;
+        }
+    }
+    .profile--right--wrapper .card{
+        .divider{
+            margin: 10px 0 !important;
+        }
+        .card-header{
+            padding: 10px 15px 0px 15px !important;
+        } 
+        .card-body{
+            margin-top: 0px !important;
         }
     }
     .profile--right--wrapper .card .card-body .profile--right{
