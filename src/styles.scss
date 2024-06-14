@@ -45,16 +45,22 @@ input, p,
     }
     .mat-mdc-text-field-wrapper{
         background-color: #fff !important;
-        border: 1px solid #DED2D9 !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 5px;
     }
     .mdc-text-field--filled .mdc-line-ripple::before{
         border: none !important;
     }
      
     .mat-mdc-form-field-infix{
-        min-height: 44px !important;
+        min-height: 40px !important;
         padding-top: 10px !important;
-        padding-bottom: 10px !important;
+        padding-bottom: 5px !important;
+        font-size: 14px;
+    }
+    .mat-mdc-icon-button.mat-mdc-button-base{
+        height: 44px;
+        padding: 5px;
     }
 }
 .cdk-overlay-pane.mat-datepicker-popup{
@@ -642,33 +648,32 @@ a{
 
 // Alert Modal (End here) 
 
-// Bootstrap Modal (Start here)
-.cust--modal--wrapper{
-    .modal-dialog{
-        &.modal-md{
-            max-width: 423px;
-            .modal-content{
-                .modal-header{
-                    border:none;
-                    .modal-title{
-                        color: #1F2F3E;
-                        font-size: 18px;
-                        font-weight: 600;
-                        font-family: "Nunito Sans", sans-serif !important;
-                    }
-                }
-                .modal-body{
-                    padding: 0 15px;
-                }
-                .modal-footer{
-                    padding: 15px;
-                    border: none;
-                }
-            }
+// Custom Modal (Start here) 
+.modal--wrapper{ 
+    width: 100%;
+    .modal--header,
+    .modal--body,
+    .modal--footer{
+        padding: 20px;
+    }
+    .modal--header{
+        padding-bottom: 0;
+        h1{
+            color: #1F2F3E;
+            font-size: 20px;
+            margin-bottom: 5px;
+            font-weight: 800;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
         }
     }
+    .modal--body{
+        height: calc(100vh - 200px);
+        overflow: auto;
+    }
 }
-// Bootstrap Modal (End here)
+ 
+// Custom Modal (End here)
 
 .checkbox--rounded{
     label{
@@ -917,6 +922,62 @@ ngb-datepicker{
         font-size: 14px !important;
     }
 } 
+
+// SOAP Note ()
+.note--wrapper{
+    .note--header{
+        h1{
+            font-size: 22px;
+            color: #1F2F3E;
+        }
+    }
+    .tab--header{ 
+        margin-top: 25px;
+        ul{
+            li{
+                padding: 11px 15px;
+                background-color: #fff;
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+                &:first-child{ 
+                    padding-left: 16px;
+                    border-top-left-radius: 5px;
+                }
+                &:last-child{
+                    padding-right: 16px;
+                    border-top-right-radius: 5px;
+                }
+                &.active-link{
+                    border-bottom: 2px solid #32B7B7;
+                    a{
+                        color: #33B8B8;
+                        font-weight: 600;
+                    }
+                }
+                a{
+                    color: #1F2F3E;
+                    font-size: 14px;
+                    font-weight: 400;   
+                }
+            }
+        }
+    }
+    .note--body{
+        border-radius: 0px 0px 12px 12px;
+        border-top: 1px solid #BCDADA;
+        background: #FFF;
+        padding: 20px 30px;
+        height: calc(100vh - 245px);
+        overflow: auto;
+    }
+}
+
+
+
+
+
+
+
  
 /*----  Media Queries (Start here) -----*/
 
