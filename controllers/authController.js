@@ -198,7 +198,7 @@ const patientLogin = async (req, res) => {
 
                 middleName: userData.middleName,
                 dob: userData.dob,
-                martialStatus: userData.martialStatus,
+                maritalStatus: userData.maritalStatus,
                 gender: userData.gender,
                 phoneNumber: userData.phoneNumber,
                 cellPhoneNumber: userData.cellPhoneNumber,

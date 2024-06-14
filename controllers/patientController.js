@@ -94,7 +94,7 @@ const signup = async (req, res) => {
                             phoneNumber : found.phoneNumber,
                             cellPhoneNumber: found.cellPhoneNumber ? found.cellPhoneNumber: "",
                             workExtensionNumber: found.workExtensionNumber ? found.workExtensionNumber :"",
-                            martialStatus : found.martialStatus ? found.martialStatus : "",
+                            maritalStatus : found.maritalStatus ? found.maritalStatus : "",
                         
                         };
                         if(found.email){

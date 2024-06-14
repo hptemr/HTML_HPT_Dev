@@ -168,6 +168,27 @@ const updateAppointment = async (req, res) => {
     }
 }
 
+const download = async (req, res) => {
+    try {
+        const { fileName, filePath } = req.body;
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            accessKeyId: constants.s3Details.awsKey,
+            secretAccessKey: constants.s3Details.awsSecret,
+        });
+        var s3 = new AWS.S3()
+        const url = await s3.getSignedUrl('getObject', {
+            Bucket: constants.s3Details.bucketName,
+            Key: filePath + fileName
+        })
+        commonHelper.sendResponse(res, 'success', { url: url }, 'download');
+    } catch (error) {
+        console.log("********** error***", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
@@ -177,4 +198,5 @@ module.exports = {
     addAppointment,
     updateAppointment,
     rescheduleAppointment,
+    download
 };
