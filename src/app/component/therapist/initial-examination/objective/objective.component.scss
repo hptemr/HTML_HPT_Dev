@@ -1,0 +1,33 @@
+.objective--wrapepr{
+    .cancle--btn{
+        height: auto;
+        .mat-icon{
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+    .chape--group{
+        label{
+            margin-top: 9px;
+        }
+        .r--btns{
+            width: 178px;
+        }
+        .max-width{
+            max-width: 250px;
+        }
+    }
+    .label--width{
+        width: 110px;
+    }
+    .font-16{
+        font-size: 16px !important;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .objective--wrapepr .chape--group label{
+        margin-top: 7px;
+    } 
+}

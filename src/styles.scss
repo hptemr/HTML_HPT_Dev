@@ -368,6 +368,7 @@ input[type=text] {
     }
     &:disabled{
         background-color: #F5F5F5 !important;
+        opacity: 0.7;
     }
     &.form-control-md{
         border-color: #CCC; 
