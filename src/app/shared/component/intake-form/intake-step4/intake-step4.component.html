@@ -1,9 +1,10 @@
 <div class="container-fluid book--appointment--wrapper if--step--four st--intake--form">
     <div class="row">
         <div class="col-12 d-flex align-items-center mb-4 mt-4">
-            <button mat-stroked-button color="primary" class="me-3 back--btn">
-                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
-            </button>
+            <button mat-stroked-button color="primary" class="me-3 back--btn"
+            [routerLink]="['/patient/intake-form/step-3', appId]">
+            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+        </button>
             <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
                 <span class="me-3">Intake Form</span>
                 <span>(Step <span class="text-primary"> 4 </span> of 5)</span>
@@ -148,10 +149,10 @@
         </div>
     </div>
     <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
-        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-3']">
+        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-3', appId]">
             Previous
         </button>
-        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-5']">
+        <button mat-raised-button color="primary" class="m-1" [routerLink]="['/patient/intake-form/step-5', appId]">
             Next
         </button>
     </div>

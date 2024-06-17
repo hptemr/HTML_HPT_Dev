@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -32,7 +32,7 @@ export class IntakeStep1Component {
   maxAppntDate = this.commonService.getMaxAppoinmentFutureMonths()
 
   constructor(public dialog: MatDialog, private router: Router,
-    private fb: FormBuilder, private commonService: CommonService,
+    private commonService: CommonService,
     private authService: AuthService, private route: ActivatedRoute) {
     this.route.params.subscribe((params: Params) => {
       this.appId = params['appId']
