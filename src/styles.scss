@@ -59,8 +59,11 @@ input, p,
         font-size: 14px;
     }
     .mat-mdc-icon-button.mat-mdc-button-base{
-        height: 44px;
+        height: 45px;
         padding: 5px;
+        color: #fff;
+        background: #31B7B7;
+        border-radius: 0;
     }
 }
 .cdk-overlay-pane.mat-datepicker-popup{
@@ -538,6 +541,34 @@ a{
     }
 
 }
+
+// Bootstrap Table
+.table-responsive{
+    &.normal--table{
+        thead{
+            tr{
+                th{
+                    background: #F3FBFB;
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: #1F2F3E;
+                    padding: 7px 10px;
+                }
+            }
+        }
+        tbody{
+            tr{
+                td{
+                    font-size: 14px;
+                    color: #292D32;
+                    padding: 10px 10px;
+                }
+            }
+        }
+    }
+}
+
+
 .status{
     font-size: 14px;
     font-weight: 600; 
@@ -932,7 +963,7 @@ ngb-datepicker{
         }
     }
     .tab--header{ 
-        margin-top: 25px;
+        margin-top: 10px;
         ul{
             li{
                 padding: 11px 15px;
@@ -1041,6 +1072,15 @@ ngb-datepicker{
     }
     .breadcrumb-item + .breadcrumb-item::before{
         margin: 7px 4px 4px 0px;
+    }
+    .note--wrapper .note--header h1{
+        font-size: 16px;
+    }
+    .note--wrapper .tab--header ul li a{
+        font-size: 13px;
+    }
+    .note--wrapper .note--body{
+        padding: 15px;
     }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
