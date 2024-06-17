@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './plan.component.scss'
 })
 export class PlanComponent {
-
+  clickedIndex = 0;
+  clickedIndex2 = 0;
+  selectedValue: number;
+  
 }
