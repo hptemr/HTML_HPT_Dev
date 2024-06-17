@@ -113,14 +113,28 @@
         <div class="col-12 col-lg-6">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">Outcome Measures</label>
-                <select class="form-select form-control" aria-label="Default select example">
-                    <option selected>Select Relation</option>
-                    <option value="1">Relation 1</option>
-                    <option value="2">Relation 2</option>
-                    <option value="3">Relation 3</option>
+                <select class="form-select form-control" aria-label="outcome measure dd">
+                    <option selected>Select</option>
+                    <option value="1">Neck Disability Index</option>
+                    <option value="2">QuickDASH</option>
+                    <option value="3">Oswestry LBP</option>
+                    <option value="1">Lower Extremity Functional Scales (LEFS)</option>
+                    <option value="2">FABQ</option>
+                    <option value="3">EAT-10</option>
+                    <option value="1">mCTSIB</option>
+                    <option value="2">30 sec STS</option> 
                 </select>
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group d-flex align-items-center">
+                <label class="col-form-label fw-700 font-16 text-uppercase me-3">Land Flowsheet</label>
+                <button mat-raised-button color="primary" class="me-3" (click)="addExersiceModal()">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Exercise
+                </button>
+           </div>
         </div>
     </div>
 </div>

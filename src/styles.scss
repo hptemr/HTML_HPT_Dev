@@ -650,7 +650,7 @@ a{
 
 // Alert Modal (Start here)
 .custom-alert-container{
-    width: 423px; 
+    width: 423px !important; 
     .mat-mdc-dialog-container{
         .alert--wrapper{
             padding: 30px;
@@ -692,7 +692,7 @@ a{
         padding-bottom: 0;
         h1{
             color: #1F2F3E;
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 5px;
             font-weight: 800;
             border-bottom: 1px solid #ddd;

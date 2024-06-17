@@ -16,6 +16,7 @@ import { AssessmentComponent } from './initial-examination/assessment/assessment
 import { PlanComponent } from './initial-examination/plan/plan.component';
 import { BillingComponent } from './initial-examination/billing/billing.component';
 import { InitialExaminationComponent } from './initial-examination/initial-examination/initial-examination.component';
+import { AddExerciseComponent } from './initial-examination/add-exercise/add-exercise.component';
  
 
 @NgModule({
@@ -34,6 +35,8 @@ import { InitialExaminationComponent } from './initial-examination/initial-exami
     AssessmentComponent,
     PlanComponent,
     BillingComponent,
+
+    AddExerciseComponent
   ],
   imports: [
     CommonModule,
