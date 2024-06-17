@@ -53,3 +53,8 @@
         width: 95% !important;
     }
 }
+@media only screen and (max-width: 599px) {
+    .initial--exam--billing--wrapper .billing-total-unit-wrapper .form-group {
+        margin-left: auto;
+    }
+}
