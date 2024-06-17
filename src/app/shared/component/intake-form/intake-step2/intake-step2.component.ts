@@ -10,6 +10,7 @@ import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.com
   styleUrl: './intake-step2.component.scss'
 })
 export class IntakeStep2Component {
+  appId: any
   model: NgbDateStruct;
   constructor(public dialog: MatDialog) { }
   cmsModal() {

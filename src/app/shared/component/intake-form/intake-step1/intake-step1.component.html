@@ -4,7 +4,7 @@
             <div class="row w-100 align-items-center">
                 <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
                     <button mat-stroked-button color="primary" class="me-3 back--btn"
-                        [routerLink]="['/patient/appointment-details']">
+                        [routerLink]="['/patient/appointment-details', appId]">
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
                     </button>
                     <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
@@ -12,18 +12,19 @@
                         <span>(Step <span class="text-primary"> 1 </span> of 5)</span>
                     </h3>
                 </div>
-                <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
+                <div *ngIf="step1FormData"
+                    class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
                     <p class="mb-0 clr--1F2F3E fw-700 font-16">
-                        {{patientInfo.firstName}} {{patientInfo.lastName}}
+                        {{step1FormData.patientInfo.firstName}} {{step1FormData.patientInfo.lastName}}
                         <span class="fw-500">
-                            (Appointment #: 123456)
+                            (Appointment #: {{step1FormData.appointmentId}})
                         </span>
                     </p>
                 </div>
             </div>
         </div>
     </div>
-    <form [formGroup]="step1Form">
+    <form *ngIf="step1Form" [formGroup]="step1Form">
         <div class="card m-0">
             <div class="row">
                 <div class="col-12 col-lg-6 col-md-6  ">
@@ -34,8 +35,10 @@
                         </label>
                         <select formControlName="practiceLocation" class="form-select form-control"
                             aria-label="Default select example">
-                            <option value="" selected>Practice Location</option>
-                            <option value="{{element}}" *ngFor="let element of practiceLocations;">{{element}}</option>
+                            <option value="">Practice Location</option>
+                            <option value="{{element}}" *ngFor="let element of practiceLocations;">
+                                {{element}}
+                            </option>
                         </select>
                     </div>
                     <div class="text text-danger mt-1"
@@ -83,7 +86,8 @@
                         <select formControlName="relationWithPatient" class="form-select form-control"
                             aria-label="Default select example">
                             <option value="" selected>Select Relation</option>
-                            <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}</option>
+                            <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group" *ngIf="">
@@ -116,7 +120,8 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
+                            </span></label>
                         <input (blur)="checkSpace('lastName', $event)" formControlName="lastName"
                             [readonly]="isReadonly" class="form-control" type="text" placeholder="Enter Last Name" />
                         <div class="text text-danger mt-1"

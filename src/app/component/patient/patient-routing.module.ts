@@ -84,23 +84,23 @@ const routes: Routes = [
     path: 'intake-form',
     children: [
       {
-        path: 'step-1',
+        path: 'step-1/:appId',
         component: IntakeStep1Component,
       },
       {
-        path: 'step-2',
+        path: 'step-2/:appId',
         component: IntakeStep2Component,
       },
       {
-        path: 'step-3',
+        path: 'step-3/:appId',
         component: IntakeStep3Component,
       },
       {
-        path: 'step-4',
+        path: 'step-4/:appId',
         component: IntakeStep4Component,
       },
       {
-        path: 'step-5',
+        path: 'step-5/:appId',
         component: IntakeStep5Component,
       },
     ]
