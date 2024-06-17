@@ -278,7 +278,6 @@ export class IntakeStep2Component {
   }
 
   async bookAppointmentStep2() {
-    console.log("isFormEditable:", this.isFormEditable)
     if (this.isFormEditable) {
       let formData = this.step2Form.value
       Object.assign(formData, {
@@ -294,12 +293,10 @@ export class IntakeStep2Component {
           payViaInsuranceInfo: formData
         }
       }
-      console.log("params:", params)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         this.router.navigate(['/patient/intake-form/step-3', this.appId])
       })
     } else {
-      console.log("else:", this.isFormEditable)
       this.router.navigate(['/patient/intake-form/step-3', this.appId])
     }
   }
