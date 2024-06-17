@@ -139,17 +139,15 @@ export class InsuranceListingComponent {
 
   searchRecords(event: any) {
     let searchStr = event.target.value.trim()
+    let finalStr = {};
     if (searchStr != '') {
       searchStr = searchStr.replace("+", "\\+");
-      let finalStr = { $regex: searchStr, $options: 'i' }
-      // this.userQuery = {
-      //   status: "Active",
-      //   role: "therapist",
-      //   $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
-      // }
+      finalStr = { $regex: searchStr, $options: 'i' }
+      this.whereCond = Object.assign(this.whereCond, { insuranceName: finalStr })      
+    } else{
+      this.whereCond = Object.assign({ patientId: this.userId });
+    }
 
-      this.whereCond = Object.assign(this.whereCond, { insuranceName: finalStr })
-    } 
     this.getInsuranceList('search')
   }
   
