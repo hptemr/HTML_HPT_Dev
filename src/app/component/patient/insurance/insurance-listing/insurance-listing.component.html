@@ -10,7 +10,7 @@
             </div> 
             <div class="col-12 col-lg-6">
                 <div class="form-group position-relative">
-                    <input type="text" class="form-control search--outer" placeholder="Search Insurance">
+                    <input type="text" [(ngModel)]="seachByName" (keyup)="searchRecords($event)" class="form-control search--outer" placeholder="Search By Insurance Name">
                     <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                         <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                     </button> 
