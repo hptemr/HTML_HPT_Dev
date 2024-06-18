@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrl: './assessment.component.scss'
 })
 export class AssessmentComponent {
+  addNewProblemField:boolean= true;
 
+  addNewProblem(){
+    this.addNewProblemField = false;
+  }
+  removeNewProblem(){
+    this.addNewProblemField = true;
+  }
 }

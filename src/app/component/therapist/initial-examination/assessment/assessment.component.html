@@ -18,10 +18,8 @@ I will update you on *patient name* progress as appropriate, thank you for the
                 <div class="form-group">
                     <label class="col-form-label fw-600">1.Problem </label>
                     <div class="d-flex flex-row align-items-center">
-                        <input class="form-control" type="text" placeholder="Enter Your Problem" />
-                        <button mat-button class="flex-shrink-0 min-width-unset cancle--btn">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel</mat-icon>
-                        </button>
+                        <input class="form-control me-2" type="text" placeholder="Enter Your Problem" />
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
                     </div>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
@@ -35,8 +33,28 @@ I will update you on *patient name* progress as appropriate, thank you for the
             </div>
         </div>
 
+        <div class="col-12" *ngIf="!addNewProblemField">
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">2.Problem </label>
+                    <div class="d-flex flex-row align-items-center">
+                        <input class="form-control me-2" type="text" placeholder="Enter Your Problem" />
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
+                    </div>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">2.Long term goal </label>
+                    <input class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+        </div>
+
         <div class="col-12 d-flex align-items-center justify-content-end">
-            <button mat-raised-button color="primary" class="flex-shrink-0 mt-2">
+            <button mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addNewProblem()">
                 <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
                 Add New Problem & Goal
             </button>
