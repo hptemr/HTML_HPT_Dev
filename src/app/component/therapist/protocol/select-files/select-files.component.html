@@ -1,1 +1,82 @@
-<p>select-files works!</p>
+<div class="col-12 select--files--wrapper"> 
+    <div class="card"  >
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center">
+                <div class="row w-100 align-items-center mb-1">
+                    <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
+                        <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/therapist/select-folder']">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+                        </button> 
+                        <h3 class="mb-0 font-22 clr--1F2F3E fw-600">Select Protocol</h3>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0 d-flex align-items-center">
+                              <li class="breadcrumb-item fw-500"><a [routerLink]="['/therapist/select-folder']" class="font-12 clr--1F2F3E">Protocols</a></li>
+                              <li class="breadcrumb-item fw-500  active" aria-current="page"><a class="font-12 clr--1F2F3E">Allmacher</a></li>
+                            </ol>
+                          </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-6">
+                        <div class="form-group mb-0">
+                            <input type="text" class="form-control search--outer" placeholder="Search ">
+                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                            </button>
+                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center justify-content-end">
+                        <div>
+                            <button mat-raised-button color="primary" class="me-4">
+                                Add to Appointment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div> 
+        <div class="card-body"> 
+            <div class="row">
+                <div class="col-12 cust--mat--table--wrapper">
+                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                        class="cust--mat--table">  
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                                Name
+                            </th>
+                            <td class="cursor-pointer" mat-cell *matCellDef="let element"> 
+                               <div class="d-flex align-items-center">
+                                    <mat-icon class="me-3"> {{element.icon}}</mat-icon>
+                                    <p class="font-14 clr--292D32" [routerLink]="['/therapist/select-folder']">{{element.name}}</p>
+                               </div>
+                            </td>
+                        </ng-container>  
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                                <!-- Action -->
+                            </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <div class="w-100 d-flex align-items-center justify-content-center">
+                                    <mat-checkbox class=""></mat-checkbox>
+                                </div>
+                            </td>
+                        </ng-container>  
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                                    showFirstLastButtons
+                                    aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div> 
+            </div>
+        </div> 
+    </div> 
+ 
+</div>
