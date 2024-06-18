@@ -1,188 +1,164 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit,ViewChild } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { validationMessages } from '../../../utils/validation-messages';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-import { relationWithPatient } from 'src/app/config';
-import { regex } from '../../../utils/regex-patterns';
-import { DatePipe } from '@angular/common';
-// import { Observable } from 'rxjs';
-// import { map, startWith } from 'rxjs/operators';
+import { s3Details, pageSize, pageSizeOptions } from 'src/app/config';
+export interface PeriodicElement {
+  name: string;   
+  fname : string;
+  relation: string;   
+  phoneNumber: string;     
+  action: string;
+}
+const ELEMENT_DATA: PeriodicElement[] = [];
 @Component({
   selector: 'app-emergency-contact', 
   templateUrl: './emergency-contact.component.html',
-  styleUrl: './emergency-contact.component.scss',
-  providers: [DatePipe]
+  styleUrl: './emergency-contact.component.scss'
 })
 export class EmergencyContactComponent implements OnInit {
-  selected_date: any = [];  
   public userId: string;
   public userRole: string;
-  public emergencyContactFormGroup: FormGroup;
-  maxEndDate: any
-  relationWithPatientList: any = relationWithPatient;
-  validationMessages = validationMessages;
-  convertPhoneNumber: any = [];
+  emergencyContactList:any=[];
+  
+  displayedColumns: string[] = ['firstName', 'lastName','relationWithPatient','phoneNumber', 'action'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  orderBy: any = { updatedAt: -1 }
+  whereCond: any = {}
+  userQuery: any = {}
+  dayTwo = false;
+  dayOne = true;
+  dayOneFlag:boolean = true;
+  model: NgbDateStruct;
+  totalCount = 0
+  pageIndex = 0
+  pageSize = pageSize
+  pageSizeOptions = pageSizeOptions
+  searchQuery:any =""
+  insuranceList: any
+  seachByName: any = ''
+  seachById: any = ''
 
-  constructor(public dialog: MatDialog,private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService,private datePipe: DatePipe) {}
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  constructor(private _liveAnnouncer: LiveAnnouncer,public authService:AuthService,public commonService:CommonService,  public dialog: MatDialog) {} 
 
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id') 
     this.userRole = this.authService.getLoggedInInfo('role')  
-
-    this.emergencyContactFormGroup = this.fb.group({
-      contacts: this.fb.array(
-        [this.fb.group({
-          firstName: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-          lastName: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-          dob: ['',[Validators.required]],
-          relationWithPatient: ['',[Validators.required]],
-          otherRelation: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-          phoneNumber:['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
-          myTreatmentCheckbox: [false, []],
-          myAccountCheckbox:  [false, []]
-        })
-      ]),
-    });
-  }
-
-  ngAfterViewInit() {
-    this.filterStartDate();
-    this.getEmergencyContactDetail()
-
-  }
-
-  async getEmergencyContactDetail(){
     var query = {};
+    this.whereCond = Object.assign({ patientId: this.userId }, query);
+    this.getEmergencyContactDetail()
+  }
+
+  async getEmergencyContactDetail(action=""){
+  
     const req_vars = {
-      query: Object.assign({ _id: this.userId }, query)
+      query: this.whereCond
     }
-    this.commonService.showLoader();       
-    await this.authService.apiRequest('post', 'emergencyContact/getContactData', req_vars).subscribe(async response => {         
-      this.commonService.hideLoader();
+    if(action=='search'){
+      this.commonService.showLoader();       
+    }    
+    await this.authService.apiRequest('post', 'emergencyContact/getContactListData', req_vars).subscribe(async response => {         
+      if(action=='search'){ this.commonService.hideLoader(); }
       if (response.error) {
         if(response.message){
           this.commonService.openSnackBar(response.message, "ERROR")   
         }
-      } else {        
+      } else {       
+          this.totalCount = response.data.totalCount 
           if(response && response.data){
-               const ctrls = this.emergencyContactFormGroup.get('contacts') as FormArray;
-               response.data.forEach((element: any,index:number) => {
-                ctrls.removeAt(index)
-                ctrls.push(this.getEmergencyContact(element))
-               })
-          }else{
-            this.addContactsInfo();
+            this.emergencyContactList = new MatTableDataSource(response.data.emergencyContactList);
           }
+          if (this.totalCount > 0) {
+            this.dayTwo = true;
+            this.dayOne = false;
+          }         
       }      
     })
   }
 
+  searchRecords(event: any) {
+    let searchStr = event.target.value.trim()
+    if (searchStr != '') {
+      searchStr = searchStr.replace("+", "\\+");
+      let finalStr = { $regex: searchStr, $options: 'i' }
+      Object.assign(this.whereCond, { $or: [{ firstName: finalStr }, { lastName: finalStr }] })
+    } else {
+      delete this.whereCond['$or'];
+    }
+    this.getEmergencyContactDetail('search')
+  }
 
-  getEmergencyContact(Obj:any) {
-    let dob_obj = {'month':'','day':'','year':''};
-    if(Obj.dob){          
-      this.selected_date = this.datePipe.transform(Obj.dob, 'MM-dd-yyyy')
-      let dateObj = this.selected_date.split('-');
-      let dateArray = dateObj.map(Number);
-      dob_obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
+  searchRecords234(event: any) {
+    let searchStr = event.target.value.trim()
+    let finalStr = {};
+    if (searchStr != '') {
+      searchStr = searchStr.replace("+", "\\+");
+      finalStr = { $regex: searchStr, $options: 'i' }
+      this.whereCond = Object.assign(this.whereCond, { insuranceName: finalStr })      
+    } else{
+      this.whereCond = Object.assign({ patientId: this.userId });
     }
 
-    return this.fb.group({      
-      firstName: [Obj.firstName, Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-      lastName: [Obj.lastName, Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-      dob: [dob_obj,[Validators.required]],
-      relationWithPatient: [Obj.relationWithPatient,[Validators.required]],
-      otherRelation: [Obj.otherRelation, Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-      phoneNumber:[Obj.phoneNumber,[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
-      myTreatmentCheckbox: [Obj.myTreatmentCheckbox, []],
-      myAccountCheckbox:  [Obj.myAccountCheckbox, []]
-    });
+    this.getEmergencyContactDetail('search')
   }
 
-  get contactsInfo() {
-    return this.emergencyContactFormGroup.get('contacts') as FormArray;
-  }
-
-  addContactsInfo() {
-    this.contactsInfo.push(this.fb.group({
-      firstName: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-      lastName: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-      dob: ['',[Validators.required]],
-      relationWithPatient: ['',[Validators.required]],
-      otherRelation: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
-      phoneNumber:['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
-      myTreatmentCheckbox: [false, []],
-      myAccountCheckbox:  [false, []]
-    }));
-  }
-
-  async formSubmit(formData:any=null){
-    if (this.emergencyContactFormGroup.invalid) {
-        this.emergencyContactFormGroup.markAllAsTouched();
-        return;
-    }else{
-        var query = {};
-        const req_vars = {
-          query: Object.assign({ _id: this.userId }, query),
-          data: formData
-        }
-        this.commonService.showLoader();       
-        await this.authService.apiRequest('post', 'emergencyContact/addUpdateContactData', req_vars).subscribe(async response => {         
-          this.commonService.hideLoader();
-          if (response.error) {
-            if(response.message){
-              this.commonService.openSnackBar(response.message, "ERROR")   
-            }
-          } else {        
-            this.successModal();        
-          }      
-        })
-    }
-  }
-
-  
-  checkSpace(colName: any, event: any) {
-    colName.setValue(this.commonService.capitalize(event.target.value.trim()))
-  }
-
-
-  onPhoneInputChange(event: Event, index:number): void {    
-    const inputElement = event.target as HTMLInputElement;
-    const val = inputElement.value    
-    this.convertPhoneNumber[index] = this.commonService.formatPhoneNumber(val)    
-  }
-
-  onDateChange(dateObj: NgbDateStruct,index:number) {
-    if(index)
-    if(typeof dateObj=='object'){
-      if(dateObj.day && dateObj.month && dateObj.year){
-          this.selected_date[index] = this.commonService.formattedDate(dateObj);
-      }
-    }
- }
- 
- getMinDate(index:number): NgbDateStruct {
-    const today = new Date();
-    const minDate = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
-    return { month: minDate.getMonth() + 1, day: minDate.getDate(),year: minDate.getFullYear() };
-  }
-
-  filterStartDate() {
-    const today = new Date();
-    this.maxEndDate = { month: today.getMonth() + 1, day: today.getDate(), year: today.getFullYear()}
-  }
-
-  successModal() {
-    const dialogRef = this.dialog.open(SuccessModalComponent,{
+  deleteAccount(id:string) {
+    const dialogRef = this.dialog.open(AlertComponent,{
       panelClass: 'custom-alert-container',
       data : {
-        successNote: 'Contact Details have been saved successfully!'
+        warningNote: 'Do you really want to delete this contact?'
       }
-    });
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }else{
+        let query = {}
+        const req_vars = {
+          query: Object.assign({ _id: id }, query),          
+        }
+        this.authService.apiRequest('post', 'emergencyContact/deleteContact', req_vars).subscribe(async response => {
+          if (response.error) {
+            this.commonService.openSnackBar(response.message, "ERROR")           
+          } else {          
+            this.getEmergencyContactDetail('')
+            this.commonService.openSnackBar(response.message, "SUCCESS")
+          }
+        }, (err) => {
+          console.error(err)
+        })   
+      }
+    })
   }
+
+  handlePageEvent(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.getEmergencyContactDetail()
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) { 
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+ 
+  
 }

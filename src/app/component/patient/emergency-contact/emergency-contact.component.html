@@ -1,91 +1,93 @@
-<div class="container-fluid book--appointment--wrapper emergency--contact--wrapper">
-    <div class="row">
-        <div class="col-12 d-flex align-items-center mb-4 mt-4"> 
-            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                <span class="me-3">Emergency Contact </span> 
-            </h3>
+<div class="col-12 emergency--contact--wrapper">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h3 class="mb-0 clr--1F2F3E">Emergency Contact</h3>
+                <button mat-raised-button color="primary" [routerLink]="['/patient/add-emergency-contact']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Add Contact
+                </button>
+            </div> 
+            <div class="col-12 col-lg-6 ">
+                <div class="form-group position-relative">         
+                    <input type="text" [(ngModel)]="seachByName" (keyup)="searchRecords($event)" class="form-control search--outer" placeholder="Search Contacts">
+                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                    </button> 
+                </div>
+            </div>
         </div>
-    </div>
-    <form [formGroup]="emergencyContactFormGroup" (ngSubmit)="formSubmit(emergencyContactFormGroup.value)">
-        <div class="card m-0" formArrayName="contacts"> 
-            <div class="row" *ngFor="let items of contactsInfo.controls; let pointIndex = index" [formGroupName]="pointIndex">                
-                <div class="col-12">
-                    <p class="fw-700 font-16 mb-2 mt-2">EMERGENCY CONTACT {{pointIndex + 1}}</p> 
-                </div> 
+        
+        <div class="card-body" *ngIf="dayTwo">
+            <div class="col-12 cust--mat--table--wrapper">
+                <table mat-table [dataSource]="emergencyContactList" matSort (matSortChange)="announceSortChange($event)"
+                    class="cust--mat--table box--row--table">  
+                    <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            First Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.firstName}}     
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Last Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.lastName}}     
+                        </td>
+                    </ng-container>   
+                    
+                    <ng-container matColumnDef="relationWithPatient">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Relationship with Patient
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.relationWithPatient}}     
+                        </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="phoneNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Phone Number
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.phoneNumber}}     
+                        </td>
+                    </ng-container>  
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                            Actions
+                        </th>
+                        <td mat-cell *matCellDef="let element">  
+                            <div class="w-100 d-flex align-items-center justify-content-end">
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/view-emergency-contact',element._id]">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                </button>
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/edit-emergency-contact',element._id]">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                </button>
+                                <button mat-button class="flex-shrink-0 min-width-unset" (click)="deleteAccount(element._id)" >
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
 
-                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                        <input class="form-control" type="text" placeholder="Enter First Name" (blur)="checkSpace(contactsInfo.at(pointIndex).get('firstName'), $event)" formControlName="firstName" maxlength="35" />                        
-                        <div class="text text-danger mt-1" *ngIf="contactsInfo.at(pointIndex).get('firstName')?.touched && contactsInfo.at(pointIndex).get('firstName')?.hasError('required')">                   
-                            {{ validationMessages.required('First Name') }}
-                        </div>  
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
-                        <input class="form-control" type="text" placeholder="Enter Last Name" (blur)="checkSpace(contactsInfo.at(pointIndex).get('lastName'), $event)" formControlName="lastName" maxlength="35" />
-                        <div class="text text-danger mt-1" *ngIf="contactsInfo.at(pointIndex).get('lastName')?.touched && contactsInfo.at(pointIndex).get('lastName')?.hasError('required')">
-                            {{ validationMessages.required('Last Name') }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
-                        <div class="input-group">
-                            <input class="form-control text-capitalize" placeholder="Date of Birth" name="dp" readonly ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChange($event,pointIndex)" [value]="selected_date[pointIndex]" formControlName="dob" [minDate]="getMinDate(pointIndex)" [maxDate]="maxEndDate"/>
-                            <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()" type="button">
-                                <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                        <div class="text text-danger mt-1" *ngIf="contactsInfo.at(pointIndex).get('dob')?.touched && contactsInfo.at(pointIndex).get('dob')?.hasError('required')">
-                            {{ validationMessages.required('Date of Birth') }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Relationship with Patient</label>
-                        <select class="form-select form-control" aria-label="Default select example" formControlName="relationWithPatient">
-                            <option selected value="">Select Relation</option>
-                            <option *ngFor="let element of relationWithPatientList" value="{{element}}">{{element}}</option>
-                        </select> 
-                    </div> 
-                </div> 
-                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Other Relation</label>
-                        <input class="form-control" type="text" placeholder="Enter Other Relation" formControlName="otherRelation" maxlength="55"/>
-                    </div>
-                </div>  
-                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
-                        <input class="form-control" type="text" imask="{mask: '(000) 000-0000'}" placeholder="Enter Phone Number" maxlength="14" (input)="onPhoneInputChange($event,pointIndex)" [value]="convertPhoneNumber[pointIndex]" formControlName="phoneNumber"/>
-                        <div class="text text-danger mt-1" *ngIf="contactsInfo.at(pointIndex).get('phoneNumber')?.touched && contactsInfo.at(pointIndex).get('phoneNumber')?.hasError('required')">
-                            {{ validationMessages.required('Phone Number') }}
-                        </div>
-                    </div>
-                </div> 
-                <div class="col-12 ps-0">
-                    <div class="form-group mb-0"> 
-                        <mat-checkbox formControlName="myTreatmentCheckbox" class="">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
-                    </div>
-                    <div class="form-group mb-0"> 
-                        <mat-checkbox formControlName="myAccountCheckbox" class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="divider"></div>
-                </div>               
-            </div>           
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"></mat-paginator>
+            </div>
         </div>
-        <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
-            <button mat-raised-button color="primary" class="m-1" type="submit"> 
-                Save
-            </button>
-        </div>
-    </form>
+
+        <div class="card-body day--one--wrapper d-flex align-items-center justify-content-center" *ngIf="dayOne"> 
+            <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                <img src="assets/images/ark/calendar-lg.png"  alt="" class="img-fluid mb-4" />                    
+                <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="!dayOneFlag">No Records Found!</p>
+                <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="dayOneFlag">Currently there are no emergency contact to show!</p>
+                <p class="clr--1F2F3E text-center" *ngIf="dayOneFlag">Kindly click on “Add Contact” to add an emergency contact.</p>
+            </div>
+        </div> 
+    </div>
 </div>
