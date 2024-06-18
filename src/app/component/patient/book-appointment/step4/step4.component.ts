@@ -31,7 +31,6 @@ export class Step4Component {
     let step4: any
     step4 = localStorage.getItem("step4FormData")
     this.step4FormData = JSON.parse(step4)
-    console.log(" this.step4FormData :", this.step4FormData)
     this.loadForm()
   }
 
@@ -99,7 +98,6 @@ export class Step4Component {
   }
 
   bookAppointmentStep4() {
-    console.log("step4Form:", this.step4Form.value)
     localStorage.setItem("step4FormData", JSON.stringify(this.step4Form.value));
     this.router.navigate(['/patient/book-appointment/step-5'])
   }

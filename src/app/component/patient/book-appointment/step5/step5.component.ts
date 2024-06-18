@@ -89,7 +89,6 @@ export class step5Component {
       uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles),
     }
     Object.assign(finalReqBody, this.step5Form.value)
-    console.log("finalReqBody:", finalReqBody)
     await this.authService.apiRequest('post', 'appointment/addAppointment', finalReqBody).subscribe(async response => {
       this.commonService.hideLoader()
       localStorage.removeItem('step1FormData')

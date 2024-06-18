@@ -76,8 +76,6 @@ export class IntakeStep2Component {
       } else {
         this.step2FormData = response.data.appointmentData
         this.payViaSelected = this.step2FormData.payVia
-        console.log("apiRequest:", this.step2FormData)
-
         this.loadForm()
 
         if (this.authService.getLoggedInInfo('role') == 'patient' && this.step2FormData.status == 'Pending') {
@@ -102,7 +100,6 @@ export class IntakeStep2Component {
           localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.uploadedInsuranceFiles))
           this.uploadedInsuranceFilesTotal = insuranceFiles.length
         }
-        console.log("uploadedInsuranceFiles:", this.uploadedInsuranceFiles)
         this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value
       }
     })
@@ -299,7 +296,6 @@ export class IntakeStep2Component {
         },
         uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
       }
-      console.log("formData:", formData)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         this.router.navigate(['/patient/intake-form/step-3', this.appId])
       })
@@ -324,7 +320,6 @@ export class IntakeStep2Component {
         if (insuranceFiles.length > 0) {
           Object.assign(formData, { insuranceFiles: insuranceFiles })
         }
-        console.log("formData:", formData)
         await this.authService.apiRequest('post', 'insurance/addInsurance', formData).subscribe(async response => {
           let params = {
             query: { _id: this.appId },
@@ -351,7 +346,6 @@ export class IntakeStep2Component {
     this.uploadedInsuranceFiles.splice(index, 1);
     localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.uploadedInsuranceFiles))
     this.uploadedInsuranceFilesTotal = this.uploadedInsuranceFiles.length
-    console.log("uploadedInsuranceFiles:", this.uploadedInsuranceFiles)
   }
 
   getIcon(fileType: any) {
@@ -388,7 +382,6 @@ export class IntakeStep2Component {
           icon: that.getIcon(fileType)
         })
         that.uploadedInsuranceFilesTotal = that.uploadedInsuranceFiles.length
-        console.log("uploadedInsuranceFiles:", that.uploadedInsuranceFiles)
         localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(that.uploadedInsuranceFiles))
       }
     }

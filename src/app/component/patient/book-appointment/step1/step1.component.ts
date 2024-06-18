@@ -51,7 +51,6 @@ export class Step1Component {
       this.loadForm()
     }
     this.enabledDisabledFields()
-    console.log("***ngOnInit step1FormData***", this.step1FormData)
   }
 
   enabledDisabledFields() {
@@ -81,7 +80,6 @@ export class Step1Component {
   }
 
   setValue(current = '') {
-    console.log("patientInfo:", this.patientInfo) 
     let firstName = ''
     let middleName = ''
     let lastName = ''
@@ -158,7 +156,6 @@ export class Step1Component {
       }
       Object.assign(finalReqBody, this.step1Form.value)
     }
-    console.log("step1Form:", finalReqBody)
     localStorage.setItem("step1FormData", JSON.stringify(finalReqBody));
     this.router.navigate(['/patient/book-appointment/step-2'])
   }

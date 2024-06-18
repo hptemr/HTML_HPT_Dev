@@ -39,10 +39,8 @@ export class Step3Component {
       let step2: any
       step2 = localStorage.getItem("step2FormData")
       this.step2FormData = JSON.parse(step2)
-      console.log(" this.step2FormData :", this.step2FormData)
     } else {
       this.step3FormData = JSON.parse(this.step3FormData)
-      console.log(" this.step3FormData :", this.step3FormData)
     }
     this.loadForm()
   }

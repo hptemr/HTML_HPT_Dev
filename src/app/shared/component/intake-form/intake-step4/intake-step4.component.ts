@@ -51,8 +51,6 @@ export class IntakeStep4Component {
         this.router.navigate(['/patient/appointments'])
       } else {
         this.step4FormData = response.data.appointmentData.emergencyContact[0]
-        console.log("apiRequest:", this.step4FormData)
-
         this.loadForm()
         if (this.authService.getLoggedInInfo('role') == 'patient' && response.data.appointmentData.status == 'Pending') {
           //patient can update the info
@@ -130,7 +128,6 @@ export class IntakeStep4Component {
   }
 
   async bookAppointmentStep4() {
-    console.log("step4Form:", this.step4Form.value)
     if (this.isFormEditable) {
       let params = {
         query: { _id: this.appId },
@@ -138,7 +135,6 @@ export class IntakeStep4Component {
           emergencyContact: this.step4Form.value
         }
       }
-      console.log("params:", params)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         this.router.navigate(['/patient/intake-form/step-5', this.appId])
       })

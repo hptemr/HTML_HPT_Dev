@@ -71,11 +71,8 @@ export class Step2Component {
       this.payViaSelected = 'Insurance'
     } else {
       this.step2FormData = JSON.parse(this.step2FormData)
-      console.log(" this.step2FormData :", this.step2FormData)
       this.payViaSelected = this.step2FormData.payVia
     }
-    console.log(" this.step2FormData :", this.step2FormData)
-
     this.loadForm()
     this.getInsuranceList()
     this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value
@@ -265,7 +262,6 @@ export class Step2Component {
       Object.assign(formData, { insuranceFiles: insuranceFiles })
     }
     localStorage.setItem("step2FormData", JSON.stringify(formData));
-    console.log("step2FormData:", formData)
     this.router.navigate(['/patient/book-appointment/step-3'])
   }
 
@@ -284,9 +280,7 @@ export class Step2Component {
         if (insuranceFiles.length > 0) {
           Object.assign(formData, { insuranceFiles: insuranceFiles })
         }
-        console.log("formData:", formData)
         await this.authService.apiRequest('post', 'insurance/addInsurance', formData).subscribe(async response => {
-          console.log("addInsurance response:", response)
           localStorage.setItem("step2FormData", JSON.stringify(formData));
           this.router.navigate(['/patient/book-appointment/step-3'])
         })
@@ -305,7 +299,6 @@ export class Step2Component {
     this.uploadedInsuranceFiles.splice(index, 1);
     localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.uploadedInsuranceFiles))
     this.uploadedInsuranceFilesTotal = this.uploadedInsuranceFiles.length
-    console.log("uploadedInsuranceFiles:", this.uploadedInsuranceFiles)
   }
 
   uploadInsurance($event: any) {

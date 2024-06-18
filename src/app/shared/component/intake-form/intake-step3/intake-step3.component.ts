@@ -49,8 +49,6 @@ export class IntakeStep3Component {
         this.router.navigate(['/patient/appointments'])
       } else {
         this.step3FormData = response.data.appointmentData
-        console.log("apiRequest:", this.step3FormData)
-
         this.loadForm()
 
         if (this.authService.getLoggedInInfo('role') == 'patient' && this.step3FormData.status == 'Pending') {
@@ -76,7 +74,6 @@ export class IntakeStep3Component {
           localStorage.setItem("uploadedPrescriptionFiles", JSON.stringify(this.uploadedPrescriptionFiles))
           this.uploadedPrescriptionFilesTotal = prescriptionFiles.length
         }
-        console.log("uploadedPrescriptionFiles:", this.uploadedPrescriptionFiles)
       }
     })
   }
@@ -317,7 +314,6 @@ export class IntakeStep3Component {
   }
 
   async bookAppointmentStep3() {
-    console.log("step3Form:", this.step3Form.value)
     if (this.isFormEditable) {
       let formData = this.step3Form.value
       let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
@@ -333,7 +329,6 @@ export class IntakeStep3Component {
         },
         uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles),
       }
-      console.log("params:", params)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         this.router.navigate(['/patient/intake-form/step-4', this.appId])
       })
