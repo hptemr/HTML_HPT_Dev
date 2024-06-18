@@ -603,7 +603,7 @@
 
                             <div class="col-12 d-flex align-items-center justify-content-end">
                                 <div class="form-group">
-                                    <button [disabled]="uploadedInsuranceFilesTotal >= 5" mat-raised-button
+                                    <button [disabled]="uploadedInsuranceFilesTotal >= 5 || !isFormEditable" mat-raised-button
                                         color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
                                         <input #insuranceFileInput accept="image/*, application/pdf,.doc, .docx"
                                             (change)="uploadInsurance($event)" type="file">
@@ -631,7 +631,7 @@
                                             <!-- <p class="m-0 font-14">{{fileObj.size}} </p> -->
                                         </div>
                                     </div>
-                                    <button *ngIf="fileObj" (click)="deleteInsurance(i)" mat-raised-button color="warn"
+                                    <button *ngIf="isFormEditable" (click)="deleteInsurance(i)" mat-raised-button color="warn"
                                         class="flex-shrink-0">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
                                         Delete

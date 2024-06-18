@@ -88,14 +88,21 @@ export class IntakeStep2Component {
           this.step2Form.disable()
         }
         this.commonService.hideLoader()
-        if (this.step2FormData.payViaInsuranceInfo.insuranceFiles) {
-          localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.step2FormData.payViaInsuranceInfo.insuranceFiles))
-          this.uploadedInsuranceFiles = this.step2FormData.payViaInsuranceInfo.insuranceFiles
-          this.uploadedInsuranceFilesTotal = this.step2FormData.payViaInsuranceInfo.insuranceFiles.length
+        if (this.step2FormData.payViaInsuranceInfo.insuranceFiles && this.step2FormData.payViaInsuranceInfo.insuranceFiles.length > 0) {
+          let filesArr: any = []
+          let insuranceFiles = this.step2FormData.payViaInsuranceInfo.insuranceFiles
+          insuranceFiles.forEach((element: any) => {
+            filesArr.push({
+              name: element,
+              data: '',
+              icon: this.getIcon(this.getExtension(element))
+            })
+          });
+          this.uploadedInsuranceFiles = filesArr
+          localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.uploadedInsuranceFiles))
+          this.uploadedInsuranceFilesTotal = insuranceFiles.length
         }
-
         console.log("uploadedInsuranceFiles:", this.uploadedInsuranceFiles)
-
         this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value
       }
     })
@@ -280,9 +287,7 @@ export class IntakeStep2Component {
   async bookAppointmentStep2() {
     if (this.isFormEditable) {
       let formData = this.step2Form.value
-      Object.assign(formData, {
-        patientId: this.authService.getLoggedInInfo('_id'),
-      })
+      let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
       let insuranceFiles = this.getInsuranceFiles()
       if (insuranceFiles.length > 0) {
         Object.assign(formData, { insuranceFiles: insuranceFiles })
@@ -291,8 +296,10 @@ export class IntakeStep2Component {
         query: { _id: this.appId },
         updateInfo: {
           payViaInsuranceInfo: formData
-        }
+        },
+        uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
       }
+      console.log("formData:", formData)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         this.router.navigate(['/patient/intake-form/step-3', this.appId])
       })
@@ -311,8 +318,8 @@ export class IntakeStep2Component {
         let formData = this.step2Form.value
         Object.assign(formData, {
           insuranceName: insuranceName,
-          patientId: this.authService.getLoggedInInfo('_id')
         })
+        let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
         let insuranceFiles = this.getInsuranceFiles()
         if (insuranceFiles.length > 0) {
           Object.assign(formData, { insuranceFiles: insuranceFiles })
@@ -321,7 +328,8 @@ export class IntakeStep2Component {
         await this.authService.apiRequest('post', 'insurance/addInsurance', formData).subscribe(async response => {
           let params = {
             query: { _id: this.appId },
-            updateInfo: formData
+            updateInfo: formData,
+            uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
           }
           await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
             this.commonService.hideLoader()
@@ -346,6 +354,18 @@ export class IntakeStep2Component {
     console.log("uploadedInsuranceFiles:", this.uploadedInsuranceFiles)
   }
 
+  getIcon(fileType: any) {
+    let icon = ''
+    if (['png', 'jpg', 'jpeg', 'webp'].includes(fileType)) {
+      icon = 'image'
+    } else if (['doc', 'docx'].includes(fileType)) {
+      icon = 'description'
+    } else {
+      icon = 'picture_as_pdf'
+    }
+    return icon
+  }
+
   uploadInsurance($event: any) {
     let file: File = $event.target.files[0]
     let fileType = this.getExtension(file.name)
@@ -355,16 +375,7 @@ export class IntakeStep2Component {
     } else if (file.size / (1024 * 1024) >= 5) {
       this.fileError = 'File max size should be less than 5MB'
     } else {
-      let icon = ''
       this.fileError = ""
-      if (['png', 'jpg', 'jpeg', 'webp'].includes(fileType)) {
-        icon = 'image'
-      } else if (['doc', 'docx'].includes(fileType)) {
-        icon = 'description'
-      } else {
-        icon = 'picture_as_pdf'
-      }
-
       let myReader: FileReader = new FileReader()
       myReader.readAsDataURL(file)
       let that = this
@@ -374,9 +385,10 @@ export class IntakeStep2Component {
           //size: file.size,
           name: datenow + "." + fileType,
           data: loadEvent.target.result,
-          icon: icon
+          icon: that.getIcon(fileType)
         })
         that.uploadedInsuranceFilesTotal = that.uploadedInsuranceFiles.length
+        console.log("uploadedInsuranceFiles:", that.uploadedInsuranceFiles)
         localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(that.uploadedInsuranceFiles))
       }
     }

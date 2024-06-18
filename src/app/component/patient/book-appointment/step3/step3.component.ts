@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
- import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class Step3Component {
   step1FormData: any
   step2FormData: any
   step3FormData: any
-  
+
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
   fileError: any = ''
   uploadedPrescriptionFiles: any = []
@@ -199,7 +199,7 @@ export class Step3Component {
       areYouUnderStressSelfYes: new FormControl((this.step3FormData ? this.step3FormData.areYouUnderStressSelfYes : '')),
 
       symptoms: new FormControl((this.step3FormData ? this.step3FormData.symptoms : '')),
-      symptomsSame: new FormControl((this.step3FormData ? this.step3FormData.symptomsSame : '')), 
+      symptomsSame: new FormControl((this.step3FormData ? this.step3FormData.symptomsSame : '')),
 
       rateYourPain: new FormControl((this.step3FormData ? this.step3FormData.rateYourPain : '')),
 
@@ -257,9 +257,23 @@ export class Step3Component {
     this.step3Form.controls['rateYourPain'].setValue(i)
   }
 
+  getPrescriptionFiles() {
+    let filesName: any = []
+    if (localStorage.getItem("uploadedPrescriptionFiles")) {
+      let files: any
+      files = localStorage.getItem("uploadedPrescriptionFiles")
+      filesName = JSON.parse(files).map((item: any) => item.name);
+    }
+    return filesName
+  }
+
   bookAppointmentStep3() {
-    console.log("step3Form:", this.step3Form.value)
-    localStorage.setItem("step3FormData", JSON.stringify(this.step3Form.value));
+    let formData = this.step3Form.value
+    let prescriptionFiles = this.getPrescriptionFiles()
+    if (prescriptionFiles.length > 0) {
+      Object.assign(formData, { prescriptionFiles: prescriptionFiles })
+    }
+    localStorage.setItem("step3FormData", JSON.stringify(formData));
     this.router.navigate(['/patient/book-appointment/step-4'])
   }
 
@@ -313,7 +327,7 @@ export class Step3Component {
   }
 
   deletePrescription(index: any) {
-    this.insuranceFileInput.nativeElement.value = ''; 
+    this.insuranceFileInput.nativeElement.value = '';
     this.uploadedPrescriptionFiles.splice(index, 1);
     localStorage.setItem("uploadedPrescriptionFiles", JSON.stringify(this.uploadedPrescriptionFiles))
     this.uploadedPrescriptionFilesTotal = this.uploadedPrescriptionFiles.length

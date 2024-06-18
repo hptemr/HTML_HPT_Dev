@@ -61,14 +61,36 @@ export class IntakeStep3Component {
           this.step3Form.disable()
         }
         this.commonService.hideLoader()
-        if (this.step3FormData.patientMedicalHistory.uploadedPrescriptionFiles) {
-          localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.step3FormData.patientMedicalHistory.uploadedPrescriptionFiles))
-          this.uploadedPrescriptionFiles = this.step3FormData.patientMedicalHistory.uploadedPrescriptionFiles
-          this.uploadedPrescriptionFilesTotal = this.step3FormData.patientMedicalHistory.uploadedPrescriptionFiles.length
+
+        if (this.step3FormData.patientMedicalHistory.prescriptionFiles && this.step3FormData.patientMedicalHistory.prescriptionFiles.length > 0) {
+          let filesArr: any = []
+          let prescriptionFiles = this.step3FormData.patientMedicalHistory.prescriptionFiles
+          prescriptionFiles.forEach((element: any) => {
+            filesArr.push({
+              name: element,
+              data: '',
+              icon: this.getIcon(this.getExtension(element))
+            })
+          });
+          this.uploadedPrescriptionFiles = filesArr
+          localStorage.setItem("uploadedPrescriptionFiles", JSON.stringify(this.uploadedPrescriptionFiles))
+          this.uploadedPrescriptionFilesTotal = prescriptionFiles.length
         }
-        console.log("uploadedInsuranceFiles:", this.uploadedPrescriptionFiles)
+        console.log("uploadedPrescriptionFiles:", this.uploadedPrescriptionFiles)
       }
     })
+  }
+
+  getIcon(fileType: any) {
+    let icon = ''
+    if (['png', 'jpg', 'jpeg', 'webp'].includes(fileType)) {
+      icon = 'image'
+    } else if (['doc', 'docx'].includes(fileType)) {
+      icon = 'description'
+    } else {
+      icon = 'picture_as_pdf'
+    }
+    return icon
   }
 
 
@@ -284,14 +306,32 @@ export class IntakeStep3Component {
     this.step3Form.controls['rateYourPain'].setValue(i)
   }
 
+  getPrescriptionFiles() {
+    let filesName: any = []
+    if (localStorage.getItem("uploadedPrescriptionFiles")) {
+      let files: any
+      files = localStorage.getItem("uploadedPrescriptionFiles")
+      filesName = JSON.parse(files).map((item: any) => item.name);
+    }
+    return filesName
+  }
+
   async bookAppointmentStep3() {
     console.log("step3Form:", this.step3Form.value)
     if (this.isFormEditable) {
+      let formData = this.step3Form.value
+      let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
+      let prescriptionFiles = this.getPrescriptionFiles()
+      if (prescriptionFiles.length > 0) {
+        Object.assign(formData, { prescriptionFiles: prescriptionFiles })
+      }
+
       let params = {
         query: { _id: this.appId },
         updateInfo: {
-          patientMedicalHistory: this.step3Form.value
-        }
+          patientMedicalHistory: formData
+        },
+        uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles),
       }
       console.log("params:", params)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
