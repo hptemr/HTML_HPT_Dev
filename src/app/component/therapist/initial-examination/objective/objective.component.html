@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="col-12">
-            <div class="form-group mb-2 d-flex align-items-center">
+            <div class="form-group d-flex align-items-center">
                 <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0">Patient Consent</label>
                 <mat-radio-group aria-label="Select an option">
                     <mat-radio-button value="1" class="me-3" >No</mat-radio-button>
@@ -127,6 +127,203 @@
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
         </div>
+
+        <!-- Neck Disability Index (Start here) -->
+        <div class="col-12 mb-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="font-16 fw-700 clr--1F2F3E mb-2">NECK DISABILITY INDEX — INITIAL VISIT <span class="font-14 fw-400">(Select the answers below that best apply)</span></h1>
+                </div>
+                <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center mb-3">
+                    <p class="font-14 clr--1F2F3E mb-0 me-3">1. Please rate your pain level with activity:</p>
+                    <div class="d-flex flex-column flex-sm-row  align-items-start align-items-sm-center">
+                        <p class="m-0 font-14 text-lowercase">0=NO PAIN</p>
+                        <ul class=" d-flex flex-wrap pain--mark">
+                            <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
+                                {{i}}
+                            </li>
+                       </ul>
+                        <p class="m-0 font-14 text-lowercase">10=VERY SEVERE PAIN</p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">1.Pain Intensity</label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="1" class="w-100">(0) I have no pain at the moment.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(1) The pain is very mild at the moment.</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(2) The pain is moderate at the moment.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(3) The pain is fairly severe at the moment.</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(4) The pain is very severe at the moment.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(5) The pain is the worse imaginable at the moment.</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex d-sm-none"> <!--This div for only responsive-->
+                            <div class="divider"></div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">2.Personal Care (washing, dressing, etc)</label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="1" class="w-100">(0) I can look after myself normally without extra pain.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(1) I can look after myself normally but it causes extra pain..</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(2) It is painful to look after myself and I am slow and careful.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(3) I need some help but manage most of my personal care.</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(4) I need help every day in most aspects of self care.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(5) I cannot get dressed, wash with difficulty and stay in bed</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">3. Lifting</label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="0" class="w-100">(0) I can lift heavy weights without extra pain.</mat-radio-button> 
+                                    <mat-radio-button value="1" class="w-100">(1) I can lift heavy weights but it gives me extra pain.</mat-radio-button> 
+                                    <mat-radio-button value="2" class="w-100">(2) Pain prevents me from lifting heavy weights off the floor
+                                        but I can manage if they are on a table.</mat-radio-button> 
+                                    <mat-radio-button value="3" class="w-100">(3) Pain prevents me from lifting heavy weights but I can
+                                        manage if they are conveniently placed.</mat-radio-button> 
+                                    <mat-radio-button value="4" class="w-100">(4) I can lift only very light weights.</mat-radio-button> 
+                                    <mat-radio-button value="5" class="w-100">(5) I cannot lift or carry anything at all.</mat-radio-button> 
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex d-sm-none"> <!--This div for only responsive-->
+                            <div class="divider"></div>
+                        </div> 
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">4. Headache </label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="0" class="w-100">(0) I have no headaches at all.</mat-radio-button> 
+                                    <mat-radio-button value="1" class="w-100">(1) I have slight headaches which come infrequently.</mat-radio-button> 
+                                    <mat-radio-button value="2" class="w-100">(2) I have moderate headaches which come infrequently.</mat-radio-button> 
+                                    <mat-radio-button value="3" class="w-100">(3) I have moderate headaches which come frequently.</mat-radio-button> 
+                                    <mat-radio-button value="4" class="w-100">(4) I have severe headaches which come infrequently.</mat-radio-button> 
+                                    <mat-radio-button value="5" class="w-100">(5) I have headaches almost all the time.</mat-radio-button> 
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="divider"></div>
+                        </div> 
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">5. Recreation </label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="0" class="w-100">(0) I am able engage in all my recreational activities without pain.</mat-radio-button> 
+                                    <mat-radio-button value="1" class="w-100">(1) I am able to engage in my recreational activities with some pain.</mat-radio-button> 
+                                    <mat-radio-button value="2" class="w-100">(2) I am able to engage in most but not all of my usual
+                                        recreational activities because of my neck pain.</mat-radio-button> 
+                                    <mat-radio-button value="3" class="w-100">(3) I am able to engage in a few of my usual recreational
+                                        activities with some neck pain.</mat-radio-button> 
+                                    <mat-radio-button value="4" class="w-100">(4) I can hardly do any recreational activities because of neck pain.</mat-radio-button> 
+                                    <mat-radio-button value="5" class="w-100">(5) I can't do any recreational activities at all.</mat-radio-button> 
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex d-sm-none"> <!--This div for only responsive-->
+                            <div class="divider"></div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">6. Reading</label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="1" class="w-100">(0) I can read as much as I want with no pain in my neck.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(1) I can read as much as I want with slight neck pain.</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(2) I can read as much as I want with moderate neck pain.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(3) I can't read as much as I want because of moderate neck pain.</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(4) I can hardly read at all because of severe neck pain.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(5) I cannot read at all because of neck pain.</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">7. Work</label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="1" class="w-100">(0) I can do as much as I want to.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(1) I can only do my usual work but no more.</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(2) I can do most of my usual work but no more.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(3) I cannot do my usual work.</mat-radio-button>
+                                    <mat-radio-button value="1" class="w-100">(4) I can hardly do any usual work at all.</mat-radio-button>
+                                    <mat-radio-button value="2" class="w-100">(5) I can't do any work at all.</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex d-sm-none"> <!--This div for only responsive-->
+                            <div class="divider"></div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">8. Sleeping </label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="0" class="w-100">(0) Pain does not prevent me from sleeping well.</mat-radio-button> 
+                                    <mat-radio-button value="1" class="w-100">(1) My sleep is slightly disturbed (<1 hr sleep loss).</mat-radio-button> 
+                                    <mat-radio-button value="2" class="w-100">(2) My sleep is mildly disturbed (1-2 hr sleep loss).</mat-radio-button> 
+                                    <mat-radio-button value="3" class="w-100">(3) My sleep is moderately disturbed (2-3 hr sleep loss).</mat-radio-button> 
+                                    <mat-radio-button value="4" class="w-100">(4) My sleep is greatly disturbed (3-4 hr sleep loss).</mat-radio-button> 
+                                    <mat-radio-button value="5" class="w-100">(5) My sleep is completely disturbed (5-7 hr sleep loss).</mat-radio-button> 
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">9. Concentration</label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="0" class="w-100">(0) I can concentrate fully when I want with no difficulty.</mat-radio-button> 
+                                    <mat-radio-button value="1" class="w-100">(1) I can concentrate fully when I want with slight difficulty.</mat-radio-button> 
+                                    <mat-radio-button value="2" class="w-100">(2) I have a fair degree of difficulty concentrating when I want.</mat-radio-button> 
+                                    <mat-radio-button value="3" class="w-100">(3) I have a lot of difficulty concentrating when I want.</mat-radio-button> 
+                                    <mat-radio-button value="4" class="w-100">(4) I have great difficulty concentrating when I want.</mat-radio-button> 
+                                    <mat-radio-button value="5" class="w-100">(5) I cannot concentrate at all.</mat-radio-button> 
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex d-sm-none"> <!--This div for only responsive-->
+                            <div class="divider"></div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-700 p-0 font-16 mb-2">10. Driving </label>
+                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                    <mat-radio-button value="0" class="w-100">(0) I can drive my car without neck pain.</mat-radio-button> 
+                                    <mat-radio-button value="1" class="w-100">(1) I can drive my car as long as I want with slight neck pain.</mat-radio-button> 
+                                    <mat-radio-button value="2" class="w-100">(2) I can drive my car as long as I want with moderate neck pain.</mat-radio-button> 
+                                    <mat-radio-button value="3" class="w-100">(3) I can't drive my car as long as I want because of moderate pain.</mat-radio-button> 
+                                    <mat-radio-button value="4" class="w-100">(4) I can hardly drive my car at all because of severe neck pain.</mat-radio-button> 
+                                    <mat-radio-button value="5" class="w-100">(5) I can't drive my car at all.</mat-radio-button> 
+                                </mat-radio-group>
+                            </div>
+                        </div> 
+                        <div class="col-12">
+                            <div class="form-group d-flex align-items-center mb-4">
+                                <label class="col-form-label fw-700 font-16 me-3">Score</label>
+                                <input type="text" class="form-control form-control-md score" placeholder="" value="28">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="divider mb-0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Neck Disability Index (End here) -->
+
         <div class="col-12">
             <div class="form-group d-flex align-items-center">
                 <label class="col-form-label fw-700 font-16 text-uppercase me-3">Land Flowsheet</label>

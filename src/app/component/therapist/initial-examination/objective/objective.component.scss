@@ -24,10 +24,51 @@
     .font-16{
         font-size: 16px !important;
     }
+    .pain--mark{
+        border-radius: 30px;
+        border: 1px solid #31B7B7;
+        padding: 5px;
+        margin: 5px;
+        li{
+            width: 24px;
+            height: 24px;
+            border-radius: 100%;
+            margin: 0 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            cursor: pointer;
+            &:hover,
+            &.active{
+                background-color: #31B7B7;
+                color: #fff;
+            }
+        }
+    }
+     
+    .divider{
+        border-top: 1px solid #DED2D9;
+        margin: 0 0 20px 0;
+        width: 100%;
+    }
+    .score{
+        width: 100px;
+        
+    }
 }
 
 @media only screen and (max-width: 599px) {
     .objective--wrapepr .chape--group label{
         margin-top: 7px;
     } 
+    .objective--wrapepr .pain--mark li{ 
+        margin: 0 2px;
+    }
+    ::ng-deep{
+        .mat-mdc-radio-group{
+            .mat-mdc-radio-button{
+                margin-bottom: 5px;
+            }
+        }
+    }
 }

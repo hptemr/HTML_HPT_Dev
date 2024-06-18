@@ -8,6 +8,15 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './objective.component.scss'
 })
 export class ObjectiveComponent {
+  clickedIndex = 0;
+  selectedValue: number;
+  tabs = [
+    {number: '1'}, {number: '2'}, {number: '3'},
+    {number: '4'}, {number: '5'}, {number: '6'},
+    {number: '7'}, {number: '8'}, {number: '9'},
+    {number: '10'}
+  ];
+
   constructor(public dialog: MatDialog) {}
  
   addExersiceModal() {
