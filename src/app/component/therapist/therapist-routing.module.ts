@@ -12,6 +12,8 @@ import { AssessmentComponent } from './initial-examination/assessment/assessment
 import { PlanComponent } from './initial-examination/plan/plan.component';
 import { BillingComponent } from './initial-examination/billing/billing.component';
 import { InitialExaminationComponent } from './initial-examination/initial-examination/initial-examination.component';
+import { SelectFolderComponent } from './protocol/select-folder/select-folder.component';
+import { SelectFilesComponent } from './protocol/select-files/select-files.component';
  
 const routes: Routes = [ 
   {
@@ -64,7 +66,14 @@ const routes: Routes = [
       },
     ]
   },
-
+  {
+    path: 'select-folder',
+    component:SelectFolderComponent   
+  },
+  {
+    path: 'select-file',
+    component:SelectFilesComponent   
+  },
   
 ];
 

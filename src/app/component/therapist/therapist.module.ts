@@ -17,6 +17,9 @@ import { PlanComponent } from './initial-examination/plan/plan.component';
 import { BillingComponent } from './initial-examination/billing/billing.component';
 import { InitialExaminationComponent } from './initial-examination/initial-examination/initial-examination.component';
 import { AddExerciseComponent } from './initial-examination/add-exercise/add-exercise.component';
+import { SelectFolderComponent } from './protocol/select-folder/select-folder.component';
+import { SelectFilesComponent } from './protocol/select-files/select-files.component';
+import { CaseNoteModalComponent } from './case-note-modal/case-note-modal.component';
  
 
 @NgModule({
@@ -36,7 +39,10 @@ import { AddExerciseComponent } from './initial-examination/add-exercise/add-exe
     PlanComponent,
     BillingComponent,
 
-    AddExerciseComponent
+    AddExerciseComponent,
+    SelectFolderComponent,
+    SelectFilesComponent,
+    CaseNoteModalComponent
   ],
   imports: [
     CommonModule,

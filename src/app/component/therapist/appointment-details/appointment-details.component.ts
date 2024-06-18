@@ -8,6 +8,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { CaseNoteModalComponent } from '../case-note-modal/case-note-modal.component';
 
 export interface PeriodicElement {
   note: string;  
@@ -128,6 +129,12 @@ export class AppointmentDetailsComponent {
   writeComment(){
     const dialogRef = this.dialog.open(WriteCommentModalComponent,{
       panelClass: 'custom-alert-container',
+    });
+  }
+
+  caseNoteModal() {
+    const dialogRef = this.dialog.open(CaseNoteModalComponent,{
+      panelClass: [ 'custom-alert-container','modal--wrapper'],
     });
   }
  
