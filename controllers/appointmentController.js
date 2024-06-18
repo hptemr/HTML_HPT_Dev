@@ -90,44 +90,7 @@ const addAppointment = async (req, res) => {
         await newRecord.save()
         commonHelper.sendResponse(res, 'success', null, commonMessage.commonMessage);
 
-        let uploadedInsuranceFiles = req.body.uploadedInsuranceFiles
-        if (uploadedInsuranceFiles && uploadedInsuranceFiles.length > 0) {
-            var s3InsurancePath = constants.s3Details.patientInsuranceFolderPath;
-            for (let i = 0; i < uploadedInsuranceFiles.length; i++) {
-                let fileName = uploadedInsuranceFiles[i].name
-                let fileSelected = uploadedInsuranceFiles[i].data
-                let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
-                let params = {
-                    ContentEncoding: "base64",
-                    ACL: "bucket-owner-full-control",
-                    ContentType: fileSelected.split(";")[0],
-                    Bucket: constants.s3Details.bucketName,
-                    Body: fileBuffer,
-                    Key: `${s3InsurancePath}${fileName}`,
-                };
-                await s3.uploadFileNew(params)
-            }
-        }
-
-        let uploadedPrescriptionFiles = req.body.uploadedPrescriptionFiles
-        if (uploadedPrescriptionFiles && uploadedPrescriptionFiles.length > 0) {
-            var s3PrescriptionPath = constants.s3Details.patientPrescriptionFolderPath;
-            for (let i = 0; i < uploadedPrescriptionFiles.length; i++) {
-                let fileName = uploadedPrescriptionFiles[i].name
-                let fileSelected = uploadedPrescriptionFiles[i].data
-                let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
-                let params = {
-                    ContentEncoding: "base64",
-                    ACL: "bucket-owner-full-control",
-                    ContentType: fileSelected.split(";")[0],
-                    Bucket: constants.s3Details.bucketName,
-                    Body: fileBuffer,
-                    Key: `${s3PrescriptionPath}${fileName}`,
-                };
-                await s3.uploadFileNew(params)
-            }
-        }
-
+        await s3UploadDocuments(req, res)
 
         let template = await emailTemplateModel.findOne({ code: "bookAppointment" })
         if (template) {
@@ -160,11 +123,60 @@ const rescheduleAppointment = async (req, res) => {
 
 const updateAppointment = async (req, res) => {
     try {
-        const { query, updateInfo } = req.body;
+        const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles } = req.body;
         await Appointment.findOneAndUpdate(query, updateInfo);
+
+        if ((uploadedInsuranceFiles && uploadedInsuranceFiles.length > 0) || (uploadedPrescriptionFiles && uploadedPrescriptionFiles.length > 0)) {
+            await s3UploadDocuments(req, res)
+        }
+
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+async function s3UploadDocuments(req, res) {
+    let uploadedInsuranceFiles = req.body.uploadedInsuranceFiles
+    if (uploadedInsuranceFiles && uploadedInsuranceFiles.length > 0) {
+        var s3InsurancePath = constants.s3Details.patientInsuranceFolderPath;
+        for (let i = 0; i < uploadedInsuranceFiles.length; i++) {
+            if (uploadedInsuranceFiles[i].data && uploadedInsuranceFiles[i].data != '') {
+                let fileName = uploadedInsuranceFiles[i].name
+                let fileSelected = uploadedInsuranceFiles[i].data
+                let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
+                let params = {
+                    ContentEncoding: "base64",
+                    ACL: "bucket-owner-full-control",
+                    ContentType: fileSelected.split(";")[0],
+                    Bucket: constants.s3Details.bucketName,
+                    Body: fileBuffer,
+                    Key: `${s3InsurancePath}${fileName}`,
+                };
+                await s3.uploadFileNew(params)
+            }
+        }
+    }
+
+    let uploadedPrescriptionFiles = req.body.uploadedPrescriptionFiles
+    if (uploadedPrescriptionFiles && uploadedPrescriptionFiles.length > 0) {
+        var s3PrescriptionPath = constants.s3Details.patientPrescriptionFolderPath;
+        for (let i = 0; i < uploadedPrescriptionFiles.length; i++) {
+            if (uploadedPrescriptionFiles[i].data && uploadedPrescriptionFiles[i].data != '') {
+                let fileName = uploadedPrescriptionFiles[i].name
+                let fileSelected = uploadedPrescriptionFiles[i].data
+                let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
+                let params = {
+                    ContentEncoding: "base64",
+                    ACL: "bucket-owner-full-control",
+                    ContentType: fileSelected.split(";")[0],
+                    Bucket: constants.s3Details.bucketName,
+                    Body: fileBuffer,
+                    Key: `${s3PrescriptionPath}${fileName}`,
+                };
+                await s3.uploadFileNew(params)
+            }
+        }
     }
 }
 
