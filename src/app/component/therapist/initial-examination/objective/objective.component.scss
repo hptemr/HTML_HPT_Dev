@@ -52,8 +52,47 @@
         width: 100%;
     }
     .score{
-        width: 100px;
-        
+        width: 100px; 
+    }
+    .quickdash--table{
+        overflow-y: hidden;
+        table{
+            thead{
+                tr{
+                    th{
+                        padding: 5px;
+                        font-weight: 700;
+                        color: #212529;     
+                        font-size: 14px;
+                        width: 100px;
+                        border: 0;
+                        text-transform: uppercase;
+                        vertical-align: middle;
+                        &:first-child{
+                            width: auto;
+                        }
+                        &:last-child{
+                            width: 160px;
+                        }
+                        .nine--note{
+                            text-transform: none !important;
+                            width: 53%;
+                            display: flex;
+                        }
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        padding: 0 5px;
+                        border: 0;
+                        color: #212529;     
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -70,5 +109,24 @@
                 margin-bottom: 5px;
             }
         }
+    }
+    .objective--wrapepr .quickdash--table table{
+        width: 550px;
+        thead tr th{
+            width: 60px;
+            font-size: 12px;
+            &:last-child{
+                width: 90px;
+            }
+            .nine--note{
+                width: 100%;
+            }
+        }
+    }
+    
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){
+    .objective--wrapepr .quickdash--table table thead tr th{
+        width: 70px;
     }
 }
