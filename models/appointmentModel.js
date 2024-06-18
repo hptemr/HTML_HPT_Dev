@@ -51,9 +51,6 @@ const appointmentSchema = new mongoose.Schema({
     },
     reminderViaEmailYes: { type: String, default: "" },
 
-    rejectComment: { type: String, default: "" },
-    rejectDate: { type: Date, default: Date.now },
-
     acceptInfo: {
         type: Object,  //keys will be ==> "fromPatientId , fromAdminId, acceptedDate, userRole"
         default: {}
