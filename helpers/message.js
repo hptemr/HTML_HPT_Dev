@@ -45,7 +45,9 @@ const messages = {
         rescheduled: 'Appointment has been rescheduled successfully',
     },
     emergencyContactsMessage: {
-        saved: 'Contact details have been saved successfully!',
+        created: 'Contact details have been created successfully!',
+        updated: 'Contact details has been updated successfully',
+        deleted: 'Contact details has been deleted successfully',
     },
     insuranceMessage: {
         created: 'insurance data has been created successfully',
