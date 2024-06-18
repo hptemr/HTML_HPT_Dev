@@ -103,7 +103,6 @@ export class InsuranceListingComponent {
 
     let reqVars = {
       query: this.whereCond,
-      userQuery:this.userQuery,
       fields: { _id: 1, patientId: 1, insuranceName: 1, primaryInsuranceCompany: 1, primaryInsuranceIdPolicy:1, primaryInsuranceGroup:1, status: 1, createdAt:1, updatedAt:1},
       patientFields: { firstName: 1, lastName: 1, email: 1, status: 1,profileImage:1, practiceLocation:1 },
       order: this.orderBy,
@@ -138,6 +137,19 @@ export class InsuranceListingComponent {
     })
   }
 
+  searchRecords(event: any) {
+    let searchStr = event.target.value.trim()
+    let finalStr = {};
+    if (searchStr != '') {
+      searchStr = searchStr.replace("+", "\\+");
+      finalStr = { $regex: searchStr, $options: 'i' }
+      this.whereCond = Object.assign(this.whereCond, { insuranceName: finalStr })      
+    } else{
+      this.whereCond = Object.assign({ patientId: this.userId });
+    }
+
+    this.getInsuranceList('search')
+  }
   
   handlePageEvent(event: any) {
     this.pageSize = event.pageSize;
