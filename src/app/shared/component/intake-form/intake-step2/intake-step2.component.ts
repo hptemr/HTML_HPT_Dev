@@ -297,9 +297,11 @@ export class IntakeStep2Component {
         uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+        localStorage.removeItem('uploadedInsuranceFiles')
         this.router.navigate(['/patient/intake-form/step-3', this.appId])
       })
     } else {
+      localStorage.removeItem('uploadedInsuranceFiles')
       this.router.navigate(['/patient/intake-form/step-3', this.appId])
     }
   }
@@ -328,6 +330,7 @@ export class IntakeStep2Component {
           }
           await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
             this.commonService.hideLoader()
+            localStorage.removeItem('uploadedInsuranceFiles')
             this.router.navigate(['/patient/intake-form/step-3', this.appId])
           })
         })

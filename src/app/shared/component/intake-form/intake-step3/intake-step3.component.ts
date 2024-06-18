@@ -330,9 +330,11 @@ export class IntakeStep3Component {
         uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles),
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+        localStorage.removeItem('uploadedPrescriptionFiles')
         this.router.navigate(['/patient/intake-form/step-4', this.appId])
       })
     } else {
+      localStorage.removeItem('uploadedPrescriptionFiles')
       this.router.navigate(['/patient/intake-form/step-4', this.appId])
     }
   }
