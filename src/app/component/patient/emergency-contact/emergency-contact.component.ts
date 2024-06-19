@@ -67,13 +67,16 @@ export class EmergencyContactComponent implements OnInit {
   async getEmergencyContactDetail(action=""){
   
     const req_vars = {
-      query: this.whereCond
+      query: this.whereCond,
+      order: this.orderBy,
+      limit: this.pageSize,
+      offset: (this.pageIndex * this.pageSize)
     }
-    if(action=='search'){
+    if(action==''){
       this.commonService.showLoader();       
     }    
     await this.authService.apiRequest('post', 'emergencyContact/getContactListData', req_vars).subscribe(async response => {         
-      if(action=='search'){ this.commonService.hideLoader(); }
+      this.commonService.hideLoader();
       if (response.error) {
         if(response.message){
           this.commonService.openSnackBar(response.message, "ERROR")   
