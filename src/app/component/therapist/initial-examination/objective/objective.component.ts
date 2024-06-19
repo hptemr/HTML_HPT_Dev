@@ -8,8 +8,9 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './objective.component.scss'
 })
 export class ObjectiveComponent {
-  clickedIndex = 0;
-  selectedValue: number;
+  selectedValue = '0';
+  
+  clickedIndex = 0; 
   tabs = [
     {number: '1'}, {number: '2'}, {number: '3'},
     {number: '4'}, {number: '5'}, {number: '6'},

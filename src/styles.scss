@@ -1003,6 +1003,12 @@ ngb-datepicker{
         overflow: auto;
     }
 }
+.notes--footer--btns{
+    position: absolute;
+    bottom: -52px;
+    left: 35px;
+    width: 95%;
+}
 
 
 
@@ -1083,6 +1089,12 @@ ngb-datepicker{
     .note--wrapper .note--body{
         padding: 15px;
     }
+    .notes--footer--btns {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
 @media only screen and (min-width: 980px) and (max-width: 1279px){}
@@ -1097,6 +1109,15 @@ ngb-datepicker{
         .card{
             height: auto;
         }
+    }
+    .notes--footer--btns {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+    .note--wrapper .note--body{
+        height: calc(100vh - 202px);
     }
 }
 

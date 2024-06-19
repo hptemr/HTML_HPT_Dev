@@ -1,4 +1,8 @@
 .subjective--wrapepr{ 
+    .divider{
+        border-top: 1px solid #DED2D9;
+        margin: 25px 0;
+    }
     .search--diagnosis{
         .form-control{
             padding: 6px 10px;
@@ -59,11 +63,7 @@
                     }
                 }
             }
-        }
-        .divider{
-            border-top: 1px solid #DED2D9;
-            margin: 25px 0;
-        }
+        } 
         .add--btn{
             height: 45px;
             .mat-icon{

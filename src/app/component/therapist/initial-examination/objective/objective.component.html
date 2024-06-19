@@ -103,43 +103,27 @@
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 text-uppercase">treatment provided</label>
-                <input class="form-control" type="text" placeholder="" disabled
-                    value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 text-uppercase">SLP</label>
-                <input class="form-control" type="text" placeholder="" disabled
-                    value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-            </div>
-        </div>
+        </div> 
         <div class="col-12 col-lg-6">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">Outcome Measures</label>
-                <select class="form-select form-control" aria-label="outcome measure dd">
-                    <option selected>Select</option>
+                <select class="form-select form-control" aria-label="outcome measure dd" [(ngModel)]="selectedValue">
+                    <option value="0" selected>Select</option>
                     <option value="1">Neck Disability Index</option>
                     <option value="2">QuickDASH</option>
                     <option value="3">Oswestry LBP</option>
-                    <option value="1">Lower Extremity Functional Scales (LEFS)</option>
-                    <option value="2">FABQ</option>
-                    <option value="3">EAT-10</option>
-                    <option value="1">mCTSIB</option>
-                    <option value="2">30 sec STS</option>
+                    <option value="4">Lower Extremity Functional Scales (LEFS)</option>
+                    <option value="5">FABQ</option>
+                    <option value="6">EAT-10</option>
+                    <option value="7">mCTSIB</option>
+                    <option value="8">30 sec STS</option>
                 </select>
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
-        </div>
+        </div> 
 
         <!-- Neck Disability Index (Start here) -->
-        <div class="col-12 mb-4" *ngIf="">
+        <div class="col-12 mb-4" *ngIf="selectedValue == '1'">
             <div class="row">
                 <div class="col-12">
                     <h1 class="font-16 fw-700 clr--1F2F3E mb-2">NECK DISABILITY INDEX — INITIAL VISIT <span
@@ -168,7 +152,7 @@
                                         moment.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(1) The pain is very mild at the
                                         moment.</mat-radio-button>
-                                    <mat-radio-button value="1" class="w-100">(2) The pain is moderate at the
+                                    <mat-radio-button value="1" class="w-100" checked>(2) The pain is moderate at the
                                         moment.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(3) The pain is fairly severe at the
                                         moment.</mat-radio-button>
@@ -197,7 +181,7 @@
                                         personal care.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">(4) I need help every day in most aspects
                                         of self care.</mat-radio-button>
-                                    <mat-radio-button value="2" class="w-100">(5) I cannot get dressed, wash with
+                                    <mat-radio-button value="2" class="w-100" checked>(5) I cannot get dressed, wash with
                                         difficulty and stay in bed</mat-radio-button>
                                 </mat-radio-group>
                             </div>
@@ -211,9 +195,9 @@
                                 <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) I can lift heavy weights without extra
                                         pain.</mat-radio-button>
-                                    <mat-radio-button value="1" class="w-100">(1) I can lift heavy weights but it gives
+                                    <mat-radio-button value="1" class="w-100" checked>(1) I can lift heavy weights but it gives
                                         me extra pain.</mat-radio-button>
-                                    <mat-radio-button value="2" class="w-100">(2) Pain prevents me from lifting heavy
+                                    <mat-radio-button value="2" class="w-100" >(2) Pain prevents me from lifting heavy
                                         weights off the floor
                                         but I can manage if they are on a table.</mat-radio-button>
                                     <mat-radio-button value="3" class="w-100">(3) Pain prevents me from lifting heavy
@@ -233,7 +217,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">4. Headache </label>
                                 <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
-                                    <mat-radio-button value="0" class="w-100">(0) I have no headaches at
+                                    <mat-radio-button value="0" class="w-100" checked>(0) I have no headaches at
                                         all.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">(1) I have slight headaches which come
                                         infrequently.</mat-radio-button>
@@ -257,7 +241,7 @@
                                 <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) I am able engage in all my
                                         recreational activities without pain.</mat-radio-button>
-                                    <mat-radio-button value="1" class="w-100">(1) I am able to engage in my recreational
+                                    <mat-radio-button value="1" class="w-100" checked>(1) I am able to engage in my recreational
                                         activities with some pain.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(2) I am able to engage in most but not
                                         all of my usual
@@ -285,7 +269,7 @@
                                         slight neck pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">(2) I can read as much as I want with
                                         moderate neck pain.</mat-radio-button>
-                                    <mat-radio-button value="2" class="w-100">(3) I can't read as much as I want because
+                                    <mat-radio-button value="2" class="w-100" checked>(3) I can't read as much as I want because
                                         of moderate neck pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">(4) I can hardly read at all because of
                                         severe neck pain.</mat-radio-button>
@@ -301,7 +285,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">7. Work</label>
                                 <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
-                                    <mat-radio-button value="1" class="w-100">(0) I can do as much as I want
+                                    <mat-radio-button value="1" class="w-100" checked>(0) I can do as much as I want
                                         to.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(1) I can only do my usual work but no
                                         more.</mat-radio-button>
@@ -333,7 +317,7 @@
                                                 disturbed (2-3 hr sleep loss).</mat-radio-button>
                                             <mat-radio-button value="4" class="w-100">(4) My sleep is greatly disturbed
                                                 (3-4 hr sleep loss).</mat-radio-button>
-                                            <mat-radio-button value="5" class="w-100">(5) My sleep is completely
+                                            <mat-radio-button value="5" class="w-100" checked>(5) My sleep is completely
                                                 disturbed (5-7 hr sleep loss).</mat-radio-button>
                                 </mat-radio-group>
                             </div>
@@ -351,7 +335,7 @@
                                         with slight difficulty.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(2) I have a fair degree of difficulty
                                         concentrating when I want.</mat-radio-button>
-                                    <mat-radio-button value="3" class="w-100">(3) I have a lot of difficulty
+                                    <mat-radio-button value="3" class="w-100" checked>(3) I have a lot of difficulty
                                         concentrating when I want.</mat-radio-button>
                                     <mat-radio-button value="4" class="w-100">(4) I have great difficulty concentrating
                                         when I want.</mat-radio-button>
@@ -369,7 +353,7 @@
                                 <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) I can drive my car without neck
                                         pain.</mat-radio-button>
-                                    <mat-radio-button value="1" class="w-100">(1) I can drive my car as long as I want
+                                    <mat-radio-button value="1" class="w-100" checked>(1) I can drive my car as long as I want
                                         with slight neck pain.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(2) I can drive my car as long as I want
                                         with moderate neck pain.</mat-radio-button>
@@ -398,7 +382,7 @@
         <!-- Neck Disability Index (End here) -->
 
         <!-- QuickDASH (Start here) -->
-        <div class="col-12 mb-4" *ngIf="">
+        <div class="col-12 mb-4" *ngIf="selectedValue == '2'">
             <div class="row">
                 <div class="col-12">
                     <h1 class="font-16 fw-700 clr--1F2F3E mb-2">QuickDASH
@@ -634,7 +618,7 @@
         <!-- QuickDASH (End here) -->
 
         <!-- Oswestry LBP (Start here) -->
-        <div class="col-12 mb-4" *ngIf="">
+        <div class="col-12 mb-4" *ngIf="selectedValue == '3'">
             <div class="row">
                 <div class="col-12">
                     <h1 class="font-16 fw-700 clr--1F2F3E mb-2 text-uppercase">Modified Oswestry Low Back Pain
@@ -882,7 +866,7 @@
         <!-- Oswestry LBP (End here) -->
 
         <!-- Lower Extremity Functional Scale [LEFS] (Start here) -->
-        <div class="col-12 mb-4" *ngIf="">
+        <div class="col-12 mb-4" *ngIf="selectedValue == '4'">
             <div class="row">
                 <div class="col-12">
                     <h1 class="font-16 fw-700 clr--1F2F3E mb-2">LEFS — INITIAL VISIT
@@ -1106,7 +1090,7 @@
         <!-- Lower Extremity Functional Scale [LEFS] (End here) -->
 
         <!-- FABQ (Start here) -->
-        <div class="col-12 mb-4 fabq--wrapper">
+        <div class="col-12 mb-4 fabq--wrapper" *ngIf="selectedValue == '5'">
             <div class="row">
                 <div class="col-12">
                     <h1 class="font-16 fw-700 clr--1F2F3E mb-4 text-uppercase">
@@ -1528,6 +1512,262 @@
         </div>
         <!-- FABQ (Start here) -->
 
+        <!-- EAT-10 (Start here) -->
+        <div class="col-12 mb-4 " *ngIf="selectedValue == '6'">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="font-16 fw-700 clr--1F2F3E mb-2 text-uppercase">
+                        Eating Assessment Tool (EAT-10) <span class="font-14 fw-400 text-lowercase">(Select the appropriate response)</span>
+                    </h1> 
+                </div>
+                <div class="col-12">
+                    <div class="row align-items-center mb-3">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-16 clr--1F2F3E fw-600 text-capitalize">To what extent are the following scenarios problematic for you?</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                              <p class="mb-0 font-16 clr--1F2F3E fw-700">0 =No problem, 4 = Severe problem</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">1. My swallowing problem has caused me to lose weight</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div>  
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">2. My swallowing problem interferes with my ability to go out for meals.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">3. Swallowing liquids takes extra effort.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">4. Swallowing solids takes extra effort.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">5. Swallowing pills takes extra effort.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">6. Swallowing is painful. </label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">7. The pleasure of eating is affected by my swallowing.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">8. When I swallow food sticks in my throat.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">9. I cough when I eat.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="divider mt-4"></div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5">
+                            <label class="font-14 clr--1F2F3E fw-600 ">10. Swallowing is stressful.</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="d-flex">
+                                <ul class=" d-flex flex-wrap pain--mark">
+                                    <li *ngFor="let i of [0,1,2,3,4]" [class.active]="clickedIndex === i"
+                                        (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-12">
+                    <div class="row align-items-center my-3">
+                        <div class="col-12 col-lg-5 text-end">
+                            <label class="col-form-label fw-700 font-16  text-uppercase justify-content-start justify-content-lg-end">Total</label>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <input type="text" class="form-control form-control-md score" placeholder="" value="28">
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-12">
+                    <div class="divider mt-2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- EAT-10 (End here) -->
+
+        <div class="col-12">
+            <div class="form-group">
+                <label class="col-form-label fw-700 font-16 text-uppercase">SLP</label>
+                <input class="form-control" type="text" placeholder="" disabled
+                    value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
+                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="col-form-label fw-700 font-16 text-uppercase">OT</label>
+                <input class="form-control" type="text" placeholder="" disabled
+                    value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
+                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="col-form-label fw-700 font-16 text-uppercase">treatment provided</label>
+                <input class="form-control" type="text" placeholder="" disabled
+                    value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
+                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            </div>
+        </div>
 
         <div class="col-12">
             <div class="form-group d-flex align-items-center">
@@ -1538,5 +1778,10 @@
                 </button>
             </div>
         </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+        <button mat-raised-button color="primary" class="m-1">
+            Save as Draft
+        </button>
     </div>
 </div>
