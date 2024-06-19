@@ -77,6 +77,11 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
+                <div class="no--record--found align-items-center justify-content-center w-100" *ngIf="emergencyContactList && emergencyContactList.filteredData.length == 0">
+                    <div>
+                        <p class="">{{ validationMessages.noRecords }}</p>
+                    </div>
+                </div>
                 <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"></mat-paginator>
             </div>
         </div>

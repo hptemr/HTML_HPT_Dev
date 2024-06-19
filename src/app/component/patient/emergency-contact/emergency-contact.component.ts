@@ -8,6 +8,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { validationMessages } from 'src/app/utils/validation-messages';
 import { s3Details, pageSize, pageSizeOptions } from 'src/app/config';
 export interface PeriodicElement {
   name: string;   
@@ -44,7 +45,7 @@ export class EmergencyContactComponent implements OnInit {
   insuranceList: any
   seachByName: any = ''
   seachById: any = ''
-
+  validationMessages:any=validationMessages;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -102,20 +103,6 @@ export class EmergencyContactComponent implements OnInit {
     this.getEmergencyContactDetail('search')
   }
 
-  searchRecords234(event: any) {
-    let searchStr = event.target.value.trim()
-    let finalStr = {};
-    if (searchStr != '') {
-      searchStr = searchStr.replace("+", "\\+");
-      finalStr = { $regex: searchStr, $options: 'i' }
-      this.whereCond = Object.assign(this.whereCond, { insuranceName: finalStr })      
-    } else{
-      this.whereCond = Object.assign({ patientId: this.userId });
-    }
-
-    this.getEmergencyContactDetail('search')
-  }
-
   deleteAccount(id:string) {
     const dialogRef = this.dialog.open(AlertComponent,{
       panelClass: 'custom-alert-container',
@@ -150,15 +137,20 @@ export class EmergencyContactComponent implements OnInit {
     this.pageIndex = event.pageIndex;
     this.getEmergencyContactDetail()
   }
-
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) { 
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
  
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    let order
+    if (sortState.direction == 'desc') {
+      order = -1
+    } else {
+      order = 1
+    }
+       this.orderBy = {
+        [sortState.active]: order
+      }  
+
+    this.getEmergencyContactDetail()
+  }
   
 }

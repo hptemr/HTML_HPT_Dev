@@ -64,7 +64,7 @@ export class AddEditContactComponent implements OnInit {
         lastName: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
         dob: ['',[Validators.required]],
         relationWithPatient: ['',[Validators.required]],
-        otherRelation: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
+        otherRelation: ['', Validators.compose([ Validators.maxLength(35)])],
         phoneNumber:['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
         myTreatmentCheckbox: [false, []],
         myAccountCheckbox:  [false, []]
