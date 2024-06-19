@@ -93,6 +93,40 @@
                 }
             }
         }
+
+        &.lefs--table{
+            table{
+                thead{
+                    tr{
+                        th{ 
+                            width: 115px;
+                            &:first-child{
+                                width: auto;
+                            }
+                            &:nth-child(2){
+                                width: 160px; 
+                            }  
+                        } 
+                    }
+                } 
+            }
+        }
+    }
+    .fabq--wrapper{
+        .pain--mark--box{
+            width: 336px;
+            .pain--mark{ 
+                padding: 5px 0;
+                li{
+                    margin: 0 11px;
+                }
+            }
+            .notes{
+                p{
+                    line-height: 16px;
+                }
+            }
+        }
     }
 }
 
@@ -123,10 +157,24 @@
             }
         }
     }
-    
+    .objective--wrapepr .quickdash--table.lefs--table table {
+        width: 800px;
+    }
+    .objective--wrapepr .fabq--wrapper .pain--mark--box {
+        width: 310px;
+    }
+    .objective--wrapepr .fabq--wrapper .pain--mark--box .pain--mark li{
+        margin: 0 9px;
+    }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){
     .objective--wrapepr .quickdash--table table thead tr th{
         width: 70px;
+    }
+    .objective--wrapepr .quickdash--table table thead tr th{
+        width: 70px;
+    }
+    .objective--wrapepr .quickdash--table.lefs--table table {
+        width: 900px;
     }
 }
