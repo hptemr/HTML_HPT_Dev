@@ -113,10 +113,27 @@ const addAppointment = async (req, res) => {
 
 const rescheduleAppointment = async (req, res) => {
     try {
-        const { query, updateInfo } = req.body;
-        await Appointment.findOneAndUpdate(query, updateInfo);
+        const { query, updateInfo, email, firstName } = req.body;
+        await Appointment.findOneAndUpdate(query, updateInfo); 
+
+        let template = await emailTemplateModel.findOne({ code: "rescheduledAppointment" })
+        if (template) {
+            let url = constants.clientUrl + '/patient/appointments'
+            let params = {
+                "{firstName}": firstName,
+                "{url}": url
+            }
+            var mailOptions = {
+                to: [email],
+                subject: template.mail_subject,
+                html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+            }
+            sendEmailServices.sendEmail(mailOptions)
+        }
+
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.rescheduled);
     } catch (error) {
+        console.log("********rescheduleAppointment***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
