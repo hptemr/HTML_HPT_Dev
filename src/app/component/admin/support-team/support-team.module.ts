@@ -7,7 +7,7 @@ import { SupportTeamRoutingModule } from './support-team-routing.module';
 // import { AppointmentDetailsComponent } from 'src/app/shared/comman/support-billing-therapist/appointment-details/appointment-details.component';
 // import { SystemFollowupModalComponent } from 'src/app/shared/comman/support-billing-therapist/system-followup-modal/system-followup-modal.component';
 // import { AppointmentRequestsComponent } from 'src/app/shared/comman/support-billing-therapist/appointment-requests/appointment-requests.component';
-import { PatientProfileComponent } from './patient-profile/patient-profile.component';
+//import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { DatePipe } from '@angular/common';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { DatePipe } from '@angular/common';
     // AppointmentDetailsComponent,
     // AppointmentRequestsComponent,
     // SystemFollowupModalComponent,
-    PatientProfileComponent,
+    // PatientProfileComponent,
   ],
   imports: [
     CommonModule,

@@ -172,6 +172,7 @@ export class AppointmentsComponent {
         await response.data.appointmentList.map((element: any) => {
           let newColumns = {
             id: element._id,
+            practiceLocation: element.practiceLocation,
             appointmentId:element.appointmentId,
             checkIn: element.checkIn,
             createdAt:element.updatedAt,

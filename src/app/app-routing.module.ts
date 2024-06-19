@@ -30,43 +30,43 @@ const routes: Routes = [
     loadChildren: () => import('./component/admin/system-and-practice/system-and-practice.module').then(mod => mod.SystemAndPracticeModule),
     canActivate: [AuthGuard], data: { roles: ['practice_admin'] }
   },
-  {
-    path: 'support-team',
-    component: AdminLayoutComponent,
-    loadChildren: () => import('./component/admin/support-billing-therapist/support-billing-therapist.module').then(mod => mod.SupportBillingTherapistModule),
-    canActivate: [AuthGuard], data: { roles: ['support_team'] }
-  },
-  {
-    path: 'therapist',
-    component: AdminLayoutComponent,
-    loadChildren: () => import('./component/admin/support-billing-therapist/support-billing-therapist.module').then(mod => mod.SupportBillingTherapistModule),
-    canActivate: [AuthGuard], data: { roles: ['therapist'] }
-  },
-  {
-    path: 'billing-team',
-    component: AdminLayoutComponent,
-    loadChildren: () => import('./component/admin/support-billing-therapist/support-billing-therapist.module').then(mod => mod.SupportBillingTherapistModule),
-    canActivate: [AuthGuard], data: { roles: ['billing_team'] }
-  },
-  
   // {
   //   path: 'support-team',
   //   component: AdminLayoutComponent,
-  //   loadChildren: () => import('./component/admin/support-team/support-team.module').then(mod => mod.SupportTeamModule),
+  //   loadChildren: () => import('./component/admin/support-billing-therapist/support-billing-therapist.module').then(mod => mod.SupportBillingTherapistModule),
   //   canActivate: [AuthGuard], data: { roles: ['support_team'] }
   // },
   // {
   //   path: 'therapist',
   //   component: AdminLayoutComponent,
-  //   loadChildren: () => import('./component/admin/therapist/therapist.module').then(mod => mod.TherapistModule),
+  //   loadChildren: () => import('./component/admin/support-billing-therapist/support-billing-therapist.module').then(mod => mod.SupportBillingTherapistModule),
   //   canActivate: [AuthGuard], data: { roles: ['therapist'] }
   // },
   // {
   //   path: 'billing-team',
   //   component: AdminLayoutComponent,
-  //   loadChildren: () => import('./component/admin/billing-team/billing-team.module').then(mod => mod.BillingTeamModule),
+  //   loadChildren: () => import('./component/admin/support-billing-therapist/support-billing-therapist.module').then(mod => mod.SupportBillingTherapistModule),
   //   canActivate: [AuthGuard], data: { roles: ['billing_team'] }
   // },
+  
+  {
+    path: 'support-team',
+    component: AdminLayoutComponent,
+    loadChildren: () => import('./component/admin/support-team/support-team.module').then(mod => mod.SupportTeamModule),
+    canActivate: [AuthGuard], data: { roles: ['support_team'] }
+  },
+  {
+    path: 'therapist',
+    component: AdminLayoutComponent,
+    loadChildren: () => import('./component/admin/therapist/therapist.module').then(mod => mod.TherapistModule),
+    canActivate: [AuthGuard], data: { roles: ['therapist'] }
+  },
+  {
+    path: 'billing-team',
+    component: AdminLayoutComponent,
+    loadChildren: () => import('./component/admin/billing-team/billing-team.module').then(mod => mod.BillingTeamModule),
+    canActivate: [AuthGuard], data: { roles: ['billing_team'] }
+  },
   { path: '**', component: Error400Component },
 ];
 

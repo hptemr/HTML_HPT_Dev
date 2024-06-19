@@ -4,8 +4,9 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { SharedModule } from '../../shared.module';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialModule } from '../../material.module';
+//import { SharedModule } from '../../shared.module';
+import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { validationMessages } from '../../../utils/validation-messages';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
@@ -14,7 +15,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 @Component({
   selector: 'app-reschedule-appointment-modal',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatDialogModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
+  imports: [MatIconModule, MatButtonModule, MatDialogModule, CommonModule, FormsModule, ReactiveFormsModule,NgbModule,MaterialModule],  //,SharedModule
   templateUrl: './reschedule-appointment-modal.component.html',
   styleUrl: './reschedule-appointment-modal.component.scss'
 })

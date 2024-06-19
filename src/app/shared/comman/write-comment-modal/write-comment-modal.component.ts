@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormControl, FormGroup, 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { SharedModule } from '../../shared.module';
+//import { SharedModule } from '../../shared.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { validationMessages } from '../../../utils/validation-messages';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
@@ -13,7 +13,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 @Component({
   selector: 'app-write-comment-modal',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatDialogModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
+  imports: [MatIconModule, MatButtonModule, MatDialogModule, CommonModule, FormsModule, ReactiveFormsModule],//SharedModule
   templateUrl: './write-comment-modal.component.html',
   styleUrl: './write-comment-modal.component.scss'
 })

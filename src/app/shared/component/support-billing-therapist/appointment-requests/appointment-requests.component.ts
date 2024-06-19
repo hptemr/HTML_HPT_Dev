@@ -139,9 +139,11 @@ export class AppointmentRequestsComponent {
         let finalData: any = []
         if(response.data.appointmentList.length>0){
           await response.data.appointmentList.map((element: any) => {
+            
             let newColumns = {
               id: element._id,
               appointmentId:element.appointmentId,
+              practiceLocation: element.practiceLocation,
               createdAt:element.updatedAt,
               appointmentDate:element.appointmentDate,           
               status: element.status,
@@ -201,5 +203,7 @@ export class AppointmentRequestsComponent {
       this.dayOne = false;
     }
 
-  
+    navigateToappointmentDetails(appointmentId:string){
+      this.router.navigate([this.commonService.getLoggedInRoute()+ '/appointment-details/',appointmentId]);
+    }  
 }

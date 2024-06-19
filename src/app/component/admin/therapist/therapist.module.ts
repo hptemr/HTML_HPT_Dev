@@ -6,15 +6,15 @@ import { TherapistRoutingModule } from './therapist-routing.module';
 
 // import { AppointmentsComponent } from 'src/app/shared/comman/support-billing-therapist/appointments/appointments.component';
 // import { AppointmentDetailsComponent } from 'src/app/shared/comman/support-billing-therapist/appointment-details/appointment-details.component';
-// import { AppointmentRequestsComponent } from 'src/app/shared/comman/support-billing-therapist/appointment-requests/appointment-requests.component';
+ //import { AppointmentRequestsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-requests/appointment-requests.component';
 
-import { PatientProfileComponent } from './patient-profile/patient-profile.component';
+//import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 @NgModule({
   declarations: [ 
     // AppointmentsComponent,
     // AppointmentDetailsComponent,
     // AppointmentRequestsComponent,
-    PatientProfileComponent,
+   // PatientProfileComponent,
     
   ],
   imports: [
