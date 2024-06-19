@@ -44,12 +44,12 @@
                     <div class="card-header pb-0">
                         <div class="col-12 d-flex align-items-center align-items-sm-start flex-sm-column flex-lg-row justify-content-between"> 
                             <h3 class="mb-0 clr--1F2F3E fw-600">Basic Information</h3> 
-                            <button mat-raised-button color="primary"> 
+                            <button [routerLink]="[activeUserRoute, 'intake-form', 'step-1', appointmentId]" mat-raised-button color="primary"> 
                                 View Intake Form
                             </button>
                         </div> 
                     </div>
-                    <div class="card-body mt-4">
+                    <div *ngIf="appointmentData" class="card-body mt-4">
                         <div class="col-12"> 
                             <div class="row">
                                 <div class="col-12 col-xl-6 col-md-12">

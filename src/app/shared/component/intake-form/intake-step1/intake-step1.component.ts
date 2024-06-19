@@ -27,9 +27,10 @@ export class IntakeStep1Component {
   maritalStatus = maritalStatus
   relationWithPatient = relationWithPatient
   validationMessages = validationMessages
-
   todayDate = new Date();
   maxAppntDate = this.commonService.getMaxAppoinmentFutureMonths()
+
+  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
 
   constructor(public dialog: MatDialog, private router: Router,
     private commonService: CommonService,
@@ -54,7 +55,7 @@ export class IntakeStep1Component {
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
-        this.router.navigate(['/patient/appointments'])
+        this.router.navigate([this.activeUserRoute + 'appointments'])
       } else {
         this.step1FormData = response.data.appointmentData
         this.selectedValue = this.step1FormData.bookingFor
@@ -198,10 +199,10 @@ export class IntakeStep1Component {
         }
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-        this.router.navigate(['/patient/intake-form/step-2', this.appId])
+        this.router.navigate([this.activeUserRoute + 'intake-form/step-2', this.appId])
       })
     } else {
-      this.router.navigate(['/patient/intake-form/step-2', this.appId])
+      this.router.navigate([this.activeUserRoute + 'intake-form/step-2', this.appId])
     }
   }
 

@@ -74,7 +74,9 @@ export class RescheduleAppointmentModalComponent {
             comment: data.comment,
             //rescheduleDate: data.appointmentDate
           }
-        }
+        },
+        email: this.authService.getLoggedInInfo('email'),
+        firstName: this.authService.getLoggedInInfo('firstName')
       }
       await this.authService.apiRequest('post', 'appointment/rescheduleAppointment', reqVars).subscribe(async response => {
         this.dialogRef.close(response);

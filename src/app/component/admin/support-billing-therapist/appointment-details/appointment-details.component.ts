@@ -22,6 +22,9 @@ export class AppointmentDetailsComponent {
   initialName: string = '';
   public userId: string;
   public userRole: string;
+  
+  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
+
 
   constructor(public dialog: MatDialog,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {

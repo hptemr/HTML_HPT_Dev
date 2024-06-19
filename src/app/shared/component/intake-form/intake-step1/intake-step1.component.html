@@ -4,11 +4,11 @@
             <div class="row w-100 align-items-center">
                 <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
                     <button mat-stroked-button color="primary" class="me-3 back--btn"
-                        [routerLink]="['/patient/appointment-details', appId]">
+                        [routerLink]="[activeUserRoute, 'appointment-details', appId]">
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
                     </button>
                     <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                        <span class="me-3">Intake Form </span>
+                        <span class="me-3">Intake Form</span>
                         <span>(Step <span class="text-primary"> 1 </span> of 5)</span>
                     </h3>
                 </div>

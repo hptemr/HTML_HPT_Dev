@@ -4,7 +4,7 @@
             <div class="row w-100 align-items-center">
                 <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
                     <button mat-stroked-button color="primary" class="me-3 back--btn"
-                        [routerLink]="['/patient/intake-form/step-1', appId]">
+                        [routerLink]="[activeUserRoute, 'intake-form','step-1', appId]">
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
                     </button>
                     <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
@@ -603,8 +603,9 @@
 
                             <div class="col-12 d-flex align-items-center justify-content-end">
                                 <div class="form-group">
-                                    <button [disabled]="uploadedInsuranceFilesTotal >= 5 || !isFormEditable" mat-raised-button
-                                        color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
+                                    <button [disabled]="uploadedInsuranceFilesTotal >= 5 || !isFormEditable"
+                                        mat-raised-button color="primary"
+                                        class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
                                         <input #insuranceFileInput accept="image/*, application/pdf,.doc, .docx"
                                             (change)="uploadInsurance($event)" type="file">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
@@ -631,8 +632,8 @@
                                             <!-- <p class="m-0 font-14">{{fileObj.size}} </p> -->
                                         </div>
                                     </div>
-                                    <button *ngIf="isFormEditable" (click)="deleteInsurance(i)" mat-raised-button color="warn"
-                                        class="flex-shrink-0">
+                                    <button *ngIf="isFormEditable" (click)="deleteInsurance(i)" mat-raised-button
+                                        color="warn" class="flex-shrink-0">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
                                         Delete
                                     </button>
@@ -689,7 +690,7 @@
         </div>
         <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
             <button mat-stroked-button color="primary" class="m-1"
-                [routerLink]="['/patient/intake-form/step-1', appId]">
+                [routerLink]="[activeUserRoute, 'intake-form','step-1', appId]">
                 Previous
             </button>
             <button [disabled]="step2Form.invalid && payViaSelected =='Insurance'" (click)="bookAppointmentStep2()"

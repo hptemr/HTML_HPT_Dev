@@ -48,6 +48,8 @@ export class IntakeStep2Component {
   todayDate = new Date()
   isFormEditable = false
 
+  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
+
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -72,7 +74,7 @@ export class IntakeStep2Component {
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
-        this.router.navigate(['/patient/appointments'])
+        this.router.navigate([this.activeUserRoute + 'appointments'])
       } else {
         this.step2FormData = response.data.appointmentData
         this.payViaSelected = this.step2FormData.payVia
@@ -298,11 +300,11 @@ export class IntakeStep2Component {
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         localStorage.removeItem('uploadedInsuranceFiles')
-        this.router.navigate(['/patient/intake-form/step-3', this.appId])
+        this.router.navigate([this.activeUserRoute + 'intake-form/step-3', this.appId])
       })
     } else {
       localStorage.removeItem('uploadedInsuranceFiles')
-      this.router.navigate(['/patient/intake-form/step-3', this.appId])
+      this.router.navigate([this.activeUserRoute + 'intake-form/step-3', this.appId])
     }
   }
 
@@ -331,7 +333,7 @@ export class IntakeStep2Component {
           await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
             this.commonService.hideLoader()
             localStorage.removeItem('uploadedInsuranceFiles')
-            this.router.navigate(['/patient/intake-form/step-3', this.appId])
+            this.router.navigate([this.activeUserRoute + 'intake-form/step-3', this.appId])
           })
         })
       }
