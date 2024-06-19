@@ -8,6 +8,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component'; 
 import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList } from 'src/app/config';
 import { states_data } from 'src/app/state';
 interface State {
@@ -35,6 +36,7 @@ export class ViewEditInsuranceComponent {
   todayDate = new Date()
   pageName:any = '';
   isReadOnly:boolean=false
+  successMsg:string='Insurance Details Added Successfully'
   constructor(public dialog: MatDialog,private fb: FormBuilder,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
       const locationArray = location.href.split('/')
@@ -44,7 +46,11 @@ export class ViewEditInsuranceComponent {
       }else{
         this.pageName = locationArray[locationArray.length - 1];
       }
-      if(this.pageName=='view-insurance')this.isReadOnly = true
+      if(this.pageName=='view-insurance'){
+        this.isReadOnly = true
+      }else  if(this.pageName=='edit-insurance'){
+        this.successMsg = 'Insurance Details Updated Successfully';
+      }
     })
   }
 
@@ -254,7 +260,6 @@ export class ViewEditInsuranceComponent {
             data: formData
            }
         }
-        console.log(apiKey,"----req_vars----", req_vars)
 
         this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'insurance/'+apiKey, req_vars).subscribe(async response => {         
@@ -264,7 +269,7 @@ export class ViewEditInsuranceComponent {
               this.commonService.openSnackBar(response.message, "ERROR")   
             }
           } else {        
-         
+            this.successModal();
           }      
         })
     }
@@ -277,6 +282,18 @@ export class ViewEditInsuranceComponent {
   cmsModal() {
     const dialogRef = this.dialog.open(CmsModalComponent, {
       panelClass: 'cms--container',
+    });
+  }
+
+  successModal() {
+    const dialogRef = this.dialog.open(SuccessModalComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        successNote: this.successMsg
+      }
+    })
+    dialogRef.afterClosed().subscribe(async insuranceName => {
+      this.router.navigate(['/patient/insurance-listing/'])
     });
   }
 

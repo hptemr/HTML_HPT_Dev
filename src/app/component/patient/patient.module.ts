@@ -16,6 +16,7 @@ import { Step3Component } from './book-appointment/step3/step3.component';
 import { Step4Component } from './book-appointment/step4/step4.component'; 
 import { AppointmentReqModalComponent } from './book-appointment/appointment-req-modal/appointment-req-modal.component';
 import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
+import { AddEditContactComponent } from './emergency-contact/add-edit-contact/add-edit-contact.component';
 import { ContactModalComponent } from './book-appointment/contact-modal/contact-modal.component';
 import { step5Component } from './book-appointment/step5/step5.component';
 import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
@@ -37,6 +38,7 @@ import { IMaskModule } from 'angular-imask';
     step5Component,
     AppointmentReqModalComponent,
     EmergencyContactComponent, 
+    AddEditContactComponent,
     ContactModalComponent,
     InsuranceListingComponent,
     ViewEditInsuranceComponent,

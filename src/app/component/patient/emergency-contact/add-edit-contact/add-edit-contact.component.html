@@ -1,0 +1,86 @@
+<div class="container-fluid book--appointment--wrapper emergency--contact--wrapper">
+    <div class="row">
+        <div class="col-12 d-flex align-items-center my-2">
+            <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/patient/emergency-contact']">
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+            </button>
+            <h3 class="mb-0 clr--1F2F3E">{{pageTitle}}</h3>
+        </div>
+    </div>
+    <form [formGroup]="emergencyContactForm"  (ngSubmit)="formSubmit(emergencyContactForm.value)">
+        <div class="card m-0"> 
+            <div class="row">  
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input (blur)="checkSpace('firstName', $event)" formControlName="firstName" class="form-control" type="text"  placeholder="Enter First Name" />
+                        <div class="text text-danger mt-1" *ngIf="emergencyContactForm.controls['firstName'].touched && (emergencyContactForm.controls['firstName'].hasError('required') || emergencyContactForm.controls['firstName'].invalid)">
+                            {{ validationMessages.required('First Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name </label>
+                        <input (blur)="checkSpace('lastName', $event)" formControlName="lastName" class="form-control" type="text"  placeholder="Enter Last Name" />
+                        <div class="text text-danger mt-1" *ngIf="emergencyContactForm.controls['lastName'].touched && (emergencyContactForm.controls['lastName'].hasError('required') || emergencyContactForm.controls['lastName'].invalid)">
+                            {{ validationMessages.required('Last Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
+                            <div class="input-group">
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input [max]="maxEndDate" formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker" readonly="isReadonly">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>                        
+                        <div class="text text-danger mt-1" *ngIf="emergencyContactForm.controls['dob'].touched && (emergencyContactForm.controls['dob'].hasError('required') || emergencyContactForm.controls['dob'].invalid)">
+                            {{ validationMessages.required('Date of Birth') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Relationship with Patient</label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="relationWithPatient">
+                            <option selected value="">Select Relation</option>
+                            <option *ngFor="let element of relationWithPatientList" value="{{element}}">{{element}}</option>
+                        </select> 
+                    </div> 
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Other Relation</label>
+                        <input class="form-control" type="text" placeholder="Enter Other Relation" formControlName="otherRelation" maxlength="55"/>
+                    </div>
+                </div>  
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>                        
+                        <input class="form-control" type="text" [imask]="{mask: '(000) 000-0000'}" placeholder="Enter Phone Number" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="14" formControlName="phoneNumber"/>                            
+                        <div class="text text-danger mt-1" *ngIf="emergencyContactForm.controls['phoneNumber'].touched && (emergencyContactForm.controls['phoneNumber'].hasError('required') || emergencyContactForm.controls['phoneNumber'].invalid)">
+                            {{ validationMessages.required('Phone Number') }}
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-12 ps-0">
+                    <div class="form-group mb-0"> 
+                        <mat-checkbox class="" formControlName="myTreatmentCheckbox">Okay to release information pertaining to my treatments, records & appointments.</mat-checkbox>
+                    </div>
+                    <div class="form-group mb-0"> 
+                        <mat-checkbox formControlName="myAccountCheckbox" class="">Okay to release information pertaining to my account regarding all billing inquiries.</mat-checkbox>
+                    </div>
+                </div> 
+            </div> 
+        </div>
+        <div class="d-flex align-items-center justify-content-end w-100 footer--btns" *ngIf="!isReadOnly"> 
+            <button mat-raised-button color="primary" class="m-1" type="submit"> 
+                Save
+            </button>
+        </div>
+    </form>
+</div>

@@ -9,6 +9,7 @@ import { Step2Component } from './book-appointment/step2/step2.component';
 import { Step3Component } from './book-appointment/step3/step3.component';
 import { Step4Component } from './book-appointment/step4/step4.component';
 import { EmergencyContactComponent } from './emergency-contact/emergency-contact.component';
+import { AddEditContactComponent } from './emergency-contact/add-edit-contact/add-edit-contact.component';
 import { NotificationsComponent } from '../admin/system-and-practice/notifications/notifications.component';
 import { step5Component } from './book-appointment/step5/step5.component';
 import { InsuranceListingComponent } from './insurance/insurance-listing/insurance-listing.component';
@@ -46,6 +47,18 @@ const routes: Routes = [
   {
     path: 'emergency-contact',
     component: EmergencyContactComponent,
+  },
+  {
+    path: 'view-emergency-contact/:emergencyId',
+    component: AddEditContactComponent,
+  },
+  {
+    path: 'edit-emergency-contact/:emergencyId',
+    component: AddEditContactComponent,
+  },
+  {
+    path: 'add-emergency-contact',
+    component: AddEditContactComponent,
   },
   {
     path: 'notifications',

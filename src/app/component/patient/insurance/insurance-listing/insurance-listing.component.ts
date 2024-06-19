@@ -79,7 +79,7 @@ export class InsuranceListingComponent {
   seachById: any = ''
   userId:string=''
   userRole:string=''
-
+  validationMessages:any=validationMessages;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -158,13 +158,19 @@ export class InsuranceListingComponent {
   }
 
   /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) { 
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  announceSortChange(sortState: Sort) {
+    let order
+    if (sortState.direction == 'desc') {
+      order = -1
     } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+      order = 1
     }
+    this.orderBy = {
+      [sortState.active]: order
+    }
+    this.getInsuranceList()
   }
+
  
   
 }
