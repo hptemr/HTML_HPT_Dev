@@ -56,12 +56,12 @@ export class Step4Component {
 
   async getEmergencyContactList() {
     let reqVars = {
-      query: { _id: this.authService.getLoggedInInfo("_id") },
+      query: { patientId: this.authService.getLoggedInInfo("_id") },
       fields: { updatedAt: 0 },
       order: { firstName: 1 },
     }
-    await this.authService.apiRequest('post', 'emergencyContact/getContactData', reqVars).subscribe(async response => {
-      this.emergencyContactList = response.data
+    await this.authService.apiRequest('post', 'emergencyContact/getContactListData', reqVars).subscribe(async response => {
+      this.emergencyContactList = response.data.emergencyContactList
     })
   }
 
