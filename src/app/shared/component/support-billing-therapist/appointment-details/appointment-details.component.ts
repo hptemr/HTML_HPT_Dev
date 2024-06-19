@@ -20,6 +20,7 @@ export class AppointmentDetailsComponent {
   appointmentData: any = [];
   appointment_flag:boolean=false
   initialName: string = '';
+  assign_therapist: string = '';
   public userId: string;
   public userRole: string;
   
@@ -56,6 +57,10 @@ export class AppointmentDetailsComponent {
           if(this.appointmentData.patientId.firstName && this.appointmentData.patientId.lastName){
             this.initialName = this.appointmentData.patientId.firstName.charAt(0)+this.appointmentData.patientId.lastName.charAt(0);
           }          
+          if(this.appointmentData.therapistId && this.appointmentData.therapistId.firstName){
+            this.assign_therapist = this.appointmentData.therapistId.firstName+' '+this.appointmentData.therapistId.lastName;
+          }
+
           this.appointment_flag = true;
         }
       })
