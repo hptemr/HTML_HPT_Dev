@@ -169,6 +169,7 @@
                         td{
                             background: #F3FBFB;
                             border-color: #31B7B7;
+                            font-weight: 600;
                             &:first-child{ 
                                 padding-left: 30px;
                             }
@@ -179,9 +180,34 @@
         }
         
     }
+    .mctsib--wrapper{
+        .condition{
+            margin-right: 70px;
+            h6{
+                margin-top: 3px;
+            }
+        }
+        .trial--box{
+            .trial--count{
+               width: 200px;
+               padding-right: 10px;
+            }
+        }
+        .total--foot{
+            border-top: 1px solid #DED2D9;
+            margin-top: 10px;
+            padding-top: 20px;
+            .totaltxt{
+                margin-left: 20px;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 599px) {
+    .objective--wrapepr .font-16 {
+        font-size: 14px !important;
+    }
     .objective--wrapepr .chape--group label{
         margin-top: 7px;
     } 
@@ -216,6 +242,20 @@
     }
     .objective--wrapepr .fabq--wrapper .pain--mark--box .pain--mark li{
         margin: 0 9px;
+    }
+    .objective--wrapepr .assessment--wrapper .table-responsive.score--table {
+        width: 100%;
+    }
+    .objective--wrapepr .mctsib--wrapper .condition {
+        margin-right: 10px;
+        width: 55px;
+    }
+    .objective--wrapepr .mctsib--wrapper .condition h6{
+        margin-top: 1px;
+    }
+    .objective--wrapepr .mctsib--wrapper .trial--box .trial--count {
+        width: auto;
+        padding-right: 0;
     }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){
