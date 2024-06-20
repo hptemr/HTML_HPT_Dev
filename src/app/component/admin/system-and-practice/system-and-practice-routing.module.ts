@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PatientsComponent } from './user-managment/patients/patients.component';
+import { PatientsComponent } from '../../../shared/component/support-billing-therapist/patients/patients.component';
 import { EFaxComponent } from './efax/efax.component';
 import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
 import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
@@ -46,17 +46,17 @@ const routes: Routes = [
     path: 'patients',
     children: [
       {
-        path: 'list',
+        path: '',
         component: PatientsComponent,
       },
-      {
-        path: 'patient-details/:userId',
-        component: PatientDetailsComponent,
-      },
-      {
-        path: 'patient-profile/:userId',
-        component: PatientProfileComponent,
-      }
+      // {
+      //   path: 'patient-details/:userId',
+      //   component: PatientDetailsComponent,
+      // },
+      // {
+      //   path: 'patient-profile/:userId',
+      //   component: PatientProfileComponent,
+      // }
     ]
   },
   {

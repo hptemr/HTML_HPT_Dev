@@ -2,43 +2,44 @@
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between">
-                <h3 class="mb-0 clr--1F2F3E">{{pageTitle}}</h3> 
+                <h3 class="mb-0 clr--1F2F3E">{{pageTitle}}</h3>
                 <button mat-raised-button color="primary" (click)="invitePopup()">
                     <mat-icon class="material-symbols-outlined flex-shrink-0"> person_add </mat-icon>
                     Invite {{pageTitle}}
                 </button>
-                
+
             </div>
             <div class="col-12 mt-3">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <select class="form-select form-control" aria-label="Default select example" #locationSelect (change)="onLocationChange($event)">
+                            <select class="form-select form-control" aria-label="Default select example" #locationSelect
+                                (change)="onLocationChange($event)">
                                 <option value="" selected>Practice Location</option>
-                                <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
+                                <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}
+                                </option>
                             </select>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Search {{pageTitle}}" [formControl]="searchAdminUsers">
+                            <input type="text" class="form-control search--outer" placeholder="Search {{pageTitle}}"
+                                [formControl]="searchAdminUsers">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <select class="form-select form-control" aria-label="Default select example" #statusSelect (change)="onStatusChange($event)">
+                            <select class="form-select form-control" aria-label="Default select example" #statusSelect
+                                (change)="onStatusChange($event)">
                                 <option value="" selected>Status</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Active">Active</option>
                                 <option value="Suspended">Suspended</option>
                                 <option value="Deleted">Deleted</option>
                             </select>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-2">
@@ -52,30 +53,31 @@
 
         <div class="card-body">
             <div class="col-12 cust--mat--table--wrapper">
-                <table mat-table [dataSource]="adminUsersDataSource" matSort (matSortChange)="announceSortChange($event)"
-                    class="cust--mat--table">  
+                <table mat-table [dataSource]="adminUsersDataSource" matSort
+                    (matSortChange)="announceSortChange($event)" class="cust--mat--table">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             Name
                         </th>
                         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                    </ng-container> 
+                    </ng-container>
                     <ng-container matColumnDef="email">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
                             Email Id
                         </th>
                         <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-                    </ng-container> 
+                    </ng-container>
                     <ng-container matColumnDef="practiceLocation">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
                             Practice Location
                         </th>
-                        <td mat-cell *matCellDef="let element"> 
-                            <span  matTooltip="{{element.practiceLocation.length>2?element.practiceLocation.join(', '):''}}">
-                                {{getFormattedPracticeLocation(element.practiceLocation)}} 
+                        <td mat-cell *matCellDef="let element">
+                            <span
+                                matTooltip="{{element.practiceLocation.length>2?element.practiceLocation.join(', '):''}}">
+                                {{getFormattedPracticeLocation(element.practiceLocation)}}
                             </span>
                         </td>
-                    </ng-container> 
+                    </ng-container>
                     <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                             Status
@@ -88,10 +90,13 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                             Actions
                         </th>
-                        <td mat-cell *matCellDef="let element"> 
+                        <td mat-cell *matCellDef="let element">
                             <div class="w-100 d-flex align-items-center justify-content-end">
-                                <button mat-button class="flex-shrink-0 min-width-unset search--fields" (click)="navigateToAdminUserDetails(element._id)">
-                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                <button mat-button class="flex-shrink-0 min-width-unset search--fields"
+                                    (click)="navigateToAdminUserDetails(element._id)">
+                                    <mat-icon
+                                        class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
+                                    </mat-icon>
                                 </button>
                             </div>
                         </td>
@@ -105,9 +110,9 @@
                 </div>
                 <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
                     [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"
-                    *ngIf="isUserList" >
+                    *ngIf="isUserList">
                 </mat-paginator>
             </div>
         </div>
     </div>
-</div>  
+</div>
