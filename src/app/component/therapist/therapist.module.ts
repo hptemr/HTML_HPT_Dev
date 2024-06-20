@@ -20,7 +20,6 @@ import { AddExerciseComponent } from './initial-examination/add-exercise/add-exe
 import { SelectFolderComponent } from './protocol/select-folder/select-folder.component';
 import { SelectFilesComponent } from './protocol/select-files/select-files.component';
 import { CaseNoteModalComponent } from './case-note-modal/case-note-modal.component';
- 
 
 @NgModule({
   declarations: [ 
@@ -49,7 +48,8 @@ import { CaseNoteModalComponent } from './case-note-modal/case-note-modal.compon
     TherapistRoutingModule,
     FormsModule,
     ReactiveFormsModule, 
-    SharedModule,  
+    SharedModule,
+
   ]
 })
 export class TherapistModule { }
