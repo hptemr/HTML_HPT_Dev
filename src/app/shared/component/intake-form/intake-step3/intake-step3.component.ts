@@ -22,7 +22,7 @@ export class IntakeStep3Component {
   uploadedPrescriptionFiles: any = []
   uploadedPrescriptionFilesTotal = 0
   isFormEditable = false
-  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
+  activeUserRoute = this.commonService.getLoggedInRoute()
 
   constructor(public dialog: MatDialog, private router: Router,
     private fb: FormBuilder, private commonService: CommonService,
@@ -47,7 +47,7 @@ export class IntakeStep3Component {
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
-        this.router.navigate([this.activeUserRoute +'appointments'])
+        this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
         this.step3FormData = response.data.appointmentData
         this.loadForm()
@@ -332,11 +332,11 @@ export class IntakeStep3Component {
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         localStorage.removeItem('uploadedPrescriptionFiles')
-        this.router.navigate([this.activeUserRoute +'intake-form/step-4', this.appId])
+        this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
       })
     } else {
       localStorage.removeItem('uploadedPrescriptionFiles')
-      this.router.navigate([this.activeUserRoute +'intake-form/step-4', this.appId])
+      this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
     }
   }
 

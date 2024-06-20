@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit  } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { SystemFollowupModalComponent } from '../system-followup-modal/system-followup-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WriteCommentModalComponent } from 'src/app/shared/comman/write-comment-modal/write-comment-modal.component';
@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
-  selector: 'app-appointment-details', 
+  selector: 'app-appointment-details',
   templateUrl: './appointment-details.component.html',
   styleUrl: './appointment-details.component.scss'
 })
@@ -18,47 +18,46 @@ export class AppointmentDetailsComponent {
   appointmentId: string;
   statusFlag: string;
   appointmentData: any = [];
-  appointment_flag:boolean=false
+  appointment_flag: boolean = false
   initialName: string = '';
   assign_therapist: string = '';
   public userId: string;
   public userRole: string;
-  
-  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
 
+  activeUserRoute = this.commonService.getLoggedInRoute()
 
-  constructor(public dialog: MatDialog,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
+  constructor(public dialog: MatDialog, private navigationService: NavigationService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
   }
 
   ngOnInit() {
-    this.userId = this.authService.getLoggedInInfo('_id') 
-    this.userRole = this.authService.getLoggedInInfo('role')  
+    this.userId = this.authService.getLoggedInInfo('_id')
+    this.userRole = this.authService.getLoggedInInfo('role')
     this.getAppointmentDetails()
   }
 
   async getAppointmentDetails() {
-    if(this.appointmentId){ 
-      this.commonService.showLoader(); 
+    if (this.appointmentId) {
+      this.commonService.showLoader();
       let reqVars = {
-        query: {_id:this.appointmentId},
-        fields:{},
-        patientFields:{},
-        therapistFields:{}
+        query: { _id: this.appointmentId },
+        fields: {},
+        patientFields: {},
+        therapistFields: {}
       }
 
       await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
         this.commonService.hideLoader();
-        if(response.data && response.data.appointmentData){
+        if (response.data && response.data.appointmentData) {
           this.appointmentData = response.data.appointmentData;
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
-          if(this.appointmentData.patientId.firstName && this.appointmentData.patientId.lastName){
-            this.initialName = this.appointmentData.patientId.firstName.charAt(0)+this.appointmentData.patientId.lastName.charAt(0);
-          }          
-          if(this.appointmentData.therapistId && this.appointmentData.therapistId.firstName){
-            this.assign_therapist = this.appointmentData.therapistId.firstName+' '+this.appointmentData.therapistId.lastName;
+          if (this.appointmentData.patientId.firstName && this.appointmentData.patientId.lastName) {
+            this.initialName = this.appointmentData.patientId.firstName.charAt(0) + this.appointmentData.patientId.lastName.charAt(0);
+          }
+          if (this.appointmentData.therapistId && this.appointmentData.therapistId.firstName) {
+            this.assign_therapist = this.appointmentData.therapistId.firstName + ' ' + this.appointmentData.therapistId.lastName;
           }
 
           this.appointment_flag = true;
@@ -68,7 +67,7 @@ export class AppointmentDetailsComponent {
   }
 
   async patientCheckIn(event: any, obj: any) {
-    if (event.source._checked!=undefined) {
+    if (event.source._checked != undefined) {
       let reqVars = {
         query: { _id: obj._id },
         updateInfo: {
@@ -83,92 +82,91 @@ export class AppointmentDetailsComponent {
 
 
   getPreviousPageLink(): string | null {
-    if(this.navigationService.getPreviousUrl()){
+    if (this.navigationService.getPreviousUrl()) {
       return this.navigationService.getPreviousUrl();
-    }else{
-      return this.commonService.getLoggedInRoute()+ '/dashboard/';
-      //this.router.navigate([this.commonService.getLoggedInRoute()+ '/dashboard/']);
-    }    
+    } else {
+      return this.activeUserRoute + '/dashboard/';
+    }
   }
 
   systemFollowup() {
-    const dialogRef = this.dialog.open(SystemFollowupModalComponent,{
-      panelClass: 'custom-alert-container', 
+    const dialogRef = this.dialog.open(SystemFollowupModalComponent, {
+      panelClass: 'custom-alert-container',
     });
   }
 
 
-  writeComment(appointmentId:string){
-    const dialogRef = this.dialog.open(WriteCommentModalComponent,{
-      disableClose :true,
+  writeComment(appointmentId: string) {
+    const dialogRef = this.dialog.open(WriteCommentModalComponent, {
+      disableClose: true,
       panelClass: 'custom-alert-container',
-      data : {
-        appointmentId:appointmentId,
-        userRole:this.userRole,
+      data: {
+        appointmentId: appointmentId,
+        userRole: this.userRole,
         userId: this.userId,
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){
+      if (result && !result.error) {
         this.getAppointmentDetails();
-        this.commonService.openSnackBar(result.message,"SUCCESS")
+        this.commonService.openSnackBar(result.message, "SUCCESS")
       }
     });
 
   }
- 
-  rescheduleModal(appointmentId:string){
-    const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent,{
-      disableClose :true,
+
+  rescheduleModal(appointmentId: string) {
+    const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent, {
+      disableClose: true,
       panelClass: ['custom-alert-container', 'rechedule--wrapper'],
-      data : {
+      data: {
         // heading: `Invite ${this.pageTitle}`,
-         appointmentId:appointmentId,
-         userRole:this.userRole,
-         userId: this.userId,
-       }
+        appointmentId: appointmentId,
+        userRole: this.userRole,
+        userId: this.userId,
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){
+      if (result && !result.error) {
         this.getAppointmentDetails();
-        this.commonService.openSnackBar(result.message,"SUCCESS")
+        this.commonService.openSnackBar(result.message, "SUCCESS")
       }
     });
   }
 
   successModal() {
-    const dialogRef = this.dialog.open(SuccessModalComponent,{
+    const dialogRef = this.dialog.open(SuccessModalComponent, {
       panelClass: 'custom-alert-container',
-      data : {
+      data: {
         successNote: 'Kindly choose a therapist prior to confirming the appointment request.'
       }
     });
   }
 
-  async acceptAppointment(appointmentId:string){
-    if(appointmentId){ 
+  async acceptAppointment(appointmentId: string) {
+    if (appointmentId) {
       //this.commonService.showLoader(); 
       let reqVars = {
-        query: {_id:appointmentId},
+        query: { _id: appointmentId },
         userId: this.userId,
-        fromRole:this.userRole      
+        fromRole: this.userRole
       }
       await this.authService.apiRequest('post', 'appointment/acceptAppointment', reqVars).subscribe(async response => {
-        this.commonService.hideLoader();     
+        this.commonService.hideLoader();
         if (response.error) {
           this.commonService.openSnackBar(response.message, "ERROR")
-        }else{
+        } else {
           this.commonService.openSnackBar(response.message, "SUCCESS")
           this.getAppointmentDetails()
-          this.successModal(); 
-        }        
+          this.successModal();
+        }
       })
     }
   }
 
 
-  navigateTopatientDetails(patientId:string){
-    this.router.navigate([this.commonService.getLoggedInRoute()+ '/patient-profile/',patientId]);
+  navigateTopatientDetails(patientId: string) {
+    this.router.navigate([this.activeUserRoute, 'patient-profile', patientId]);
   }
 }

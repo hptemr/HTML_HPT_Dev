@@ -20,7 +20,7 @@ export class IntakeStep5Component {
   step5FormData: any
   validationMessages = validationMessages
   isFormEditable = false
-  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
+  activeUserRoute = this.commonService.getLoggedInRoute() 
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -44,7 +44,7 @@ export class IntakeStep5Component {
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
-        this.router.navigate([this.activeUserRoute + 'appointments'])
+        this.router.navigate([this.activeUserRoute , 'appointments'])
       } else {
         this.step5FormData = response.data.appointmentData
         this.loadForm()
@@ -95,10 +95,10 @@ export class IntakeStep5Component {
         updateInfo: this.step5Form.value
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-        this.router.navigate([this.activeUserRoute + 'appointment-details', this.appId])
+        this.router.navigate([this.activeUserRoute , 'appointment-details', this.appId])
       })
     } else {
-      this.router.navigate([this.activeUserRoute + 'appointment-details', this.appId])
+      this.router.navigate([this.activeUserRoute , 'appointment-details', this.appId])
     }
   }
 

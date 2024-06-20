@@ -1,13 +1,8 @@
-
-
-
-
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { InvitePopupComponent } from '../../invite-popup/invite-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -54,34 +49,23 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class PatientDetailsComponent {
   displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  userId:any
+  userId: any
   model: NgbDateStruct;
+  activeUserRoute = this.commonService.getLoggedInRoute()
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, 
-    private commonService: CommonService, private router: Router, private route: ActivatedRoute,) { 
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog,
+    private commonService: CommonService, private router: Router, private route: ActivatedRoute,) {
     this.route.params.subscribe((params: Params) => {
       this.userId = params['userId']
     })
   }
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-
-  /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+
   }
 
   navigateToAdminUserDetails() {
-    this.router.navigate([this.commonService.getLoggedInRoute() + '/patients/patient-profile/' + this.userId]);
+    this.router.navigate([this.activeUserRoute, 'patients', 'patient-profile', this.userId]);
   }
 }
