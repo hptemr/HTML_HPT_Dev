@@ -25,7 +25,6 @@ import { ManageProfileComponent } from './component/manage-profile/manage-profil
 import { UploadImgComponent } from './component/upload-img/upload-img.component';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { AdminLayoutComponent } from './component/layout/admin-layout/admin-layout.component';
-import { CommonAdminDashboardComponent } from './component/common-admin-dashboard/common-admin-dashboard.component';
 import { IntakeStep1Component } from './component/intake-form/intake-step1/intake-step1.component';
 import { IntakeStep2Component } from './component/intake-form/intake-step2/intake-step2.component';
 import { IntakeStep3Component } from './component/intake-form/intake-step3/intake-step3.component';
@@ -60,7 +59,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoaderComponent,
     ManageProfileComponent,
     UploadImgComponent,
-    CommonAdminDashboardComponent,
     IntakeStep1Component,
     IntakeStep2Component,
     IntakeStep3Component,
