@@ -14,9 +14,6 @@ import { BillingComponent } from './initial-examination/billing/billing.componen
 import { InitialExaminationComponent } from './initial-examination/initial-examination/initial-examination.component';
 import { SelectFolderComponent } from './protocol/select-folder/select-folder.component';
 import { SelectFilesComponent } from './protocol/select-files/select-files.component';
-import { DocumentsDashboardComponent } from './documents/documents-dashboard/documents-dashboard.component';
-import { DocumentsProviderListComponent } from './documents/documents-provider-list/documents-provider-list.component';
-import { DocumentsSiteLeaderListingComponent } from './documents/documents-site-leader-listing/documents-site-leader-listing.component';
  
 const routes: Routes = [ 
   {
@@ -76,18 +73,6 @@ const routes: Routes = [
   {
     path: 'select-file',
     component:SelectFilesComponent   
-  },
-  {
-    path: 'documents',
-    component: DocumentsDashboardComponent
-  },
-  {
-    path: 'provider-documents',
-    component: DocumentsProviderListComponent
-  },
-  {
-    path: 'site-leader-documents',
-    component: DocumentsSiteLeaderListingComponent
   },
   
 ];

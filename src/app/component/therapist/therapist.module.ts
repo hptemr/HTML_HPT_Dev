@@ -20,10 +20,6 @@ import { AddExerciseComponent } from './initial-examination/add-exercise/add-exe
 import { SelectFolderComponent } from './protocol/select-folder/select-folder.component';
 import { SelectFilesComponent } from './protocol/select-files/select-files.component';
 import { CaseNoteModalComponent } from './case-note-modal/case-note-modal.component';
-import { DocumentsDashboardComponent } from './documents/documents-dashboard/documents-dashboard.component';
-import { DocumentsProviderListComponent } from './documents/documents-provider-list/documents-provider-list.component';
-import { DocumentsSiteLeaderListingComponent } from './documents/documents-site-leader-listing/documents-site-leader-listing.component';
- 
 
 @NgModule({
   declarations: [ 
@@ -53,10 +49,6 @@ import { DocumentsSiteLeaderListingComponent } from './documents/documents-site-
     FormsModule,
     ReactiveFormsModule, 
     SharedModule,
-
-    DocumentsDashboardComponent,
-    DocumentsProviderListComponent,
-    DocumentsSiteLeaderListingComponent
 
   ]
 })
