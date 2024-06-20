@@ -25,6 +25,8 @@ const appointmentSchema = new mongoose.Schema({
     patientInfo: {
         type: Object //all the basic info will save in this object
     },
+    coPayAmount: { type: String, default: "0.00" },
+    highDeductibles: { type: String, default: "0.00" },
     payVia: {
         type: String,
         enum: ['Selfpay', 'Insurance'],
