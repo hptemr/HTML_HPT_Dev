@@ -9,67 +9,80 @@ export interface PeriodicElement {
   name: string;
   actions: string;
   icon: string;
+  color: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: '19G NOTE VERBIAGE',  
     actions: '' ,
-    icon: 'folder'  
+    icon: 'photo',
+    color: 'photo'  
   }, 
   { 
     name: 'ADDING PROVIDER STEPS',  
     actions: '',
-    icon: 'description'    
+    icon: 'description',
+    color: 'description'   
   }, 
   { 
     name: 'CST FAXES',  
     icon: 'picture_as_pdf',   
-    actions: ''   
+    actions: '',
+    color: 'pdf'  
   }, 
   { 
     name: 'EXT LIST',
-    icon: 'folder',  
-    actions: ''   
+    icon: 'photo',  
+    actions: '',
+    color: 'photo'
   },   
   { 
     name: 'MEDICAID PPA Instuctions',
     icon: 'picture_as_pdf',  
-    actions: ''   
+    actions: '',
+    color: 'pdf'  
   },
   { 
     name: 'NRO POC Track Sheet',
     icon: 'description',  
-    actions: ''   
+    actions: '',
+    color: 'description'   
   },
   { 
     name: '19G NOTE VERBIAGE',  
     actions: '' ,
-    icon: 'description'  
+    icon: 'photo',
+    color: 'photo'  
   }, 
   { 
     name: 'ADDING PROVIDER STEPS',  
     actions: '',
-    icon: 'description'    
+    icon: 'description',
+    color: 'description'    
   }, 
   { 
     name: 'CST FAXES',  
     icon: 'picture_as_pdf',   
-    actions: ''   
+    actions: '',
+    color: 'pdf'   
   }, 
   { 
     name: 'EXT LIST',
-    icon: 'description',  
+    icon: 'description',
+    color: 'description',  
     actions: ''   
   },   
   { 
     name: 'MEDICAID PPA Instuctions',
     icon: 'picture_as_pdf',  
-    actions: ''   
+    actions: '',
+    color: 'pdf'   
   },
   { 
     name: 'NRO POC Track Sheet',
-    icon: 'description',  
-    actions: ''   
+    icon: 'photo',  
+    actions: '',
+    color:'photo'   
   },
    
 ];

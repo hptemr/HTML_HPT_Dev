@@ -29,9 +29,12 @@
                 tr{
                     td{
                         padding: 12px 10px !important;
+                        .description{color: #31B7B7;}
+                        .pdf{color: #F45454;}
+                        .folder{color: #3186b7;}
+                        .photo{color: #5CC0F8;}
                         &:first-child{
                             .mat-icon{ 
-                                color: #31B7B7;
                                 flex-shrink: 0;
                             } 
                         }
