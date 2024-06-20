@@ -151,7 +151,7 @@
                     tr{
                         th{
                             background: #CFEFEF;
-                            width: 33.33%;
+                            width: 30%;
                             &:first-child{
                                 border-top-left-radius: 15px;
                                 width: 35%; 
@@ -169,6 +169,9 @@
                         td{
                             background: #F3FBFB;
                             border-color: #31B7B7;
+                            &:first-child{ 
+                                padding-left: 30px;
+                            }
                         }
                     }
                 }
