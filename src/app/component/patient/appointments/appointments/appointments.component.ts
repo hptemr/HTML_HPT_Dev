@@ -1,6 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Component } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { appointmentStatus, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
@@ -23,8 +22,6 @@ const ELEMENT_DATA: PeriodicElement[] = []
   styleUrl: './appointments.component.scss'
 })
 export class AppointmentsComponent {
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['info', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -80,7 +77,7 @@ export class AppointmentsComponent {
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
     }
-  
+
     await this.authService.apiRequest('post', 'appointment/getAppointmentList', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
       this.totalCount = response.data.totalCount
