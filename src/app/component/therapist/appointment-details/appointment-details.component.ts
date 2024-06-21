@@ -9,6 +9,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CaseNoteModalComponent } from '../case-note-modal/case-note-modal.component';
+import { OnePageNoteModalComponent } from './one-page-note-modal/one-page-note-modal.component';
 
 export interface PeriodicElement {
   note: string;  
@@ -137,7 +138,12 @@ export class AppointmentDetailsComponent {
       panelClass: [ 'custom-alert-container','modal--wrapper'],
     });
   }
- 
+
+  noteModal() {
+    const dialogRef = this.dialog.open(OnePageNoteModalComponent,{
+      panelClass: [ 'custom-alert-container','modal--wrapper'],
+    });
+  } 
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
