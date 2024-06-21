@@ -67,7 +67,17 @@ export class PatientDetailsComponent {
     this.maxFromDate = todayDate
     this.maxToDate = todayDate
     this.whereCond = { patientId: this.patientId }
+    this.getPatientDetail()
     this.getAppointmentList()
+  }
+  async getPatientDetail() {
+    let reqVars = {
+      query: { _id: this.patientId },
+      fields: { firstName: 1, lastName: 1 }
+    }
+    await this.authService.apiRequest('post', 'patients/getPatientData', reqVars).subscribe(async response => {
+      this.patientName = response.data.patientData.firstName + " " + response.data.patientData.lastName
+    })
   }
 
   async getAppointmentList(action = '') {

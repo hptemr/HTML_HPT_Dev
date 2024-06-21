@@ -32,12 +32,12 @@ import { IntakeStep4Component } from './component/intake-form/intake-step4/intak
 import { IntakeStep5Component } from './component/intake-form/intake-step5/intake-step5.component';
 import { IMaskModule } from 'angular-imask';
 
- import { AppointmentsComponent } from './component/support-billing-therapist/appointments/appointments.component';
- import { AppointmentDetailsComponent } from './component/support-billing-therapist/appointment-details/appointment-details.component';
- import { SystemFollowupModalComponent } from './component/support-billing-therapist/system-followup-modal/system-followup-modal.component';
- import { AppointmentRequestsComponent } from './component/support-billing-therapist/appointment-requests/appointment-requests.component';
+import { AppointmentsComponent } from './component/support-billing-therapist/appointments/appointments.component';
+import { AppointmentDetailsComponent } from './component/support-billing-therapist/appointment-details/appointment-details.component';
+import { SystemFollowupModalComponent } from './component/support-billing-therapist/system-followup-modal/system-followup-modal.component';
+import { AppointmentRequestsComponent } from './component/support-billing-therapist/appointment-requests/appointment-requests.component';
 import { PatientDetailsComponent } from './component/support-billing-therapist/patient-details/patient-details.component';
- //import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
+import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -69,8 +69,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppointmentDetailsComponent,
     SystemFollowupModalComponent,
     AppointmentRequestsComponent,
-    PatientDetailsComponent
-   // PatientProfileComponent
+    PatientDetailsComponent,
+    PatientProfileComponent
   ],
   imports: [
     CommonModule,

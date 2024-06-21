@@ -10,6 +10,7 @@ import { UserListingComponent } from './user-managment/user-listing/user-listing
 import { AdminProfileComponent } from './user-managment/admin-profile/admin-profile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
+import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
 
 const routes: Routes = [
   {
@@ -52,10 +53,10 @@ const routes: Routes = [
         path: 'patient-details/:userId',
         component: PatientDetailsComponent,
       },
-      // {
-      //   path: 'patient-profile/:userId',
-      //   component: PatientProfileComponent,
-      // }
+      {
+        path: 'patient-profile/:userId',
+        component: PatientProfileComponent,
+      }
     ]
   },
   {
