@@ -40,8 +40,8 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0"> 
-                                <mat-checkbox class="" formControlName="rememberMe">Remember Me</mat-checkbox>
-                                <a class="link font-12 fw-600" [routerLink]="forgetPasswordLink">Forgot password?</a>
+                                <mat-checkbox class="remember--me" formControlName="rememberMe">Remember Me</mat-checkbox>
+                                <a class="link font-14 fw-600" [routerLink]="forgetPasswordLink">Forgot password?</a>
                                 <div class="text-end mt-3">
                                     <button  class="btn btn-primary font-16 w-100" [disabled]="!loginForm.valid"
                                         (click)="login()" type="submit">Login</button>
