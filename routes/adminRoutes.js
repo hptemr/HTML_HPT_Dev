@@ -12,6 +12,7 @@ router.post('/updateProfile', verifyToken, adminController.updateProfile);
 router.post('/updateUser', adminController.updateUser);
 router.post('/getUserDetails', adminController.getUserDetails);
 router.post('/getUserList', adminController.getUserList);
+router.post('/getTherapistList', adminController.getTherapistList);
 router.post('/getLocationWiseUserList', adminController.getLocationWiseUserList);
 router.post('/deleteProfileImage', adminController.deleteProfileImage);
 router.post('/changeProfileImage', adminController.changeProfileImage);

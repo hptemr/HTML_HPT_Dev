@@ -191,6 +191,24 @@ const getUserList = async (req, res) => {
   }
 }
 
+const getTherapistList = async (req, res) => {
+  try {
+    const { query, fields, order } = req.body;
+    let therapist_data = await User.find(query, fields).sort(order);
+    let totalCount = await User.find(query).count()
+    let therapistData = [];
+    therapist_data.forEach(element => {
+      let newValue = {id:element._id,name:element.firstName+' '+element.lastName};
+      therapistData.push(newValue);
+    });
+
+    commonHelper.sendResponse(res, 'success', { therapistData, totalCount }, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
 const getLocationWiseUserList = async (req, res) => {
   try {
     const { query, fields, order, offset, limit } = req.body;
@@ -261,6 +279,7 @@ module.exports = {
   updateUser,
   getUserDetails,
   getUserList,
+  getTherapistList,
   getLocationWiseUserList,
   deleteProfileImage,
   changeProfileImage
