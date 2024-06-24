@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
 import { MatDialog } from '@angular/material/dialog';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-objective', 
@@ -52,4 +53,67 @@ export class ObjectiveComponent {
       panelClass:[ 'custom-alert-container','modal--wrapper'],
     });
   }
+  customOptions: OwlOptions = {
+    loop: false,
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+    dots: false,  
+    nav: true,
+    items:1,
+    navText: ['P', 'N'],
+    responsive:{
+      0:{
+          items:1,
+      },
+      600:{
+          items:2
+      },
+      1000:{
+          items:3
+      },
+      1200:{
+        items:4
+    }
+  }
+    
+  }
+
+  edatatable = [
+    {
+      set:'1',
+      reps:'10',
+      weight:'50 lbs',
+      distance: '1',
+      time: 'NA'
+    },
+    {
+      set:'2',
+      reps:'20',
+      weight:'20 kg',
+      distance: '1.5',
+      time: '5 min'
+    },
+    {
+      set:'3',
+      reps:'30',
+      weight:'100 kg',
+      distance: '2',
+      time: '10 min'
+    },
+    {
+      set:'4',
+      reps:'40',
+      weight:'80 lbs',
+      distance: '2.5',
+      time: '300 sec'
+    },
+    {
+      set:'5',
+      reps:'50',
+      weight:'40 lbs',
+      distance: '3',
+      time: '800 sec'
+    },
+  ]
 }

@@ -44,6 +44,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
   exports: [
@@ -83,6 +84,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTooltipModule,
     MatTreeModule,
     MatNativeDateModule,
+    CarouselModule 
   ],
   providers: [
     {

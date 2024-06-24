@@ -205,51 +205,110 @@
     .slider--table{ 
         .exercise--table{
             border: 1px solid #31B7B7;
+            border-right: 0;
             background: #F3FBFB;
             border-radius: 10px;
             width: 200px;
             border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            table{
-                thead{
-                    tr{
-                        th{
-                            font-size: 14px;
-                            color: #1F2F3E;
-                            font-weight: 700;
-                            height: 78px;
-                            padding: 5px 15px;
-                            vertical-align: middle;
-                            border-color: #31B7B7;
-                        }
-                    }
-                }
-                tbody{
-                    tr{
-                        td{
-                            font-size: 14px;
-                            color: #1F2F3E;
-                            font-weight: 400;
-                            padding: 11px 15px;
-                            border-color: #ccc; 
-                        }
-                        &:last-child{
-                            td{
-                                border: none;
-                            }
-                        }
-                    }
-                }
-            }
+            border-bottom-right-radius: 0; 
         }
         .exercise--data--table{
-            width: 100%;
+            width: 87%;
             border: 1px solid #31B7B7;
             border-left: 0;
             background: #F3FBFB;
             border-radius: 10px; 
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+            position: relative;
+            table{ 
+                thead{
+                    tr{
+                        th{
+                            font-size: 14px;
+                            color: #1F2F3E;
+                            font-weight: 700;
+                            height: auto;
+                            padding: 0 12px 5px 12px;
+                            vertical-align: middle;
+                            border-color: #31B7B7;
+                        }
+                        &:first-child{
+                            th{
+                                border: 0;
+                                padding: 5px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        table{
+            thead{
+                tr{
+                    th{
+                        font-size: 14px;
+                        color: #1F2F3E;
+                        font-weight: 700;
+                        height: 78px;
+                        padding: 5px 12px;
+                        vertical-align: middle;
+                        border-color: #31B7B7;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        font-size: 14px;
+                        color: #1F2F3E;
+                        font-weight: 400;
+                        padding: 11px 12px;
+                        border-color: #ccc; 
+                    }
+                    &:last-child{
+                        td{
+                            border: none;
+                        }
+                    }
+                }
+            }
+        }
+        ::ng-deep{
+            .owl-carousel{
+                .owl-stage-outer{
+                    .owl-stage{
+                        .owl-item{
+                            &.active{
+                                border-left: 1px solid #31B7B7;
+                            }
+                        }
+                    }
+                }
+                .owl-nav{
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    left: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 0;
+                    .owl-next,
+                    .owl-prev{
+                        width: 24px;
+                        height: 24px;
+                        background-color: #31B7B7;
+                        border-radius: 20px;
+                        margin: 8px 0 0 0;
+                    }
+                    .owl-prev{
+                        margin-left: -38px;
+                    }
+                    .owl-next{
+                        margin-right: 10px;
+                    }
+                }
+            }
         }
     }
 }
@@ -307,6 +366,16 @@
         width: auto;
         padding-right: 0;
     }
+    .objective--wrapepr .slider--table .exercise--data--table{
+        width: 76%;
+    }
+    .objective--wrapepr .slider--table .exercise--table{
+        width: 70px;
+    } 
+    .objective--wrapepr .slider--table .exercise--data--table table thead tr th,
+    .objective--wrapepr .slider--table table tbody tr td{
+        padding: 3px;
+    }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){
     .objective--wrapepr .quickdash--table table thead tr th{
@@ -317,5 +386,31 @@
     }
     .objective--wrapepr .quickdash--table.lefs--table table {
         width: 900px;
+    }
+    .objective--wrapepr .slider--table .exercise--data--table{
+        width: 78%;
+    }
+    .objective--wrapepr .slider--table .exercise--table{
+        width: 150px;
+    }
+} 
+@media only screen and (min-width: 980px) and (max-width: 1280px){
+    .objective--wrapepr .slider--table .exercise--data--table{
+        width: 81%;
+    }
+}
+@media only screen and (min-width: 1281px) and (max-width: 1366px){
+    .objective--wrapepr .slider--table .exercise--data--table{
+        width: 82%;
+    }
+}
+@media only screen and (min-width: 1367px) and (max-width: 1440px){
+    .objective--wrapepr .slider--table .exercise--data--table{
+        width: 83%;
+    }
+}
+@media only screen and (min-width: 1441px) and (max-width: 1550px){
+    .objective--wrapepr .slider--table .exercise--data--table{
+        width: 85%;
     }
 }
