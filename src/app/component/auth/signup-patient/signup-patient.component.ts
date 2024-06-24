@@ -161,7 +161,7 @@ export class SignupPatientComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({    
-      documents_type: [this.thiredFormGroupData ? this.thiredFormGroupData.documents_type : '', []],
+      documents_type: [this.thiredFormGroupData ? this.thiredFormGroupData.documents_type : '', [Validators.required]],
       documents_temp: ['', []],
       isChecked: [false, [Validators.requiredTrue]]
     } , {

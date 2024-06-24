@@ -16,19 +16,19 @@
                           <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
                               <div class="head--sec w-100" *ngIf="editOptions">
                                   <mat-list>
-                                      <mat-list-item>Change Photo </mat-list-item>
-                                      <mat-list-item>Remove Photo </mat-list-item> 
+                                      <mat-list-item (click)="changePhoto()">Change Photo </mat-list-item>
+                                      <mat-list-item (click)="removePhoto()" *ngIf="isDefaultImage">Remove Photo </mat-list-item> 
                                   </mat-list>
                                   
                               </div> 
                               <div class="profile--round position-relative">
-                                  <img src="assets/images/ark/user.png"  alt="" class="img-fluid user--img" />
-                                  <button mat-raised-button color="primary" class="edit--btn" (click)="editProfilePic()"> 
+                                  <img src="{{profileImage}}"  alt="Profile Picture" class="img-fluid user--img" />
+                                  <button mat-raised-button color="primary" class="edit--btn" (click)="editProfilePic(); $event.preventDefault()"> 
                                       <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 "> edit </mat-icon> 
                                   </button>
                               </div> 
                           </div>
-                          <button mat-stroked-button color="primary" (click)="changePassword()">Change Password</button> 
+                          <button mat-stroked-button color="primary" (click)="changePassword(); $event.preventDefault()">Change Password</button> 
                         </div>
                         <div class="col-12 col-sm-6 col-lg-4">
                             <div class="form-group">
