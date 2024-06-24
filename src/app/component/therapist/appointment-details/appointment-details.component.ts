@@ -141,7 +141,8 @@ export class AppointmentDetailsComponent {
 
   noteModal() {
     const dialogRef = this.dialog.open(OnePageNoteModalComponent,{
-      panelClass: [ 'custom-alert-container','modal--wrapper'],
+      width:"960px",
+      // panelClass: [ 'custom-alert-container','modal--wrapper'],
     });
   } 
 
