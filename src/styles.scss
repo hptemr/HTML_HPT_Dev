@@ -59,8 +59,11 @@ input, p,
         font-size: 14px;
     }
     .mat-mdc-icon-button.mat-mdc-button-base{
-        height: 44px;
+        height: 45px;
         padding: 5px;
+        color: #fff;
+        background: #31B7B7;
+        border-radius: 0;
     }
 }
 .cdk-overlay-pane.mat-datepicker-popup{
@@ -111,9 +114,9 @@ input, p,
                 background-color: #F5F6F9 !important;
                 transition: all 0.3s ease;
                 border-color: #CCC; 
-                font-size: 16px;
+                font-size: 14px;
                 color: #212529;
-                padding: 6px 10px;
+                padding: 8px 10px;
                 box-shadow: none; 
                 &:focus{
                     border: 1px solid #b9c1cc;
@@ -130,7 +133,7 @@ input, p,
                     padding-bottom: 5px !important;
                 }
                 .mat-mdc-icon-button.mat-mdc-button-base{
-                    height: 20px;
+                    height: 36px;
                     padding: 0;
                 }
             }
@@ -365,11 +368,12 @@ input[type=text] {
     }
     &:disabled{
         background-color: #F5F5F5 !important;
+        opacity: 0.7;
     }
     &.form-control-md{
         border-color: #CCC; 
         color: #212529;
-        padding: 8px 10px;
+        padding: 7px 10px;
         box-shadow: none;
         &::-ms-input-placeholder {   
             font-size: 14px !important;
@@ -395,7 +399,31 @@ input[type=text] {
 a{
     letter-spacing: 0 !important;
 }
-
+.dd--search--combine{
+    position: relative;
+    .dd{
+        .form-select{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            width: 140px;
+            padding-right: 36px !important;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .search{
+        width: 100%;
+        .search--outer{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: 0;
+        }
+        .search--fields{
+            right: 4px !important;
+        }
+    }
+    
+}
 .mat-mdc-tab-group{
     .mat-mdc-tab-header{
         .mat-mdc-tab-label-container{
@@ -538,6 +566,34 @@ a{
     }
 
 }
+
+// Bootstrap Table
+.table-responsive{
+    &.normal--table{
+        thead{
+            tr{
+                th{
+                    background: #F3FBFB;
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: #1F2F3E;
+                    padding: 7px 10px;
+                }
+            }
+        }
+        tbody{
+            tr{
+                td{
+                    font-size: 14px;
+                    color: #292D32;
+                    padding: 10px 10px;
+                }
+            }
+        }
+    }
+}
+
+
 .status{
     font-size: 14px;
     font-weight: 600; 
@@ -618,7 +674,7 @@ a{
 
 // Alert Modal (Start here)
 .custom-alert-container{
-    width: 423px; 
+    width: 423px !important; 
     .mat-mdc-dialog-container{
         .alert--wrapper{
             padding: 30px;
@@ -660,7 +716,7 @@ a{
         padding-bottom: 0;
         h1{
             color: #1F2F3E;
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 5px;
             font-weight: 800;
             border-bottom: 1px solid #ddd;
@@ -668,7 +724,7 @@ a{
         }
     }
     .modal--body{
-        height: calc(100vh - 200px);
+        max-height: calc(100vh - 200px);
         overflow: auto;
     }
 }
@@ -932,7 +988,7 @@ ngb-datepicker{
         }
     }
     .tab--header{ 
-        margin-top: 25px;
+        margin-top: 10px;
         ul{
             li{
                 padding: 11px 15px;
@@ -970,6 +1026,12 @@ ngb-datepicker{
         height: calc(100vh - 245px);
         overflow: auto;
     }
+}
+.notes--footer--btns{
+    position: absolute;
+    bottom: -52px;
+    left: 35px;
+    width: 95%;
 }
 
 
@@ -1042,6 +1104,21 @@ ngb-datepicker{
     .breadcrumb-item + .breadcrumb-item::before{
         margin: 7px 4px 4px 0px;
     }
+    .note--wrapper .note--header h1{
+        font-size: 16px;
+    }
+    .note--wrapper .tab--header ul li a{
+        font-size: 13px;
+    }
+    .note--wrapper .note--body{
+        padding: 15px;
+    }
+    .notes--footer--btns {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
 @media only screen and (min-width: 980px) and (max-width: 1279px){}
@@ -1056,6 +1133,15 @@ ngb-datepicker{
         .card{
             height: auto;
         }
+    }
+    .notes--footer--btns {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+    .note--wrapper .note--body{
+        height: calc(100vh - 202px);
     }
 }
 
