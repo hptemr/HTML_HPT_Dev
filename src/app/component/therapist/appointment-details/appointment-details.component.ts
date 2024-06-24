@@ -9,8 +9,8 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap'; 
 import { OnePageNoteModalComponent } from './one-page-note-modal/one-page-note-modal.component';
-import { CaseNoteModalComponent } from 'src/app/shared/component/support-billing-therapist/case-note-modal/case-note-modal.component';
-
+import { CaseNoteModalComponent } from 'src/app/shared/component/support-billing-therapist/notes/case-note-modal/case-note-modal.component';
+ 
 export interface PeriodicElement {
   note: string;  
   dateAddedOn: string;   
