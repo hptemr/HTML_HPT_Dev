@@ -1,22 +1,21 @@
 
 
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { Sort } from '@angular/material/sort';
 
 export interface PeriodicElement {
   name: string;
   email: string;
-  appointmentDate: string;
+  gender: string;
+  dob: string;
   action: string;
 }
 
@@ -27,11 +26,7 @@ export interface PeriodicElement {
 })
 
 export class PatientsComponent {
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  displayedColumns: string[] = ['name', 'email', 'appointmentDate', 'action'];
-  model: NgbDateStruct;
+  displayedColumns: string[] = ['name', 'email', 'gender', 'dob', 'action'];
   patientList: any
   searchPatient: any
   whereCond: any = {}
@@ -42,9 +37,12 @@ export class PatientsComponent {
   validationMessages = validationMessages;
   orderBy: any = { createdAt: -1 }
 
-  practiceLocationData:string[] = practiceLocations
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, 
-    private adminService: AdminService, private commonService: CommonService,  private router: Router, ) {
+  appntDate: any
+  practiceLocVal: any = ''
+  practiceLocations: any = practiceLocations
+  maxFromDate = this.commonService.getMaxAppoinmentFutureMonths()
+
+  constructor(public dialog: MatDialog, private authService: AuthService, private commonService: CommonService, private router: Router,) {
   }
 
   ngOnInit() {
@@ -75,43 +73,47 @@ export class PatientsComponent {
     if (searchStr != '') {
       searchStr = searchStr.replace("+", "\\+");
       let finalStr = { $regex: searchStr, $options: 'i' }
-      Object.assign(this.whereCond, { $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }] })
+      Object.assign(this.whereCond, {
+        $or: [
+          { firstName: finalStr },
+          { lastName: finalStr },
+          { email: finalStr }
+        ]
+      })
     } else {
       delete this.whereCond['$or'];
     }
     this.getPatientList('search')
   }
 
-  async getPatientList(action='') {
-    if(action==''){
+  async getPatientList(action = '') {
+    if (action == '') {
       this.commonService.showLoader()
     }
     let params = {
-      query: this.whereCond,
-      params: { firstName: 1, lastName: 1, email: 1 },
+      queryMatch: this.whereCond,
+      //queryMatch: { 'firstName': "Manoj", 'appmnt.status':'Rescheduled' },
+      fields: { firstName: 1, lastName: 1, email: 1, dob: 1, gender: 1 },
       order: this.orderBy,
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
     }
-    await this.adminService.getPatientList(params).subscribe({
-      next: async (response) => {
-        this.commonService.hideLoader()
-        this.totalCount = response.data.totalCount
-        let finalData: any = []
-        await response.data.patientList.map((element: any) => {
-          let newColumns = {
-            id: element._id,
-            email: element.email,
-            appointmentDate: new Date(),
-            name: element.firstName + " " + element.lastName
-          }
-          finalData.push(newColumns)
-        })
-        this.patientList = new MatTableDataSource(finalData)
-      }, error: (err) => {
-        console.log("err>>>>", err);
-      }
-    });
+    await this.authService.apiRequest('post', 'patients/getPatientList', params).subscribe(async response => {
+      this.commonService.hideLoader()
+      this.totalCount = response.data.totalCount
+      let finalData: any = []
+      await response.data.patientList.map((element: any) => {
+        let newColumns = {
+          id: element._id,
+          email: element.email,
+          dob: element.dob,
+          gender: element.gender,
+          name: element.firstName + " " + element.lastName
+        }
+        finalData.push(newColumns)
+      })
+      this.patientList = new MatTableDataSource(finalData)
+    })
   }
 
   handlePageEvent(event: any) {
@@ -121,8 +123,9 @@ export class PatientsComponent {
   }
 
   reset() {
-    this.searchPatient =""
-    this.whereCond = {} 
+    this.searchPatient = ""
+    this.practiceLocVal = ''
+    this.whereCond = {}
     this.totalCount = 0
     this.pageIndex = 0
     this.pageSize = pageSize
@@ -130,7 +133,17 @@ export class PatientsComponent {
     this.getPatientList('reset')
   }
 
-  navigateToAdminUserDetails(userId: any){
-    this.router.navigate([ this.commonService.getLoggedInRoute()+ '/patients/patient-details/', userId]);
+  navigateToAdminUserDetails(userId: any) {
+    this.router.navigate([this.commonService.getLoggedInRoute() + '/patients/patient-details/', userId]);
   }
+
+  filterDropDown(event: any, colName: any) {
+    if (event.target.value != "") {
+      Object.assign(this.whereCond, { 'appmnt.practiceLocation': event.target.value })
+    } else {
+      delete this.whereCond['appmnt.practiceLocation'];
+    }
+    this.getPatientList('search')
+  }
+
 }

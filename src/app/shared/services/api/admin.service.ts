@@ -41,9 +41,5 @@ export class AdminService {
     const url = `${environment.apiUrl}/admin/getUserDetails`;
     return this.http.post(url, data).pipe();
   }
-
-  getPatientList(data: any): Observable<any> {
-    const url = `${environment.apiUrl}/patients/getPatientList`;
-    return this.http.post(url, data).pipe();
-  }
+ 
 }
