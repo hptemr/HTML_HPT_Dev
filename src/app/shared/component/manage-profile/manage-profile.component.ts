@@ -99,7 +99,7 @@ export class ManageProfileComponent {
       this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
         next: (res) => {
           if (res && !res.error) {
-            this.updateProfileSetInLocalStorage(res.data)
+            this.updateAdminInLocalStorage(res.data)
             this.commonService.openSnackBar(res.message, "SUCCESS")
             // this.getProfile()
           }
@@ -110,7 +110,7 @@ export class ManageProfileComponent {
     }
   }
 
-  updateProfileSetInLocalStorage(updateProfileData: any) {
+  updateAdminInLocalStorage(updateProfileData: any) {
     let localSorageUserData: any = this.authService.getLoggedInInfo('all')
     localSorageUserData.firstName = updateProfileData.firstName;
     localSorageUserData.lastName = updateProfileData.lastName;
