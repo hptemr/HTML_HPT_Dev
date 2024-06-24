@@ -84,7 +84,7 @@ export class NavservicesService implements OnInit {
               type: 'link',
               active: false,
               path: '/practice-admin/user-managment/billing-team',
-            }, 
+            },
           ]
         },
         {
@@ -93,7 +93,7 @@ export class NavservicesService implements OnInit {
           icon: 'group',
           mainTitle: 'Patients',
           headTitle1: '',
-          path: '/practice-admin/patients/list',
+          path: '/practice-admin/patients',
           active: false,
           item: []
         },
@@ -167,8 +167,18 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
+        {
+          id: 3,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/therapist/patients',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 3,
+        //   id: 4,
         //   icon: 'people',
         //   mainTitle: 'Referrals',
         //   headTitle1: '',
@@ -178,7 +188,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
         //   headTitle1: '',
@@ -186,17 +196,7 @@ export class NavservicesService implements OnInit {
         //   active: false,
         //   type: 'link',
         //   item: []
-        // },
-        // {
-        //   id: 5,
-        //   icon: 'person_outline',
-        //   mainTitle: 'Patients',
-        //   headTitle1: '',
-        //   path: ' ',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
+        // }, 
         // {
         //   id: 6,
         //   icon: 'people_outline',
@@ -230,8 +230,18 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
+        {
+          id: 3,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/billing-team/patients',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 3,
+        //   id: 4,
         //   icon: 'assignment',
         //   mainTitle: 'Reports',
         //   headTitle1: '',
@@ -241,19 +251,9 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
-        //   headTitle1: '',
-        //   path: ' ',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
-        // {
-        //   id: 5,
-        //   icon: 'person_outline',
-        //   mainTitle: 'Patients',
         //   headTitle1: '',
         //   path: ' ',
         //   active: false,
@@ -294,8 +294,18 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
+        {
+          id: 3,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/support-team/patients',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 3,
+        //   id: 4,
         //   icon: 'people',
         //   mainTitle: 'Referrals',
         //   headTitle1: '',
@@ -305,7 +315,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
         //   headTitle1: '',
@@ -313,17 +323,7 @@ export class NavservicesService implements OnInit {
         //   active: false,
         //   type: 'link',
         //   item: []
-        // },
-        // {
-        //   id: 5,
-        //   icon: 'person_outline',
-        //   mainTitle: 'Patients',
-        //   headTitle1: '',
-        //   path: ' ',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
+        // }, 
         // {
         //   id: 6,
         //   icon: 'people_outline',
@@ -393,7 +393,7 @@ export class NavservicesService implements OnInit {
           icon: 'group',
           mainTitle: 'Patients',
           headTitle1: '',
-          path: '/system-admin/patients/list',
+          path: '/system-admin/patients',
           active: false,
           item: []
         },

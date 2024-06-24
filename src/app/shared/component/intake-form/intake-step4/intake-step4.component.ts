@@ -23,7 +23,7 @@ export class IntakeStep4Component {
   emergencyContactList: any
   todayDate = new Date()
   isFormEditable = false
-  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
+  activeUserRoute = this.commonService.getLoggedInRoute()
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -48,7 +48,7 @@ export class IntakeStep4Component {
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
-        this.router.navigate([this.activeUserRoute +'appointments'])
+        this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
         this.step4FormData = response.data.appointmentData.emergencyContact[0]
         this.loadForm()
@@ -136,10 +136,10 @@ export class IntakeStep4Component {
         }
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-        this.router.navigate([this.activeUserRoute +'intake-form/step-5', this.appId])
+        this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
       })
     } else {
-      this.router.navigate([this.activeUserRoute +'intake-form/step-5', this.appId])
+      this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
     }
   }
 

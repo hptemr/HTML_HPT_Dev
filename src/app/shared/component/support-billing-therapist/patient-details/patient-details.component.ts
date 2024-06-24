@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { appointmentStatus, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 
@@ -17,11 +17,11 @@ export interface PeriodicElement {
 const ELEMENT_DATA: PeriodicElement[] = []
 
 @Component({
-  selector: 'app-appointments',
-  templateUrl: './appointments.component.html',
-  styleUrl: './appointments.component.scss'
+  selector: 'app-patient-details',
+  templateUrl: './patient-details.component.html',
+  styleUrl: './patient-details.component.scss'
 })
-export class AppointmentsComponent {
+export class PatientDetailsComponent {
 
   displayedColumns: string[] = ['info', 'appointmentDate', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -50,16 +50,34 @@ export class AppointmentsComponent {
   minFromDate: any
   minToDate: any
 
+  patientId: any
+  patientName: any
+
+  activeUserRoute = this.commonService.getLoggedInRoute()
+
   constructor(public dialog: MatDialog, private authService: AuthService,
-    public commonService: CommonService, private router: Router) {
+    public commonService: CommonService, private route: ActivatedRoute,) {
+    this.route.params.subscribe((params: Params) => {
+      this.patientId = params['userId']
+    })
   }
 
   ngOnInit() {
     let todayDate = this.commonService.getMaxAppoinmentFutureMonths()
     this.maxFromDate = todayDate
     this.maxToDate = todayDate
-    this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
+    this.whereCond = { patientId: this.patientId }
+    this.getPatientDetail()
     this.getAppointmentList()
+  }
+  async getPatientDetail() {
+    let reqVars = {
+      query: { _id: this.patientId },
+      fields: { firstName: 1, lastName: 1 }
+    }
+    await this.authService.apiRequest('post', 'patients/getPatientData', reqVars).subscribe(async response => {
+      this.patientName = response.data.patientData.firstName + " " + response.data.patientData.lastName
+    })
   }
 
   async getAppointmentList(action = '') {
@@ -71,7 +89,7 @@ export class AppointmentsComponent {
       query: this.whereCond,
       userQuery: this.userQuery,
       fields: { practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1 },
-      patientFields: { firstName: 1 },
+      patientFields: { firstName: 1, lastName: 1 },
       therapistFields: { firstName: 1, lastName: 1, profileImage: 1 },
       order: this.orderBy,
       limit: this.pageSize,
@@ -92,6 +110,7 @@ export class AppointmentsComponent {
           info.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + element.therapistId.profileImage
           info.fullName = element.therapistId.firstName + " " + element.therapistId.lastName
         }
+        this.patientName = element.patientId.firstName + " " + element.patientId.lastName
 
         let newColumns = {
           id: element._id,
@@ -179,7 +198,7 @@ export class AppointmentsComponent {
 
   reset() {
     this.userQuery = {}
-    this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
+    this.whereCond = { patientId: this.patientId }
     this.totalCount = 0
     this.pageIndex = 0
     this.pageSize = pageSize
@@ -200,5 +219,4 @@ export class AppointmentsComponent {
     }
     this.getAppointmentList('search')
   }
-
 }
