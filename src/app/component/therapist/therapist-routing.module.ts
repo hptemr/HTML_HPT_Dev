@@ -14,6 +14,11 @@ import { AssessmentComponent } from 'src/app/shared/component/support-billing-th
 import { PlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/plan/plan.component';
 import { BillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/billing/billing.component';
 import { AdditionalFormComponent } from 'src/app/shared/component/support-billing-therapist/notes/additional-form/additional-form.component';
+import { DailyNotesComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/daily-notes/daily-notes.component';
+import { DnSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-subjective/dn-subjective.component';
+import { DnObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-objective/dn-objective.component';
+import { DnAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-assessment/dn-assessment.component';
+import { DnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-plan/dn-plan.component';
  
 const routes: Routes = [ 
   {
@@ -59,6 +64,32 @@ const routes: Routes = [
       {
         path: 'plan',
         component: PlanComponent, 
+      },
+      {
+        path: 'billing',
+        component: BillingComponent, 
+      },
+    ]
+  },
+  {
+    path: 'daily-notes',
+    component:DailyNotesComponent ,
+    children: [  
+      {
+        path: 'subjective',
+        component: DnSubjectiveComponent, 
+      }, 
+      {
+        path: 'objective',
+        component: DnObjectiveComponent, 
+      },
+      {
+        path: 'assessment',
+        component: DnAssessmentComponent, 
+      },
+      {
+        path: 'plan',
+        component: DnPlanComponent, 
       },
       {
         path: 'billing',
