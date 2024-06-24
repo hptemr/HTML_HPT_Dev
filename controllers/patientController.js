@@ -295,8 +295,8 @@ const deleteDocument = async (req, res) => {
 
 const getPatientData = async (req, res) => {
     try {
-        const { query } = req.body;
-        let patientData = await Patient.findOne(query);
+        const { query, fields } = req.body;
+        let patientData = await Patient.findOne(query, fields);
         commonHelper.sendResponse(res, 'success', { patientData }, '');
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);

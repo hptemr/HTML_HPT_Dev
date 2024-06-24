@@ -64,8 +64,16 @@ const updatePatientCheckIn = async (req, res) => {
 
 const acceptAppointment = async (req, res) => {
     try {
-        const { query, } = req.body;
-        await Appointment.findOneAndUpdate({ _id: query._id }, { status: 'Accepted' });
+        const { query,userId,userRole,data } = req.body;
+        let therapistId = data.therapistId.id;
+        delete data.therapistId;
+        data.therapistId = therapistId;
+        data.status      = 'Accepted';
+        data.acceptInfo  = {
+              fromAdminId: userId,
+              userRole: userRole           
+        }
+        await Appointment.findOneAndUpdate({ _id: query._id },data);
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.accepted);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
