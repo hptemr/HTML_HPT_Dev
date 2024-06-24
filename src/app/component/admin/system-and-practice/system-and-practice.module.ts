@@ -5,8 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EFaxComponent } from './efax/efax.component';
 import { InvitePopupComponent } from './invite-popup/invite-popup.component';
 import { PatientsComponent } from '../../../shared/component/support-billing-therapist/patients/patients.component';
-import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
-import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
+ import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { CreateGroupComponent } from './conversations/create-group/create-group.component';
 import { AddParticipantsComponent } from './conversations/add-participants/add-participants.component';
@@ -21,8 +20,7 @@ import { SystemAndPracticeRoutingModule } from './system-and-practice-routing.mo
     EFaxComponent,
     InvitePopupComponent,
     PatientsComponent,
-    PatientProfileComponent,
-    ManagePracticeComponent,
+     ManagePracticeComponent,
     ConversationsComponent,
     CreateGroupComponent,
     AddParticipantsComponent,

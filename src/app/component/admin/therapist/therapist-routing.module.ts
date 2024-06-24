@@ -8,6 +8,8 @@ import { AppointmentDetailsComponent } from 'src/app/shared/component/support-bi
 import { AppointmentRequestsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-requests/appointment-requests.component';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
 import { PatientsComponent } from 'src/app/shared/component/support-billing-therapist/patients/patients.component';
+import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
+import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
 
 const routes: Routes = [
   {
@@ -34,24 +36,16 @@ const routes: Routes = [
         path: '',
         component: PatientsComponent,
       },
-      // {
-      //   path: 'patient-details/:userId',
-      //   component: PatientDetailsComponent,
-      // },
-      // {
-      //   path: 'patient-profile/:userId',
-      //   component: PatientProfileComponent,
-      // }
+      {
+        path: 'patient-details/:userId',
+        component: PatientDetailsComponent,
+      },
+      {
+        path: 'patient-profile/:userId',
+        component: PatientProfileComponent,
+      }
     ]
-  },
-  // {
-  //   path: 'patient-profile/:patientId',
-  //   component: PatientProfileComponent
-  // },
-  // {
-  //   path: 'appointment-requests',
-  //   component: AppointmentRequestsComponent
-  // },
+  }
 ];
 
 @NgModule({
