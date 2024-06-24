@@ -7,6 +7,7 @@ import { AppointmentsComponent } from 'src/app/shared/component/support-billing-
 import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
 import { AppointmentRequestsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-requests/appointment-requests.component';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
+import { PatientsComponent } from 'src/app/shared/component/support-billing-therapist/patients/patients.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,23 @@ const routes: Routes = [
   {
     path: 'appointment-details/:appointmentId',
     component: AppointmentDetailsComponent
+  },
+  {
+    path: 'patients',
+    children: [
+      {
+        path: '',
+        component: PatientsComponent,
+      },
+      // {
+      //   path: 'patient-details/:userId',
+      //   component: PatientDetailsComponent,
+      // },
+      // {
+      //   path: 'patient-profile/:userId',
+      //   component: PatientProfileComponent,
+      // }
+    ]
   },
   // {
   //   path: 'patient-profile/:patientId',

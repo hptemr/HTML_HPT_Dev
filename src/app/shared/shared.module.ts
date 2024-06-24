@@ -25,7 +25,6 @@ import { ManageProfileComponent } from './component/manage-profile/manage-profil
 import { UploadImgComponent } from './component/upload-img/upload-img.component';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { AdminLayoutComponent } from './component/layout/admin-layout/admin-layout.component';
-import { CommonAdminDashboardComponent } from './component/common-admin-dashboard/common-admin-dashboard.component';
 import { IntakeStep1Component } from './component/intake-form/intake-step1/intake-step1.component';
 import { IntakeStep2Component } from './component/intake-form/intake-step2/intake-step2.component';
 import { IntakeStep3Component } from './component/intake-form/intake-step3/intake-step3.component';
@@ -33,11 +32,12 @@ import { IntakeStep4Component } from './component/intake-form/intake-step4/intak
 import { IntakeStep5Component } from './component/intake-form/intake-step5/intake-step5.component';
 import { IMaskModule } from 'angular-imask';
 
- import { AppointmentsComponent } from './component/support-billing-therapist/appointments/appointments.component';
- import { AppointmentDetailsComponent } from './component/support-billing-therapist/appointment-details/appointment-details.component';
- import { SystemFollowupModalComponent } from './component/support-billing-therapist/system-followup-modal/system-followup-modal.component';
- import { AppointmentRequestsComponent } from './component/support-billing-therapist/appointment-requests/appointment-requests.component';
- //import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
+import { AppointmentsComponent } from './component/support-billing-therapist/appointments/appointments.component';
+import { AppointmentDetailsComponent } from './component/support-billing-therapist/appointment-details/appointment-details.component';
+import { SystemFollowupModalComponent } from './component/support-billing-therapist/system-followup-modal/system-followup-modal.component';
+import { AppointmentRequestsComponent } from './component/support-billing-therapist/appointment-requests/appointment-requests.component';
+import { PatientDetailsComponent } from './component/support-billing-therapist/patient-details/patient-details.component';
+import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -60,7 +60,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoaderComponent,
     ManageProfileComponent,
     UploadImgComponent,
-    CommonAdminDashboardComponent,
     IntakeStep1Component,
     IntakeStep2Component,
     IntakeStep3Component,
@@ -70,7 +69,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppointmentDetailsComponent,
     SystemFollowupModalComponent,
     AppointmentRequestsComponent,
-   // PatientProfileComponent
+    PatientDetailsComponent,
+    PatientProfileComponent
   ],
   imports: [
     CommonModule,

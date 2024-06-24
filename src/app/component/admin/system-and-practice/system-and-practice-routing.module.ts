@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PatientsComponent } from './user-managment/patients/patients.component';
+import { PatientsComponent } from '../../../shared/component/support-billing-therapist/patients/patients.component';
 import { EFaxComponent } from './efax/efax.component';
-import { PatientDetailsComponent } from './user-managment/patient-details/patient-details.component';
-import { PatientProfileComponent } from './user-managment/patient-profile/patient-profile.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
 import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
 import { AdminProfileComponent } from './user-managment/admin-profile/admin-profile.component';
-import { CommonAdminDashboardComponent } from 'src/app/shared/component/common-admin-dashboard/common-admin-dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
+import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
 
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: CommonAdminDashboardComponent,
+    component: DashboardComponent,
   },
   {
     path: 'user-managment',
@@ -46,7 +46,7 @@ const routes: Routes = [
     path: 'patients',
     children: [
       {
-        path: 'list',
+        path: '',
         component: PatientsComponent,
       },
       {

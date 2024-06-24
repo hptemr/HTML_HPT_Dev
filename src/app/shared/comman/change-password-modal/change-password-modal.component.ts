@@ -10,6 +10,7 @@ import { CommonService } from '../../../shared/services/helper/common.service';
 import { regex } from '../../../utils/regex-patterns';
 import { validationMessages } from '../../../utils/validation-messages';
 import { AdminService } from '../../services/api/admin.service';
+import { AuthService } from '../../services/api/auth.service';
 
 @Component({
   selector: 'app-change-password-modal', 
@@ -31,7 +32,8 @@ export class ChangePasswordModalComponent {
     private commonService:CommonService,
     private changePassDialogRef: MatDialogRef<ChangePasswordModalComponent>,
     private adminService: AdminService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -63,16 +65,21 @@ export class ChangePasswordModalComponent {
         confirmPassword: this.changePasswordForm.value['confirmPassword'],
         userId : this.data.userId
       }
-      this.adminService.changePassword(resetBody).subscribe({
-        next: (res) => {
-          if(res && !res.error){
-            // this.changePassDialogRef.close();
-            this.successModal(res)
-          }
-        },error: (err) => {
-          err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
-        }
-      });
+
+      if(this.data.userRole=='patient'){
+        this.patientChangePassword(resetBody)
+      }else{
+        this.adminChangePassword(resetBody)
+      }
+      // this.adminService.changePassword(resetBody).subscribe({
+      //   next: (res) => {
+      //     if(res && !res.error){
+      //       this.successModal(res)
+      //     }
+      //   },error: (err) => {
+      //     err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+      //   }
+      // });
     }
   }
 
@@ -104,4 +111,28 @@ export class ChangePasswordModalComponent {
   showConfirmPassword() {
     this.showConfPass = !this.showConfPass;
   }
+
+  adminChangePassword(resetBody:any){
+    this.adminService.changePassword(resetBody).subscribe({
+        next: (res) => {
+          if(res && !res.error){
+            this.successModal(res)
+          }
+        },error: (err) => {
+          err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+        }
+      });
+  }
+
+  patientChangePassword(resetBody:any){
+    this.authService.apiRequest('post', 'patients/changePassword', resetBody).subscribe(res => {
+      if(res && !res.error){
+        this.successModal(res)
+      }
+    }, (err) => {
+       err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+    }) 
+
+  }
+
 }

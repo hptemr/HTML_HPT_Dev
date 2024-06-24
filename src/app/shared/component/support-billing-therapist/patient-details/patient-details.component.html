@@ -1,12 +1,13 @@
-<div class="col-12 appointment--wrapper">
+<div class="col-12">
     <div class="card">
         <div class="card-header pb-0">
-            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-                <h3 class="mb-0 clr--1F2F3E">Appointments</h3>
-                <button mat-raised-button color="primary" [routerLink]="['/patient/book-appointment/step-1']">
-                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                    Request Appointment
-                </button>
+            <div class="col-12 d-flex align-items-center mb-3 flex-wrap">
+                <h3 class="mb-0 clr--1F2F3E fw-500 me-2">Patient:</h3>
+                <h3 class="mb-0 clr--1F2F3E me-2">{{patientName}}</h3>
+                <a class="mb-0 text-primary fw-600 font-16"
+                    [routerLink]="['/', activeUserRoute, 'patients', 'patient-profile', patientId]">
+                    View Patient Profile
+                </a>
             </div>
             <div class="col-12 mt-3">
                 <div class="row">
@@ -138,7 +139,8 @@
                 </table>
                 <div class="no--record--found align-items-center justify-content-center w-100"
                     *ngIf="appointmentList && appointmentList.filteredData.length == 0">
-                    <div>
+                    <div class="d-flex flex-column align-items-center w-100">
+                        <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
                         <p class="">{{ validationMessages.noRecords }}</p>
                     </div>
                 </div>

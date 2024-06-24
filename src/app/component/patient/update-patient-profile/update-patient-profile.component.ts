@@ -19,6 +19,7 @@ import { AlertComponent } from '../../../shared/comman/alert/alert.component';
 import { MatDialog,MatDialogRef } from '@angular/material/dialog';
 import { serverUrl, s3Details,documents_list } from '../../../config';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
+import { UploadImgComponent } from 'src/app/shared/component/upload-img/upload-img.component';
 const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
   state: string;
@@ -51,6 +52,9 @@ export class UpdatePatientProfileComponent implements OnInit {
   secondFormGroupData: any
   thiredFormGroupData: any
   readonly DT_FORMAT = 'MM/DD/YYYY';
+  profileImage: any
+  isDefaultImage:boolean = true
+
 
   convertPhoneNumber: string = '';
   convertCellPhoneNumber: string = '';
@@ -74,7 +78,8 @@ export class UpdatePatientProfileComponent implements OnInit {
   currentProgessinPercent: number = 0;
   selectedDocumentsType: string;
   documents_type_list:any=[];
-  user_data:any=[];
+  // user_data:any=[];
+  userType:any;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
@@ -83,7 +88,8 @@ export class UpdatePatientProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
-    this.user_data = localStorage.getItem("user");
+    // this.user_data = localStorage.getItem("user");
+    this.userType = this.authService.getLoggedInInfo('role')
     this.documents_type_list = documents_list;    
     this.uploader = new FileUploader({url:`${URL}?userId=${this.userId}&type=Patient`});
     this.firstFormGroup = this.fb.group({
@@ -116,6 +122,10 @@ export class UpdatePatientProfileComponent implements OnInit {
 
     this.getUserData();
     this.filterStartDate();
+    this.checkSelectedTabInStorage()
+    // Profile Image
+    this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
+    this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
   }
 
   checkSpace(colName: any, event: any) {
@@ -373,6 +383,7 @@ export class UpdatePatientProfileComponent implements OnInit {
   }
 
   goToNext(steps:any,userData:any) {
+    console.log("goToNext>>>>")
       if (steps==0 && !this.firstFormGroup.invalid){
         let first_form_data = {
           "firstName":userData.firstName,
@@ -441,8 +452,12 @@ export class UpdatePatientProfileComponent implements OnInit {
         this.selectedTab = steps+1;
         if(this.selectedTab==3){
           this.commonService.openSnackBar('Profile details are updated successfully.', "SUCCESS")   
-          this.selectedTab = 0;
-        }        
+          // this.selectedTab = 0;
+          this.router.navigate(["/patient/dashboard"])
+        } 
+        if(steps==0){
+          this.updatePatientInLocalStorage(data)
+        }       
       }      
     })
   }
@@ -510,9 +525,100 @@ export class UpdatePatientProfileComponent implements OnInit {
 
   changePassword() {
     const dialogRef = this.dialog.open(ChangePasswordModalComponent,{
+      disableClose: true,
       panelClass: 'change--password--modal',
+      data: {
+        userId: this.userId,
+        userRole: this.userType
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        this.authService.logout(this.userType)
+      }
     });
   }
  
+  updatePatientInLocalStorage(updateProfileData: any) {
+    let localSorageUserData: any = this.authService.getLoggedInInfo('all')
+    localSorageUserData.firstName = updateProfileData.firstName;
+    localSorageUserData.lastName = updateProfileData.lastName;
+    localStorage.setItem('user', JSON.stringify(localSorageUserData));
+    localStorage.setItem('selectedTabPatientProfile', JSON.stringify(this.selectedTab));
+    window.location.reload()
+  }
+
+  checkSelectedTabInStorage(){
+    let selectedTabInStorage= localStorage.getItem('selectedTabPatientProfile')
+    if(selectedTabInStorage){
+      let selectedTab=JSON.parse(selectedTabInStorage)
+      this.selectedTab = selectedTab
+      localStorage.removeItem('selectedTabPatientProfile')
+    }
+  }
+
+  async changePhoto() {
+    this.editOptions = false
+    const dialogRef = this.dialog.open(UploadImgComponent, {
+      width: '600px',
+      disableClose: true,
+      data: { cropperFor: 'Profile Picture' }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      this.commonService.showLoader()
+      if (result !== false && result.image !== null && result.image !== undefined) {
+        let reqVars = {
+          userId: this.authService.getLoggedInInfo('_id'),
+          profileImage: result.image.base64
+        }
+        await this.authService.apiRequest('post', 'patients/changeProfileImage', reqVars).subscribe(async response => {
+          this.commonService.hideLoader()
+          let userDetails: any
+          userDetails = this.authService.getLoggedInInfo()
+          userDetails.profileImage = this.authService.getLoggedInInfo('_id').toString() + '.png'
+          localStorage.setItem('user', JSON.stringify(userDetails))
+          this.commonService.openSnackBar(response.message, "SUCCESS")
+          setTimeout(function () {
+            location.reload();
+          }, 3000)
+        })
+      } else {
+        this.commonService.hideLoader()
+      }
+    })
+  }
+
+  removePhoto() {
+    this.editOptions = false
+    const dialogRef = this.dialog.open(AlertComponent, {
+      panelClass: 'custom-alert-container',
+      data: {
+        warningNote: 'Do you really want to remove this image?'
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        this.commonService.showLoader()
+        let reqVars = {
+          userId: this.authService.getLoggedInInfo('_id')
+        }
+        await this.authService.apiRequest('post', 'patients/deleteProfileImage', reqVars).subscribe(async response => {
+          this.commonService.hideLoader()
+          let userDetails: any
+          userDetails = this.authService.getLoggedInInfo()
+          userDetails.profileImage = response.data
+          localStorage.setItem('user', JSON.stringify(userDetails))
+          this.commonService.openSnackBar(response.message, "SUCCESS")
+          setTimeout(function () {
+            location.reload();
+          }, 3000);
+        })
+      }
+    })
+  }
+
 
 }
