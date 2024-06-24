@@ -9,6 +9,7 @@ const triggerEmail = require('../helpers/triggerEmail');
 const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 const s3Details = constants.s3Details;
+const jwt = require('jsonwebtoken');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -159,8 +160,11 @@ const updateUser = async (req, res) => {
       delete updateInfo.password
       Object.assign(updateInfo, { salt: salt, hash_password: password })
     }
-    let user = await User.findOneAndUpdate(query, updateInfo)
-    commonHelper.sendResponse(res, 'success', user, commonMessage.profileUpdate);
+    let user = await User.findOneAndUpdate(query, updateInfo, { new: true })
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '1d' });
+    const userObject = user.toObject();
+    userObject['token'] = token
+    commonHelper.sendResponse(res, 'success', userObject, commonMessage.profileUpdate);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
