@@ -17,6 +17,7 @@ var fs = require('fs')
 const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 const patientFilePath = constants.s3Details.patientDocumentFolderPath;
+const s3Details = constants.s3Details;
 
 const signup = async (req, res) => {
     try {
@@ -318,6 +319,81 @@ const updateProfile = async (req, res) => {
     }
 }
 
+changeProfileImage = async (req, res) => {
+    try {
+      const { userId, profileImage } = req.body
+      var profileImagePath = constants.s3Details.profileImageFolderPath;
+      var params = {
+        ContentEncoding: "base64",
+        ACL: "public-read-write",
+        Bucket: constants.s3Details.bucketName,
+      }
+      const ext = 'png'
+      const filename = userId + `.${ext}`;
+      const fileBuffer = new Buffer(profileImage.replace(/^data:image\/\w+;base64,/, ""), "base64");
+      Object.assign(params, {
+        ContentType: `image/${ext}`,
+        Key: `${profileImagePath}${filename}`,
+        Body: fileBuffer,
+      })
+  
+      let deleteParams = {
+        bucketName: constants.s3Details.bucketName,
+        filePath: `${profileImagePath}${filename}`
+      }
+      await s3.deleteObjectNew(deleteParams)
+  
+      let s3Status = await s3.uploadFileNew(params)
+      if (s3Status) {
+        await Patient.updateOne({ _id: userId }, { profileImage: filename });
+        commonHelper.sendResponse(res, 'success', filename , userMessage.profileImageChanged);
+      } else {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+      }
+    } catch (error) {
+      console.log("*******error******", error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  const deleteProfileImage = async (req, res) => {
+    try {
+      const { userId } = req.body
+      await s3.deleteFile(s3Details.profileImageFolderPath, userId + '.png')
+      await Patient.findOneAndUpdate({ _id: userId }, { profileImage: s3Details.defaultProfileImageName });
+      commonHelper.sendResponse(res, 'success', s3Details.defaultProfileImageName, userMessage.profileImageRemoved);
+    } catch (error) {
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  const changePassword = async (req, res, next) => {
+    try {
+      const _id = req.body.userId
+      const { confirmPassword } = req.body;
+      let userData = await Patient.findOne({ _id });
+      if (bcrypt.compareSync(confirmPassword, userData.hash_password)) {
+        return commonHelper.sendResponse(res, 'info', null, userMessage.enterCurrentPassword);
+      }
+  
+      // Hash and salt the password
+      let salt = await bcrypt.genSalt(10);
+      const filter = { _id: _id };
+      const updateDoc = {
+        $set: {
+          salt: salt,
+          hash_password: await bcrypt.hash(confirmPassword, salt)
+        }
+      };
+      const options = { returnOriginal: false };
+      await Patient.findOneAndUpdate(filter, updateDoc, options);
+      commonHelper.sendResponse(res, 'success', null, infoMessage.passwordChange);
+    } catch (error) {
+      console.log("changePassword error>>>>", error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  };
+
 module.exports = {
     signup,
     getPatientList,    
@@ -325,5 +401,8 @@ module.exports = {
     previewDocument:previewDocument,
     deleteDocument:deleteDocument,
     getPatientData,
-    updateProfile
+    updateProfile,
+    changeProfileImage,
+    deleteProfileImage,
+    changePassword
 };
