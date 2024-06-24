@@ -202,35 +202,54 @@
             }
         }
     }
-    .slider--table{
-        border: 1px solid #31B7B7;
-        background: #F3FBFB;
-        border-radius: 10px;
-        table{
-            thead{
-                tr{
-                    th{
-                        font-size: 14px;
-                        color: #1F2F3E;
-                        font-weight: 700;
-                        height: 78px;
-                        padding: 5px 15px;
-                        vertical-align: middle;
-                        border-color: #ccc;
+    .slider--table{ 
+        .exercise--table{
+            border: 1px solid #31B7B7;
+            background: #F3FBFB;
+            border-radius: 10px;
+            width: 200px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            table{
+                thead{
+                    tr{
+                        th{
+                            font-size: 14px;
+                            color: #1F2F3E;
+                            font-weight: 700;
+                            height: 78px;
+                            padding: 5px 15px;
+                            vertical-align: middle;
+                            border-color: #31B7B7;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            font-size: 14px;
+                            color: #1F2F3E;
+                            font-weight: 400;
+                            padding: 11px 15px;
+                            border-color: #ccc; 
+                        }
+                        &:last-child{
+                            td{
+                                border: none;
+                            }
+                        }
                     }
                 }
             }
-            tbody{
-                tr{
-                    td{
-                        font-size: 14px;
-                        color: #1F2F3E;
-                        font-weight: 400;
-                        padding: 11px 15px;
-                        border-color: #ccc;
-                    }
-                }
-            }
+        }
+        .exercise--data--table{
+            width: 100%;
+            border: 1px solid #31B7B7;
+            border-left: 0;
+            background: #F3FBFB;
+            border-radius: 10px; 
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
         }
     }
 }
