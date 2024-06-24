@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-//import { SharedModule } from 'src/app/shared/shared.module';  
-//import { PatientProfileComponent } from './patient-profile/patient-profile.component';
-
 import { AppointmentsComponent } from 'src/app/shared/component/support-billing-therapist/appointments/appointments.component';
 import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
 import { AppointmentRequestsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-requests/appointment-requests.component';

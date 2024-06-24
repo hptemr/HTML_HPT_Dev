@@ -263,6 +263,6 @@ export class AppointmentDetailsComponent {
   }
 
   navigateTopatientDetails(patientId: string) {
-    this.router.navigate([this.commonService.getLoggedInRoute() + '/patient-profile/', patientId]);
+    this.router.navigate([this.commonService.getLoggedInRoute() + '/patients/patient-profile/', patientId]);
   }
 }

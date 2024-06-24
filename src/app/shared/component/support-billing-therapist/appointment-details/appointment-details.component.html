@@ -83,8 +83,8 @@
                                                     </div> 
                                                     <div class="d-flex flex-column flex-sm-column flex-lg-row">
                                                         <div class="d-flex flex-column me-3">
-                                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
-                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">{{appointmentData.appointmentDate | date:'EEE, MMM d, y h:mm a' }}</p>
+                                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Date</h3>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">{{appointmentData.appointmentDate | date:'mediumDate' }}</p>
                                                         </div>
                                                         <button mat-stroked-button color="primary" class="flex-shrink-0" (click)="rescheduleModal(appointmentData._id)"> 
                                                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> replay </mat-icon> 

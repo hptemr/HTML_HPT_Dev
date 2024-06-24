@@ -11,6 +11,7 @@ import { AdminProfileComponent } from './user-managment/admin-profile/admin-prof
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
+import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
         component: AdminProfileComponent,
       }
     ]
+  },
+  {
+    path: 'appointment-details/:appointmentId',
+    component: AppointmentDetailsComponent
   },
   {
     path: 'patients',
