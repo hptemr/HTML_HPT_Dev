@@ -47,6 +47,10 @@
                 padding: 5px;
             }
         }
+        .mat-mdc-checkbox-ripple,.mdc-checkbox__ripple{
+            top: 5px !important;
+            left: 5px !important;
+        }
     }
 }
 @media only screen and (min-width: 1080px) {
