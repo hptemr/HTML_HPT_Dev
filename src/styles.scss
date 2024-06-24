@@ -114,9 +114,9 @@ input, p,
                 background-color: #F5F6F9 !important;
                 transition: all 0.3s ease;
                 border-color: #CCC; 
-                font-size: 16px;
+                font-size: 14px;
                 color: #212529;
-                padding: 6px 10px;
+                padding: 8px 10px;
                 box-shadow: none; 
                 &:focus{
                     border: 1px solid #b9c1cc;
@@ -133,7 +133,7 @@ input, p,
                     padding-bottom: 5px !important;
                 }
                 .mat-mdc-icon-button.mat-mdc-button-base{
-                    height: 20px;
+                    height: 36px;
                     padding: 0;
                 }
             }
@@ -399,7 +399,31 @@ input[type=text] {
 a{
     letter-spacing: 0 !important;
 }
-
+.dd--search--combine{
+    position: relative;
+    .dd{
+        .form-select{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            width: 140px;
+            padding-right: 36px !important;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .search{
+        width: 100%;
+        .search--outer{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: 0;
+        }
+        .search--fields{
+            right: 4px !important;
+        }
+    }
+    
+}
 .mat-mdc-tab-group{
     .mat-mdc-tab-header{
         .mat-mdc-tab-label-container{
