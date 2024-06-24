@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog'; 
 import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 
 @Component({
