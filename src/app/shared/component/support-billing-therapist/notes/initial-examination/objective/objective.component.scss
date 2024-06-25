@@ -265,10 +265,17 @@
                         font-weight: 400;
                         padding: 11px 12px;
                         border-color: #ccc; 
+                        background-color: #fff;
                     }
                     &:last-child{
                         td{
                             border: none;
+                            &:first-child{
+                                border-bottom-left-radius: 10px;
+                            }
+                            &:last-child{
+                                border-bottom-right-radius: 10px;
+                            }
                         }
                     }
                 }
@@ -300,6 +307,12 @@
                         background-color: #31B7B7;
                         border-radius: 20px;
                         margin: 8px 0 0 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        .fa{
+                            font-size: 12px;
+                        }
                     }
                     .owl-prev{
                         margin-left: -38px;
@@ -316,6 +329,10 @@
 @media only screen and (max-width: 599px) {
     .objective--wrapepr .font-16 {
         font-size: 14px !important;
+    }
+    .objective--wrapepr ::ng-deep .mdc-button{
+        padding: 0 10px 0 10px;
+        font-size: 13px !important; 
     }
     .objective--wrapepr .chape--group label{
         margin-top: 7px;
@@ -382,6 +399,9 @@
     }
     .objective--wrapepr .slider--table table thead tr th{
         height: 70px;
+    }
+    .objective--wrapepr .slider--table table thead tr th{
+        vertical-align: bottom;
     }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){

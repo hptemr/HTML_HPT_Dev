@@ -61,19 +61,26 @@ export class ObjectiveComponent {
     dots: false,  
     nav: true,
     items:1,
-    navText: ['P', 'N'],
+    navText: [
+      "<i class='fa fa-arrow-left'></i>",
+      "<i class='fa fa-arrow-right'></i>"
+  ],
     responsive:{
       0:{
           items:1,
+          autoWidth:true,
       },
       600:{
-          items:2
+          items:2,
+          slideBy: 2
       },
       1000:{
-          items:3
+          items:3,
+          slideBy: 3
       },
       1200:{
-        items:4
+        items:4,
+        slideBy: 4
     }
   }
     
