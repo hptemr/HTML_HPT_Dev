@@ -1,1 +1,55 @@
-<p>dis-subjective works!</p>
+<div class="container-fluid subjective--wrapepr p-0">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
+        </div>
+        <div class="col-12 col-lg-5">
+            <div class="form-group mb-2">
+                <label class="col-form-label fw-600">Date of Discharge Note</label>
+                <mat-form-field class="w-100 am--datepicker">
+                    <input matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group d-flex align-items-center mb-1">
+                <label class="col-form-label fw-600 p-0 me-3">Treatment Side</label>
+                <mat-radio-group aria-label="Select an option">
+                    <mat-radio-button value="1" class="me-3" checked>Left</mat-radio-button>
+                    <mat-radio-button value="2" class="me-3">Right</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group mb-1">
+                <label class="col-form-label fw-600">Date & Type of Surgery</label>
+                <div class="row">
+                    <div class="col-12 col-sm-3 col-lg-3">
+                        <mat-form-field class="w-100 am--datepicker mb-2">
+                            <input matInput [matDatepicker]="picker1" placeholder="Date of Surgery" (focus)="picker1.open()">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 col-sm-3 col-lg-3">
+                        <input type="text" class="form-control mb-2" placeholder="Type of Surgery ">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="col-form-label fw-600">Subjective</label>
+                <textarea class="form-control text-left" type="text" rows="5"></textarea>
+            </div>
+        </div>
+        
+    </div>
+    <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+        <button mat-raised-button color="primary" class="m-1">
+            Save as Draft
+        </button>
+    </div>
+</div>

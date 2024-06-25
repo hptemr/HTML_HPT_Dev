@@ -1,1 +1,82 @@
-<p>dis-assessment works!</p>
+<div class="initial--exam--assesment--wrapper container-fluid p-0">
+    <div class="row">
+
+        <div class="col-12">
+            <div class="form-group">
+                <label class="col-form-label fw-600 pt-0">Assessment</label>
+                <textarea class="form-control text-left" type="text" rows="5">This note is to inform you of the discharge of *patient name* from our practice. *patient name* received ____ visits. 
+
+*patient name* has demonstrated good success with therapy achieving all rehab goals. They are independent with their established HEP. 
+
+Thank you for the opportunity to assist *patient name* with their rehabilitation. 
+                </textarea> 
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">1.Problem </label>
+                    <div class="d-flex flex-row align-items-center">
+                        <input class="form-control me-2" type="text" placeholder="Enter Your Problem" />
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
+                    </div>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">1.Long term goal </label>
+                    <input class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12" *ngIf="!addNewProblemField">
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">2.Problem </label>
+                    <div class="d-flex flex-row align-items-center">
+                        <input class="form-control me-2" type="text" placeholder="Enter Your Problem" />
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
+                    </div>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">2.Long term goal </label>
+                    <input class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 d-flex align-items-center justify-content-end">
+            <button mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addNewProblem()">
+                <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
+                Add New Problem & Goal
+            </button>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                <label class="col-form-label fw-600">Supporting Documentation</label>
+                <textarea class="form-control text-left fw-400 clr--828282" type="text" rows="7" disabled>Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities.
+Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's.
+Patient is unable to complete physical therapy on land. 
+Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation.
+
+DME was issued today with instructions on wear, care, and use required for full rehabilitation potential. 
+                </textarea> 
+            </div>
+        </div>
+
+    </div>
+    <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+        <button mat-raised-button color="primary" class="m-1">
+            Save as Draft
+        </button>
+    </div>
+</div>
