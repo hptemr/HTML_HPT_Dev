@@ -387,8 +387,8 @@ export class SignupPatientComponent implements OnInit {
           this.fileErrors = '';
         }, 8000);
         cnt++;
-      }else if(this.maxFileSize>99999999){
-        var FileMsg = "File size should be below 100MB";
+      }else if(this.maxFileSize>25000000){
+        var FileMsg = "File size should be below 25MB";
         this.uploader.removeFromQueue(fileoOb);
         this.fileErrors = FileMsg;
         setTimeout(() => {
