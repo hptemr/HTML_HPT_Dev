@@ -7,7 +7,7 @@
             <div class="form-group mb-4">
                 <label class="col-form-label fw-600">Date of Daily Note</label>
                 <mat-form-field class="w-100 am--datepicker">
-                    <input matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
+                    <input [disabled]="isDisabled"  matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -63,7 +63,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-600">Subjective</label>
-                <textarea class="form-control text-left" type="text" rows="5"></textarea>
+                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5"></textarea>
             </div>
         </div>
         

@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-600">Daily Note Plan (Additional Information Needed)</label>
-                <mat-radio-group aria-label="Select an option">
+                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option">
                     <mat-radio-button value="1" class="me-3">Progressing Patient as per POC</mat-radio-button>
                     <mat-radio-button value="2">Anticipating D/C Next Visit</mat-radio-button>
                 </mat-radio-group>
@@ -11,7 +11,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <textarea class="form-control text-left fw-400 clr--828282" type="text" rows="5" disabled>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. 
+                <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="5" disabled>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. 
                 </textarea> 
             </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="d-flex flex-wrap align-items-center date-pick">
                 <div class="form-group">
                     <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                        <input matInput [matDatepicker]="picker" placeholder="From Date">
+                        <input [disabled]="isDisabled" matInput [matDatepicker]="picker" placeholder="From Date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                        <input matInput [matDatepicker]="picker1" placeholder="To Date">
+                        <input [disabled]="isDisabled" matInput [matDatepicker]="picker1" placeholder="To Date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
@@ -60,7 +60,7 @@
         </div>
         <div class="col-12 mt-1 d-flex align-items-center justify-content-between">
             <p class="col-form-label fw-600 pb-0">Procedures</p>
-            <button class="flex-shrink-0" mat-stroked-button color="primary">Select All</button>
+            <button [disabled]="isDisabled" class="flex-shrink-0" mat-stroked-button color="primary">Select All</button>
         </div>
         <div class="col-12 mt-3">
             <div class="d-flex flex-row align-items-start flex-wrap unlimited-codes-unit-wrapper">
@@ -71,62 +71,62 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Therapeutic Activity</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" [disabled]="isDisabled" class="">Therapeutic Activity</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Neuromuscular Rehabilitation</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Neuromuscular Rehabilitation</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Aquatic Therapy</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Aquatic Therapy</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Therapeutic Exercise</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Therapeutic Exercise</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Patient Ed./ HEP/ RTM</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Patient Ed./ HEP/ RTM</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Manual Therapy</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Manual Therapy</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Modalities</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Modalities</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Splinting/Bracing/Orthotics</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Splinting/Bracing/Orthotics</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Wound Care/Debridament</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Wound Care/Debridament</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Self Care</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Self Care</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Group Therapy</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Group Therapy</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Cognition</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Cognition</mat-checkbox>
                             </div>
                         </div>
                     </div>
@@ -138,62 +138,62 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Therapeutic Activity</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Therapeutic Activity</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Neuromuscular Rehabilitation</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Neuromuscular Rehabilitation</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Aquatic Therapy</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Aquatic Therapy</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Therapeutic Exercise</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Therapeutic Exercise</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Patient Ed./ HEP/ RTM</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Patient Ed./ HEP/ RTM</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Manual Therapy</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Manual Therapy</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Modalities</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Modalities</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Splinting/Bracing/Orthotics</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Splinting/Bracing/Orthotics</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Wound Care/Debridament</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Wound Care/Debridament</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Self Care</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Self Care</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Group Therapy</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Group Therapy</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Cognition</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Cognition</mat-checkbox>
                             </div>
                         </div>
                     </div>
@@ -205,32 +205,32 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Evaluation of Oral and Pharyngeal Swallowing Function</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Evaluation of Oral and Pharyngeal Swallowing Function</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">SLP Treatment; Individual</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">SLP Treatment; Individual</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Treatment of swallowing dysfunction and/or oral function for feeding</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Treatment of swallowing dysfunction and/or oral function for feeding</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Speech-generating augmentative/ alternative device</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Speech-generating augmentative/ alternative device</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Aphasia assessment</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Aphasia assessment</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox class="">Development of Cognitive Skills</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" class="">Development of Cognitive Skills</mat-checkbox>
                             </div>
                         </div>
                     </div>

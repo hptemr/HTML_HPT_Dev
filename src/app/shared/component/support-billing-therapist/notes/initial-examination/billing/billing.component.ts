@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './billing.component.scss'
 })
 export class BillingComponent {
-
+  isDisabled: boolean = false;
 }

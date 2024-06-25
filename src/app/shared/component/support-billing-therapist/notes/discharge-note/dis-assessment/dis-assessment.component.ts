@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './dis-assessment.component.scss'
 })
 export class DisAssessmentComponent {
+  isDisabled: boolean = false;
+  
   addNewProblemField:boolean= true;
 
   addNewProblem(){

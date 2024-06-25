@@ -9,6 +9,8 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   styleUrl: './dis-objective.component.scss'
 })
 export class DisObjectiveComponent {
+  isDisabled: boolean = false;
+
   selectedValue = '0';
 
   clickedIndex = 0;

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './dis-plan.component.scss'
 })
 export class DisPlanComponent {
-
+  isDisabled: boolean = false;
 }
