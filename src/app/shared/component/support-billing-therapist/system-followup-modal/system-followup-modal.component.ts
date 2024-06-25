@@ -10,11 +10,11 @@ import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 export class SystemFollowupModalComponent {
   constructor(public dialog: MatDialog) {}
   chooseTherapistAlert() {
-    const dialogRef = this.dialog.open(AlertComponent,{
-      panelClass: 'custom-alert-container',
-      data : {
-        warningNote: 'Kindly choose a therapist prior to confirming the appointment request.'
-      }
-    });
+    // const dialogRef = this.dialog.open(AlertComponent,{
+    //   panelClass: 'custom-alert-container',
+    //   data : {
+    //     warningNote: 'Kindly choose a therapist prior to confirming the appointment request.'
+    //   }
+    // });
   }
 }

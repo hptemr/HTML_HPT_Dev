@@ -1,93 +1,114 @@
 <div class="col-12 app--details--wrapper profile--right--wrapper">
     <div class="card">
-        <form [formGroup]="appoitmentForm"  (ngSubmit)="formSubmit(appoitmentForm.value)">
+        <form [formGroup]="appoitmentForm" (ngSubmit)="formSubmit(appoitmentForm.value)">
             <div class="card-header pb-0">
                 <div class="col-12 d-flex align-items-center">
-                    <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="getPreviousPageLink()">
-                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+                    <button mat-stroked-button color="primary" class="me-3 back--btn"
+                        [routerLink]="getPreviousPageLink()">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
                     </button>
                     <h3 class="mb-0 clr--1F2F3E fw-600">Appointment Details</h3>
-                    
-                </div> 
+                </div>
             </div>
             <div class="card-body d-flex flex-column flex-sm-row" *ngIf="appointment_flag">
                 <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
-                    <div class="head--sec w-100"></div> 
+                    <div class="head--sec w-100"></div>
                     <div class="profile--round position-relative">
                         <div class="user--name d-flex align-items-center justify-content-center">
                             <span class="text-primary fw-700 text-uppercase">{{initialName}}</span>
-                        </div> 
+                        </div>
                     </div>
                     <div class="d-flex flex-column align-items-center justify-content-center w-100 body--sec">
-                        <h3 class="font-18 fw-700">{{appointmentData.patientId.firstName ? appointmentData.patientId.firstName : ''}} {{appointmentData.patientId.lastName ? appointmentData.patientId.lastName : ''}}</h3>
-                        <div class="d-flex align-items-center user--email"> 
+                        <h3 class="font-18 fw-700">
+                            {{appointmentData.patientInfo.firstName }} {{appointmentData.patientInfo.lastName}}
+                        </h3>
+                        <div class="d-flex align-items-center user--email">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">mail </mat-icon>
-                            <p class="my-2 font-15">{{appointmentData.patientId.email}}</p> 
+                            <p class="my-2 font-15">{{appointmentData.patientInfo.email}}</p>
                         </div>
-                        <div class="d-flex align-items-center user--email"> 
+                        <div class="d-flex align-items-center user--email">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">call </mat-icon>
-                            <p class="my-2 font-15">+1 {{appointmentData.patientId.phoneNumber}}</p> 
-                        </div> 
-                        <button mat-stroked-button color="primary" class="mp--btn" (click)="navigateTopatientDetails(appointmentData.patientId._id)"> 
+                            <p class="my-2 font-15">+1 {{appointmentData.patientInfo.phoneNumber}}</p>
+                        </div>
+                        <button mat-stroked-button color="primary" class="mp--btn"
+                            (click)="navigateTopatientDetails(appointmentData.patientId._id)">
                             View Patient Profile
                         </button>
                         <!-- <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
                             System Followup History
                         </button> -->
-                        <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
+                        <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()">
                             Appointment Reminders
                         </button>
                     </div>
                 </div>
                 <div class="profile--right d-flex flex-column w-100">
                     <div class="card w-100 mb-0">
-                        <div class="card-header pb-0">
-                            <div class="col-12 d-flex align-items-center align-items-sm-start flex-sm-column flex-lg-row justify-content-between"> 
-                                <h3 class="mb-0 clr--1F2F3E fw-600">Basic Information</h3> 
-                                <button [routerLink]="[activeUserRoute, 'intake-form', 'step-1', appointmentId]" mat-raised-button color="primary"> 
+                        <div *ngIf="isFormEditable" class="card-header pb-0">
+                            <div
+                                class="col-12 d-flex align-items-center align-items-sm-start flex-sm-column flex-lg-row justify-content-between">
+                                <h3 class="mb-0 clr--1F2F3E fw-600">Basic Information</h3>
+                                <button [routerLink]="[activeUserRoute, 'intake-form', 'step-1', appointmentId]"
+                                    mat-raised-button color="primary">
                                     View Intake Form
                                 </button>
-                            </div> 
+                            </div>
                         </div>
                         <div *ngIf="appointmentData" class="card-body mt-4">
-                            <div class="col-12"> 
+                            <div class="col-12">
                                 <div class="row">
                                     <div class="col-12 col-xl-6 col-md-12">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="d-flex align-items-start mb-4">
-                                                    <div class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon class="material-symbols-outlined text-primary">location_on</mat-icon> 
+                                                    <div
+                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                        <mat-icon
+                                                            class="material-symbols-outlined text-primary">location_on</mat-icon>
                                                     </div>
                                                     <div class="d-flex flex-column">
-                                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Practice Location</h3>
-                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">{{appointmentData.practiceLocation}}</p>
+                                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Practice Location
+                                                        </h3>
+                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">
+                                                            {{appointmentData.practiceLocation}}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex align-items-start mb-4">
-                                                    <div class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon class="material-symbols-outlined text-primary">call</mat-icon> 
-                                                    </div> 
+                                                    <div
+                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                        <mat-icon
+                                                            class="material-symbols-outlined text-primary">call</mat-icon>
+                                                    </div>
                                                     <div class="d-flex flex-column">
                                                         <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment #</h3>
-                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">{{appointmentData.appointmentId ? appointmentData.appointmentId : ''}}</p>
+                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">
+                                                            {{appointmentData.appointmentId ?
+                                                            appointmentData.appointmentId : ''}}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex align-items-start mb-4">
-                                                    <div class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon class="material-symbols-outlined text-primary">calendar_today</mat-icon> 
-                                                    </div> 
+                                                    <div
+                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                        <mat-icon
+                                                            class="material-symbols-outlined text-primary">calendar_today</mat-icon>
+                                                    </div>
                                                     <div class="d-flex flex-column flex-sm-column flex-lg-row">
                                                         <div class="d-flex flex-column me-3">
-                                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Date</h3>
-                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">{{appointmentData.appointmentDate | date:'mediumDate' }}</p>
+                                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Date
+                                                            </h3>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">
+                                                                {{appointmentData.appointmentDate | date:'mediumDate' }}
+                                                            </p>
                                                         </div>
-                                                        <button mat-stroked-button color="primary" class="flex-shrink-0" (click)="rescheduleModal(appointmentData._id)"> 
-                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> replay </mat-icon> 
+                                                        <button *ngIf="isFormEditable" mat-stroked-button color="primary" class="flex-shrink-0"
+                                                            (click)="rescheduleModal(appointmentData._id)">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined flex-shrink-0 me-1">
+                                                                replay </mat-icon>
                                                             Reschedule
                                                         </button>
                                                     </div>
@@ -95,39 +116,53 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex align-items-start mb-4">
-                                                    <div class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon class="material-symbols-outlined text-primary">published_with_changes</mat-icon> 
-                                                    </div> 
+                                                    <div
+                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                        <mat-icon
+                                                            class="material-symbols-outlined text-primary">published_with_changes</mat-icon>
+                                                    </div>
                                                     <div class="d-flex flex-column">
-                                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Status</h3>
-                                                        <p class="mb-0 font-16 fw-400 status {{statusFlag}}">{{appointmentData.status}}</p>
+                                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Status
+                                                        </h3>
+                                                        <p class="mb-0 font-16 fw-400 status {{statusFlag}}">
+                                                            {{appointmentData.status}}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex align-items-start mb-4">
-                                                    <div class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon class="material-symbols-outlined text-primary">paid</mat-icon> 
-                                                    </div> 
+                                                    <div
+                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                        <mat-icon
+                                                            class="material-symbols-outlined text-primary">paid</mat-icon>
+                                                    </div>
                                                     <div class="d-flex flex-column flex-sm-column flex-lg-row">
                                                         <div class="d-flex flex-column me-3">
                                                             <h3 class="m-0 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
-                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">Insurance/Self Pay</p>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">
+                                                                {{appointmentData.payVia}}
+                                                            </p>
                                                         </div>
-                                                        <button class="flex-shrink-0" mat-stroked-button color="primary"> 
-                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> visibility </mat-icon> 
+                                                        <button *ngIf="appointmentData.payVia =='Insurance'"
+                                                            (click)="viewInsuranveModal()" class="flex-shrink-0"
+                                                            mat-stroked-button color="primary">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined flex-shrink-0 me-1 ms-1">
+                                                                visibility </mat-icon>
                                                             View Insurance
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="col-12 col-xl-6 col-md-12">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="col-form-label fw-600">Assign Therapist <span class="clr--DF0404 ms-1"> * </span></label>
+                                                    <label class="col-form-label fw-600">Assign Therapist <span
+                                                            class="clr--DF0404 ms-1"> * </span></label>
                                                     <!-- <input class="form-control form-control-md" type="text" placeholder="Enter Assign Therapist" value="{{assign_therapist}}" /> -->
 
                                                     <!-- <input  class="form-control form-control-md" type="text" placeholder="Enter Assign Therapist" aria-label="Number"  matInput  [formControl]="appoitmentControl"  [matAutocomplete]="auto">
@@ -137,30 +172,40 @@
                                                         </mat-option>
                                                     </mat-autocomplete> -->
                                                     <!-- [value]="appoitmentControl.value ? getValue(appoitmentControl.value) : ''" -->
-                                                    <input type="text" class="form-control form-control-md" matInput formControlName="therapistId" [matAutocomplete]="auto">
-                                                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="getValue">
-                                                            <mat-option *ngIf="!appoitmentForm.controls['therapistId'].value" [value]="" disabled>
-                                                                Select The Therapist
-                                                            </mat-option>
-                                                            <mat-option *ngFor="let option of therapistList | async" [value]="option">
+                                                    <input [disabled]="!isFormEditable" type="text" class="form-control form-control-md" matInput
+                                                        formControlName="therapistId" [matAutocomplete]="auto">
+                                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="getValue">
+                                                        <mat-option
+                                                            *ngIf="!appoitmentForm.controls['therapistId'].value"
+                                                            [value]="" disabled>
+                                                            Select The Therapist
+                                                        </mat-option>
+                                                        <mat-option *ngFor="let option of therapistList | async"
+                                                            [value]="option">
                                                             {{ option.name }}
-                                                            </mat-option>
-                                                        </mat-autocomplete>
-                                                        <div class="text text-danger mt-1" *ngIf="appoitmentForm.controls['therapistId'].touched && (appoitmentForm.controls['therapistId'].hasError('required') && appoitmentForm.controls['therapistId'].invalid)">
-                                                            {{ validationMessages.requiredDropdown('Assign Therapist') }}
-                                                        </div>
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <div class="text text-danger mt-1"
+                                                        *ngIf="appoitmentForm.controls['therapistId'].touched && (appoitmentForm.controls['therapistId'].hasError('required') && appoitmentForm.controls['therapistId'].invalid)">
+                                                        {{ validationMessages.requiredDropdown('Assign Therapist') }}
+                                                    </div>
 
-                                                        <div class="text text-danger mt-1" *ngIf="appoitmentForm.controls['therapistId'].touched && (appoitmentForm.controls['therapistId'].hasError('incorrect') && appoitmentForm.controls['therapistId'].invalid)">
-                                                            {{ validationMessages.requiredDropdown('assign therapist from the list') }}
-                                                        </div>
-                                                        
+                                                    <div class="text text-danger mt-1"
+                                                        *ngIf="appoitmentForm.controls['therapistId'].touched && (appoitmentForm.controls['therapistId'].hasError('incorrect') && appoitmentForm.controls['therapistId'].invalid)">
+                                                        {{ validationMessages.requiredDropdown('assign therapist from
+                                                        the list') }}
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="col-form-label fw-600">Case Name</label>
-                                                    <input class="form-control form-control-md" type="text" placeholder="Search Case Name" formControlName="caseName" (blur)="checkSpace('caseName', $event)"/>
-                                                    <div class="text text-danger mt-1" *ngIf="appoitmentForm.controls['caseName'].touched && (appoitmentForm.controls['caseName'].hasError('required') || appoitmentForm.controls['caseName'].invalid)">
+                                                    <input  class="form-control form-control-md" type="text"
+                                                        placeholder="Search Case Name" formControlName="caseName"
+                                                        (blur)="checkSpace('caseName', $event)" />
+                                                    <div class="text text-danger mt-1"
+                                                        *ngIf="appoitmentForm.controls['caseName'].touched && (appoitmentForm.controls['caseName'].hasError('required') || appoitmentForm.controls['caseName'].invalid)">
                                                         {{ validationMessages.required('Case Name') }}
                                                     </div>
                                                 </div>
@@ -168,8 +213,11 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="col-form-label fw-600">Copay Amount</label>
-                                                    <input class="form-control form-control-md" type="number" formControlName="coPayAmount" placeholder="$" (blur)="checkSpace('coPayAmount', $event)" />
-                                                    <div class="text text-danger mt-1" *ngIf="appoitmentForm.controls['coPayAmount'].touched && (appoitmentForm.controls['coPayAmount'].hasError('required') || appoitmentForm.controls['coPayAmount'].invalid)">
+                                                    <input class="form-control form-control-md" type="number"
+                                                        formControlName="coPayAmount" placeholder="$"
+                                                        (blur)="checkSpace('coPayAmount', $event)" />
+                                                    <div class="text text-danger mt-1"
+                                                        *ngIf="appoitmentForm.controls['coPayAmount'].touched && (appoitmentForm.controls['coPayAmount'].hasError('required') || appoitmentForm.controls['coPayAmount'].invalid)">
                                                         {{ validationMessages.required('Copay Amount') }}
                                                     </div>
                                                 </div>
@@ -177,13 +225,19 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="col-form-label fw-600">High Deductibles</label>
-                                                    <input class="form-control form-control-md" type="number" formControlName="highDeductibles" placeholder="$" (blur)="checkSpace('highDeductibles', $event)" />
-                                                    <div class="text text-danger mt-1" *ngIf="appoitmentForm.controls['highDeductibles'].touched && (appoitmentForm.controls['highDeductibles'].hasError('required') || appoitmentForm.controls['highDeductibles'].invalid)">
+                                                    <input class="form-control form-control-md" type="number"
+                                                        formControlName="highDeductibles" placeholder="$"
+                                                        (blur)="checkSpace('highDeductibles', $event)" />
+                                                    <div class="text text-danger mt-1"
+                                                        *ngIf="appoitmentForm.controls['highDeductibles'].touched && (appoitmentForm.controls['highDeductibles'].hasError('required') || appoitmentForm.controls['highDeductibles'].invalid)">
                                                         {{ validationMessages.required('High Deductibles') }}
                                                     </div>
                                                 </div>
-                                                
-                                                <mat-checkbox class="" (change)="patientCheckIn($event, appointmentData)" [(ngModel)]="appointmentData.checkIn">Patient Checked-In</mat-checkbox>
+
+                                                <mat-checkbox [disabled]="!isFormEditable" class=""
+                                                    (change)="patientCheckIn($event, appointmentData)"
+                                                    [(ngModel)]="appointmentData.checkIn">Patient
+                                                    Checked-In</mat-checkbox>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +245,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
             <!-- <div class="card-body d-flex  w-100 mb-3 mt-0">
                 <div class="medical--edu--video d-flex flex-column w-100">
@@ -230,16 +284,17 @@
                     </div>
                 </div> 
             </div> -->
-            <div class="d-flex align-items-center justify-content-center w-100 footer--btns">
+            <div *ngIf="isFormEditable" class="d-flex align-items-center justify-content-center w-100 footer--btns">
                 <!-- (click)="acceptAppointment(appointmentData._id)" -->
-                <button mat-raised-button color="green--btn" class="m-1" type="submit"  [disabled]="appointmentData.status =='Accepted' || appointmentData.status =='Cancelled'"> 
+                <button mat-raised-button color="green--btn" class="m-1" type="submit"
+                    [disabled]="appointmentData.status =='Accepted' || appointmentData.status =='Cancelled'">
                     {{appointmentData.status =='Accepted' ? 'Accepted' : 'Accept Appointment'}}
                 </button>
-                <button mat-raised-button color="warn" class="m-1" (click)="writeComment(appointmentData._id)" [disabled]="appointmentData.status =='Cancelled' || appointmentData.status =='Accepted'">                
+                <button mat-raised-button color="warn" class="m-1" (click)="writeComment(appointmentData._id)"
+                    [disabled]="appointmentData.status =='Cancelled' || appointmentData.status =='Accepted'">
                     {{appointmentData.status =='Cancelled' ? 'Cancelled' : 'Cancel Appointment'}}
                 </button>
             </div>
         </form>
     </div>
-</div> 
-    
+</div>

@@ -1,19 +1,12 @@
-import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CmsModalComponent } from '../cms-modal/cms-modal.component';
-import { SharedModule } from '../../shared.module';
 import { AuthService } from '../../services/api/auth.service';
 import { CommonService } from '../../services/helper/common.service';
 import { s3Details } from 'src/app/config';
 
 @Component({
   selector: 'app-view-insurance-modal',
-  standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatDialogModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
   templateUrl: './view-insurance-modal.component.html',
   styleUrl: './view-insurance-modal.component.scss'
 })

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SystemFollowupModalComponent } from '../system-followup-modal/system-followup-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WriteCommentModalComponent } from 'src/app/shared/comman/write-comment-modal/write-comment-modal.component';
@@ -8,10 +8,11 @@ import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, map } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { ViewInsuranceModalComponent } from 'src/app/shared/comman/view-insurance-modal/view-insurance-modal.component';
 //import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 //import {NgFor, AsyncPipe} from '@angular/common';
 
@@ -39,7 +40,7 @@ export class AppointmentDetailsComponent {
   options: any[] = [];
   validationMessages = validationMessages
   therapistList: Observable<any[]>;
-
+  isFormEditable = false
   //@ViewChild(MatAutocompleteTrigger) autocompleteTrigger: MatAutocompleteTrigger;
 
   activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
@@ -59,13 +60,16 @@ export class AppointmentDetailsComponent {
       coPayAmount: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       highDeductibles: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
     });
-
+    if (this.userRole == 'support_team') {
+      this.isFormEditable = true
+    } else {
+      this.appoitmentForm.disable()
+    }
     this.getAppointmentDetails()
     this.getTherapistList()
   }
 
   getValue(user: any) {
-    console.log('slected user>>>', user)
     return user && user.name ? user.name : '';
   }
 
@@ -97,9 +101,7 @@ export class AppointmentDetailsComponent {
           startWith(''),
           map(value => this.checkthevalue(value)),
           map(name => name ? this._filter(name) : this.options.slice())
-        );
-
-
+        )
       }
     })
   }
@@ -184,6 +186,10 @@ export class AppointmentDetailsComponent {
     const dialogRef = this.dialog.open(SystemFollowupModalComponent, {
       panelClass: 'custom-alert-container',
     });
+    dialogRef.afterClosed().subscribe(result => {
+      return false
+    })
+    return false 
   }
 
 
@@ -224,6 +230,7 @@ export class AppointmentDetailsComponent {
         this.commonService.openSnackBar(result.message, "SUCCESS")
       }
     });
+    return false
   }
 
   successModal() {
@@ -264,5 +271,13 @@ export class AppointmentDetailsComponent {
 
   navigateTopatientDetails(patientId: string) {
     this.router.navigate([this.commonService.getLoggedInRoute() + '/patients/patient-profile/', patientId]);
+  }
+
+  viewInsuranveModal() {
+    const dialogRef = this.dialog.open(ViewInsuranceModalComponent, {
+      panelClass: 'modal--wrapper',
+      data: this.appointmentData
+    });
+    return false
   }
 }

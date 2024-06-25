@@ -38,6 +38,8 @@ import { SystemFollowupModalComponent } from './component/support-billing-therap
 import { AppointmentRequestsComponent } from './component/support-billing-therapist/appointment-requests/appointment-requests.component';
 import { PatientDetailsComponent } from './component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
+import { ViewInsuranceModalComponent } from './comman/view-insurance-modal/view-insurance-modal.component';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -70,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SystemFollowupModalComponent,
     AppointmentRequestsComponent,
     PatientDetailsComponent,
-    PatientProfileComponent
+    PatientProfileComponent,
+    ViewInsuranceModalComponent
   ],
   imports: [
     CommonModule,
@@ -101,4 +104,5 @@ export function HttpLoaderFactory(http: HttpClient) {
     MaterialModule
   ]
 })
+
 export class SharedModule { }
