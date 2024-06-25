@@ -30,15 +30,6 @@ const routes: Routes = [
     path: 'appointment-details/:appointmentId',
     component: AppointmentDetailsComponent
   },
-  // {
-  //   path: 'patient-profile/:patientId',
-  //   component: PatientProfileComponent
-  // },
-  // {
-  //   path: 'appointment-requests',
-  //   component: AppointmentRequestsComponent
-  // },
-
   {
     path: 'intake-form',
     children: [
