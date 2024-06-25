@@ -19,6 +19,11 @@ import { DnSubjectiveComponent } from 'src/app/shared/component/support-billing-
 import { DnObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-objective/dn-objective.component';
 import { DnAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-assessment/dn-assessment.component';
 import { DnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-plan/dn-plan.component';
+import { DisAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-assessment/dis-assessment.component';
+import { DisObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-objective/dis-objective.component';
+import { DisPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-plan/dis-plan.component';
+import { DisSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-subjective/dis-subjective.component';
+import { DischargeNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/discharge-note/discharge-note.component';
  
 const routes: Routes = [ 
   {
@@ -90,6 +95,32 @@ const routes: Routes = [
       {
         path: 'plan',
         component: DnPlanComponent, 
+      },
+      {
+        path: 'billing',
+        component: BillingComponent, 
+      },
+    ]
+  },
+  {
+    path: 'discharge-notes',
+    component:DischargeNoteComponent ,
+    children: [  
+      {
+        path: 'subjective',
+        component: DisSubjectiveComponent, 
+      }, 
+      {
+        path: 'objective',
+        component: DisObjectiveComponent, 
+      },
+      {
+        path: 'assessment',
+        component: DisAssessmentComponent, 
+      },
+      {
+        path: 'plan',
+        component: DisPlanComponent, 
       },
       {
         path: 'billing',
