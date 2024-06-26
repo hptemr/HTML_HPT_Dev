@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { PreviewModalComponent } from 'src/app/shared/comman/preview-modal/preview-modal.component';
 
 @Component({
   selector: 'app-objective', 
@@ -52,6 +53,11 @@ export class ObjectiveComponent {
   addExersiceModal() {
     const dialogRef = this.dialog.open(AddExerciseComponent, {
       panelClass:[ 'custom-alert-container','modal--wrapper'],
+    });
+  }
+  previewModal() {
+    const dialogRef = this.dialog.open(PreviewModalComponent, {
+      panelClass:[ 'preview--modal'],
     });
   }
   customOptions: OwlOptions = {
