@@ -2,11 +2,14 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header pb-0">
+                <div class="col-12 d-flex align-items-center justify-content-between">
+                    <h3 class="mb-2 clr--1F2F3E">Appointments</h3>
+                </div>
                 <div class="col-12 mt-3">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="form-group">
-                                <select (ngModelChange)="selectRecords('practiceLocations',$event)"
+                                <select (ngModelChange)="selectRecords('practiceLocation',$event)"
                                     [(ngModel)]="practiceLocationsVal" class="form-select form-control"
                                     aria-label="Default select example">
                                     <option selected value="">Practice Location</option>
@@ -22,7 +25,6 @@
                                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                 </button>
-                                <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-3">
@@ -47,26 +49,26 @@
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input readonly (ngModelChange)="onDateChange($event,'fromDate')"
-                                        [(ngModel)]="fromDate" class="form-control" placeholder="From Date" name="dp"
-                                        ngbDatepicker #d="ngbDatepicker" />
-                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                        type="button">
-                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button>
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input [(ngModel)]="fromDate" (dateChange)="onDateChange($event,'fromDate')"
+                                            name="dp" readonly="isReadonly" placeholder="From Date" matInput
+                                            [matDatepicker]="picker">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input readonly (ngModelChange)="onDateChange($event,'toDate')" [(ngModel)]="toDate"
-                                        class="form-control" placeholder="To Date" name="dp2" ngbDatepicker
-                                        #d2="ngbDatepicker" />
-                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn"
-                                        (click)="d2.toggle()" type="button">
-                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button>
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input [(ngModel)]="toDate" (dateChange)="onDateChange($event,'toDate')"
+                                            name="dp2" readonly="isReadonly" placeholder="To Date" matInput
+                                            [matDatepicker]="picker2">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
                                 </div>
                             </div>
                         </div>
@@ -95,11 +97,20 @@
                                     </div>
                                     <div>
                                         <p class="mb-0 font-16 text-primary clr--1F2F3E fw-500">
-                                            {{element.practiceLocation ? element.practiceLocation : ''}}</p>
-                                        <p class="mb-0 font-14 text-primary clr--1F2F3E"> <span
-                                                class="fw-700">Patient</span> {{element.patientName}}</p>
-                                        <p class="mb-0 font-14 text-primary clr--1F2F3E"> <span
-                                                class="fw-700">Appointment#</span> {{element.appointmentId}}</p>
+                                            {{element.practiceLocation ? element.practiceLocation : ''}}
+                                        </p>
+                                        <p class="mb-0 font-14 text-primary clr--1F2F3E">
+                                            <span class="fw-700">Patient</span>
+                                            {{element.patientName}}
+                                        </p>
+                                        <p class="mb-0 font-14 text-primary clr--1F2F3E">
+                                            <span class="fw-700">Appointment#</span>
+                                            {{element.appointmentId}}
+                                        </p>
+                                        <p class="mb-0 font-14 text-primary clr--1F2F3E">
+                                            <span class="fw-700">Case Name</span>
+                                            {{element.caseName ? element.caseName :"N/A"}}
+                                        </p>
                                     </div>
                                 </div>
                             </td>
@@ -154,7 +165,8 @@
                     </table>
                     <div class="no--record--found align-items-center justify-content-center w-100"
                         *ngIf="appointmentsList && appointmentsList.filteredData.length == 0">
-                        <div>
+                        <div class="d-flex flex-column align-items-center w-100">
+                            <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
                             <p class="">{{ validationMessages.noRecords }}</p>
                         </div>
                     </div>
@@ -163,18 +175,18 @@
                         [pageIndex]="pageIndex"></mat-paginator>
                 </div>
             </div>
-
             <div class="card-body day--one--wrapper d-flex align-items-center justify-content-center" *ngIf="dayOne">
                 <div class="d-flex flex-column align-items-center justify-content-center w-100">
                     <img src="assets/images/ark/calendar-lg.png" alt="" class="img-fluid mb-4" />
                     <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="!dayOneFlag">No Records Found!</p>
-                    <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="dayOneFlag">Currently there are no
-                        appointments to show!</p>
-                    <p class="clr--1F2F3E text-center" *ngIf="dayOneFlag">Kindly click on “Book Appointment” to schedule
-                        a new appointment.</p>
+                    <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="dayOneFlag">
+                        Currently there are no appointments to show!
+                    </p>
+                    <p class="clr--1F2F3E text-center" *ngIf="dayOneFlag">
+                        Kindly click on “Book Appointment” to schedule a new appointment.
+                    </p>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
@@ -47,8 +46,8 @@ export class AppointmentRequestsComponent {
   toDate: any = ''
   fieldValues: any = ['Accepted', 'Rescheduled'];
   eodDate: any
-  
-  constructor(private _liveAnnouncer: LiveAnnouncer,
+
+  constructor(
     public dialog: MatDialog,
     private router: Router,
     public authService: AuthService,

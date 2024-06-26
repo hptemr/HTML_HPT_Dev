@@ -13,13 +13,10 @@ import { Observable, map } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { ViewInsuranceModalComponent } from 'src/app/shared/comman/view-insurance-modal/view-insurance-modal.component';
+import { s3Details } from 'src/app/config';
 //import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 //import {NgFor, AsyncPipe} from '@angular/common';
-
-// interface User {
-//   id: string;
-//   name: string;
-// }
+ 
 @Component({
   selector: 'app-appointment-details',
   templateUrl: './appointment-details.component.html',
@@ -30,14 +27,13 @@ export class AppointmentDetailsComponent {
   statusFlag: string;
   appointmentData: any = [];
   appointment_flag: boolean = false
-  initialName: string = '';
+  profileImage: string = '';
   assign_therapist: string = '';
   public userId: string;
   public userRole: string;
   orderBy: any = { updatedAt: -1 }
   appoitmentForm: FormGroup;
-  //appoitmentControl = new FormControl('');
-  options: any[] = [];
+   options: any[] = [];
   validationMessages = validationMessages
   therapistList: Observable<any[]>;
   isFormEditable = false
@@ -122,9 +118,9 @@ export class AppointmentDetailsComponent {
         if (response.data && response.data.appointmentData) {
           this.appointmentData = response.data.appointmentData;
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
-          if (this.appointmentData.patientId.firstName && this.appointmentData.patientId.lastName) {
-            this.initialName = this.appointmentData.patientId.firstName.charAt(0) + this.appointmentData.patientId.lastName.charAt(0);
-          }
+          
+          this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
+          
           if (this.appointmentData.therapistId && this.appointmentData.therapistId.firstName) {
             this.assign_therapist = this.appointmentData.therapistId.firstName + ' ' + this.appointmentData.therapistId.lastName;
             this.appoitmentForm.controls['therapistId'].setValue({ id: this.appointmentData.therapistId, name: this.assign_therapist })
