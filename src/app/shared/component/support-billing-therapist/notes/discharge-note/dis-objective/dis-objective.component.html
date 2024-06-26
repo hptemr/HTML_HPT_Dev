@@ -39,18 +39,18 @@
             <div class="form-group d-flex align-items-start chape--group">
                 <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0">Chaperone</label>
                 <div class="d-flex align-items-start  flex-column flex-sm-row w-100">
-                    <mat-radio-group aria-label="Select an option" class="r--btns">
+                    <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="r--btns">
                         <mat-radio-button value="1" class="me-3">No</mat-radio-button>
                         <mat-radio-button value="2" checked>Yes</mat-radio-button>
                     </mat-radio-group>
-                    <input type="text" class="form-control max-width" placeholder="Chaperone Name">
+                    <input [disabled]="isDisabled"  type="text" class="form-control max-width" placeholder="Chaperone Name">
                 </div>
             </div>
         </div>
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">Observation</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">range of motion</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -66,7 +66,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">strength</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -74,7 +74,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">neurological</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -82,7 +82,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">special tests</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -90,7 +90,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">palpation</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -98,7 +98,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">treatment provided</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -106,7 +106,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">SLP</label>
-                <input class="form-control" type="text" placeholder="" disabled
+                <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
                     value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
             </div>
@@ -114,7 +114,7 @@
         <div class="col-12 col-lg-6">
             <div class="form-group">
                 <label class="col-form-label fw-700 font-16 text-uppercase">Outcome Measures</label>
-                <select class="form-select form-control" aria-label="outcome measure dd" [(ngModel)]="selectedValue">
+                <select [disabled]="isDisabled"  class="form-select form-control" aria-label="outcome measure dd" [(ngModel)]="selectedValue">
                     <option value="0" selected>Select</option>
                     <option value="1">Neck Disability Index</option>
                     <option value="2">QuickDASH</option>
@@ -140,7 +140,7 @@
                     <p class="font-14 clr--1F2F3E mb-0 me-3">1. Please rate your pain level with activity:</p>
                     <div class="d-flex flex-column flex-sm-row  align-items-start align-items-sm-center">
                         <p class="m-0 font-14 text-lowercase">0=NO PAIN</p>
-                        <ul class=" d-flex flex-wrap pain--mark">
+                        <ul class=" d-flex flex-wrap pain--mark disabled">
                             <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i"
                                 (click)="clickedIndex = i">
                                 {{i}}
@@ -154,7 +154,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">1.Pain Intensity</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" [disabled]="isDisabled"  aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100">(0) I have no pain at the
                                         moment.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(1) The pain is very mild at the
@@ -177,7 +177,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">2.Personal Care (washing,
                                     dressing, etc)</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" [disabled]="isDisabled"  aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100">(0) I can look after myself normally
                                         without extra pain.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(1) I can look after myself normally but
@@ -200,7 +200,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">3. Lifting</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" [disabled]="isDisabled"  aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) I can lift heavy weights without extra
                                         pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100" checked>(1) I can lift heavy weights but
@@ -225,7 +225,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">4. Headache </label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" [disabled]="isDisabled"  aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100" checked>(0) I have no headaches at
                                         all.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">(1) I have slight headaches which come
@@ -247,7 +247,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">5. Recreation </label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" [disabled]="isDisabled"  aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) I am able engage in all my
                                         recreational activities without pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100" checked>(1) I am able to engage in my
@@ -272,7 +272,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">6. Reading</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" [disabled]="isDisabled"  aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100">(0) I can read as much as I want with no
                                         pain in my neck.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(1) I can read as much as I want with
@@ -295,7 +295,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">7. Work</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" [disabled]="isDisabled"  aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100" checked>(0) I can do as much as I want
                                         to.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">(1) I can only do my usual work but no
@@ -317,7 +317,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">8. Sleeping </label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) Pain does not prevent me from sleeping
                                         well.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">(1) My sleep is slightly disturbed (<1 hr
@@ -339,7 +339,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">9. Concentration</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) I can concentrate fully when I want
                                         with no difficulty.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">(1) I can concentrate fully when I want
@@ -361,7 +361,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">10. Driving </label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">(0) I can drive my car without neck
                                         pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100" checked>(1) I can drive my car as long as
@@ -648,7 +648,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Pain Intensity</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100" checked>I can tolerate the pain I have
                                         without having to use pain medication.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">The pain is bad, but can manage without
@@ -670,7 +670,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Standing</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100">I can stand as long as I want without
                                         increased pain.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">I can stand as long as I want, but it
@@ -693,7 +693,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Personal Care (e.g., Washing,
                                     Dressing)</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">I can take care of myself normally without
                                         causing increased pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">I can take care of myself normally, but it
@@ -715,7 +715,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Sleeping</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">Pain does not prevent me from sleeping
                                         well.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">I can sleep well only by using pain
@@ -737,7 +737,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Lifting </label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">I can lift heavy weights without increased
                                         pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100" checked>I can lift heavy weights, but it
@@ -762,7 +762,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Social Life</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100" checked>My social life is normal and does
                                         not increase my pain.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">My social life is normal, but it increases
@@ -784,7 +784,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Walking</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="1" class="w-100">Pain does not prevent me from walking any
                                         distance.</mat-radio-button>
                                     <mat-radio-button value="2" class="w-100">Pain prevents me from walking more than 1
@@ -806,7 +806,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Traveling</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">I can travel anywhere without increased
                                         pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">I can travel anywhere, but it increases my
@@ -828,7 +828,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Sitting</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">I can sit in any chair as long as I
                                         like.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">I can only sit in my favorite chair as
@@ -850,7 +850,7 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-700 p-0 font-16 mb-2">Employment/Homemaking</label>
-                                <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option" class="d-flex flex-column">
                                     <mat-radio-button value="0" class="w-100">My normal homemaking/job activities do not
                                         cause pain.</mat-radio-button>
                                     <mat-radio-button value="1" class="w-100">My normal homemaking/job activities

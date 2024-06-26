@@ -8,6 +8,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './dn-subjective.component.scss'
 })
 export class DnSubjectiveComponent {
+  isDisabled: boolean = false;
   clickedIndex = 0;
   model: NgbDateStruct;
   selectedValue: number;

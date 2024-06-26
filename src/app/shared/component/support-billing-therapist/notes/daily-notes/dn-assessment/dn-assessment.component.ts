@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './dn-assessment.component.scss'
 })
 export class DnAssessmentComponent {
-
+  isDisabled: boolean = false;
 }

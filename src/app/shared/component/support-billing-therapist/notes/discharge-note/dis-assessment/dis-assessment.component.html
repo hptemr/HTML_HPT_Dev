@@ -4,7 +4,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-600 pt-0">Assessment</label>
-                <textarea class="form-control text-left" type="text" rows="5">This note is to inform you of the discharge of *patient name* from our practice. *patient name* received ____ visits. 
+                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5">This note is to inform you of the discharge of *patient name* from our practice. *patient name* received ____ visits. 
 
 *patient name* has demonstrated good success with therapy achieving all rehab goals. They are independent with their established HEP. 
 
@@ -18,7 +18,7 @@ Thank you for the opportunity to assist *patient name* with their rehabilitatio
                 <div class="form-group">
                     <label class="col-form-label fw-600">1.Problem </label>
                     <div class="d-flex flex-row align-items-center">
-                        <input class="form-control me-2" type="text" placeholder="Enter Your Problem" />
+                        <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control me-2" type="text" placeholder="Enter Your Problem" />
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
                     </div>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
@@ -27,7 +27,7 @@ Thank you for the opportunity to assist *patient name* with their rehabilitatio
             <div class="col-12 col-lg-12 col-md-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">1.Long term goal </label>
-                    <input class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
+                    <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
@@ -38,7 +38,7 @@ Thank you for the opportunity to assist *patient name* with their rehabilitatio
                 <div class="form-group">
                     <label class="col-form-label fw-600">2.Problem </label>
                     <div class="d-flex flex-row align-items-center">
-                        <input class="form-control me-2" type="text" placeholder="Enter Your Problem" />
+                        <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control me-2" type="text" placeholder="Enter Your Problem" />
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
                     </div>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
@@ -47,7 +47,7 @@ Thank you for the opportunity to assist *patient name* with their rehabilitatio
             <div class="col-12 col-lg-12 col-md-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">2.Long term goal </label>
-                    <input class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
+                    <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
@@ -63,7 +63,7 @@ Thank you for the opportunity to assist *patient name* with their rehabilitatio
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-600">Supporting Documentation</label>
-                <textarea class="form-control text-left fw-400 clr--828282" type="text" rows="7" disabled>Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities.
+                <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" disabled>Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities.
 Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's.
 Patient is unable to complete physical therapy on land. 
 Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation.
