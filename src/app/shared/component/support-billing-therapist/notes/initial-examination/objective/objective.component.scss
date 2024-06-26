@@ -211,6 +211,13 @@
             width: 200px;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0; 
+            .exe--txt{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 174px;
+                line-height: 21px;
+            }
         }
         .exercise--data--table{
             width: 87%;
@@ -239,6 +246,17 @@
                                 padding: 5px;
                             }
                         }
+                    }
+                }
+                tbody{
+                    p{
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        line-height: 21px;
+                    }
+                    .setdata{ 
+                        width: 60px; 
                     }
                 }
             }
@@ -384,7 +402,7 @@
         padding-right: 0;
     }
     .objective--wrapepr .slider--table .exercise--data--table{
-        width: 76%;
+        width: 75%;
     }
     .objective--wrapepr .slider--table .exercise--table{
         width: 70px;
@@ -402,6 +420,16 @@
     }
     .objective--wrapepr .slider--table table thead tr th{
         vertical-align: bottom;
+    }
+    .objective--wrapepr .slider--table .exercise--table .exe--txt{
+        width: 61px;
+        font-size: 12px !important;
+    }
+    .objective--wrapepr .slider--table .exercise--data--table table tbody .setdata{
+        width: 38px;
+    }
+    .objective--wrapepr .slider--table .exercise--data--table table tbody p{
+        font-size: 12px !important;
     }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){
