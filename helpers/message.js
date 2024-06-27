@@ -43,6 +43,7 @@ const messages = {
         cancelled: 'Appointment has been cancelled successfully',
         updated: 'Appointment has been updated successfully',
         rescheduled: 'Appointment has been rescheduled successfully',
+        created: 'Appointment has been created successfully',
     },
     emergencyContactsMessage: {
         created: 'Contact details have been created successfully!',
