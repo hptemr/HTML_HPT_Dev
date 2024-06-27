@@ -12,6 +12,8 @@ import { IntakeStep5Component } from 'src/app/shared/component/intake-form/intak
 import { PatientsComponent } from 'src/app/shared/component/support-billing-therapist/patients/patients.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
+import { ReferralsComponent } from './referrals/referrals.component';
+import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 
 const routes: Routes = [
   {
@@ -78,6 +80,19 @@ const routes: Routes = [
       {
         path: 'patient-profile/:userId',
         component: PatientProfileComponent,
+      }
+    ]
+  },
+  {
+    path: 'referrals',
+    children: [
+      {
+        path: '',
+        component: ReferralsComponent
+      },
+      {
+        path: 'create-appointment',
+        component: CreateAppointmentComponent
       }
     ]
   },

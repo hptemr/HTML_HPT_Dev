@@ -304,16 +304,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 4,
-        //   icon: 'people',
-        //   mainTitle: 'Referrals',
-        //   headTitle1: '',
-        //   path: ' ',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
+        {
+          id: 4,
+          icon: 'people',
+          mainTitle: 'Referrals',
+          headTitle1: '',
+          path: 'referrals',
+          active: false,
+          type: 'link',
+          item: []
+        },
         // {
         //   id: 5,
         //   icon: 'chat_bubble_outline',
