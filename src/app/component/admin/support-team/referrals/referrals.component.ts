@@ -8,6 +8,7 @@ import { validationMessages } from 'src/app/utils/validation-messages';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 
 export interface PeriodicElement {
   info: string;
@@ -119,7 +120,7 @@ export class ReferralsComponent {
     //Object.assign(this.whereCond, dateCond)
     this.getReferralList('search')
   }
- 
+
   searchRecords(event: any) {
     let searchStr = event.target.value.trim()
     if (searchStr != '') {
@@ -162,5 +163,35 @@ export class ReferralsComponent {
     }
     this.getReferralList('search')
   }
+
+  deleteAppointment(appointmentId: any) {
+    const dialogRef = this.dialog.open(AlertComponent, {
+      panelClass: 'custom-alert-container',
+      data: {
+        warningNote: 'Do you really want to delete this appointment?'
+      }
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      } else {
+        let query = {}
+        const req_vars = {
+          appointmentId: appointmentId
+        }
+        // this.authService.apiRequest('post', 'referral/delete', req_vars).subscribe(async response => {
+        //   if (response.error) {
+        //     this.commonService.openSnackBar(response.message, "ERROR")           
+        //   } else {          
+        //     this.getReferralList('')
+        //     this.commonService.openSnackBar(response.message, "SUCCESS")
+        //   }
+        // }, (err) => {
+        //   console.error(err)
+        // })   
+      }
+    })
+  }
+
 
 }

@@ -286,6 +286,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 2,
+          activeMenu: 'appointments',
           icon: 'pending_actions',
           mainTitle: 'Appointments',
           headTitle1: '',
@@ -307,6 +308,7 @@ export class NavservicesService implements OnInit {
         {
           id: 4,
           icon: 'people',
+          activeMenu: 'referrals',
           mainTitle: 'Referrals',
           headTitle1: '',
           path: 'referrals',
