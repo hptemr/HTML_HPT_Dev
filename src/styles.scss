@@ -38,6 +38,7 @@ input, p,
 .min-width-unset{min-width: unset !important;}
 .lh-24 {line-height: 24px !important;}
 .cursor-pointer{ cursor: pointer !important; }
+.disabled {pointer-events: none;}
 
 .am--datepicker{
     .mat-mdc-form-field-subscript-wrapper{
@@ -64,6 +65,13 @@ input, p,
         color: #fff;
         background: #31B7B7;
         border-radius: 0;
+    }
+    .mdc-text-field--disabled{
+        background-color: #ddd !important;
+        opacity: 0.6;
+        .mat-mdc-form-field-flex{
+            background: #ddd;
+        }
     }
 }
 .cdk-overlay-pane.mat-datepicker-popup{
