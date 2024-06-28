@@ -1,172 +1,4 @@
-    <!-- Human Body //-->
-    <!-- <div class="human-body">
-        <svg (click)="bodyClick()" data-position='head' id='head' class='head' xmlns='http://www.w3.org/2000/svg' width='56.594' height='95.031' viewBox='0 0 56.594 95.031'><path d='M15.92 68.5l8.8 12.546 3.97 13.984-9.254-7.38-4.622-15.848zm27.1 0l-8.8 12.546-3.976 13.988 9.254-7.38 4.622-15.848zm6.11-27.775l.108-11.775-21.16-14.742L8.123 26.133 8.09 40.19l-3.24.215 1.462 9.732 5.208 1.81 2.36 11.63 9.72 11.018 10.856-.324 9.56-10.37 1.918-11.952 5.207-1.81 1.342-9.517zm-43.085-1.84l-.257-13.82L28.226 11.9l23.618 15.755-.216 10.37 4.976-17.085L42.556 2.376 25.49 0 10.803 3.673.002 24.415z'/></svg>
-        <svg (click)="bodyClick()" data-position='left-shoulder' id='left-shoulder' class='left-shoulder' xmlns='http://www.w3.org/2000/svg' width='109.532' height='46.594' viewBox='0 0 109.532 46.594'><path d='m 38.244,-0.004 1.98,9.232 -11.653,2.857 -7.474,-2.637 z M 17.005,10.536 12.962,8.35 0.306,22.35 0.244,27.675 c 0,0 16.52,-17.015 16.764,-17.14 z m 1.285,0.58 C 18.3,11.396 0.528,30.038 0.528,30.038 L -0.01,46.595 6.147,36.045 18.017,30.989 26.374,15.6 Z'/></svg>
-        <svg (click)="bodyClick()" data-position='right-shoulder' id='right-shoulder' class='right-shoulder' xmlns='http://www.w3.org/2000/svg' width='109.532' height='46.594' viewBox='0 0 109.532 46.594'><path d='m 3.2759972,-0.004 -1.98,9.232 11.6529998,2.857 7.473999,-2.637 z m 21.2379988,10.54 4.044,-2.187 12.656,14 0.07,5.33 c 0,0 -16.524,-17.019 -16.769,-17.144 z m -1.285,0.58 c -0.008,0.28 17.762,18.922 17.762,18.922 l 0.537,16.557 -6.157,-10.55 -11.871,-5.057 L 15.147997,15.6 Z'/></svg>
-        <svg data-position='left-arm' id='left-arm' class='left-arm' xmlns='http://www.w3.org/2000/svg' width='156.344' height='119.25' viewBox='0 0 156.344 119.25'><path d='m21.12,56.5a1.678,1.678 0 0 1 -0.427,0.33l0.935,8.224l12.977,-13.89l1.2,-8.958a168.2,168.2 0 0 0 -14.685,14.294zm1.387,12.522l-18.07,48.91l5.757,1.333l19.125,-39.44l3.518,-22.047l-10.33,11.244zm-5.278,-18.96l2.638,18.74l-17.2,46.023l-2.657,-1.775l6.644,-35.518l10.575,-27.47zm18.805,-12.323a1.78,1.78 0 0 1 0.407,-0.24l3.666,-27.345l-7.037,-10.139l-7.258,10.58l-6.16,37.04l0.566,4.973a151.447,151.447 0 0 1 15.808,-14.87l0.008,0.001zm-13.742,-28.906l-3.3,35.276l-2.2,-26.238l5.5,-9.038z'/></svg>
-        <svg data-position='right-arm' id='right-arm' class='right-arm' xmlns='http://www.w3.org/2000/svg' width='156.344' height='119.25' viewBox='0 0 156.344 119.25'><path d='m 18.997,56.5 a 1.678,1.678 0 0 0 0.427,0.33 L 18.489,65.054 5.512,51.164 4.312,42.206 A 168.2,168.2 0 0 1 18.997,56.5 Z m -1.387,12.522 18.07,48.91 -5.757,1.333 L 10.798,79.825 7.28,57.778 17.61,69.022 Z m 5.278,-18.96 -2.638,18.74 17.2,46.023 2.657,-1.775 L 33.463,77.532 22.888,50.062 Z M 4.083,37.739 A 1.78,1.78 0 0 0 3.676,37.499 L 0.01,10.154 7.047,0.015 l 7.258,10.58 6.16,37.04 -0.566,4.973 A 151.447,151.447 0 0 0 4.091,37.738 l -0.008,10e-4 z m 13.742,-28.906 3.3,35.276 2.2,-26.238 -5.5,-9.038 z'/></svg>
-        <svg data-position='chest' id='chest' class='chest' xmlns='http://www.w3.org/2000/svg' width='86.594' height='45.063' viewBox='0 0 86.594 45.063'><path d='M19.32 0l-9.225 16.488-10.1 5.056 6.15 4.836 4.832 14.07 11.2 4.616 17.85-8.828-4.452-34.7zm47.934 0l9.225 16.488 10.1 5.056-6.15 4.836-4.833 14.07-11.2 4.616-17.844-8.828 4.45-34.7z'/></svg>
-        <svg data-position='stomach' id='stomach' class='stomach' xmlns='http://www.w3.org/2000/svg' width='75.25' height='107.594' viewBox='0 0 75.25 107.594'><path d='M19.25 7.49l16.6-7.5-.5 12.16-14.943 7.662zm-10.322 8.9l6.9 3.848-.8-9.116zm5.617-8.732L1.32 2.15 6.3 15.6zm-8.17 9.267l9.015 5.514 1.54 11.028-8.795-5.735zm15.53 5.89l.332 8.662 12.286-2.665.664-11.826zm14.61 84.783L33.28 76.062l-.08-20.53-11.654-5.736-1.32 37.5zM22.735 35.64L22.57 46.3l11.787 3.166.166-16.657zm-14.16-5.255L16.49 35.9l1.1 11.25-8.8-7.06zm8.79 22.74l-9.673-7.28-.84 9.78L-.006 68.29l10.564 14.594 5.5.883 1.98-20.735zM56 7.488l-16.6-7.5.5 12.16 14.942 7.66zm10.32 8.9l-6.9 3.847.8-9.116zm-5.617-8.733L73.93 2.148l-4.98 13.447zm8.17 9.267l-9.015 5.514-1.54 11.03 8.8-5.736zm-15.53 5.89l-.332 8.662-12.285-2.665-.664-11.827zm-14.61 84.783l3.234-31.536.082-20.532 11.65-5.735 1.32 37.5zm13.78-71.957l.166 10.66-11.786 3.168-.166-16.657zm14.16-5.256l-7.915 5.514-1.1 11.25 8.794-7.06zm-8.79 22.743l9.673-7.28.84 9.78 6.862 12.66-10.564 14.597-5.5.883-1.975-20.74z'/></svg>
-        <svg data-position='left-leg' id='left-leg' class='left-leg' xmlns='http://www.w3.org/2000/svg' width='93.626' height='250.625' viewBox='0 0 93.626 250.625'><path d='m 18.00179,139.99461 -0.664,5.99 4.647,5.77 1.55,9.1 3.1,1.33 2.655,-13.755 1.77,-4.88 -1.55,-3.107 z m 20.582,0.444 -3.32,9.318 -7.082,13.755 1.77,12.647 5.09,-14.2 4.205,-7.982 z m -26.557,-12.645 5.09,27.29 -3.32,-1.777 -2.656,8.875 z m 22.795,42.374 -1.55,4.88 -3.32,20.634 -0.442,27.51 4.65,26.847 -0.223,-34.39 4.87,-13.754 0.663,-15.087 z m -10.623,12.424 1.106,41.267 c 14.157565,64.57987 -5.846437,10.46082 -16.8199998,-29.07 l 5.5329998,-36.384 z m -9.71,-178.164003 0,22.476 15.71,31.073 9.923,30.850003 -1.033,-21.375 z m 25.49,30.248 0.118,-0.148 -0.793,-2.024 -16.545,-18.16 -1.242,-0.44 10.984,28.378 z m -6.255,10.766 6.812,17.6 2.274,-21.596 -1.344,-3.43 z m -26.4699998,17.82 0.827,25.340003 12.8159998,35.257 -3.928,10.136 -12.6099998,-44.51 z M 31.81879,76.04161 l 0.345,0.826 6.47,15.48 -4.177,38.342 -6.594,-3.526 5.715,-35.7 z m -21.465,-74.697003 0.827,21.373 L 4.1527902,65.02561 0.84679017,30.870607 Z m 2.068,27.323 14.677,32.391 3.307,26.000003 -6.2,36.58 -13.437,-37.241 -0.8269998,-38.342003 z'/></svg>
-        <svg data-position='right-leg' id='right-leg' class='right-leg' xmlns='http://www.w3.org/2000/svg' width='80' height='250.625' viewBox='0 0 80 250.625'><path d='m 26.664979,139.7913 0.663,5.99 -4.647,5.77 -1.55,9.1 -3.1,1.33 -2.655,-13.755 -1.77,-4.88 1.55,-3.107 z m -20.5820002,0.444 3.3200005,9.318 7.0799997,13.755 -1.77,12.647 -5.0899997,-14.2 -4.2000005,-7.987 z m 3.7620005,29.73 1.5499997,4.88 3.32,20.633 0.442,27.51 -4.648,26.847 0.22,-34.39 -4.8670002,-13.754 -0.67,-15.087 z m 10.6229997,12.424 -1.107,41.267 -8.852,33.28 9.627,-4.55 16.046,-57.8 -5.533,-36.384 z m -13.9460002,74.991 c -5.157661,19.45233 -2.5788305,9.72616 0,0 z M 30.177979,4.225305 l 0,22.476 -15.713,31.072 -9.9230002,30.850005 1.033,-21.375005 z m -25.4930002,30.249 -0.118,-0.15 0.793,-2.023 16.5450002,-18.16 1.24,-0.44 -10.98,28.377 z m 6.2550002,10.764 -6.8120002,17.6 -2.274,-21.595 1.344,-3.43 z m 26.47,17.82 -0.827,25.342005 -12.816,35.25599 3.927,10.136 12.61,-44.50999 z m -24.565,12.783005 -0.346,0.825 -6.4700002,15.48 4.1780002,38.34199 6.594,-3.527 -5.715,-35.69999 z m 19.792,51.74999 -5.09,27.29 3.32,-1.776 2.655,8.875 z m 1.671,-126.452995 -0.826,21.375 7.03,42.308 3.306,-34.155 z m -2.066,27.325 -14.677,32.392 -3.308,26.000005 6.2,36.57999 13.436,-37.23999 0.827,-38.340005 z'/></svg>
-        <svg data-position='left-hand' id='left-hand' class='left-hand' xmlns='http://www.w3.org/2000/svg' width='90' height='38.938' viewBox='0 0 90 38.938'><path d='m 21.255,-0.00198191 2.88,6.90000201 8.412,1.335 0.664,12.4579799 -4.427,17.8 -2.878,-0.22 2.8,-11.847 -2.99,-0.084 -4.676,12.6 -3.544,-0.446 4.4,-12.736 -3.072,-0.584 -5.978,13.543 -4.428,-0.445 6.088,-14.1 -2.1,-1.25 L 4.878,34.934 1.114,34.489 12.4,12.9 11.293,11.12 0.665,15.57 0,13.124 8.635,5.3380201 Z' /></svg>
-        <svg data-position='right-hand' id='right-hand' class='right-hand' xmlns='http://www.w3.org/2000/svg' width='90' height='38.938' viewBox='0 0 90 38.938'><path d='m 13.793386,-0.00198533 -2.88,6.90000163 -8.4120002,1.335 -0.664,12.4579837 4.427,17.8 2.878,-0.22 -2.8,-11.847 2.99,-0.084 4.6760002,12.6 3.544,-0.446 -4.4,-12.736 3.072,-0.584 5.978,13.543 4.428,-0.445 -6.088,-14.1 2.1,-1.25 7.528,12.012 3.764,-0.445 -11.286,-21.589 1.107,-1.78 10.628,4.45 0.665,-2.447 -8.635,-7.7859837 z'/></svg>
-        <svg data-position='left-foot' id='left-foot' class='left-foot' xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><path d='m 19.558357,1.92821 c -22.1993328,20.55867 -11.0996668,10.27933 0,0 z m 5.975,5.989 -0.664,18.415 -1.55,6.435 -4.647,0 -1.327,-4.437 -1.55,-0.222 0.332,4.437 -5.864,-1.778 -1.5499998,-0.887 -6.64,-1.442 -0.22,-5.214 6.418,-10.87 4.4259998,-5.548 c 9.991542,-3.26362 9.41586,-8.41457 12.836,1.111 z'/></svg>
-        <svg data-position='right-foot' id='right-foot' class='right-foot' xmlns='http://www.w3.org/2000/svg' width='90' height='38.938' viewBox='0 0 90 38.938'><path d='m 11.723492,2.35897 c -40.202667,20.558 -20.1013335,10.279 0,0 z m -5.9740005,5.989 0.663,18.415 1.546,6.435 4.6480005,0 1.328,-4.437 1.55,-0.222 -0.333,4.437 5.863,-1.778 1.55,-0.887 6.638,-1.442 0.222,-5.214 -6.418,-10.868 -4.426,-5.547 -10.8440005,-4.437 z'/> </svg>
-    </div> -->
-    <!--// Human Body -->
 
-    <!-- Data Showing //-->
-    <!-- <div id="area" class="mb-5">
-        Area: <span id="data"></span>
-    </div> -->
-    <!--// Data Showing -->
-
-    
-    <!-- <script>
-        window.onload = function () {
-            console.log('yes');
-        const pieces = document.getElementsByTagName('svg');
-        for (var i = 0; pieces.length; i++) {
-            let _piece = pieces[i];
-            _piece.onclick = function(t) {
-                if (t.target.getAttribute('data-position') != null) document.getElementById('data').innerHTML = "Manoj" + t.target.getAttribute('data-position');
-                if (t.target.parentElement.getAttribute('data-position') != null) document.getElementById('data').innerHTML = "Prashant" + t.target.parentElement.getAttribute('data-position');
-            }
-        }
-    } 
-    </script> -->
-
-
-
-
-    <div class="human--body--wrapper">
-        <div class="img--outer head--box">
-            <img id="header" (click)="bodyClick()"  class="body--part default--img" src="/assets/images/human_body/upper_head.png" alt="">
-            <img id="header" (click)="bodyClick()"  class="body--part hover--img" src="/assets/images/human_body/coloured/upper_head.png" alt="">
-        </div> 
-        <div class="img--outer ">
-            <img (click)="bodyClick()" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png" alt="">
-        </div> 
-        <div class="img--outer  ">
-            <img (click)="bodyClick()" class="body--part default--img throat" src="/assets/images/human_body/throat.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img throat" src="/assets/images/human_body/coloured/throat.png" alt=""> 
-        </div>
-        <div class="img--outer active">
-            <img (click)="bodyClick()" class="body--part default--img left--shoulder" src="/assets/images/human_body/left_shoulder.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--shoulder" src="/assets/images/human_body/coloured/left_shoulder.png" alt=""> 
-        </div>
-        
-        <div class="img--outer  ">
-            <img (click)="bodyClick()" class="body--part default--img right--shoulder" src="/assets/images/human_body/right_shoulder.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img right--shoulder" src="/assets/images/human_body/coloured/right_shoulder.png" alt=""> 
-        </div>
-
-        <div class="img--outer ">
-            <img (click)="bodyClick()" class="body--part default--img left--chest" src="/assets/images/human_body/left_chest.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--chest" src="/assets/images/human_body/coloured/left_chest.png" alt=""> 
-        </div>
-
-        <div class="img--outer ">
-            <img (click)="bodyClick()" class="body--part default--img right--chest" src="/assets/images/human_body/right_chest.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--chest" src="/assets/images/human_body/coloured/right_chest.png" alt="">
-        </div> 
-
-        <div class="img--outer  ">
-            <img (click)="bodyClick()" class="body--part default--img left--biceps" src="/assets/images/human_body/left_biceps.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--biceps" src="/assets/images/human_body/coloured/left_biceps.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--biceps" src="/assets/images/human_body/right_biceps.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--biceps" src="/assets/images/human_body/coloured/right_biceps.png" alt="">
-        </div>
-        
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--hand" src="/assets/images/human_body/left_hand_part_1.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--hand" src="/assets/images/human_body/coloured/left_hand_part_1.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--hand" src="/assets/images/human_body/right_hand_part_1.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--hand" src="/assets/images/human_body/coloured/right_hand_part_1.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--hand--palm" src="/assets/images/human_body/left_hand_palm.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--hand--palm" src="/assets/images/human_body/coloured/left_hand_palm.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--hand--palm" src="/assets/images/human_body/right_hand_palm.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--hand--palm" src="/assets/images/human_body/coloured/right_hand_palm.png" alt="">
-        </div>
-        
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--ribs" src="/assets/images/human_body/left_ribs.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--ribs" src="/assets/images/human_body/coloured/left_ribs.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--ribs" src="/assets/images/human_body/right_ribs.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--ribs" src="/assets/images/human_body/coloured/right_ribs.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img main--belly" src="/assets/images/human_body/main_belly.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img main--belly" src="/assets/images/human_body/coloured/main_belly.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--belly" src="/assets/images/human_body/left_belly.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--belly" src="/assets/images/human_body/coloured/left_belly.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--belly" src="/assets/images/human_body/right_belly.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--belly" src="/assets/images/human_body/coloured/right_belly.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img genitalia" src="/assets/images/human_body/genitalia.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img genitalia" src="/assets/images/human_body/coloured/genitalia.png" alt="">
-        </div>
-        
-        
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--inner--things" src="/assets/images/human_body/left_inner_thigh.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--inner--things" src="/assets/images/human_body/coloured/left_inner_thigh.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--inner--things" src="/assets/images/human_body/right_inner_thigh.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--inner--things" src="/assets/images/human_body/coloured/right_inner_thigh.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--things" src="/assets/images/human_body/left_thigh.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--things" src="/assets/images/human_body/coloured/left_thigh.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--things" src="/assets/images/human_body/right_thigh.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--things" src="/assets/images/human_body/coloured/right_thigh.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--knee" src="/assets/images/human_body/left_knee.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--knee" src="/assets/images/human_body/coloured/left_knee.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--knee" src="/assets/images/human_body/right_knee.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--knee" src="/assets/images/human_body/coloured/right_knee.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--leg" src="/assets/images/human_body/left_leg.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--leg" src="/assets/images/human_body/coloured/left_leg.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--leg" src="/assets/images/human_body/right_leg.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--leg" src="/assets/images/human_body/coloured/right_leg.png" alt="">
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img left--leg--botton" src="/assets/images/human_body/left_leg_bottom.png" alt=""> 
-            <img (click)="bodyClick()" class="body--part hover--img left--leg--botton" src="/assets/images/human_body/coloured/left_leg_bottom.png" alt=""> 
-        </div>
-        <div class="img--outer">
-            <img (click)="bodyClick()" class="body--part default--img right--leg--botton" src="/assets/images/human_body/right_leg_bottom.png" alt="">
-            <img (click)="bodyClick()" class="body--part hover--img right--leg--botton" src="/assets/images/human_body/coloured/right_leg_bottom.png" alt="">
-        </div>   
-
-    </div>
 
 <div class="container-fluid book--appointment--wrapper ba--step--three">
     <div class="row">
@@ -181,10 +13,10 @@
         </div>
     </div>
     <div class="card m-0">
-        <div class="row"> 
+        <div class="row">
             <div class="col-12">
-                <p class="fw-700 font-16 mb-2 mt-2">Patient Medical History Form</p> 
-            </div> 
+                <p class="fw-700 font-16 mb-2 mt-2">Patient Medical History Form</p>
+            </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Full Name</label>
@@ -204,7 +36,7 @@
                         </button>
                     </div>
                 </div>
-            </div>  
+            </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Date </label>
@@ -217,17 +49,19 @@
                         </button>
                     </div>
                 </div>
-            </div> 
+            </div>
 
-           
+
             <div class="col-12 col-lg-9">
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Have you or any immediate family member ever been told you have: <span class="ms-2 clr--828282 fw-400">(Select Yes or No) </span></p> 
-                    </div> 
+                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Have you or
+                            any immediate family member ever been told you have: <span
+                                class="ms-2 clr--828282 fw-400">(Select Yes or No) </span></p>
+                    </div>
                     <div class="d-flex flex-column w-100 disease--desc--wrapper">
                         <div class="dd--header w-100 d-flex align-items-center">
-                            <div class="disease--box"> 
+                            <div class="disease--box">
                             </div>
                             <div class="self--box">
                                 <h1 class="mb-0 font-16 clr--1F2F3E text-uppercase">SELF</h1>
@@ -245,25 +79,25 @@
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="0" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="0" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 0">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="2" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="2" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 2">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
@@ -274,25 +108,25 @@
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="4" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="4" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 4">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="5" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="5" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 5">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
@@ -303,25 +137,25 @@
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="6" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="6" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 6">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="7" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="7" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 7">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
@@ -332,25 +166,25 @@
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="8" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="8" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 8">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="9" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="9" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 9">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
@@ -361,186 +195,187 @@
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="10" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="10" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 10">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="11" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="11" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 11">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Stroke?</label>  
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Stroke?</label>
                                 </div>
                                 <div class="self--box ">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="301" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="301" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 301">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="302" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="302" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 302">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoporosis?</label>  
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoporosis?</label>
                                 </div>
                                 <div class="self--box ">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="303" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="303" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 303">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="304" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="304" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoarthritis?</label>  
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoarthritis?</label>
                                 </div>
                                 <div class="self--box ">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="305" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="305" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="306" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="306" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 306">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatoid arthritis?</label>  
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatoid arthritis?</label>
                                 </div>
                                 <div class="self--box ">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="307" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="307" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 307">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="308" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="308" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 308">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600"> Bleeding disorders?</label>  
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600"> Bleeding disorders?</label>
                                 </div>
                                 <div class="self--box ">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="310" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="310" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 310">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="family--box">
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="311" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="311" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="3" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 311">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="divider d-flex w-100"></div>
-            </div>  
-            
+            </div>
+
             <div class="col-12 col-lg-9">
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">In the past 3 months have you had or do experience:</p> 
+                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">In the past
+                            3 months have you had or do experience:</p>
                     </div>
-                    <div class="d-flex flex-column w-100 disease--desc--wrapper"> 
+                    <div class="d-flex flex-column w-100 disease--desc--wrapper">
                         <div class="dd--body w-100">
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
@@ -550,194 +385,195 @@
                                     <div class="d-flex flex-column w-100">
                                         <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="111" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="111" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 111">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Nausea/Vomiting?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="13" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="13" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 13">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Fever/Chills/Sweats?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="16" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="16" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 16">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Unexplained weight change?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="18" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="18" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 18">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Numbness or tingling?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="20" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="20" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 20">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in appetite?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="21" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="21" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 21">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Difficulty swallowing?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="22" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="22" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 22">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in bowel/bladder function?</label>
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in bowel/bladder
+                                        function?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="23" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="23" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 23">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Shortness of breath? </label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="24" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="24" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 24">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600"> Dizziness?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="25" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="25" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 25">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Upper respiratory infection?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="26" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="26" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 26">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Urinary tract infection?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="27" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="27" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 27">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
-                            </div> 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div> 
-                </div> 
+                    </div>
+                </div>
             </div>
             <div class="col-12">
                 <div class="divider d-flex w-100"></div>
@@ -746,49 +582,55 @@
             <div class="col-12">
                 <div class="row">
                     <div class="col-12 d-flex align-items-center flex-wrap">
-                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E me-3">Do you have any allergies to medications?</p> 
+                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E me-3">Do you
+                            have any allergies to medications?</p>
                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                            <mat-radio-button  [value]="012" class="me-3" >Yes</mat-radio-button>
-                            <mat-radio-button  [value]="02" checked>No</mat-radio-button>
+                            <mat-radio-button [value]="012" class="me-3">Yes</mat-radio-button>
+                            <mat-radio-button [value]="02" checked>No</mat-radio-button>
                         </mat-radio-group>
                     </div>
                     <div class="col-12" *ngIf="selectedValue == 012">
                         <div class="row">
                             <div class="col-12 col-lg-7">
                                 <!-- *ngFor="let allergy of allergies; let i = index" -->
-                                <div class="d-flex align-items-center w-100" >
+                                <div class="d-flex align-items-center w-100">
                                     <div class="form-group w-100">
-                                        <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
+                                        <label class="col-form-label fw-600">Enter Allergy<span
+                                                class="clr--DF0404 ms-1"> * </span></label>
                                         <input class="form-control" type="text" placeholder="Enter Allergy" />
                                         <!-- <div class="text text-danger mt-1">Error here</div> -->
                                     </div>
-                                    <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn" >
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
+                                    <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete
+                                        </mat-icon>
                                     </button>
                                 </div>
-                                <div class="d-flex align-items-center w-100" >
+                                <div class="d-flex align-items-center w-100">
                                     <div class="form-group w-100">
-                                        <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
+                                        <label class="col-form-label fw-600">Enter Allergy<span
+                                                class="clr--DF0404 ms-1"> * </span></label>
                                         <input class="form-control" type="text" placeholder="Enter Allergy" />
                                         <!-- <div class="text text-danger mt-1">Error here</div> -->
                                     </div>
-                                    <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn" >
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
+                                    <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle
+                                        </mat-icon>
                                     </button>
                                 </div>
-                                
+
                             </div>
                             <div class="col-12 ">
                                 <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                     Previous surgeries and dates
-                                </p> 
+                                </p>
                             </div>
                             <div class="col-12">
                                 <div class="row align-items-center">
                                     <div class="col-12 col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label fw-600">Surgery Details </label>
-                                            <input class="form-control" type="text" placeholder="Enter Surgery Details" />
+                                            <input class="form-control" type="text"
+                                                placeholder="Enter Surgery Details" />
                                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                                         </div>
                                     </div>
@@ -796,24 +638,26 @@
                                         <div class="form-group w-100">
                                             <label class="col-form-label fw-600">Surgery Date </label>
                                             <div class="input-group">
-                                                <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                    [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                                    type="button">
+                                                <input class="form-control text-capitalize" placeholder="Select Date"
+                                                    name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn"
+                                                    (click)="d.toggle()" type="button">
                                                     <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
+                                        <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete
+                                            </mat-icon>
                                         </button>
-                                    </div>  
+                                    </div>
                                 </div>
                                 <div class="row align-items-center">
                                     <div class="col-12 col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label fw-600">Surgery Details </label>
-                                            <input class="form-control" type="text" placeholder="Enter Surgery Details" />
+                                            <input class="form-control" type="text"
+                                                placeholder="Enter Surgery Details" />
                                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                                         </div>
                                     </div>
@@ -821,26 +665,28 @@
                                         <div class="form-group w-100">
                                             <label class="col-form-label fw-600">Surgery Date </label>
                                             <div class="input-group">
-                                                <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                    [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                                    type="button">
+                                                <input class="form-control text-capitalize" placeholder="Select Date"
+                                                    name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn"
+                                                    (click)="d.toggle()" type="button">
                                                     <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
+                                        <button mat-raised-button color="primary"
+                                            class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle
+                                            </mat-icon>
                                         </button>
-                                    </div>  
+                                    </div>
                                 </div>
-                               
+
                             </div>
 
                             <div class="col-12 ">
                                 <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                     Medications you are currently using:
-                                </p> 
+                                </p>
                             </div>
                             <div class="col-12 col-lg-7">
                                 <div class="d-flex align-items-center w-100">
@@ -850,7 +696,8 @@
                                         <!-- <div class="text text-danger mt-1">Error here</div> -->
                                     </div>
                                     <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> delete </mat-icon> 
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> delete
+                                        </mat-icon>
                                     </button>
                                 </div>
                                 <div class="d-flex align-items-center w-100">
@@ -860,15 +707,16 @@
                                         <!-- <div class="text text-danger mt-1">Error here</div> -->
                                     </div>
                                     <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> add_circle </mat-icon> 
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> add_circle
+                                        </mat-icon>
                                     </button>
                                 </div>
-                               
+
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
-            </div> 
+            </div>
             <div class="col-12">
                 <div class="divider d-flex w-100"></div>
             </div>
@@ -876,173 +724,176 @@
             <div class="col-12 col-lg-9">
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Do you have a history of:</p> 
+                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Do you have
+                            a history of:</p>
                     </div>
-                    <div class="d-flex flex-column w-100 disease--desc--wrapper"> 
+                    <div class="d-flex flex-column w-100 disease--desc--wrapper">
                         <div class="dd--body w-100">
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Allergies/asthma?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="31" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="31" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue === 31">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Headaches</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="32" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="321" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="32" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="321" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 32">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Bronchitis?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="33" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="331" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="33" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="331" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 33">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Kidney disease?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="34" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="34" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="341" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 34">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
-                            </div> 
+                                    </div>
+                                </div>
+                            </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatic fever?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="35" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="35" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="341" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 35">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Ulcers? </label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="36" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="36" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="341" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 36">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Sexually transmitted disease? </label>
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Sexually transmitted disease?
+                                    </label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="37" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="37" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="341" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 37">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Seizures?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="38" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="38" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="341" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 38">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have a pacemaker?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="39" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="39" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="341" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 39">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
-                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have any metal in your body?</label>
+                                    <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have any metal in your
+                                        body?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="40" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="40" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="341" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 40">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
-                            </div> 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div> 
-                </div> 
+                    </div>
+                </div>
             </div>
             <div class="col-12">
                 <div class="divider d-flex w-100"></div>
@@ -1051,61 +902,62 @@
             <div class="col-12 col-lg-9">
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are you currently?</p> 
+                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are you
+                            currently?</p>
                     </div>
-                    <div class="d-flex flex-column w-100 disease--desc--wrapper"> 
+                    <div class="d-flex flex-column w-100 disease--desc--wrapper">
                         <div class="dd--body w-100">
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Pregnant</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="51" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="51" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="1" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue === 51">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Depressed?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="52" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="321" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="52" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="321" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 52">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="dd--row w-100 d-flex align-items-start">
                                 <div class="disease--box">
                                     <label class="mb-0 font-14 clr--1F2F3E fw-600">Under Stress?</label>
                                 </div>
                                 <div class="self--box ">
-                                    <div class="d-flex flex-column w-100"> 
+                                    <div class="d-flex flex-column w-100">
                                         <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                            <mat-radio-button  [value]="53" class="me-4">Yes</mat-radio-button>
-                                            <mat-radio-button  [value]="331" checked>No</mat-radio-button>
+                                            <mat-radio-button [value]="53" class="me-4">Yes</mat-radio-button>
+                                            <mat-radio-button [value]="331" checked>No</mat-radio-button>
                                         </mat-radio-group>
                                         <div class="form-group mt-2 w-100" *ngIf="selectedValue == 53">
-                                             <input class="form-control" type="text" placeholder="Add Description" /> 
+                                            <input class="form-control" type="text" placeholder="Add Description" />
                                         </div>
-                                    </div> 
-                                </div> 
-                            </div>  
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div> 
-                </div> 
+                    </div>
+                </div>
             </div>
             <div class="col-12">
                 <div class="divider d-flex w-100"></div>
@@ -1114,48 +966,315 @@
             <div class="col-12">
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are your symptoms: <span class="ms-2 clr--828282 font-14 fw-400">(Select One)  </span></p> 
-                    </div> 
-                    <mat-radio-group aria-label="Select an option" >
-                        <mat-radio-button  [value]="101" class="me-4">Getting Worse</mat-radio-button>
-                        <mat-radio-button  [value]="102" class="me-4">
+                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are your
+                            symptoms: <span class="ms-2 clr--828282 font-14 fw-400">(Select One) </span></p>
+                    </div>
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button [value]="101" class="me-4">Getting Worse</mat-radio-button>
+                        <mat-radio-button [value]="102" class="me-4">
                             <div class="d-flex align-items-center">
                                 <span class="flex-shrink-0 me-2">The Same </span>
                                 <div class="form-group m-0 w-100">
-                                    <input class="form-control form-control-md" type="text" placeholder="How Long?" /> 
+                                    <input class="form-control form-control-md" type="text" placeholder="How Long?" />
                                 </div>
                             </div>
                         </mat-radio-button>
-                        <mat-radio-button  [value]="103" >Improving</mat-radio-button>
+                        <mat-radio-button [value]="103">Improving</mat-radio-button>
                     </mat-radio-group>
-                </div> 
+                </div>
             </div>
 
             <div class="col-12">
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-600 font-16 mb-2 mt-4 d-flex align-items-center flex-wrap clr--1F2F3E"> Please rate your pain over the last 24 hours. 
-                            <span class="ms-2 clr--828282 font-14 fw-400"> (0 being no pain, 10 being the worst pain you've ever experienced) </span></p> 
+                        <p class="fw-600 font-16 mb-2 mt-4 d-flex align-items-center flex-wrap clr--1F2F3E"> Please rate
+                            your pain over the last 24 hours.
+                            <span class="ms-2 clr--828282 font-14 fw-400"> (0 being no pain, 10 being the worst pain
+                                you've ever experienced) </span>
+                        </p>
                     </div>
                     <div class="col-12 select--ans d-flex align-items-center">
                         <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
                         <ul class="m-0 p-0 d-flex flex-wrap">
-                             <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
-                                 {{i}}
-                             </li>
+                            <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i"
+                                (click)="clickedIndex = i">
+                                {{i}}
+                            </li>
                         </ul>
-                    </div>  
+                    </div>
+
+
+                    <div class="col-12 mt-4">
+                        <div class="body--marking--wrapper w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h1 class="font-16 fw-600 clr--1F2F3E mb-3">Please mark on the body chart where you have pain.</h1>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6 d-flex justify-content-sm-end">
+                                            <div class="human--body--wrapper">
+                                                <div class="img--outer head--box">
+                                                    <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                        src="/assets/images/human_body/upper_head.png" alt="">
+                                                    <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                        src="/assets/images/human_body/coloured/upper_head.png" alt="">
+                                                </div>
+                                                <div class="img--outer ">
+                                                    <img (click)="bodyClick()" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png"
+                                                        alt="">
+                                                </div>
+                                                <div class="img--outer  ">
+                                                    <img (click)="bodyClick()" class="body--part default--img throat" src="/assets/images/human_body/throat.png"
+                                                        alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img throat"
+                                                        src="/assets/images/human_body/coloured/throat.png" alt="">
+                                                </div>
+                                                <div class="img--outer active">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--shoulder"
+                                                        src="/assets/images/human_body/left_shoulder.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--shoulder"
+                                                        src="/assets/images/human_body/coloured/left_shoulder.png" alt="">
+                                                </div>
+                                            
+                                                <div class="img--outer  ">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--shoulder"
+                                                        src="/assets/images/human_body/right_shoulder.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--shoulder"
+                                                        src="/assets/images/human_body/coloured/right_shoulder.png" alt="">
+                                                </div>
+                                            
+                                                <div class="img--outer ">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--chest"
+                                                        src="/assets/images/human_body/left_chest.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--chest"
+                                                        src="/assets/images/human_body/coloured/left_chest.png" alt="">
+                                                </div>
+                                            
+                                                <div class="img--outer ">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--chest"
+                                                        src="/assets/images/human_body/right_chest.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--chest"
+                                                        src="/assets/images/human_body/coloured/right_chest.png" alt="">
+                                                </div>
+                                            
+                                                <div class="img--outer  ">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--biceps"
+                                                        src="/assets/images/human_body/left_biceps.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--biceps"
+                                                        src="/assets/images/human_body/coloured/left_biceps.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--biceps"
+                                                        src="/assets/images/human_body/right_biceps.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--biceps"
+                                                        src="/assets/images/human_body/coloured/right_biceps.png" alt="">
+                                                </div>
+                                            
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--hand"
+                                                        src="/assets/images/human_body/left_hand_part_1.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--hand"
+                                                        src="/assets/images/human_body/coloured/left_hand_part_1.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--hand"
+                                                        src="/assets/images/human_body/right_hand_part_1.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--hand"
+                                                        src="/assets/images/human_body/coloured/right_hand_part_1.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--hand--palm"
+                                                        src="/assets/images/human_body/left_hand_palm.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--hand--palm"
+                                                        src="/assets/images/human_body/coloured/left_hand_palm.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--hand--palm"
+                                                        src="/assets/images/human_body/right_hand_palm.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--hand--palm"
+                                                        src="/assets/images/human_body/coloured/right_hand_palm.png" alt="">
+                                                </div>
+                                            
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--ribs"
+                                                        src="/assets/images/human_body/left_ribs.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--ribs"
+                                                        src="/assets/images/human_body/coloured/left_ribs.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--ribs"
+                                                        src="/assets/images/human_body/right_ribs.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--ribs"
+                                                        src="/assets/images/human_body/coloured/right_ribs.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img main--belly"
+                                                        src="/assets/images/human_body/main_belly.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img main--belly"
+                                                        src="/assets/images/human_body/coloured/main_belly.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--belly"
+                                                        src="/assets/images/human_body/left_belly.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--belly"
+                                                        src="/assets/images/human_body/coloured/left_belly.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--belly"
+                                                        src="/assets/images/human_body/right_belly.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--belly"
+                                                        src="/assets/images/human_body/coloured/right_belly.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img genitalia"
+                                                        src="/assets/images/human_body/genitalia.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img genitalia"
+                                                        src="/assets/images/human_body/coloured/genitalia.png" alt="">
+                                                </div>
+                                            
+                                            
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--inner--things"
+                                                        src="/assets/images/human_body/left_inner_thigh.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--inner--things"
+                                                        src="/assets/images/human_body/coloured/left_inner_thigh.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--inner--things"
+                                                        src="/assets/images/human_body/right_inner_thigh.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--inner--things"
+                                                        src="/assets/images/human_body/coloured/right_inner_thigh.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--things"
+                                                        src="/assets/images/human_body/left_thigh.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--things"
+                                                        src="/assets/images/human_body/coloured/left_thigh.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--things"
+                                                        src="/assets/images/human_body/right_thigh.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--things"
+                                                        src="/assets/images/human_body/coloured/right_thigh.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--knee"
+                                                        src="/assets/images/human_body/left_knee.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--knee"
+                                                        src="/assets/images/human_body/coloured/left_knee.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--knee"
+                                                        src="/assets/images/human_body/right_knee.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--knee"
+                                                        src="/assets/images/human_body/coloured/right_knee.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--leg"
+                                                        src="/assets/images/human_body/left_leg.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--leg"
+                                                        src="/assets/images/human_body/coloured/left_leg.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--leg"
+                                                        src="/assets/images/human_body/right_leg.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--leg"
+                                                        src="/assets/images/human_body/coloured/right_leg.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img left--leg--botton"
+                                                        src="/assets/images/human_body/left_leg_bottom.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img left--leg--botton"
+                                                        src="/assets/images/human_body/coloured/left_leg_bottom.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img right--leg--botton"
+                                                        src="/assets/images/human_body/right_leg_bottom.png" alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img right--leg--botton"
+                                                        src="/assets/images/human_body/coloured/right_leg_bottom.png" alt="">
+                                                </div>
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="human--body--wrapper back--body--wrapper">
+                                                <div class="img--outer head--box">
+                                                    <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                        src="/assets/images/human_body/backbody/head_back.png" alt="">
+                                                    <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                        src="/assets/images/human_body/backbody/coloured/head_back.png" alt="">
+                                                </div> 
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img nape" src="/assets/images/human_body/backbody/nape.png"
+                                                        alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img nape"
+                                                        src="/assets/images/human_body/backbody/coloured/nape.png" alt="">
+                                                </div> 
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img spinal-cord" src="/assets/images/human_body/backbody/column.png"
+                                                        alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img spinal-cord"
+                                                        src="/assets/images/human_body/backbody/coloured/column.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img clavicule-left" src="/assets/images/human_body/backbody/clavicule-left.png"
+                                                        alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img clavicule-left"
+                                                        src="/assets/images/human_body/backbody/coloured/clavicule-left.png" alt="">
+                                                </div>
+                                                <div class="img--outer">
+                                                    <img (click)="bodyClick()" class="body--part default--img clavicule-right" src="/assets/images/human_body/backbody/clavicule-right.png"
+                                                        alt="">
+                                                    <img (click)="bodyClick()" class="body--part hover--img clavicule-right"
+                                                        src="/assets/images/human_body/backbody/coloured/clavicule-right.png" alt="">
+                                                </div>
+                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6">
+                                            <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">05/10/2024</span></p>
+                                        </div>
+                                        <div class="col-12 col-sm-6 d-flex align-items-center justify-content-sm-end justify-content-start">
+                                            <p class="font-16 fw-600 clr--1F2F3E mb-0"> Patient Initials:<span class="fw-400 ms-2">JD</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     <div class="col-12">
-                        <p class="clr--1F2F3E font-16 lh-24 mt-4">Congress passed the Health Insurance Portability and Accountability Act, or HIPAA, in 1996. Its primary purpose is to ensure that people who change jobs cannot be denied health insurance in a new job because of a pre-existing health condition. The law also established minimum standards of privacy and security to ensure that sensitive information about individuals' health would remain confidential.
-                            I hereby acknowledge that I have received and have been given an opportunity to read a copy of the clinic's Notice of Privacy Practices (NPP). I understand that if I have any questions regarding the Notice or my privacy rights, I can contact the clinic's HR department at (406) 375-9034; or by email at hradmin&#64;hamiltonpt.com.
-                            I acknowledge that I have been given an opportunity to review the NPP, and that it's available in hard copy upon request. I also understand that the NPP is available on the practice's website at hamiltonpt.com, darbypt.com, corvallispt.com, stevipt.com, florencept.com, frenchtownpt.com and a copy is available to me at the clinic's front desk.</p>
+                        <p class="clr--1F2F3E font-16 lh-24 mt-4">Congress passed the Health Insurance Portability and
+                            Accountability Act, or HIPAA, in 1996. Its primary purpose is to ensure that people who
+                            change jobs cannot be denied health insurance in a new job because of a pre-existing health
+                            condition. The law also established minimum standards of privacy and security to ensure that
+                            sensitive information about individuals' health would remain confidential.
+                            I hereby acknowledge that I have received and have been given an opportunity to read a copy
+                            of the clinic's Notice of Privacy Practices (NPP). I understand that if I have any questions
+                            regarding the Notice or my privacy rights, I can contact the clinic's HR department at (406)
+                            375-9034; or by email at hradmin&#64;hamiltonpt.com.
+                            I acknowledge that I have been given an opportunity to review the NPP, and that it's
+                            available in hard copy upon request. I also understand that the NPP is available on the
+                            practice's website at hamiltonpt.com, darbypt.com, corvallispt.com, stevipt.com,
+                            florencept.com, frenchtownpt.com and a copy is available to me at the clinic's front desk.
+                        </p>
                     </div>
                     <div class="col-12">
-                        <i class="clr--1F2F3E font-14 mt-4">**Please note if the appropriate boxes are not checked for contacts listed, we cannot legally speak with them regarding your appointments and/or account**</i>
+                        <i class="clr--1F2F3E font-14 mt-4">**Please note if the appropriate boxes are not checked for
+                            contacts listed, we cannot legally speak with them regarding your appointments and/or
+                            account**</i>
                     </div>
-                </div> 
+                </div>
             </div>
-          
+
         </div>
     </div>
     <div class="d-flex align-items-center justify-content-between w-100 footer--btns">

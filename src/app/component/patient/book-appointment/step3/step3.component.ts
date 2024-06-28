@@ -22,12 +22,7 @@ export class Step3Component {
     {number: '7'}, {number: '8'}, {number: '9'},
     {number: '10'}
   ];
-
-  // allergies = [
-  //   {
-  //     label: 'Enter Allergy'
-  //   }, 
-  // ];
+ 
 
   addAnotherAllergy() {
     // this.allergies.push({new allergies()})
@@ -40,8 +35,7 @@ export class Step3Component {
   bodyClick() {
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 
-    }); 
-    console.log(this.bodyposition)
+    });  
   }
   
 }
