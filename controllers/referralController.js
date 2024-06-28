@@ -1,6 +1,6 @@
 const User = require('../models/userModel');
 const Referral = require('../models/referralModel');
-const { commonMessage, appointmentMessage } = require('../helpers/message');
+const { commonMessage, appointmentMessage, infoMessage } = require('../helpers/message');
 const commonHelper = require('../helpers/common');
 const PatientTemp = require('../models/patientTempModel');
 const Appointment = require('../models/appointmentModel');
@@ -14,22 +14,24 @@ const getReferralDetails = async (req, res) => {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
- 
+
 const getReferralList = async (req, res) => {
   try {
     const { queryMatch, order, offset, limit } = req.body;
-    let totalCount = 10
-    let referralList = await Referral.aggregate([
+    let totalCount = await Referral.countDocuments([
       {
         "$lookup": {
           from: "patients",
           localField: "patientId",
           foreignField: "_id",
-          as: "patientInfo"
+          as: "patient"
         }
       },
       {
-        "$unwind": "$patientInfo"
+        "$unwind": {
+          path: "$patient",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         "$lookup": {
@@ -40,7 +42,10 @@ const getReferralList = async (req, res) => {
         },
       },
       {
-        "$unwind": "$appointment"
+        "$unwind": {
+          path: "$appointment",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         "$lookup": {
@@ -51,18 +56,77 @@ const getReferralList = async (req, res) => {
         },
       },
       {
+        "$unwind": {
+          path: "$therapist",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
         $match: queryMatch
       }, {
         $project: {
+          city: 1,
+        }
+      }])
+
+    let referralList = await Referral.aggregate([
+      {
+        "$lookup": {
+          from: "patients",
+          localField: "patientId",
+          foreignField: "_id",
+          as: "patient"
+        }
+      },
+      {
+        "$unwind": {
+          path: "$patient",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        "$lookup": {
+          from: "appointments",
+          localField: "appointmentId",
+          foreignField: "_id",
+          as: "appointment"
+        },
+      },
+      {
+        "$unwind": {
+          path: "$appointment",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        "$lookup": {
+          from: "users",
+          localField: "appointment.therapistId",
+          foreignField: "_id",
+          as: "therapist"
+        },
+      },
+      {
+        "$unwind": {
+          path: "$therapist",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $match: queryMatch
+      },
+      {
+        $project: {
           'referredBy': 1, 'createdAt': 1,
-          'patientInfo.firstName': 1, 'patientInfo.lastName': 1, 'patientInfo.email': 1, 'patientInfo.profileImage': 1,
-          'appointment.status': 1, 'appointment.appointmentDate': 1, 'appointment.practiceLocation': 1, 'appointment.intakeFormSubmit': 1
+          'therapist.firstName': 1, 'therapist.lastName': 1,
+          'patient.firstName': 1, 'patient.lastName': 1, 'patient.email': 1, 'patient.profileImage': 1,
+          'appointment._id': 1, 'appointment.status': 1, 'appointment.appointmentDate': 1, 'appointment.practiceLocation': 1, 'appointment.intakeFormSubmit': 1
         }
       }]).sort(order).skip(offset).limit(limit);
 
     commonHelper.sendResponse(res, 'success', { referralList, totalCount }, '');
   } catch (error) {
-    console.log("**********error&********", error)
+    console.log("**********error********", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -143,8 +207,29 @@ const createPatientAppointment = (appointmentData) => {
   })
 }
 
+const deleteAppointment = async (req, res) => {
+  try {
+    const { appointmentId } = req.body
+    console.log("*************appointmentId** ****", appointmentId)
+
+    await Referral.deleteOne({ appointmentId: appointmentId });
+
+    console.log("*************delete Referral*****", appointmentId)
+
+    await Appointment.deleteOne({ _id: appointmentId });
+
+    console.log("*************delete Appointment** *****", appointmentId)
+
+    commonHelper.sendResponse(res, 'success', null, infoMessage.deleted);
+  } catch (error) {
+    console.log("*************deleteAppointment**error*****", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   getReferralDetails,
   getReferralList,
-  createAppointment
+  createAppointment,
+  deleteAppointment
 };
