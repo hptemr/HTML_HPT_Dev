@@ -43,7 +43,8 @@
                         <div
                             class="col-12 d-flex align-items-center align-items-sm-start flex-sm-column flex-lg-row justify-content-between">
                             <h3 class="mb-0 clr--1F2F3E fw-600">Basic Information</h3>
-                            <button *ngIf="appInfo.status == 'Pending'" [routerLink]="['/patient/intake-form/step-1', appId]" mat-raised-button color="primary">
+                            <button [routerLink]="['/patient/intake-form/step-1', appId]" mat-raised-button
+                                color="primary">
                                 View Intake Form
                             </button>
                         </div>
@@ -135,7 +136,8 @@
                                                         </p>
                                                     </div>
                                                     <div *ngIf="appInfo.payVia =='Insurance'">
-                                                        <button mat-stroked-button color="primary" (click)="viewInsuranveModal()">
+                                                        <button mat-stroked-button color="primary"
+                                                            (click)="viewInsuranveModal()">
                                                             <mat-icon
                                                                 class="material-symbols-outlined flex-shrink-0 me-1 ms-1">
                                                                 visibility

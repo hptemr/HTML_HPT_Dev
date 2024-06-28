@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <select [(ngModel)]="practiceLocVal" (change)="filterDropDown($event, 'practiceLocation')"
+                            <select [(ngModel)]="practiceLocVal" (change)="filterDropDown($event)"
                                 class="form-select form-control" aria-label="Default select example">
                                 <option value="">Practice Location</option>
                                 <option value="{{element}}" *ngFor="let element of practiceLocations">{{element}}
@@ -22,7 +22,8 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Referred By">
+                            <input [(ngModel)]="referredBy" (keyup)="searchRecords($event,'referredBy')" type="text"
+                                class="form-control search--outer" placeholder="Referred By">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -30,7 +31,8 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Therapist Name">
+                            <input [(ngModel)]="therapistName" (keyup)="searchRecords($event,'therapistName')"
+                                type="text" class="form-control search--outer" placeholder="Therapist Name">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -40,12 +42,13 @@
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <div class="input-group">
-                                <input class="form-control" placeholder="Sent On" name="dp" ngbDatepicker
-                                    #d="ngbDatepicker" />
-                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input [(ngModel)]="sentOn" (dateChange)="onDateChange($event, 'createdAt')"
+                                        readonly="isReadonly" [max]="maxSentDate" placeholder="Send On" matInput
+                                        [matDatepicker]="picker1">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
                             </div>
                         </div>
                     </div>
@@ -53,19 +56,20 @@
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <div class="input-group">
-                                <input class="form-control text-capitalize" placeholder="Appointment Date" name="dp"
-                                    ngbDatepicker #d="ngbDatepicker" />
-                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input [(ngModel)]="appointmentDate" (dateChange)="onDateChange($event, 'appointmentDate')"
+                                        readonly="isReadonly" [max]="maxToDate" placeholder="Appointment Date" matInput
+                                        [matDatepicker]="picker2">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <button mat-stroked-button color="primary">Reset Filter</button>
+                            <button (click)="reset()" mat-stroked-button color="primary">Reset Filter</button>
                         </div>
                     </div>
                 </div>
@@ -137,7 +141,8 @@
                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit
                                         </mat-icon>
                                     </button>
-                                    <button *ngIf="element.status=='Pending'" (click)="deleteAppointment(element.appointmentId)" mat-button
+                                    <button *ngIf="element.status=='Pending'"
+                                        (click)="deleteAppointment(element.appointmentId)" mat-button
                                         class="flex-shrink-0 min-width-unset">
                                         <mat-icon
                                             class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete

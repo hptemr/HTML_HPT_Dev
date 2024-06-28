@@ -38,21 +38,22 @@ export class ReferralsComponent {
   pageSize = pageSize
   pageSizeOptions = pageSizeOptions
   appointmentList: any
-  seachByName: any = ''
-  appStatusVal: any = ''
+
+  referredBy: any = ''
+  therapistName: any = ''
   practiceLocVal: any = ''
 
-  maxToDate: any
-  maxSentDate: any
+  sentOn: any = ''
+  appointmentDate: any = ''
+
+  maxToDate = this.commonService.getMaxAppoinmentFutureMonths()
+  maxSentDate = new Date()
 
   constructor(public dialog: MatDialog, private authService: AuthService,
     public commonService: CommonService, private router: Router) {
   }
 
   ngOnInit() {
-    let todayDate = this.commonService.getMaxAppoinmentFutureMonths()
-    this.maxToDate = todayDate
-    this.maxSentDate = todayDate
     this.getReferralList()
   }
 
@@ -78,10 +79,11 @@ export class ReferralsComponent {
           id: element._id,
           referredBy: element.referredBy,
           sentOn: element.createdAt,
-          fullName: element.patientInfo.firstName + " " + element.patientInfo.lastName,
-          email: element.patientInfo.email,
-          profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientInfo.profileImage,
+          fullName: element.patient.firstName + " " + element.patient.lastName,
+          email: element.patient.email,
+          profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patient.profileImage,
           status: element.appointment.status,
+          appointmentId: element.appointment._id,
           appointmentDate: element.appointment.appointmentDate,
           practiceLocation: element.appointment.practiceLocation,
           intakeFormSubmit: element.appointment.intakeFormSubmit,
@@ -95,44 +97,41 @@ export class ReferralsComponent {
   }
 
   onDateChange(event: any, colName: any) {
-    // if (colName == 'fromDate') {
-    //   this.minToDate = new Date(event.target.value)
-    // }
-    // let dateCond
-    // if (this.fromDate && this.toDate) {
-    //   dateCond = {
-    //     appointmentDate: {
-    //       $gte: this.fromDate,
-    //       $lte: this.toDate
-    //     }
-    //   }
-    // } else {
-    //   if (this.fromDate) {
-    //     dateCond = {
-    //       appointmentDate: { $gte: this.fromDate }
-    //     }
-    //   } else {
-    //     dateCond = {
-    //       appointmentDate: { $lte: this.toDate }
-    //     }
-    //   }
-    // }
-    //Object.assign(this.whereCond, dateCond)
+    let dateCond
+    let datedd = new Date(event.value);
+    if (colName == 'appointmentDate') {
+      dateCond = {
+        // ['appointment.appointmentDate']: { $gte: datedd }
+        ['appointment.status']: "Pending"
+      }
+    } else {
+      dateCond = {
+        'createdAt': { '$gte': datedd }
+        //'city': 'Americus'
+      }
+    }
+    Object.assign(this.whereCond, dateCond)
     this.getReferralList('search')
   }
 
-  searchRecords(event: any) {
+  searchRecords(event: any, colName: any) {
     let searchStr = event.target.value.trim()
     if (searchStr != '') {
+      let searchCond
       searchStr = searchStr.replace("+", "\\+");
       let finalStr = { $regex: searchStr, $options: 'i' }
-      let userQuery = {
-        status: "Active",
-        role: "therapist",
-        $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
+      if (colName == 'referredBy') {
+        searchCond = {
+          'referredBy': finalStr
+        }
+      } else {
+        searchCond = {
+          "therapist.firstName": finalStr, "therapist.lastName": finalStr, "therapist.email": finalStr
+        }
       }
+      Object.assign(this.whereCond, searchCond)
     } else {
-      //this.userQuery = {}
+      delete this.whereCond[colName];
     }
     this.getReferralList('search')
   }
@@ -144,22 +143,24 @@ export class ReferralsComponent {
   }
 
   reset() {
-    this.whereCond = { patientId: this.authService.getLoggedInInfo('_id') }
+    this.whereCond = {}
     this.totalCount = 0
     this.pageIndex = 0
     this.pageSize = pageSize
     this.pageSizeOptions = pageSizeOptions
+    this.sentOn = ''
+    this.referredBy = ''
+    this.therapistName = ''
     this.practiceLocVal = ''
-    this.appStatusVal = ''
-    this.seachByName = ''
+    this.appointmentDate = ''
     this.getReferralList('reset')
   }
 
-  filterDropDown(event: any, colName: any) {
+  filterDropDown(event: any) {
     if (event.target.value != "") {
-      Object.assign(this.whereCond, { [colName]: event.target.value })
+      Object.assign(this.whereCond, { 'appointment.practiceLocation': event.target.value })
     } else {
-      delete this.whereCond[colName];
+      delete this.whereCond['appointment.practiceLocation'];
     }
     this.getReferralList('search')
   }
@@ -175,20 +176,19 @@ export class ReferralsComponent {
       if (!res) {
         return;
       } else {
-        let query = {}
         const req_vars = {
           appointmentId: appointmentId
         }
-        // this.authService.apiRequest('post', 'referral/delete', req_vars).subscribe(async response => {
-        //   if (response.error) {
-        //     this.commonService.openSnackBar(response.message, "ERROR")           
-        //   } else {          
-        //     this.getReferralList('')
-        //     this.commonService.openSnackBar(response.message, "SUCCESS")
-        //   }
-        // }, (err) => {
-        //   console.error(err)
-        // })   
+        this.authService.apiRequest('post', 'referral/deleteAppointment', req_vars).subscribe(async response => {
+          if (response.error) {
+            this.commonService.openSnackBar(response.message, "ERROR")
+          } else {
+            this.getReferralList('')
+            this.commonService.openSnackBar(response.message, "SUCCESS")
+          }
+        }, (err) => {
+          console.error(err)
+        })
       }
     })
   }
