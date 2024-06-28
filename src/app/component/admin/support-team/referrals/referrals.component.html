@@ -44,7 +44,7 @@
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
                                     <input [(ngModel)]="sentOn" (dateChange)="onDateChange($event, 'createdAt')"
-                                        readonly="isReadonly" [max]="maxSentDate" placeholder="Send On" matInput
+                                        readonly="true" [max]="maxSentDate" placeholder="Send On" matInput
                                         [matDatepicker]="picker1">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1></mat-datepicker>
@@ -57,8 +57,9 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
-                                    <input [(ngModel)]="appointmentDate" (dateChange)="onDateChange($event, 'appointmentDate')"
-                                        readonly="isReadonly" [max]="maxToDate" placeholder="Appointment Date" matInput
+                                    <input [(ngModel)]="appointmentDate"
+                                        (dateChange)="onDateChange($event, 'appointmentDate')" readonly="true"
+                                        [max]="maxToDate" placeholder="Appointment Date" matInput
                                         [matDatepicker]="picker2">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>

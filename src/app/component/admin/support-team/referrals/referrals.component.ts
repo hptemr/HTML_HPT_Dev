@@ -98,16 +98,15 @@ export class ReferralsComponent {
 
   onDateChange(event: any, colName: any) {
     let dateCond
-    let datedd = new Date(event.value);
+    let selectedDate = new Date(event.value);
     if (colName == 'appointmentDate') {
       dateCond = {
-        // ['appointment.appointmentDate']: { $gte: datedd }
-        ['appointment.status']: "Pending"
+        ['appointment.appointmentDate']: { '$gte': selectedDate }
+        //['appointment.intakeFormSubmit']: true
       }
     } else {
       dateCond = {
-        'createdAt': { '$gte': datedd }
-        //'city': 'Americus'
+        'createdAt': { '$gte': selectedDate }
       }
     }
     Object.assign(this.whereCond, dateCond)
@@ -126,7 +125,10 @@ export class ReferralsComponent {
         }
       } else {
         searchCond = {
-          "therapist.firstName": finalStr, "therapist.lastName": finalStr, "therapist.email": finalStr
+          $or: [
+            { "therapist.firstName": finalStr },
+            { "therapist.lastName": finalStr }
+          ]
         }
       }
       Object.assign(this.whereCond, searchCond)
