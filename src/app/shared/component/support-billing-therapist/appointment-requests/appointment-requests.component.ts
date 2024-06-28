@@ -46,7 +46,8 @@ export class AppointmentRequestsComponent {
   toDate: any = ''
   fieldValues: any = ['Accepted', 'Rescheduled'];
   eodDate: any
-
+  maxToDate = this.commonService.getMaxAppoinmentFutureMonths()
+  minToDate = new Date()
   constructor(
     public dialog: MatDialog,
     private router: Router,

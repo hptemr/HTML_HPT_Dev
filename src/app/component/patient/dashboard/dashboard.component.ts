@@ -50,7 +50,8 @@ export class PatientDashboardComponent {
   practiceLocVal: any = ''
   isLoading = true
   appntDate: any
-  maxAppntDate  = this.commonService.getMaxAppoinmentFutureMonths()
+  minAppntDate: any = new Date()
+  maxAppntDate = this.commonService.getMaxAppoinmentFutureMonths()
 
   constructor(
     public dialog: MatDialog,
@@ -59,7 +60,7 @@ export class PatientDashboardComponent {
     public adminService: AdminService,
   ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.whereCond = {
       status: "Pending",
       appointmentDate: { $gte: new Date() },

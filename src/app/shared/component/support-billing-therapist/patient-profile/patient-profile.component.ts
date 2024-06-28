@@ -17,7 +17,6 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 })
 export class PatientProfileComponent {
   patientId: string = '';
-  initialName: string = '';
   profileImage: string = '';
   documentsLink: string = '';
   birthdate: any = '';
@@ -39,10 +38,8 @@ export class PatientProfileComponent {
     }
     await this.authService.apiRequest('post', 'patients/getPatientData', reqVars).subscribe(async response => {
       this.patientData = response.data.patientData
-      this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.patientData.profileImage
-      if (this.patientData.firstName && this.patientData.lastName) {
-        this.initialName = this.patientData.firstName.charAt(0) + this.patientData.lastName.charAt(0);
-      }
+      this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.patientData.profileImage 
+      
       if (this.patientData.dob) {
         let birthdate = this.patientData.dob.split('T')
         this.birthdate = new Date(birthdate[0]);

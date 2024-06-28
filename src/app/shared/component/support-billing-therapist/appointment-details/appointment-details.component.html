@@ -20,7 +20,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="d-flex flex-column align-items-center justify-content-center w-100 body--sec">
+                    <div *ngIf="appointmentData.patientInfo"
+                        class="d-flex flex-column align-items-center justify-content-center w-100 body--sec">
                         <h3 class="font-18 fw-700">
                             {{appointmentData.patientInfo.firstName }} {{appointmentData.patientInfo.lastName}}
                         </h3>
@@ -106,7 +107,9 @@
                                                                 {{appointmentData.appointmentDate | date:'mediumDate' }}
                                                             </p>
                                                         </div>
-                                                        <button *ngIf="isFormEditable" mat-stroked-button color="primary" class="flex-shrink-0"
+                                                        <button
+                                                            *ngIf="isFormEditable && appointmentData.status !='Rescheduled'"
+                                                            mat-stroked-button color="primary" class="flex-shrink-0"
                                                             (click)="rescheduleModal(appointmentData._id)">
                                                             <mat-icon
                                                                 class="material-symbols-outlined flex-shrink-0 me-1">
@@ -174,7 +177,8 @@
                                                         </mat-option>
                                                     </mat-autocomplete> -->
                                                     <!-- [value]="appoitmentControl.value ? getValue(appoitmentControl.value) : ''" -->
-                                                    <input [disabled]="!isFormEditable" type="text" class="form-control form-control-md" matInput
+                                                    <input [disabled]="!isFormEditable" type="text"
+                                                        class="form-control form-control-md" matInput
                                                         formControlName="therapistId" [matAutocomplete]="auto">
                                                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="getValue">
                                                         <mat-option
@@ -203,7 +207,7 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="col-form-label fw-600">Case Name</label>
-                                                    <input  class="form-control form-control-md" type="text"
+                                                    <input class="form-control form-control-md" type="text"
                                                         placeholder="Search Case Name" formControlName="caseName"
                                                         (blur)="checkSpace('caseName', $event)" />
                                                     <div class="text text-danger mt-1"
