@@ -18,7 +18,7 @@ const getReferralDetails = async (req, res) => {
 const getReferralList = async (req, res) => {
   try {
     const { queryMatch, order, offset, limit } = req.body;
-    let totalCount = await Referral.countDocuments([
+    let totalRecords = await Referral.aggregate([
       {
         "$lookup": {
           from: "patients",
@@ -65,7 +65,10 @@ const getReferralList = async (req, res) => {
         $match: queryMatch
       }, {
         $project: {
-          city: 1,
+          'referredBy': 1, 'createdAt': 1,
+          'therapist.firstName': 1, 'therapist.lastName': 1,
+          'patient.firstName': 1, 'patient.lastName': 1, 'patient.email': 1, 'patient.profileImage': 1,
+          'appointment._id': 1, 'appointment.status': 1, 'appointment.appointmentDate': 1, 'appointment.practiceLocation': 1, 'appointment.intakeFormSubmit': 1
         }
       }])
 
@@ -124,6 +127,7 @@ const getReferralList = async (req, res) => {
         }
       }]).sort(order).skip(offset).limit(limit);
 
+    let totalCount = totalRecords.length
     commonHelper.sendResponse(res, 'success', { referralList, totalCount }, '');
   } catch (error) {
     console.log("**********error********", error)
@@ -210,16 +214,8 @@ const createPatientAppointment = (appointmentData) => {
 const deleteAppointment = async (req, res) => {
   try {
     const { appointmentId } = req.body
-    console.log("*************appointmentId** ****", appointmentId)
-
-    await Referral.deleteOne({ appointmentId: appointmentId });
-
-    console.log("*************delete Referral*****", appointmentId)
-
-    await Appointment.deleteOne({ _id: appointmentId });
-
-    console.log("*************delete Appointment** *****", appointmentId)
-
+    await Referral.deleteOne({ appointmentId: appointmentId })
+    await Appointment.deleteOne({ _id: appointmentId })
     commonHelper.sendResponse(res, 'success', null, infoMessage.deleted);
   } catch (error) {
     console.log("*************deleteAppointment**error*****", error)
