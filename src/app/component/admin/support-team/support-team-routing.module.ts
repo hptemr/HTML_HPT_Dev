@@ -82,7 +82,11 @@ const routes: Routes = [
         component: ReferralsComponent
       },
       {
-        path: 'create-appointment',
+        path: 'appointment',
+        component: CreateAppointmentComponent
+      },
+      {
+        path: 'appointment/:refferalId',
         component: CreateAppointmentComponent
       }
     ]

@@ -6,7 +6,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { appointmentStatus, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 
@@ -48,10 +48,14 @@ export class ReferralsComponent {
 
   maxToDate = this.commonService.getMaxAppoinmentFutureMonths()
   maxSentDate = new Date()
+  refferalId:any =''
 
-  constructor(public dialog: MatDialog, private authService: AuthService,
-    public commonService: CommonService, private router: Router) {
-  }
+  constructor(
+    public dialog: MatDialog, 
+    private authService: AuthService,
+    public commonService: CommonService, 
+    private router: Router
+  ){}
 
   ngOnInit() {
     this.getReferralList()

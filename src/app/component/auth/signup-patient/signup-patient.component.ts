@@ -4,7 +4,7 @@ import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, Valida
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
 //import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
@@ -84,10 +84,14 @@ export class SignupPatientComponent implements OnInit {
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe) {
+  signUpToken:any = ""
+  patientGetByToken:any = null
+  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe,private activateRoute: ActivatedRoute) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+      
+    this.signUpToken = this.activateRoute.snapshot.queryParamMap.get('signUpToken');
   }
   
   ngOnInit() {
@@ -168,6 +172,7 @@ export class SignupPatientComponent implements OnInit {
         validator: this.dependentFieldValidator
     }); 
     this.filterStartDate();
+    this.getPatientDataThroughToken()
   }
 
   checkSpace(colName: any, event: any) {
@@ -208,7 +213,7 @@ export class SignupPatientComponent implements OnInit {
     this.mainHeadTxt="Create your account";
     if (steps==1 && !this.firstFormGroup.invalid){
 
-      let first_form_data = {
+      let first_form_data:any = {
         "firstName":userData.firstName,
         "middleName": userData.middleName,
         "lastName": userData.lastName,
@@ -220,8 +225,11 @@ export class SignupPatientComponent implements OnInit {
         "password": userData.password,
         "ConfirmPassword":''
       }
-        localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
-        this.signupSubmit(steps,first_form_data)
+      localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
+      if(this.signUpToken && this.patientGetByToken && this.patientGetByToken!=null){
+        first_form_data['patientIdGetByToken'] = this.patientGetByToken._id ? this.patientGetByToken._id:''
+      }
+      this.signupSubmit(steps,first_form_data)
     }
 
     if (steps==2 && !this.secondFormGroup.invalid){
@@ -577,5 +585,23 @@ export class SignupPatientComponent implements OnInit {
   setLocalStorage(res: any) {
     localStorage.setItem('user', JSON.stringify(res));
     this.router.navigate(["/patient/dashboard"])
+  }
+
+  getPatientDataThroughToken(){
+    if(this.signUpToken){
+      let bodyData = {signUpToken: this.signUpToken}
+      this.authService.apiRequest('post', 'referral/getPatientThroughSignUpToken', bodyData).subscribe(async response => {
+        if(response && !response.error){
+          this.patientGetByToken = response.data
+          if(!localStorage.getItem("firstFormGroupData")){
+            this.firstFormGroup.controls['firstName'].setValue((this.patientGetByToken && this.patientGetByToken.firstName)? this.patientGetByToken.firstName : '');
+            this.firstFormGroup.controls['lastName'].setValue((this.patientGetByToken && this.patientGetByToken.lastName)? this.patientGetByToken.lastName : '');
+            this.firstFormGroup.controls['email'].setValue((this.patientGetByToken && this.patientGetByToken.email)? this.patientGetByToken.email : '');
+          }
+        }
+      }, (err) => {
+        console.error(err)
+      })
+    }
   }
 }

@@ -54,21 +54,29 @@ export class CreateAppointmentComponent {
   patientData:PatientData = {_id:'',firstName:'',lastName:''}
   isEmailExist:boolean = false
   clickOnCreateAppointment:boolean = false
+  clickOnUpdateAppointment:boolean = false
+  refferalId:any = ''
 
   constructor( 
     public dialog: MatDialog,
     public authService: AuthService,
     public commonService: CommonService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
-    
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.refferalId = params['refferalId'];
+    })
   }
 
   ngOnInit() {
     this.initializeAdminProfile()
     this.getTherapistList()
     this.getEmail()
+    if(this.refferalId){
+      this.getAppointmentDataById(this.refferalId)
+    }
   }
 
   initializeAdminProfile() {
@@ -99,13 +107,6 @@ export class CreateAppointmentComponent {
     await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
       if (response.data && response.data.therapistData) {
         this.therapistList = response.data.therapistData;
-        // this.options = response.data.therapistData;
-        // this.therapistList = this.appoitmentForm.controls['therapistId'].valueChanges.pipe(
-        //   startWith(''),
-        //   map(value => this.checkthevalue(value)),
-        //   map(name => name ? this._filter(name) : this.options.slice())
-        // )
-        
       }
     })
   }
@@ -128,12 +129,12 @@ export class CreateAppointmentComponent {
     if (this.createAppointmentForm.valid) {
       this.clickOnCreateAppointment = true
       this.commonService.showLoader();
-      let stateCode = this.createAppointmentForm.controls['state'].value;
-      let state=states_data.filter(state => state.state_code === stateCode);
+      // let stateCode = this.createAppointmentForm.controls['state'].value;
+      // let state=states_data.filter(state => state.state_code === stateCode);
       let bodyData:any = this.createAppointmentForm.value
       bodyData['isEmailExist']= this.isEmailExist
       bodyData['patientId']= this.isEmailExist?this.patientData._id:''
-      bodyData['state']= (state.length)?state[0].state:''
+      // bodyData['state']= (state.length)?state[0].state:''
       console.log("bodyData>>",bodyData)
       this.authService.apiRequest('post', 'referral/createAppointment', bodyData).subscribe(async response => {  
         this.commonService.openSnackBar(response.message, "SUCCESS")
@@ -147,20 +148,6 @@ export class CreateAppointmentComponent {
       })
     }
   }
-
-  // updateProfile(profileData: any) {
-  //   this.adminService.updateProfile(profileData).subscribe({
-  //     next: (res) => {
-  //       if (res && !res.error) {
-  //         this.commonService.openSnackBar(res.message, "SUCCESS")
-  //         // this.getProfile()
-  //         this.navigateToAdminUserList()
-  //       }
-  //     }, error: (err) => {
-  //       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
-  //     }
-  //   });
-  // }
 
   getEmail(){
     // this.existingEmail.valueChanges
@@ -206,4 +193,51 @@ export class CreateAppointmentComponent {
   onChange(event: MatRadioChange) {
     console.log(this.selectedValue = event.value)
   }
+
+  getAppointmentDataById(refferalId: any) {
+      let reqVars = {
+        referralId: refferalId
+      }
+      this.authService.apiRequest('post', 'referral/getAppointmentDataById', reqVars).subscribe(response => {
+        if(!response.error && response.data.length){
+          let refferalAppointmentData = response.data[0]
+          this.createAppointmentForm.controls['firstName'].setValue(refferalAppointmentData.patient.firstName);
+          this.createAppointmentForm.controls['lastName'].setValue(refferalAppointmentData.patient.lastName);
+          this.createAppointmentForm.controls['email'].setValue(refferalAppointmentData.patient.email);
+          // Disable inputes (First Name, Last Name, Email)
+          this.createAppointmentForm.controls['firstName'].disable();
+          this.createAppointmentForm.controls['lastName'].disable();
+          this.createAppointmentForm.controls['email'].disable();
+
+          this.createAppointmentForm.controls['appointmentDate'].setValue(refferalAppointmentData.appointment.appointmentDate);
+          this.createAppointmentForm.controls['practiceLocation'].setValue(refferalAppointmentData.appointment.practiceLocation);
+          this.createAppointmentForm.controls['therapist'].setValue(refferalAppointmentData.therapist._id);
+          this.createAppointmentForm.controls['referredBy'].setValue(refferalAppointmentData.referredBy);
+          this.createAppointmentForm.controls['phoneNumber'].setValue(refferalAppointmentData.phone);
+          this.createAppointmentForm.controls['streetName'].setValue(refferalAppointmentData.streetName);
+          this.createAppointmentForm.controls['appartment'].setValue(refferalAppointmentData.appartment);
+          this.createAppointmentForm.controls['state'].setValue(refferalAppointmentData.state);
+          this.createAppointmentForm.controls['city'].setValue(refferalAppointmentData.city);
+          this.createAppointmentForm.controls['zipcode'].setValue(refferalAppointmentData.zipcode);
+        }
+      },(_err) => {})
+    }
+
+    updateAppointment(){
+      if (this.createAppointmentForm.valid) {
+        this.clickOnUpdateAppointment = true
+        this.commonService.showLoader();
+        let bodyData:any = this.createAppointmentForm.value
+        bodyData['refferalId']= this.refferalId
+        this.authService.apiRequest('post', 'referral/updateAppointment', bodyData).subscribe(async response => {  
+          this.commonService.openSnackBar(response.message, "SUCCESS")
+          this.commonService.hideLoader(); 
+          this.router.navigate(['/support-team/referrals']);
+        },(err) => {
+          this.commonService.hideLoader();
+          err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+          this.router.navigate(['/support-team/referrals']);
+        })
+      }
+    }
 }
