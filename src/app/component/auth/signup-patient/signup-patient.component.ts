@@ -227,7 +227,7 @@ export class SignupPatientComponent implements OnInit {
       }
       localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
       if(this.signUpToken && this.patientGetByToken && this.patientGetByToken!=null){
-        first_form_data['patientIdGetByToken'] = this.patientGetByToken._id ? this.patientGetByToken._id:''
+        first_form_data['patientEmailGetByToken'] = this.patientGetByToken.email ? this.patientGetByToken.email:''
       }
       this.signupSubmit(steps,first_form_data)
     }
@@ -279,7 +279,8 @@ export class SignupPatientComponent implements OnInit {
       const req_vars = {
         query: Object.assign({ _id: this.userId }, query),
         step:steps,
-        data: data
+        data: data,
+        patientIdRegisterByRefferal: (this.patientGetByToken && this.patientGetByToken!=null && this.patientGetByToken._id) ? this.patientGetByToken._id:''
       }
       if(steps && steps==3){
         this.submitButton = false;
