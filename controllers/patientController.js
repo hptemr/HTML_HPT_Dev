@@ -30,7 +30,11 @@ const signup = async (req, res) => {
         //     alreadyAdmin = await User.findOne({ email: data.email });
         // }
         let found = [];
-        if (query._id) {
+        // This conditon for patient register through refferal appointment
+        if(data.patientIdGetByToken && step==1){
+            found = await PatientTemp.findOne({ _id: data.patientIdGetByToken });
+        }
+        else if (query._id) {
             found = await PatientTemp.findOne({ _id: query._id });
         } else {
             found = await PatientTemp.findOne({ email: data.email });
@@ -44,7 +48,7 @@ const signup = async (req, res) => {
         if (alreadyPatient) {
             let validations = { 'email': userMessage.patientEmailExist }
             commonHelper.sendResponse(res, 'errorValidation', validations, 'Please check the validation field.');
-        } else {
+        }else {
             let result = {};
             if (data.password) {
                 data.salt = await bcrypt.genSalt(10);

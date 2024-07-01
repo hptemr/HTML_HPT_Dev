@@ -4,6 +4,9 @@ const { commonMessage, appointmentMessage, infoMessage } = require('../helpers/m
 const commonHelper = require('../helpers/common');
 const PatientTemp = require('../models/patientTempModel');
 const Appointment = require('../models/appointmentModel');
+const triggerEmail = require('../helpers/triggerEmail');
+require('dotenv').config();
+let ObjectId = require('mongoose').Types.ObjectId;
 
 const getReferralDetails = async (req, res) => {
   try {
@@ -18,6 +21,7 @@ const getReferralDetails = async (req, res) => {
 const getReferralList = async (req, res) => {
   try {
     const { queryMatch, order, offset, limit } = req.body;
+    
     let totalRecords = await Referral.aggregate([
       {
         "$lookup": {
@@ -67,7 +71,8 @@ const getReferralList = async (req, res) => {
         $project: {
           'referredBy': 1, 'createdAt': 1,
           'therapist.firstName': 1, 'therapist.lastName': 1,
-          'patient.firstName': 1, 'patient.lastName': 1, 'patient.email': 1, 'patient.profileImage': 1,
+          // 'patient.firstName': 1, 'patient.lastName': 1, 'patient.email': 1, 'patient.profileImage': 1,
+          'patient.firstName': { $ifNull: ["$patient.firstName", ""] }, 'patient.lastName': { $ifNull: ["$patient.lastName", ""] }, 'patient.email': { $ifNull: ["$patient.email", ""] }, 'patient.profileImage': { $ifNull: ["$patient.profileImage", ""] },
           'appointment._id': 1, 'appointment.status': 1, 'appointment.appointmentDate': 1, 'appointment.practiceLocation': 1, 'appointment.intakeFormSubmit': 1
         }
       }])
@@ -122,7 +127,8 @@ const getReferralList = async (req, res) => {
         $project: {
           'referredBy': 1, 'createdAt': 1,
           'therapist.firstName': 1, 'therapist.lastName': 1,
-          'patient.firstName': 1, 'patient.lastName': 1, 'patient.email': 1, 'patient.profileImage': 1,
+          // 'patient.firstName': 1, 'patient.lastName': 1, 'patient.email': 1, 'patient.profileImage': 1,
+          'patient.firstName': { $ifNull: ["$patient.firstName", ""] }, 'patient.lastName': { $ifNull: ["$patient.lastName", ""] }, 'patient.email': { $ifNull: ["$patient.email", ""] }, 'patient.profileImage': { $ifNull: ["$patient.profileImage", ""] },
           'appointment._id': 1, 'appointment.status': 1, 'appointment.appointmentDate': 1, 'appointment.practiceLocation': 1, 'appointment.intakeFormSubmit': 1
         }
       }]).sort(order).skip(offset).limit(limit);
@@ -150,6 +156,13 @@ const createAppointment = async (req, res) => {
     if (!isEmailExist) {
       patientRes = await createPatient(patientData).catch((_res) => { return _res })
       appointmentData.patientId = patientRes.patientData._id
+
+      // encryptToken for sign up
+      let tokenObj = { patientId: patientRes.patientData._id }
+      let encryptToken = commonHelper.encryptData(tokenObj, process.env.CRYPTO_SECRET)
+      const link = `${process.env.BASE_URL}/signup?signUpToken=${encryptToken}`;
+      // send email (sign up link)
+      triggerEmail.patientSignupThroughRefferal('patientSignUpThroughRefferal', patientRes.patientData, link)
     }
 
     // Step2 - create appointment
@@ -169,6 +182,8 @@ const createAppointment = async (req, res) => {
       }
       let referralRecord = new Referral(referralData)
       let result = await referralRecord.save()
+      // send email (Appointment Booked)
+      triggerEmail.appointmentBookedThroughRefferal('appointmentBookedThroughRefferal', patientRes.patientData, link)
       commonHelper.sendResponse(res, 'success', result, appointmentMessage.created);
     } else {
       if (!isEmailExist) {
@@ -223,9 +238,127 @@ const deleteAppointment = async (req, res) => {
   }
 }
 
+const getPatientThroughSignUpToken = async (req, res) => {
+  try {
+    const { signUpToken } = req.body
+    let decryptTokenData = commonHelper.decryptData(signUpToken, process.env.CRYPTO_SECRET)
+    let patientId= decryptTokenData? decryptTokenData.patientId:''
+    let patientData = await PatientTemp.findOne({ _id: patientId });
+    commonHelper.sendResponse(res, 'success', patientData, '');
+  } catch (error) {
+    console.log("*************getPatientThroughSignUpToken**error*****", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
+const getAppointmentDataById = async (req, res) => {
+  try {
+    const { referralId } = req.body;
+    let referralData = await Referral.aggregate([
+      {$match: {_id:new ObjectId(referralId)} },
+      {
+        "$lookup": {
+          from: "patients",
+          localField: "patientId",
+          foreignField: "_id",
+          as: "patient"
+        }
+      },
+      {
+        "$unwind": {
+          path: "$patient",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        "$lookup": {
+          from: "appointments",
+          localField: "appointmentId",
+          foreignField: "_id",
+          as: "appointment"
+        },
+      },
+      {
+        "$unwind": {
+          path: "$appointment",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        "$lookup": {
+          from: "users",
+          localField: "appointment.therapistId",
+          foreignField: "_id",
+          as: "therapist"
+        },
+      },
+      {
+        "$unwind": {
+          path: "$therapist",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $project: {
+          'referredBy': 1, 'phone':1,'streetName':1,'appartment':1,'state':1,'city':1,'zipcode':1,'createdAt': 1,
+          'therapist._id': 1,'therapist.firstName': 1, 'therapist.lastName': 1,
+          // 'patient.firstName': 1, 'patient.lastName': 1, 'patient.email': 1, 'patient.profileImage': 1,
+          'patient.firstName': { $ifNull: ["$patient.firstName", ""] }, 'patient.lastName': { $ifNull: ["$patient.lastName", ""] }, 'patient.email': { $ifNull: ["$patient.email", ""] }, 'patient.profileImage': { $ifNull: ["$patient.profileImage", ""] },
+          'appointment._id': 1, 'appointment.status': 1, 'appointment.appointmentDate': 1, 'appointment.practiceLocation': 1, 'appointment.intakeFormSubmit': 1
+        }
+      }])
+    commonHelper.sendResponse(res, 'success', referralData, '');
+  } catch (error) {
+    console.log("**********getAppointmentDataById error********", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const updateAppointment = async (req, res) => {
+  try {
+    const { refferalId } = req.body;
+    let referralData = await Referral.findOne({ _id: refferalId })
+    // Update Appointment 
+    const filterAppointment = { _id: new ObjectId(referralData.appointmentId) };
+    const updateAppointment = {
+      $set: {
+        appointmentDate: req.body.appointmentDate,
+        practiceLocation: req.body.practiceLocation,
+        therapistId: req.body.therapist
+      }
+    };
+    let optionsAppointment = { returnOriginal: false };
+    await Appointment.findOneAndUpdate(filterAppointment, updateAppointment, optionsAppointment);
+
+    // Update Refferal 
+    const filterRefferal = { _id: new ObjectId(refferalId) };
+    const updateRefferal = {
+      $set: {
+          streetName: req.body.streetName,
+          referredBy: req.body.referredBy,
+          phone: req.body.phoneNumber,
+          appartment: req.body.appartment,
+          state: req.body.state,
+          city: req.body.city,
+          zipcode: req.body.zipcode
+      }
+    };
+    let optionsRefferal = { returnOriginal: false };
+    await Referral.findOneAndUpdate(filterRefferal, updateRefferal, optionsRefferal);
+    commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);
+  } catch (error) {
+    console.log("*** updateAppointment error **>>>", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   getReferralDetails,
   getReferralList,
   createAppointment,
-  deleteAppointment
+  deleteAppointment,
+  getPatientThroughSignUpToken,
+  getAppointmentDataById,
+  updateAppointment
 };
