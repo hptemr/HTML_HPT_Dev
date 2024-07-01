@@ -21,9 +21,9 @@ const s3Details = constants.s3Details;
 
 const signup = async (req, res) => {
     try {
-        const { query, step, data } = req.body;
+        const { query, step, data, patientIdRegisterByRefferal } = req.body;
         let alreadyPatient = ''; let alreadyAdmin = '';
-        if (data.email) {
+        if (data.email && !patientIdRegisterByRefferal) {
             alreadyPatient = await Patient.findOne({ email: data.email });
         }
         // if(data.email){
@@ -31,8 +31,8 @@ const signup = async (req, res) => {
         // }
         let found = [];
         // This conditon for patient register through refferal appointment
-        if(data.patientIdGetByToken && step==1){
-            found = await PatientTemp.findOne({ _id: data.patientIdGetByToken });
+        if(data.patientEmailGetByToken && step==1){
+            found = await PatientTemp.findOne({ email: data.patientEmailGetByToken });
         }
         else if (query._id) {
             found = await PatientTemp.findOne({ _id: query._id });
@@ -54,6 +54,7 @@ const signup = async (req, res) => {
                 data.salt = await bcrypt.genSalt(10);
                 data.hash_password = await bcrypt.hash(data.password, data.salt);
             }
+
             if (found) {
                 if (step == 3) {
                     let request_data = {
@@ -78,9 +79,19 @@ const signup = async (req, res) => {
                         acceptConsent: found.acceptConsent ? found.acceptConsent : data.acceptConsent,
                         status: 'Active'
                     }
-                    console.log('request_data>>>', request_data)
-                    let newPatient = new Patient(request_data);
-                    result = await newPatient.save();
+
+                    if(patientIdRegisterByRefferal){
+                        // Patient Register through referral
+                        const filterPatient = { _id: new ObjectId(patientIdRegisterByRefferal) };
+                        const updatePatient = { $set: request_data };
+                        let optionsUpdatePatient = { returnOriginal: false };
+                        result = await Patient.findOneAndUpdate(filterPatient, updatePatient, optionsUpdatePatient);
+                    }else{
+                        // Normal patient register
+                        let newPatient = new Patient(request_data);
+                        result = await newPatient.save();
+                    }
+
                     if (result._id) {
                         result_id = result._id;
                         const token = jwt.sign({ _id: result_id }, process.env.SECRET, { expiresIn: '1d' });
@@ -102,6 +113,7 @@ const signup = async (req, res) => {
                             maritalStatus: found.maritalStatus ? found.maritalStatus : "",
 
                         };
+                        
                         if (found.email) {
                             await PatientTemp.deleteOne({ _id: found._id });
                             let email_data = {

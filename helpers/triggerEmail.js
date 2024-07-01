@@ -120,7 +120,7 @@ const patientSignupThroughRefferal = async (templateName, patientData, link) => 
     } 
 }
 
-const appointmentBookedThroughRefferal = async (templateName, patientData, link) => {
+const appointmentBookedThroughRefferal = async (templateName, patientData) => {
     try {
         sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
             if (template) {

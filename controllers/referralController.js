@@ -7,6 +7,7 @@ const Appointment = require('../models/appointmentModel');
 const triggerEmail = require('../helpers/triggerEmail');
 require('dotenv').config();
 let ObjectId = require('mongoose').Types.ObjectId;
+const Patient = require('../models/patientModel');
 
 const getReferralDetails = async (req, res) => {
   try {
@@ -152,7 +153,7 @@ const createAppointment = async (req, res) => {
       patientId: req.body.patientId
     }
     // Step1 - create patient if not exist
-    let patientRes = { patientCreated: false, patientData: null }
+    let patientRes = { patientCreated: false, patientTempData: null, patientData: null }
     if (!isEmailExist) {
       patientRes = await createPatient(patientData).catch((_res) => { return _res })
       appointmentData.patientId = patientRes.patientData._id
@@ -183,13 +184,17 @@ const createAppointment = async (req, res) => {
       let referralRecord = new Referral(referralData)
       let result = await referralRecord.save()
       // send email (Appointment Booked)
-      triggerEmail.appointmentBookedThroughRefferal('appointmentBookedThroughRefferal', patientRes.patientData, link)
+      triggerEmail.appointmentBookedThroughRefferal('appointmentBookedThroughRefferal', patientRes.patientData)
       commonHelper.sendResponse(res, 'success', result, appointmentMessage.created);
     } else {
       if (!isEmailExist) {
-        // Delete created patient if error came while creating appointment
+        // Delete created patient in Patient collection if error came while creating appointment
         let patientId = (patientRes.patientData && patientRes.patientData._id) ? patientRes.patientData._id : ''
-        await PatientTemp.findByIdAndDelete(patientId);
+        await Patient.findByIdAndDelete(patientId);
+
+        // Delete created patient in tempPatient collection if error came while creating appointment
+        let tempPatientId = (patientRes.patientTempData && patientRes.patientTempData._id) ? patientRes.patientTempData._id : ''
+        await PatientTemp.findByIdAndDelete(tempPatientId);
       }
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
@@ -203,11 +208,16 @@ const createAppointment = async (req, res) => {
 const createPatient = (patientData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let newPatient = new PatientTemp(patientData);
-      let result = await newPatient.save();
-      resolve({ patientCreated: true, patientData: result });
+      // Create patient in tempPatient collection
+      let newTempPatient = new PatientTemp(patientData); 
+      let resultTempPatient = await newTempPatient.save();
+
+      // Create patient in Patient collection
+      let newPatient = new Patient(patientData); 
+      let resultNewPatient = await newPatient.save();
+      resolve({ patientCreated: true, patientTempData: resultTempPatient, patientData: resultNewPatient});
     } catch (error) {
-      reject({ patientCreated: false, patientData: null })
+      reject({ patientCreated: false, patientTempData: null, patientData: null })
     }
   })
 }
@@ -243,7 +253,8 @@ const getPatientThroughSignUpToken = async (req, res) => {
     const { signUpToken } = req.body
     let decryptTokenData = commonHelper.decryptData(signUpToken, process.env.CRYPTO_SECRET)
     let patientId= decryptTokenData? decryptTokenData.patientId:''
-    let patientData = await PatientTemp.findOne({ _id: patientId });
+    // let patientData = await PatientTemp.findOne({ _id: patientId });
+    let patientData = await Patient.findOne({ _id: patientId });
     commonHelper.sendResponse(res, 'success', patientData, '');
   } catch (error) {
     console.log("*************getPatientThroughSignUpToken**error*****", error)
