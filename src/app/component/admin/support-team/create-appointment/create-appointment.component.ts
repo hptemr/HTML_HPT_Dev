@@ -56,6 +56,7 @@ export class CreateAppointmentComponent {
   clickOnCreateAppointment:boolean = false
   clickOnUpdateAppointment:boolean = false
   refferalId:any = ''
+  isViewAppointment:boolean = false
 
   constructor( 
     public dialog: MatDialog,
@@ -86,10 +87,10 @@ export class CreateAppointmentComponent {
       email: ['', [Validators.required, Validators.email]],
       appointmentDate: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern(regex.usPhoneNumber)]],
-      practiceLocation: [''],
-      therapist: [''],
-      referredBy: ['', []],
-      streetName:[''],
+      practiceLocation: ['',[Validators.required]],
+      therapist: ['',[Validators.required]],
+      referredBy: ['', [Validators.required]],
+      streetName:['',[Validators.required]],
       appartment:[''],
       state:['',[Validators.required]],
       city:['',[Validators.required]],
@@ -219,6 +220,11 @@ export class CreateAppointmentComponent {
           this.createAppointmentForm.controls['state'].setValue(refferalAppointmentData.state);
           this.createAppointmentForm.controls['city'].setValue(refferalAppointmentData.city);
           this.createAppointmentForm.controls['zipcode'].setValue(refferalAppointmentData.zipcode);
+
+          if(refferalAppointmentData.appointment.status!='Pending'){
+            this.isViewAppointment = true
+            this.createAppointmentForm.disable();
+          }
         }
       },(_err) => {})
     }

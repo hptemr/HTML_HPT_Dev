@@ -103,16 +103,23 @@ export class ReferralsComponent {
   onDateChange(event: any, colName: any) {
     let dateCond
     let selectedDate = new Date(event.value);
+    // if (colName == 'appointmentDate') {
+    //   dateCond = {
+    //     ['appointment.appointmentDate']: { $gte: selectedDate }
+    //     //['appointment.intakeFormSubmit']: true
+    //   }
+    // } else {
+    //   dateCond = {
+    //     'createdAt': { $gte: selectedDate }
+    //   }
+    // }
+
     if (colName == 'appointmentDate') {
-      dateCond = {
-        ['appointment.appointmentDate']: { '$gte': selectedDate }
-        //['appointment.intakeFormSubmit']: true
-      }
-    } else {
-      dateCond = {
-        'createdAt': { '$gte': selectedDate }
-      }
+      dateCond = {appointmentDate:selectedDate}
+    }else{
+      dateCond = {createdAt:selectedDate}
     }
+
     Object.assign(this.whereCond, dateCond)
     this.getReferralList('search')
   }
