@@ -8,6 +8,7 @@ const triggerEmail = require('../helpers/triggerEmail');
 require('dotenv').config();
 let ObjectId = require('mongoose').Types.ObjectId;
 const Patient = require('../models/patientModel');
+const _ = require('lodash');
 
 const getReferralDetails = async (req, res) => {
   try {
@@ -22,7 +23,17 @@ const getReferralDetails = async (req, res) => {
 const getReferralList = async (req, res) => {
   try {
     const { queryMatch, order, offset, limit } = req.body;
-    
+
+    if(!_.isEmpty(queryMatch) && queryMatch.appointmentDate){
+      Object.assign(queryMatch, {'appointment.appointmentDate': {$gte: new Date(queryMatch.appointmentDate)}})
+      delete queryMatch.appointmentDate
+    }
+
+    if(!_.isEmpty(queryMatch) && queryMatch.createdAt){
+      Object.assign(queryMatch, {'appointment.createdAt': {$gte: new Date(queryMatch.createdAt)}})
+      delete queryMatch.createdAt
+    }
+
     let totalRecords = await Referral.aggregate([
       {
         "$lookup": {
