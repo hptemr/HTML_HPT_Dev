@@ -380,22 +380,40 @@
                 &.clavicule-left{
                     top: 106px;
                     left: 103px;
+                    z-index: 999;
                 }
                 &.back-left{
                     top: 110px;
                     left: 85px;
+                    z-index: 9;
                 }
                 &.back-right{
                     top: 110px;
                     right: 76px;
                 }
-                &.armback-left{
+                &.left-hand-1{
                     top: 138px;
-                    left: 11px;
+                    left: 75px;
                 }
-                &.armback-right{
-                    top: 138px;
-                    right: 2px;
+                &.left-hand-2{
+                    top: 192px;
+                    left: 44px;
+                }
+                &.left-hand-3{
+                    top: 258px;
+                    left: 23px;
+                }
+                &.right-hand-1{
+                    top: 136px;
+                    right: 68px;
+                }
+                &.right-hand-2{
+                    top: 189px;
+                    right: 36px;
+                }
+                &.right-hand-3{
+                    top: 256px;
+                    right: 14px
                 }
                 &.clavicule-right{
                     top: 106px;
@@ -409,13 +427,29 @@
                     top: 245px;
                     left: 112px;
                 }
-                &.left-leg{
+                &.left-leg-1{
                     top: 276px;
                     left: 110px;
                 }
-                &.right-leg{
+                &.left-leg-2{
+                    top: 362px;
+                    left: 116px;
+                }
+                &.left-leg-3{
+                    top: 442px;
+                    left: 121px;
+                }
+                &.right-leg-1{
                     top: 276px;
                     right: 103px;
+                }
+                &.right-leg-2{
+                    top: 362px;
+                    right: 108px;
+                }
+                &.right-leg-3{
+                    top: 442px;
+                    right: 112px;
                 }
             }
             
