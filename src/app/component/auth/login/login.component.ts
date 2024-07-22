@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
 import { validationMessages } from '../../../utils/validation-messages'
+import { UserService } from '../../../shared/services/comet-chat/user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     public router: Router,
     private authService: AuthService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private userService:UserService
   ) {
     let rememberMeData: any = localStorage.getItem('rememberMe');
     if (rememberMeData != null) { this.rememberMeObj = JSON.parse(rememberMeData) }
@@ -54,6 +56,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
+          this.loginUserInCometChat(res.data) // Admin user login in comet chat
           this.setLocalStorage(res, this.loginForm.value)
           
           //delete booking appointment cache data
@@ -81,6 +84,13 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('rememberMe', JSON.stringify(loginValues));
     } else {
       localStorage.removeItem('rememberMe');
+    }
+  }
+
+  loginUserInCometChat(user:any){
+    console.log("loginUserInCometChat>>>>",user)
+    if(user.role!='patient'){
+      this.userService.loginUser(user._id)
     }
   }
 

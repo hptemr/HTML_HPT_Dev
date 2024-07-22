@@ -14,6 +14,7 @@ import { PatientDetailsComponent } from 'src/app/shared/component/support-billin
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
 import { ReferralsComponent } from './referrals/referrals.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
+import { ConversationsComponent } from '../../../shared/component/conversations/conversations.component';
 
 const routes: Routes = [
   {
@@ -90,6 +91,10 @@ const routes: Routes = [
         component: CreateAppointmentComponent
       }
     ]
+  },
+  {
+    path: 'conversations',
+    component: ConversationsComponent,
   },
 ];
 
