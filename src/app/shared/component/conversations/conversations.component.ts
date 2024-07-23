@@ -6,6 +6,8 @@ import { UserService } from '../../../shared/services/comet-chat/user.service';
 import { s3Details } from 'src/app/config';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { MessageService } from '../../../shared/services/comet-chat/message.service';
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 @Component({
   selector: 'app-conversations', 
   templateUrl: './conversations.component.html',
@@ -13,9 +15,10 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class ConversationsComponent { 
   chatUserList:any=[]
-  defaultImage = s3Details.awsS3Url+s3Details.userProfileFolderPath+'default.png';
+  defaultAvatar = s3Details.awsS3Url+s3Details.userProfileFolderPath+'default.png';
   searchUsers = new FormControl('');
-  topUserData: any = {
+  chatMessageText: string = '';
+  userData: any = {
     blockedByMe: false,
     conversationId: "",
     deactivatedAt: 0,
@@ -24,12 +27,15 @@ export class ConversationsComponent {
     role:"",
     status:"",
     uid:"",
-    image:""
+    avatar:""
   }
+
+  messages: CometChat.TextMessage[];
 
   constructor(
     public dialog: MatDialog,
-    public userService: UserService
+    public userService: UserService,
+    public messageService: MessageService
   ) {
     this.searchControlUsers()
   }
@@ -42,13 +48,12 @@ export class ConversationsComponent {
     this.chatUserList = await this.userService.getCometChatUsers().catch((_res) => [])
     console.log("this.chatUserList>>>",this.chatUserList)
     if(this.chatUserList.length){
-      this.getTopUserDetails(this.chatUserList[0])
+      this.byDefaultOpenFirstUserChat(this.chatUserList[0])
     }
   }
 
-  getTopUserDetails(topUserData:any){
-    console.log("topUserData>>>",topUserData)
-    this.topUserData = topUserData
+  byDefaultOpenFirstUserChat(userData:any){
+    this.userData = userData
   }
 
   searchControlUsers(){
@@ -64,6 +69,19 @@ export class ConversationsComponent {
     this.chatUserList = await this.userService.getCometChatUsers(searchQuery).catch((_res) => [])
   }
 
+  async onUserSelected(userData: any) {
+    this.userData = userData
+  }  
+
+  async sendMessage(userData: any, message: any) {
+    console.log("message>>>",message);
+    console.log("userData>>>",userData);
+    const sentMessage = this.messageService.SendMessage(userData.uid, message)
+    if (sentMessage) {
+      this.messages = [...this.messages, sentMessage as any];
+    }
+    this.chatMessageText = ""
+  }
 
   createGroup() {
     const dialogRef = this.dialog.open(CreateGroupComponent,{

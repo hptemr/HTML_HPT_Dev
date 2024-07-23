@@ -17,9 +17,9 @@
             <div class="cl--body w-100">
                 <ul class="p-0 m-0">
                     <ng-container *ngIf="chatUserList.length">
-                        <li class="w-100 d-flex" *ngFor="let user of chatUserList; let i = index">
+                        <li class="w-100 d-flex" *ngFor="let user of chatUserList; let i = index" (click)="onUserSelected(user)">
                             <div class="pro--pic flex-shrink-0">
-                                <img src="{{user.image? user.image : defaultImage}}"  alt="" class="img-fluid"/>
+                                <img src="{{user.avatar? user.avatar : defaultAvatar}}"  alt="" class="img-fluid"/>
                             </div>
                             <div class="pro--desc d-flex flex-column w-100">
                                 <div class="d-flex align-items-center justify-content-between username w-100">
@@ -116,10 +116,10 @@
             <div class="cr--header w-100 d-flex align-items-center justify-content-between">
                  <div class="d-flex align-items-center ">
                     <div class="pro--sm--img d-flex align-items-center justify-content-center flex-shrink-0">
-                        <img src="{{topUserData.image? topUserData.image : defaultImage}}"  alt="" class="img-fluid" />
+                        <img src="{{userData.avatar? userData.avatar : defaultAvatar}}"  alt="" class="img-fluid" />
                     </div>
                     <div class="user-name d-flex flex-column">
-                        <p class="mb-0 font-16 fw-500">{{topUserData.name}}</p>
+                        <p class="mb-0 font-16 fw-500">{{userData.name}}</p>
                         <!-- <span class="mb-0 font-14 text-primary fw-500">Typing ...</span> -->
                     </div>
                  </div>
@@ -198,8 +198,8 @@
                     <mat-icon class="text-primary">sentiment_satisfied</mat-icon>
                 </div> -->
                 <div class="w-100 position-relative">
-                    <input class="form-control form-control-md msg--box" type="text" placeholder="Write a message..." />
-                    <mat-icon class="text-primary send--btn">send</mat-icon>
+                    <input class="form-control form-control-md msg--box" #chatMessage  [(ngModel)]="chatMessageText" type="text" placeholder="Write a message..." />
+                    <mat-icon class="text-primary send--btn" (click)="sendMessage(userData,chatMessage.value)">send</mat-icon>
                 </div>
             </div>
         </div>
