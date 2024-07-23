@@ -30,10 +30,11 @@ export class UserService {
   }
 
   // Create user on comet chat
-  createUser(uid: string, name: string) {
+  createUser(uid: string, name: string, role:string) {
     let authKey: string = cometChatCredentials.authKey;
     var user: CometChat.User = new CometChat.User(uid);
     user.setName(name);
+    user.setRole(role);
 
     CometChat.createUser(user, authKey).then(
       (user: CometChat.User) => {
@@ -46,17 +47,21 @@ export class UserService {
 
   // Update user on comet chat
   updateUser(uid: string, name: string) {
-    let authKey: string = cometChatCredentials.authKey;
-    var user: CometChat.User = new CometChat.User(uid);
-    user.setName(name);
+    return new Promise((resolve, reject) => {
+      let authKey: string = cometChatCredentials.authKey;
+      var user: CometChat.User = new CometChat.User(uid);
+      user.setName(name);
 
-    CometChat.updateUser(user, authKey).then(
-      (user: CometChat.User) => {
-          console.log("user updated successfully", user);
-      }, (error: CometChat.CometChatException) => {
-          console.log("updateUser error", error);
-      }
-    ) 
+      CometChat.updateUser(user, authKey).then(
+        (user: CometChat.User) => {
+            console.log("user updated successfully", user);
+            resolve(true)
+        }, (error: CometChat.CometChatException) => {
+            console.log("updateUser error", error);
+            reject()
+        }
+      ) 
+    })
   }
 
   // Login user on comet chat
@@ -101,6 +106,31 @@ export class UserService {
         }
       );
     })
+  }
+
+  // Get comet chat user list
+  getCometChatUsers(searchKeyword:string=""){
+    return new Promise((resolve, reject) => {
+      console.log("searchKeyword>>>",searchKeyword)
+      let limit: number = 30;
+      let searchIn: Array<String> = ["name"]; // Example : ["uid", "name"]
+      let roles = ["default", "system_admin","practice_admin","therapist","billing_team","support_team"];
+      let usersRequest: CometChat.UsersRequest = new CometChat.UsersRequestBuilder()
+        .setLimit(limit)
+        .setRoles(roles)
+        .setSearchKeyword(searchKeyword)
+        .searchIn(searchIn)
+        .build();
+
+      usersRequest.fetchNext().then(
+        (userList: CometChat.User[]) => {
+            resolve(userList)
+        }, (error: CometChat.CometChatException) => {
+            console.log("User list fetching failed with error:", error);
+            reject()
+        }
+      );
+    });
   }
 
 }

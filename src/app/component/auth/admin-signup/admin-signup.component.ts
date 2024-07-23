@@ -109,6 +109,6 @@ export class AdminSignupComponent {
 
   createUserInCometChat(user:any){
     let fullName = `${user.firstName} ${user.lastName}`
-    this.userService.createUser(user._id, fullName)
+    this.userService.createUser(user._id, fullName, user.role)
   }
 }
