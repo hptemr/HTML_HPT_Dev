@@ -14,6 +14,11 @@ import { PatientProfileComponent } from './user-managment/patient-profile/patien
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { DocumentsComponent } from 'src/app/shared/component/manage-documents/documents/documents/documents.component';
+import { AppointmentDocumentsComponent } from 'src/app/shared/component/manage-documents/appointment-documents/appointment-documents.component';
+import { SystemDocumentsComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents.component';
+import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/protocols/protocols.component';
+import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
 
 const routes: Routes = [
   {
@@ -80,6 +85,28 @@ const routes: Routes = [
   {
     path: 'notifications',
     component: NotificationsComponent, 
+  },
+  {
+    path: 'manage-documents',
+    component:DocumentsComponent ,
+    children: [  
+      {
+        path: 'appointment-documents',
+        component: AppointmentDocumentsComponent, 
+      },
+      {
+        path: 'system-documents',
+        component: SystemDocumentsComponent, 
+      },
+      {
+        path: 'protocols',
+        component: ProtocolsComponent,
+      },
+      {
+        path: 'protocols/detailed-documents',
+        component: ProtocolDetailedDocumentsComponent, 
+      },  
+    ]
   },
 ];
 

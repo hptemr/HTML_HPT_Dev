@@ -20,6 +20,11 @@ import { ConversationsComponent } from './conversations/conversations.component'
 import { CreateGroupComponent } from './conversations/create-group/create-group.component';
 import { AddParticipantsComponent } from './conversations/add-participants/add-participants.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { DocumentsComponent } from 'src/app/shared/component/manage-documents/documents/documents/documents.component';
+import { AppointmentDocumentsComponent } from 'src/app/shared/component/manage-documents/appointment-documents/appointment-documents.component';
+import { SystemDocumentsComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents.component';
+import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/protocols/protocols.component';
+import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
 
 
 @NgModule({
@@ -40,15 +45,19 @@ import { NotificationsComponent } from './notifications/notifications.component'
     ConversationsComponent,
     CreateGroupComponent,
     AddParticipantsComponent,
-    NotificationsComponent
-    
+    NotificationsComponent,
+    DocumentsComponent,
+    AppointmentDocumentsComponent,
+    SystemDocumentsComponent,
+    ProtocolsComponent,
+    ProtocolDetailedDocumentsComponent
   ],
   imports: [
     CommonModule,
     SystemAdminRoutingModule,
     FormsModule,
     ReactiveFormsModule, 
-    SharedModule,  
+    SharedModule
   ]
 })
 export class SystemAdminModule { }
