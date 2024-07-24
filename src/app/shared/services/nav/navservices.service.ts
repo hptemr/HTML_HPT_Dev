@@ -177,6 +177,15 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 4,
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/therapist/conversations',
+          active: false,
+          item: []
+        },
         // {
         //   id: 4,
         //   icon: 'people',

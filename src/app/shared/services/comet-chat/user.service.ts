@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { cometChatCredentials } from 'src/app/config';
+import { CommonService } from '../helper/common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import { cometChatCredentials } from 'src/app/config';
 
 export class UserService {
   constructor(
+    public commonService: CommonService,
   ) { 
     this.initialiseApp(cometChatCredentials.appId, cometChatCredentials.region);
   }
@@ -127,6 +129,8 @@ export class UserService {
             resolve(userList)
         }, (error: CometChat.CometChatException) => {
             console.log("User list fetching failed with error:", error);
+            let parameter: any = {'searchKeyword': searchKeyword }
+            this.commonService.cometChatLog('error', parameter, error)
             reject()
         }
       );

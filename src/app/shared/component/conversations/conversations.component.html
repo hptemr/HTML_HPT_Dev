@@ -27,6 +27,7 @@
                                     <!-- <span class="flex-shrink-0">2 weeks ago</span> -->
                                 </div>
                                 <!-- <p class="msg mb-0">Yes. My friend is joining too ...</p> -->
+                                <!-- <span class="mb-0 font-14 text-primary fw-500">Typing ...</span> -->
                             </div>  
                         </li> 
                     </ng-container>
@@ -155,7 +156,19 @@
                         <span>August 21</span>
                     </div> -->
                     <ul class="m-0 p-0 w-100">
-                        <li class="d-flex flex-column w-100"> 
+                        <ng-container *ngFor="let msg of messages">
+                            <li class="d-flex flex-column w-100 {{(msg.sender.uid==loginUserId)?'sender':''}}"> 
+                                <div class="message--body d-flex align-items-center">
+                                    <!-- <div class="pro--sm--img">
+                                        <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
+                                    </div> -->
+                                    <p class="mb-0 font-14 fw-500">{{msg.text}}</p>
+                                </div>
+                                <p class="time font-12 mt-1 fw-500">{{formatMessageDate(msg.sentAt)}}</p>
+                            </li>
+                        </ng-container>
+
+                        <!-- <li class="d-flex flex-column w-100"> 
                             <div class="message--body d-flex align-items-center">
                                 <div class="pro--sm--img">
                                     <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
@@ -172,7 +185,7 @@
                                 <p class="mb-0 font-14 fw-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor mollis leo proin turpis eu hac. </p>
                             </div>
                             <p class="time font-12 mt-1 fw-500">10:15 pm</p>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
 
