@@ -10,6 +10,7 @@ const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 const s3Details = constants.s3Details;
 const jwt = require('jsonwebtoken');
+const cometChatLogModel = require('../models/cometChatLog');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -274,6 +275,17 @@ changeProfileImage = async (req, res) => {
   }
 }
 
+const cometChatLog = async (req, res) => {
+  try {
+    let chatLog = new cometChatLogModel(req.body);
+    await chatLog.save();
+    commonHelper.sendResponse(res, 'success', '' , 'Log saved successfully');
+  } catch (error) {
+    console.log("*******cometChatLog******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   invite,
   changePassword,
@@ -286,5 +298,6 @@ module.exports = {
   getTherapistList,
   getLocationWiseUserList,
   deleteProfileImage,
-  changeProfileImage
+  changeProfileImage,
+  cometChatLog
 };
