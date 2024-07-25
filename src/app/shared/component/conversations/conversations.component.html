@@ -24,10 +24,11 @@
                             <div class="pro--desc d-flex flex-column w-100">
                                 <div class="d-flex align-items-center justify-content-between username w-100">
                                     <p class=" mb-0">{{user.name}}</p>
-                                    <!-- <span class="flex-shrink-0">2 weeks ago</span> -->
+                                    <span class="flex-shrink-0">{{formatMessageDate(user.lastActiveAt)}}</span>
                                 </div>
-                                <!-- <p class="msg mb-0">Yes. My friend is joining too ...</p> -->
-                                <!-- <span class="mb-0 font-14 text-primary fw-500">Typing ...</span> -->
+                                <p class="msg mb-0">{{(user.lastMessage && user.lastMessage!=null)?user.lastMessage.text:''}}</p>
+                                <span class="mb-0 font-14 text-primary fw-500" *ngIf="user.uid==typingIndicatorSenderId && isTyping">Typing ...</span>
+                                <p class="mb-0 font-14 fw-500 {{(user.status=='online')?'text-primary':'clr--828282'}}" >{{user.status}}</p>
                             </div>  
                         </li> 
                     </ng-container>
@@ -211,7 +212,10 @@
                     <mat-icon class="text-primary">sentiment_satisfied</mat-icon>
                 </div> -->
                 <div class="w-100 position-relative">
-                    <input class="form-control form-control-md msg--box" #chatMessage  [(ngModel)]="chatMessageText" type="text" placeholder="Write a message..." />
+                    <input class="form-control form-control-md msg--box" #chatMessage  [(ngModel)]="chatMessageText" type="text" placeholder="Write a message..." 
+                    (keydown)="startUserTyping(userData.uid)"
+                    (keyup)="stopUserTyping(userData.uid)"
+                    />
                     <mat-icon class="text-primary send--btn" (click)="sendMessage(userData,chatMessage.value)">send</mat-icon>
                 </div>
             </div>

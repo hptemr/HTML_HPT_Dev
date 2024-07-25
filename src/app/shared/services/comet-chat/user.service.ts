@@ -2,16 +2,23 @@ import { Injectable } from '@angular/core';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { cometChatCredentials } from 'src/app/config';
 import { CommonService } from '../helper/common.service';
-
+import { AuthService } from '../api/auth.service';
 @Injectable({
   providedIn: 'root'
 })
 
 export class UserService {
+  loginUserData: any = { "userType": "", "userId": "" }
   constructor(
     public commonService: CommonService,
+    public authService: AuthService,
   ) { 
     this.initialiseApp(cometChatCredentials.appId, cometChatCredentials.region);
+    let userType = this.authService.getLoggedInInfo('role')
+    let userId = this.authService.getLoggedInInfo('_id')
+    if(userType && userId){
+      this.loginUserData = { "userType" : userType, "userId": userId }
+    }
   }
 
   // Initialise comet chat app
@@ -26,6 +33,8 @@ export class UserService {
       (initialized: boolean) => {
         console.log("Initialization completed successfully", initialized);
       }, (error: CometChat.CometChatException) => { 
+        let parameter: any = {'appId':appId, 'region': region }
+        this.commonService.cometChatLog(this.loginUserData,'initialiseApp','error', parameter, error)
         console.log("Initialization failed with error:", error);
       }
     );
@@ -42,6 +51,8 @@ export class UserService {
       (user: CometChat.User) => {
           console.log("User created successfully", user);
       }, (error: CometChat.CometChatException) => {
+          let parameter: any = {'uid':uid, 'name': name, 'role':role, 'authKey':authKey}
+          this.commonService.cometChatLog(this.loginUserData,'createUser','error', parameter, error)
           console.log("createUser error:", error);
       }
     );
@@ -60,6 +71,8 @@ export class UserService {
             resolve(true)
         }, (error: CometChat.CometChatException) => {
             console.log("updateUser error", error);
+            let parameter: any = {'uid':uid, 'name': name}
+            this.commonService.cometChatLog(this.loginUserData,'updateUser','error', parameter, error)
             reject()
         }
       ) 
@@ -82,6 +95,8 @@ export class UserService {
               console.log("CometChat Login Successful:", { user });
             },
             (error: CometChat.CometChatException) => {
+              let parameter: any = {'uid':uid, 'authKey': authKey}
+              this.commonService.cometChatLog(this.loginUserData,'loginUser','error', parameter, error)
               console.log("CometChat Login failed with exception:", { error });
             }
           );
@@ -89,6 +104,8 @@ export class UserService {
           localStorage.setItem('cometChatToken', userData.authToken);
         }
       },(error: CometChat.CometChatException) => {
+        let parameter: any = {'uid':uid, 'authKey': authKey}
+        this.commonService.cometChatLog(this.loginUserData,'loginUser','error', parameter, error)
         console.log("Some Error Occured", { error });
       }
     );
@@ -104,6 +121,8 @@ export class UserService {
           resolve(true)
         },(error: CometChat.CometChatException) => {
           console.log("CometChatLogout failed with exception:", { error });
+          let parameter: any = null
+          this.commonService.cometChatLog(this.loginUserData,'logoutUser','error', parameter, error)
           reject()
         }
       );
@@ -116,7 +135,7 @@ export class UserService {
       console.log("searchKeyword>>>",searchKeyword)
       let limit: number = 30;
       let searchIn: Array<String> = ["name"]; // Example : ["uid", "name"]
-      let roles = ["default", "system_admin","practice_admin","therapist","billing_team","support_team"];
+      let roles = ["system_admin","practice_admin","therapist","billing_team","support_team"];
       let usersRequest: CometChat.UsersRequest = new CometChat.UsersRequestBuilder()
         .setLimit(limit)
         .setRoles(roles)
@@ -130,7 +149,7 @@ export class UserService {
         }, (error: CometChat.CometChatException) => {
             console.log("User list fetching failed with error:", error);
             let parameter: any = {'searchKeyword': searchKeyword }
-            this.commonService.cometChatLog('error', parameter, error)
+            this.commonService.cometChatLog(this.loginUserData,'getCometChatUsers','error', parameter, error)
             reject()
         }
       );

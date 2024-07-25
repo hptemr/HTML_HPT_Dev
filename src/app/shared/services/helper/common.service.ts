@@ -195,8 +195,10 @@ export class CommonService {
     return maxAppntDate
   }
 
-  cometChatLog(messageType:any, parameter:any, error:any) {
+  cometChatLog(userDetails:any, apiFunction:any, messageType:any, parameter:any, error:any) {
     let body = {
+      userDetails : userDetails,
+      apiFunction : apiFunction,
       messageType: messageType,
       parameter:parameter,
       error:error

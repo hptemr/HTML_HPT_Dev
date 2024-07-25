@@ -17,7 +17,7 @@ import { AuthService } from '../../services/api/auth.service';
 })
 export class ConversationsComponent { 
   loginUserId:string =""
-  chatUserList:any=[]
+  chatUserList:any= []
   defaultAvatar = s3Details.awsS3Url+s3Details.userProfileFolderPath+'default.png';
   searchUsers = new FormControl('');
   chatMessageText: string = '';
@@ -30,10 +30,18 @@ export class ConversationsComponent {
     role:"",
     status:"",
     uid:"",
-    avatar:""
+    avatar:"",
+    lastMessage:null
   }
 
   messages: any = [];
+  isTyping: boolean = false
+  typingIndicator: string | null = null;
+  typingIndicatorSenderId: string = '';
+  typingIndicatorTimer: any;
+  messageListenerID: string = "chatlist_message_"+ new Date().getTime();
+  userListenerID: string = "chatlist_user_"+ new Date().getTime();
+
   // messages: CometChat.TextMessage[] = [];
   // messages: CometChat.TextMessage[] | null = null; 
 
@@ -50,13 +58,18 @@ export class ConversationsComponent {
 
   ngOnInit() {
     this.getCometChatUsers()
-    this.realTimeMessageListener()
+    this.realTimeListener()
   }
 
+  /* ====================================================================================
+    Comet chat USER related functions 
+  */
   async getCometChatUsers(){
-    this.chatUserList = await this.userService.getCometChatUsers().catch((_res) => [])
-    console.log("this.chatUserList>>>",this.chatUserList)
-    if(this.chatUserList.length){
+    let cometChatUsers:any = await this.userService.getCometChatUsers().catch((_res) => [])
+    console.log("cometChatUsers>>>",cometChatUsers)
+    if(cometChatUsers.length){
+      this.chatUserList = await this.getUserWithLastConversation(cometChatUsers)
+      console.log("userDataWithConversation>>>",this.chatUserList)
       this.firstUserChat(this.chatUserList[0])
     }
   }
@@ -67,8 +80,19 @@ export class ConversationsComponent {
     console.log("previousMessage>>>",previousMessage)
     this.messages = (previousMessage as any[])
     console.log("firstUserChat this.messages>>>",this.messages);
-    const conversations = await this.messageService.getUserConversations()
+  }
+
+  async getUserWithLastConversation(userData:any){
+    let conversations:any = await this.messageService.getUserConversations()
     console.log("conversations>>>",conversations)
+    let mergedArray:any = userData.map((item:any) => {
+      let match = conversations.find((element:any) => element.conversationId == item.conversationId);
+      return {
+        ...item,
+        lastMessage: match ? match.lastMessage : null
+      };
+    });
+    return mergedArray
   }
 
   searchControlUsers(){
@@ -81,7 +105,10 @@ export class ConversationsComponent {
   }
 
   async searchUsersByQuery(searchQuery: any) {
-    this.chatUserList = await this.userService.getCometChatUsers(searchQuery).catch((_res) => [])
+    let searchedUserList:any = await this.userService.getCometChatUsers(searchQuery).catch((_res) => [])
+    if(searchedUserList){
+      this.chatUserList = await this.getUserWithLastConversation(searchedUserList)
+    }
   }
 
   async onUserSelected(userData: any) {
@@ -91,6 +118,9 @@ export class ConversationsComponent {
     this.messages = (previousMessage as any[])
   }  
 
+  /* ====================================================================================
+    Comet chat MESSAGE related functions 
+  */
   async sendMessage(userData: any, message: any) {
     console.log("message>>>",message);
     const sentMessage = await this.messageService.sendMessage(userData.uid, message)
@@ -102,9 +132,12 @@ export class ConversationsComponent {
     this.chatMessageText = ""
   }
 
-  // Real Time Message Listener
-  realTimeMessageListener(){
-    let listenerID = "UNIQUE_LISTENER_ID";
+  /* ====================================================================================
+    Real Time Listener Function
+  */
+  realTimeListener(){
+    // Message Listener
+    let listenerID = this.messageListenerID;
     CometChat.addMessageListener(
       listenerID,
       new CometChat.MessageListener({
@@ -113,11 +146,67 @@ export class ConversationsComponent {
               if (textMessage) {
                 this.messages = [...this.messages, textMessage as any];
               }
+          },
+          onTypingStarted: (typingIndicator: CometChat.TypingIndicator) => {
+            console.log("RealTime Typing started :", typingIndicator);
+            let typingIndicatorData: any = typingIndicator
+            this.typingIndicatorSenderId = typingIndicatorData.sender.uid
+            this.isTyping = true;
+            this.typingIndicator = typingIndicatorData.sender
+          },
+          onTypingEnded: (typingIndicator: CometChat.TypingIndicator) => {
+              console.log("RealTime Typing ended :", typingIndicator);
+              let typingIndicatorData: any = typingIndicator
+              this.typingIndicatorSenderId = typingIndicatorData.sender.uid
+              this.isTyping = false;
+              this.typingIndicator = null
           }
+      })
+    );
+
+    // User Listener
+    CometChat.addUserListener(
+      this.userListenerID,
+      new CometChat.UserListener({
+        onUserOnline: (onlineUser: CometChat.User) => {
+          console.log("On User Online:", { onlineUser });
+          this.updateUserPresence(onlineUser, true)
+        },
+        onUserOffline: (offlineUser: CometChat.User) => {
+          console.log("On User Offline:", { offlineUser });
+          this.updateUserPresence(offlineUser, false)
+        },
       })
     );
   }
 
+  updateUserPresence(user:any, isOnline:boolean) {
+    const userIndex = this.chatUserList.findIndex((u:any) => u.uid == user.uid);
+    if (userIndex !== -1) {
+      this.chatUserList[userIndex].status = isOnline ? 'online' : 'offline';
+    }
+  }
+
+  startUserTyping(receiverId: string) {
+    clearTimeout(this.typingIndicatorTimer);
+    // receiverId ---> uid of reciever user
+    let receiverType: string = CometChat.RECEIVER_TYPE.USER;
+    let typingNotification: CometChat.TypingIndicator = new CometChat.TypingIndicator(receiverId, receiverType);
+    CometChat.startTyping(typingNotification);
+  }
+
+  stopUserTyping(receiverId: string) {
+    this.typingIndicatorTimer = setTimeout(() => {
+      // receiverId ---> uid of reciever user
+      let receiverType: string = CometChat.RECEIVER_TYPE.USER;
+      let typingNotification: CometChat.TypingIndicator = new CometChat.TypingIndicator(receiverId, receiverType);
+      CometChat.endTyping(typingNotification);
+    }, 1000);
+  }
+
+  /* ====================================================================================
+    OTHER functions 
+  */
   formatMessageDate(timestamp: number){
     const currentDate = new Date();
     const messageDate = new Date(timestamp * 1000);
@@ -150,7 +239,8 @@ export class ConversationsComponent {
 
   ngOnDestroy() {
     console.log("<<<ngOnDestroy Calll>>>")
-    let listenerID: string = "UNIQUE_LISTENER_ID";
+    let listenerID = this.messageListenerID;;
     CometChat.removeMessageListener(listenerID);
+    CometChat.removeUserListener(this.userListenerID);
   }
 }

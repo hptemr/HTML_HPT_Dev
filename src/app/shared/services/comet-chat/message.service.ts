@@ -2,14 +2,22 @@ import { Injectable } from '@angular/core';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { cometChatCredentials } from 'src/app/config';
 import { CommonService } from '../helper/common.service';
+import { AuthService } from '../api/auth.service';
 @Injectable({
   providedIn: 'root'
 })
 
 export class MessageService {
+  loginUserData: any = { "userType": "", "userId": "" }
   constructor(
     public commonService: CommonService,
+    public authService: AuthService,
   ) { 
+    let userType = this.authService.getLoggedInInfo('role')
+    let userId = this.authService.getLoggedInInfo('_id')
+    if(userType && userId){
+      this.loginUserData = { "userType" : userType, "userId": userId }
+    }
   }
 
   sendMessage(receiverUID: string, message: string) {
@@ -30,6 +38,8 @@ export class MessageService {
             },
             (error: CometChat.CometChatException) => {
                 console.log("Message sending failed with error:", error);
+                let parameter: any = {'receiverUID':receiverUID, 'message': message }
+                this.commonService.cometChatLog(this.loginUserData,'sendMessage','error', parameter, error)
                 reject()
             }
         );
@@ -52,6 +62,8 @@ export class MessageService {
             resolve(messages)
         }, (error: CometChat.CometChatException) => {
             console.log("Message fetching failed with error:", error);
+            let parameter: any = {'userId': userId}
+            this.commonService.cometChatLog(this.loginUserData,'getPreviousMessages','error', parameter, error)
             reject()
         }
       );
@@ -77,6 +89,8 @@ export class MessageService {
             resolve(messages)
         }, (error: CometChat.CometChatException) => {
             console.log("Message fetching failed with error:", error);
+            let parameter: any = {'userId': userId}
+            this.commonService.cometChatLog(this.loginUserData,'getNextMessages','error', parameter, error)
             reject()
         }
       );
@@ -99,6 +113,8 @@ export class MessageService {
         },
         (error: CometChat.CometChatException) => {
           console.log("Conversations list fetching failed with error:", error);
+          let parameter: any = null
+          this.commonService.cometChatLog(this.loginUserData,'getUserConversations','error', parameter, error)
           reject()
         }
       );
@@ -117,6 +133,8 @@ export class MessageService {
         },
         (error: CometChat.CometChatException) => {
           console.log("error while fetching a conversation", error);
+          let parameter: any = {'userId': userId}
+          this.commonService.cometChatLog(this.loginUserData,'getSpecificUserConversations','error', parameter, error)
           reject()
         }
       );
@@ -137,7 +155,9 @@ export class MessageService {
         (messages: CometChat.BaseMessage[]) => {
             resolve(messages)
         }, (error: CometChat.CometChatException) => {
-            console.log("Message fetching failed with error:", error);
+          let parameter: any = null
+          this.commonService.cometChatLog(this.loginUserData,'getThreadMessage','error', parameter, error)
+           console.log("Message fetching failed with error:", error);
         }
       );
     });
