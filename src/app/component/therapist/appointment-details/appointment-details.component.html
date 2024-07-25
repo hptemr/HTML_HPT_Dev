@@ -5,7 +5,7 @@
                 <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/therapist/appointments']">
                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
                 </button>
-                <h3 class="mb-0 clr--1F2F3E fw-600">Appointment Details</h3>
+                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>
                 
             </div> 
         </div>
@@ -16,7 +16,7 @@
                         <mat-expansion-panel class="exp-class" expanded="true">
                             <mat-expansion-panel-header>
                                 <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
-                                    Appointment Information
+                                    Case Information
                                 </mat-panel-title>
                                 <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                     <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/support-team/intake-form/step-1']">
@@ -54,10 +54,14 @@
                                             <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Billing Type</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">AMA</p>
+                                        </div>
+                                        <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
                                             <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">OT $200 Used out of $1000, PT/SLP $350 Used out of
                                                 $1200</p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
@@ -80,11 +84,11 @@
                                             <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">12/1/24 - 12/10/2024</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Insurance Type</h3>
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Primary Insurance</h3>
                                             <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Medicare</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
-                                            <mat-checkbox class="">Patient Check in Status</mat-checkbox>
+                                            <mat-checkbox class="">Patient Checked-in</mat-checkbox>
                                         </div>  
                                     </div>
                                 </div>

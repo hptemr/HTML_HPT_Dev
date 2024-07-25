@@ -237,6 +237,11 @@
             }
         }
     }
+    .mdc-button--outlined{
+        &.mat-primary{
+            background: #fff !important;
+        }
+    }
 } 
 
  
