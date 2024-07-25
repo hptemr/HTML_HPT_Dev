@@ -25,6 +25,8 @@ import { AppointmentDocumentsComponent } from 'src/app/shared/component/manage-d
 import { SystemDocumentsComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents.component';
 import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/protocols/protocols.component';
 import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
+import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
+import { AddFolderModalComponent } from 'src/app/shared/component/manage-documents/add-folder-modal/add-folder-modal.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/man
     AppointmentDocumentsComponent,
     SystemDocumentsComponent,
     ProtocolsComponent,
-    ProtocolDetailedDocumentsComponent
+    ProtocolDetailedDocumentsComponent,
+    SystemDocumentsDetailedComponent,
+    AddFolderModalComponent
   ],
   imports: [
     CommonModule,

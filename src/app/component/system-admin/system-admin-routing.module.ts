@@ -19,6 +19,7 @@ import { AppointmentDocumentsComponent } from 'src/app/shared/component/manage-d
 import { SystemDocumentsComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents.component';
 import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/protocols/protocols.component';
 import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
+import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,10 @@ const routes: Routes = [
       {
         path: 'system-documents',
         component: SystemDocumentsComponent, 
+      },
+      {
+        path: 'system-documents/system-documents-detailed',
+        component: SystemDocumentsDetailedComponent, 
       },
       {
         path: 'protocols',

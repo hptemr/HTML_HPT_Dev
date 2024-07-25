@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AddFolderModalComponent } from '../add-folder-modal/add-folder-modal.component';
 
 export interface PeriodicElement {
   name: string;   
@@ -66,6 +67,12 @@ export class ProtocolsComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  addFolderModal() {
+    const dialogRef = this.dialog.open(AddFolderModalComponent,{
+      panelClass: [ 'custom-alert-container','modal--wrapper'],
+    });
+  }
+  
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
