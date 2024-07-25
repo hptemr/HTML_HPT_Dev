@@ -6,7 +6,8 @@
                 <label class="col-form-label fw-600">Assessment</label>
                 <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5">Thank you for referring *patient name* to our practice, *patient name* received  an initial evaluation and treatment today *today's date*.
 
-As per your referral, we will see *patient name*     __  times per week for _____ weeks with a focus on *first 3 treatments to be added*.
+As per your referral, we will see *patient name*     __  times per week for _____ weeks.
+
 
 I will update you on *patient name* progress as appropriate, thank you for the opportunity to assist with their rehabilitation.
                 </textarea> 
@@ -16,7 +17,7 @@ I will update you on *patient name* progress as appropriate, thank you for the
         <div class="col-12">
             <div class="col-12 col-lg-12 col-md-12">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">1.Problem </label>
+                    <label class="col-form-label fw-600">1.Problem <span class="clr--DF0404 ms-1"> * </span></label>
                     <div class="d-flex flex-row align-items-center">
                         <input [disabled]="isDisabled" class="form-control me-2" type="text" placeholder="Enter Your Problem" />
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
@@ -26,7 +27,7 @@ I will update you on *patient name* progress as appropriate, thank you for the
             </div>
             <div class="col-12 col-lg-12 col-md-12">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">1.Long term goal </label>
+                    <label class="col-form-label fw-600">1.Long term goal <span class="clr--DF0404 ms-1"> * </span></label>
                     <input [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>

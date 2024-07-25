@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { BodyDetailsModalComponent } from 'src/app/component/patient/book-appointment/step3/body-details-modal/body-details-modal.component';
 
 @Component({
   selector: 'app-subjective', 
@@ -21,4 +23,13 @@ export class SubjectiveComponent {
     {number: '7'}, {number: '8'}, {number: '9'},
     {number: '10'}
   ];
+
+
+  constructor(public dialog: MatDialog) { }
+
+  bodyClick() {
+    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+      panelClass: 'custom-alert-container', 
+    });  
+  }
 }

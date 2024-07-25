@@ -19,7 +19,7 @@
             <div class="divider d-flex w-100"></div>
         </div>
         <div class="col-12 select--ans d-flex align-items-center flex-wrap">
-            <label class="col-form-label fw-600 me-3 lw">Frequency Per Week</label>
+            <label class="col-form-label fw-600 me-3 lw">Frequency Per Week <span class="clr--DF0404 ms-1"> * </span></label>
             <ul class="m-0 p-0 d-flex flex-wrap">
                 <li *ngFor="let i of [1,2,3,4,5]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
                     {{i}}
@@ -27,7 +27,7 @@
             </ul>
         </div>
         <div class="col-12 select--ans d-flex align-items-center flex-wrap">
-            <label class="col-form-label fw-600 me-3 lw">Duration (In Weeks)</label>
+            <label class="col-form-label fw-600 me-3 lw">Duration (In Weeks) <span class="clr--DF0404 ms-1"> * </span></label>
             <ul class="m-0 p-0 d-flex flex-wrap">
                 <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" [class.active]="clickedIndex2 === i" (click)="clickedIndex2 = i">
                     {{i}}
@@ -35,7 +35,7 @@
             </ul>
         </div>
         <div class="col-12 d-flex align-items-center flex-wrap mt-1">
-            <label class="col-form-label fw-600 me-3 lw">Plan Dates</label>
+            <label class="col-form-label fw-600 me-3 lw">Plan Dates <span class="clr--DF0404 ms-1"> * </span></label>
             <div class="d-flex flex-wrap align-items-center date-pick">
                 <div class="form-group">
                     <mat-form-field class="w-100 am--datepicker" appearance="outline">
@@ -56,11 +56,11 @@
             </div>
         </div>
         <div class="col-12 mt-4">
-            <h1 class="mb-0 clr--212529 font-16 fw-700">Treatment To Be Provided</h1>
+            <h1 class="mb-0 clr--212529 font-16 fw-700 text-uppercase">Treatment To Be Provided</h1>
         </div>
         <div class="col-12 mt-1 d-flex align-items-center justify-content-between">
             <p class="col-form-label fw-600 pb-0">Procedures</p>
-            <button [disabled]="isDisabled" class="flex-shrink-0" mat-stroked-button color="primary">Select All</button>
+            <!-- <button [disabled]="isDisabled" class="flex-shrink-0" mat-stroked-button color="primary">Select All</button> -->
         </div>
         <div class="col-12 mt-3">
             <div class="d-flex flex-row align-items-start flex-wrap unlimited-codes-unit-wrapper">
@@ -86,17 +86,17 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Therapeutic Exercise</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Therapeutic Exercise</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Patient Ed./ HEP/ RTM</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Patient Ed./ HEP/ RTM</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Manual Therapy</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Manual Therapy</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
@@ -138,12 +138,12 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Therapeutic Activity</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled"  [checked]="true" class="">Therapeutic Activity</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Neuromuscular Rehabilitation</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="" >Neuromuscular Rehabilitation</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
@@ -168,7 +168,7 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
                             <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Modalities</mat-checkbox>
+                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Modalities</mat-checkbox>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
