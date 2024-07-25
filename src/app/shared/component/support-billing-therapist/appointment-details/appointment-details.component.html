@@ -1,306 +1,326 @@
 <div class="col-12 app--details--wrapper profile--right--wrapper">
     <div class="card">
-        <form [formGroup]="appoitmentForm" (ngSubmit)="formSubmit(appoitmentForm.value)">
-            <div class="card-header pb-0">
-                <div class="col-12 d-flex align-items-center">
-                    <button mat-stroked-button color="primary" class="me-3 back--btn"
-                        [routerLink]="getPreviousPageLink()">
-                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
-                    </button>
-                    <h3 class="mb-0 clr--1F2F3E fw-600">Appointment Details</h3>
-                </div>
-            </div>
-            <div class="card-body d-flex flex-column flex-sm-row" *ngIf="appointment_flag">
-                <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
-                    <div class="head--sec w-100"></div>
-                    <div class="profile--round position-relative">
-                        <div class="user--name d-flex align-items-center justify-content-center">
-                            <span class="text-primary fw-700 text-uppercase">
-                                <img src="{{profileImage}}" class="img-fluid user--img">
-                            </span>
-                        </div>
-                    </div>
-                    <div *ngIf="appointmentData.patientInfo"
-                        class="d-flex flex-column align-items-center justify-content-center w-100 body--sec">
-                        <h3 class="font-18 fw-700">
-                            {{appointmentData.patientInfo.firstName }} {{appointmentData.patientInfo.lastName}}
-                        </h3>
-                        <div class="d-flex align-items-center user--email">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">mail </mat-icon>
-                            <p class="my-2 font-15">{{appointmentData.patientInfo.email}}</p>
-                        </div>
-                        <div class="d-flex align-items-center user--email">
-                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">call </mat-icon>
-                            <p class="my-2 font-15">+1 {{appointmentData.patientInfo.phoneNumber}}</p>
-                        </div>
-                        <button mat-stroked-button color="primary" class="mp--btn"
-                            (click)="navigateTopatientDetails(appointmentData.patientId._id)">
-                            View Patient Profile
-                        </button>
-                        <!-- <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()"> 
-                            System Followup History
-                        </button> -->
-                        <button mat-stroked-button color="primary" class="mp--btn" (click)="systemFollowup()">
-                            Appointment Reminders
-                        </button>
-                    </div>
-                </div>
-                <div class="profile--right d-flex flex-column w-100">
-                    <div class="card w-100 mb-0">
-                        <div *ngIf="isFormEditable" class="card-header pb-0">
-                            <div
-                                class="col-12 d-flex align-items-center align-items-sm-start flex-sm-column flex-lg-row justify-content-between">
-                                <h3 class="mb-0 clr--1F2F3E fw-600">Basic Information</h3>
-                                <button [routerLink]="[activeUserRoute, 'intake-form', 'step-1', appointmentId]"
-                                    mat-raised-button color="primary">
-                                    View Intake Form
-                                </button>
-                            </div>
-                        </div>
-                        <div *ngIf="appointmentData" class="card-body mt-4">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-12 col-xl-6 col-md-12">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="d-flex align-items-start mb-4">
-                                                    <div
-                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon
-                                                            class="material-symbols-outlined text-primary">location_on</mat-icon>
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center">
+                <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/therapist/appointments']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+                </button>
+                <h3 class="mb-0 clr--1F2F3E fw-600">Appointment Details</h3>
+                
+            </div> 
+        </div>
+        <div class="card-body d-flex flex-column flex-sm-row">
+            <div class="profile--right d-flex flex-column w-100">
+                <div class="w-100 mb-0"> 
+                    <mat-accordion class="appointment-information-header-wrapper">
+                        <mat-expansion-panel class="exp-class" expanded="true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
+                                    Appointment Information
+                                </mat-panel-title>
+                                <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
+                                    <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/support-team/intake-form/step-1']">
+                                        View Intake Form
+                                    </button>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div *ngIf="appointment_flag" class="col-12">
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                                            <div class="w-100 mb-2">
+                                                <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                                    <div class="img--box flex-shrink-0">
+                                                        <img src="{{profileImage}}" alt="profileImage" class="img-fluid" />
                                                     </div>
                                                     <div class="d-flex flex-column">
-                                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Practice Location
-                                                        </h3>
-                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">
-                                                            {{appointmentData.practiceLocation}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="d-flex align-items-start mb-4">
-                                                    <div
-                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon
-                                                            class="material-symbols-outlined text-primary">call</mat-icon>
-                                                    </div>
-                                                    <div class="d-flex flex-column">
-                                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment #</h3>
-                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400">
-                                                            {{appointmentData.appointmentId ?
-                                                            appointmentData.appointmentId : ''}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="d-flex align-items-start mb-4">
-                                                    <div
-                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon
-                                                            class="material-symbols-outlined text-primary">calendar_today</mat-icon>
-                                                    </div>
-                                                    <div class="d-flex flex-column flex-sm-column flex-lg-row">
-                                                        <div class="d-flex flex-column me-3">
-                                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Date
-                                                            </h3>
-                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">
-                                                                {{appointmentData.appointmentDate | date:'mediumDate' }}
-                                                            </p>
+                                                        <h3 class="mb-1 clr--1F2F3E font-18 fw-700"> {{appointmentData?.patientId.firstName }} {{appointmentData?.patientId.lastName}}</h3>
+                                                        <div class="mb-1 mt-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba"> {{appointmentData?.patientId.email }}</p>
                                                         </div>
-                                                        <button
-                                                            *ngIf="isFormEditable && appointmentData.status !='Rescheduled'"
-                                                            mat-stroked-button color="primary" class="flex-shrink-0"
-                                                            (click)="rescheduleModal(appointmentData._id)">
-                                                            <mat-icon
-                                                                class="material-symbols-outlined flex-shrink-0 me-1">
-                                                                replay </mat-icon>
-                                                            Reschedule
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="d-flex align-items-start mb-4">
-                                                    <div
-                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon
-                                                            class="material-symbols-outlined text-primary">published_with_changes</mat-icon>
-                                                    </div>
-                                                    <div class="d-flex flex-column">
-                                                        <h3 class="m-0 clr--1F2F3E font-16 fw-700">Appointment Status
-                                                        </h3>
-                                                        <p class="mb-0 font-16 fw-400 status {{statusFlag}}">
-                                                            {{appointmentData.status}}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="d-flex align-items-start mb-4">
-                                                    <div
-                                                        class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
-                                                        <mat-icon
-                                                            class="material-symbols-outlined text-primary">paid</mat-icon>
-                                                    </div>
-                                                    <div class="d-flex flex-column flex-sm-column flex-lg-row">
-                                                        <div class="d-flex flex-column me-3">
-                                                            <h3 class="m-0 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
-                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">
-                                                                {{appointmentData.payVia}}
-                                                            </p>
+                                                        <div class="mb-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 {{appointmentData?.patientId.phoneNumber}}</p>
                                                         </div>
-                                                        <button *ngIf="appointmentData.payVia =='Insurance'"
-                                                            (click)="viewInsuranveModal()" class="flex-shrink-0"
-                                                            mat-stroked-button color="primary">
-                                                            <mat-icon
-                                                                class="material-symbols-outlined flex-shrink-0 me-1 ms-1">
-                                                                visibility </mat-icon>
-                                                            View Insurance
-                                                        </button>
+                                    
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-xl-6 col-md-12">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="col-form-label fw-600">Assign Therapist <span
-                                                            class="clr--DF0404 ms-1"> * </span></label>
-                                                    <!-- <input class="form-control form-control-md" type="text" placeholder="Enter Assign Therapist" value="{{assign_therapist}}" /> -->
-
-                                                    <!-- <input  class="form-control form-control-md" type="text" placeholder="Enter Assign Therapist" aria-label="Number"  matInput  [formControl]="appoitmentControl"  [matAutocomplete]="auto">
-                                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                                        <mat-option *ngFor="let option of therapistList | async" [value]="option">
-                                                            {{option}}
-                                                        </mat-option>
-                                                    </mat-autocomplete> -->
-                                                    <!-- [value]="appoitmentControl.value ? getValue(appoitmentControl.value) : ''" -->
-                                                    <input [disabled]="!isFormEditable" type="text"
-                                                        class="form-control form-control-md" matInput
-                                                        formControlName="therapistId" [matAutocomplete]="auto">
-                                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="getValue">
-                                                        <mat-option
-                                                            *ngIf="!appoitmentForm.controls['therapistId'].value"
-                                                            [value]="" disabled>
-                                                            Select The Therapist
-                                                        </mat-option>
-                                                        <mat-option *ngFor="let option of therapistList | async"
-                                                            [value]="option">
-                                                            {{ option.name }}
-                                                        </mat-option>
-                                                    </mat-autocomplete>
-                                                    <div class="text text-danger mt-1"
-                                                        *ngIf="appoitmentForm.controls['therapistId'].touched && (appoitmentForm.controls['therapistId'].hasError('required') && appoitmentForm.controls['therapistId'].invalid)">
-                                                        {{ validationMessages.requiredDropdown('Assign Therapist') }}
-                                                    </div>
-
-                                                    <div class="text text-danger mt-1"
-                                                        *ngIf="appoitmentForm.controls['therapistId'].touched && (appoitmentForm.controls['therapistId'].hasError('incorrect') && appoitmentForm.controls['therapistId'].invalid)">
-                                                        {{ validationMessages.requiredDropdown('assign therapist from
-                                                        the list') }}
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="col-form-label fw-600">Case Name</label>
-                                                    <input class="form-control form-control-md" type="text"
-                                                        placeholder="Search Case Name" formControlName="caseName"
-                                                        (blur)="checkSpace('caseName', $event)" />
-                                                    <div class="text text-danger mt-1"
-                                                        *ngIf="appoitmentForm.controls['caseName'].touched && (appoitmentForm.controls['caseName'].hasError('required') || appoitmentForm.controls['caseName'].invalid)">
-                                                        {{ validationMessages.required('Case Name') }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="col-form-label fw-600">Copay Amount</label>
-                                                    <input class="form-control form-control-md" type="number"
-                                                        formControlName="coPayAmount" placeholder="$"
-                                                        (blur)="checkSpace('coPayAmount', $event)" />
-                                                    <div class="text text-danger mt-1"
-                                                        *ngIf="appoitmentForm.controls['coPayAmount'].touched && (appoitmentForm.controls['coPayAmount'].hasError('required') || appoitmentForm.controls['coPayAmount'].invalid)">
-                                                        {{ validationMessages.required('Copay Amount') }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="col-form-label fw-600">High Deductibles</label>
-                                                    <input class="form-control form-control-md" type="number"
-                                                        formControlName="highDeductibles" placeholder="$"
-                                                        (blur)="checkSpace('highDeductibles', $event)" />
-                                                    <div class="text text-danger mt-1"
-                                                        *ngIf="appoitmentForm.controls['highDeductibles'].touched && (appoitmentForm.controls['highDeductibles'].hasError('required') || appoitmentForm.controls['highDeductibles'].invalid)">
-                                                        {{ validationMessages.required('High Deductibles') }}
-                                                    </div>
-                                                </div>
-
-                                                <mat-checkbox [disabled]="!isFormEditable" class=""
-                                                    (change)="patientCheckIn($event, appointmentData)"
-                                                    [(ngModel)]="appointmentData.checkIn">Patient
-                                                    Checked-In</mat-checkbox>
-                                            </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">OT $200 Used out of $1000, PT/SLP $350 Used out of
+                                                $1200</p>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-row flex-wrap align-items-center">
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Neck Pain</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Jacob Jones</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Return to Doctor</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Fri, Nov 16, 2023</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">12/1/24 - 12/10/2024</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Insurance Type</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Medicare</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <mat-checkbox class="">Patient Check in Status</mat-checkbox>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div> 
+        </div>
+
+        <div class="card-body mt-0 mb-0 pb-0">
+            <div class="divider"> </div>
+        </div> 
+        <div class="card-body mt-0">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-3 clr--1F2F3E fw-600 font-22">Notes</h3>
+                </div>
+                <div class="col-12 col-sm-10 col-lg-10 mb-2">
+                    <div class="d-flex flex-row flex-wrap gap-10">
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/initial-examination/subjective/',appointmentId]">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Initial Examination
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/daily-notes/subjective/',appointmentId]">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Daily Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Progress Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Discharge Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" (click)="caseNoteModal()">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
+                            Case Note
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-2 col-lg-2 d-flex justify-content-end mb-2">
+                    <button class="flex-shrink-0" mat-stroked-button color="primary">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> print </mat-icon>
+                        E-Fax
+                    </button>
+                </div>
+                <div class="col-12 mb-2">
+                    <div class="d-flex notes--table w-100 mt-2 mb-2">
+                        <div class="row w-100">
+                            <div class="col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div class="form-group position-relative w-100">
+                                            <input type="text" class="form-control search--outer" placeholder="Search ">
+                                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Status</option> 
+                                                <option value="1">Draft</option>
+                                                <option value="2">Finalized</option> 
+                                                <option value="3">Pending</option> 
+                                                <option value="4">Declined</option> 
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                <input matInput [matDatepicker]="picker" placeholder="From Date">
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                <input matInput [matDatepicker]="picker1" placeholder="To Date">
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Note Type</option>
+                                                <option value="1">Case Note</option>
+                                                <option value="2">Initial Examination</option>
+                                                <option value="3">Daily Note</option>
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-12 cust--mat--table--wrapper">
+                                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                                    class="cust--mat--table ">  
+                                    <ng-container matColumnDef="note">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                                            Note
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <div class="d-flex align-items-center  "> 
+                                                <div> 
+                                                    <p class="mb-0 font-14 text-primary clr--1F2F3E fw-500">{{element.note}}</p>
+                                               </div>
+                                            </div>     
+                                        </td>
+                                    </ng-container>  
+                                    <ng-container matColumnDef=" dateAddedOn">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Date Added on
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            {{element.dateAddedOn}} 
+                                            <p class="mt-1 "> <span class="fw-700"> Addendum:</span> Fri, Nov 09, 2023 10:00 am</p>
+                                        </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="noteAddedOn">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                                            Note Added By
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">  
+                                            {{element.noteAddedOn}}
+                                            <p class="mt-1 "> Taylor Stafford</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element.status}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Actions
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">  
+                                            <div class="w-100 d-flex align-items-center">
+                                                
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above">
+                                                    <!-- <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">font_download </mat-icon> -->
+                                                    <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" disabled>
+                                                    <!-- <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/delete-icon.svg" alt="" class="img-fluid" />
+                                                    </div> -->
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" (click)="noteModal()">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                
                             </div>
                         </div>
                     </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+                <div class="col-12">
+                    <div class="home--exce d-flex flex-column w-100">
+                        <div class="d-flex align-items-center">
+                            <h2 class="mb-0 clr--1F2F3E fw-600 font-20">Home Excercises </h2>
+                            <button mat-raised-button color="primary" class="add--btn">
+                                <mat-icon class="m-0">add_circle</mat-icon> 
+                            </button>
+                        </div>
+                        <!-- <div class="d-flex align-items-center w-100 v--outer mt-3">
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                        </div> -->
+                    </div> 
                 </div>
             </div>
-            <!-- <div class="card-body d-flex  w-100 mb-3 mt-0">
-                <div class="medical--edu--video d-flex flex-column w-100">
-                    <h2 class="mb-3 clr--1F2F3E fw-600">Medical Educational Videos</h2>
-                    <div class="d-flex align-items-center w-100 v--outer">
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="v--box flex-shrink-0">
-                            <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                </div> 
-            </div> -->
-            <div *ngIf="isFormEditable" class="d-flex align-items-center justify-content-center w-100 footer--btns">
-                <!-- (click)="acceptAppointment(appointmentData._id)" -->
-                <button mat-raised-button color="green--btn" class="m-1" type="submit"
-                    [disabled]="appointmentData.status =='Accepted' || appointmentData.status =='Cancelled'">
-                    {{appointmentData.status =='Accepted' ? 'Accepted' : 'Accept Appointment'}}
-                </button>
-                <button mat-raised-button color="warn" class="m-1" (click)="writeComment(appointmentData._id)"
-                    [disabled]="appointmentData.status =='Cancelled' || appointmentData.status =='Accepted'">
-                    {{appointmentData.status =='Cancelled' ? 'Cancelled' : 'Cancel Appointment'}}
-                </button>
-            </div>
-        </form>
+        </div>
+         
     </div>
-</div>
+</div> 
+    
+ 

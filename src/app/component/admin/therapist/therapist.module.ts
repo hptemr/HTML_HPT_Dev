@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TherapistRoutingModule } from './therapist-routing.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
   ],
@@ -12,6 +13,7 @@ import { TherapistRoutingModule } from './therapist-routing.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    NgSelectModule
   ]
 })
 export class TherapistModule { }

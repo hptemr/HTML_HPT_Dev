@@ -1,0 +1,33 @@
+.additional--form--wrapper{
+    .back--btn{
+        min-width: 42px;
+        .material-symbols-outlined{
+            width: 24px;
+            height: 24px;
+            font-size: 24px; 
+        }
+    }
+    ::ng-deep{
+        table{
+            tbody{
+                tr{
+                    td{
+                        padding: 12px 10px !important;
+                        .pdf-icon{ 
+                            color: #F45454;
+                            flex-shrink: 0;
+                        } 
+                        .print--btn{
+                            .mat-icon{
+                                width: 26px;
+                                height: 26px;
+                                font-size: 26px;
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

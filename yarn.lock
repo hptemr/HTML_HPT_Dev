@@ -5668,6 +5668,13 @@ ngx-image-cropper@^8.0.0:
   dependencies:
     tslib "^2.3.0"
 
+ngx-owl-carousel-o@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-owl-carousel-o/-/ngx-owl-carousel-o-18.0.0.tgz#2b7fc350475434f17f5e554261d374af49d2366e"
+  integrity sha512-3ukc6mDGseUXvYrpfV+Hm2O6cBOgV0p1bT51fykQQxAMZptbnzIQJ+U6ADbeds4tkZiwAHLK2a3qItlHz5YVOg==
+  dependencies:
+    tslib "^2.3.0"
+
 ngx-toastr@^18.0.0:
   version "18.0.0"
   resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-18.0.0.tgz#0016e897108817eb6b2ee16ff130b4c42fc214b0"

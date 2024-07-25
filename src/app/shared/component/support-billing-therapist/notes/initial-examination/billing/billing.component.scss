@@ -1,0 +1,65 @@
+.initial--exam--billing--wrapper{
+    .billing-total-unit-wrapper{
+        .form-group{
+            margin-bottom: 0;
+            .width-50{
+                width: 50px;
+                height: 36px;
+            }
+        }
+    }
+    .unlimited-codes-unit-wrapper{
+        .form-group{
+            margin-bottom: 0;
+            .width-50{
+                width: 50px;
+                height: 36px;
+            }
+            .width-60{
+                width: 60px;
+            }
+            .box-height{
+                height: 36px;
+            }
+        }
+        .w-95{
+            width: 100%;
+        }
+    }
+    .last-check-div{
+        .mat-mdc-checkbox {
+            margin-left: -10px !important;
+        }
+    }
+    ::ng-deep{
+        .mdc-label{
+            margin-top: 5px;
+            color: #1F2F3E !important;
+        }
+        .mat-mdc-checkbox .mdc-form-field .mdc-checkbox .mdc-checkbox__background{
+            border-radius: 50%;
+            width: 23px;
+            height: 23px;
+        }
+        .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-form-field .mdc-checkbox .mdc-checkbox__background{
+            border-radius: 50%;
+            .mdc-checkbox__checkmark{
+                padding: 5px;
+            }
+        }
+        .mat-mdc-checkbox-ripple,.mdc-checkbox__ripple{
+            top: 5px !important;
+            left: 5px !important;
+        }
+    }
+}
+@media only screen and (min-width: 1080px) {
+    .w-95{
+        width: 95% !important;
+    }
+}
+@media only screen and (max-width: 599px) {
+    .initial--exam--billing--wrapper .billing-total-unit-wrapper .form-group {
+        margin-left: auto;
+    }
+}
