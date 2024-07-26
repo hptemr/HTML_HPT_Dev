@@ -156,4 +156,25 @@ export class UserService {
     });
   }
 
+   // Update user profile pic on comet chat
+   updateUserProfilePic(uid: string, avatarPic: string) {
+    return new Promise((resolve, reject) => {
+      let authKey: string = cometChatCredentials.authKey;
+      var user: CometChat.User = new CometChat.User(uid);
+      user.setAvatar(avatarPic);
+
+      CometChat.updateUser(user, authKey).then(
+        (user: CometChat.User) => {
+            console.log("user profile pic updated successfully", user);
+            resolve(true)
+        }, (error: CometChat.CometChatException) => {
+            console.log("updateUserProfilePic error", error);
+            let parameter: any = {'uid':uid, 'avatarPic': avatarPic}
+            this.commonService.cometChatLog(this.loginUserData,'updateUserProfilePic','error', parameter, error)
+            reject()
+        }
+      ) 
+    })
+  }
+
 }

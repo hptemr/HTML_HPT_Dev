@@ -163,4 +163,32 @@ export class MessageService {
     });
   }
 
+  markAsRead(recieveMessage:any){
+    let messageId: string = recieveMessage.id;
+    let receiverId: string = recieveMessage.receiverId;
+    let receiverType: string = recieveMessage.receiverType;
+    let senderId: string = recieveMessage.sender.uid;
+    CometChat.markAsRead(messageId, receiverId, receiverType, senderId).then(
+      () => {
+          console.log("mark as read success.");
+      }, (error: CometChat.CometChatException) => {
+          console.log("An error occurred when marking the message as read.", error);
+      }
+    );
+  }
+
+  markAsDelivered(sendMessage:any){
+    let messageId: string = sendMessage.id;
+    let receiverId: string = sendMessage.receiverId;
+    let receiverType: string = sendMessage.receiverType;
+    let senderId: string = sendMessage.sender.uid;
+    CometChat.markAsDelivered(messageId, receiverId, receiverType, senderId).then(
+      () => {
+          console.log("mark as delivered success.");
+      }, (error: CometChat.CometChatException) => {
+          console.log("An error occurred when marking the message as delivered.", error);
+      }
+    );
+  }
+
 }

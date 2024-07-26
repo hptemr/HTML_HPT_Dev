@@ -50,7 +50,7 @@ export class ConversationsComponent {
     public userService: UserService,
     public messageService: MessageService,
     public datePipe: DatePipe,
-    private authService: AuthService,
+    private authService: AuthService
   ) {
     this.searchControlUsers()
     this.loginUserId = this.authService.getLoggedInInfo('_id')
@@ -80,6 +80,7 @@ export class ConversationsComponent {
     console.log("previousMessage>>>",previousMessage)
     this.messages = (previousMessage as any[])
     console.log("firstUserChat this.messages>>>",this.messages);
+    this.markAllMessagesAsRead(this.messages);
   }
 
   async getUserWithLastConversation(userData:any){
@@ -89,7 +90,9 @@ export class ConversationsComponent {
       let match = conversations.find((element:any) => element.conversationId == item.conversationId);
       return {
         ...item,
-        lastMessage: match ? match.lastMessage : null
+        lastMessage: match ? match.lastMessage : null,
+        unreadMessageCount : match? match.unreadMessageCount : 0,
+        conversationId : match? match.conversationId : ""
       };
     });
     return mergedArray
@@ -113,10 +116,15 @@ export class ConversationsComponent {
 
   async onUserSelected(userData: any) {
     this.userData = userData
+    console.log("userData>>>",userData)
     const previousMessage = await this.messageService.getPreviousMessages(userData.uid)
     console.log("previousMessage>>>",previousMessage)
     this.messages = (previousMessage as any[])
+    this.markAllMessagesAsRead(this.messages);
+    this.resetUnreadMessageCount(userData.uid)
   }  
+
+  
 
   /* ====================================================================================
     Comet chat MESSAGE related functions 
@@ -126,6 +134,7 @@ export class ConversationsComponent {
     const sentMessage = await this.messageService.sendMessage(userData.uid, message)
     console.log("sentMessage>>>",sentMessage);
     if (sentMessage) {
+      this.messageService.markAsDelivered(sentMessage) 
       this.messages = [...this.messages, sentMessage as any];
     }
     console.log("sendMessage this.messages>>>",this.messages);
@@ -143,8 +152,16 @@ export class ConversationsComponent {
       new CometChat.MessageListener({
           onTextMessageReceived: (textMessage: CometChat.TextMessage) => {
               console.log("Text message received successfully", textMessage);
-              if (textMessage) {
+              // if (textMessage) {
+              //   // this.messageService.markAsRead(textMessage) 
+              //   this.messages = [...this.messages, textMessage as any];
+              //   console.log("realTimeListener>>>>",this.messages)
+              // }
+
+              let textMessageTemp : any = textMessage
+              if (textMessage && this.userData.conversationId == textMessageTemp.conversationId) {
                 this.messages = [...this.messages, textMessage as any];
+                console.log("realTimeListener>>>>",this.messages)
               }
           },
           onTypingStarted: (typingIndicator: CometChat.TypingIndicator) => {
@@ -160,10 +177,24 @@ export class ConversationsComponent {
               this.typingIndicatorSenderId = typingIndicatorData.sender.uid
               this.isTyping = false;
               this.typingIndicator = null
+          },
+          onMessagesDelivered: (messageReceipt: CometChat.MessageReceipt) => {
+            console.log("MessageDeliverd", { messageReceipt });
+              let deliveredMessage:any = messageReceipt
+              // this.updateMessageStatus(deliveredMessage, 'delivered');
+              console.log("onMessagesDelivered userDatauid>>>",this.userData.uid)
+              console.log("onMessagesDelivered deliveredMessage.sender.uid>>>",deliveredMessage.sender.uid)
+              if (this.userData.uid != deliveredMessage.sender.uid) {
+                this.updateUnreadMessageCount(deliveredMessage.sender.uid, 1);
+              }
+          },
+          onMessagesRead: (messageReceipt: CometChat.MessageReceipt) => {
+              console.log("MessageRead", { messageReceipt });
+              // let readMessage:any = messageReceipt
+              // this.updateMessageStatus(readMessage, 'read');
           }
       })
     );
-
     // User Listener
     CometChat.addUserListener(
       this.userListenerID,
@@ -178,6 +209,34 @@ export class ConversationsComponent {
         },
       })
     );
+  }
+
+  updateUnreadMessageCount(userId:any, count:number) {
+    const userIndex = this.chatUserList.findIndex((user:any) => user.uid === userId);
+    if (userIndex !== -1) {
+      this.chatUserList[userIndex].unreadMessageCount = (this.chatUserList[userIndex].unreadMessageCount || 0) + count;
+    }
+  }
+
+  resetUnreadMessageCount(userId:any) {
+    const userIndex = this.chatUserList.findIndex((user:any) => user.uid === userId);
+    if (userIndex !== -1) {
+      this.chatUserList[userIndex].unreadMessageCount = 0;
+    }
+  }
+
+
+  updateMessageStatus(message:any, status:any) {
+    const messageIndex = this.messages.findIndex((m:any) => m.id == message.messageId);
+    if (messageIndex !== -1) {
+      this.messages[messageIndex].status = status;
+    }
+  }
+
+  markAllMessagesAsRead(messages:any) {
+    messages.forEach((msg:any) => {
+      this.messageService.markAsRead(msg)
+    });
   }
 
   updateUserPresence(user:any, isOnline:boolean) {

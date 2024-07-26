@@ -28,7 +28,10 @@
                                 </div>
                                 <p class="msg mb-0">{{(user.lastMessage && user.lastMessage!=null)?user.lastMessage.text:''}}</p>
                                 <span class="mb-0 font-14 text-primary fw-500" *ngIf="user.uid==typingIndicatorSenderId && isTyping">Typing ...</span>
-                                <p class="mb-0 font-14 fw-500 {{(user.status=='online')?'text-primary':'clr--828282'}}" >{{user.status}}</p>
+                                <p class="mb-0 font-14 fw-500 {{(user.status=='online')?'text-primary':'clr--828282'}}" >
+                                    {{user.status}}
+                                    <span  *ngIf="user.unreadMessageCount > 0" class="unread-count">{{ user.unreadMessageCount }}</span>
+                                </p>
                             </div>  
                         </li> 
                     </ng-container>
@@ -164,6 +167,8 @@
                                         <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
                                     </div> -->
                                     <p class="mb-0 font-14 fw-500">{{msg.text}}</p>
+                                    <!-- <span *ngIf="msg.status === 'delivered'" class="delivered-status">✓✓</span> -->
+                                    <!-- <span *ngIf="msg.status === 'read' && msg.sender.uid==loginUserId" class="read-status">✓✓</span> -->
                                 </div>
                                 <p class="time font-12 mt-1 fw-500">{{formatMessageDate(msg.sentAt)}}</p>
                             </li>
