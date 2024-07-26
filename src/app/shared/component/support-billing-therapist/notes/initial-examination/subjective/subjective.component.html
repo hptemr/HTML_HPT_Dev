@@ -1,1068 +1,1075 @@
 <div class="container-fluid subjective--wrapepr p-0">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
-        </div>
-        <div class="col-12 col-lg-5">
-            <div class="form-group mb-4">
-                <label class="col-form-label fw-600">Date of Initial Examination</label>
-                <mat-form-field class="w-100 am--datepicker">
-                    <input matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()" >
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
+    <form [formGroup]="subjectiveForm" (ngSubmit)="subjectiveSubmit(subjectiveForm.value)">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="row">
-                <div class="col-12 col-lg-5">
-                    
-                    <div class="form-group d-flex align-items-center">
-                        <label class="col-form-label fw-600 p-0">Diagnosis</label>
-                        <div class="position-relative w-100 ms-2 search--diagnosis">
-                            <!-- <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchTerm" (input)="onSearchTermChange()" >
-                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                            </button> -->
-                            <ng-select  class="form-control" [items]="icd_data" bindLabel="name" bindValue="code" [(ngModel)]="selectedCode"
-                             [searchable]="true" placeholder="Select a code" [clearable]="true" (change)="onCodeChange($event)">
-                                    <ng-template ng-option-tmp let-item="item">
-                                        <div>{{ item.code }} ({{ item.name }})</div>
-                                    </ng-template>
-                                    <!-- <ng-template ng-select-tmp let-item="item">
-                                        <div>{{ item.code }} ({{ item.name }})</div>
-                                      </ng-template> -->
-                            </ng-select>
-                        </div>
-                        
-
-                       
-
-                    </div>
+            <div class="col-12 col-lg-5">
+                <div class="form-group mb-4">
+                    <label class="col-form-label fw-600">Date of Initial Examination</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker" placeholder="Select Date" [max]="todayDate" 
+                        formControlName="examin_date" readonly placeholder="MM-DD-YYYY" (focus)="picker1.open()">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['examin_date'].hasError('required') && subjectiveForm.controls['examin_date'].touched">
+                        {{ validationMessages.required('Initial examination date') }}</div>
+               
                 </div>
             </div>
-        </div>
-        <div class="col-12">          
-            <div class="table-responsive normal--table mb-3">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">nameription</th>
-                            <th scope="col">ICD Codes</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody *ngIf="selectedCode">
-                        <tr *ngFor="let item of icdCodeList;let i=index;">
-                            <td>{{item.name}}</td>
-                            <td>{{item.code}}</td>
-                            <td>
-                                <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeIcd(i)">
-                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel
-                                    </mat-icon>
-                                </button>
-                            </td>
-                        </tr>    
-                    </tbody>
-                    <tbody *ngIf="!selectedCode">                    
-                        <tr>
-                            <td colspan="3" class="p-0">
-                                <div class="no--record--found d-flex align-items-center justify-content-center w-100" >
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
-                                        <p class="">No Records found</p>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group d-flex align-items-center">
-                <label class="col-form-label fw-600 p-0 me-3">Treatment Side</label>
-                <mat-radio-group aria-label="Select an option" >
-                    <mat-radio-button value="1" class="me-3" checked>Left</mat-radio-button>
-                    <mat-radio-button value="2" class="me-3">Right</mat-radio-button>
-                    <mat-radio-button value="3">Bilateral</mat-radio-button>
-                </mat-radio-group>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600">Date & Type of Surgery</label>
+            <div class="col-12">
                 <div class="row">
-                    <div class="col-12 col-sm-3 col-lg-3">
-                        <mat-form-field class="w-100 am--datepicker mb-2">
-                            <input matInput [matDatepicker]="picker1" placeholder="Date of Surgery" (focus)="picker1.open()">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-12 col-sm-3 col-lg-3">
-                        <input type="text" class="form-control mb-2" placeholder="Type of Surgery ">
+                    <div class="col-12 col-lg-5">                    
+                        <div class="form-group d-flex align-items-center">
+                            <label class="col-form-label fw-600 p-0">Diagnosis</label>
+                            <div class="position-relative w-100 ms-2 search--diagnosis">
+                                <!-- <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchTerm" (input)="onSearchTermChange()" >
+                                <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                                </button> -->
+                                <ng-select  class="form-control" [items]="icd_data" bindLabel="name" bindValue="code" [(ngModel)]="selectedCode"
+                                [searchable]="true" placeholder="Select a code" [clearable]="true" (change)="onCodeChange($event)">
+                                        <ng-template ng-option-tmp let-item="item">
+                                            <div>{{ item.code }} ({{ item.name }})</div>
+                                        </ng-template>
+                                        <!-- <ng-template ng-select-tmp let-item="item">
+                                            <div>{{ item.code }} ({{ item.name }})</div>
+                                        </ng-template> -->
+                                </ng-select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600">Subjective</label>
-                <textarea class="form-control text-left" type="text" placeholder="Enetr Address" rows="5" disabled>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, 
-                </textarea> 
+            <div class="col-12">          
+                <div class="table-responsive normal--table mb-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">nameription</th>
+                                <th scope="col">ICD Codes</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="selectedCode">
+                            <tr *ngFor="let item of icdCodeList;let i=index;">
+                                <td>{{item.name}}</td>
+                                <td>{{item.code}}</td>
+                                <td>
+                                    <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeIcd(i)">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                            </tr>    
+                        </tbody>
+                        <tbody *ngIf="!selectedCode">                    
+                            <tr>
+                                <td colspan="3" class="p-0">
+                                    <div class="no--record--found d-flex align-items-center justify-content-center w-100" >
+                                        <div class="d-flex flex-column align-items-center w-100">
+                                            <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                                            <p class="">No Records found</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="divider my-2"> </div>
-        </div>
-        <div class="col-12 medical--history--outer">
-            <div class="row"> 
-                <div class="col-12">
-                    <p class="fw-700 font-16 mb-2 mt-2">Patient Medical History Form</p> 
-                </div>  
-                <div class="col-12 col-lg-9">
+            <div class="col-12">
+                <div class="form-group d-flex align-items-center">
+                    <label class="col-form-label fw-600 p-0 me-3">Treatment Side</label>
+                    <mat-radio-group aria-label="Select an option" formControlName="treatment_side">
+                        <mat-radio-button value="Left" class="me-3" checked>Left</mat-radio-button>
+                        <mat-radio-button value="Right" class="me-3">Right</mat-radio-button>
+                        <mat-radio-button value="Bilateral">Bilateral</mat-radio-button>
+                        <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['treatment_side'].hasError('required') && subjectiveForm.controls['treatment_side'].touched">
+                            {{ validationMessages.requiredCheckbox('Treatment side') }}</div>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Date & Type of Surgery</label>
                     <div class="row">
-                        <div class="col-12">
-                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Have you or any immediate family member ever been told you have: <span class="ms-2 clr--828282 fw-400">(Select Yes or No) </span></p> 
-                        </div> 
-                        <div class="d-flex flex-column w-100 disease--name--wrapper">
-                            <div class="dd--header w-100 d-flex align-items-center">
-                                <div class="disease--box"> 
-                                </div>
-                                <div class="self--box">
-                                    <h1 class="mb-0 font-16 clr--1F2F3E text-uppercase">SELF</h1>
-                                </div>
-                                <div class="family--box">
-                                    <h1 class="mb-1 font-16 clr--1F2F3E text-uppercase">Family</h1>
-                                </div>
-                            </div>
-                            <div class="dd--body w-100">
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Cancer?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="0" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 0">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="2" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 2">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Diabetes?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="4" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 4">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="5" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 5">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">High blood pressure?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="6" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 6">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="7" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 7">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Heart disease?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="8" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 8">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="9" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 9">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Angina/Chest pain?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="10" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 10">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="11" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 11">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Stroke?</label>  
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="301" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 301">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="302" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 302">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoporosis?</label>  
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="303" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 303">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="304" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoarthritis?</label>  
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="305" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="306" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 306">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatoid arthritis?</label>  
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="307" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 307">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="308" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 308">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600"> Bleeding disorders?</label>  
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="310" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 310">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="family--box">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="311" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="3" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 311">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  
+                        <div class="col-12 col-sm-3 col-lg-3">
+                            <mat-form-field class="w-100 am--datepicker mb-2">
+                                <input matInput [matDatepicker]="picker1" placeholder="Date of Surgery" [max]="todayDate" 
+                                formControlName="surgery_date" readonly placeholder="MM-DD-YYYY" (focus)="picker1.open()">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                            <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['surgery_date'].hasError('required') && subjectiveForm.controls['surgery_date'].touched">
+                                {{ validationMessages.required('Surgery date') }}</div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-lg-3">
+                            <input type="text" class="form-control mb-2" placeholder="Type of Surgery" formControlName="surgery_type">
+                            <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['surgery_type'].hasError('required') && subjectiveForm.controls['surgery_type'].touched">
+                                {{ validationMessages.required('Type of surgery') }}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="divider d-flex w-100"></div>
-                </div>  
-                
-                <div class="col-12 col-lg-9">
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">In the past 3 months have you had or do experience:</p> 
-                        </div>
-                        <div class="d-flex flex-column w-100 disease--name--wrapper"> 
-                            <div class="dd--body w-100">
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">A change in your health?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100">
-                                            <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="111" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 111">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Nausea/Vomiting?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="13" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 13">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Fever/Chills/Sweats?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="16" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 16">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Unexplained weight change?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="18" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 18">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Numbness or tingling?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="20" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 20">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in appetite?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="21" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 21">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Difficulty swallowing?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="22" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 22">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in bowel/bladder function?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="23" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 23">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Shortness of breath? </label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="24" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 24">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600"> Dizziness?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="25" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 25">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Upper respiratory infection?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="26" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 26">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Urinary tract infection?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="27" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 27">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div> 
-                            </div>
-                        </div> 
-                    </div> 
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Subjective</label>
+                    <textarea class="form-control text-left" type="text" placeholder="Enter Address" formControlName="subjective_note" rows="5"></textarea>
                 </div>
-                <div class="col-12">
-                    <div class="divider d-flex w-100"></div>
-                </div>
-    
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-12 d-flex align-items-center flex-wrap">
-                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E me-3">Do you have any allergies to medications?</p> 
-                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                <mat-radio-button  [value]="012" class="me-3" >Yes</mat-radio-button>
-                                <mat-radio-button  [value]="02" checked>No</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div class="col-12" *ngIf="selectedValue == 012">
-                            <div class="row">
-                                <div class="col-12 col-lg-7">
-                                    <!-- *ngFor="let allergy of allergies; let i = index" -->
-                                    <div class="d-flex align-items-center w-100" >
-                                        <div class="form-group w-100">
-                                            <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
-                                            <input class="form-control" type="text" placeholder="Enter Allergy" />
-                                            <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                        </div>
-                                        <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn" >
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
-                                        </button>
+            </div>
+            <div class="col-12">
+                <div class="divider my-2"> </div>
+            </div>
+            <div class="col-12 medical--history--outer">
+                <div class="row"> 
+                    <div class="col-12">
+                        <p class="fw-700 font-16 mb-2 mt-2">Patient Medical History Form</p> 
+                    </div>  
+                    <div class="col-12 col-lg-9">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Have you or any immediate family member ever been told you have: <span class="ms-2 clr--828282 fw-400">(Select Yes or No) </span></p> 
+                            </div> 
+                            <div class="d-flex flex-column w-100 disease--name--wrapper">
+                                <div class="dd--header w-100 d-flex align-items-center">
+                                    <div class="disease--box"> 
                                     </div>
-                                    <div class="d-flex align-items-center w-100" >
-                                        <div class="form-group w-100">
-                                            <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
-                                            <input class="form-control" type="text" placeholder="Enter Allergy" />
-                                            <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                        </div>
-                                        <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn" >
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
-                                        </button>
+                                    <div class="self--box">
+                                        <h1 class="mb-0 font-16 clr--1F2F3E text-uppercase">SELF</h1>
                                     </div>
-                                    
+                                    <div class="family--box">
+                                        <h1 class="mb-1 font-16 clr--1F2F3E text-uppercase">Family</h1>
+                                    </div>
                                 </div>
-                                <div class="col-12 ">
-                                    <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
-                                        Previous surgeries and dates
-                                    </p> 
-                                </div>
-                                <div class="col-12">
-                                    <div class="row align-items-center">
-                                        <div class="col-12 col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label fw-600">Surgery Details </label>
-                                                <input class="form-control" type="text" placeholder="Enter Surgery Details" />
-                                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                                            </div>
+                                <div class="dd--body w-100">
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Cancer?</label>
                                         </div>
-                                        <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
-                                            <div class="form-group w-100">
-                                                <label class="col-form-label fw-600">Surgery Date </label>
-                                                <div class="input-group">
-                                                    <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                        [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                                        type="button">
-                                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                                    </button>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="0" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 0">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
                                                 </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="2" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 2">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Diabetes?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="4" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 4">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="5" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 5">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">High blood pressure?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="6" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 6">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="7" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 7">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Heart disease?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="8" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 8">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="9" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 9">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Angina/Chest pain?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="10" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 10">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="11" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 11">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Stroke?</label>  
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="301" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 301">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="302" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 302">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoporosis?</label>  
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="303" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 303">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="304" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Osteoarthritis?</label>  
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="305" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="306" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 306">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatoid arthritis?</label>  
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="307" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 307">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="308" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 308">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600"> Bleeding disorders?</label>  
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="310" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 310">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="family--box">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="311" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 311">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="divider d-flex w-100"></div>
+                    </div>  
+                    
+                    <div class="col-12 col-lg-9">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">In the past 3 months have you had or do experience:</p> 
+                            </div>
+                            <div class="d-flex flex-column w-100 disease--name--wrapper"> 
+                                <div class="dd--body w-100">
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">A change in your health?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100">
+                                                <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="111" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 111">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Nausea/Vomiting?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="13" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 13">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Fever/Chills/Sweats?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="16" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 16">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Unexplained weight change?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="18" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 18">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Numbness or tingling?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="20" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 20">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in appetite?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="21" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 21">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Difficulty swallowing?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="22" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 22">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Changes in bowel/bladder function?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="23" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 23">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Shortness of breath? </label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="24" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 24">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600"> Dizziness?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="25" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 25">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Upper respiratory infection?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="26" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 26">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Urinary tract infection?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="27" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 27">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class="col-12">
+                        <div class="divider d-flex w-100"></div>
+                    </div>
+        
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 d-flex align-items-center flex-wrap">
+                                <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E me-3">Do you have any allergies to medications?</p> 
+                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                    <mat-radio-button  [value]="012" class="me-3" >Yes</mat-radio-button>
+                                    <mat-radio-button  [value]="02" checked>No</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="col-12" *ngIf="selectedValue == 012">
+                                <div class="row">
+                                    <div class="col-12 col-lg-7">
+                                        <!-- *ngFor="let allergy of allergies; let i = index" -->
+                                        <div class="d-flex align-items-center w-100" >
+                                            <div class="form-group w-100">
+                                                <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
+                                                <input class="form-control" type="text" placeholder="Enter Allergy" />
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div>
-                                            <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
+                                            <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn" >
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
                                             </button>
-                                        </div>  
-                                    </div>
-                                    <div class="row align-items-center">
-                                        <div class="col-12 col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label fw-600">Surgery Details </label>
-                                                <input class="form-control" type="text" placeholder="Enter Surgery Details" />
-                                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                                            </div>
                                         </div>
-                                        <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
+                                        <div class="d-flex align-items-center w-100" >
                                             <div class="form-group w-100">
-                                                <label class="col-form-label fw-600">Surgery Date </label>
-                                                <div class="input-group">
-                                                    <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                        [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                                        type="button">
-                                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
+                                                <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
+                                                <input class="form-control" type="text" placeholder="Enter Allergy" />
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div>
-                                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
+                                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn" >
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
                                             </button>
-                                        </div>  
-                                    </div>
-                                   
-                                </div>
-    
-                                <div class="col-12 ">
-                                    <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
-                                        Medications you are currently using:
-                                    </p> 
-                                </div>
-                                <div class="col-12 col-lg-7">
-                                    <div class="d-flex align-items-center w-100">
-                                        <div class="form-group w-100">
-                                            <label class="col-form-label fw-600">Medication</label>
-                                            <input class="form-control" type="text" placeholder="Enter Medication" />
-                                            <!-- <div class="text text-danger mt-1">Error here</div> -->
                                         </div>
-                                        <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> delete </mat-icon> 
-                                        </button>
+                                        
                                     </div>
-                                    <div class="d-flex align-items-center w-100">
-                                        <div class="form-group w-100">
-                                            <label class="col-form-label fw-600">Medication</label>
-                                            <input class="form-control" type="text" placeholder="Enter Medication" />
-                                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                    <div class="col-12 ">
+                                        <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
+                                            Previous surgeries and dates
+                                        </p> 
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row align-items-center">
+                                            <div class="col-12 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label fw-600">Surgery Details </label>
+                                                    <input class="form-control" type="text" placeholder="Enter Surgery Details" />
+                                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
+                                                <div class="form-group w-100">
+                                                    <label class="col-form-label fw-600">Surgery Date </label>
+                                                    <div class="input-group">
+                                                        <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
+                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                                                            type="button">
+                                                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
+                                                </button>
+                                            </div>  
                                         </div>
-                                        <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> add_circle </mat-icon> 
-                                        </button>
+                                        <div class="row align-items-center">
+                                            <div class="col-12 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label fw-600">Surgery Details </label>
+                                                    <input class="form-control" type="text" placeholder="Enter Surgery Details" />
+                                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
+                                                <div class="form-group w-100">
+                                                    <label class="col-form-label fw-600">Surgery Date </label>
+                                                    <div class="input-group">
+                                                        <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
+                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                                                            type="button">
+                                                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
+                                                </button>
+                                            </div>  
+                                        </div>
+                                    
                                     </div>
-                                   
+        
+                                    <div class="col-12 ">
+                                        <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
+                                            Medications you are currently using:
+                                        </p> 
+                                    </div>
+                                    <div class="col-12 col-lg-7">
+                                        <div class="d-flex align-items-center w-100">
+                                            <div class="form-group w-100">
+                                                <label class="col-form-label fw-600">Medication</label>
+                                                <input class="form-control" type="text" placeholder="Enter Medication" />
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                            </div>
+                                            <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> delete </mat-icon> 
+                                            </button>
+                                        </div>
+                                        <div class="d-flex align-items-center w-100">
+                                            <div class="form-group w-100">
+                                                <label class="col-form-label fw-600">Medication</label>
+                                                <input class="form-control" type="text" placeholder="Enter Medication" />
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                            </div>
+                                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> add_circle </mat-icon> 
+                                            </button>
+                                        </div>
+                                    
+                                    </div>
                                 </div>
-                            </div>
-                        </div>  
+                            </div>  
+                        </div>
+                    </div> 
+                    <div class="col-12">
+                        <div class="divider d-flex w-100"></div>
                     </div>
-                </div> 
-                <div class="col-12">
-                    <div class="divider d-flex w-100"></div>
-                </div>
-    
-                <div class="col-12 col-lg-9">
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Do you have a history of:</p> 
-                        </div>
-                        <div class="d-flex flex-column w-100 disease--name--wrapper"> 
-                            <div class="dd--body w-100">
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Allergies/asthma?</label>
+        
+                    <div class="col-12 col-lg-9">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Do you have a history of:</p> 
+                            </div>
+                            <div class="d-flex flex-column w-100 disease--name--wrapper"> 
+                                <div class="dd--body w-100">
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Allergies/asthma?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="31" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue === 31">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
                                     </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="31" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue === 31">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Headaches</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="32" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="321" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 32">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Bronchitis?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="33" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="331" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 33">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Kidney disease?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="34" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 34">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div> 
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatic fever?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="35" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 35">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Ulcers? </label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="36" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 36">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Sexually transmitted disease? </label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="37" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 37">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Seizures?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="38" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 38">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have a pacemaker?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="39" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 39">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have any metal in your body?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="40" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 40">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
                                         </div> 
                                     </div> 
                                 </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Headaches</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="32" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="321" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 32">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class="col-12">
+                        <div class="divider d-flex w-100"></div>
+                    </div>
+        
+                    <div class="col-12 col-lg-9">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are you currently?</p> 
+                            </div>
+                            <div class="d-flex flex-column w-100 disease--name--wrapper"> 
+                                <div class="dd--body w-100">
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Pregnant</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="51" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue === 51">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
                                         </div> 
-                                    </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Depressed?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="52" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="321" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 52">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                    <div class="dd--row w-100 d-flex align-items-start">
+                                        <div class="disease--box">
+                                            <label class="mb-0 font-14 clr--1F2F3E fw-600">Under Stress?</label>
+                                        </div>
+                                        <div class="self--box ">
+                                            <div class="d-flex flex-column w-100"> 
+                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
+                                                    <mat-radio-button  [value]="53" class="me-4">Yes</mat-radio-button>
+                                                    <mat-radio-button  [value]="331" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 53">
+                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div>  
                                 </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Bronchitis?</label>
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class="col-12">
+                        <div class="divider d-flex w-100"></div>
+                    </div>
+        
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are your symptoms: <span class="ms-2 clr--828282 font-14 fw-400">(Select One)  </span></p> 
+                            </div> 
+                            <mat-radio-group aria-label="Select an option" >
+                                <mat-radio-button [disabled]="isDisabled"  [value]="101" class="me-4" checked>Getting Worse</mat-radio-button>
+                                <mat-radio-button [disabled]="isDisabled"  [value]="102" class="me-4">
+                                    <div class="d-flex align-items-center">
+                                        <span class="flex-shrink-0 me-2">The Same </span>
+                                        <div class="form-group m-0 w-100">
+                                            <input class="form-control form-control-md" [disabled]="isDisabled" type="text" placeholder="How Long?" /> 
+                                        </div>
                                     </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="33" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="331" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 33">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Kidney disease?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="34" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="341" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 34">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div> 
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatic fever?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="35" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="341" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 35">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Ulcers? </label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="36" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="341" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 36">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Sexually transmitted disease? </label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="37" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="341" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 37">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Seizures?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="38" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="341" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 38">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have a pacemaker?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="39" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="341" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 39">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Do you have any metal in your body?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="40" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="341" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 40">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div> 
+                                </mat-radio-button>
+                                <mat-radio-button [disabled]="isDisabled"  [value]="103" >Improving</mat-radio-button>
+                            </mat-radio-group>
+                        </div> 
+                    </div>
+        
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 disabled">
+                                <p class="fw-600 font-16 mb-2 mt-4 d-flex align-items-center flex-wrap clr--1F2F3E"> Please rate your pain over the last 24 hours. 
+                                    <span class="ms-2 clr--828282 font-14 fw-400"> (0 being no pain, 10 being the worst pain you've ever experienced) </span></p> 
+                            </div>
+                            <div class="col-12 select--ans d-flex align-items-center disabled">
+                                <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
+                                <ul class="m-0 p-0 d-flex flex-wrap disabled">
+                                    <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
+                                        {{i}}
+                                    </li>
+                                </ul>
+                            </div>  
+                            <div class="col-12 disabled">
+                                <p class="clr--1F2F3E font-16 lh-24 mt-4 mb-0">Congress passed the Health Insurance Portability and Accountability Act, or HIPAA, in 1996. Its primary purpose is to ensure that people who change jobs cannot be denied health insurance in a new job because of a pre-existing health condition. The law also established minimum standards of privacy and security to ensure that sensitive information about individuals' health would remain confidential.</p>
+                                <p class="clr--1F2F3E font-16 lh-24 mb-0">   I hereby acknowledge that I have received and have been given an opportunity to read a copy of the clinic's Notice of Privacy Practices (NPP). I understand that if I have any questions regarding the Notice or my privacy rights, I can contact the clinic's HR department at (406) 375-9034; or by email at hradmin&#64;hamiltonpt.com.</p>
+                                <p class="clr--1F2F3E font-16 lh-24 mb-0">   I acknowledge that I have been given an opportunity to review the NPP, and that it's available in hard copy upon request. I also understand that the NPP is available on the practice's website at hamiltonpt.com, darbypt.com, corvallispt.com, stevipt.com, florencept.com, frenchtownpt.com and a copy is available to me at the clinic's front desk.</p>
+                            </div>
+                            <div class="col-12 disabled">
+                                <i class="clr--1F2F3E font-14 mt-4 d-flex">**Please note if the appropriate boxes are not checked for contacts listed, we cannot legally speak with them regarding your appointments and/or account**</i>
                             </div>
                         </div> 
-                    </div> 
+                    </div>
+                
                 </div>
-                <div class="col-12">
-                    <div class="divider d-flex w-100"></div>
-                </div>
-    
-                <div class="col-12 col-lg-9">
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are you currently?</p> 
-                        </div>
-                        <div class="d-flex flex-column w-100 disease--name--wrapper"> 
-                            <div class="dd--body w-100">
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Pregnant</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="51" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="1" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue === 51">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Depressed?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="52" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="321" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 52">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                <div class="dd--row w-100 d-flex align-items-start">
-                                    <div class="disease--box">
-                                        <label class="mb-0 font-14 clr--1F2F3E fw-600">Under Stress?</label>
-                                    </div>
-                                    <div class="self--box ">
-                                        <div class="d-flex flex-column w-100"> 
-                                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                <mat-radio-button  [value]="53" class="me-4">Yes</mat-radio-button>
-                                                <mat-radio-button  [value]="331" checked>No</mat-radio-button>
-                                            </mat-radio-group>
-                                            <div class="form-group mt-2 w-100" *ngIf="selectedValue == 53">
-                                                 <input class="form-control" type="text" placeholder="Add nameription" /> 
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                </div>  
-                            </div>
-                        </div> 
-                    </div> 
-                </div>
-                <div class="col-12">
-                    <div class="divider d-flex w-100"></div>
-                </div>
-    
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are your symptoms: <span class="ms-2 clr--828282 font-14 fw-400">(Select One)  </span></p> 
-                        </div> 
-                        <mat-radio-group aria-label="Select an option" >
-                            <mat-radio-button [disabled]="isDisabled"  [value]="101" class="me-4" checked>Getting Worse</mat-radio-button>
-                            <mat-radio-button [disabled]="isDisabled"  [value]="102" class="me-4">
-                                <div class="d-flex align-items-center">
-                                    <span class="flex-shrink-0 me-2">The Same </span>
-                                    <div class="form-group m-0 w-100">
-                                        <input class="form-control form-control-md" [disabled]="isDisabled" type="text" placeholder="How Long?" /> 
-                                    </div>
-                                </div>
-                            </mat-radio-button>
-                            <mat-radio-button [disabled]="isDisabled"  [value]="103" >Improving</mat-radio-button>
-                        </mat-radio-group>
-                    </div> 
-                </div>
-    
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-12 disabled">
-                            <p class="fw-600 font-16 mb-2 mt-4 d-flex align-items-center flex-wrap clr--1F2F3E"> Please rate your pain over the last 24 hours. 
-                                <span class="ms-2 clr--828282 font-14 fw-400"> (0 being no pain, 10 being the worst pain you've ever experienced) </span></p> 
-                        </div>
-                        <div class="col-12 select--ans d-flex align-items-center disabled">
-                            <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
-                            <ul class="m-0 p-0 d-flex flex-wrap disabled">
-                                 <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
-                                     {{i}}
-                                 </li>
-                            </ul>
-                        </div>  
-                        <div class="col-12 disabled">
-                            <p class="clr--1F2F3E font-16 lh-24 mt-4 mb-0">Congress passed the Health Insurance Portability and Accountability Act, or HIPAA, in 1996. Its primary purpose is to ensure that people who change jobs cannot be denied health insurance in a new job because of a pre-existing health condition. The law also established minimum standards of privacy and security to ensure that sensitive information about individuals' health would remain confidential.</p>
-                            <p class="clr--1F2F3E font-16 lh-24 mb-0">   I hereby acknowledge that I have received and have been given an opportunity to read a copy of the clinic's Notice of Privacy Practices (NPP). I understand that if I have any questions regarding the Notice or my privacy rights, I can contact the clinic's HR department at (406) 375-9034; or by email at hradmin&#64;hamiltonpt.com.</p>
-                            <p class="clr--1F2F3E font-16 lh-24 mb-0">   I acknowledge that I have been given an opportunity to review the NPP, and that it's available in hard copy upon request. I also understand that the NPP is available on the practice's website at hamiltonpt.com, darbypt.com, corvallispt.com, stevipt.com, florencept.com, frenchtownpt.com and a copy is available to me at the clinic's front desk.</p>
-                        </div>
-                        <div class="col-12 disabled">
-                            <i class="clr--1F2F3E font-14 mt-4 d-flex">**Please note if the appropriate boxes are not checked for contacts listed, we cannot legally speak with them regarding your appointments and/or account**</i>
-                        </div>
-                    </div> 
-                </div>
-              
             </div>
         </div>
-    </div>
-    <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
-        <button mat-raised-button color="primary" class="m-1">
-            Save as Draft
-        </button>
-    </div>
+        <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+            <button mat-raised-button color="primary" type="submit" class="m-1">
+                Save as Draft
+            </button>
+        </div>
+    </form>
 </div>

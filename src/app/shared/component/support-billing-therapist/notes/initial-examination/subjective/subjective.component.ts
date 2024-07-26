@@ -5,9 +5,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { icd_data } from '../../../../../../ICD';
-// interface codes {
-//   icd_code: string;
-// }
+import { validationMessages } from '../../../../../../utils/validation-messages';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
   selector: 'app-subjective', 
   templateUrl: './subjective.component.html',
@@ -32,8 +32,11 @@ export class SubjectiveComponent implements OnInit {
   public userRole: string;
   selectedCode:any;
   icdCodeList:any = [];
+  subjectiveForm: FormGroup;
+  validationMessages = validationMessages; 
+  todayDate = new Date();
 
-  constructor( private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
+  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private appointmentService: AppointmentService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -42,9 +45,33 @@ export class SubjectiveComponent implements OnInit {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
+    
+    //const getAppointment = this.appointmentService.getAppointment(this.appointmentId)
+    //console.log('getAppointment >>>',getAppointment)
+    this.subjectiveForm = this.fb.group({
+      appointmentId:[this.appointmentId],
+      examin_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      // diagnosis_code: this.fb.array([this.fb.group({
+      //   code: ['',Validators.required],
+      //   name: ['',Validators.required]
+      // })]),
+      treatment_side: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      surgery_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      surgery_type: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+      subjective_note: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+    });
   }
 
   ngAfterViewInit() {
+
+  }
+
+  subjectiveSubmit(formData:any,){
+    if (this.subjectiveForm.invalid){
+      this.subjectiveForm.markAllAsTouched();
+    }else{
+
+    }
   }
 
   onChange(event: MatRadioChange) {
@@ -53,9 +80,13 @@ export class SubjectiveComponent implements OnInit {
 
   onCodeChange(event: any) {
     let selectedData =  icd_data.filter(city => city.code === this.selectedCode);
-    let item = {'code':selectedData[0].code,'name':selectedData[0].name};
-    this.icdCodeList.push(item);
-    //console.log('icd Code List >>>',this.icdCodeList);
+    if(selectedData[0]){
+      let item = {'code':selectedData[0].code,'name':selectedData[0].name};
+      this.icdCodeList.push(item);
+    }    
+    //diagnosis_code = this.icdCodeList;
+    
+    console.log('icd Code List >>>',this.subjectiveForm.controls["diagnosis_code"]);
   }
 
   removeIcd(index:number) {

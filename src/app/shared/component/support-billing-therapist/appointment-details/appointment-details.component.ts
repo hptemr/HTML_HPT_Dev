@@ -14,6 +14,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { s3Details } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { AppointmentService } from 'src/app/shared/services/appointment.service';
 export interface PeriodicElement {
   note: string;  
   dateAddedOn: string;   
@@ -126,14 +127,14 @@ export class AppointmentDetailsComponent {
 
   activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
 
-  constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private appointmentService: AppointmentService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
   }
-
   
   ngOnInit() {
+    //localStorage.removeItem('appointments');
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
   
@@ -164,6 +165,7 @@ export class AppointmentDetailsComponent {
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;
+          //this.appointmentService.addAppointment(this.appointmentId,this.appointmentData)
           //console.log('>>>>',this.appointmentData)
         }
       })
