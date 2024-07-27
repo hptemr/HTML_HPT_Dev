@@ -166,11 +166,17 @@
                                     <!-- <div class="pro--sm--img">
                                         <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
                                     </div> -->
+
+                                    <mat-icon class="left-edit-icon" *ngIf="msg?.editedAt">edit</mat-icon>
+                                    <mat-icon class="right-edit-icon" matTooltip="Click to edit message"  *ngIf="msg.sender.uid==loginUserId" (click)="editMessages(msg)">edit</mat-icon>
+                                    
                                     <p class="mb-0 font-14 fw-500">{{msg.text}}</p>
+                                    
                                     <!-- <span *ngIf="msg.status === 'delivered'" class="delivered-status">✓✓</span> -->
                                     <!-- <span *ngIf="msg.status === 'read' && msg.sender.uid==loginUserId" class="read-status">✓✓</span> -->
                                 </div>
                                 <p class="time font-12 mt-1 fw-500">{{formatMessageDate(msg.sentAt)}}</p>
+                               
                             </li>
                         </ng-container>
 

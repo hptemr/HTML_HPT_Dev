@@ -39,8 +39,12 @@ export class ConversationsComponent {
   typingIndicator: string | null = null;
   typingIndicatorSenderId: string = '';
   typingIndicatorTimer: any;
-  messageListenerID: string = "chatlist_message_"+ new Date().getTime();
-  userListenerID: string = "chatlist_user_"+ new Date().getTime();
+  // messageListenerID: string = "chatlist_message_"+ new Date().getTime();
+  // userListenerID: string = "chatlist_user_"+ new Date().getTime();
+  messageListenerID: string;
+  userListenerID: string;
+  editMessageDetails: any = null;
+  isEditMessage:boolean = false
 
   // messages: CometChat.TextMessage[] = [];
   // messages: CometChat.TextMessage[] | null = null; 
@@ -57,6 +61,9 @@ export class ConversationsComponent {
   }
 
   ngOnInit() {
+    this.messageListenerID = this.generateUniqueListenerID('message_listener_')
+    this.userListenerID = this.generateUniqueListenerID('user_listener_')
+
     this.getCometChatUsers()
     this.realTimeListener()
   }
@@ -115,6 +122,7 @@ export class ConversationsComponent {
   }
 
   async onUserSelected(userData: any) {
+    this.resetEditMessageData()
     this.userData = userData
     console.log("userData>>>",userData)
     const previousMessage = await this.messageService.getPreviousMessages(userData.uid)
@@ -130,15 +138,47 @@ export class ConversationsComponent {
     Comet chat MESSAGE related functions 
   */
   async sendMessage(userData: any, message: any) {
-    console.log("message>>>",message);
-    const sentMessage = await this.messageService.sendMessage(userData.uid, message)
-    console.log("sentMessage>>>",sentMessage);
-    if (sentMessage) {
-      this.messageService.markAsDelivered(sentMessage) 
-      this.messages = [...this.messages, sentMessage as any];
+    if(this.isEditMessage){
+      let receiverId = this.editMessageDetails.receiverId;
+      let messageId = this.editMessageDetails.id;
+      let editMessage = await this.messageService.editMessage(receiverId,message,messageId).catch(()=>false)
+      
+      if(editMessage){
+        this.updateEditedMessage(editMessage)
+      }
+      this.resetEditMessageData()
+    }else{
+      console.log("message>>>",message);
+      const sentMessage = await this.messageService.sendMessage(userData.uid, message)
+      console.log("sentMessage>>>",sentMessage);
+      if (sentMessage) {
+        this.messageService.markAsDelivered(sentMessage) 
+        this.messages = [...this.messages, sentMessage as any];
+      }
+      console.log("sendMessage this.messages>>>",this.messages);
+      this.chatMessageText = ""
     }
-    console.log("sendMessage this.messages>>>",this.messages);
-    this.chatMessageText = ""
+  }
+
+  updateEditedMessage(editedMessage:any) {
+    console.log("updateEditedMessage>>",editedMessage)
+    const messageIndex = this.messages.findIndex((m:any) => m.id === editedMessage.id);
+    if (messageIndex !== -1) {
+      console.log("************* updateEditedMessage ***************")
+      this.messages[messageIndex] = editedMessage;
+    }
+  }
+
+  editMessages(editMessage: any){
+    this.isEditMessage = true
+    this.chatMessageText = editMessage.text;
+    this.editMessageDetails = editMessage;
+  }
+
+  resetEditMessageData() {
+    this.isEditMessage = false
+    this.chatMessageText = '';
+    this.editMessageDetails = null;
   }
 
   /* ====================================================================================
@@ -157,12 +197,17 @@ export class ConversationsComponent {
               //   this.messages = [...this.messages, textMessage as any];
               //   console.log("realTimeListener>>>>",this.messages)
               // }
-
+              console.log("Text message received this.userData>>>", this.userData);
               let textMessageTemp : any = textMessage
               if (textMessage && this.userData.conversationId == textMessageTemp.conversationId) {
                 this.messages = [...this.messages, textMessage as any];
                 console.log("realTimeListener>>>>",this.messages)
               }
+          },
+          onMessageEdited: (message: CometChat.BaseMessage) => {
+            console.log("Real Time Edited Message", message);
+            let realTimeEditMessage : any = message
+            this.updateEditedMessage(realTimeEditMessage)
           },
           onTypingStarted: (typingIndicator: CometChat.TypingIndicator) => {
             console.log("RealTime Typing started :", typingIndicator);
@@ -282,6 +327,11 @@ export class ConversationsComponent {
       return this.datePipe.transform(messageDate, 'EEE') + ', ' + this.datePipe.transform(messageDate, 'hh:mm a');
     }
     return this.datePipe.transform(messageDate, 'M/dd/yyyy, hh:mm a');
+  }
+
+  private generateUniqueListenerID(listenerName:string): string {
+    const uniqueID = new Date().getTime().toString();
+    return listenerName + uniqueID;
   }
 
   createGroup() {

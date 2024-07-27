@@ -59,7 +59,9 @@ export class MessageService {
       messagesRequest.fetchPrevious().then(
         (messages: CometChat.BaseMessage[]) => {
             // console.log("Message list fetched:", messages);
-            resolve(messages)
+            // resolve(messages)
+            let textMessages = (messages as any[]).filter(msg => msg.category == 'message');
+            resolve(textMessages)
         }, (error: CometChat.CometChatException) => {
             console.log("Message fetching failed with error:", error);
             let parameter: any = {'userId': userId}
@@ -186,9 +188,35 @@ export class MessageService {
       () => {
           console.log("mark as delivered success.");
       }, (error: CometChat.CometChatException) => {
-          console.log("An error occurred when marking the message as delivered.", error);
+        let parameter: any = {'sendMessage': sendMessage}
+        this.commonService.cometChatLog(this.loginUserData,'markAsDelivered','error', parameter, error)
+        console.log("An error occurred when marking the message as delivered.", error);
       }
     );
   }
+
+
+  editMessage(receiverUID: string, message: string, messageId:number) {
+    return new Promise((resolve, reject) => {
+      let receiverID: string = receiverUID;
+      let messageText: string = message;
+      let receiverType: string = CometChat.RECEIVER_TYPE.USER;
+      let textMessage: CometChat.TextMessage = new CometChat.TextMessage(receiverID, messageText, receiverType);
+      
+      textMessage.setId(messageId);
+      
+      CometChat.editMessage(textMessage).then(
+        (message: CometChat.BaseMessage) => {
+            resolve(message)
+        }, (error: CometChat.CometChatException) => {
+            console.log("Message editing failed with error:", error);
+            let parameter: any = {'receiverUID': receiverUID, 'message': message, 'messageId': messageId}
+            this.commonService.cometChatLog(this.loginUserData,'editMessage','error', parameter, error)
+            reject()
+        }
+      );  
+    });
+  }
+
 
 }

@@ -284,3 +284,27 @@
     padding: 0px 6px 0 6px;
     margin-left: 10px;
   }
+
+  .left-edit-icon, .right-edit-icon {
+    position: absolute;
+    cursor: pointer;
+  }
+  
+  .left-edit-icon {
+    top: 8px;
+    left: 8px;
+    color: cornflowerblue;
+  }
+  
+  .right-edit-icon {
+    top: 8px;
+    right: 8px;
+    border: 2px solid #000; /* Adjust border for round effect */
+    border-radius: 50%; /* Make it round */
+    background-color: #fff; /* Background color */
+    padding: 4px; /* Adjust padding */
+  }  
+
+  ::ng-deep .message--body .material-icons{
+    font-size: 13px !important;
+}
