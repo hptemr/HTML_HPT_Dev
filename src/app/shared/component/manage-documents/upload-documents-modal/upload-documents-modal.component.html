@@ -1,0 +1,50 @@
+<div class="modal--wrapper   d-flex flex-column w-100">
+    <div class="modal--header w-100">
+        <h1 class="fw-700 border-0 pb-0">Upload Document</h1>
+    </div>
+    <div class="modal--body w-100 pt-3"> 
+        <div class="col-12">
+            <div class="form-group">
+                <label class="d-flex mb-0 pb-1 fw-700 font-16">Enter Document Name <span class="clr--DF0404 ms-1"> * </span>  </label>
+                <input class="form-control" type="text" placeholder="Enter Document Name" value=""/>
+                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            </div>
+        </div>
+        <div class="row pt-1">
+            <div class="col-12">
+                <p class="font-14 fw-600 clr--848789 mb-2">
+                    Supported File Types: .pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .gif, .ppt, .pptx, .txt, .zip, .rar, .mp3, .wav, .mp4, .avi, .mov, .csv
+                </p>
+            </div>
+            <div class="col-12">
+              <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
+                <input class="input--file" type="file" id="">
+                <mat-icon class="upload-icon"> upload_file </mat-icon>
+                <h6 class="fw-700 font-16 ">Upload or Drag & Drop here</h6>
+                <h5 class="font-16 fw-500 mb-1">File Uploaded Successfully.</h5>
+                <div class="d-flex flex-row align-items-center pt-2">
+                    <div class="d-flex flex-row align-items-center me-2">
+                        <mat-icon class="text-primary me-2"> description </mat-icon>
+                        <h5 class="font-16 fw-500 mb-0 mt-1">MEDICAID PPA Instuctions</h5>
+                    </div>
+                    <button mat-button class="p-0 flex-shrink-0 min-width-unset">
+                        <span class="material-icons clr--DF0404">
+                            cancel
+                        </span>
+                    </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex flex-row align-items-center">
+                    <mat-icon class="text-danger me-2"> info </mat-icon>
+                    <div class="text text-danger fw-500 font-14 mt-1">File size more than 15MB cannot be uploaded</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0">
+        <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" mat-dialog-close>Submit</button>
+    </div>
+</div>

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { UploadDocumentsModalComponent } from '../../upload-documents-modal/upload-documents-modal.component';
 
 
 export interface PeriodicElement {
@@ -76,7 +77,13 @@ export class ProtocolDetailedDocumentsComponent {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  
+  addDocumentsModal() {
+    const dialogRef = this.dialog.open(UploadDocumentsModalComponent,{
+      panelClass: [ 'custom-alert-container','modal--wrapper'],
+    });
+  }
+  
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;

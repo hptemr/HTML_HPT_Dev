@@ -6,6 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CaseNoteModalComponent } from '../../../support-billing-therapist/notes/case-note-modal/case-note-modal.component';
 import { AddFolderModalComponent } from '../../add-folder-modal/add-folder-modal.component';
+import { UploadDocumentsModalComponent } from '../../upload-documents-modal/upload-documents-modal.component';
 
 
 export interface PeriodicElement {
@@ -84,7 +85,12 @@ export class SystemDocumentsDetailedComponent {
       panelClass: [ 'custom-alert-container','modal--wrapper'],
     });
   }
-
+  addDocumentsModal() {
+    const dialogRef = this.dialog.open(UploadDocumentsModalComponent,{
+      panelClass: [ 'custom-alert-container','modal--wrapper'],
+    });
+  }
+  
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
