@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { icd_data } from '../../../../../../ICD';
 import { validationMessages } from '../../../../../../utils/validation-messages';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
   selector: 'app-subjective', 
@@ -32,7 +32,7 @@ export class SubjectiveComponent implements OnInit {
   public userRole: string;
   selectedCode:any;
   icdCodeList:any = [];
-  subjectiveForm: FormGroup;
+  public subjectiveForm: FormGroup;
   validationMessages = validationMessages; 
   todayDate = new Date();
 
@@ -51,10 +51,10 @@ export class SubjectiveComponent implements OnInit {
     this.subjectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
       examin_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      // diagnosis_code: this.fb.array([this.fb.group({
-      //   code: ['',Validators.required],
-      //   name: ['',Validators.required]
-      // })]),
+      diagnosis_code: this.fb.array([this.fb.group({
+        code: ['',Validators.required],
+        name: ['',Validators.required]
+      })]),
       treatment_side: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       surgery_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       surgery_type: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
@@ -66,12 +66,13 @@ export class SubjectiveComponent implements OnInit {
 
   }
 
-  subjectiveSubmit(formData:any,){
+  subjectiveSubmit(formData:any){
     if (this.subjectiveForm.invalid){
       this.subjectiveForm.markAllAsTouched();
     }else{
 
     }
+    console.log('formData>>>>',formData)
   }
 
   onChange(event: MatRadioChange) {
@@ -79,21 +80,31 @@ export class SubjectiveComponent implements OnInit {
   }
 
   onCodeChange(event: any) {
-    let selectedData =  icd_data.filter(city => city.code === this.selectedCode);
+    let selectedData =  icd_data.filter(city => city.code === event.code);
     if(selectedData[0]){
-      let item = {'code':selectedData[0].code,'name':selectedData[0].name};
+      let item = {'code':selectedData[0].code,'name':selectedData[0].name};      
+      if(this.icdCodeList.length==0){
+        const ctrls = this.subjectiveForm.get('diagnosis_code') as FormArray;
+        ctrls.removeAt(0)  
+      }      
+      this.diagnosisCodeInfo.push(this.fb.group({
+        code: [selectedData[0].code, Validators.required],
+        name: [selectedData[0].name, Validators.required],
+      }));
       this.icdCodeList.push(item);
     }    
-    //diagnosis_code = this.icdCodeList;
-    
-    console.log('icd Code List >>>',this.subjectiveForm.controls["diagnosis_code"]);
+    this.selectedCode = this.icdCodeList.length>0 ? true : false;
   }
 
   removeIcd(index:number) {
     this.icdCodeList.splice(index, 1);
-    //console.log('icd Code List >>>>>',this.icdCodeList);
+    const control = <FormArray>this.subjectiveForm.controls['diagnosis_code'];
+    control.removeAt(index);
   }
 
 
+  get diagnosisCodeInfo() {
+    return this.subjectiveForm.get('diagnosis_code') as FormArray;
+  }
 
 }

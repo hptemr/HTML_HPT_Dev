@@ -1,5 +1,5 @@
 <div class="container-fluid subjective--wrapepr p-0">
-    <form [formGroup]="subjectiveForm" (ngSubmit)="subjectiveSubmit(subjectiveForm.value)">
+    <form *ngIf="subjectiveForm" [formGroup]="subjectiveForm" (ngSubmit)="subjectiveSubmit(subjectiveForm.value)">
         <div class="row">
             <div class="col-12">
                 <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
@@ -9,7 +9,7 @@
                     <label class="col-form-label fw-600">Date of Initial Examination</label>
                     <mat-form-field class="w-100 am--datepicker">
                         <input matInput [matDatepicker]="picker" placeholder="Select Date" [max]="todayDate" 
-                        formControlName="examin_date" readonly placeholder="MM-DD-YYYY" (focus)="picker1.open()">
+                        formControlName="examin_date" readonly placeholder="MM-DD-YYYY" (focus)="picker.open()">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -28,7 +28,7 @@
                                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                 </button> -->
-                                <ng-select  class="form-control" [items]="icd_data" bindLabel="name" bindValue="code" [(ngModel)]="selectedCode"
+                                <ng-select  class="form-control" [items]="icd_data" bindLabel="name" bindValue="code"
                                 [searchable]="true" placeholder="Select a code" [clearable]="true" (change)="onCodeChange($event)">
                                         <ng-template ng-option-tmp let-item="item">
                                             <div>{{ item.code }} ({{ item.name }})</div>
