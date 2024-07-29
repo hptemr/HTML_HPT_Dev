@@ -12,112 +12,82 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 export interface PeriodicElement {
   name: string;  
   appointmentDate: string;  
-  action: string;  
-  status: string; 
+  action: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'Corvallis PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending', 
     action : ''
   }, 
   { 
     name: 'PT Specialist of Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
-    
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am',     
     action : ''
   },  
   { 
     name: 'Hamilton PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    
     action : ''
   },  
   { 
     name: 'Stevi PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    
     action : ''
   }, 
   { 
     name: ' Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am',
     action : ''
   }, 
   { 
     name: 'Corvallis PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
-    
     action : ''
   }, 
   { 
     name: 'PT Specialist of Florence',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
-    
     action : ''
   },  
   { 
     name: 'Hamilton PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    
     action : ''
   },  
   { 
     name: 'Stevi PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    
     action : ''
   }, 
   { 
     name: ' Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am',
     action : ''
   }, 
   { 
     name: 'Corvallis PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
-    
+    appointmentDate: 'Sat, Nov 10, 2023 10:00 am',
     action : ''
   }, 
   { 
     name: 'PT Specialist of Florence',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
-    
     action : ''
   },  
   { 
     name: 'Hamilton PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    
     action : ''
   },  
   { 
     name: 'Stevi PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    
     action : ''
   }, 
   { 
     name: ' Florence',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    
     action : ''
   }, 
    
@@ -130,7 +100,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './appointments.component.scss'
 })
 export class AppointmentsComponent {
-  displayedColumns: string[] = ['name', 'appointmentDate', 'status','action'];
+  displayedColumns: string[] = ['name', 'appointmentDate','action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   model: NgbDateStruct;

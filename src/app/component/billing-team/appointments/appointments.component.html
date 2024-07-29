@@ -2,11 +2,11 @@
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-                <h3 class="mb-0 clr--1F2F3E">Appointments</h3>
-                <button mat-raised-button color="primary"  >
+                <h3 class="mb-0 clr--1F2F3E">Cases</h3>
+                <!-- <button mat-raised-button color="primary"  >
                     <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                     Book Appointment
-                </button>
+                </button> -->
             </div>
             <div class="col-12 mt-2">
                 <div class="row">
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Appointment #">
+                            <input type="text" class="form-control search--outer" placeholder="Case Name">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -43,7 +43,7 @@
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    <!-- <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <select class="form-select form-control" aria-label="Default select example">
                                 <option selected>Appointment Status</option> 
@@ -52,20 +52,18 @@
                                 <option value="3">Pending</option> 
                                 <option value="4">Declined</option> 
                             </select>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    </div> -->
+                    <!-- <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <select class="form-select form-control" aria-label="Default select example">
                                 <option selected>Payment Status</option> 
                                 <option value="1">Payment Status 1</option>
                                 <option value="2">Payment Status 2</option>  
                             </select>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    </div> -->
+                    <!-- <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                                 <div class="input-group">
                                 <input class="form-control" placeholder="From Date" name="dp" [(ngModel)]="model"
@@ -75,7 +73,6 @@
                                   <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                 </button>
                               </div>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
@@ -88,9 +85,8 @@
                                   <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                 </button>
                               </div>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <button mat-stroked-button color="primary">Reset Filter</button>
@@ -105,7 +101,7 @@
                     class="cust--mat--table box--row--table">  
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-                            Appointment #
+                            Case Name
                         </th>
                         <td mat-cell *matCellDef="let element"> 
                             <div class="d-flex align-items-center  ">
@@ -115,7 +111,7 @@
                                 <div> 
                                     <p class="mb-0 font-16 text-primary clr--1F2F3E fw-500">{{element.name}}</p>
                                     <p class="mb-0 font-14 text-primary clr--1F2F3E"> <span class="fw-700">Patient</span> Jacob Walter</p>
-                                    <p class="mb-0 font-14 text-primary clr--1F2F3E"> <span class="fw-700">Appointment #</span>123456</p>
+                                    <p class="mb-0 font-14 text-primary clr--1F2F3E"> <span class="fw-700">Case Name</span> Knee Pain</p>
                                 </div>
                             </div>     
                         </td>
@@ -128,14 +124,6 @@
                             {{element.appointmentDate}}  
                         </td>
                     </ng-container> 
-                    <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-                            Appointment Status
-                        </th>
-                        <td mat-cell *matCellDef="let element">  
-                            <p class="status {{element.status}} "> {{element.status}}</p>  
-                        </td>
-                    </ng-container>
                  
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
