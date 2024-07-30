@@ -59,14 +59,14 @@ export class BillingTeamNavservicesService {
     {
       id: 2,
       icon: 'pending_actions',
-      mainTitle: 'Appointments',  
+      mainTitle: 'Cases',  
       headTitle1: '',
       path: '/billing-team/appointments',
       active: false, 
       type: 'link', 
       item: [ 
         {
-          title: 'Appointments',
+          title: 'Cases',
           icon: 'pending_actions',
           type: 'link',
           active: false,  

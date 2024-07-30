@@ -126,11 +126,11 @@
                     </ng-container> 
                  
                     <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                        <th mat-header-cell *matHeaderCellDef>
                             Actions
                         </th>
                         <td mat-cell *matCellDef="let element">  
-                            <div class="w-100 d-flex align-items-center justify-content-end">
+                            <div class="w-100 d-flex align-items-center">
                                 <button mat-button class="flex-shrink-0 min-width-unset search--fields" [routerLink]="['/billing-team/appointment-details']">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                 </button> 
