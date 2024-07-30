@@ -35,7 +35,7 @@ export class SubjectiveComponent implements OnInit {
   public subjectiveForm: FormGroup;
   validationMessages = validationMessages; 
   todayDate = new Date();
-
+  appointment: any = null
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private appointmentService: AppointmentService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -45,7 +45,10 @@ export class SubjectiveComponent implements OnInit {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
-    
+    this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
+    console.log('###subjective >>>',this.appointment)
+    console.log('subjective appointment >>>',localStorage.getItem("appointment"),' >>>>>>')
+    console.log('>>>>>',localStorage.getItem('user'))
     //const getAppointment = this.appointmentService.getAppointment(this.appointmentId)
     //console.log('getAppointment >>>',getAppointment)
     this.subjectiveForm = this.fb.group({
@@ -93,6 +96,7 @@ export class SubjectiveComponent implements OnInit {
       }));
       this.icdCodeList.push(item);
     }    
+    //console.log(this.icdCodeList)
     this.selectedCode = this.icdCodeList.length>0 ? true : false;
   }
 

@@ -117,6 +117,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class AppointmentDetailsComponent {
   appointmentId: string;
   statusFlag: string;
+  app_data: any = [];
   appointmentData: any = [];
   appointment_flag: boolean = false
   profileImage: string = '';
@@ -124,7 +125,7 @@ export class AppointmentDetailsComponent {
   public userId: string;
   public userRole: string;
   model: NgbDateStruct;
-
+  appointment: any = null
   activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
 
   constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private appointmentService: AppointmentService) {
@@ -137,7 +138,7 @@ export class AppointmentDetailsComponent {
     //localStorage.removeItem('appointments');
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
-  
+    this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
     // if (this.userRole == 'support_team') {
     //   this.isFormEditable = true
     // } else {
@@ -165,8 +166,20 @@ export class AppointmentDetailsComponent {
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;
+
           //this.appointmentService.addAppointment(this.appointmentId,this.appointmentData)
           //console.log('>>>>',this.appointmentData)
+          // this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
+          // if(this.appointment){
+          //   //this.appointment.push(this.appointmentData)
+          //   //this.appointmentService.changeAppointment(this.appointment)
+          // }
+          this.app_data[this.appointmentId] = this.appointmentData;
+          this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)          
+          
+          //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
+          
+          console.log('app>>>>>>>>>>>',this.appointment)
         }
       })
     }

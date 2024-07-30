@@ -62,6 +62,7 @@ import { AppointmentRequestsComponent } from './component/support-billing-therap
 import { PatientDetailsComponent } from './component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
 import { ViewInsuranceModalComponent } from './comman/view-insurance-modal/view-insurance-modal.component';
+import { DatePipe } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -122,7 +123,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ImageCropperComponent,
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot(),
-    IMaskModule
+    IMaskModule,
+    DatePipe
   ],
   exports: [
     CommonModule,
