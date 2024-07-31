@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PatientsComponent } from '../../../shared/component/support-billing-therapist/patients/patients.component';
 import { EFaxComponent } from './efax/efax.component';
 import { ManagePracticeComponent } from './manage-practice/manage-practice.component';
-import { ConversationsComponent } from './conversations/conversations.component';
+// import { ConversationsComponent } from './conversations/conversations.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
 import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
@@ -12,6 +12,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
 import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
+import { ConversationsComponent } from '../../../shared/component/conversations/conversations.component';
+import { ConversationsChatComponent } from '../../../shared/component/conversations-ui-kits/conversations-chat/conversations-chat.component';
 
 const routes: Routes = [
   {
@@ -81,9 +83,14 @@ const routes: Routes = [
     component: ConversationsComponent,
   },
   {
+    path: 'conversations-chat',
+    component: ConversationsChatComponent,
+    data: { refreshComponent: true }
+  },
+  {
     path: 'notifications',
     component: NotificationsComponent,
-  },
+  }
 ];
 
 @NgModule({

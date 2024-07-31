@@ -10,15 +10,39 @@
         <div class="con--left d-flex flex-column">
             <div class="cl--header w-100">
                 <div class="w-100 position-relative">
-                    <input class="form-control form-control-md search" type="text" placeholder="Search..." />
+                    <input class="form-control form-control-md search" [formControl]="searchUsers" type="text" placeholder="Search..." />
                     <mat-icon class="text-primary">search</mat-icon>
                 </div>
             </div>
             <div class="cl--body w-100">
                 <ul class="p-0 m-0">
-                    <li class="w-100 d-flex">
+                    <ng-container *ngIf="chatUserList.length">
+                        <li class="w-100 d-flex" *ngFor="let user of chatUserList; let i = index" (click)="onUserSelected(user)">
+                            <div class="pro--pic flex-shrink-0">
+                                <img src="{{user.avatar? user.avatar : defaultAvatar}}"  alt="" class="img-fluid"/>
+                            </div>
+                            <div class="pro--desc d-flex flex-column w-100">
+                                <div class="d-flex align-items-center justify-content-between username w-100">
+                                    <p class=" mb-0">{{user.name}}</p>
+                                    <span class="flex-shrink-0">{{formatMessageDate(user.lastActiveAt)}}</span>
+                                </div>
+                                <p class="msg mb-0">{{(user.lastMessage && user.lastMessage!=null)?user.lastMessage.text:''}}</p>
+                                <span class="mb-0 font-14 text-primary fw-500" *ngIf="user.uid==typingIndicatorSenderId && isTyping">Typing ...</span>
+                                <p class="mb-0 font-14 fw-500 {{(user.status=='online')?'text-primary':'clr--828282'}}" >
+                                    {{user.status}}
+                                    <span  *ngIf="user.unreadMessageCount > 0" class="unread-count">{{ user.unreadMessageCount }}</span>
+                                </p>
+                            </div>  
+                        </li> 
+                    </ng-container>
+                    <li class="w-100 d-flex no--result" *ngIf="!chatUserList.length">
+                        <p class="my-3 w-100 text-center"> 
+                            No result found!
+                        </p>  
+                    </li>
+                    <!-- <li class="w-100 d-flex">
                         <div class="pro--pic flex-shrink-0">
-                            <img src="assets/images/ark/user-2.png"  alt="" class="img-fluid" />
+                            <img src="https://s3.amazonaws.com/hpt.dev/profile-images/default.png"  alt="" class="img-fluid" />
                         </div>
                         <div class="pro--desc d-flex flex-column w-100">
                             <div class="d-flex align-items-center justify-content-between username w-100">
@@ -87,37 +111,32 @@
                             </div>
                             <p class="msg mb-0">Yes. My friend is joining too ...</p>
                         </div>  
-                    </li>
-                    <li class="w-100 d-flex no--result">
-                        <p class="my-3 w-100 text-center"> 
-                            No result found!
-                        </p>  
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
         <div class="con--right d-flex flex-column w-100">
 
             <!-- User header -->
-            <div class="cr--header w-100 d-flex align-items-center justify-content-between" *ngIf="">
+            <div class="cr--header w-100 d-flex align-items-center justify-content-between">
                  <div class="d-flex align-items-center ">
                     <div class="pro--sm--img d-flex align-items-center justify-content-center flex-shrink-0">
-                        <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
+                        <img src="{{userData.avatar? userData.avatar : defaultAvatar}}"  alt="" class="img-fluid" />
                     </div>
                     <div class="user-name d-flex flex-column">
-                        <p class="mb-0 font-16 fw-500">Leslie Alexander</p>
-                        <span class="mb-0 font-14 text-primary fw-500">Typing ...</span>
+                        <p class="mb-0 font-16 fw-500">{{userData.name}}</p>
+                        <!-- <span class="mb-0 font-14 text-primary fw-500">Typing ...</span> -->
                     </div>
                  </div>
-                 <button mat-raised-button color="primary" (click)="addParticipants()" class="add--participant--btn">
+                 <!-- <button mat-raised-button color="primary" (click)="addParticipants()" class="add--participant--btn">
                     <mat-icon class="material-symbols-outlined flex-shrink-0 "> add_circle </mat-icon>
                     Add Participants
-                </button> 
+                </button>  -->
             </div>
 
 
             <!-- Group header -->
-            <div class="cr--header w-100 d-flex align-items-center justify-content-between">
+            <!-- <div class="cr--header w-100 d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center ">
                    <div class="pro--sm--img d-flex align-items-center justify-content-center flex-shrink-0">
                        <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
@@ -133,15 +152,35 @@
                 <mat-menu #beforeMenu="matMenu" xPosition="before">
                     <button mat-menu-item>Group Info</button> 
                 </mat-menu>
-           </div>
+           </div> -->
 
             <div class="cr--body w-100 d-flex flex-column w-100">
                 <div class="w-100 d-flex flex-column message--wrapper">
-                    <div class="date--divider d-flex align-items-center justify-content-center w-100">
+                    <!-- <div class="date--divider d-flex align-items-center justify-content-center w-100">
                         <span>August 21</span>
-                    </div>
+                    </div> -->
                     <ul class="m-0 p-0 w-100">
-                        <li class="d-flex flex-column w-100"> 
+                        <ng-container *ngFor="let msg of messages">
+                            <li class="d-flex flex-column w-100 {{(msg.sender.uid==loginUserId)?'sender':''}}"> 
+                                <div class="message--body d-flex align-items-center">
+                                    <!-- <div class="pro--sm--img">
+                                        <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
+                                    </div> -->
+
+                                    <mat-icon class="left-edit-icon" *ngIf="msg?.editedAt">edit</mat-icon>
+                                    <mat-icon class="right-edit-icon" matTooltip="Click to edit message"  *ngIf="msg.sender.uid==loginUserId" (click)="editMessages(msg)">edit</mat-icon>
+                                    
+                                    <p class="mb-0 font-14 fw-500">{{msg.text}}</p>
+                                    
+                                    <!-- <span *ngIf="msg.status === 'delivered'" class="delivered-status">✓✓</span> -->
+                                    <!-- <span *ngIf="msg.status === 'read' && msg.sender.uid==loginUserId" class="read-status">✓✓</span> -->
+                                </div>
+                                <p class="time font-12 mt-1 fw-500">{{formatMessageDate(msg.sentAt)}}</p>
+                               
+                            </li>
+                        </ng-container>
+
+                        <!-- <li class="d-flex flex-column w-100"> 
                             <div class="message--body d-flex align-items-center">
                                 <div class="pro--sm--img">
                                     <img src="assets/images/ark/user.png"  alt="" class="img-fluid" />
@@ -158,10 +197,11 @@
                                 <p class="mb-0 font-14 fw-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor mollis leo proin turpis eu hac. </p>
                             </div>
                             <p class="time font-12 mt-1 fw-500">10:15 pm</p>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
-                <div class="w-100 d-flex flex-column message--wrapper">
+
+                <!-- <div class="w-100 d-flex flex-column message--wrapper">
                     <div class="date--divider d-flex align-items-center justify-content-center w-100">
                         <span>August 22</span>
                     </div>
@@ -176,15 +216,18 @@
                             <p class="time font-12 mt-1 fw-500">10:15 pm</p>
                         </li> 
                     </ul>
-                </div>
+                </div> -->
             </div>
             <div class="cr--footer w-100 d-flex align-items-start">
-                <div class="smily d-flex align-items-center justify-content-center me-2">
+                <!-- <div class="smily d-flex align-items-center justify-content-center me-2">
                     <mat-icon class="text-primary">sentiment_satisfied</mat-icon>
-                </div>
+                </div> -->
                 <div class="w-100 position-relative">
-                    <input class="form-control form-control-md msg--box" type="text" placeholder="Write a message..." />
-                    <mat-icon class="text-primary send--btn">send</mat-icon>
+                    <input class="form-control form-control-md msg--box" #chatMessage  [(ngModel)]="chatMessageText" type="text" placeholder="Write a message..." 
+                    (keydown)="startUserTyping(userData.uid)"
+                    (keyup)="stopUserTyping(userData.uid)"
+                    />
+                    <mat-icon class="text-primary send--btn" (click)="sendMessage(userData,chatMessage.value)">send</mat-icon>
                 </div>
             </div>
         </div>

@@ -89,3 +89,8 @@ export const carrierNameList = [
   'Carrier 2',
   'Carrier 3',
 ]
+export const cometChatCredentials = {
+  authKey: 'f81c1fd5635b9c277f63c56dfd1bcb95a12fcdd3', // Free Account(ashishb@arkenea.com)
+  appId: '26118921798ec2ec',
+  region: 'us',
+}
