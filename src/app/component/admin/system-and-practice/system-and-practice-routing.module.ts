@@ -13,6 +13,7 @@ import { PatientDetailsComponent } from 'src/app/shared/component/support-billin
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
 import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
 import { ConversationsComponent } from '../../../shared/component/conversations/conversations.component';
+import { ConversationsChatComponent } from '../../../shared/component/conversations-ui-kits/conversations-chat/conversations-chat.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,11 @@ const routes: Routes = [
   {
     path: 'conversations',
     component: ConversationsComponent,
+  },
+  {
+    path: 'conversations-chat',
+    component: ConversationsChatComponent,
+    data: { refreshComponent: true }
   },
   {
     path: 'notifications',

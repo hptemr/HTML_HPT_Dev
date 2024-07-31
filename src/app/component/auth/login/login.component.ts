@@ -5,6 +5,7 @@ import { AuthService } from '../../../shared/services/api/auth.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
 import { validationMessages } from '../../../utils/validation-messages'
 import { UserService } from '../../../shared/services/comet-chat/user.service';
+import { cometChatCredentials } from 'src/app/config';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -37,6 +38,9 @@ export class LoginComponent implements OnInit {
       this.forgetPasswordLink = '/admin/forgot-password'
     }
     this.initializeLoginForm()
+
+    // Initialise comet chat app after user login
+    this.userService.initialiseApp(cometChatCredentials.appId, cometChatCredentials.region)
   }
 
   initializeLoginForm() {

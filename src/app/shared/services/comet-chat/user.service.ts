@@ -3,12 +3,16 @@ import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { cometChatCredentials } from 'src/app/config';
 import { CommonService } from '../helper/common.service';
 import { AuthService } from '../api/auth.service';
+
+import { CometChatUIKit } from "@cometchat/chat-uikit-angular";
+import { UIKitSettingsBuilder } from "@cometchat/uikit-shared";
 @Injectable({
   providedIn: 'root'
 })
 
 export class UserService {
   loginUserData: any = { "userType": "", "userId": "" }
+  
   constructor(
     public commonService: CommonService,
     public authService: AuthService,
@@ -22,22 +26,44 @@ export class UserService {
   }
 
   // Initialise comet chat app
-  initialiseApp(appId: string, region: string) {
-    let appSetting: CometChat.AppSettings = new CometChat.AppSettingsBuilder()
-      .subscribePresenceForAllUsers()
-      .setRegion(region)
-      .autoEstablishSocketConnection(true)
-      .build();
+  // initialiseApp(appId: string, region: string) {
+  //   let appSetting: CometChat.AppSettings = new CometChat.AppSettingsBuilder()
+  //     .subscribePresenceForAllUsers()
+  //     .setRegion(region)
+  //     .autoEstablishSocketConnection(true)
+  //     .build();
 
-    CometChat.init(appId, appSetting).then(
-      (initialized: boolean) => {
-        console.log("Initialization completed successfully", initialized);
-      }, (error: CometChat.CometChatException) => { 
-        let parameter: any = {'appId':appId, 'region': region }
-        this.commonService.cometChatLog(this.loginUserData,'initialiseApp','error', parameter, error)
-        console.log("Initialization failed with error:", error);
-      }
-    );
+  //   CometChat.init(appId, appSetting).then(
+  //     (initialized: boolean) => {
+  //       console.log("Initialization completed successfully", initialized);
+  //     }, (error: CometChat.CometChatException) => { 
+  //       let parameter: any = {'appId':appId, 'region': region }
+  //       this.commonService.cometChatLog(this.loginUserData,'initialiseApp','error', parameter, error)
+  //       console.log("Initialization failed with error:", error);
+  //     }
+  //   );
+  // }
+
+  initialiseApp(appId: string, region: string) {
+    const COMETCHAT_CONSTANTS = {
+      APP_ID: appId,
+      REGION: region
+    };
+    
+    //create the builder
+    const UIKitSettings = new UIKitSettingsBuilder()
+      .setAppId(COMETCHAT_CONSTANTS.APP_ID)
+      .setRegion(COMETCHAT_CONSTANTS.REGION)
+      .subscribePresenceForAllUsers()
+      .build();
+    
+    //Initialize CometChat UI Kit
+    // CometChatUIKit.init(UIKitSettings).then(() => {
+    //     console.log("Initialization completed successfully");
+    //     // You can now call login function.
+    // }).catch(console.log);
+
+    CometChatUIKit.init(UIKitSettings)
   }
 
   // Create user on comet chat
@@ -110,6 +136,27 @@ export class UserService {
       }
     );
   }
+
+  // loginUser(uid: string){
+  //   const UID = uid; // Replace with your UID
+  //   CometChat.getLoggedinUser().then((user) => {
+  //     console.log("user1>>>",user)
+  //     if (!user) {
+  //       console.log("user3>>>",user)
+  //       console.log("UID>>>",UID)
+  //       // Login user
+  //       CometChatUIKit.login({ uid: UID })
+  //         .then((user) => {
+  //           console.log("Login Successful:", { user });
+  //           // mount your app
+  //         })
+  //         .catch(console.log);
+  //     } else {
+  //       // mount your app
+  //       console.log("user2>>>",user)
+  //     }
+  //   });
+  // }
 
   // Logout user from comet chat
   logoutUser(){

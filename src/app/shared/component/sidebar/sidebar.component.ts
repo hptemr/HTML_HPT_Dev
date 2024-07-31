@@ -33,6 +33,13 @@ export class SidebarComponent {
   }
 
   toggleMenu(item: Menu) {
+    // Reload page if coversation UI Kit Chat Open
+    if(item.mainTitle == 'Conversations UiKit'){
+      setTimeout(function () {
+        location.reload();
+      }, 500)
+    }
+
     this.itemsLength = item.item?.length;
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
