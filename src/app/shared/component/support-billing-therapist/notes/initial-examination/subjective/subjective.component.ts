@@ -19,7 +19,7 @@ export class SubjectiveComponent implements OnInit {
   clickedIndex = 0;
   model: NgbDateStruct;
   selectedValue: number;
-
+  appointment_dates:any=["07/12/2024","05/14/2024","04/10/2024"];
   tabs = [
     {number: '1'}, {number: '2'}, {number: '3'},
     {number: '4'}, {number: '5'}, {number: '6'},

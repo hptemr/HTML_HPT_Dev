@@ -1,76 +1,42 @@
 <div class="container-fluid subjective--wrapepr p-0">
+    <form *ngIf="subjectiveForm" [formGroup]="subjectiveForm" (ngSubmit)="subjectiveSubmit(subjectiveForm.value)">
     <div class="row">
         <div class="col-12">
             <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
         </div>
         <div class="col-12 col-lg-5">
             <div class="form-group mb-4">
-                <label class="col-form-label fw-600">Date of Daily Note</label>
+                <!-- <label class="col-form-label fw-600">Date of Daily Note</label>
                 <mat-form-field class="w-100 am--datepicker">
                     <input [disabled]="isDisabled"  matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
-        </div>
-        
-        <div class="col-12">
-            <div class="table-responsive normal--table mb-3">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Description</th>
-                            <th scope="col">ICD Codes</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Other arthropod infestations </td>
-                            <td>B88.2</td>
-                            <td>
-                                <button mat-button class="flex-shrink-0 min-width-unset cancle--btn">
-                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel
-                                    </mat-icon>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>External hirudiniasis</td>
-                            <td>B88.3</td>
-                            <td>
-                                <button mat-button class="flex-shrink-0 min-width-unset cancle--btn">
-                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel
-                                    </mat-icon>
-                                </button>
-                            </td>
-                        </tr> 
-                        <!-- <tr>
-                            <td colspan="3" class="p-0">
-                                <div class="no--record--found d-flex align-items-center justify-content-center w-100" >
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
-                                        <p class="">No Records found</p>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr> -->
-                    </tbody>
-                </table>
+                </mat-form-field> -->
+                <label class="col-form-label fw-600">Date of Daily Note <span class="clr--DF0404 ms-1"> * </span></label>
+                <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="daily_note_date">
+                  <option value="" disabled>Select date</option>
+                  <option *ngFor="let d of appointment_dates" [value]="d">{{d}}</option>
+                </select>
+                <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['daily_note_date'].touched && subjectiveForm.controls['daily_note_date'].hasError('required')">
+                    {{ validationMessages.requiredDropdown('Daily note date') }}
+                </div>             
             </div>
         </div>
 
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-600">Subjective</label>
-                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5"></textarea>
+                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" formControlName="subjective_note" rows="5" (blur)="checkSpace('subjective_note', $event)"></textarea>
+                <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['subjective_note'].hasError('required') && subjectiveForm.controls['subjective_note'].touched">
+                    {{ validationMessages.required('Subjective note') }}</div>
             </div>
         </div>
         
     </div>
     <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
-        <button mat-raised-button color="primary" class="m-1">
+        <button mat-raised-button color="primary" type="submit" class="m-1">
             Save as Draft
         </button>
     </div>
+    </form>
 </div>

@@ -20,8 +20,6 @@ import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/
 import { PatientsComponent } from 'src/app/shared/component/support-billing-therapist/patients/patients.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
-import { ConversationsComponent } from '../../../shared/component/conversations/conversations.component';
-import { ConversationsChatComponent } from '../../../shared/component/conversations-ui-kits/conversations-chat/conversations-chat.component';
 
 const routes: Routes = [
   {
@@ -109,14 +107,6 @@ const routes: Routes = [
         component: PatientProfileComponent,
       }
     ]
-  },
-  {
-    path: 'conversations',
-    component: ConversationsComponent,
-  },
-  {
-    path: 'conversations-chat',
-    component: ConversationsChatComponent,
   }
 ];
 

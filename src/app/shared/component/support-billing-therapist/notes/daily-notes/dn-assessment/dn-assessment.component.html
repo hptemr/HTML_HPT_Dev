@@ -1,30 +1,29 @@
 <div class="initial--exam--assesment--wrapper container-fluid p-0">
-    <div class="row">
-
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600">Assessment</label>
-                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</textarea> 
+    <form [formGroup]="assessmentForm" (ngSubmit)="assessmentSubmit(assessmentForm.value)">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Assessment</label>
+                    <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5" formControlName="assessment_text" (blur)="checkSpace('assessment_text', $event)"></textarea> 
+                    <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['assessment_text'].hasError('required') && assessmentForm.controls['assessment_text'].touched">
+                        {{ validationMessages.required('Assessment') }}</div>
+                </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600">Supporting Documentation</label>
-                <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" disabled>Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities.
-Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's.
-Patient is unable to complete physical therapy on land. 
-Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation.
-
-DME was issued today with instructions on wear, care, and use required for full rehabilitation potential. 
-                </textarea> 
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Supporting Documentation</label>
+                    <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" formControlName="supporting_documentation_text" (blur)="checkSpace('supporting_documentation_text', $event)"></textarea> 
+                    <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['supporting_documentation_text'].hasError('required') && assessmentForm.controls['supporting_documentation_text'].touched">
+                        {{ validationMessages.required('Supporting documentation') }}</div>
+                </div>
             </div>
-        </div>
 
-    </div>
-    <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
-        <button mat-raised-button color="primary" class="m-1">
-            Save as Draft
-        </button>
-    </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+            <button mat-raised-button color="primary" type="submit" class="m-1">
+                Save as Draft
+            </button>
+        </div>
+    </form>
 </div>
