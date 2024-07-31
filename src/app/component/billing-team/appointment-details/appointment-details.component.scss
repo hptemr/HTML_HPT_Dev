@@ -74,17 +74,18 @@
                         }
                         .mat-expansion-panel-header{
                             padding: 10px 24px 5px 24px;
+                            &:hover{
+                                background-color: #fff !important;
+                            }
                         }
                         .mat-expansion-panel-header-title{
                             flex-grow: 2;
                             font-family: 'Nunito Sans';
                         }
                         .mat-expansion-panel-header-description{
-                            flex-grow: 3;
-                            .intake-btn{
-                                margin-left: auto;
-                                margin-right: 50px;
-                            }
+                            flex-grow: 6;
+                            gap: 10px;
+                            justify-content: end;
                         }
                         .profile--img--box{
                             .img--box{
@@ -236,12 +237,13 @@
                 background: transparent;
             }
         }
-        .max-width{max-width: 240px;}
-        .max-width-box{max-width: 220px;}
+        .max-width{width: 90%;}
+        .max-width-box{width: 81%;}
+        .max-width-box-c{width: 51%;}
         .input-group.prefix--field .input-group-prepend .input-group-text{
             border: 1px solid #CCC;
             background-color: #F5F6F9 !important;
-            padding: 8px 10px;
+            padding: 3px 10px;
             height: auto;
         }
     }
@@ -261,9 +263,24 @@
             .profile--img--box{
                 gap: 10px;
             }
-            .mat-expansion-panel-header-description .intake-btn {
-                margin-right: 0px !important;
+            .mat-expansion-panel-header{
+                height: auto;
+                ::ng-deep{
+                    .mat-content{
+                        flex-direction: column !important;
+                        gap: 10px;
+                    }
+                }
             }
+            .mat-expansion-panel-header-description{
+                flex-grow: 3;
+                flex-direction: column;
+                align-items: start !important;
+                gap: 10px;
+            }
+            // .mat-expansion-panel-header-description .intake-btn {
+            //     margin-right: 0px !important;
+            // }
             .mat-mdc-checkbox {
                 margin-left: -10px !important;
             }
@@ -325,7 +342,7 @@
     .form-control{
         border: 1px solid #CCC;
         background-color: #F5F6F9 !important;
-        padding: 8px 10px;
+        padding: 3px 10px;
     }
     .search--outer{
         padding: 3px 10px !important;
