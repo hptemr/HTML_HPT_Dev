@@ -10,6 +10,7 @@ import { SystemFollowupModalComponent } from './system-followup-modal/system-fol
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { ReportsComponent } from './report/reports/reports.component';
 import { MissedNoteComponent } from './report/missed-note/missed-note.component';
+import { ViewInsuranceComponent } from './view-insurance/view-insurance.component';
  
 
 @NgModule({
@@ -20,7 +21,8 @@ import { MissedNoteComponent } from './report/missed-note/missed-note.component'
     SystemFollowupModalComponent,
     PatientProfileComponent, 
     ReportsComponent,
-    MissedNoteComponent
+    MissedNoteComponent,
+    ViewInsuranceComponent
   ],
   imports: [
     CommonModule,

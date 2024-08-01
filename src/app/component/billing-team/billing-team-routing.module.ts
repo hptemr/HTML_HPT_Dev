@@ -6,6 +6,7 @@ import { AppointmentDetailsComponent } from './appointment-details/appointment-d
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { ReportsComponent } from './report/reports/reports.component';
 import { MissedNoteComponent } from './report/missed-note/missed-note.component';
+import { ViewInsuranceComponent } from './view-insurance/view-insurance.component';
 
 const routes: Routes = [ 
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'appointment-details',
     component:AppointmentDetailsComponent   
+  },
+  {
+    path: 'view-insurance',
+    component:ViewInsuranceComponent   
   },
   {
     path: 'patient-profile',
