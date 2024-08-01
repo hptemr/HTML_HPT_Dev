@@ -26,6 +26,7 @@ const systemAdminSignUp = async (req, res, next) => {
     newUser.salt = salt
     newUser.hash_password = await bcrypt.hash(password, salt);
     newUser.role = 'system_admin'
+    newUser.status = 'Active'
 
     const result = await newUser.save();
     commonHelper.sendResponse(res, 'success', result, `System admin ${commonMessage.created}`);
