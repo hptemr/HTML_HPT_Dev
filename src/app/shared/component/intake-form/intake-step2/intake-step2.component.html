@@ -12,7 +12,7 @@
                         <span>(Step <span class="text-primary"> 2 </span> of 5)</span>
                     </h3>
                 </div>
-                <div *ngIf="step2FormData"
+                <!-- <div *ngIf="step2FormData"
                     class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
                     <p class="mb-0 clr--1F2F3E fw-700 font-16">
                         {{step2FormData.patientInfo.firstName}} {{step2FormData.patientInfo.lastName}}
@@ -20,7 +20,7 @@
                             (Appointment #: {{step2FormData.appointmentId}})
                         </span>
                     </p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -154,14 +154,16 @@
                     </div>
                     <div class="col-12 col-lg-6 col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Cell Phone Number </label>
+                            <label class="col-form-label fw-600">Cell Phone Number <span class="clr--DF0404 ms-1"> *
+                            </span></label>
                             <input [imask]="{mask: '(000) 000-0000'}" formControlName="cellPhoneNumber"
                                 class="form-control" placeholder="Enter Cell Phone Number" maxlength="14" />
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Work Extension </label>
+                            <label class="col-form-label fw-600">Work Extension <span class="clr--DF0404 ms-1"> *
+                            </span></label>
                             <input [imask]="{mask: '(000) 000-0000'}" formControlName="workExtensionNumber"
                                 class="form-control" placeholder="Enter Work Extension Number" maxlength="14" />
                         </div>
@@ -169,7 +171,7 @@
                     <div class="col-12 my-4">
                         <div class="row">
                             <div class="col-12">
-                                <h2 class="mb-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Insurances * </h2>
+                                <h2 class="mb-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16 text-uppercase">Insurances * </h2>
                             </div>
                             <div class="col-12 col-xl-8">
                                 <div class="d-flex align-items-center w-100">
@@ -197,7 +199,8 @@
                             </div>
                             <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">First Name </label>
+                                    <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
                                     <input (blur)="checkSpace('subscriberFirstName', $event)"
                                         formControlName="subscriberFirstName" class="form-control" type="text"
                                         placeholder="Enter First Name" />
@@ -216,7 +219,8 @@
                             </div>
                             <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Last Name </label>
+                                    <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
                                     <input (blur)="checkSpace('subscriberLastName', $event)"
                                         formControlName="subscriberLastName" class="form-control" type="text"
                                         placeholder="Enter Last Name" />
@@ -228,7 +232,8 @@
                             </div>
                             <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Date of Birth </label>
+                                    <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
                                             <input [max]="todayDate" formControlName="subscriberDob" readonly
@@ -246,7 +251,8 @@
                             </div>
                             <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Relationship with Patient</label>
+                                    <label class="col-form-label fw-600">Relationship with Patient <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
                                     <select formControlName="subscriberRelationWithPatient"
                                         class="form-select form-control" aria-label="Default select example">
                                         <option value="" selected>Select Relation</option>
@@ -273,7 +279,7 @@
                             <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">
-                                        Company
+                                        Primary Insurance
                                         <span class="clr--DF0404 ms-1"> * </span></label>
                                     <input formControlName="primaryInsuranceCompany"
                                         (blur)="checkSpace('primaryInsuranceCompany', $event)" class="form-control"
@@ -325,7 +331,46 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Effective Date </label>
+                                    <div class="input-group">
+                                        <mat-form-field class="w-100 am--datepicker">
+                                            <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY"
+                                                matInput [matDatepicker]="picker">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="text text-danger mt-1"
+                                        *ngIf="step2Form.controls['dob'].touched && (step2Form.controls['dob'].hasError('required') || step2Form.controls['dob'].invalid)">
+                                        {{ validationMessages.requiredDropdown('Date of Birth') }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">End Date</label>
+                                    <div class="input-group">
+                                        <mat-form-field class="w-100 am--datepicker">
+                                            <input [max]="todayDate" formControlName="dob"   placeholder="MM-DD-YYYY"
+                                                matInput [matDatepicker]="picker">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="text text-danger mt-1"
+                                        *ngIf="step2Form.controls['dob'].touched && (step2Form.controls['dob'].hasError('required') || step2Form.controls['dob'].invalid)">
+                                        {{ validationMessages.requiredDropdown('Date of Birth') }}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+
+                        
 
                         <div class="row">
                             <div class="col-12">
@@ -385,6 +430,43 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Effective Date </label>
+                                    <div class="input-group">
+                                        <mat-form-field class="w-100 am--datepicker">
+                                            <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY"
+                                                matInput [matDatepicker]="picker">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="text text-danger mt-1"
+                                        *ngIf="step2Form.controls['dob'].touched && (step2Form.controls['dob'].hasError('required') || step2Form.controls['dob'].invalid)">
+                                        {{ validationMessages.requiredDropdown('Date of Birth') }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">End Date</label>
+                                    <div class="input-group">
+                                        <mat-form-field class="w-100 am--datepicker">
+                                            <input [max]="todayDate" formControlName="dob"   placeholder="MM-DD-YYYY"
+                                                matInput [matDatepicker]="picker">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="text text-danger mt-1"
+                                        *ngIf="step2Form.controls['dob'].touched && (step2Form.controls['dob'].hasError('required') || step2Form.controls['dob'].invalid)">
+                                        {{ validationMessages.requiredDropdown('Date of Birth') }}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="row">
@@ -561,6 +643,16 @@
                                 <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Attorney Information
                                 </h2>
                             </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Have you consulted an attorney for your current problem?</label>
+                                    <mat-radio-group (change)="onChange($event)" formControlName="payVia"
+                                        aria-label="Select an option">
+                                        <mat-radio-button value="yes" class="me-3">Yes</mat-radio-button>
+                                        <mat-radio-button value="no">Self Pay</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
                             <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> *
@@ -677,11 +769,18 @@
                                     for minors)</p>
                             </div>
                             <div class="col-12 d-flex justify-content-end w-100">
-                                <button [disabled]="step2Form.invalid || !isFormEditable" mat-raised-button
+                                <!-- <button [disabled]="step2Form.invalid || !isFormEditable" mat-raised-button
                                     color="primary" class="flex-shrink-0 mt-2" (click)="addInsurance()">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                                     Save Insurance As
+                                </button> -->
+
+                                <button  mat-raised-button
+                                    color="primary" class="flex-shrink-0 mt-2" (click)="addInsurance()">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                                    Add Insurance 
                                 </button>
+
                             </div>
                         </div>
                     </div>

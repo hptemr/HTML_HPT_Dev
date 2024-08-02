@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { BodyDetailsModalComponent } from './body-details-modal/body-details-modal.component';
 
 @Component({
   selector: 'app-intake-step3',
@@ -94,6 +95,12 @@ export class IntakeStep3Component {
 
   get form() {
     return this.step3Form.controls;
+  }
+
+  bodyClick() {
+    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+      panelClass: 'custom-alert-container', 
+    });  
   }
 
   loadForm() {
