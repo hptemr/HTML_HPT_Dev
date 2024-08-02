@@ -68,12 +68,14 @@ export class AuthService {
     let storage: any
     storage = localStorage.getItem('user') ? localStorage.getItem('user') : null
     let user_details = JSON.parse(storage);
-    if (column == 'all') {
-      data = user_details
-    } else {
-      data = user_details[column]
+    if(user_details && user_details!=null ){
+      if (column == 'all') {
+        data = user_details
+      } else {
+        data = user_details[column]
+      }
+      return data
     }
-    return data
   }
 
   getFullName() {

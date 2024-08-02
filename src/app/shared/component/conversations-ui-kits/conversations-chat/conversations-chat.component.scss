@@ -1,0 +1,8 @@
+
+::ng-deep {
+div.cc-message-list {
+    max-height: 420px !important; /* Set a max-height to enable scrolling */
+    overflow-y: auto !important; 
+    }
+}
+  

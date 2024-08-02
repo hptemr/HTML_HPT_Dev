@@ -5,17 +5,21 @@
                 <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
             </div>
             <div class="col-12 col-lg-5">
-                <div class="form-group mb-4">
-                    <label class="col-form-label fw-600">Date of Initial Examination</label>
-                    <mat-form-field class="w-100 am--datepicker">
+                <div class="form-group mb-4">                    
+                    <!-- <mat-form-field class="w-100 am--datepicker">
                         <input matInput [matDatepicker]="picker" placeholder="Select Date" [max]="todayDate" 
                         formControlName="examin_date" readonly placeholder="MM-DD-YYYY" (focus)="picker.open()">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['examin_date'].hasError('required') && subjectiveForm.controls['examin_date'].touched">
-                        {{ validationMessages.required('Initial examination date') }}</div>
-               
+                    </mat-form-field> -->
+                    <label class="col-form-label fw-600">Date of Initial Examination <span class="clr--DF0404 ms-1"> * </span></label>
+                    <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="examin_date">
+                      <option value="" disabled>Select date</option>
+                      <option *ngFor="let d of appointment_dates" [value]="d">{{d}}</option>
+                    </select>
+                    <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['examin_date'].touched && subjectiveForm.controls['examin_date'].hasError('required')">
+                        {{ validationMessages.requiredDropdown('Initial examination date') }}
+                    </div>                           
                 </div>
             </div>
             <div class="col-12">
@@ -117,6 +121,8 @@
                 <div class="form-group">
                     <label class="col-form-label fw-600">Subjective</label>
                     <textarea class="form-control text-left" type="text" placeholder="Enter Address" formControlName="subjective_note" rows="5"></textarea>
+                    <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['subjective_note'].hasError('required') && subjectiveForm.controls['subjective_note'].touched">
+                        {{ validationMessages.required('Subjective') }}</div>
                 </div>
             </div>
             <div class="col-12">

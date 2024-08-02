@@ -106,15 +106,24 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 5,
-        //   icon: 'chat_bubble_outline',
-        //   mainTitle: 'Conversations',
-        //   headTitle1: '',
-        //   path: '/practice-admin/conversations',
-        //   active: false,
-        //   item: []
-        // },
+        {
+          id: 5,
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/practice-admin/conversations',
+          active: false,
+          item: []
+        },
+        {
+          id: 6,
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations UiKit',
+          headTitle1: '',
+          path: '/practice-admin/conversations-chat',
+          active: false,
+          item: []
+        },
         // {
         //   id: 6,
         //   icon: 'print',
@@ -174,6 +183,24 @@ export class NavservicesService implements OnInit {
           mainTitle: 'Patients',
           headTitle1: '',
           path: '/therapist/patients',
+          active: false,
+          item: []
+        },
+        {
+          id: 4,
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/therapist/conversations',
+          active: false,
+          item: []
+        },
+        {
+          id: 5,
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations UiKit',
+          headTitle1: '',
+          path: '/therapist/conversations-chat',
           active: false,
           item: []
         },
@@ -316,6 +343,24 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
+        {
+          id: 5,
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/support-team/conversations',
+          active: false,
+          item: []
+        },
+        {
+          id: 6,
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations UiKit',
+          headTitle1: '',
+          path: '/support-team/conversations-chat',
+          active: false,
+          item: []
+        },
         // {
         //   id: 5,
         //   icon: 'chat_bubble_outline',
@@ -409,16 +454,26 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 5,
-        //   activeMenu: 'conversations',
-        //   icon: 'chat_bubble_outline',
-        //   mainTitle: 'Conversations',
-        //   headTitle1: '',
-        //   path: '/system-admin/conversations',
-        //   active: false,
-        //   item: []
-        // },
+        {
+          id: 5,
+          activeMenu: 'conversations',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/system-admin/conversations',
+          active: false,
+          item: []
+        },
+        {
+          id: 6,
+          activeMenu: 'conversations',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations UiKit',
+          headTitle1: '',
+          path: '/system-admin/conversations-chat',
+          active: false,
+          item: []
+        },
         // {
         //   id: 6,
         //   activeMenu: 'e-fax',

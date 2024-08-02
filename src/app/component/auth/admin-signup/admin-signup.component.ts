@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { UserService } from '../../../shared/services/comet-chat/user.service';
 
 @Component({
   selector: 'app-admin-signup',
@@ -24,6 +25,7 @@ export class AdminSignupComponent {
     private adminService: AdminService,
     private commonService: CommonService,
     private route: ActivatedRoute,
+    private userService:UserService
   ) {
 
   }
@@ -76,6 +78,7 @@ export class AdminSignupComponent {
     this.adminService.updateUser(params).subscribe({
       next: (res) => {
         if (res && !res.error) {
+          this.createUserInCometChat(res.data) // Create user in comet chat
           this.commonService.openSnackBar(res.message, "SUCCESS")
           localStorage.setItem('user', JSON.stringify(res.data));
           this.commonService.redirectToHome()
@@ -102,5 +105,10 @@ export class AdminSignupComponent {
 
   checkSpace(colName: any, event: any) {
     this.signupForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
+
+  createUserInCometChat(user:any){
+    let fullName = `${user.firstName} ${user.lastName}`
+    this.userService.createUser(user._id, fullName, user.role)
   }
 }

@@ -41,5 +41,11 @@ export class AdminService {
     const url = `${environment.apiUrl}/admin/getUserDetails`;
     return this.http.post(url, data).pipe();
   }
+
+  cometChatLog(data: any): Observable<any> {
+    const url = `${environment.apiUrl}/admin/cometChatLog`;
+    return this.http.post(url, data).pipe();
+  }
+ 
  
 }

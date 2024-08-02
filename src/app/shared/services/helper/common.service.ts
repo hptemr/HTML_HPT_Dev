@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { maxAppoinmentFutureMonths, urlSegmentAndUserRole } from 'src/app/config';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderComponent } from '../../component/loader/loader.component';
+import { AdminService } from '../api/admin.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,8 @@ export class CommonService {
     public snackBar: MatSnackBar,
     public generalService: GeneralService,
     public authService: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public adminService: AdminService,
   ) { }
 
   openSnackBar(message: string, action: string) {
@@ -191,6 +193,19 @@ export class CommonService {
     let maxAppntDate = new Date()
     maxAppntDate.setMonth(maxAppntDate.getMonth() + maxAppoinmentFutureMonths);
     return maxAppntDate
+  }
+
+  cometChatLog(userDetails:any, apiFunction:any, messageType:any, parameter:any, error:any) {
+    let body = {
+      userDetails : userDetails,
+      apiFunction : apiFunction,
+      messageType: messageType,
+      parameter:parameter,
+      error:error
+    }
+    this.adminService.cometChatLog(body).subscribe({
+      next: (_res) => { }
+    })
   }
 
 }

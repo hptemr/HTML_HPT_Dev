@@ -55,9 +55,6 @@ import { DisPlanComponent } from 'src/app/shared/component/support-billing-thera
 import { DisSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-subjective/dis-subjective.component';
 import { DischargeNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/discharge-note/discharge-note.component';
 
-
-
-
 import { AppointmentRequestsComponent } from './component/support-billing-therapist/appointment-requests/appointment-requests.component';
 import { PatientDetailsComponent } from './component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';

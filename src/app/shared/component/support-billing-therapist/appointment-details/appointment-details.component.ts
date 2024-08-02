@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component,OnInit, ViewChild } from '@angular/core';
 import { SystemFollowupModalComponent } from '../system-followup-modal/system-followup-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RescheduleAppointmentModalComponent } from 'src/app/shared/comman/reschedule-appointment-modal/reschedule-appointment-modal.component';
@@ -114,7 +114,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './appointment-details.component.html',
   styleUrl: './appointment-details.component.scss'
 })
-export class AppointmentDetailsComponent {
+export class AppointmentDetailsComponent implements OnInit {
   appointmentId: string;
   statusFlag: string;
   app_data: any = [];
@@ -168,7 +168,7 @@ export class AppointmentDetailsComponent {
           this.appointment_flag = true;
 
           //this.appointmentService.addAppointment(this.appointmentId,this.appointmentData)
-          //console.log('>>>>',this.appointmentData)
+          //console.log('>>>>',this.-)
           // this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
           // if(this.appointment){
           //   //this.appointment.push(this.appointmentData)
@@ -204,9 +204,14 @@ export class AppointmentDetailsComponent {
   }
 
   caseNoteModal() {
+
     const dialogRef = this.dialog.open(CaseNoteModalComponent,{
-      panelClass: [ 'custom-alert-container','modal--wrapper'],
+       panelClass: [ 'custom-alert-container','modal--wrapper'],
+      data : {
+        appointmentId:this.appointmentId
+      }
     });
+
   }
 
   noteModal() {

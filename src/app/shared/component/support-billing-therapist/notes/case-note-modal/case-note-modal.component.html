@@ -1,25 +1,34 @@
-<div class="modal--wrapper   d-flex flex-column w-100">
-    <div class="modal--header w-100">
-        <h1 class="fw-700 border-0">Create Case Note</h1>
-    </div>
-    <div class="modal--body w-100 pt-1"> 
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 ">Creation Date</label>
-                <input class="form-control" type="text" placeholder="12/12/2022" value=""/>
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-            </div>
+<form *ngIf="caseNoteForm" [formGroup]="caseNoteForm">
+<div class="modal--wrapper d-flex flex-column w-100">
+
+        <div class="modal--header w-100">
+            <h1 class="fw-700 border-0">Create Case Note</h1>
         </div>
-        <div class="col-12">
-            <div class="form-group"> 
-                <textarea class="form-control " type="text" placeholder="Write your comment here" rows="5"></textarea>
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+        <div class="modal--body w-100 pt-1"> 
+            <div class="col-12">
+                <div class="form-group">                
+                    <label class="col-form-label fw-700 font-16">Creation Date  <span class="clr--DF0404 ms-1"> * </span></label>
+                    <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="case_note_date">
+                      <option value="" disabled>Select date</option>
+                      <option *ngFor="let d of appointment_dates" [value]="d">{{d}}</option>
+                    </select>
+                    <div class="text text-danger mt-1" *ngIf="caseNoteForm.controls['case_note_date'].touched && caseNoteForm.controls['case_note_date'].hasError('required')">
+                        {{ validationMessages.requiredDropdown('Creation date') }}</div>
+                </div>
             </div>
-        </div> 
-    </div>
-    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0">
-        <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Cancel</button>
-        <button mat-stroked-button color="primary" class="me-3" (click)="successModal()" mat-dialog-close>Save</button>
-        <button mat-raised-button color="primary" mat-dialog-close>Finalize</button>
-    </div>
+            <div class="col-12">
+                <div class="form-group"> 
+                    <textarea class="form-control " type="text" placeholder="Write your comment here" formControlName="case_comment" rows="5"></textarea>
+                    <div class="text text-danger mt-1" *ngIf="caseNoteForm.controls['case_comment'].hasError('required') && caseNoteForm.controls['case_comment'].touched">
+                        {{ validationMessages.required('Comment') }}</div>
+                </div>
+            </div> 
+        </div>
+        <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0">
+            <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Cancel</button>
+            <button mat-stroked-button color="primary" class="me-3" (click)="caseNoteSubmit(caseNoteForm.value,'save')">Save</button>
+            <button mat-raised-button color="primary" (click)="caseNoteSubmit(caseNoteForm.value,'finalize')">Finalize</button>
+        </div>
+
 </div>
+</form>

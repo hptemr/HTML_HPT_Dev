@@ -84,8 +84,14 @@ export class AssessmentComponent {
   }
 
   assessmentSubmit(formData:any){
-     console.log('>>>>>',formData)
+    if (this.assessmentForm.invalid){
+      this.assessmentForm.markAllAsTouched();
+    }else{
+
+    }
+    console.log('formData>>>>',formData)
   }
+
 
   updateText(): void {
     //this.assessment_text = this.assessment_text.split(this.placeholder).join(this.replacement);
