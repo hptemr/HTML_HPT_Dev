@@ -152,7 +152,8 @@ export class UserListingComponent {
             practiceLocation: element.practiceLocation,
             status: element.status,
             _id: element._id,
-            statusClass: element.status.toLowerCase()
+            statusClass: element.status.toLowerCase(),
+            isTokenExpired: element.isTokenExpired
           }
           userDetails.push(newColumns)
         })
@@ -225,6 +226,22 @@ export class UserListingComponent {
         result += '...';
       }
       return result;
+    }
+
+    async resentInvite(userData:any){
+      let reqVars = {
+        _id: userData._id,
+        firstName: userData.firstName,
+        email: userData.email
+      }
+      await this.authService.apiRequest('post', 'admin/resendInvite', reqVars).subscribe(async res => {
+        if(res && !res.error){
+          this.adminUsers()
+          this.commonService.openSnackBar(res.message, "SUCCESS")
+        }
+      },(err)=>{
+        err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") :""
+      })
     }
 
 }

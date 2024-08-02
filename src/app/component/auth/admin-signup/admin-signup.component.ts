@@ -51,7 +51,7 @@ export class AdminSignupComponent {
   getUserDetails() {
     let params = {
       query: { _id: this.userId },
-      params: { firstName: 1, lastName: 1, email: 1 },
+      params: { firstName: 1, lastName: 1, email: 1, inviteToken:1 },
       decryptUserId: true
     }
     this.adminService.getUserDetails(params).subscribe({
@@ -59,6 +59,8 @@ export class AdminSignupComponent {
         this.signupForm.controls['firstName'].setValue(res.data.firstName)
         this.signupForm.controls['lastName'].setValue(res.data.lastName)
         this.signupForm.controls['email'].setValue(res.data.email)
+      },error: (err) => {
+        err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
       }
     })
   }
@@ -67,6 +69,7 @@ export class AdminSignupComponent {
     let params = {
       query: { _id: this.userId },
       updateInfo: {
+        inviteToken:'',
         status: 'Active',
         firstName: this.signupForm.value.firstName,
         lastName: this.signupForm.value.lastName,
