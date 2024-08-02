@@ -10,6 +10,7 @@ var constants = {
     profileImageFolderPath: "profile-images/",
     patientInsuranceFolderPath: "patient-insurance/",
     patientPrescriptionFolderPath: "patient-prescription/",
+    documentsFolderPath: "manage-documents/",
   },
   ses: {
     region: 'us-east-1',

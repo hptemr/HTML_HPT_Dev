@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const { userMessage, commonMessage, infoMessage } = require('../helpers/message');
+const { userMessage, commonMessage, infoMessage, documentMessage } = require('../helpers/message');
 const userCommonHelper = require('../helpers/userCommon');
 const commonHelper = require('../helpers/common');
 require('dotenv').config();
@@ -10,6 +10,9 @@ const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 const s3Details = constants.s3Details;
 const jwt = require('jsonwebtoken');
+const Directory = require('../models/documentDirectoryModel');
+const File = require('../models/documentFilesModel');
+var fs = require('fs')
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -274,6 +277,146 @@ changeProfileImage = async (req, res) => {
   }
 }
 
+const getDefaultDirectories = async (req, res) => {
+  try {
+    let queryParams = {is_root_directory:true,is_deleted:false }
+    if(req.body.searchValue!=""){
+      queryParams.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
+    }
+    let directoryList =  await Directory.find(queryParams);
+    commonHelper.sendResponse(res, 'success', { directoryList }, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const getDirectoryItems = async (req, res) => {
+  try {
+    let directoryDetails = await Directory.find({_id: req.body.directory});
+    if(directoryDetails.length>0){
+      let query = {is_deleted:false,parent_directory_id: directoryDetails[0]._id}
+      let fileQuery = {is_deleted:false,directory_id: directoryDetails[0]._id}
+      if(req.body.searchValue!=""){
+        query.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
+        fileQuery.file_name = { '$regex': req.body.searchValue, '$options': "i" }
+      }
+      let directoryList =  await Directory.find(query);
+      let fileList =  await File.find(fileQuery);
+      commonHelper.sendResponse(res, 'success', { directoryList,fileList }, '');
+    }else{
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  } catch (error) {
+    console.log(error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const createDirectory = async (req, res) => {
+  try {
+    let directories = await Directory.find({directory_name: req.body.directoryName})
+    if(directories.length>0){
+      commonHelper.sendResponse(res, 'error', null, "Directory"+documentMessage.exist);
+    }else{
+      let createParams = {
+        directory_name: req.body.directoryName,
+        parent_directory_id: new ObjectId(req.body.directoryId),
+        is_deleted: false,
+        create_at: new Date(),
+        created_by: new ObjectId(req.body.endUserId),
+      }
+      await Directory.create(createParams)
+      commonHelper.sendResponse(res, 'success', null, commonMessage.created);
+    }
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const updateDirectory = async (req, res) => {
+  try {
+    await Directory.updateOne({ _id: new ObjectId(req.body.directoryId) }, { directory_name: req.body.directoryName });
+    commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const removeDirectoryOrFile = async (req, res) => {
+  try {
+    if(req.body.sourceType == 'directory'){
+      await Directory.updateOne({ _id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
+      await Directory.update({ parent_directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
+      await File.update({ directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
+    }else{
+      await File.updateOne({ _id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
+    }
+    commonHelper.sendResponse(res, 'success', {}, infoMessage.deleted);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const previewDocumentFile = async (req, res) => {
+  let fileDetails = await File.find({ _id: new ObjectId(req.body.fileId) })
+  let key = constants.s3Details.documentsFolderPath+fileDetails[0].directory_id+"/"+fileDetails[0].file_name
+  let previewUrl = await s3.previewDocumentFile(key)
+  commonHelper.sendResponse(res, 'success', null, { previewUrl },'');
+}
+
+const updateFile = async (req, res) => {
+  try {
+    updatedData = await File.findOneAndUpdate({ _id: new ObjectId(req.body.itemId) }, { file_name: req.body.newFileName },{upsert: true, new: true});
+    console.log(updatedData)
+    let key = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.oldFileName
+    let newkey = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.newFileName
+    await s3.renameFileInS3(key,newkey)
+    commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const uploadDocumentFile = async (req, res) => {
+  try {
+    let fstream;
+    let reqBodyData = {};
+    let newFilename = ""
+    req.busboy.on("field", function (key, value, keyTruncated, valueTruncated) {
+      reqBodyData[key] = value;
+    });
+    await req.busboy.on('file', async function (fieldname, file, filename, encoding, mimetype) {
+      newFilename = reqBodyData.documentName
+      fstream = fs.createWriteStream(__dirname + '/../tmp/' + newFilename)
+      file.pipe(fstream)
+      fstream.on('close', async function () {})
+    });
+    req.busboy.on('finish', async function () {
+      let fileData = await File.find({ file_name: reqBodyData.documentName})
+      if(fileData.length>0){
+        fs.unlink(__dirname + '/../tmp/' + newFilename, (err) => {})
+        commonHelper.sendResponse(res, 'error', null, "File"+documentMessage.exist);
+      }else{
+          let createParams = {
+            file_name: reqBodyData.documentName,
+            directory_id: reqBodyData.directory,
+            is_deleted: false,
+            create_at: new Date(),
+            created_by: new ObjectId(req.body.endUserId),
+          }
+          await File.create(createParams)
+          await s3.checkDirectoryExist(reqBodyData.directory)
+          var s3DocumentPath = constants.s3Details.documentsFolderPath+reqBodyData.directory+"/";
+          await s3.uploadDocumentToS3(reqBodyData.documentName,s3DocumentPath)
+          commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+      }
+    })
+  } catch (error) {
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
 module.exports = {
   invite,
   changePassword,
@@ -286,5 +429,13 @@ module.exports = {
   getTherapistList,
   getLocationWiseUserList,
   deleteProfileImage,
-  changeProfileImage
+  changeProfileImage,
+  getDefaultDirectories,
+  getDirectoryItems,
+  createDirectory,
+  updateDirectory,
+  removeDirectoryOrFile,
+  previewDocumentFile,
+  updateFile,
+  uploadDocumentFile
 };
