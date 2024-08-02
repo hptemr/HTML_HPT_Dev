@@ -13,6 +13,7 @@ const jwt = require('jsonwebtoken');
 const Directory = require('../models/documentDirectoryModel');
 const File = require('../models/documentFilesModel');
 var fs = require('fs')
+const cometChatLogModel = require('../models/cometChatLog');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -28,6 +29,7 @@ const systemAdminSignUp = async (req, res, next) => {
     newUser.salt = salt
     newUser.hash_password = await bcrypt.hash(password, salt);
     newUser.role = 'system_admin'
+    newUser.status = 'Active'
 
     const result = await newUser.save();
     commonHelper.sendResponse(res, 'success', result, `System admin ${commonMessage.created}`);
@@ -54,7 +56,7 @@ const invite = async (req, res, next) => {
     const result = await newUser.save();
 
     if (result && result != null) {
-      let encryptObj = { userId: result._id }
+      let encryptObj = { userId: result._id, tokenExpiry: Date.now() + (1440 * 60 * 1000) } // Token expire after 24 hrs
       let inviteEncryptedToken = commonHelper.encryptData(encryptObj, process.env.CRYPTO_SECRET)
       // Update invite token
       await User.findOneAndUpdate({ _id: result._id }, { inviteToken: inviteEncryptedToken });
@@ -179,8 +181,14 @@ const getUserDetails = async (req, res, next) => {
     if (req.body.decryptUserId != undefined && req.body.decryptUserId != '') {
       let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
       query._id = decryptTokenData.userId
+      if (Date.now() > decryptTokenData.tokenExpiry) {
+        return commonHelper.sendResponse(res, 'info', null, infoMessage.linkExpired)
+      }
     }
     const result = await User.findOne(query, params);
+    if(result!=null && !result.inviteToken){
+      return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
+    }
     commonHelper.sendResponse(res, 'success', result, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -190,12 +198,24 @@ const getUserDetails = async (req, res, next) => {
 const getUserList = async (req, res) => {
   try {
     const { query, fields, order, offset, limit } = req.body;
-    let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit);
+    fields['inviteToken'] = 1
+    let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit).lean();
+    userList = userList.map( (user) => ({
+      ...user,
+      isTokenExpired: user.inviteToken? checkTokenExpire(user.inviteToken):""
+    }));
+
     let totalCount = await User.find(query).count()
     commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
+}
+
+const checkTokenExpire = (inviteToken) => {
+  let decryptTokenData = commonHelper.decryptData(inviteToken, process.env.CRYPTO_SECRET)
+  let isTokenExpired = (decryptTokenData.tokenExpiry && Date.now() > decryptTokenData.tokenExpiry) ? true : false
+  return isTokenExpired
 }
 
 const getTherapistList = async (req, res) => {
@@ -416,6 +436,36 @@ const uploadDocumentFile = async (req, res) => {
   }
 }
 
+const resendInvite = async (req, res) => {
+  try {
+    const { _id } = req.body
+    let encryptObj = { userId: _id, tokenExpiry: Date.now() + (1440 * 60 * 1000) } // Token expire after 24 hrs
+    let inviteEncryptedToken = commonHelper.encryptData(encryptObj, process.env.CRYPTO_SECRET)
+    // Update invite token
+    await User.findOneAndUpdate({ _id: _id }, { inviteToken: inviteEncryptedToken });
+
+    // Send email
+    const link = `${process.env.BASE_URL}/admin/signup/${inviteEncryptedToken}`;
+    triggerEmail.inviteAdmin('inviteAdmin', req.body, link)
+
+    commonHelper.sendResponse(res, 'success', null, userMessage.resendInvite);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
+const cometChatLog = async (req, res) => {
+    try {
+      let chatLog = new cometChatLogModel(req.body);
+      await chatLog.save();
+      commonHelper.sendResponse(res, 'success', '' , 'Log saved successfully');
+    } catch (error) {
+      console.log("*******cometChatLog******", error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
 
 module.exports = {
   invite,
@@ -437,5 +487,7 @@ module.exports = {
   removeDirectoryOrFile,
   previewDocumentFile,
   updateFile,
-  uploadDocumentFile
+  uploadDocumentFile,
+  cometChatLog,
+  resendInvite
 };

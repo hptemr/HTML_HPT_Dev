@@ -25,5 +25,8 @@ router.post('/removeDocument', adminController.removeDirectoryOrFile);
 router.post('/updateFile', adminController.updateFile);
 router.post('/previewDocumentFile', adminController.previewDocumentFile);
 
+router.post('/resendInvite', adminController.resendInvite);
+// Comet chat log url
+router.post('/cometChatLog', adminController.cometChatLog);
 
 module.exports = router;
