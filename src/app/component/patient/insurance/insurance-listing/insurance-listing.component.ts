@@ -13,7 +13,7 @@ import { validationMessages } from 'src/app/utils/validation-messages';
 import { s3Details, pageSize, pageSizeOptions } from 'src/app/config';
 
 export interface PeriodicElement {
-  name: string;   
+  //name: string;   
   idpolicy: string;   
   group: string;   
   validThrough: string;   
@@ -60,7 +60,7 @@ export class InsuranceListingComponent {
     public adminService:AdminService
   ) {}
   
-  displayedColumns: string[] = ['insuranceName','primaryInsuranceCompany','primaryInsuranceIdPolicy','primaryInsuranceGroup','validThrough', 'status'];
+  displayedColumns: string[] = ['primaryInsuranceCompany','primaryInsuranceIdPolicy','primaryInsuranceGroup','validThrough', 'status'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   orderBy: any = { updatedAt: -1 }
   whereCond: any = {}
@@ -103,7 +103,7 @@ export class InsuranceListingComponent {
 
     let reqVars = {
       query: this.whereCond,
-      fields: { _id: 1, patientId: 1, insuranceName: 1, primaryInsuranceCompany: 1, primaryInsuranceIdPolicy:1, primaryInsuranceGroup:1, status: 1, createdAt:1, updatedAt:1},
+      fields: { _id: 1, patientId: 1,   primaryInsuranceCompany: 1, primaryInsuranceIdPolicy:1, primaryInsuranceGroup:1, status: 1, createdAt:1, updatedAt:1},
       patientFields: { firstName: 1, lastName: 1, email: 1, status: 1,profileImage:1, practiceLocation:1 },
       order: this.orderBy,
       limit: this.pageSize,
