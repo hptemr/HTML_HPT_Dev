@@ -11,6 +11,7 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
 import { ReportsComponent } from './report/reports/reports.component';
 import { MissedNoteComponent } from './report/missed-note/missed-note.component';
 import { ViewInsuranceComponent } from './view-insurance/view-insurance.component';
+import { BillingDetailsComponent } from './billing-details/billing-details.component';
  
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ViewInsuranceComponent } from './view-insurance/view-insurance.componen
     PatientProfileComponent, 
     ReportsComponent,
     MissedNoteComponent,
-    ViewInsuranceComponent
+    ViewInsuranceComponent,
+    BillingDetailsComponent
   ],
   imports: [
     CommonModule,

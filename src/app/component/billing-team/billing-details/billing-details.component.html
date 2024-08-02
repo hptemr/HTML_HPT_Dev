@@ -1,0 +1,782 @@
+<div class="container-fluid book--appointment--wrapper view--insurance pb-3">
+    <div class="row">
+        <div class="col-12 d-flex align-items-center my-2">
+            <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/billing-team/appointment-details']">
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+            </button>
+            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                Billing Details
+            </h3>
+        </div>
+    </div>
+    <div class="card m-0">
+        <div class="row"> 
+            <div class="col-12 my-2">
+                <div class="row"> 
+                    <div class="col-12 col-xl-12"> 
+                        <h3 class="mb-0 clr--1F2F3E fw-700 d-flex flex-wrap text-uppercase font-18 mb-3">
+                            Insurances<span class="ms-1"> * </span> 
+                        </h3>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-row flex-wrap align-items-baseline mb-2">
+                            <div class="col-12 col-lg-3 col-md-3 col-xl-3 mb-2">
+                                <h2 class="clr--1F2F3E fw-700 d-flex flex-wrap font-16"> Primary Insurance </h2>
+                            </div>
+                            <div class="col-12 col-lg-3 col-md-4 col-xl-3 mb-2">
+                                <div class="d-flex flex-row flex-wrap align-items-center">
+                                    <label class="form-check-label fw-600 me-3 mb-1" for="flexSwitchCheckChecked">Re-order Insurances</label>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-5 col-lg-6 col-xl-6 d-flex justify-content-sm-end">
+                                <button class="flex-shrink-0" mat-raised-button color="primary"> 
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon> 
+                                    Add Third Insurance
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Primary Insurance <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option selected>Select</option>
+                                <option value="1">Insurance 1</option>
+                                <option value="2">Insurance 2</option>
+                                <option value="3">Insurance 3</option>
+                            </select>
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">ID/Policy # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter ID/Policy #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Number of Visits used elsewhere </label>
+                            <input class="form-control" type="text" placeholder="Enter Number of Visits" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Group #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Customer Service Ph # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Customer Service Ph #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Date From</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    ngbDatepicker #from="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="from.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Date To</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    ngbDatepicker #to="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="to.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Effective Date </label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    ngbDatepicker #ed="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="ed.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">End Date </label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    ngbDatepicker #end="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="end.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4  d-flex align-items-center">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Rx Required</label>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                                <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Copay Amount</label>
+                            <div class="input-group prefix--field max-width-box-c">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" class="form-control form-control-md" value="12" [disabled]="false">
+                            </div>  
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">High Deductible</label>
+                            <div class="input-group prefix--field max-width-box-c">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" class="form-control form-control-md" value="12" [disabled]="false">
+                            </div>  
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Deductible net amount</label>
+                            <div class="input-group prefix--field max-width-box-c">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" class="form-control form-control-md" value="12" [disabled]="false">
+                            </div>  
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3 col-md-4 col-xl-3 d-flex align-items-center mb-2">
+                        <div class="d-flex flex-row flex-wrap align-items-center">
+                            <label class="form-check-label fw-600 me-3 mb-1" for="flexSwitchCheckChecked">Turn on KX Modifier</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-lg-4 col-xl-3">
+                        <div class="form-group d-flex align-items-center">
+                            <!-- <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label> -->
+                            <mat-radio-group aria-label="Select an option" [disabled]="false">
+                                <mat-radio-button value="1" class="me-3" checked>Hard Cap</mat-radio-button>
+                                <mat-radio-button value="2">Soft Cap</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-8 col-lg-8 col-xl-9">
+                        <input type="text" class="form-control form-control-md" placeholder="lorem ipsum dollor">
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Passport Provider</label>
+                            <input class="form-control" type="text" placeholder="Enter Passport Provider" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-3 d-flex align-items-center">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Passport Approval</label>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                                <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-3 d-flex align-items-center">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Required</label>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                                <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Date From</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    ngbDatepicker #from1="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="from1.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Date To</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    ngbDatepicker #to1="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="to1.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="col-12">
+                        <h2 class="mb-3 mt-2  clr--1F2F3E fw-700 d-flex flex-wrap font-16">Responsible Party/Gurantor (RP)<span class="clr--DF0404 ms-1"> *
+                        </span></h2>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Relationship with Patient</label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option selected>Select</option>
+                                <option value="1">Other</option>
+                                <option value="2">Brother</option>
+                                <option value="3">Sister</option>
+                            </select>
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Other Relation</label>
+                            <input class="form-control" type="text" placeholder="Enter Other Relation" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">First Name<span class="clr--DF0404 ms-1"> *
+                            </span> </label>
+                            <input class="form-control" type="text" placeholder="Enter First Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Middle Name </label>
+                            <input class="form-control" type="text" placeholder="Enter Middle Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Last Name<span class="clr--DF0404 ms-1"> *
+                            </span> </label>
+                            <input class="form-control" type="text" placeholder="Enter Last Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Date of Birth </label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Marital Status</label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option selected>Select</option>
+                                <option value="1">Married</option>
+                                <option value="2">Single</option>
+                            </select>
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                        <div class="form-group" *ngIf="">
+                            <input class="form-control" type="text" placeholder="Enter other relation" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-6 col-xl-12 d-flex align-items-center">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Gender</label>
+                            <mat-radio-group aria-label="Select an option" [disabled]="false">
+                                <mat-radio-button value="1" class="me-3" checked>Male</mat-radio-button>
+                                <mat-radio-button value="2">Female</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Email<span class="clr--DF0404 ms-1"> *
+                            </span> </label>
+                            <input class="form-control" type="text" placeholder="Enter Email Address" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> *
+                            </span> </label>
+                            <input class="form-control" type="text" placeholder="Enter Phone Number" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Cell Phone Number<span class="clr--DF0404 ms-1"> *
+                            </span> </label>
+                            <input class="form-control" type="text" placeholder="Enter Cell Phone Number" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Work Extension<span class="clr--DF0404 ms-1"> *
+                            </span> </label>
+                            <input class="form-control" type="text" placeholder="Enter Work Extension" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Is your injury related to</label>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="1" class="me-3">Worker's Compensation
+                                    (WCOMP)</mat-radio-button>
+                                <mat-radio-button value="2" class="me-3">Motar Vehicle Accident (MVA)</mat-radio-button>
+                                <div class="d-inline-flex flex-column">
+                                    <mat-radio-button value="2">Other Personal Injury</mat-radio-button>
+                                    <div class="form-group" *ngIf="">
+                                        <input class="form-control" type="text" placeholder="Enter Other Injury" />
+                                        <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                    </div>
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Carrier Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option selected>Select</option>
+                                <option value="1">Carrier 1</option>
+                                <option value="2">Carrier 2</option>
+                                <option value="3">Carrier 3</option>
+                            </select>
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> *
+                                </span> </label>
+                            <div class="input-group">
+                                <input class="form-control  " placeholder="Select Date" name="dp" [(ngModel)]="model"
+                                    ngbDatepicker #de="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="de.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option selected>Select State</option>
+                                <option value="1">State 1</option>
+                                <option value="2">State 2</option>
+                                <option value="3">State 3</option>
+                            </select>
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Claim # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Claim #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Adjuster Name # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Adjuster Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Adjuster Phone # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter Adjuster Phone" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Was this reported to your employer?</label>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                                <mat-radio-button value="2">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Primary Insurances </h2>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Company <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Company Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">ID/Policy # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter ID/Policy #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Group #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Customer Service Ph # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter Customer Service Ph #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Effective Date </label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    [(ngModel)]="model" ngbDatepicker #ed="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="ed.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">End Date </label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    [(ngModel)]="model" ngbDatepicker #end="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="end.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Secondary Insurances </h2>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Company <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Company Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">ID/Policy # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter ID/Policy #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Group #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Customer Service Ph # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter Customer Service Ph #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Effective Date </label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    [(ngModel)]="model" ngbDatepicker #sed="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="sed.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">End Date </label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Select Date" name="dp"
+                                    [(ngModel)]="model" ngbDatepicker #send="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="send.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Is your injury related to</label>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="1" class="me-3">Worker's Compensation
+                                    (WCOMP)</mat-radio-button>
+                                <mat-radio-button value="2" class="me-3">Motar Vehicle Accident (MVA)</mat-radio-button>
+                                <div class="d-inline-flex flex-column">
+                                    <mat-radio-button value="2">Other Personal Injury</mat-radio-button>
+                                    <div class="form-group" *ngIf="">
+                                        <input class="form-control" type="text" placeholder="Enter Other Injury" />
+                                        <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                    </div>
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Carrier Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option selected>Select</option>
+                                <option value="1">Carrier 1</option>
+                                <option value="2">Carrier 2</option>
+                                <option value="3">Carrier 3</option>
+                            </select>
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> *
+                                </span> </label>
+                            <div class="input-group">
+                                <input class="form-control  " placeholder="Select Date" name="dp" [(ngModel)]="model"
+                                    ngbDatepicker #de="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="de.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option selected>Select State</option>
+                                <option value="1">State 1</option>
+                                <option value="2">State 2</option>
+                                <option value="3">State 3</option>
+                            </select>
+                            <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Claim # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Claim #" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Adjuster Name # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Adjuster Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Adjuster Phone # <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter Adjuster Phone" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Was this reported to your employer?</label>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                                <mat-radio-button value="2">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Employers Information </h2>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Employer Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Employer Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Employer Phone <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter Employer Phone" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Employer Address <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <textarea class="form-control " type="text" placeholder="Enetr Address" rows="4"></textarea>
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col-12">
+                        <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Attorney Information </h2>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="text" placeholder="Enter Attorney Name" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Attorney Phone <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <input class="form-control" type="number" placeholder="Enter Attorney Phone" />
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div> 
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Attorney Address <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                            <textarea class="form-control " type="text" placeholder="Enter Address" rows="4"></textarea>
+                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        </div>
+                    </div> 
+                    <div class="col-12">
+                        <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
+                        <p class="font-16 clr--1F2F3E lh-24">User Name - I hereby authorize this PT clinic and/or it's Individual Therapists and Assistants to evaluate and administer PT treatments to the minor patient listed above. This authorization is in effect as of the date this form is signed. This authorization shall remain valid for current and future PT cases until written notice
+                            is given by me revoking said authorization. I understand that I am financially responsible for all services rendered to the above patient whether I am present at the time of treatment or not.</p>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center flex-wrap ">
+                            <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-3 me-4">Policies Page</a>
+                            <a href="#" class="text-primary text-decoration-underline fw-700 font-16 mt-3">Hamilton Physical Therapy & Associated Clinics Policies Page</a>
+                            <button mat-raised-button color="primary" class="flex-shrink-0 ms-0 ms-sm-auto mt-3 ui--button cursor-pointer">
+                                <input type="file">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
+                                Upload Insurance Card
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-row align-items-center mt-3 w-100">
+                            <div class="d-flex align-items-center me-5">
+                                <div class="doc--pic d-flex align-items-center justify-content-center">
+                                    <mat-icon>picture_as_pdf</mat-icon>
+                                </div>
+                                <div class="d-flex flex-column  doc--desc">
+                                    <h5 class="font-16">driverlicense.jpg</h5>
+                                </div>
+                            </div>
+                            <button mat-raised-button color="warn" class="flex-shrink-0">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex flex-column w-100">
+                        <div class="signature--box d-flex align-items-center justify-content-center">
+                            <img src="assets/images/ark/M.S.Johnson.png"  alt="" class="img-fluid" />
+                        </div>
+                        <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must sign for minors)</p>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
