@@ -1,6 +1,8 @@
 
 let serverUrlEnv = ""
 let bucketName = "hpt.dev"
+export const appointmentDirectory = '66a1dfbd79ac8729a98d0b80'
+export const protocolDirectory = '66a1dfcd79ac8729a98d2caf'
 if (window.location.hostname.indexOf("localhost") > -1) {
   serverUrlEnv = "http://localhost:3000"
 } else if (window.location.hostname.indexOf("dev.hamiltonpt.com") > -1) {

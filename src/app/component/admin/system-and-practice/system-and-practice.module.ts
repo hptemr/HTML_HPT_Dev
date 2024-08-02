@@ -13,6 +13,15 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { UserListingComponent } from './user-managment/user-listing/user-listing.component';
 import { AdminProfileComponent } from './user-managment/admin-profile/admin-profile.component';
 import { SystemAndPracticeRoutingModule } from './system-and-practice-routing.module';
+import { DocumentsComponent } from 'src/app/shared/component/manage-documents/documents/documents/documents.component';
+import { AppointmentDocumentsComponent } from 'src/app/shared/component/manage-documents/appointment-documents/appointment-documents.component';
+import { SystemDocumentsComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents.component';
+import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/protocols/protocols.component';
+import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
+import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
+import { AddFolderModalComponent } from 'src/app/shared/component/manage-documents/add-folder-modal/add-folder-modal.component';
+import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-documents/upload-documents-modal/upload-documents-modal.component';
+import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 
 @NgModule({
   declarations: [
@@ -20,12 +29,21 @@ import { SystemAndPracticeRoutingModule } from './system-and-practice-routing.mo
     EFaxComponent,
     InvitePopupComponent,
     PatientsComponent,
-     ManagePracticeComponent,
+    ManagePracticeComponent,
     ConversationsComponent,
     CreateGroupComponent,
     AddParticipantsComponent,
     NotificationsComponent,
-    AdminProfileComponent
+    AdminProfileComponent,
+    DocumentsComponent,
+    AppointmentDocumentsComponent,
+    SystemDocumentsComponent,
+    ProtocolsComponent,
+    ProtocolDetailedDocumentsComponent,
+    SystemDocumentsDetailedComponent,
+    AddFolderModalComponent,
+    UploadDocumentsModalComponent,
+    PreviewComponent
   ],
   imports: [
     CommonModule,

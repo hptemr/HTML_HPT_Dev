@@ -12,6 +12,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
 import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
+import { DocumentsComponent } from 'src/app/shared/component/manage-documents/documents/documents/documents.component';
+import { AppointmentDocumentsComponent } from 'src/app/shared/component/manage-documents/appointment-documents/appointment-documents.component';
+import { SystemDocumentsComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents.component';
+import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/protocols/protocols.component';
+import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
+import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
+import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 
 const routes: Routes = [
   {
@@ -83,6 +90,36 @@ const routes: Routes = [
   {
     path: 'notifications',
     component: NotificationsComponent,
+  },
+  {
+    path: 'manage-documents',
+    component:DocumentsComponent ,
+    children: [  
+      {
+        path: 'appointment-documents',
+        component: AppointmentDocumentsComponent, 
+      },
+      {
+        path: 'system-documents',
+        component: SystemDocumentsComponent, 
+      },
+      {
+        path: 'system-documents/system-documents-detailed/:id',
+        component: SystemDocumentsDetailedComponent, 
+      },
+      {
+        path: 'protocols',
+        component: ProtocolsComponent,
+      },
+      {
+        path: 'protocols/detailed-documents',
+        component: ProtocolDetailedDocumentsComponent, 
+      }
+    ]
+  },
+  {
+    path: 'file-preview/:file',
+    component: PreviewComponent, 
   },
 ];
 

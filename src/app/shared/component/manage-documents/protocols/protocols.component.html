@@ -1,0 +1,71 @@
+<div class="col-12 document--wrapper"> 
+    <div class="card">
+        <div class="card-header p-0">
+            <div class="col-12 d-flex flex-row flex-wrap align-items-center mb-2">
+                <div class="col-12 col-sm-6 col-lg-6 d-flex mt-2">
+                    <div class="form-group mb-0 position-relative w-100">
+                        <input type="text" class="form-control search--outer" placeholder="Search " (keyup)="searchRecords()" [(ngModel)]="searchItem">
+                        <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields" (click)="searchRecords()">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">search </mat-icon>
+                        </button>
+                        <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-end mt-2">
+                    <button mat-raised-button color="primary" class="" (click)="addDocumentsModal()">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
+                        Add Documents
+                    </button>
+                </div>   
+            </div>
+        </div>
+
+        <div class="card-body p-0"> 
+            <div class="row">
+                <div class="col-12 cust--mat--table--wrapper">
+                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                        class="cust--mat--table">  
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                                Name
+                            </th>
+                            <td class="cursor-pointer" mat-cell *matCellDef="let element"> 
+                                <div class="d-flex align-items-center">
+                                     <mat-icon class="me-3 {{element.color}}"> {{element.icon}}</mat-icon>
+                                     <p class="font-14 clr--292D32">{{element.name}}</p>
+                                </div>
+                             </td>
+                        </ng-container>  
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Actions
+                            </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <div class="w-100 d-flex align-items-center">
+                                    <button mat-button class="flex-shrink-0 min-width-unset search--fields" (click)="previewFile(element._id)">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                    </button> 
+                                    <button mat-button class="flex-shrink-0 min-width-unset search--fields" (click)="addFolderModal(element)">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                    </button>
+                                    <button mat-button class="flex-shrink-0 min-width-unset search--fields" (click)="removeItem(element)">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>  
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <p *ngIf="listArrayItems==0 && !loading" style="text-align: center;">No records found</p>
+
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                                    showFirstLastButtons
+                                    aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div> 
+            </div>
+        </div>
+
+    </div>
+</div>

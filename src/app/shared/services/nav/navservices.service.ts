@@ -106,6 +106,15 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 5,
+          icon: 'home',
+          mainTitle: 'Manage Documents',
+          headTitle1: 'Manage Documents',
+          path: 'manage-documents/system-documents',
+          active: false,
+          item: []
+        },
         // {
         //   id: 5,
         //   icon: 'chat_bubble_outline',
@@ -406,6 +415,15 @@ export class NavservicesService implements OnInit {
           mainTitle: 'Manage Practice',
           headTitle1: 'Manage Practice',
           path: '/system-admin/manage-practice',
+          active: false,
+          item: []
+        },
+        {
+          id: 5,
+          icon: 'home',
+          mainTitle: 'Manage Documents',
+          headTitle1: 'Manage Documents',
+          path: 'manage-documents/system-documents',
           active: false,
           item: []
         },
