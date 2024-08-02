@@ -16,6 +16,7 @@ router.post('/getTherapistList', adminController.getTherapistList);
 router.post('/getLocationWiseUserList', adminController.getLocationWiseUserList);
 router.post('/deleteProfileImage', adminController.deleteProfileImage);
 router.post('/changeProfileImage', adminController.changeProfileImage);
+router.post('/resendInvite', adminController.resendInvite);
 // Comet chat log url
 router.post('/cometChatLog', adminController.cometChatLog);
 
