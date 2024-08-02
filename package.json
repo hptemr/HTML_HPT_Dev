@@ -44,6 +44,7 @@
     "feather-icons": "^4.29.1",
     "jwt-decode": "^4.0.0",
     "ng2-file-upload": "^7.0.0",
+    "ngx-doc-viewer": "^15.0.1",
     "ngx-image-cropper": "^8.0.0",
     "ngx-owl-carousel-o": "^18.0.0",
     "ngx-toastr": "^18.0.0",

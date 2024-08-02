@@ -1,0 +1,30 @@
+.upload--files{
+    border-radius: 20px;
+    border: 2px dashed #31B7B7;
+    background: #FFF;
+    padding: 30px 15px 24px 15px;
+    margin-bottom: 10px;
+    position: relative;
+    h6{
+        margin: 15px 0;
+        color: #1F2F3E;
+    }
+    p{
+        color: #848789;
+    }
+    .input--file{
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    .upload-icon{
+        font-size: 42px;
+        width: 42px;
+        height: 42px;
+        color: #31B7B7;
+    }
+}

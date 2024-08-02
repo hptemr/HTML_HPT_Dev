@@ -60,6 +60,7 @@ import { PatientDetailsComponent } from './component/support-billing-therapist/p
 import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
 import { ViewInsuranceModalComponent } from './comman/view-insurance-modal/view-insurance-modal.component';
 import { DatePipe } from '@angular/common';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -121,7 +122,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot(),
     IMaskModule,
-    DatePipe
+    DatePipe,
+    NgxDocViewerModule
   ],
   exports: [
     CommonModule,
@@ -136,7 +138,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TapToTopComponent,
     TranslateModule,
     NgbModule,
-    MaterialModule
+    MaterialModule,
+    NgxDocViewerModule
   ]
 })
 

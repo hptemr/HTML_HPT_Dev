@@ -1,0 +1,30 @@
+<div class="note--wrapper container-fluid ">
+    <div class="row">
+        <div class="col-12">
+            <div class="tab--header d-flex flex-row justify-content-between align-items-center flex-wrap">
+                <ul class="d-flex align-items-center p-0 m-0 flex-wrap flex-sm-nowrap">
+                    <li routerLinkActive="active-link" (click)="goTo('Apppointment Documents','apppointment-documents')" routerLink="/{{userType}}/manage-documents/appointment-documents"><a>Apppointment Documents</a></li>
+                    <li routerLinkActive="active-link" (click)="goTo('System Documents','system-documents')"  routerLink="/{{userType}}/manage-documents/system-documents"><a>System Documents</a></li>
+                    <li routerLinkActive="active-link" (click)="goTo('Protocols Documents','protocols')" *ngIf="userType=='system-admin'"  routerLink="/{{userType}}/manage-documents/protocols"><a>Protocols</a></li>
+                </ul>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                      <li class="breadcrumb-item fw-500"><a routerLink="/{{userType}}/manage-documents/{{rootDirectoryUrl}}" class="font-12 clr--1F2F3E">{{labelName}}</a></li>
+                      <!-- <li class="breadcrumb-item fw-500  active" aria-current="page"><a routerLink="/{{userType}}/manage-documents/{{rootDirectoryUrl}}" class="font-12 clr--1F2F3E">{{labelName}}</a></li> -->
+                    </ol>
+                  </nav>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="note--body--doc">
+                <router-outlet></router-outlet>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
