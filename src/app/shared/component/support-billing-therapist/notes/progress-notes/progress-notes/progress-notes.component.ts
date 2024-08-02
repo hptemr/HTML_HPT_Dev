@@ -3,12 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
+
 @Component({
-  selector: 'app-discharge-note', 
-  templateUrl: './discharge-note.component.html',
-  styleUrl: './discharge-note.component.scss'
+  selector: 'app-progress-notes', 
+  templateUrl: './progress-notes.component.html',
+  styleUrl: './progress-notes.component.scss'
 })
-export class DischargeNoteComponent {
+export class ProgressNoteComponent {
   appointmentId: string;
   public userId: string;
   public userRole: string;
@@ -25,5 +26,6 @@ export class DischargeNoteComponent {
     this.userRole = this.authService.getLoggedInInfo('role')
   
   }
+
 
 }

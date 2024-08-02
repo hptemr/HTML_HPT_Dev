@@ -9,12 +9,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 //import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
-  selector: 'app-assessment', 
-  templateUrl: './assessment.component.html',
-  styleUrl: './assessment.component.scss',
+  selector: 'app-pn-assessment', 
+  templateUrl: './pn-assessment.component.html',
+  styleUrl: './pn-assessment.component.scss',
   providers: [DatePipe]
 })
-export class AssessmentComponent {
+export class PnAssessmentComponent {
   isDisabled: boolean = false;
   addNewProblemField:boolean= true;
   appointmentId: string;

@@ -1,55 +1,78 @@
 <div class="container-fluid subjective--wrapepr p-0">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
-        </div>
-        <div class="col-12 col-lg-5">
-            <div class="form-group mb-2">
-                <label class="col-form-label fw-600">Date of Discharge Note</label>
-                <mat-form-field class="w-100 am--datepicker">
-                    <input [disabled]="isDisabled"  matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
+    <form *ngIf="dis_subjectiveForm" [formGroup]="dis_subjectiveForm" (ngSubmit)="dis_subjectiveSubmit(dis_subjectiveForm.value)">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-2 clr--1F2F3E font-16 fw-700">Basic Info</h1>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group d-flex align-items-center mb-1">
-                <label class="col-form-label fw-600 p-0 me-3">Treatment Side</label>
-                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option">
-                    <mat-radio-button value="1" class="me-3" checked>Left</mat-radio-button>
-                    <mat-radio-button value="2" class="me-3">Right</mat-radio-button>
-                </mat-radio-group>
+            <div class="col-12 col-lg-5">
+                <div class="form-group mb-2">
+                    <!-- <label class="col-form-label fw-600">Date of Discharge Note</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input [disabled]="isDisabled"  matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field> -->
+
+                    <label class="col-form-label fw-600">Date of Discharge Note <span class="clr--DF0404 ms-1"> * </span></label>
+                    <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="discharge_note_date">
+                      <option value="" disabled>Select date</option>
+                      <option *ngFor="let d of appointment_dates" [value]="d">{{d}}</option>
+                    </select>
+                    <div class="text text-danger mt-1" *ngIf="dis_subjectiveForm.controls['discharge_note_date'].touched && dis_subjectiveForm.controls['discharge_note_date'].hasError('required')">
+                        {{ validationMessages.requiredDropdown('Initial examination date') }}
+                    </div>       
+
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group mb-1">
-                <label class="col-form-label fw-600">Date & Type of Surgery</label>
-                <div class="row">
-                    <div class="col-12 col-sm-3 col-lg-3">
-                        <mat-form-field class="w-100 am--datepicker mb-2">
-                            <input [disabled]="isDisabled"  matInput [matDatepicker]="picker1" placeholder="Date of Surgery" (focus)="picker1.open()">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-12 col-sm-3 col-lg-3">
-                        <input [disabled]="isDisabled"  type="text" class="form-control mb-2" placeholder="Type of Surgery ">
+            <div class="col-12">
+                <div class="form-group d-flex align-items-center mb-1">
+                    <label class="col-form-label fw-600 p-0 me-3">Treatment Side</label>
+                    <mat-radio-group aria-label="Select an option" formControlName="treatment_side">
+                        <mat-radio-button value="Left" class="me-3" checked>Left</mat-radio-button>
+                        <mat-radio-button value="Right" class="me-3">Right</mat-radio-button>
+                        <mat-radio-button value="Bilateral">Bilateral</mat-radio-button>
+                        <div class="text text-danger mt-1" *ngIf="dis_subjectiveForm.controls['treatment_side'].hasError('required') && dis_subjectiveForm.controls['treatment_side'].touched">
+                            {{ validationMessages.requiredCheckbox('Treatment side') }}</div>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group mb-1">
+                    <label class="col-form-label fw-600">Date & Type of Surgery</label>
+                    <div class="row">
+                        <div class="col-12 col-sm-3 col-lg-3">
+                            <mat-form-field class="w-100 am--datepicker mb-2">
+                                <input matInput [matDatepicker]="picker1" placeholder="Date of Surgery" [max]="todayDate" 
+                                formControlName="surgery_date" readonly placeholder="MM-DD-YYYY" (focus)="picker1.open()">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                            <div class="text text-danger mt-1" *ngIf="dis_subjectiveForm.controls['surgery_date'].hasError('required') && dis_subjectiveForm.controls['surgery_date'].touched">
+                                {{ validationMessages.required('Surgery date') }}</div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-lg-3">
+                            <!-- [disabled]="isDisabled"  -->
+                            <input type="text" class="form-control mb-2" placeholder="Type of Surgery" formControlName="surgery_type" (blur)="checkSpace('surgery_type', $event)">
+                            <div class="text text-danger mt-1" *ngIf="dis_subjectiveForm.controls['surgery_type'].hasError('required') && dis_subjectiveForm.controls['surgery_type'].touched">
+                                {{ validationMessages.required('Type of surgery') }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600">Subjective</label>
-                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5"></textarea>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Subjective</label>
+                    <textarea class="form-control text-left" type="text" placeholder="Enter Subjective Note" formControlName="subjective_note" rows="5" (blur)="checkSpace('subjective_note', $event)"></textarea>
+                    <div class="text text-danger mt-1" *ngIf="dis_subjectiveForm.controls['subjective_note'].hasError('required') && dis_subjectiveForm.controls['subjective_note'].touched">
+                        {{ validationMessages.required('Subjective') }}</div>
+                </div>
             </div>
+            
         </div>
-        
-    </div>
-    <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
-        <button mat-raised-button color="primary" class="m-1">
-            Save as Draft
-        </button>
-    </div>
+        <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+            <button mat-raised-button color="primary" type="submit" class="m-1">
+                Save as Draft
+            </button>
+        </div>
+    </form>
 </div>

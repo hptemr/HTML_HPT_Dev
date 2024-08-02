@@ -6,14 +6,14 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { icd_data } from '../../../../../../ICD';
 import { validationMessages } from '../../../../../../utils/validation-messages';
-import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder,FormArray } from '@angular/forms';
 //import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
-  selector: 'app-subjective', 
-  templateUrl: './subjective.component.html',
-  styleUrl: './subjective.component.scss',
+  selector: 'app-pn-subjective', 
+  templateUrl: './pn-subjective.component.html',
+  styleUrl: './pn-subjective.component.scss',
 })
-export class SubjectiveComponent implements OnInit {
+export class PnSubjectiveComponent implements OnInit {
   icd_data = icd_data;
   isDisabled = true;
   clickedIndex = 0;
