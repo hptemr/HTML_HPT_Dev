@@ -51,7 +51,7 @@ export class PatientNavservicesService {
       id: 2,
       activeMenu: 'appointments',
       icon: 'pending_actions',
-      mainTitle: 'Appointments',
+      mainTitle: 'Cases',
       headTitle1: '',
       path: '/patient/appointments',
       active: false,

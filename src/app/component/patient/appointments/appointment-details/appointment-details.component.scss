@@ -112,14 +112,27 @@
                 padding-left: 0px;
                 border-left: none;
                 .appointment-information-header-wrapper{
-                        .mat-expansion-panel{
-                            border-radius: 12px !important;
-                            background: #FFF !important;
-                            box-shadow: -3px 9px 32px 0px #9fa2bf26 !important;
-                            &:hover{
-                                background-color: #FFF !important;
-                            }
+                    border-radius: 12px !important;
+                    background: #FFF !important;
+                    box-shadow: -3px 9px 32px 0px #9fa2bf26 !important;
+                    padding: 10px 24px 5px 24px;
+                    &:hover{
+                        background-color: #FFF !important;
+                    } 
+                    .intake-btn{
+                        margin-left: auto;
+                        margin-right: 50px;
+                    } 
+                      .profile--img--box{
+                        .img--box{
+                            width: 80px;
+                            height: 80px;
+                            border-radius: 100%;
+                            overflow: hidden;
+                            margin-right: 5px;
                         }
+                    }
+                    
                     .exp-class{
                         ::ng-deep{ 
                             .mat-expansion-panel-body{
@@ -144,15 +157,7 @@
                                 margin-right: 50px;
                             }
                         }
-                        .profile--img--box{
-                            .img--box{
-                                width: 80px;
-                                height: 80px;
-                                border-radius: 100%;
-                                overflow: hidden;
-                                margin-right: 5px;
-                            }
-                        }
+                        
                     }
                 }
                 .card-body{
@@ -172,6 +177,9 @@
                     }
                 }
                
+                .cust--mat--table--wrapper{
+                    padding: 5px 40px 18px 40px !important;
+                }
             }
             .divider{
                 border-top: 1px solid  rgba(49, 184, 184, 0.30);;

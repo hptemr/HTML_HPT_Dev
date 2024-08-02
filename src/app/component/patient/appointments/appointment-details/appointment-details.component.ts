@@ -56,8 +56,7 @@ export class AppointmentDetailsComponent {
   appInfo: any
   profileImage: any
   model: NgbDateStruct;
-  private _liveAnnouncer: any; 
-
+  private _liveAnnouncer: any;  
 
   totalCount = 0
   pageIndex = 0
@@ -77,6 +76,11 @@ export class AppointmentDetailsComponent {
     })
   }
 
+
+  isShow = false;
+  toggleDisplay() {
+    this.isShow = !this.isShow;
+  }
 
   ngOnInit() {
     this.commonService.showLoader()
