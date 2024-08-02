@@ -1,4 +1,4 @@
-<div class="col-12 app--details--wrapper profile--right--wrapper">
+<!-- <div class="col-12 app--details--wrapper profile--right--wrapper">
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center">
@@ -163,4 +163,187 @@
             </button>
         </div>
     </div>
-</div>
+</div> -->
+
+
+
+<div class="col-12 app--details--wrapper profile--right--wrapper">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center">
+                <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/therapist/appointments']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+                </button>
+                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>
+                
+            </div> 
+        </div>
+        <div class="card-body d-flex flex-column flex-sm-row">
+            <div class="profile--right d-flex flex-column w-100">
+                <div class="w-100 mb-0"> 
+                    <mat-accordion class="appointment-information-header-wrapper">
+                        <mat-expansion-panel class="exp-class" expanded="true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
+                                    Case Information
+                                </mat-panel-title>
+
+                                <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
+                                    <button [routerLink]="['/patient/intake-form/step-1', appId]" mat-raised-button color="primary" class="intake-btn" >
+                                        View Intake Form
+                                    </button>
+                                </mat-panel-description>  
+                            </mat-expansion-panel-header>
+                            <div class="col-12"> 
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            <div class="w-100 mb-2">
+                                                <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                                    <div class="img--box flex-shrink-0">
+                                                        <img src="assets/images/ark/user.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h3 class="mb-1 clr--1F2F3E font-18 fw-700">John Walter</h3>
+                                                        <div class="mb-1 mt-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">johnwalter1991&#64;gmail.com</p>
+                                                        </div>
+                                                        <div class="mb-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 1234-567-8902-4862</p>
+                                                        </div>
+                                    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Corvallis PT</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Neck pain</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Next Appointment Date and Time</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Tue, Nov 13, 2023 02:00 pm</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-row flex-wrap align-items-center">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            <div class="w-100 mb-2">
+                                                <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                                    <div class="img--box flex-shrink-0">
+                                                        <img src="assets/images/ark/user.png" alt="" class="img-fluid d-none" />
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Therapist Name</h3>
+                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Elizabeth</p>  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                              
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Insurance/Self Pay</p>
+                                        </div>
+                                        
+
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 ">
+                                            <button mat-stroked-button color="primary"
+                                                            (click)="viewInsuranveModal()">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined flex-shrink-0 me-1 ms-1">
+                                                                visibility
+                                                            </mat-icon>
+                                                            View Insurance
+                                                        </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+ 
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div> 
+        </div>  
+
+        <div class="card-body d-flex flex-column flex-sm-row">
+            <div class="profile--right d-flex flex-column w-100">
+                <div class="w-100 mb-0"> 
+                    <div class="col-12 appointment--wrapper">
+                        <div class="card"  >
+                            <div class="card-header pb-0">
+                                <div class="col-12 d-flex align-items-center justify-content-between mt-3 mb-3">
+                                    <h3 class="text-primary clr--31B7B7 font-18 fw-600">Appointment history</h3>
+                                    <button mat-raised-button color="primary" [routerLink]="['/patient/book-appointment/step-1']">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                                        Raise a Request 
+                                    </button>
+                                </div>           
+                            </div> 
+                    
+                            <div class="card-body day--one--wrapper d-flex align-items-center justify-content-center">
+                                <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                                    <img src="assets/images/ark/calendar-lg.png" alt="" class="img-fluid mb-4" />
+                                    <!-- <p class="fw-700 clr--1F2F3E text-center">Currently there are no appointments to show!</p> -->
+                                    <p class="fw-700 clr--1F2F3E text-center">You have no upcoming appoinments.</p>
+                                    <p class="fw-400 clr--1F2F3E text-center">Please click on "Raise a Request" for requesting an appointment.</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-12 appointment--wrapper">
+                                <div class="card"> 
+                                    <div class="col-12 p-3 cust--mat--table--wrapper">
+                                        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                                            class="cust--mat--table box--row--table">  
+                                            <ng-container matColumnDef=" dateAddedOn">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                                                    Appointment Date & Time 
+                                                </th>
+                                                <td mat-cell *matCellDef="let element"> 
+                                                    {{element.dateAddedOn}} 
+                                                    
+                                                </td>
+                                            </ng-container> 
+                                             
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                                                   Patient checked in
+                                                </th>  
+                                                <td mat-cell *matCellDef="let element">  
+                                                    <div class="w-100 d-flex align-items-center"> 
+                                                        <mat-checkbox class=""> </mat-checkbox>
+                                                    </div>
+                                                </td>
+                                            </ng-container> 
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+                                        
+                                    </div>
+                                </div> 
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div> 
+        </div>  
+
+        
+        
+         
+    </div>
+</div> 
+
+
