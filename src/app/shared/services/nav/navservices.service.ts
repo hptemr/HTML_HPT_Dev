@@ -362,6 +362,16 @@ export class NavservicesService implements OnInit {
           item: []
         },
         // {
+        //   id: 7,
+        //   icon: 'description',
+        //   mainTitle: 'Documents',  
+        //   headTitle1: '',
+        //   path: 'document-listing',
+        //   active: false, 
+        //   type: 'link', 
+        //   item: [ ]
+        // },
+        // {
         //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
