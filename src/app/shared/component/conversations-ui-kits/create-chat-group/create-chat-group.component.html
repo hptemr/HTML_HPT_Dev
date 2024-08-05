@@ -1,0 +1,36 @@
+<div class="inivite--wrapper d-flex flex-column" *ngIf="!isGroupCreate">
+    <div class="inivite--header w-100">
+        <h1>{{heading}}</h1>
+    </div>
+    <div class="inivite--body w-100">
+        <form class="row" [formGroup]="createGroupForm">
+            <div class="col-12">
+                <div class="form-group">
+                  <label class="col-form-label fw-400">Group Name <span class="clr--DF0404 ms-1"> * </span></label>
+                  <input class="form-control form-control-md" type="text" placeholder="Group Name" formControlName="groupName" maxlength="50">
+
+                  <div class="text text-danger mt-1" *ngIf="createGroupForm.controls['groupName'].touched && createGroupForm.controls['groupName'].hasError('required')">
+                    {{ validationMessages.required('Group Name') }}
+                  </div>
+                  <div class="text text-danger mt-1" *ngIf="createGroupForm.controls['groupName'].touched && createGroupForm.controls['groupName'].hasError('minlength')">
+                    {{ validationMessages.minlength('Group Name',3) }}
+                  </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="inivite--footer w-100 d-flex align-items-center justify-content-end">
+      <button mat-stroked-button color="primary" class="me-2" (click)="cancelPopup()">Cancel</button> 
+      <button mat-raised-button color="primary" [disabled]="!createGroupForm.valid" (click)="createGroup()">Create Group</button>
+    </div>
+  </div>
+
+
+  <div class="inivite--wrapper d-flex flex-column fullwidth" *ngIf="isGroupCreate">
+    <cometchat-add-members
+    *ngIf="groupObject"
+    [group]="groupObject"
+    [onAddMembersButtonClick]="handleOnAddMembersButtonClick"
+    ></cometchat-add-members>
+  </div>
+  
