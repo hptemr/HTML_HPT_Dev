@@ -43,7 +43,8 @@ export class SupportTeamNavservicesService {
       id: 1,
       icon: 'dashboard_outline',
       mainTitle: 'Scheduler',
-      headTitle1: 'Scheduler', 
+      headTitle1: 'Scheduler',  
+      path: '/support-team/appointment-requests',
       active: false,
       item: [ 
         {
