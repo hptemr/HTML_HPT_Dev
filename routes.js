@@ -7,6 +7,7 @@ const emailTemplatesRoute = require('./routes/emailTemplateRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const insuranceRoutes = require('./routes/insuranceRoutes');
 const emergencyContactRoutes = require('./routes/emergencyContactRoutes');
+const referralRoutes = require('./routes/referralRoutes');
 
 router.use('/auth', authRoutes);
 router.use('/admin', adminRoutes);
@@ -15,5 +16,6 @@ router.use('/email', emailTemplatesRoute);
 router.use('/insurance', insuranceRoutes);
 router.use('/appointment', appointmentRoutes);
 router.use('/emergencyContact', emergencyContactRoutes);
+router.use('/referral', referralRoutes);
 
 module.exports = router

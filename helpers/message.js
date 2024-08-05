@@ -18,6 +18,7 @@ const messages = {
         profileImageRemoved:"Your profile image has been removed successfully",
         profileImageChanged:"Your profile image has been changed successfully",
         enterCurrentPassword: 'You have enter current password',
+        resendInvite: 'Invite resend successfully',
     },
     infoMessage: {
         updated: 'Updated successfully',
@@ -43,6 +44,7 @@ const messages = {
         cancelled: 'Appointment has been cancelled successfully',
         updated: 'Appointment has been updated successfully',
         rescheduled: 'Appointment has been rescheduled successfully',
+        created: 'Appointment has been created successfully',
     },
     emergencyContactsMessage: {
         created: 'Contact details have been created successfully!',
