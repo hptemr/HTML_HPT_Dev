@@ -28,7 +28,7 @@
                             th:nth-child(1){ width: 42%; }
                             th:nth-child(2){ width: 28%; }
                             th:nth-child(3){ width: 200px; }
-                            th:nth-child(4){ width: 285px; }
+                            th:nth-child(4){ width: 285px; text-align: center;}
                         }
                     }
                     tbody{ 
@@ -36,11 +36,14 @@
                             td:nth-child(1){ width: 42%; }
                             td:nth-child(2){ width: 28%; }
                             td:nth-child(3){ width: 200px; }
-                            td:nth-child(4){ width: 285px; }
+                            td:nth-child(4){ width: 285px;text-align: center;}
                         }
                     }
                 } 
             }
+        }
+        .mr-1{
+            margin-right: 1rem;
         }
     } 
 }
@@ -57,7 +60,7 @@
                                 th:nth-child(1){ width: 35%; }
                                 th:nth-child(2){ width: 28%; }
                                 th:nth-child(3){ width: 200px; }
-                                th:nth-child(4){ width: 225px; }
+                                th:nth-child(4){ width: 225px; text-align: center;}
                             }
                         }
                         tbody{ 
@@ -65,15 +68,17 @@
                                 td:nth-child(1){ width: 35%; }
                                 td:nth-child(2){ width: 28%; }
                                 td:nth-child(3){ width: 200px; }
-                                td:nth-child(4){ width: 225px; }
+                                td:nth-child(4){ width: 225px; text-align: center;}
                             }
                         }
                     }
                 }
             }
         }
+       
     } 
 }
+
 @media only screen and (min-width: 600px) and (max-width: 979px){}
 @media only screen and (min-width: 980px) and (max-width: 1279px){}
 @media only screen and (min-width: 1280px) and (max-width: 1440px){
@@ -87,15 +92,16 @@
                                 th:nth-child(1){ width: 35%; }
                                 th:nth-child(2){ width: 28%; }
                                 th:nth-child(3){ width: 200px; }
-                                th:nth-child(4){ width: 225px; }
+                                th:nth-child(4){ width: 225px; text-align: center;}
                             }
+                              
                         }
                         tbody{ 
                             tr{ 
                                 td:nth-child(1){ width: 35%; }
                                 td:nth-child(2){ width: 28%; }
                                 td:nth-child(3){ width: 200px; }
-                                td:nth-child(4){ width: 225px; }
+                                td:nth-child(4){ width: 225px; text-align: center;}
                             }
                         }
                     }
@@ -106,6 +112,8 @@
 
 
 }
+
+
 @media only screen and (min-width: 1441px) and (max-width: 1550px){}
 @media screen and (orientation:landscape) and (max-width: 850px){
     .appointment--wrapper ::ng-deep .cust--mat--table.box--row--table.mat-mdc-table tbody tr td:nth-child(1),
