@@ -16,8 +16,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class SuccessModalComponent {
   successNote = '';
+  successHeader='';
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<SuccessModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.successNote = data.successNote != undefined ? data.successNote : this.successNote;
+    this.successHeader = data.successHeader != undefined ? data.successHeader : this.successHeader;
  
   }
 }
