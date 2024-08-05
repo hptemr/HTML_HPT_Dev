@@ -56,7 +56,7 @@ const invite = async (req, res, next) => {
     const result = await newUser.save();
 
     if (result && result != null) {
-      let encryptObj = { userId: result._id, tokenExpiry: Date.now() + (1440 * 60 * 1000) } // Token expire after 24 hrs
+      let encryptObj = { userId: result._id, tokenExpiry: Date.now() + (constants.inviteTokenExpiry * 60 * 1000) }
       let inviteEncryptedToken = commonHelper.encryptData(encryptObj, process.env.CRYPTO_SECRET)
       // Update invite token
       await User.findOneAndUpdate({ _id: result._id }, { inviteToken: inviteEncryptedToken });
@@ -178,16 +178,25 @@ const updateUser = async (req, res) => {
 const getUserDetails = async (req, res, next) => {
   try {
     const { query, params } = req.body
+    let bodyInviteToken = ""
+    // Check Invite Token is expired
     if (req.body.decryptUserId != undefined && req.body.decryptUserId != '') {
+      bodyInviteToken = query._id
       let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
       query._id = decryptTokenData.userId
       if (Date.now() > decryptTokenData.tokenExpiry) {
         return commonHelper.sendResponse(res, 'info', null, infoMessage.linkExpired)
       }
     }
+    
+    // Get user details
     const result = await User.findOne(query, params);
-    if(result!=null && !result.inviteToken){
-      return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
+
+    // Check Invite Token blank and not same with db
+    if (req.body.decryptUserId != undefined && req.body.decryptUserId != '') {
+        if(result!=null && (!result.inviteToken || result.inviteToken!=bodyInviteToken)){
+          return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
+        }
     }
     commonHelper.sendResponse(res, 'success', result, '');
   } catch (error) {
@@ -202,7 +211,7 @@ const getUserList = async (req, res) => {
     let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit).lean();
     userList = userList.map( (user) => ({
       ...user,
-      isTokenExpired: user.inviteToken? checkTokenExpire(user.inviteToken):""
+      inviteTokenStatus: user.inviteToken? checkTokenExpire(user.inviteToken):"blank"
     }));
 
     let totalCount = await User.find(query).count()
@@ -214,8 +223,8 @@ const getUserList = async (req, res) => {
 
 const checkTokenExpire = (inviteToken) => {
   let decryptTokenData = commonHelper.decryptData(inviteToken, process.env.CRYPTO_SECRET)
-  let isTokenExpired = (decryptTokenData.tokenExpiry && Date.now() > decryptTokenData.tokenExpiry) ? true : false
-  return isTokenExpired
+  let inviteTokenStatus = (decryptTokenData.tokenExpiry && Date.now() > decryptTokenData.tokenExpiry) ? 'expired' : 'valid'
+  return inviteTokenStatus
 }
 
 const getTherapistList = async (req, res) => {
@@ -439,7 +448,7 @@ const uploadDocumentFile = async (req, res) => {
 const resendInvite = async (req, res) => {
   try {
     const { _id } = req.body
-    let encryptObj = { userId: _id, tokenExpiry: Date.now() + (1440 * 60 * 1000) } // Token expire after 24 hrs
+    let encryptObj = { userId: _id, tokenExpiry: Date.now() + (constants.inviteTokenExpiry * 60 * 1000) }
     let inviteEncryptedToken = commonHelper.encryptData(encryptObj, process.env.CRYPTO_SECRET)
     // Update invite token
     await User.findOneAndUpdate({ _id: _id }, { inviteToken: inviteEncryptedToken });
@@ -449,6 +458,17 @@ const resendInvite = async (req, res) => {
     triggerEmail.inviteAdmin('inviteAdmin', req.body, link)
 
     commonHelper.sendResponse(res, 'success', null, userMessage.resendInvite);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const revokeInvite = async (req, res) => {
+  try {
+    const { _id } = req.body
+    // Update invite token
+    await User.findOneAndUpdate({ _id: _id }, { inviteToken: "" });
+    commonHelper.sendResponse(res, 'success', null, userMessage.revokeInvite);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -489,5 +509,6 @@ module.exports = {
   updateFile,
   uploadDocumentFile,
   cometChatLog,
-  resendInvite
+  resendInvite,
+  revokeInvite
 };

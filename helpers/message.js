@@ -19,6 +19,7 @@ const messages = {
         profileImageChanged:"Your profile image has been changed successfully",
         enterCurrentPassword: 'You have enter current password',
         resendInvite: 'Invite resend successfully',
+        revokeInvite: 'Invoke invite successfully',
     },
     infoMessage: {
         updated: 'Updated successfully',

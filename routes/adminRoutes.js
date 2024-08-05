@@ -26,6 +26,7 @@ router.post('/updateFile', adminController.updateFile);
 router.post('/previewDocumentFile', adminController.previewDocumentFile);
 
 router.post('/resendInvite', adminController.resendInvite);
+router.post('/revokeInvite', adminController.revokeInvite);
 // Comet chat log url
 router.post('/cometChatLog', adminController.cometChatLog);
 

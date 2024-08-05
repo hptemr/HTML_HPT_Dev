@@ -25,6 +25,7 @@ var constants = {
   },
   clientUrl: process.env.BASE_URL || 'http://dev.hamiltonpt.com',
   mailServerUrl : process.env.mailServerUri || 'http://dev.hamiltonpt.com',
+  inviteTokenExpiry : 1440 // In minute (24 Hrs)
 }
 
 module.exports = constants
