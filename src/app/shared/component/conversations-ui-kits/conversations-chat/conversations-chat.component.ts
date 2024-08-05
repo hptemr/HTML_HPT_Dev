@@ -2,7 +2,9 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CometChatLocalize, CometChatTheme, CometChatThemeService, fontHelper } from '@cometchat/chat-uikit-angular';
 import { Location } from '@angular/common';
-
+import { CreateChatGroupComponent } from '../create-chat-group/create-chat-group.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 @Component({
   selector: 'app-conversations-chat',
   templateUrl: './conversations-chat.component.html',
@@ -27,7 +29,9 @@ export class ConversationsChatComponent {
     private router: Router,
     private route: ActivatedRoute,
     private themeService:CometChatThemeService,
-    private location: Location
+    private location: Location,
+    private dialog: MatDialog,
+    private commonService: CommonService
   ) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
@@ -80,6 +84,26 @@ export class ConversationsChatComponent {
       this.themeService.theme = new CometChatTheme({});
       this.themeService.theme.palette.setMode(mode)
     }
+  }
+
+  // Create group popup 
+  createGroup() {
+    const dialogRef = this.dialog.open(CreateChatGroupComponent,{
+      disableClose :true,
+      panelClass: 'inivite--modal',
+      data : {
+        heading: `Create Group`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.commonService.openSnackBar(result.message,result.error?'ERROR':'SUCCESS')
+        setTimeout(function () {
+          location.reload();
+        }, 2000);
+      }
+    });
   }
 
 }

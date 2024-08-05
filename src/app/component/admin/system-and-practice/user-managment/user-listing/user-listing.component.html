@@ -98,12 +98,12 @@
                                     </mat-icon>
                                 </button>
                                 <button mat-button class="flex-shrink-0 min-width-unset search--fields" matTooltip="Resend Invite" 
-                                *ngIf="element.status=='Pending' && element.isTokenExpired" (click)="resentInvite(element)">
+                                *ngIf="element.status=='Pending'" (click)="resentInvite(element)">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">replay
                                     </mat-icon>
                                 </button>
                                 <button mat-button class="flex-shrink-0 min-width-unset search--fields" matTooltip="Revoke Invite" 
-                                *ngIf="element.status=='Pending' && !element.isTokenExpired" (click)="resentInvite(element)">
+                                *ngIf="element.status=='Pending' && element.inviteTokenStatus=='valid'" (click)="revokeInvite(element)">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">undo
                                     </mat-icon>
                                 </button>

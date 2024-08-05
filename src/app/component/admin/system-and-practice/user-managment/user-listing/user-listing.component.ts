@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 
 export interface AdminUsers {
   name: string; 
@@ -153,7 +154,7 @@ export class UserListingComponent {
             status: element.status,
             _id: element._id,
             statusClass: element.status.toLowerCase(),
-            isTokenExpired: element.isTokenExpired
+            inviteTokenStatus: element.inviteTokenStatus
           }
           userDetails.push(newColumns)
         })
@@ -228,20 +229,58 @@ export class UserListingComponent {
       return result;
     }
 
+    
+
     async resentInvite(userData:any){
-      let reqVars = {
-        _id: userData._id,
-        firstName: userData.firstName,
-        email: userData.email
-      }
-      await this.authService.apiRequest('post', 'admin/resendInvite', reqVars).subscribe(async res => {
-        if(res && !res.error){
-          this.adminUsers()
-          this.commonService.openSnackBar(res.message, "SUCCESS")
+      const dialogRef = this.dialog.open(AlertComponent, {
+        panelClass: 'custom-alert-container',
+        data: {
+          warningNote: 'Do you really want to resend the invite?'
         }
-      },(err)=>{
-        err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") :""
-      })
+      });
+  
+      dialogRef.afterClosed().subscribe(async (result) => {
+        if (result && !result.error) {
+          let reqVars = {
+            _id: userData._id,
+            firstName: userData.name,
+            email: userData.email
+          }
+          await this.authService.apiRequest('post', 'admin/resendInvite', reqVars).subscribe(async res => {
+            if(res && !res.error){
+              this.adminUsers()
+              this.commonService.openSnackBar(res.message, "SUCCESS")
+            }
+          },(err)=>{
+            err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") :""
+          })
+        }
+      });
+    }
+
+    async revokeInvite(userData:any){
+      const dialogRef = this.dialog.open(AlertComponent, {
+        panelClass: 'custom-alert-container',
+        data: {
+          warningNote: 'Do you really want to revoke the invite?'
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(async (result) => {
+        if (result && !result.error) {
+          let reqVars = {
+            _id: userData._id
+          }
+          await this.authService.apiRequest('post', 'admin/revokeInvite', reqVars).subscribe(async res => {
+            if(res && !res.error){
+              this.adminUsers()
+              this.commonService.openSnackBar(res.message, "SUCCESS")
+            }
+          },(err)=>{
+            err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") :""
+          })
+        }
+      });
     }
 
 }
