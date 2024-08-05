@@ -1,82 +1,64 @@
 <div class="initial--exam--assesment--wrapper container-fluid p-0">
-    <div class="row">
-
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600 pt-0">Assessment</label>
-                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5">This note is to inform you of the discharge of *patient name* from our practice. *patient name* received ____ visits. 
-
-*patient name* has demonstrated good success with therapy achieving all rehab goals. They are independent with their established HEP. 
-
-Thank you for the opportunity to assist *patient name* with their rehabilitation. 
-                </textarea> 
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="col-12 col-lg-12 col-md-12">
+    <form [formGroup]="dis_assessmentForm" (ngSubmit)="dis_assessmentSubmit(dis_assessmentForm.value)">
+        <div class="row">
+            <div class="col-12">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">1.Problem </label>
-                    <div class="d-flex flex-row align-items-center">
-                        <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control me-2" type="text" placeholder="Enter Your Problem" />
-                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
+                    <label class="col-form-label fw-600 pt-0">Assessment</label>            
+                    <textarea [disabled]="isDisabled" formControlName="dis_assessment_text" class="form-control text-left" type="text" rows="5" maxlength="500" (blur)="checkSpace('dis_assessment_text', $event)"></textarea>
+                    <div class="text text-danger mt-1" *ngIf="dis_assessmentForm.controls['dis_assessment_text'].touched && dis_assessmentForm.controls['dis_assessment_text'].hasError('required')">
+                        {{ validationMessages.required('Assessment') }}
+                      </div>
+                </div>
+            </div>
+
+            <div class="col-12" formArrayName="dis_assessment_icd">
+                <div class="mb-1 {{pointIndex ? '' : 'border-bottom-popup'}}" *ngFor="let item of dis_assessment_icd_info.controls; let pointIndex = index" [formGroupName]="pointIndex">
+                    <div class="col-12 col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">{{pointIndex+1}}.Problem </label>
+                            <div class="d-flex flex-row align-items-center">
+                                <input [disabled]="isDisabled" class="form-control me-2" type="text" placeholder="Enter Your Problem" formControlName="problem" (blur)="checkGroupSpace(dis_assessment_icd_info.at(pointIndex).get('problem'), $event)"/>
+                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem(pointIndex)">cancel</mat-icon>
+                            </div>
+                            <div class="text text-danger mt-1" *ngIf="dis_assessment_icd_info.at(pointIndex).get('problem')?.touched && dis_assessment_icd_info.at(pointIndex).get('problem')?.hasError('required')">                   
+                                {{ validationMessages.required('Problem') }}
+                            </div>  
+                        </div>
                     </div>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-12 col-md-12">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">1.Long term goal </label>
-                    <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12" *ngIf="!addNewProblemField">
-            <div class="col-12 col-lg-12 col-md-12">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">2.Problem </label>
-                    <div class="d-flex flex-row align-items-center">
-                        <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control me-2" type="text" placeholder="Enter Your Problem" />
-                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem()">cancel</mat-icon>
+                    <div class="col-12 col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">{{pointIndex+1}}.Long term goal </label>
+                            <input [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" formControlName="long_term_goal" (blur)="checkGroupSpace(dis_assessment_icd_info.at(pointIndex).get('long_term_goal'), $event)"/>
+                            <div class="text text-danger mt-1" *ngIf="dis_assessment_icd_info.at(pointIndex).get('long_term_goal')?.touched && dis_assessment_icd_info.at(pointIndex).get('long_term_goal')?.hasError('required')">                   
+                                {{ validationMessages.required('Long term goal') }}
+                            </div>  
+                        </div>
                     </div>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
             </div>
-            <div class="col-12 col-lg-12 col-md-12">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">2.Long term goal </label>
-                    <input [disabled]="isDisabled" [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                </div>
-            </div>
-        </div>
 
-        <div class="col-12 d-flex align-items-center justify-content-end">
-            <button mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addNewProblem()">
-                <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
-                Add New Problem & Goal
+            <div class="col-12 d-flex align-items-center justify-content-end" *ngIf="dis_assessment_icd_info && dis_assessment_icd_info.length < dis_assessment_icd_length">
+                <button [disabled]="isDisabled" mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addAssessmentGroup()">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
+                    Add New Problem & Goal
+                </button>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Supporting Documentation</label>
+                    <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" maxlength="1000" formControlName="supporting_documentation_text" (blur)="checkSpace('supporting_documentation_text', $event)"></textarea> 
+                    <div class="text text-danger mt-1" *ngIf="dis_assessmentForm.controls['supporting_documentation_text'].touched && dis_assessmentForm.controls['supporting_documentation_text'].hasError('required')">
+                        {{ validationMessages.required('Supporting Documentation') }}
+                      </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+            <button mat-raised-button color="primary" type="submit" class="m-1">
+                Save as Draft
             </button>
         </div>
-
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600">Supporting Documentation</label>
-                <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" disabled>Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities.
-Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's.
-Patient is unable to complete physical therapy on land. 
-Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation.
-
-DME was issued today with instructions on wear, care, and use required for full rehabilitation potential. 
-                </textarea> 
-            </div>
-        </div>
-
-    </div>
-    <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
-        <button mat-raised-button color="primary" class="m-1">
-            Save as Draft
-        </button>
-    </div>
+    </form>
 </div>

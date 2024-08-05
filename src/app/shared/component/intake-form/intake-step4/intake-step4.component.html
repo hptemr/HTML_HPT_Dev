@@ -15,10 +15,10 @@
     <form *ngIf="step4Form" [formGroup]="step4Form">
         <div class="card m-0">
             <div class="row">
-                <div class="col-12 col-lg-8">
+                <div class="col-12 col-lg-12">
                     <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0">EMERGENCY CONTACT 1</h3>
                 </div>
-                <div class="col-12 col-lg-4 mb-4">
+                <!-- <div class="col-12 col-lg-4 mb-4">
                     <select [disabled]="!isFormEditable" (change)="getContact(1,$event)" class="form-select form-control m-1"
                         aria-label="Default select example">
                         <option value="" selected>Select from Added Contacts</option>
@@ -26,7 +26,7 @@
                             {{element.firstName}} {{element.lastName}}
                         </option>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
@@ -115,10 +115,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-lg-8">
+                <div class="col-12 col-lg-12">
                     <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0">EMERGENCY CONTACT 2</h3>
                 </div>
-                <div class="col-12 col-lg-4 mb-4">
+                <!-- <div class="col-12 col-lg-4 mb-4">
                     <select [disabled]="!isFormEditable" (change)="getContact(2,$event)" class="form-select form-control m-1"
                         aria-label="Default select example">
                         <option value="" selected>Select from Added Contacts</option>
@@ -126,7 +126,7 @@
                             {{element.firstName}} {{element.lastName}}
                         </option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
                         <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> *

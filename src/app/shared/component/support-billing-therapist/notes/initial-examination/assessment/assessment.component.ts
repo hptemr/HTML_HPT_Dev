@@ -7,7 +7,7 @@ import { FormGroup, FormBuilder,FormArray, Validators } from '@angular/forms';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import { AppointmentService } from 'src/app/shared/services/appointment.service';
+//import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
   selector: 'app-assessment', 
   templateUrl: './assessment.component.html',
@@ -30,7 +30,7 @@ export class AssessmentComponent {
   // replacement: string = ' ';
   validationMessages = validationMessages; 
   appointment: any = null
-  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public dialog: MatDialog, public authService: AuthService,private datePipe: DatePipe, public commonService: CommonService,private appointmentService: AppointmentService) {
+  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public dialog: MatDialog, public authService: AuthService,private datePipe: DatePipe, public commonService: CommonService) {//,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -38,9 +38,9 @@ export class AssessmentComponent {
 
 
   ngOnInit() {
-    this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
-    console.log('assessment >>>',this.appointment)
-   this.assessment_icd = [
+    // this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
+    // console.log('assessment >>>',this.appointment)
+    this.assessment_icd = [
       {
           "name": "Pain in left knee"
       },

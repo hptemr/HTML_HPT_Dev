@@ -23,6 +23,18 @@ import { PatientProfileComponent } from 'src/app/shared/component/support-billin
 import { ConversationsComponent } from '../../../shared/component/conversations/conversations.component';
 import { ConversationsChatComponent } from '../../../shared/component/conversations-ui-kits/conversations-chat/conversations-chat.component';
 
+import { DisAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-assessment/dis-assessment.component';
+import { DisObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-objective/dis-objective.component';
+import { DisPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-plan/dis-plan.component';
+import { DisSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-subjective/dis-subjective.component';
+import { DischargeNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/discharge-note/discharge-note.component';
+
+import { ProgressNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/progress-notes/progress-notes.component';
+import { PnSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-subjective/pn-subjective.component';
+import { PnObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-objective/pn-objective.component';
+import { PnAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-assessment/pn-assessment.component';
+import { PnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-plan/pn-plan.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -86,6 +98,58 @@ const routes: Routes = [
       {
         path: 'plan/:appointmentId',
         component: DnPlanComponent, 
+      },
+      {
+        path: 'billing/:appointmentId',
+        component: BillingComponent, 
+      },
+    ]
+  },
+  {
+    path: 'discharge-notes',
+    component:DischargeNoteComponent ,
+    children: [  
+      {
+        path: 'subjective/:appointmentId',
+        component: DisSubjectiveComponent, 
+      }, 
+      {
+        path: 'objective/:appointmentId',
+        component: DisObjectiveComponent, 
+      },
+      {
+        path: 'assessment/:appointmentId',
+        component: DisAssessmentComponent, 
+      },
+      {
+        path: 'plan/:appointmentId',
+        component: DisPlanComponent, 
+      },
+      {
+        path: 'billing/:appointmentId',
+        component: BillingComponent, 
+      },
+    ]
+  },
+  {
+    path: 'progress-notes',
+    component:ProgressNoteComponent ,
+    children: [  
+      {
+        path: 'subjective/:appointmentId',
+        component: PnSubjectiveComponent, 
+      }, 
+      {
+        path: 'objective/:appointmentId',
+        component: PnObjectiveComponent, 
+      },
+      {
+        path: 'assessment/:appointmentId',
+        component: PnAssessmentComponent, 
+      },
+      {
+        path: 'plan/:appointmentId',
+        component: PnPlanComponent, 
       },
       {
         path: 'billing/:appointmentId',

@@ -55,6 +55,13 @@ import { DisPlanComponent } from 'src/app/shared/component/support-billing-thera
 import { DisSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-subjective/dis-subjective.component';
 import { DischargeNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/discharge-note/discharge-note.component';
 
+import { ProgressNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/progress-notes/progress-notes.component';
+import { PnSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-subjective/pn-subjective.component';
+import { PnObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-objective/pn-objective.component';
+import { PnAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-assessment/pn-assessment.component';
+import { PnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-plan/pn-plan.component';
+import { PnAddExerciseComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-add-exercise/pn-add-exercise.component';
+
 import { AppointmentRequestsComponent } from './component/support-billing-therapist/appointment-requests/appointment-requests.component';
 import { PatientDetailsComponent } from './component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
@@ -104,6 +111,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     DisAssessmentComponent,
     DisObjectiveComponent,
     DisPlanComponent,
+    ProgressNoteComponent,
+    PnSubjectiveComponent,
+    PnObjectiveComponent,
+    PnAssessmentComponent,
+    PnPlanComponent,
+    PnAddExerciseComponent,
     AddExerciseComponent,
     AppointmentRequestsComponent,
     PatientDetailsComponent,

@@ -7,7 +7,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { icd_data } from '../../../../../../ICD';
 import { validationMessages } from '../../../../../../utils/validation-messages';
 import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { AppointmentService } from 'src/app/shared/services/appointment.service';
+//import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
   selector: 'app-subjective', 
   templateUrl: './subjective.component.html',
@@ -36,7 +36,7 @@ export class SubjectiveComponent implements OnInit {
   validationMessages = validationMessages; 
   todayDate = new Date();
   appointment: any = null
-  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private appointmentService: AppointmentService) {
+  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -45,10 +45,7 @@ export class SubjectiveComponent implements OnInit {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
-    this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
-    console.log('###subjective >>>',this.appointment)
-    console.log('subjective appointment >>>',localStorage.getItem("appointment"),' >>>>>>')
-    console.log('>>>>>',localStorage.getItem('user'))
+    //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
     //const getAppointment = this.appointmentService.getAppointment(this.appointmentId)
     //console.log('getAppointment >>>',getAppointment)
     this.subjectiveForm = this.fb.group({
@@ -111,4 +108,9 @@ export class SubjectiveComponent implements OnInit {
     return this.subjectiveForm.get('diagnosis_code') as FormArray;
   }
 
+  
+  checkSpace(colName: any, event: any) {
+    this.subjectiveForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
+  }
+  
 }

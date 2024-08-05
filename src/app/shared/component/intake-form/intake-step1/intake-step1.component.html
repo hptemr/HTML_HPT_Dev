@@ -12,7 +12,7 @@
                         <span>(Step <span class="text-primary"> 1 </span> of 5)</span>
                     </h3>
                 </div>
-                <div *ngIf="step1FormData"
+                <!-- <div *ngIf="step1FormData"
                     class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
                     <p class="mb-0 clr--1F2F3E fw-700 font-16">
                         {{step1FormData.patientInfo.firstName}} {{step1FormData.patientInfo.lastName}}
@@ -20,13 +20,16 @@
                             (Appointment #: {{step1FormData.appointmentId}})
                         </span>
                     </p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
     <form *ngIf="step1Form" [formGroup]="step1Form">
         <div class="card m-0">
-            <div class="row">
+            <div class="row justify-content-between align-items-center">
+                <h4 class="text-center clr--212529 font-16 fw-400"><b>*Note</b> If you need immediate assistance please <a class="clr--31B7B7 fw-700">contact</a> our office</h4>
+            </div>
+            <div class="row mt-3">               
                 <div class="col-12 col-lg-6 col-md-6  ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">
@@ -49,7 +52,7 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">
-                            Select Date
+                            Date & Time
                             <span class="clr--DF0404 ms-1">*</span>
                         </label>
                         <div class="input-group">
@@ -112,7 +115,8 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Middle Name</label>
+                        <label class="col-form-label fw-600">Middle Name  <span class="clr--DF0404 ms-1"> *
+                        </span></label>
                         <input [readonly]="isReadonly" (blur)="checkSpace('middleName', $event)"
                             formControlName="middleName" class="form-control" type="text"
                             placeholder="Enter Middle Name" />
@@ -172,7 +176,7 @@
 
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
+                        <label class="col-form-label fw-600">Email </label>
                         <input formControlName="email" [readonly]="isReadonly" class="form-control" type="email"
                             placeholder="Enter Email" />
                         <div class="text text-danger mt-1"
