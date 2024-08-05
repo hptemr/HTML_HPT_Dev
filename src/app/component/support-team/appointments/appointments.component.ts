@@ -20,109 +20,39 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'Corvallis PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
+    status: 'Pending Intake Form',
     patientcheckstatus : '',
     action : ''
   }, 
   { 
     name: 'PT Specialist of Florence',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
+    status: 'Not Scheduled',
     patientcheckstatus : '',
     action : ''
   },  
   { 
     name: 'Hamilton PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
+    status: 'Scheduled',
     patientcheckstatus : '',
     action : ''
   },  
   { 
     name: 'Stevi PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
+    status: 'Scheduled',
     patientcheckstatus : '',
     action : ''
   }, 
-  { 
-    name: ' Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    patientcheckstatus : '',
-    action : ''
-  }, 
+    
   { 
     name: 'Corvallis PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: 'PT Specialist of Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
+    status: 'Pending Intake Form',
     patientcheckstatus : '',
     action : ''
   },  
-  { 
-    name: 'Hamilton PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    patientcheckstatus : '',
-    action : ''
-  },  
-  { 
-    name: 'Stevi PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: ' Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: 'Corvallis PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: 'PT Specialist of Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'active',
-    patientcheckstatus : '',
-    action : ''
-  },  
-  { 
-    name: 'Hamilton PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
-    patientcheckstatus : '',
-    action : ''
-  },  
-  { 
-    name: 'Stevi PT',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-  { 
-    name: ' Florence',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    patientcheckstatus : '',
-    action : ''
-  }, 
-   
    
 ];
 

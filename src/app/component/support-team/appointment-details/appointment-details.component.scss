@@ -62,6 +62,12 @@
                                 background-color: #FFF !important;
                             }
                         }
+                        .form-control{
+                            border: 1px solid #CCC;
+                            background-color: #F5F6F9 !important;
+                            padding: 3px 10px;
+                            height:34px;
+                        }
                         .badge{
                             background-color: #F2F2F2;
                             color: white;
@@ -113,6 +119,7 @@
                             border: 1px solid #CCC !important;
                             background-color: #F5F6F9 !important;
                             max-height: 39px;
+                            height: 43px ;
                         }
                         .mat-mdc-form-field-infix{
                             min-height: 38px !important;
@@ -192,14 +199,14 @@
                         font-weight: 400;
                         letter-spacing: -0.14px;
                         color: #1F2F3E;
-                        height: 40px;
+                        height: 38px;
                     }
                 }
                 .input-group.prefix--field .input-group-prepend .input-group-text{
                     border: 1px solid #CCC;
                     background-color: #F5F6F9 !important;
                     padding: 3px 10px;
-                    height: 40px;
+                    height: 34px;
                 }
 
                 ::ng-deep{
@@ -304,13 +311,13 @@
             }
         }
         .max-width{width: 90%;}
-        .max-width-box{width: 81%;}
+        .max-width-box{width: 77%; height: 30px;}
         .max-width-box-c{width: 80%;}
         .input-group.prefix--field .input-group-prepend .input-group-text{
             border: 1px solid #CCC;
             background-color: #F5F6F9 !important;
             padding: 3px 10px;
-            height: 40px;
+            height: 34px;
         }
     }
     .mdc-button--outlined{

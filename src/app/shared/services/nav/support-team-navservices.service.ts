@@ -42,12 +42,12 @@ export class SupportTeamNavservicesService {
     {
       id: 1,
       icon: 'dashboard_outline',
-      mainTitle: 'Dashboard',
-      headTitle1: 'Dashboard', 
+      mainTitle: 'Scheduler',
+      headTitle1: 'Scheduler', 
       active: false,
       item: [ 
         {
-          title: 'Dashboard',
+          title: 'Scheduler',
           icon: 'notifications_none',
           type: 'link',
           active: false,  
