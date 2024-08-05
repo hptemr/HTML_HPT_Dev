@@ -9,7 +9,7 @@ import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/succe
   templateUrl: './create-appointment.component.html',
   styleUrl: './create-appointment.component.scss'
 })
-export class CreateAppointmentComponent {
+export class CreateRequestAppointmentComponent {
   model: NgbDateStruct;
   selectedValue: number;
   onChange(event: MatRadioChange) {
@@ -21,7 +21,7 @@ export class CreateAppointmentComponent {
     const dialogRef = this.dialog.open(SuccessModalComponent,{
       panelClass: 'custom-alert-container',
       data : {
-        successNote: 'The Appointment has been created successfully!'
+        successNote: 'The Appointment has been created'
       }
     });
   }

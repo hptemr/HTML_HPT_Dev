@@ -1,5 +1,4 @@
-<div class="container-fluid book--appointment--wrapper">
-  
+<div class="container-fluid book--appointment--wrapper"> 
     <div class="card m-0"> 
         <div class="row">
             <div class="col-12 d-flex align-items-center mb-2">
@@ -7,53 +6,72 @@
                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
                 </button>
                 <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
-                    <span class="me-3">Create Appointment </span> 
+                    <span class="me-3">Create Appointment for Darlene Robertson </span> 
                 </h3>
                
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-12 col-lg-12">
-                <p class="clr--1F2F3E fw-600 font-14">Create appointment for:</p>
-            </div>
+        </div> 
+        
+        <div class=" d-flex flex-column flex-sm-row profile--right--wrapper mt-3">  
+            <div class="profile--right d-flex flex-column w-100">
+                <div class="w-100 mb-0">  
+                    <div class="col-12 appointment-information-header-wrapper"> 
+                        <div class="col-12 mt-2">
+                            <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                                    <div class="w-100 mb-2">
+                                        <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                            <div class="img--box flex-shrink-0">
+                                                <img src="assets/images/ark/user.png" alt="" class="img-fluid" />
+                                            </div>
+                                            <div class="d-flex flex-column mt-3">
+                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-400"> Darlene Robertson</h3>
+                                                <div class="mb-1 mt-1 d-flex align-items-center">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                    <p class="mb-0 clr--1F2F3E font-14 fw-400 wb-ba">johnwalter1991&#64;gmail.com</p>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                                    <h3 class="mb-1 clr--1F2F3E font-14 fw-700">Preferred Appointment Date and Time</h3>
+                                    <p class="mb-1 clr--1F2F3E  font-14 fw-400 ">Tue, Nov 13, 2023 02:00 pm</p>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                                    <h3 class="mb-1 clr--1F2F3E font-14 fw-700">Practice Location: <span class="mb-1 clr--1F2F3E font-14 fw-400">Hamilton PT</span></h3>
+                                 
+                                </div>
+                                 
+                            </div>
+                        </div> 
 
-            <div class="col-12 mt-2">
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="form-group">                         
-                            <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                              <mat-radio-button value="one" class="me-3" checked>New Patient</mat-radio-button>
-                              <mat-radio-button value="two">Existing Patient</mat-radio-button>
-                            </mat-radio-group> 
-                            <div class="form-group other--booking"  *ngIf="selectedValue == 222"> 
-                              <input class="form-control" type="text" placeholder="Enter other booking for" />
-                              <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                          </div>
-                          </div>
-                    </div> 
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="form-group position-relative">
-                            <input type="text" class="form-control search--outer" placeholder="Search Insurance">
-                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                            </button> 
-                        </div>
-                    </div> 
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <div class="form-group d-flex">
-                            <label class="col-form-label fw-600">Case Name <span class="clr--DF0404 ms-1"> * </span></label>                                                        
-                         </div>
-                    </div>
- 
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="form-group d-flex">                            
-                            <select class="form-select form-control" aria-label="Default select example">
-                                <option selected>Shoulder Pain</option> 
-                                <option value="1">Knee Pain </option> 
-                            </select>
-                          </div>
                     </div>
                      
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">  
+            <div class="col-12 mt-2">
+                <div class="row">   
+                    <div class="col-12 col-sm-6 col-lg-2">
+                        <div class="form-group d-flex">                            
+                            <label class="col-form-label fw-600">Case Name <span class="clr--DF0404 ms-1"> * </span></label>
+                          </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="form-group d-flex">                            
+                            <input class="form-control" type="text" placeholder="Shoulder Pain" /> 
+                          </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="form-group d-flex mt-2">                            
+                             <span class="text-danger font-14 fw-400 ml-3 badge">This Case is in collections</span>
+                          </div>
+                    </div> 
                 </div>
             </div>
 
@@ -93,7 +111,7 @@
             </div> 
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Practice Location</label>
+                    <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
                     <select class="form-select form-control" aria-label="Default select example">
                         <option selected>Practice Location</option> 
                         <option value="1">Hamilton PT at The Canyons</option>
@@ -109,30 +127,25 @@
             </div>   
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Therapist</label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Practice Location</option> 
-                        <option value="1">Therapist Canyons</option>
-                        <option value="2">Therapist PT</option> 
-                        <option value="4">Stevi PT</option> 
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div>
-            </div>  
-            <div class="col-12 col-lg-6 col-md-6 ">
-                <div class="form-group">
                     <label class="col-form-label fw-600">Phone</label>
                     <input class="form-control" type="number" placeholder="Enter Phone Number" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>
+
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Referred By </label>
-                    <input class="form-control" type="text" placeholder="Enter Doctor Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div>
+                    <label class="col-form-label fw-600">Therapist</label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option selected>Luis Villasmil</option> 
+                        <option value="1">Luis </option>
+                        <option value="2">Villasmil  </option>  
+                    </select>
+                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                </div>
+            </div>  
+           
+           
            
             <!-- <div class="col-12">
                 <h2 class="text-uppercase font-16 fw-700 mb-2 mt-4">Doctor's Office Address</h2>

@@ -16,6 +16,7 @@ import { Step4Component } from './intake-form/step4/step4.component';
 import { Step5Component } from './intake-form/step5/step5.component';
 import { DocumentDetailingComponent } from './document/document-detailing/document-detailing.component';
 import { DocumentListingComponent } from './document/document-listing/document-listing.component';
+import { CreateRequestAppointmentComponent } from './referrals/create-appointment/create-appointment.component';
 
 const routes: Routes = [ 
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
   {
     path: 'create-appointment',
     component:CreateAppointmentComponent   
+  },
+  {
+    path: 'create-request-appointment',
+    component:CreateRequestAppointmentComponent   
   },
   {
     path: 'patient',

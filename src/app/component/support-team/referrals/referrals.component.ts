@@ -51,7 +51,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './referrals.component.scss'
 })
 export class ReferralsComponent {
-  displayedColumns: string[] = ['name','appointmentDate','action'];
+  displayedColumns: string[] = ['name','appointmentDate','practiceLocation','action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   model: NgbDateStruct;

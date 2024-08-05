@@ -1,0 +1,99 @@
+.form-group {
+    margin-bottom: 0px;
+    .form-control{
+        border: 1px solid #CCC;
+        background-color: #F5F6F9 !important;
+        padding: 8px 10px;
+        height: 40px !important; 
+    }
+    .search--outer{
+        padding: 3px 10px !important;
+        font-family: "Nunito Sans" !important;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: -0.14px;
+        color: #1F2F3E;
+    }
+
+    .search--fields{
+        position: absolute;
+        top: 3px;
+        right: 16px;
+        height: 36px;
+    }
+}
+.badge{
+    background-color: #F2F2F2;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+    color: #DF0404; 
+    
+}
+
+
+.profile--right--wrapper{
+    border-radius: 6px;
+    border: 1px solid rgba(49, 183, 183, 0.40);
+    background: #FFF;
+    box-shadow: 0px 6.879px 14px 0px rgba(18, 18, 18, 0.10);
+    padding: 10px 15px;
+    .profile--round{
+        width: 85px;
+        height: 85px; 
+        margin: -45px auto 38px auto; 
+        .user--name{
+            border-radius: 100%;
+            border: 1px solid #31B7B7;
+            width: 85px;
+            height: 85px;
+            background-color: #fff;
+            span{
+                font-size: 32px;
+            }
+        } 
+    }
+    .body--sec{
+        padding: 0 5px !important; 
+        .user--email{
+            .mat-icon{
+                width: 16px;
+                height: 16px;
+                font-size: 16px;
+                margin-right: 5px !important;
+            }
+            p{
+                word-break: break-all;
+                line-height: 16px;
+            }
+        }
+        .mp--btn{
+            min-width: 184px;
+            margin-top: 24px;
+        }
+    }
+    .profile--right{
+        .indicate--round{
+            width: 45px;
+            height: 45px;
+            background-color: rgba(49, 183, 183, 0.20);
+            border-radius: 100%;
+            margin-right: 15px;
+        }
+    }
+    .profile--img--box{
+        .img--box{
+            width: 70px;
+            height: 70px;
+            border-radius: 100%;
+            overflow: hidden;
+            margin-right: 5px;
+        }
+    }
+    .document--box{
+        margin-top: 20px;
+        width: 100%;
+        height: 180px; 
+    }
+}

@@ -2,11 +2,7 @@
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-                <h3 class="mb-0 clr--1F2F3E">Referrals</h3>
-                <button mat-raised-button color="primary" [routerLink]="['/support-team/create-appointment']" >
-                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                    Create Appointment
-                </button>
+                <h3 class="mb-0 clr--1F2F3E">Requests</h3> 
             </div>
             <div class="col-12 mt-2">
                 <div class="row">
@@ -25,7 +21,18 @@
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
                     </div>
+
                     <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control search--outer" placeholder="Patient Name">
+                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                            </button>
+                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <select class="form-select form-control" aria-label="Default select example">
                                 <option selected>Referred By</option> 
@@ -33,13 +40,13 @@
                                 <option value="2">Referred By PT</option>
                                 <option value="3">Referred By KPT</option> 
                             </select>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
-                        </div>
-                    </div>
+                         </div>
+                    </div> -->
+
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                                 <div class="input-group">
-                                <input class="form-control text-capitalize" placeholder="Appointment Date" name="dp" [(ngModel)]="model"
+                                <input class="form-control" placeholder="Received on From Date" name="dp" [(ngModel)]="model"
                                   ngbDatepicker #d="ngbDatepicker" />
                                 <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                   type="button">
@@ -48,18 +55,36 @@
                               </div>
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Therapist Name">
-                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                            </button>
+                                <div class="input-group">
+                                <input class="form-control" placeholder="Received on To Date" name="dp" [(ngModel)]="model"
+                                  ngbDatepicker #d="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                                  type="button">
+                                  <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                              </div>
                             <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                         </div>
-                    </div> 
+                    </div>
+
+                    <!-- <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="form-group">
+                                <div class="input-group">
+                                <input class="form-control text-capitalize" placeholder="Appointment Date" name="dp" [(ngModel)]="model"
+                                  ngbDatepicker #d="ngbDatepicker" />
+                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                                  type="button">
+                                  <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                </button>
+                              </div> 
+                            </div>
+                    </div>  -->
                     
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    
+                    <!-- <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                                 <div class="input-group">
                                 <input class="form-control" placeholder="Sent On" name="dp" [(ngModel)]="model"
@@ -69,9 +94,8 @@
                                   <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                 </button>
                               </div>
-                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
-                        </div>
-                    </div>
+                            </div>
+                    </div> -->
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
                             <button mat-stroked-button color="primary">Reset Filter</button>
@@ -99,8 +123,8 @@
                                         <mat-icon class="mail-con text-primary me-2 flex-shrink-0">mail</mat-icon>
                                         {{element.email}}
                                     </p>
-                                    <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Appointment Date and Time</p>
-                                    <p class="mb-0 font-14 text-primary clr--1F2F3E"> {{element.appointmentDate}}</p>
+                                    <!-- <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Appointment Date and Time</p>
+                                    <p class="mb-0 font-14 text-primary clr--1F2F3E"> {{element.appointmentDate}}</p> -->
                                 </div>
                             </div>     
                         </td>
@@ -110,30 +134,41 @@
                             Appointment Date & Time 
                         </th>
                         <td mat-cell *matCellDef="let element"> 
-                            <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Practice Location: <span class="fw-400">{{element.practiceLocation}}</span></p>
-                            <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Therapist: <span class="fw-400">{{element.therapist}}</span></p>
-                            <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Referred By: <span class="fw-400">{{element.referredBy}}</span></p>
+                            <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Preferred Appointment Date and Time</p>
+                              <p ><span class="fw-400">{{element.appointmentDate}}</span></p>
+                            <!--<p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Referred By: <span class="fw-400">{{element.referredBy}}</span></p> -->
                         </td>
-                    </ng-container>  
+                    </ng-container> 
+                    
+                    <ng-container matColumnDef="practiceLocation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                            practiceLocation
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Practice Location: <span class="fw-400">{{element.practiceLocation}}</span></p>
+                             
+                        </td>
+                    </ng-container> 
+
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                             Actions
                         </th>
                         <td mat-cell *matCellDef="let element">  
                             <div class="w-100 d-flex align-items-end justify-content-end flex-column">
-                                <a href="#" class="font-14 pending--link">Pending Intake Form</a>
+                                <!-- <a href="#" class="font-14 pending--link">Pending Intake Form</a> -->
                                <div class="d-flex w-100 my-2 justify-content-end">
-                                    <button mat-button class="flex-shrink-0 min-width-unset">
+                                    <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/support-team/create-request-appointment']" >
                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                     </button>
-                                    <button mat-button class="flex-shrink-0 min-width-unset">
+                                    <!-- <button mat-button class="flex-shrink-0 min-width-unset">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                     </button> 
                                     <button mat-button class="flex-shrink-0 min-width-unset">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
-                                    </button>
+                                    </button> -->
                                </div>
-                               <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Sent on <span class="fw-400">Sat, Nov 10, 2023 </span></p>
+                               <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Received on <span class="fw-400">Sat, Nov 10, 2023 </span></p>
                             </div>
                         </td>
                     </ng-container>

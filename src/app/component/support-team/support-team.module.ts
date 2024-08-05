@@ -20,8 +20,10 @@ import { Step4Component } from './intake-form/step4/step4.component';
 import { Step5Component } from './intake-form/step5/step5.component';
 import { DocumentDetailingComponent } from './document/document-detailing/document-detailing.component';
 import { DocumentListingComponent } from './document/document-listing/document-listing.component';
+import { CreateRequestAppointmentComponent } from './referrals/create-appointment/create-appointment.component';
 
 
+ 
 @NgModule({
   declarations: [ 
     AppointmentsComponent,
@@ -30,8 +32,9 @@ import { DocumentListingComponent } from './document/document-listing/document-l
     SystemFollowupModalComponent,
     PatientProfileComponent,
     AppointmentRequestsComponent,
-    ReferralsComponent,
+    ReferralsComponent, 
     CreateAppointmentComponent,
+    CreateRequestAppointmentComponent,
     PatientDetailsComponent,
     PatientsComponent,
     Step1Component,

@@ -57,14 +57,14 @@ export class SupportTeamNavservicesService {
     {
       id: 2,
       icon: 'pending_actions',
-      mainTitle: 'Appointments',  
+      mainTitle: 'Cases',  
       headTitle1: '',
       path: '/support-team/appointments',
       active: false, 
       type: 'link', 
       item: [ 
         {
-          title: 'Appointments',
+          title: 'Cases',
           icon: 'pending_actions',
           type: 'link',
           active: false,  
@@ -74,14 +74,14 @@ export class SupportTeamNavservicesService {
     {
       id: 3,
       icon: 'people',
-      mainTitle: 'Referrals',  
+      mainTitle: 'Requests',  
       headTitle1: '',
-      path: ' ',
+      path: '/support-team/referrals',
       active: false, 
       type: 'link', 
       item: [ 
         {
-          title: 'Referrals',
+          title: 'Requests',
           icon: 'people',
           type: 'link',
           active: false,  
