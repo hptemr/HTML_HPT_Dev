@@ -55,6 +55,10 @@ const messages = {
         created: 'insurance data has been created successfully',
         updated: 'insurance data has been updated successfully',
     },
+    documentMessage: {
+        exist: ' already exists',
+        directoryUpdated: 'Directory has been updated successfully',
+    }
 };
 
 module.exports = messages;
