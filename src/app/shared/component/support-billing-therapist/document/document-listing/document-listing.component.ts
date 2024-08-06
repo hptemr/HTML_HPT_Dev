@@ -7,18 +7,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 
 export interface PeriodicElement {
-  directory_name: string;
-  actions:string   
+  directory_name: string;   
+  actions: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [ ];
+const ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
-  selector: 'app-system-documents',
-  templateUrl: './system-documents.component.html',
-  styleUrl: './system-documents.component.scss'
+  selector: 'app-document-listing', 
+  templateUrl: './document-listing.component.html',
+  styleUrl: './document-listing.component.scss'
 })
-export class SystemDocumentsComponent {
-  displayedColumns: string[] = ['directory_name',"actions"];
+export class DocumentListingComponent {
+  displayedColumns: string[] = ['directory_name',  'actions'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   searchDirectory = ""
   loading = false
@@ -29,6 +29,9 @@ export class SystemDocumentsComponent {
     this.getDefaultDirectories()
   }
 
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   getDefaultDirectories(){
     this.loading =  true
     var userRole = this.authService.getLoggedInInfo('role')
@@ -36,17 +39,11 @@ export class SystemDocumentsComponent {
     this.authService.apiRequest('post', 'admin/getDefaultDirectories', searchParams).subscribe(async response => {
       this.loading =  false
       var directories = response.data.directoryList
-      // if(this.userType=='practice-admin'){
-      //   directories = directories.filter((el: { directory_name: string; }) => el.directory_name !== "Additional Documents" );
-      // }
       this.arrLength = directories.length
       this.dataSource.data = directories
       this.dataSource.paginator = this.paginator;
     })
   }
-
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
