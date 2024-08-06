@@ -31,13 +31,14 @@ export class SystemDocumentsComponent {
 
   getDefaultDirectories(){
     this.loading =  true
-    var searchParams = { searchValue:this.searchDirectory.trim()}
+    var userRole = this.authService.getLoggedInInfo('role')
+    var searchParams = { searchValue:this.searchDirectory.trim(), userRole:userRole}
     this.authService.apiRequest('post', 'admin/getDefaultDirectories', searchParams).subscribe(async response => {
       this.loading =  false
       var directories = response.data.directoryList
-      if(this.userType=='practice-admin'){
-        directories = directories.filter((el: { directory_name: string; }) => el.directory_name !== "Additional Documents" );
-      }
+      // if(this.userType=='practice-admin'){
+      //   directories = directories.filter((el: { directory_name: string; }) => el.directory_name !== "Additional Documents" );
+      // }
       this.arrLength = directories.length
       this.dataSource.data = directories
       this.dataSource.paginator = this.paginator;

@@ -18,6 +18,7 @@ import { ConversationsComponent } from '../../../shared/component/conversations/
 import { ConversationsChatComponent } from '../../../shared/component/conversations-ui-kits/conversations-chat/conversations-chat.component';
 import { DocumentListingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-listing/document-listing.component';
 import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
+import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 
 const routes: Routes = [
   {
@@ -108,9 +109,13 @@ const routes: Routes = [
     component: DocumentListingComponent,
   },
   {
-    path: 'document-details',
+    path: 'document-details/:id',
     component: DocumentDetailingComponent,
   },
+  {
+    path: 'file-preview/:file',
+    component: PreviewComponent, 
+  }
 ];
 
 @NgModule({
