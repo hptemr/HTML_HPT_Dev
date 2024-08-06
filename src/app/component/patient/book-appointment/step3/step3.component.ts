@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/intake-step3/body-details-modal/body-details-modal.component';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
@@ -255,6 +256,13 @@ export class Step3Component {
     this.step3Form.controls['rateYourPain'].setValue(i)
   }
 
+  bodyClick() {
+    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+      panelClass: 'custom-alert-container', 
+    });  
+  }
+
+  
   getPrescriptionFiles() {
     let filesName: any = []
     if (localStorage.getItem("uploadedPrescriptionFiles")) {
