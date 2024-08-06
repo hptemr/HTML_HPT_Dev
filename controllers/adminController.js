@@ -308,11 +308,43 @@ changeProfileImage = async (req, res) => {
 
 const getDefaultDirectories = async (req, res) => {
   try {
-    let queryParams = {is_root_directory:true,is_deleted:false }
+    let queryParams = {is_deleted:false,"selected-directory.role_name":req.body.userRole}
     if(req.body.searchValue!=""){
       queryParams.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
     }
-    let directoryList =  await Directory.find(queryParams);
+    let directoryList = await Directory.aggregate([
+      {
+        "$lookup": {
+          "from": "role_map_directories",
+          "let": {
+            id1: "$directory_name"
+          },
+          "pipeline": [
+            {
+              "$match": {
+                $expr: {
+                  $and: [
+                    {
+                      $eq: [
+                        "$$id1",
+                        "$directory_name"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "as": "selected-directory"
+        }
+      },
+      {
+        "$unwind": "$selected-directory"
+      },
+      {
+        $match: queryParams
+      }
+    ])
     commonHelper.sendResponse(res, 'success', { directoryList }, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
