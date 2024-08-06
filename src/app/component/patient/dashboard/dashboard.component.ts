@@ -9,6 +9,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { pageSize, pageSizeOptions, practiceLocations, appointmentStatus, s3Details } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { AppointmentReqModalComponent } from '../book-appointment/appointment-req-modal/appointment-req-modal.component';
 
 export interface PeriodicElement {
   info: string;
@@ -69,6 +70,7 @@ export class PatientDashboardComponent {
     this.getAppointmentList()
   }
 
+  
 
   async getAppointmentList(action = '') {
     if (action == '') {

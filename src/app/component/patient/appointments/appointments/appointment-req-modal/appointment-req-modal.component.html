@@ -1,0 +1,42 @@
+<div class="reschedule--app--modal d-flex flex-column w-100">
+    <header class="w-100">
+        <h1 class="fw-600">Reschedule an Appointment</h1>
+    </header>
+    <div class="ra--body w-100">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Preferred Date & Time</label>
+                    <div class="input-group">
+                        <input class="form-control text-lowercase" placeholder="Select Date & Time" name="dp"
+                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                            type="button">
+                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 ">
+                <div class="form-group">
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option selected>Practice Location</option> 
+                        <option value="1">Hamilton PT at The Canyons</option>
+                        <option value="2">Darby PT</option>
+                        <option value="3">Corvallis PT</option>
+                        <option value="4">Stevi PT</option>
+                        <option value="5">PT Specialists of Florence</option>
+                        <option value="6">Frenchtown PT</option>
+                        <option value="7">HNB</option>
+                    </select>
+                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                </div>
+            </div> 
+            
+        </div>
+    </div>
+    <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-2">
+        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
+        <button mat-raised-button color="primary" mat-dialog-close (click)="successModal()">Request an Appointment</button>
+    </div>
+</div>

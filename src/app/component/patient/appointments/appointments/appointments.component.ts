@@ -7,6 +7,10 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { AppointmentReqModalComponent } from './appointment-req-modal/appointment-req-modal.component';
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
+
+
 
 export interface PeriodicElement {
   info: string;
@@ -109,6 +113,19 @@ export class AppointmentsComponent {
     })
   }
 
+
+
+  
+  raiseRequest() {
+    const dialogRef = this.dialog.open( AppointmentReqModalComponent ,{
+      panelClass: 'inivite--modal',
+      data : {
+        heading: 'Invite Practice Admin'
+      }
+    });
+  }
+ 
+  
   onDateChange(event: any, colName: any) {
     if (colName == 'fromDate') {
       this.minToDate = new Date(event.target.value)

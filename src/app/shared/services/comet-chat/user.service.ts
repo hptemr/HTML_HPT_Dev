@@ -224,4 +224,42 @@ export class UserService {
     })
   }
 
+  // create group
+  createGroup(GUID: string, groupName: string) {
+    return new Promise((resolve, reject) => {
+      var groupType: string = CometChat.GROUP_TYPE.PUBLIC;
+      var password: string = "";
+      var group: CometChat.Group = new CometChat.Group(GUID, groupName, groupType, password);
+      CometChat.createGroup(group).then(
+        (group: CometChat.Group) => {
+            resolve(group)
+        }, (error: CometChat.CometChatException) => {
+            console.log("Group creation failed with exception:", error);
+            let parameter: any = {'GUID':GUID, 'groupName': groupName}
+            this.commonService.cometChatLog(this.loginUserData,'createGroup','error', parameter, error)
+            reject()
+        }
+      );
+    })
+  }
+
+  // Add Member To Group
+  addMemberToGroup(GUID: string, members: any) {
+    return new Promise((resolve, reject) => {
+      let membersList: any= members
+      CometChat.addMembersToGroup(GUID, membersList, []).then(
+        (response: Object) => {
+          console.log("addMembersToGroup response", response);
+          resolve(response)
+        },
+        (error: CometChat.CometChatException) => {
+          console.log("addMembersToGroup Something went wrong", error);
+          let parameter: any = {'GUID':GUID, 'members': members}
+          this.commonService.cometChatLog(this.loginUserData,'addMemberToGroup','error', parameter, error)
+          reject()
+        }
+      );
+    })
+  }
+
 }
