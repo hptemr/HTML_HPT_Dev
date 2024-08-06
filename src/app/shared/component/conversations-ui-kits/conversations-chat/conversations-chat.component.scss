@@ -1,8 +1,94 @@
 
-::ng-deep {
-div.cc-message-list {
-    max-height: 420px !important; /* Set a max-height to enable scrolling */
-    overflow-y: auto !important; 
+::ng-deep { 
+    .cc-with-messages__wrapper{
+        border: none !important;
+        background: transparent !important;
+        .cc-with-messages__sidebar{
+            height: calc(100vh - 145px) !important;
+            border-right: 0 !important;
+            box-shadow: 0 0 5px #ddd;
+            margin: 10px;
+            margin-right: 30px;
+            .cc-conversations{
+                .cc-conversations__menus{
+                    right: 8px;
+                    top: 8px;
+                }
+                .cc-list__wrapper{
+                    .list__header{
+                        margin-bottom: 0 !important;
+                        .list__title{
+                            margin-bottom: 6px;
+                            margin-top: 16px;
+                            margin-left: 10px;
+                            border-bottom: 1px solid #ddd;
+                            padding-bottom: 13px;
+                            font-size: 16px !important;
+                            font-family: "Nunito Sans", sans-serif !important;
+                            font-weight: bold !important;
+                        }
+                    }
+                    .cc-list{
+                        .listitem__view{
+                            cometchat-list-item{
+                               
+                            } 
+                        }
+                    } 
+                } 
+                .cc__backdrop{
+                    width: 100% !important;
+                    height: 100% !important;
+                }
+            }
+        } 
+        .cc-decorator__message--empty{
+            height: auto !important;
+            margin-top: 10px;
+            .cc__label{
+                color: red !important;
+            }
+        }
+        .cc-with-messages__main{
+            margin-top: 11px;
+            .cc-messages__wrapper{
+                .cc-messages{
+                    .cc-messages__header{
+                        .cc-message-header__wrapper{
+                            height: 70px !important;
+                            border-bottom: 1px solid #ddd !important;
+                        }
+                    }
+                    .cc-messages__list{
+                        .cc-message-list__wrapper{
+                            .cc-message-list{
+                                height: calc(100vh - 325px) !important;
+                            }
+                            .cc-message-bubble{
+                                .cc-message-bubble__content{ 
+                                    border-radius: 4px !important;
+                                } 
+                            }
+                        }
+                    }
+                    .cc-messages__composer{
+                        .cc-message-composer__wrapper{
+                            .cc-message-composer__input{
+                                .messageinput{
+                                    border-radius: 4px !important;
+                                    background: #E5F4F4 !important;
+                                    .messageinput-input{
+                                        padding: 15px 12px !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+    
 }
+
   
