@@ -41,7 +41,7 @@ const routes: Routes = [
     component:AppointmentRequestsComponent   
   },
   {
-    path: 'referrals',
+    path: 'requests',
     component:ReferralsComponent   
   },
   {

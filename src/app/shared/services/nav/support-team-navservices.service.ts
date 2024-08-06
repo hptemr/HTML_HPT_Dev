@@ -78,7 +78,7 @@ export class SupportTeamNavservicesService {
       icon: 'people',
       mainTitle: 'Requests',  
       headTitle1: '',
-      path: '/support-team/referrals',
+      path: '/support-team/requests',
       active: false, 
       type: 'link', 
       item: [ 

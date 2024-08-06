@@ -18,53 +18,42 @@ export interface PeriodicElement {
 }
 const ELEMENT_DATA: PeriodicElement[] = [
   { 
-    name: 'Jane Cooper',   
+    name: 'Corvallis PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     // status: 'pending',
     action : ''
   },  
   { 
-    name: 'Leslie Alexander',   
+    name: 'Hamilton PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     // status: 'completed',
     action : ''
   },
   { 
-    name: 'Leslie Alexander',   
+    name: 'Corvallis PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     // status: 'declined',
     action : ''
   },
   { 
-    name: 'Maria Jones',   
+    name: 'PT Specialist of Florence',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     // status: 'rescheduled',
     action : ''
   }, 
   { 
-    name: 'Shirlene Walter',   
+    name: 'Stevi PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     // status: 'deleted',
     action : ''
   },  
   { 
-    name: 'Jane Cooper',   
+    name: 'Hamilton PT',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
     // status: 'pending',
     action : ''
   },  
-  { 
-    name: 'Leslie Alexander',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    // status: 'completed',
-    action : ''
-  },
-  { 
-    name: 'Leslie Alexander',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    // status: 'declined',
-    action : ''
-  },
+  
    
 ];
 
