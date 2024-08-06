@@ -27,6 +27,10 @@
             }
         }
     }
+
+    .cust--mat--table--wrapper .cust--mat--table.mat-mdc-table thead tr th:last-child .mat-sort-header-container{
+        justify-content: center !important;
+    }
 }
 @media only screen and (max-width: 599px) {
     .day--one--wrapper{ 

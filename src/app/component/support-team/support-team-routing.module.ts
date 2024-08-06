@@ -20,7 +20,8 @@ import { CreateRequestAppointmentComponent } from './referrals/create-appointmen
 
 const routes: Routes = [ 
   {
-    path: 'appointments',
+    // path: 'appointments',
+    path: 'cases',
     component:AppointmentsComponent   
   },
   {

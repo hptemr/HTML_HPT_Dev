@@ -14,69 +14,58 @@ export interface PeriodicElement {
   name: string;  
   appointmentDate: string;  
   action: string;  
-  status: string;
+  // status: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [
   { 
     name: 'Jane Cooper',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
+    // status: 'pending',
     action : ''
   },  
   { 
     name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
+    // status: 'completed',
     action : ''
   },
   { 
     name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
+    // status: 'declined',
     action : ''
   },
   { 
     name: 'Maria Jones',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
+    // status: 'rescheduled',
     action : ''
   }, 
   { 
     name: 'Shirlene Walter',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'deleted',
+    // status: 'deleted',
     action : ''
   },  
   { 
     name: 'Jane Cooper',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'pending',
+    // status: 'pending',
     action : ''
   },  
   { 
     name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'completed',
+    // status: 'completed',
     action : ''
   },
   { 
     name: 'Leslie Alexander',   
     appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'declined',
+    // status: 'declined',
     action : ''
   },
-  { 
-    name: 'Maria Jones',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'rescheduled',
-    action : ''
-  }, 
-  { 
-    name: 'Shirlene Walter',   
-    appointmentDate: 'Sat, Nov 10, 2023 10:00 am', 
-    status: 'deleted',
-    action : ''
-  }, 
+   
 ];
 
 @Component({
@@ -85,7 +74,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './appointment-requests.component.scss'
 })
 export class AppointmentRequestsComponent {
-  displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'action'];
+  displayedColumns: string[] = ['name', 'appointmentDate' , 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   dayTwo = false;

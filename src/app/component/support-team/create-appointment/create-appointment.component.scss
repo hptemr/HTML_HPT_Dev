@@ -1,3 +1,7 @@
+.book--appointment--wrapper .card{
+    height: calc(100vh - 170px) !important;
+}
+
 .form-group {
     margin-bottom: 0px;
     .form-control{
@@ -13,6 +17,7 @@
         font-weight: 400;
         letter-spacing: -0.14px;
         color: #1F2F3E;
+        padding-right: 40px !important;
     }
 
     .search--fields{
@@ -22,3 +27,17 @@
         height: 36px;
     }
 }
+
+.footer--btns{
+    .mat-mdc-raised-button{
+        &.mat-primary{
+            width: 83px  !important;
+            height: 35px !important;
+        }  
+    } 
+    .mat-mdc-button.mat-mdc-button-base, .mat-mdc-raised-button.mat-mdc-button-base, .mat-mdc-unelevated-button.mat-mdc-button-base, .mat-mdc-outlined-button.mat-mdc-button-base {
+        height: 36px !important;
+        width: 91px !important;
+    }
+}
+

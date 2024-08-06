@@ -60,7 +60,8 @@ export class SupportTeamNavservicesService {
       icon: 'pending_actions',
       mainTitle: 'Cases',  
       headTitle1: '',
-      path: '/support-team/appointments',
+      path: '/support-team/cases',
+      // path: '/support-team/appointments',
       active: false, 
       type: 'link', 
       item: [ 
