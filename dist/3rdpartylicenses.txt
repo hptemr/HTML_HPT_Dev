@@ -258,6 +258,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+docviewhelper
+MIT
+
 feather-icons
 MIT
 The MIT License (MIT)
@@ -428,6 +431,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 ng2-file-upload
+MIT
+
+ngx-doc-viewer
 MIT
 
 ngx-image-cropper
