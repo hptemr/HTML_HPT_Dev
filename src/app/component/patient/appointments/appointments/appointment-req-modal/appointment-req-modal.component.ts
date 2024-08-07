@@ -18,10 +18,48 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AppointmentReqModalComponent {
   model: NgbDateStruct;
-
+  fromDate: any
+  toDate: any;
+  whereCond: any = {}
+  minToDate: any
+  maxFromDate: any
   constructor(public dialog: MatDialog) {
   }
  
+  ngOnInit() {
+    this.getAppointmentList()
+  }
+  getAppointmentList() {
+    throw new Error('Method not implemented.');
+  }
+
+  onDateChange(event: any, colName: any) {
+    if (colName == 'fromDate') {
+      this.minToDate = new Date(event.target.value)
+    }
+    let dateCond
+    if (this.fromDate && this.toDate) {
+      dateCond = {
+        appointmentDate: {
+          $gte: this.fromDate,
+          $lte: this.toDate
+        }
+      }
+    } else {
+      if (this.fromDate) {
+        dateCond = {
+          appointmentDate: { $gte: this.fromDate }
+        }
+      } else {
+        dateCond = {
+          appointmentDate: { $lte: this.toDate }
+        }
+      }
+    }
+    Object.assign(this.whereCond, dateCond)
+    this.getAppointmentList()
+  }
+
 
   
   successModal() {

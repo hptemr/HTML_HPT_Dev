@@ -502,3 +502,8 @@
         width: 900px;
     }
 }
+
+.cust--mat--table--wrapper .cust--mat--table.box--row--table.mat-mdc-table tbody tr td {
+    width: 54%;
+    border-bottom: none;
+}

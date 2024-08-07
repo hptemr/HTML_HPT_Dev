@@ -1,4 +1,4 @@
-<div class="reschedule--app--modal d-flex flex-column w-100">
+<div class="reschedule--app--modal d-flex flex-column w-100  ">
     <header class="w-100">
         <h1 class="fw-600">Request an Appointment</h1>
     </header>
@@ -7,14 +7,13 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Preferred Date & Time</label>
-                    <div class="input-group">
-                        <input class="form-control" placeholder="Select Date & Time" name="dp"
-                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                            type="button">
-                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                        </button>
-                    </div>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input [(ngModel)]="fromDate" (dateChange)="onDateChange($event, 'fromDate')"
+                            readonly="isReadonly" [max]="maxFromDate" placeholder="From Date" matInput
+                            [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
                 </div>
             </div>
             <div class="col-12 ">
@@ -35,8 +34,14 @@
             
         </div>
     </div>
-    <div class="ra--footer w-100 d-flex align-items-center justify-content-end mt-2">
+    <div class="d-none d-lg-block d-flex align-items-center justify-content-between w-100 footer--btns">
         <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary" mat-dialog-close (click)="successModal()">Request an Appointment</button>
+        <button mat-raised-button color="primary" class="float-right" mat-dialog-close (click)="successModal()">Request an Appointment</button>
     </div>
+
+    <div class=" d-lg-none w-100 footer--btns">
+        <button mat-stroked-button color="primary" class="me-2 w-100" mat-dialog-close>Cancel</button> 
+        <button mat-raised-button color="primary" class="w-100 mt-1" mat-dialog-close (click)="successModal()">Request an Appointment</button>
+    </div> 
+    
 </div>
