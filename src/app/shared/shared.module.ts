@@ -34,6 +34,8 @@ import { IMaskModule } from 'angular-imask';
 import { AppointmentsComponent } from './component/support-billing-therapist/appointments/appointments.component';
 import { AppointmentDetailsComponent } from './component/support-billing-therapist/appointment-details/appointment-details.component';
 import { SystemFollowupModalComponent } from './component/support-billing-therapist/system-followup-modal/system-followup-modal.component';
+import { DocumentListingComponent } from './component/support-billing-therapist/document/document-listing/document-listing.component';
+import { DocumentDetailingComponent } from './component/support-billing-therapist/document/document-detailing/document-detailing.component';
 
 import { InitialExaminationComponent } from './component/support-billing-therapist/notes/initial-examination/initial-examination/initial-examination.component';
 import { SubjectiveComponent } from './component/support-billing-therapist/notes/initial-examination/subjective/subjective.component';
@@ -67,6 +69,7 @@ import { PatientDetailsComponent } from './component/support-billing-therapist/p
 import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
 import { ViewInsuranceModalComponent } from './comman/view-insurance-modal/view-insurance-modal.component';
 import { DatePipe } from '@angular/common';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -120,7 +123,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppointmentRequestsComponent,
     PatientDetailsComponent,
     PatientProfileComponent,
-    ViewInsuranceModalComponent
+    ViewInsuranceModalComponent,
+    DocumentListingComponent,
+    DocumentDetailingComponent
   ],
   imports: [
     CommonModule,
@@ -134,7 +139,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot(),
     IMaskModule,
-    DatePipe
+    DatePipe,
+    NgxDocViewerModule
   ],
   exports: [
     CommonModule,
@@ -149,7 +155,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TapToTopComponent,
     TranslateModule,
     NgbModule,
-    MaterialModule
+    MaterialModule,
+    NgxDocViewerModule
   ]
 })
 

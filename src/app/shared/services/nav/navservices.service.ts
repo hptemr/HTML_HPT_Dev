@@ -124,15 +124,15 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 6,
-        //   icon: 'print',
-        //   mainTitle: ' E-Fax',
-        //   headTitle1: '',
-        //   path: '/practice-admin/e-fax',
-        //   active: false,
-        //   item: []
-        // },
+        {
+          id: 7,
+          icon: 'home',
+          mainTitle: 'Manage Documents',
+          headTitle1: 'Manage Documents',
+          path: 'manage-documents/system-documents',
+          active: false,
+          item: []
+        },
         // {
         //   id: 7,
         //   icon: 'people_outline',
@@ -362,6 +362,16 @@ export class NavservicesService implements OnInit {
           item: []
         },
         // {
+        //   id: 7,
+        //   icon: 'description',
+        //   mainTitle: 'Documents',  
+        //   headTitle1: '',
+        //   path: 'document-listing',
+        //   active: false, 
+        //   type: 'link', 
+        //   item: [ ]
+        // },
+        // {
         //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
@@ -474,16 +484,15 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 6,
-        //   activeMenu: 'e-fax',
-        //   icon: 'print',
-        //   mainTitle: ' E-Fax',
-        //   headTitle1: '',
-        //   path: '/system-admin/e-fax',
-        //   active: false,
-        //   item: []
-        // },
+        {
+          id: 7,
+          icon: 'home',
+          mainTitle: 'Manage Documents',
+          headTitle1: 'Manage Documents',
+          path: 'manage-documents/system-documents',
+          active: false,
+          item: []
+        },
         // {
         //   id: 7,
         //   activeMenu: 'manage-profile',
