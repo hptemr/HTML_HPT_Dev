@@ -33,9 +33,7 @@
         }
         
     }
-}
-
- 
+} 
 
 .footer--btns{
     .mat-mdc-raised-button{
@@ -48,14 +46,35 @@
         height: 36px !important;
         width: 91px !important;
     }
-}
+} 
 
 
 
-@media only screen and (min-width: 600px) and (max-width:850px){
+@media only screen and (max-width: 812px) and (min-width:375px){
     .book--appointment--wrapper .card{
-        height: calc(100vh - 500px) !important;
+        height: calc(100vh - 170px) !important;
+    }
+}
+ 
+@media only screen and (device-width: 768px) and (device-height: 1024px) and (orientation : portrait) { 
+    .book--appointment--wrapper .card{
+        height: calc(100vh - 400px) !important;
     }
 }
 
-    
+
+@media only screen and (device-width: 820px) and (device-height: 1180px) and (orientation : portrait) { 
+    .book--appointment--wrapper .card{
+        height: calc(100vh - 400px) !important;
+    }
+}
+
+
+
+@media only screen and (device-width: 1024px) and (device-height: 1366px) and (orientation : portrait) { 
+    .book--appointment--wrapper .card{
+        height: calc(100vh - 650px) !important;
+    }
+}
+
+ 

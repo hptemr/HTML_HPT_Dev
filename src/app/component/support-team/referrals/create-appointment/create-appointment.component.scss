@@ -1,5 +1,5 @@
 .book--appointment--wrapper .card{
-    height: calc(100vh - 170px) !important;
+    height: calc(100vh - 200px) !important;
 }
 
 .form-group {
@@ -52,14 +52,41 @@
 
 
 
-@media only screen and (min-width: 600px) and (max-width:850px){
+@media only screen and (max-width: 812px) and (min-width:375px) and (orientation : portrait){
+    .book--appointment--wrapper .card{
+        height: calc(100vh - 160px) !important;
+    }
+}
+ 
+
+@media only screen and (max-width: 812px) and (min-width:375px) and (orientation : landscape){
+    .book--appointment--wrapper .card{
+        height: calc(100vh - 192px) !important;
+    }
+}
+ 
+@media only screen and (device-width: 768px) and (device-height: 1024px) and (orientation : portrait) { 
+    .book--appointment--wrapper .card{
+        height: calc(100vh - 300px) !important;
+    }
+}
+
+
+@media only screen and (device-width: 820px) and (device-height: 1180px) and (orientation : portrait) { 
+    .book--appointment--wrapper .card{
+        height: calc(100vh - 400px) !important;
+    }
+}
+
+
+
+@media only screen and (device-width: 1024px) and (device-height: 1366px) and (orientation : portrait) { 
     .book--appointment--wrapper .card{
         height: calc(100vh - 500px) !important;
     }
 }
-
-    
  
+
 .badge{
     background-color: #F2F2F2;
     color: white;
