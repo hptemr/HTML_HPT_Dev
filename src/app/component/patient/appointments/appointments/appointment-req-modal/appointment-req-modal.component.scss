@@ -1,5 +1,6 @@
 .reschedule--app--modal{
     padding: 20px;
+    overflow: hidden !important;
     header{
         h1{
             color: #1F2F3E;
@@ -8,6 +9,14 @@
         }
     }
     .ra--body{
-        
+        min-height: 200px; 
+        overflow-x: auto;
+        pointer-events: auto;
+    }
+    ::ng-deep{ 
+        .mat-mdc-icon-button.mat-mdc-button-base{ 
+            height: 53px !important; 
+        }
     }
 }
+

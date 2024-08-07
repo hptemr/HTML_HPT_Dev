@@ -37,21 +37,21 @@ export class PatientNavservicesService {
   constructor() { }
 
   Nvabarmenu: Menu[] = [
-    {
-      id: 1,
-      activeMenu: 'dashboard',
-      icon: 'dashboard_outline',
-      mainTitle: 'Dashboard',
-      headTitle1: 'Dashboard',
-      path: '/patient/dashboard',
-      active: false,
-      item: []
-    },
+    // {
+    //   id: 1,
+    //   activeMenu: 'dashboard',
+    //   icon: 'dashboard_outline',
+    //   mainTitle: 'Dashboard',
+    //   headTitle1: 'Dashboard',
+    //   path: '/patient/dashboard',
+    //   active: false,
+    //   item: []
+    // },
     {
       id: 2,
       activeMenu: 'appointments',
       icon: 'pending_actions',
-      mainTitle: 'Cases',
+      mainTitle: 'Appointments',
       headTitle1: '',
       path: '/patient/appointments',
       active: false,
