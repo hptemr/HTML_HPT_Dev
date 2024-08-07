@@ -434,7 +434,12 @@
     p{
         font-size: 18px;
     }
+    .card {
+        margin-bottom: 5px !important;
+    }
 }
+
+
 ::ng-deep{
     .cust--mat--table{
         tbody{
