@@ -17,8 +17,8 @@ export class ConversationsChatComponent {
     background: "transparent",
     borderRadius: "none",
     border: "none",
-    messageTextColor: "rgba(20, 20, 20, 0.33)",
-    messageTextFont: "700 22px Inter",
+    messageTextColor: "rgba(20, 20, 20, 0.33)", 
+    textFont: "Nunito Sans, sans-serif"
   }
 
   public replaceTheme:boolean = false;
@@ -74,7 +74,7 @@ export class ConversationsChatComponent {
   setTheme(){
     this.withMessagesStyle.background = this.themeService.theme.palette.getBackground();
     this.withMessagesStyle.messageTextFont = fontHelper(this.themeService.theme.typography.heading);
-    this.withMessagesStyle.messageTextColor = this.themeService.theme.palette.getAccent400();
+    this.withMessagesStyle.messageTextColor = "this.themeService.theme.palette.getAccent400()";
   }
 
   ngOnDestroy(){

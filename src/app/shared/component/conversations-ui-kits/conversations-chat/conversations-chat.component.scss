@@ -1,4 +1,9 @@
-
+.create--group--btn{
+    position: absolute;
+    top: 54px;
+    right: 82px;
+    z-index: 9;
+}
 ::ng-deep { 
     .cc-with-messages__wrapper{
         border: none !important;
@@ -67,6 +72,7 @@
                             .cc-message-bubble{
                                 .cc-message-bubble__content{ 
                                     border-radius: 4px !important;
+                                    background: rgb(51 191 191) !important;
                                 } 
                             }
                         }
@@ -88,7 +94,9 @@
             }
         }
     }
-    
+    .cc-add-members__wrapper{
+
+    }
 }
 
   
