@@ -1,57 +1,46 @@
-.ba--step--three {
-    .card {
-        .disease--desc--wrapper {
-            .dd--header {
+.ba--step--three{ 
+    // &.read--only--form{
+    //     .card{
+    //         opacity: 0.6;
+    //         pointer-events: none;
+    //     }
+    // }
+    .card{ 
+        .disease--desc--wrapper{ 
+            .dd--header{
                 margin-bottom: 20px;
-            }
-
-            .disease--box {
+            } 
+            .disease--box{
                 width: 30%;
-                padding-right: 20px;
+                padding-right: 20px; 
             }
-
             .family--box,
-            .self--box {
+            .self--box{
                 width: 35%;
                 padding-right: 5%;
-            }
-
-            .dd--body {
-                .dd--row {
+            } 
+            .dd--body{
+                .dd--row{
                     margin-bottom: 5px;
-
-                    .disease--box {
-                        label {
+                    .disease--box{
+                        label{
                             margin-top: 11px;
                         }
                     }
                 }
             }
         }
-
-        .divider {
+        .divider{
             border-top: 1px solid #DED2D9;
             margin: 25px 0;
         }
-
-        .add--btn {
-            height: 45px;
-
-            .mat-icon {
-                font-size: 21px;
-                width: 21px;
-                height: 21px;
-            }
-        }
-
-        .select--ans {
+        .select--ans{
             list-style-type: none;
-
-            li {
+            li{
                 width: 32px;
                 height: 32px;
                 border-radius: 50px;
-                border: 1px solid #31B7B7;
+                border: 1px solid #31B7B7;  
                 color: #31B7B7;
                 display: flex;
                 align-items: center;
@@ -61,75 +50,15 @@
                 cursor: pointer;
                 font-weight: 700;
                 margin-top: 10px;
-
                 &.active,
-                &:hover {
+                &:hover{
                     color: #fff;
                     background: #31B7B7;
                 }
             }
         }
-
-        .ui--button {
-            input[type=file] {
-                z-index: 999999;
-                opacity: 0;
-                position: absolute;
-                left: -38px;
-                top: -6px;
-                height: 36px;
-                width: 173px;
-            }
-        }
-
-        .doc--desc {
-            width: 230px;
-            margin-right: 20px;
-
-            h5 {
-                word-break: break-all;
-            }
-        }
-    }
-}
-
-
-@media only screen and (max-width: 599px) {
-    .ba--step--three {
-        .card {
-            .disease--desc--wrapper {
-                .dd--header {
-                    display: none !important;
-                }
-
-                .dd--body {
-                    .dd--row {
-                        flex-direction: column;
-
-                        .self--box,
-                        .family--box,
-                        .disease--box {
-                            width: 100%;
-                            padding: 0;
-                        }
-
-                        .family--box,
-                        .self--box {
-                            h1 {
-                                display: flex !important;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .select--ans {
-                flex-direction: column;
-                align-items: flex-start !important;
-            }
-        }
-    }
-}
+    }  
+} 
 
 .body--marking--wrapper{
     padding: 20px 25px;
@@ -147,6 +76,8 @@
         border-radius: 5px;
         position: relative;
         padding: 15px 0;
+        opacity: 0.5;
+        pointer-events: none;
         .img--outer{ 
             .hover--img{
                 display: none;
@@ -372,17 +303,49 @@
         }
     }
 }
+ 
+@media only screen and (min-width: 600px) and (max-width: 979px){
+    .body--marking--wrapper .human--body--wrapper{
+        margin: 15px auto;
+    }
+} 
+ 
 
 @media only screen and (max-width: 599px) {
+    .ba--step--three{
+        .card{ 
+            .disease--desc--wrapper{
+                .dd--header{
+                    display: none !important;
+                }
+                .dd--body{
+                    .dd--row{
+                        flex-direction: column;
+                        .self--box,
+                        .family--box,
+                        .disease--box{
+                            width: 100%;
+                            padding: 0;
+                        }
+                        .family--box,
+                        .self--box{
+                            h1{
+                                display: flex !important;
+                            }
+                        }
+                    }
+                }
+            }
+            .select--ans{
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+        } 
+    }
     .body--marking--wrapper{
         padding: 20px 5px;
     }
     .body--marking--wrapper .human--body--wrapper{
         margin: 10px auto;
-    }
-}
-@media only screen and (min-width: 600px) and (max-width: 979px){
-    .body--marking--wrapper .human--body--wrapper{
-        margin: 15px auto;
     }
 } 
