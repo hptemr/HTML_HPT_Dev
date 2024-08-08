@@ -34,6 +34,9 @@ import { PnSubjectiveComponent } from 'src/app/shared/component/support-billing-
 import { PnObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-objective/pn-objective.component';
 import { PnAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-assessment/pn-assessment.component';
 import { PnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-plan/pn-plan.component';
+import { DocumentListingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-listing/document-listing.component';
+import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
+import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 
 const routes: Routes = [
   {
@@ -181,6 +184,18 @@ const routes: Routes = [
   {
     path: 'conversations-chat',
     component: ConversationsChatComponent,
+  },
+  {
+    path: 'document-listing',
+    component: DocumentListingComponent,
+  },
+  {
+    path: 'document-details/:id',
+    component: DocumentDetailingComponent,
+  },
+  {
+    path: 'file-preview/:file',
+    component: PreviewComponent, 
   }
 ];
 

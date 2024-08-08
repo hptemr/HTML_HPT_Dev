@@ -206,6 +206,16 @@ export class NavservicesService implements OnInit {
         },
         // {
         //   id: 4,
+        //   icon: 'description',
+        //   mainTitle: 'Documents',  
+        //   headTitle1: '',
+        //   path: 'document-listing',
+        //   active: false, 
+        //   type: 'link', 
+        //   item: [ ]
+        // },
+        // {
+        //   id: 4,
         //   icon: 'people',
         //   mainTitle: 'Referrals',
         //   headTitle1: '',
@@ -267,6 +277,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        // {
+        //   id: 4,
+        //   icon: 'description',
+        //   mainTitle: 'Documents',  
+        //   headTitle1: '',
+        //   path: 'document-listing',
+        //   active: false, 
+        //   type: 'link', 
+        //   item: [ ]
+        // },
         // {
         //   id: 4,
         //   icon: 'assignment',
@@ -361,16 +381,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 7,
-        //   icon: 'description',
-        //   mainTitle: 'Documents',  
-        //   headTitle1: '',
-        //   path: 'document-listing',
-        //   active: false, 
-        //   type: 'link', 
-        //   item: [ ]
-        // },
+        {
+          id: 7,
+          icon: 'description',
+          mainTitle: 'Documents',  
+          headTitle1: '',
+          path: 'document-listing',
+          active: false, 
+          type: 'link', 
+          item: [ ]
+        },
         // {
         //   id: 5,
         //   icon: 'chat_bubble_outline',

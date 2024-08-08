@@ -7,7 +7,9 @@ import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/
 import { PatientsComponent } from 'src/app/shared/component/support-billing-therapist/patients/patients.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
-
+import { DocumentListingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-listing/document-listing.component';
+import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
+import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 
 const routes: Routes = [
   {
@@ -42,6 +44,18 @@ const routes: Routes = [
         component: PatientProfileComponent,
       }
     ]
+  },
+  {
+    path: 'document-listing',
+    component: DocumentListingComponent,
+  },
+  {
+    path: 'document-details/:id',
+    component: DocumentDetailingComponent,
+  },
+  {
+    path: 'file-preview/:file',
+    component: PreviewComponent, 
   }
 ];
 
