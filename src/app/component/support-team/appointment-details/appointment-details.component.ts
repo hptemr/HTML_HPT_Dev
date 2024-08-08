@@ -10,6 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
+import { ShareModalComponent } from 'src/app/shared/comman/share-modal/share-modal.component';
 
 export interface PeriodicElement {
   note: string;  
@@ -162,4 +163,15 @@ export class AppointmentDetailsComponent {
       }
     });
   }
+
+  shareModal() {
+    const dialogRef = this.dialog.open(ShareModalComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        successNote: 'Are you sure you want to share this with billing team?'
+      }
+    });
+  }
+  
+   
 }

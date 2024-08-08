@@ -223,7 +223,7 @@
                                         <button mat-stroked-button color="primary" [routerLink]="['/support-team/patient-profile']" >View Patient Profile</button>
                                         <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button>
                                         <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/billing-details']">View Billing Details</button>
-                                        <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/billing-team/appointment-details']">
+                                        <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/support-team/intake-form/step-1']">
                                             View Intake Form
                                         </button>
                                     </mat-panel-description>
@@ -422,11 +422,11 @@
                                     <div class="col-12 mt-3">
                                         <div class="d-flex flex-row flex-wrap">
                                             <div class="col-12 col-sm-4 col-lg-4 col-xl-4 mt-2"> 
-                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Share Patient Details with Billing Team</p>
+                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Share Case Details with Billing Team</p>
                                             </div>
                                            
                                             <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
-                                                <button mat-raised-button color="primary" class="m-1" >
+                                                <button mat-raised-button color="primary" class="m-1" (click)="shareModal()"  >
                                                     Share
                                                 </button>
                                             </div>
