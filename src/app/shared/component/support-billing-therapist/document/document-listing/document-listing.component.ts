@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 export interface PeriodicElement {
   directory_name: string;   
@@ -24,8 +25,10 @@ export class DocumentListingComponent {
   loading = false
   arrLength = 0
   userType = ""
-  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService) {
+  pathValues:any = []
+  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,public commonService: CommonService) {
     this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
+    this.pathValues.push({link:'/document-listing',name:'Documents'})
     this.getDefaultDirectories()
   }
 
@@ -34,10 +37,12 @@ export class DocumentListingComponent {
 
   getDefaultDirectories(){
     this.loading =  true
+    this.commonService.showLoader()
     var userRole = this.authService.getLoggedInInfo('role')
     var searchParams = { searchValue:this.searchDirectory.trim(), userRole:userRole}
     this.authService.apiRequest('post', 'admin/getDefaultDirectories', searchParams).subscribe(async response => {
       this.loading =  false
+      this.commonService.hideLoader()
       var directories = response.data.directoryList
       this.arrLength = directories.length
       this.dataSource.data = directories
@@ -61,5 +66,10 @@ export class DocumentListingComponent {
 
   searchRecords(){
     this.getDefaultDirectories()
+  }
+
+  gotoDirectory(name:any,id:any){
+    this.pathValues.push({link:"/document-details/"+id,name:name})
+    localStorage.setItem("pathValues",JSON.stringify(this.pathValues))
   }
 }

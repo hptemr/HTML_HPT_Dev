@@ -1037,6 +1037,14 @@ ngb-datepicker{
         height: calc(100vh - 245px);
         overflow: auto;
     }
+    .note--body--doc{
+        border-radius: 0px 0px 12px 12px;
+        border-top: 1px solid #BCDADA;
+        background: #FFF;
+        padding: 20px 30px;
+        height: calc(100vh - 171px);
+        overflow: auto;
+    }
 }
 .notes--footer--btns{
     position: absolute;

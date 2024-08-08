@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { UploadDocumentsModalComponent } from '../../upload-documents-modal/upload-documents-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 export interface PeriodicElement {
   _id:string;
@@ -37,21 +38,29 @@ export class SystemDocumentsDetailedComponent {
   dirId:any
   userId = ""
   userType = ""
-  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,private route: ActivatedRoute) {
+  pathValues:any = []
+  tempPathValues:any = []
+  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,private route: ActivatedRoute,public commonService: CommonService) {
     this.dirId = this.route.snapshot.paramMap.get('id');
     this.userId = this.authService.getLoggedInInfo("_id")
     this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
-
+    var pathValues = localStorage.getItem("pathValues")
+    this.tempPathValues = (pathValues && pathValues!=null)?JSON.parse(pathValues):[]
+    this.tempPathValues.forEach((value:any) => {
+      this.pathValues.push(value)
+    })
     this.getDirectoryItems()
   }
 
   getDirectoryItems(){
     this.loading =  true
+    this.commonService.showLoader()
     var searchParams = {
       directory: this.dirId,
       searchValue:this.searchItem.trim()
     }
     this.authService.apiRequest('post', 'admin/getDirectoryItems', searchParams).subscribe(async response => {
+      this.commonService.hideLoader()
       this.loading =  false
       this.listArrayItems = []
       response.data.directoryList.forEach((value:any) => {
@@ -124,9 +133,11 @@ export class SystemDocumentsDetailedComponent {
       headerName='Update File'
       labelName = 'Directory Name'
     }
+    var extension = element.name.substring(element.name.lastIndexOf('.') + 1);
+    var fileNameWithoutextn = element.name.substring(0, element.name.lastIndexOf('.')) || element.name
     const dialogRef = this.dialog.open(AddFolderModalComponent,{
       panelClass: [ 'custom-alert-container','modal--wrapper'],
-      data: {type:'update',headerName : headerName,labelName:labelName,updateValue:element.name}
+      data: {type:'update',headerName : headerName,labelName:labelName,updateValue:fileNameWithoutextn}
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
@@ -141,7 +152,7 @@ export class SystemDocumentsDetailedComponent {
         }else{
           var params2 = { 
             oldFileName : element.name,
-            newFileName: result,
+            newFileName: result+"."+extension,
             itemId:element._id
           }
           this.authService.apiRequest('post', 'admin/updateFile', params2).subscribe(async response => {
@@ -209,8 +220,26 @@ export class SystemDocumentsDetailedComponent {
   gotoDirectory(id:any,type:any){
     this.dirId = id
     if(type=='folder'){
+      this.tempPathValues.push({link:"/document-details/"+id,name:name})
+      localStorage.setItem("pathValues",JSON.stringify(this.tempPathValues))
       window.open(`${window.location.origin}`+"/"+`${this.userType}`+"/manage-documents/system-documents/system-documents-detailed/"+id,"_self");
     }
+  }
+
+  removeElementsFromIndex(arr:any, startIndex:any) {
+    if (startIndex < 0 || startIndex >= arr.length) {
+      return arr;
+    }
+    
+    arr.splice(startIndex);
+    return arr;
+  }
+
+  async backToDirectory(item:any){
+    var index = this.pathValues.findIndex((obj:any) => obj.name === item.name);
+    this.tempPathValues = await this.removeElementsFromIndex(this.pathValues, index+1);
+    localStorage.setItem("pathValues",JSON.stringify(this.tempPathValues))
+    window.open(`${window.location.origin}`+"/"+`${this.userType}`+item.link,"_self");
   }
 
 }

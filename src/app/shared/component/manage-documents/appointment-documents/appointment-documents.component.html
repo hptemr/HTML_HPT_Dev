@@ -58,7 +58,13 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
-                    <p *ngIf="listArrayItems==0 && !loading" style="text-align: center;">No records found</p>
+                    <div *ngIf="arrLength==0 && !loading" class="no--record--found d-flex align-items-center justify-content-center w-100" >
+                        <div class="d-flex flex-column align-items-center w-100">
+                            <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                            <p class="">No Records found</p>
+                        </div>
+                    </div>
+                    <!-- <p *ngIf="listArrayItems==0 && !loading" style="text-align: center;">No records found</p> -->
                     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                                     showFirstLastButtons
                                     aria-label="Select page of periodic elements">

@@ -1,6 +1,7 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
   selector: 'app-upload-documents-modal',
@@ -15,8 +16,9 @@ export class UploadDocumentsModalComponent {
   previewUrl = ""
   directory = ""
   userId = ""
+  submitted = false
   @ViewChild('fileInput') fileInput: ElementRef;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<UploadDocumentsModalComponent>,private authService: AuthService){
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<UploadDocumentsModalComponent>,private authService: AuthService,public commonService: CommonService){
     this.directory = this.data.directory
     this.userId = this.data.userId
   }
@@ -53,9 +55,11 @@ export class UploadDocumentsModalComponent {
   }
 
   uploadDocument(){
+    this.submitted = true
     if(this.uploadedFile==undefined || this.uploadError || this.documentName==''){
       return
     }
+    this.commonService.showLoader()
     const formData:any = new FormData();
     var fileExtension = this.uploadedFile[0].name.split('.').pop()
     formData.append('directory', this.directory);
@@ -64,6 +68,8 @@ export class UploadDocumentsModalComponent {
     formData.append('endUserId',this.userId)
     this.authService.apiRequest("post", "admin/uploadDocumentFile", formData).subscribe(
       (res) => {
+        this.commonService.hideLoader()
+        this.submitted = false
         this.dialogRef.close(true)
       })
   }

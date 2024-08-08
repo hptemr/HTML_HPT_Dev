@@ -9,6 +9,7 @@ import { protocolDirectory } from '../../../../config'
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { UploadDocumentsModalComponent } from '../upload-documents-modal/upload-documents-modal.component';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 export interface PeriodicElement {
   _id:string;
@@ -35,7 +36,7 @@ export class ProtocolsComponent {
   listArrayItems:any = []
   userId = ""
   userType = ""
-  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,public commonService: CommonService) {
     this.getDirectoryItems()
     this.userId = this.authService.getLoggedInInfo("_id")
     this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
@@ -45,12 +46,14 @@ export class ProtocolsComponent {
 
   getDirectoryItems(){
     this.loading =  true
+    this.commonService.showLoader()
     var searchParams = { 
       directory: protocolDirectory,
       searchValue:this.searchItem.trim()
     }
     this.authService.apiRequest('post', 'admin/getDirectoryItems', searchParams).subscribe(async response => {
       this.loading =  false
+      this.commonService.hideLoader()
       this.listArrayItems = []
       response.data.directoryList.forEach((value:any) => {
         var tempObj = {_id:value._id,name:value.directory_name,actions:'',icon:'folder',color: 'description'}

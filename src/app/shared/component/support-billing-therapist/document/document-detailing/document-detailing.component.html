@@ -17,7 +17,10 @@
                     <div class="col-12 col-sm-6 col-lg-6 d-flex justify-content-end">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 d-flex align-items-center">
-                              <li class="breadcrumb-item fw-500"><a [routerLink]="['/support-team/document-listing']" class="font-12 clr--1F2F3E">Documents</a></li>
+                                <li class="breadcrumb-item fw-500" *ngFor="let item of pathValues" style="cursor: pointer;">
+                                    <a class="font-12 clr--1F2F3E" (click)="backToDirectory(item)">{{item.name}}</a>
+                                </li>
+                              <!-- <li class="breadcrumb-item fw-500"><a [routerLink]="['/support-team/document-listing']" class="font-12 clr--1F2F3E">Documents</a></li> -->
                               <!-- <li class="breadcrumb-item fw-500  active" aria-current="page"><a class="font-12 clr--1F2F3E">css</a></li> -->
                             </ol>
                           </nav>
@@ -33,9 +36,9 @@
                         class="cust--mat--table">  
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-                                Name #
+                                Name
                             </th>
-                            <td class="cursor-pointer" mat-cell *matCellDef="let element" (click)="gotoDirectory(element._id,element.icon)"> 
+                            <td class="cursor-pointer" mat-cell *matCellDef="let element" (click)="gotoDirectory(element._id,element.icon,element.name)"> 
                                <div class="d-flex align-items-center">
                                     <mat-icon class="me-3"> {{element.icon}}</mat-icon>
                                     <p class="font-14 clr--292D32">{{element.name}}</p>
@@ -51,8 +54,8 @@
                                     <button mat-button class="flex-shrink-0 min-width-unset search--fields"  *ngIf="element.icon != 'folder'" (click)="previewFile(element._id)">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                     </button> 
-                                    <button mat-button class="flex-shrink-0 min-width-unset search--fields" *ngIf="element.icon != 'folder'">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">print </mat-icon>
+                                    <button mat-button class="flex-shrink-0 min-width-unset search--fields" *ngIf="element.icon != 'folder'" (click)="downloadFile(element._id)">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">download </mat-icon>
                                     </button>
                                 </div>
                             </td>
@@ -61,7 +64,13 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
-                    <p *ngIf="arrLength==0 && !loading" style="text-align: center;">No records found</p>
+                    <!-- <p *ngIf="arrLength==0 && !loading" style="text-align: center;">No records found</p> -->
+                    <div *ngIf="arrLength==0 && !loading" class="no--record--found d-flex align-items-center justify-content-center w-100" >
+                        <div class="d-flex flex-column align-items-center w-100">
+                            <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                            <p class="">No Records found</p>
+                        </div>
+                    </div>
                     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                                     showFirstLastButtons
                                     aria-label="Select page of periodic elements">

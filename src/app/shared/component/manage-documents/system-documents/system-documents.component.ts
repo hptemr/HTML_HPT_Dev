@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 export interface PeriodicElement {
   directory_name: string;
@@ -24,13 +25,16 @@ export class SystemDocumentsComponent {
   loading = false
   arrLength = 0
   userType = ""
-  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService) {
+  pathValues:any = []
+  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,public commonService: CommonService) {
     this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
+    this.pathValues.push({link:'/manage-documents/system-documents',name:'Documents'})
     this.getDefaultDirectories()
   }
 
   getDefaultDirectories(){
     this.loading =  true
+    this.commonService.showLoader()
     var userRole = this.authService.getLoggedInInfo('role')
     var searchParams = { searchValue:this.searchDirectory.trim(), userRole:userRole}
     this.authService.apiRequest('post', 'admin/getDefaultDirectories', searchParams).subscribe(async response => {
@@ -39,6 +43,7 @@ export class SystemDocumentsComponent {
       // if(this.userType=='practice-admin'){
       //   directories = directories.filter((el: { directory_name: string; }) => el.directory_name !== "Additional Documents" );
       // }
+      this.commonService.hideLoader()
       this.arrLength = directories.length
       this.dataSource.data = directories
       this.dataSource.paginator = this.paginator;
@@ -64,5 +69,9 @@ export class SystemDocumentsComponent {
 
   searchRecords(){
     this.getDefaultDirectories()
+  }
+  gotoDirectory(name:any,id:any){
+    this.pathValues.push({link:"/manage-documents/system-documents/system-documents-detailed/"+id,name:name})
+    localStorage.setItem("pathValues",JSON.stringify(this.pathValues))
   }
 }
