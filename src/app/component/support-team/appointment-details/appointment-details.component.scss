@@ -69,13 +69,13 @@
                             height:34px;
                         }
                         .badge{
-                            background-color: #F2F2F2;
-                            color: white;
+                            background-color: #F2F2F2; 
                             padding: 4px 8px;
                             text-align: center;
                             border-radius: 5px;
                             color: #DF0404; 
                             border-radius: 0px;
+                            font-family: "Nunito Sans", sans-serif !important;
                         }
 
                         .select-info{ 
@@ -109,6 +109,10 @@
                         .mat-expansion-panel-header-title{
                             flex-grow: 4;
                             font-family: 'Nunito Sans';
+                            span{
+                                color: #DF0404;
+                                background-color: #F2F2F2;
+                            }
                         }
                         .mat-expansion-panel-header-description{
                             flex-grow: 6;
