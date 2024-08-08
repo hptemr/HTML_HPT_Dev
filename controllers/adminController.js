@@ -407,8 +407,8 @@ const removeDirectoryOrFile = async (req, res) => {
   try {
     if(req.body.sourceType == 'directory'){
       await Directory.updateOne({ _id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
-      await Directory.update({ parent_directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
-      await File.update({ directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
+      await Directory.updateMany({ parent_directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
+      await File.updateMany({ directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
     }else{
       await File.updateOne({ _id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
     }
@@ -422,7 +422,8 @@ const previewDocumentFile = async (req, res) => {
   let fileDetails = await File.find({ _id: new ObjectId(req.body.fileId) })
   let key = constants.s3Details.documentsFolderPath+fileDetails[0].directory_id+"/"+fileDetails[0].file_name
   let previewUrl = await s3.previewDocumentFile(key)
-  commonHelper.sendResponse(res, 'success', null, { previewUrl },'');
+  let fileName = fileDetails[0].file_name
+  commonHelper.sendResponse(res, 'success', { previewUrl,fileName }, null,'');
 }
 
 const updateFile = async (req, res) => {
