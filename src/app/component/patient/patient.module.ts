@@ -25,6 +25,7 @@ import { PatientDashboardComponent } from './dashboard/dashboard.component';
 import { AddInsuranceModalComponent } from './book-appointment/add-insurance-modal/add-insurance-modal.component';
 import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 import { IMaskModule } from 'angular-imask';  
+import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/intake-step3/body-details-modal/body-details-modal.component';
 @NgModule({
   declarations: [
     AppointmentsComponent, 
@@ -44,7 +45,8 @@ import { IMaskModule } from 'angular-imask';
     ViewEditInsuranceComponent,
     PatientDashboardComponent,
     AddInsuranceModalComponent,
-    HomeExerciseComponent
+    HomeExerciseComponent,
+    BodyDetailsModalComponent
   ],
   imports: [
     CommonModule,
