@@ -11,6 +11,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { ShareModalComponent } from 'src/app/shared/comman/share-modal/share-modal.component';
+ 
 
 export interface PeriodicElement {
   note: string;  
@@ -114,6 +115,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class AppointmentDetailsComponent {
   constructor(public dialog: MatDialog,private _liveAnnouncer: LiveAnnouncer,) {}
 
+  showShare= false;
   displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
@@ -171,7 +173,10 @@ export class AppointmentDetailsComponent {
         successNote: 'Are you sure you want to share this with billing team?'
       }
     });
+    dialogRef.afterClosed().subscribe(result=>{
+      this.showShare= result;
+    })
   }
+    
   
-   
 }

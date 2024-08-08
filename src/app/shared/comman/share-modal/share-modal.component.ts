@@ -20,4 +20,12 @@ export class ShareModalComponent {
     this.successNote = data.successNote != undefined ? data.successNote : this.successNote;
  
   }
+
+  share(){
+    this.dialogRef.close(true)
+  }
+
+  close(){
+    this.dialogRef.close(false)
+  }
 }

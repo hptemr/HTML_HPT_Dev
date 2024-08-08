@@ -263,34 +263,34 @@
                                             </div>
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
-                                                <p class="mb-1 clr--1F2F3E font-16 fw-400 ">Preferred: Tue, Nov 13, 2023 02:00 pm</p>
+                                                <p class="mb-1 clr--1F2F3E font-16  wb-ba-field fw-400 ">Preferred: Tue, Nov 13, 2023 02:00 pm</p>
                                                 <p class="mb-1 clr--1F2F3E font-16 fw-400 ">Final: Please Schedule</p>
                                             </div>
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-1">
-                                                <button mat-stroked-button color="primary"   >
-                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> calendar_today </mat-icon>  Schedule</button>
+                                                <button mat-stroked-button color="primary" class="mt-3" >
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 "> calendar_today </mat-icon>  Schedule</button>
                                             </div>
                                         </div>
                                     </div>
     
                                     <div class="col-12 mt-3">
                                         <div class="d-flex flex-row flex-wrap">
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Insurance/Self Pay</p>
                                             </div>
                                            
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <!-- <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                                 <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/billing-team/view-insurance']"> 
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> visibility </mat-icon> 
                                                     View Insurance
                                                 </button>
-                                            </div>
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            </div> -->
+                                            <!-- <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Insurance Type </h3>
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Medicare</p>
-                                            </div>
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-4 mb-2">
+                                            </div> -->
+                                            <div class="col-12 col-sm-12 col-lg-5 col-xl-5 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold </h3>
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">OT $200 Used out of $1000, PT/SLP $350 Used out of $1200</p>
                                             </div>
@@ -303,19 +303,19 @@
     
                                     <div class="col-12 mt-2">
                                         <div class="d-flex flex-row flex-wrap">
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Jacob Jones</p>
                                             </div>
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">12/1/24 - 12/10/2024</p>
                                             </div>
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-3 mb-2">
+                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-3 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">1 of 12 visits, expires 12/1/24</p>
                                             </div>
-                                            <div class="col-12 col-sm-5 col-lg-4 col-xl-5 mb-2">
+                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-5 mb-2">
                                                 <div class="form-group d-flex align-items-center">
                                                     <label class="col-form-label fw-700 font-16 p-0 me-3 label--width flex-shrink-0">Hard Cap/ Soft Cap</label>
                                                     <input class="form-control form-control-md max-width-box" type="text" placeholder=" " />
@@ -326,17 +326,17 @@
     
                                     <div class="col-12 mt-2">
                                         <div class="d-flex flex-row flex-wrap">
-                                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2 mb-2"> 
-                                                <div class="form-group">
+                                            <div class="col-12 col-sm-12 col-lg-2 col-xl-2 mb-2 form-group"> 
+                                                <div class="select-info">
                                                     <label class="col-form-label fw-600">Assign Therapist <span class="clr--DF0404 ms-1"> * </span></label>
                                                     <select class="form-select form-control" aria-label="Default select example">
-                                                        <option selected>Select Assign Therapist</option> 
+                                                        <option selected>Select Therapist</option> 
                                                         <option value="1">Elizabeth</option>
                                                         <option value="2">Elizabeth 2</option> 
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2 ml-3">
+                                            <div class="col-12 col-sm-12 col-lg-2 col-xl-2 mb-2  ">
                                                 <div class="form-group">
                                                     <label class="col-form-label fw-600">Case Name</label>
                                                     <input class="form-control form-control-md max-width-box" type="text" placeholder="Search Case Name" value="Neck Pain" [disabled]="true"/>
@@ -344,8 +344,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2 mb-2">
-                                                <div class="form-group">
+                                            <div class="col-12 col-sm-12 col-lg-2 col-xl-2 mb-2 form-group">
+                                                <div class="doctor-filed">
                                                     <label class="col-form-label fw-600">Return to Doctor </label>                                                   
                                                     <mat-form-field class="w-100 am--datepicker" appearance="outline">
                                                         <input matInput [matDatepicker]="picker" placeholder="From Date">
@@ -357,7 +357,7 @@
                                             </div>                         
 
                                            
-                                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2 mb-2 ml-3">
+                                            <div class="col-12 col-sm-12 col-lg-2 col-xl-2 mb-2">
                                                 <div class="form-group">
                                                     <label class="col-form-label fw-600">Copay Amount</label>
                                                     <div class="input-group prefix--field max-width-box-c">
@@ -371,7 +371,7 @@
                                             </div>
  
 
-                                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2 mb-2">
+                                            <div class="col-12 col-sm-12 col-lg-2 col-xl-2 mb-2">
                                                 <div class="form-group"> 
                                                     <label class="col-form-label fw-600">High Deductibles</label>
                                                     <div class="input-group prefix--field max-width-box-c">
@@ -384,8 +384,8 @@
                                                 </div> 
                                             </div>
 
-                                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                                                <div class="form-group">
+                                            <div class="col-12 col-sm-12 col-lg-2 col-xl-2 mb-2 form-group">
+                                                <div   class="select-info">
                                                     <label class="col-form-label fw-600">Insurance Type</label>
                                                     <select class="form-select form-control" aria-label="Default select example">
                                                         <option selected>Insurance Type</option> 
@@ -416,23 +416,23 @@
             </div>
 
             <div class="card-body d-flex flex-column flex-sm-row  ">  
-                <div class="profile--right d-flex flex-column w-100 share-point-wrapper">
+                <div class=" d-flex flex-column w-100 share-point-wrapper">
                     <div class="w-100 mb-0 exp-class"> 
                                 <div class="col-12">  
-                                    <div class="col-12 mt-3">
-                                        <div class="d-flex flex-row flex-wrap">
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-4 mt-2"> 
-                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Share Case Details with Billing Team</p>
-                                            </div>
-                                           
-                                            <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
-                                                <button mat-raised-button color="primary" class="m-1" (click)="shareModal()"  >
+                                    <div class="col-12">
+                                        <div class="d-flex flex-row flex-wrap align-items-baseline mt-3" *ngIf="!showShare"> 
+                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 me-3">Share Case Details with Billing Team</p>
+                                                 <button mat-raised-button color="primary" class="m-1 " (click)="shareModal()"  >
                                                     Share
-                                                </button>
-                                            </div>
-                                             
-                                             
+                                                </button> 
                                         </div>
+
+                                            <div class="d-flex flex-row flex-wrap   mt-3"  *ngIf="showShare"> 
+                                                <img class="green-icon" src="assets/images/ark/green-check-icon.svg" alt="" width="20px">
+                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 me-3 mt-2">Details are shared with Billing Team </p> 
+                                                 </div>
+
+
                                     </div> 
                                 </div> 
                     </div>

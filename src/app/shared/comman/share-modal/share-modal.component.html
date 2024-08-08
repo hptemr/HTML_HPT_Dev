@@ -1,11 +1,13 @@
 <div class="alert--wrapper">
     <div class="col-12 d-flex flex-column align-items-center justify-content-center w-100 text-center">
         <!-- <img src="assets/images/ark/success.png" alt=""> -->
-        <img src="assets/images/ark/successful.gif" alt="" width="60px">
+        <img src="assets/images/ark/Vector.svg" alt="" width="60px">
         <p class="alert--note">{{successNote}}</p>
         <div class="d-flex align-items-center justify-content-center"> 
-            <button class="flex-shrink-0 me-3" mat-stroked-button color="primary" mat-dialog-close cdkFocusInitial>Cancle  </button>
-            <button mat-raised-button color="primary" mat-dialog-close cdkFocusInitial>Share  </button>
+            <button mat-stroked-button color="primary" class="mp--btn me-3" mat-dialog-close (click)="close()"> 
+                cancle
+            </button>            
+            <button mat-raised-button color="primary" mat-dialog-close cdkFocusInitial (click)="share()">Share  </button>
         </div>
     </div>
 </div>

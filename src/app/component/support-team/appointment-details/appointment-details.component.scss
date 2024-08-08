@@ -78,6 +78,18 @@
                             border-radius: 0px;
                         }
 
+                        .select-info{ 
+                            .form-control{ 
+                                width: 140px !important;
+                             } 
+                        }
+                        .doctor-filed{
+                            ::ng-deep{
+                                .mat-mdc-text-field-wrapper {
+                                  width: 160px !important;
+                                }
+                            }
+                        }
                     .exp-class{
                         ::ng-deep{ 
                             .mat-expansion-panel-body{
@@ -200,7 +212,7 @@
                         letter-spacing: -0.14px;
                         color: #1F2F3E;
                         height: 38px;
-                    }
+                    } 
                 }
                 .input-group.prefix--field .input-group-prepend .input-group-text{
                     border: 1px solid #CCC;
@@ -331,6 +343,10 @@
         background: #FFF;
         box-shadow: -3px 9px 32px 0px rgba(159, 162, 191, 0.15);
         padding:00 30px 7px 30px !important;
+
+        .green-icon{
+            margin: 10px 10px 10px 0px;
+        }
     }
 } 
 
@@ -405,7 +421,14 @@
 @media only screen and (min-width: 980px) and (max-width: 1279px){
     .form-group{margin-bottom: 15px !important;}
 }
-@media only screen and (min-width: 1280px) and (max-width: 1440px){}
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    .exp-class{ 
+        .mat-expansion-panel-header-title{
+            flex-grow: 1 !important;
+            font-family: 'Nunito Sans';
+        }   
+    }      
+}
 @media only screen and (min-width: 1441px) and (max-width: 1550px){}
 @media screen and (orientation:landscape) and (max-width: 850px){
     .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
@@ -416,3 +439,8 @@
 .gap-10{gap: 10px;}
 .min-h{min-height: 50px;}
 .wb-ba{word-break: break-all;}
+
+.wb-ba-field{
+    word-break: break-all;
+    width: 200px;
+}
