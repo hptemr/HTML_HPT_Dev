@@ -49,7 +49,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './patient-details.component.scss'
 })
 export class PatientDetailsComponent {
-  displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'action'];
+  displayedColumns: string[] = ['name', 'appointmentDate','action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   model: NgbDateStruct;
