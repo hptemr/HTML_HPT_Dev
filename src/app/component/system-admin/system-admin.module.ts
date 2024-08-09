@@ -28,6 +28,7 @@ import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/man
 import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
 import { AddFolderModalComponent } from 'src/app/shared/component/manage-documents/add-folder-modal/add-folder-modal.component';
 import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-documents/upload-documents-modal/upload-documents-modal.component';
+import { ProviderManagementComponent } from './provider-management/provider-management.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-d
     ProtocolDetailedDocumentsComponent,
     SystemDocumentsDetailedComponent,
     AddFolderModalComponent,
-    UploadDocumentsModalComponent
+    UploadDocumentsModalComponent,
+    ProviderManagementComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,27 @@
+::ng-deep{
+    .provider--mat--table--wrapper{
+        .provider--mat--table{
+            min-width: 1140px;
+            thead{
+                tr{
+                    th{
+                        font-size: 16px;
+                        font-weight: 700;
+                        color: #1F2F3E;
+                        font-family: "Nunito Sans", sans-serif !important;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: #1F2F3E;
+                        font-family: "Nunito Sans", sans-serif !important;
+                    }
+                }
+            }
+        }
+    }
+}

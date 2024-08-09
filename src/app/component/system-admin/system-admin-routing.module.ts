@@ -20,6 +20,7 @@ import { SystemDocumentsComponent } from 'src/app/shared/component/manage-docume
 import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/protocols/protocols.component';
 import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
 import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
+import { ProviderManagementComponent } from './provider-management/provider-management.component';
 
 const routes: Routes = [
   {
@@ -112,6 +113,10 @@ const routes: Routes = [
         component: ProtocolDetailedDocumentsComponent, 
       },  
     ]
+  },
+  {
+    path: 'provider-management',
+    component:ProviderManagementComponent   
   },
 ];
 

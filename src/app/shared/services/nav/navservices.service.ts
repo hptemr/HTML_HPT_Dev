@@ -168,9 +168,26 @@ export class NavservicesService {
           path: '/system-admin/e-fax', 
         },
       ]
-    }, 
+    },
     {
       id: 6,
+      icon: 'dashboard',
+      mainTitle: 'Provider Management',
+      headTitle1: '',
+      path: '/system-admin/provider-management',
+      active: false, 
+      item: [ 
+        {
+          title: 'Provider Management',
+          icon: 'dashboard',
+          type: 'link',
+          active: false,
+          path: '/system-admin/provider-management', 
+        },
+      ]
+    },  
+    {
+      id: 7,
       icon: 'people_outline',
       mainTitle: 'Manage Profile',  
       headTitle1: '',
