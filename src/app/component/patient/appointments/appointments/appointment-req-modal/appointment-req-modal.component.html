@@ -2,46 +2,45 @@
     <header class="w-100">
         <h1 class="fw-600">Request an Appointment</h1>
     </header>
+    <form [formGroup]="requestAppointmentForm" (ngSubmit)="requestAppointment(requestAppointmentForm.value)">
     <div class="ra--body w-100">
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Preferred Date & Time</label>
                     <mat-form-field class="w-100 am--datepicker">
-                        <input [(ngModel)]="fromDate" (dateChange)="onDateChange($event, 'fromDate')"
-                            readonly="isReadonly" [max]="maxFromDate" placeholder="From Date" matInput
+                        <input [(ngModel)]="fromDate" [min]="minToDate" formControlName="appointmentDate" readonly="isReadonly" [max]="maxFromDate" placeholder="From Date" matInput
                             [matDatepicker]="picker">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
+                <div class="text text-danger mt-1" *ngIf="requestAppointmentForm.controls['appointmentDate'].touched && requestAppointmentForm.controls['appointmentDate'].hasError('required')">
+                    {{ validationMessages.requiredDropdown('Appointment Date') }}
+                </div>
             </div>
             <div class="col-12 ">
                 <div class="form-group">
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Select Practice Location</option> 
-                        <option value="1">Hamilton PT at The Canyons</option>
-                        <option value="2">Darby PT</option>
-                        <option value="3">Corvallis PT</option>
-                        <option value="4">Stevi PT</option>
-                        <option value="5">PT Specialists of Florence</option>
-                        <option value="6">Frenchtown PT</option>
-                        <option value="7">HNB</option>
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="practiceLocation">
+                        <option value="" selected>Select</option>
+                        <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
                     </select>
-                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                    <div class="text text-danger mt-1" *ngIf="requestAppointmentForm.controls['practiceLocation'].touched && requestAppointmentForm.controls['practiceLocation'].hasError('required')">
+                        {{ validationMessages.requiredDropdown('Practice Location') }}
+                    </div>
                 </div>
             </div> 
             
         </div>
-    </div>
+    </div> 
     <div class="d-none d-lg-block d-flex align-items-center justify-content-between w-100 footer--btns">
         <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary" class="float-right" mat-dialog-close (click)="successModal()">Request an Appointment</button>
+        <button mat-raised-button color="primary" class="float-right" [disabled]="clickOnRequestAppointment" type="submit">Request an Appointment</button>
     </div>
 
     <div class=" d-lg-none w-100 footer--btns">
         <button mat-stroked-button color="primary" class="me-2 w-100" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary" class="w-100 mt-1" mat-dialog-close (click)="successModal()">Request an Appointment</button>
+        <button mat-raised-button color="primary" class="w-100 mt-1" [disabled]="clickOnRequestAppointment" type="submit">Request an Appointment</button>
     </div> 
-    
+    </form>
 </div>
