@@ -22,9 +22,10 @@
                     <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0">EMERGENCY CONTACT 1</h3>
                 </div> 
             </div>
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-12 col-lg-4 mb-4">
-                    <select (change)="getContact(1,$event)" class="form-select form-control m-1"
+                    <label class="col-form-label fw-600"> Select from Saved Emergency Contacts </label>
+                    <select (change)="getContact(1,$event)" class="form-select form-control "
                         aria-label="Default select example">
                         <option value="" selected>Select from Added Contacts</option>
                         <option value="{{i}}" *ngFor="let element of emergencyContactList; let i=index">
@@ -128,9 +129,10 @@
                     <h3 class="fw-700 font-18 mb-2 mt-2 flex-shrink-0">EMERGENCY CONTACT 2</h3>
                 </div> 
             </div>
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-12 col-lg-4 mb-4">
-                    <select (change)="getContact(2,$event)" class="form-select form-control m-1"
+                    <label class="col-form-label fw-600"> Select from Saved Emergency Contacts </label>
+                    <select (change)="getContact(2,$event)" class="form-select form-control "
                         aria-label="Default select example">
                         <option value="" selected>Select from Added Contacts</option>
                         <option value="{{i}}" *ngFor="let element of emergencyContactList; let i=index">
@@ -230,7 +232,11 @@
             <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/patient/book-appointment/step-3']">
                 Previous
             </button>
-            <button [disabled]="step4Form.invalid" (click)="bookAppointmentStep4()" mat-raised-button color="primary"
+            <!-- <button [disabled]="step4Form.invalid" (click)="bookAppointmentStep4()" mat-raised-button color="primary"
+                class="m-1">
+                Next
+            </button> -->
+            <button   mat-raised-button color="primary"
                 class="m-1">
                 Next
             </button>

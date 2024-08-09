@@ -34,10 +34,9 @@
                     <div class="form-group">
                         <label class="col-form-label fw-600">
                             Practice Location
-                            <span class="clr--DF0404 ms-1">*</span>
+                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
                         </label>
-                        <select formControlName="practiceLocation" class="form-select form-control"
-                            aria-label="Default select example">
+                        <select formControlName="practiceLocation" class="form-select form-control"  aria-label="Default select example"   >
                             <option value="">Practice Location</option>
                             <option value="{{element}}" *ngFor="let element of practiceLocations;">
                                 {{element}}
@@ -49,15 +48,16 @@
                         {{ validationMessages.requiredDropdown('Practice Location') }}
                     </div>
                 </div>
+
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">
-                            Date & Time
-                            <span class="clr--DF0404 ms-1">*</span>
+                            Select Date & Time
+                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
                         </label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input (focus)="picker.open()" [min]="todayDate" [max]="maxAppntDate"
+                                <input (focus)="picker.open()" [min]="todayDate" [max]="maxAppntDate" 
                                     formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput
                                     [matDatepicker]="picker">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -138,7 +138,7 @@
                     <div class="form-group">
                         <label class="col-form-label fw-600">
                             Date of Birth
-                            <span class="clr--DF0404 ms-1">*</span>
+                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
                         </label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
@@ -157,7 +157,7 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Marital Status</label>
-                        <select formControlName="maritalStatus" class="form-select form-control"
+                        <select formControlName="maritalStatus" class="form-select form-control" 
                             aria-label="Default select example">
                             <option value="" selected>Select Marital Status</option>
                             <option value="{{element}}" *ngFor="let element of maritalStatus;">{{element}}</option>
@@ -201,7 +201,7 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Cell Phone Number </label>
-                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="cellPhoneNumber"
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="cellPhoneNumber" 
                             [readonly]="isReadonly" class="form-control" placeholder="Enter Cell Phone Number"
                             maxlength="14" />
                     </div>
@@ -211,9 +211,78 @@
                         <label class="col-form-label fw-600">Work Extension </label>
                         <input [imask]="{mask: '(000) 000-0000'}" formControlName="workExtensionNumber"
                             [readonly]="isReadonly" class="form-control" placeholder="Enter Work Extension Number"
-                            maxlength="14" />
+                            maxlength="14"  />
+                    </div>
+                </div>  
+
+                <!-- Patient Address -->
+                <div class="col-12">
+                    <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Patient Address </h2>
+                </div> 
+
+                <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            Address
+                            <!-- <span class="clr--DF0404 ms-1"> *</span> -->
+                        </label>
+                        <input  class="form-control" type="text"
+                            placeholder="Address" disabled />
+                        <!-- <div class="text text-danger mt-1" >
+                            error msg
+                        </div> -->
                     </div>
                 </div>
+
+                <div class="col-12 col-lg-6 col-md-6   col-xl-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            City
+                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
+                        </label>
+                        <select  class="form-select form-control"   aria-label="Default select example" disabled>
+                            <option value="">Select City</option>
+                            <option value="pune"> Pune</option>
+                            <option value="pune"> Mumbai</option>
+                        </select>
+                    </div>
+                     <!-- <div class="text text-danger mt-1">
+                        Error msg
+                    </div> -->
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6   col-xl-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            State
+                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
+                        </label>
+                        <select  class="form-select form-control"   aria-label="Default select example" disabled>
+                            <option value="">Select State</option>
+                            <option value="pune"> Pune</option>
+                            <option value="pune"> Mumbai</option>
+                        </select>
+                    </div>
+                    <!-- <div class="text text-danger mt-1">
+                        Error msg
+                    </div> -->
+                </div>
+
+
+                <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            Zipcode
+                            <!-- <span class="clr--DF0404 ms-1"> *</span> -->
+                        </label>
+                        <input  class="form-control" type="text"
+                            placeholder="Zipcode" disabled />
+                        <!-- <div class="text text-danger mt-1" >
+                            error msg
+                        </div> -->
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="d-flex align-items-center justify-content-end w-100 footer--btns">

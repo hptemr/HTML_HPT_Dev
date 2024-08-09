@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-12">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Gender</label>
+                        <!-- <label class="col-form-label fw-600">Gender</label> -->
                         <mat-radio-group formControlName="gender" aria-label="Select an option">
                             <mat-radio-button value="Male" class="me-3">Male</mat-radio-button>
                             <mat-radio-button value="Female">Female</mat-radio-button>
@@ -219,7 +219,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
                                     </span></label>
@@ -237,7 +237,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Relationship with Patient <span
                                         class="clr--DF0404 ms-1"> *
@@ -255,6 +255,16 @@
                             </div>
                         </div>
 
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-4 ">
+                            <div class="form-group mt-4">
+                                <!-- <label class="col-form-label fw-600 ">Gender</label> -->
+                                <mat-radio-group formControlName="gender" aria-label="Select an option" class="">
+                                    <mat-radio-button value="Male" class="me-5">Male</mat-radio-button>
+                                    <mat-radio-button value="Female">Female</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
                         <!-- <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Other Relation</label>
@@ -268,11 +278,11 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Company <span class="clr--DF0404 ms-1"> *
+                                <label class="col-form-label fw-600">Primary Insurances <span class="clr--DF0404 ms-1"> *
                                     </span></label>
                                 <input formControlName="primaryInsuranceCompany"
                                     (blur)="checkSpace('primaryInsuranceCompany', $event)" class="form-control"
-                                    type="text" placeholder="Enter Company Name" />
+                                    type="text" placeholder="Enter Primary Insurances Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['primaryInsuranceCompany'].touched && (step2Form.controls['primaryInsuranceCompany'].hasError('required') || step2Form.controls['primaryInsuranceCompany'].invalid)">
                                     {{ validationMessages.required('Insurance Company') }}
@@ -744,6 +754,8 @@
                                  </button>
                             </div>
                         </div>
+
+
                         <div class="col-12 d-flex  align-items-center justify-content-between">
                             <div class="signature--box d-flex align-items-center justify-content-center">
                                 {{fullNameForSign}}
@@ -767,6 +779,8 @@
                                 Save Insurance As
                             </button>
                         </div> -->
+
+                        
                     </div>
                 </div>
             </div>
