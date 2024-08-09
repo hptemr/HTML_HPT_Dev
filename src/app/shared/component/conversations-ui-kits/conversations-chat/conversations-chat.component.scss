@@ -93,10 +93,18 @@
                 }
             }
         }
-    }
-    .cc-add-members__wrapper{
-
-    }
+    } 
 }
 
   
+@media only screen and (max-width: 599px) {
+    ::ng-deep{
+        .cc-with-messages__wrapper .cc-with-messages__sidebar{
+            margin: 0 !important;
+        }
+        .create--group--btn{
+            top: 10px !important;
+            right: 59px !important;
+        }
+    }
+}
