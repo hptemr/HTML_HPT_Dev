@@ -46,6 +46,8 @@ const messages = {
         updated: 'Appointment has been updated successfully',
         rescheduled: 'Appointment has been rescheduled successfully',
         created: 'Appointment has been created successfully',
+        requestCreated: 'Appointment request has been sent successfully',
+        alreadyRequestCreated: 'Appointment request already sent!',
     },
     emergencyContactsMessage: {
         created: 'Contact details have been created successfully!',

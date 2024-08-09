@@ -8,6 +8,7 @@ router.post('/getAppointmentDetails', appointmentController.getAppointmentDetail
 router.post('/acceptAppointment', appointmentController.acceptAppointment);
 router.post('/cancelAppointment', appointmentController.cancelAppointment);
 router.post('/addAppointment', appointmentController.addAppointment); 
+router.post('/createAppointmentRequest', appointmentController.createAppointmentRequest); 
 router.post('/rescheduleAppointment', appointmentController.rescheduleAppointment); 
 router.post('/updateAppointment', appointmentController.updateAppointment); 
 router.post('/download', appointmentController.download); 

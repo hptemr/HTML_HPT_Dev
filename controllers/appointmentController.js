@@ -4,6 +4,7 @@ const Appointment = require('../models/appointmentModel');
 const User = require('../models/userModel');
 const sendEmailServices = require('../helpers/sendEmail');
 const emailTemplateModel = require('../models/emailTemplateModel');
+const AppointmentRequest = require('../models/appointmentRequestModel');
 const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 const s3Details = constants.s3Details;
@@ -34,6 +35,31 @@ const getAppointmentList = async (req, res) => {
 }
 
 
+const getAppointmentRequestList = async (req, res) => {
+    try {
+        const { query, fields, order, offset, limit, patientFields, therapistFields, userQuery } = req.body;
+        if (userQuery && Object.keys(userQuery).length) {
+            let userList = await User.find(userQuery, { _id: 1 });
+            if (userList && userList.length > 0) {
+                query['therapistId'] = { $in: userList }
+            } else {
+                query['noResults'] = true //if no records found then pass default condition just to failed query.
+            }
+        }
+        let appointmentList = await AppointmentRequest.find(query, fields)
+            .populate('patientId', patientFields)
+            .populate('therapistId', therapistFields)
+            .sort(order).skip(offset).limit(limit)
+
+        let totalCount = await AppointmentRequest.find(query).countDocuments()
+
+        commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
+    } catch (error) {
+        console.log("********Appointment***error***", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
 const getAppointmentDetails = async (req, res) => {
     try {
         const { query, fields, patientFields, therapistFields } = req.body;
@@ -58,6 +84,43 @@ const updatePatientCheckIn = async (req, res) => {
         await Appointment.findOneAndUpdate({ _id: query._id }, { checkIn: updateInfo.checkIn, checkInDateTime: checkInDateTime });
         commonHelper.sendResponse(res, 'success', null, 'Check in updated Successfully!');
     } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+const createAppointmentRequest = async (req, res) => {
+    try {
+        const { userId, data } = req.body;
+
+        console.log('data>>>',data)
+        let appointmentRequestData = await AppointmentRequest.findOne({patientId:userId,practiceLocation:data.practiceLocation,status:'Pending'});
+        console.log('appointmentRequestData>>>',appointmentRequestData)
+
+        if(appointmentRequestData){
+            commonHelper.sendResponse(res, 'errorValidation', null, appointmentMessage.alreadyRequestCreated);
+        }else{
+            let newAppointmentRequest = new AppointmentRequest(data);
+            result = await newAppointmentRequest.save();
+            commonHelper.sendResponse(res, 'success', null, appointmentMessage.requestCreated);
+        }
+
+        // let newRecord = new Appointment(req.body)
+        // newRecord.appointmentId = appointmentData.appointmentId + 1
+        // await newRecord.save()
+        // let template = await emailTemplateModel.findOne({ code: "bookAppointment" })
+        // if (template) {
+        //     let params = {
+        //         "{firstName}": newRecord.patientInfo.firstName
+        //     }
+        //     var mailOptions = {
+        //         to: [newRecord.patientInfo.email],
+        //         subject: template.mail_subject,
+        //         html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+        //     }
+        //     sendEmailServices.sendEmail(mailOptions)
+        // }
+    } catch (error) {
+        console.log("********addAppointment***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -230,6 +293,7 @@ module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
     getAppointmentDetails,
+    createAppointmentRequest,
     acceptAppointment,
     cancelAppointment,
     addAppointment,
