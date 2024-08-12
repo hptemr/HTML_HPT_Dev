@@ -406,8 +406,6 @@ export class SignupPatientComponent implements OnInit {
       } 
     });
  
-    console.log('getNotUploadedItems >>>  ',this.uploader.getNotUploadedItems().length)
-    console.log('uploader>>>>>>',this.uploader);
     if (this.uploader.getNotUploadedItems().length) {
       this.currentProgessinPercent = 1;
       this.uploader.onProgressItem = (progress: any) => {

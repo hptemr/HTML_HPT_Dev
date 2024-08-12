@@ -10,8 +10,6 @@ import { validationMessages } from 'src/app/utils/validation-messages';
 import { AppointmentReqModalComponent } from './appointment-req-modal/appointment-req-modal.component';
 import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 
-
-
 export interface PeriodicElement {
   info: string;
   appointmentDate: string;
@@ -112,9 +110,6 @@ export class AppointmentsComponent {
       this.appointmentList = new MatTableDataSource(finalData)
     })
   }
-
-
-
   
   raiseRequest() {
     const dialogRef = this.dialog.open( AppointmentReqModalComponent ,{
@@ -124,8 +119,7 @@ export class AppointmentsComponent {
       }
     });
   }
- 
-  
+   
   onDateChange(event: any, colName: any) {
     if (colName == 'fromDate') {
       this.minToDate = new Date(event.target.value)
