@@ -6,7 +6,7 @@ const appointmentRequestSchema = new mongoose.Schema({
         ref: "patients"
     },
     appointmentDate: { type: Date, default: Date.now },
-    practiceLocation: { type: Array, "default": [] },
+    practiceLocation: { type: String, default: "" },
     status: { type: String, enum: ['Pending','Scheduled','Pending Intake Form','Cancelled'], default: 'Pending' },   
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

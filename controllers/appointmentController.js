@@ -2,6 +2,7 @@ const { commonMessage, appointmentMessage } = require('../helpers/message');
 const commonHelper = require('../helpers/common');
 const Appointment = require('../models/appointmentModel');
 const User = require('../models/userModel');
+const Patient = require('../models/patientModel');
 const sendEmailServices = require('../helpers/sendEmail');
 const emailTemplateModel = require('../models/emailTemplateModel');
 const AppointmentRequest = require('../models/appointmentRequestModel');
@@ -37,28 +38,41 @@ const getAppointmentList = async (req, res) => {
 
 const getAppointmentRequestList = async (req, res) => {
     try {
-        const { query, fields, order, offset, limit, patientFields, therapistFields, userQuery } = req.body;
+        const { query, fields, order, offset, limit, patientFields, userQuery } = req.body;
         if (userQuery && Object.keys(userQuery).length) {
-            let userList = await User.find(userQuery, { _id: 1 });
+            let userList = await Patient.find(userQuery, { _id: 1 });
             if (userList && userList.length > 0) {
-                query['therapistId'] = { $in: userList }
+                query['patientId'] = { $in: userList }
             } else {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-        let appointmentList = await AppointmentRequest.find(query, fields)
+        let appointmentRequestList = await AppointmentRequest.find(query, fields)
             .populate('patientId', patientFields)
-            .populate('therapistId', therapistFields)
             .sort(order).skip(offset).limit(limit)
 
         let totalCount = await AppointmentRequest.find(query).countDocuments()
 
-        commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
+        commonHelper.sendResponse(res, 'success', { appointmentRequestList, totalCount }, '');
     } catch (error) {
         console.log("********Appointment***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
+
+const getAppointmentRequestDetails = async (req, res) => {
+    try {
+        const { query, fields, patientFields } = req.body;
+        let appointmentRequestData = await AppointmentRequest.findOne(query, fields)
+            .populate('patientId', patientFields);
+
+        commonHelper.sendResponse(res, 'success', { appointmentRequestData }, '');
+    } catch (error) {
+        console.log("********Appointment Request Details***error***", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
 
 const getAppointmentDetails = async (req, res) => {
     try {
@@ -299,5 +313,7 @@ module.exports = {
     addAppointment,
     updateAppointment,
     rescheduleAppointment,
-    download
+    download,
+    getAppointmentRequestList,
+    getAppointmentRequestDetails
 };
