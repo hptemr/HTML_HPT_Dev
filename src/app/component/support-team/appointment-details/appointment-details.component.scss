@@ -93,7 +93,7 @@
                     .exp-class{
                         ::ng-deep{ 
                             .mat-expansion-panel-body{
-                                padding: 0px 24px 5px 24px !important;
+                                padding: 5px 24px 5px 24px !important;
                             }
                             .mat-expansion-indicator::after{
                                 color: #31B7B7 !important;
@@ -101,7 +101,7 @@
                             }
                         }
                         .mat-expansion-panel-header{
-                            padding: 10px 24px 5px 24px;
+                            padding: 5px 24px 5px 24px;
                             &:hover{
                                 background-color: #fff !important;
                             }
@@ -201,13 +201,7 @@
                     }
                 } 
                 .form-group {
-                    margin-bottom: 0px;
-                    .form-control{
-                        border: 1px solid #CCC;
-                        background-color: #F5F6F9 !important;
-                        padding: 3px 10px;
-                        height:40px;
-                    }
+                    margin-bottom: 0px; 
                     .search--outer{
                         padding: 3px 10px !important;
                         font-family: "Nunito Sans" !important;
@@ -215,8 +209,26 @@
                         font-weight: 400;
                         letter-spacing: -0.14px;
                         color: #1F2F3E;
-                        height: 38px;
-                    } 
+                        padding-right: 40px !important; 
+                        background-color: #F5F6F9 !important;
+                        border: 1px solid #CCC;
+                        padding: 8px 10px;
+                        height: 40px !important; 
+                    }
+                
+                    .search--fields{
+                        position: absolute;
+                        top: 3px;
+                        right: 4px;
+                        height: 36px;
+                        .mat-icon {
+                            font-size: 23px !important;
+                            width: 23px !important;
+                            height: 23px !important;
+                            color: #1F2F3E;
+                        }
+                        
+                    }
                 }
                 .input-group.prefix--field .input-group-prepend .input-group-text{
                     border: 1px solid #CCC;
