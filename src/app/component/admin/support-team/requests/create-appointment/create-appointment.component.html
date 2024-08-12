@@ -1,0 +1,169 @@
+<div class="container-fluid book--appointment--wrapper"> 
+    <form [formGroup]="appointmentForm" (ngSubmit)="createAppointment(appointmentForm.value)">
+        <div class="card m-0"> 
+            <div class="row">
+                <div class="col-12 d-flex align-items-center mb-2">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/support-team/requests']">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Create Appointment for Darlene Robertson </span> 
+                    </h3>               
+                </div>
+            </div> 
+            
+            <div class=" d-flex flex-column flex-sm-row profile--right--wrapper mt-3">  
+                <div class="profile--right d-flex flex-column w-100"   [routerLink]="['/support-team/appointment-details']">
+                    <div class="w-100 mb-0">  
+                        <div class="col-12 appointment-information-header-wrapper"> 
+                        <div class="row exp-class">
+                                <div class="col-12"> 
+                                    <div class="col-12 mt-2">
+                                        <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                                                <div class="w-100 mb-2">
+                                                    <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                                        <div class="img--box flex-shrink-0">
+                                                            <img src="{{profileImage}}" alt="profileImage" class="img-fluid" />
+                                                        </div>
+                                                        <div class="d-flex flex-column"> 
+                                                            <div class="mb-1 mt-1 d-flex align-items-center">
+                                                                <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">{{patientEmail}}</p>
+                                                            </div>
+                                                            <div class="mb-1 d-flex align-items-center">
+                                                                <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
+                                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 {{phoneNumber}}</p>
+                                                            </div>
+                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                                <h3 class="mb-1 clr--1F2F3E font-14 fw-700">Preferred Appointment Date and Time</h3>
+                                                <p class="mb-1 clr--1F2F3E  font-14 fw-400 ">{{appointmentDate | date: 'EEE, MMM d, y hh:mm a'}}</p>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                                <h3 class="mb-1 clr--1F2F3E font-14 fw-700">Practice Location: <span class="mb-1 clr--1F2F3E font-14 fw-400">{{location}}</span></h3>
+                                            </div> 
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>  
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">  
+                <div class="col-12 mt-2">
+                    <div class="row">   
+                        <div class="col-12 col-sm-6 col-lg-4 mb-2">
+                            <div class="form-group d-flex align-items-center">
+                                <label class="col-form-label fw-600 font-16 p-0 me-3 label--width flex-shrink-0">Case Name <span class="clr--DF0404 ms-1"> * </span></label>
+                                <select class="form-select form-control" aria-label="Default select example">
+                                    <option selected>Shoulder Pain</option> 
+                                    <option value="1">Knee Pain </option> 
+                                </select>
+                            </div>
+                        </div>
+    
+
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="form-group d-flex mt-2">                            
+                                <span class="text-danger font-14 fw-400  badge">This Case is in collections</span>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text"  formControlName="firstName" placeholder="Enter First Name" />
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['firstName'].touched && appointmentForm.controls['firstName'].hasError('required')">
+                            {{ validationMessages.required('firstName') }}
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text"  formControlName="lastName" placeholder="Enter Last Name" />
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['lastName'].touched && appointmentForm.controls['lastName'].hasError('required')">
+                            {{ validationMessages.required('lastName') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="email" formControlName="email" placeholder="Enter Email" />
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['email'].touched && appointmentForm.controls['email'].hasError('required')">
+                            {{ validationMessages.required('Email') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 mt-2">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Appointment Date & Time <span class="clr--DF0404 ms-1"> * </span></label>
+                        <div class="input-group">
+                        <input class="form-control text-capitalize" formControlName="appointmentDate" placeholder="Select Date" name="dp" [(ngModel)]="model"
+                            ngbDatepicker #d="ngbDatepicker" />
+                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                            type="button">
+                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                        </button>
+                        </div>
+                    </div>
+                    <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
+                        {{ validationMessages.required('Appointment Date') }}
+                    </div>
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="practiceLocation">
+                            <option value="" selected>Select Practice Location</option>
+                            <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['practiceLocation'].touched && appointmentForm.controls['practiceLocation'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Practice Location') }}
+                        </div>
+                    </div>
+                </div>   
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Phone</label>
+                        <input class="form-control" type="number" formControlName="phoneNumber" placeholder="Enter Phone Number" />
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['phoneNumber'].touched && appointmentForm.controls['phoneNumber'].hasError('required')">
+                            {{ validationMessages.required('Phone') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Therapist<span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="therapistId">
+                            <option value="" selected>Select</option>
+                            <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['therapistId'].touched && appointmentForm.controls['therapistId'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Therapist') }}
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center w-100 footer--btns"> 
+            <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/support-team/requests']">
+                Cancel
+            </button>
+            <button mat-raised-button color="primary" class="m-1" type="submit" [disabled]="clickOnRequestAppointment">
+                Create
+            </button>
+        </div>
+    </form>
+</div>
