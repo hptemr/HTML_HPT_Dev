@@ -1,5 +1,15 @@
 ::ng-deep{
     .cust--mat--table{
+        thead{
+            tr{
+                th{
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #1F2F3E;
+                    font-family: "Nunito Sans", sans-serif !important;
+                }
+            }
+        }
         tbody{
             tr{
                 td{ 

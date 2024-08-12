@@ -29,6 +29,8 @@ import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manag
 import { AddFolderModalComponent } from 'src/app/shared/component/manage-documents/add-folder-modal/add-folder-modal.component';
 import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-documents/upload-documents-modal/upload-documents-modal.component';
 import { ProviderManagementComponent } from './provider-management/provider-management.component';
+import { BulkUploadProvidersComponent } from './bulk-upload-providers/bulk-upload-providers.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @NgModule({
@@ -58,14 +60,16 @@ import { ProviderManagementComponent } from './provider-management/provider-mana
     SystemDocumentsDetailedComponent,
     AddFolderModalComponent,
     UploadDocumentsModalComponent,
-    ProviderManagementComponent
+    ProviderManagementComponent,
+    BulkUploadProvidersComponent
   ],
   imports: [
     CommonModule,
     SystemAdminRoutingModule,
     FormsModule,
     ReactiveFormsModule, 
-    SharedModule
+    SharedModule,
+    MatChipsModule
   ]
 })
 export class SystemAdminModule { }
