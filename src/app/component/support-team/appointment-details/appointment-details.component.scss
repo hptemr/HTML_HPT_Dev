@@ -94,6 +94,9 @@
                         ::ng-deep{ 
                             .mat-expansion-panel-body{
                                 padding: 5px 24px 5px 24px !important;
+                                 .last--col{
+                                    gap: 9px;
+                                 }
                             }
                             .mat-expansion-indicator::after{
                                 color: #31B7B7 !important;
@@ -280,9 +283,15 @@
                                                 color: #1F2F3E;
                                                 font-family: "Nunito Sans", sans-serif !important;
                                                 padding: 10px;
+                                                &:first-child{
+                                                    width: 200px !important;
+                                                    max-width: 200px !important;
+                                                    word-break: break-all;
+                                                }
                                                 &:last-child{
                                                     width: 9%;
                                                 } 
+                                                
                                             }
                                         }
                                     } 
@@ -291,6 +300,11 @@
                                         td{
                                             padding: 10px !important;
                                             font-size: 14px; 
+                                            &:first-child{
+                                                width: 200px !important;
+                                                max-width: 200px !important;
+                                                word-break: break-all;
+                                            }
                                             .action--dd{
                                                 font-size: 12px;
                                                 height: 24px;
@@ -299,6 +313,11 @@
                                                 padding: 0 5px;
                                                 width: 240px;
                                             }
+                                            .width-textArea {  
+                                                width: 200px !important;  
+                                                max-width: 150px !important;  
+                                                word-wrap: break-word;
+                                           }
                                         }
                                     }
                                 }
@@ -339,8 +358,8 @@
             }
         }
         .max-width{width: 90%;}
-        .max-width-box{width: 77%; height: 30px;}
-        .max-width-box-c{width: 80%;}
+        .max-width-box{width: 85%; height: 30px;}
+        .max-width-box-c{width: 100%;}
         .input-group.prefix--field .input-group-prepend .input-group-text{
             border: 1px solid #CCC;
             background-color: #F5F6F9 !important;
@@ -442,10 +461,15 @@
         .mat-expansion-panel-header-title{
             flex-grow: 1 !important;
             font-family: 'Nunito Sans';
-        }   
+        }  
+        .max-width-box{width: 84% !important;} 
     }      
 }
-@media only screen and (min-width: 1441px) and (max-width: 1550px){}
+
+@media only screen and (min-width: 1441px) and (max-width: 1550px){
+    .max-width-box-c{width: 94% !important;} 
+    .max-width-box{width: 80% !important;} 
+}
 @media screen and (orientation:landscape) and (max-width: 850px){
     .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
         padding: 5px 5px 0px 0 !important;
@@ -455,8 +479,8 @@
 .gap-10{gap: 10px;}
 .min-h{min-height: 50px;}
 .wb-ba{word-break: break-all;}
-
+.mt-6{margin-top: 2.1rem;}
 .wb-ba-field{
     word-break: break-all;
-    width: 200px;
+    width: 250px;
 }
