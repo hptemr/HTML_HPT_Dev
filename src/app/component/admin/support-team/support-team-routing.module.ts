@@ -27,7 +27,7 @@ const routes: Routes = [
     component: AppointmentRequestsComponent
   },
   {
-    path: 'appointments',
+    path: 'cases',
     component: AppointmentsComponent
   },
   {

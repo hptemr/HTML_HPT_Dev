@@ -126,8 +126,13 @@ export class AppointmentDetailsComponent implements OnInit {
   public userRole: string;
   model: NgbDateStruct;
   appointment: any = null
-  activeUserRoute = "/" + this.commonService.getLoggedInRoute() + "/"
+  activeUserRoute = this.commonService.getLoggedInRoute()
 
+  displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private appointmentService: AppointmentService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -139,6 +144,7 @@ export class AppointmentDetailsComponent implements OnInit {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
     this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
+
     // if (this.userRole == 'support_team') {
     //   this.isFormEditable = true
     // } else {
@@ -148,6 +154,10 @@ export class AppointmentDetailsComponent implements OnInit {
     // this.getTherapistList()
   }
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
  
   async getAppointmentDetails() {
     if (this.appointmentId) {
@@ -179,7 +189,6 @@ export class AppointmentDetailsComponent implements OnInit {
           
           //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
           
-          console.log('app>>>>>>>>>>>',this.appointment)
         }
       })
     }
@@ -204,7 +213,6 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   caseNoteModal() {
-
     const dialogRef = this.dialog.open(CaseNoteModalComponent,{
        panelClass: [ 'custom-alert-container','modal--wrapper'],
       data : {
@@ -221,23 +229,17 @@ export class AppointmentDetailsComponent implements OnInit {
     });
   } 
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) { 
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
-    /** Announce the change in sort state for assistive technology. */
-    announceSortChange(sortState: Sort) { 
-      if (sortState.direction) {
-        this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-      } else {
-        this._liveAnnouncer.announce('Sorting cleared');
-      }
-    }
-  displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  // navigateToappointmentDetails(requestId: string) {
+  //   this.router.navigate([this.commonService.getLoggedInRoute(), 'create-request-appointment',requestId]);
+  // }
 
 }

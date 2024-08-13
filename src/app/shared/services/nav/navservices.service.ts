@@ -333,11 +333,11 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 2,
-          activeMenu: 'appointments',
+          activeMenu: 'cases',
           icon: 'pending_actions',
-          mainTitle: 'Appointments',
+          mainTitle: 'Cases',
           headTitle1: '',
-          path: '/support-team/appointments',
+          path: '/support-team/cases',
           active: false,
           type: 'link',
           item: []

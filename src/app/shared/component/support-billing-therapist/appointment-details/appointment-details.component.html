@@ -105,9 +105,10 @@
                 </div>
                 <div class="col-12 col-sm-10 col-lg-10 mb-2">
                     <div class="d-flex flex-row flex-wrap gap-10">
-                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/initial-examination/subjective/',appointmentId]">
+                      
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
-                            Initial Examination
+                            Initial Examination 
                         </button>
                         <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/daily-notes/subjective/',appointmentId]">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
