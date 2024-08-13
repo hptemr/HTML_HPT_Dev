@@ -7,83 +7,62 @@ import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 export interface PeriodicElement {
-  username: string; 
+  docCredentials: string; 
   npi: string;
-  status: string;  
+  docName: string;  
   createdAt: string;
-  state: string; 
-  city: string;
-  office_fax: string;  
-  office_phone: string;
-  action: string;  
+  updatedOn: string;
+  action: string; 
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {
-    username: 'Doc 1 Test',
+    docName: 'Doc 1 Test',
+    docCredentials:'123',
     npi: '1888945196',
-    status: 'Active',
     createdAt: '07/22/2024',
-    state: 'California',
-    city: 'Fresno',
-    office_fax: '(559) 558 8183',
-    office_phone: '(559) 746 9605',
-    action: ''
+    updatedOn: '07/24/2024',
+    action: '',
   },
   {
-    username: 'Doc 2 Test',
-    npi: '1797775531',
-    status: 'Active',
-    createdAt: '07/22/2024',
-    state: 'California',
-    city: 'San Francisco',
-    office_fax: '(415) 751 1414',
-    office_phone: '(415) 751 4914',
-    action: ''
-  },
-  {
-    username: 'Doc 3 Test',
-    npi: '1187688155',
-    status: 'Active',
-    createdAt: '07/22/2024',
-    state: 'California',
-    city: 'Oakland',
-    office_fax: '(510) 832 6061',
-    office_phone: '(510) 465 5523',
-    action: ''
-  },
-  {
-    username: 'Doc 4 Test',
+    docName: 'Doc 2 Test',
+    docCredentials:'123',
     npi: '1888945196',
-    status: 'Active',
     createdAt: '07/22/2024',
-    state: 'California',
-    city: 'Fresno',
-    office_fax: '(559) 558 8183',
-    office_phone: '(559) 746 9605',
-    action: ''
+    updatedOn: '07/24/2024',
+    action: '',
   },
   {
-    username: 'Doc 5 Test',
-    npi: '1797775531',
-    status: 'Active',
+    docName: 'Doc 3 Test',
+    docCredentials:'123',
+    npi: '1888945196',
     createdAt: '07/22/2024',
-    state: 'California',
-    city: 'San Francisco',
-    office_fax: '(415) 751 1414',
-    office_phone: '(415) 751 4914',
-    action: ''
+    updatedOn: '07/24/2024',
+    action: '',
   },
   {
-    username: 'Doc 6 Test',
-    npi: '1187688155',
-    status: 'Active',
+    docName: 'Doc 4 Test',
+    docCredentials:'123',
+    npi: '1888945196',
     createdAt: '07/22/2024',
-    state: 'California',
-    city: 'Oakland',
-    office_fax: '(510) 832 6061',
-    office_phone: '(510) 465 5523',
-    action: ''
+    updatedOn: '07/24/2024',
+    action: '',
+  },
+  {
+    docName: 'Doc 5 Test',
+    docCredentials:'123',
+    npi: '1888945196',
+    createdAt: '07/22/2024',
+    updatedOn: '07/24/2024',
+    action: '',
+  },
+  {
+    docName: 'Doc 6 Test',
+    docCredentials:'123',
+    npi: '1888945196',
+    createdAt: '07/22/2024',
+    updatedOn: '07/24/2024',
+    action: '',
   },
 ]
 
@@ -93,7 +72,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './provider-management.component.scss'
 })
 export class ProviderManagementComponent {
-  displayedColumns: string[] = ['username', 'npi', 'status', 'createdAt','state','city','office_fax','office_phone','action'];
+  displayedColumns: string[] = ['docCredentials', 'docName', 'npi', 'createdAt','updatedOn','action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}

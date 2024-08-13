@@ -1,7 +1,6 @@
 ::ng-deep{
     .provider--mat--table--wrapper{
         .provider--mat--table{
-            // min-width: 1140px;
             thead{
                 tr{
                     th{
@@ -25,10 +24,10 @@
         }
     }
 }
-@media only screen and (max-width: 1370px){
+@media only screen and (max-width: 780px){
     .provider--mat--table--wrapper{
         .provider--mat--table{
-            min-width: 1140px;
+            min-width: 720px;
         }
     }
 }

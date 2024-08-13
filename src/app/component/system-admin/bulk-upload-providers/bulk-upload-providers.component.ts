@@ -9,9 +9,11 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 export interface PeriodicElement {
   docCredentials: string; 
   npi: string;
-  docName: string;  
-  createdAt: string;
-  updatedOn: string; 
+  docName: string;
+  address: string;  
+  phoneNumber: string;
+  faxNumber: string; 
+  errorText: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -19,43 +21,55 @@ const ELEMENT_DATA: PeriodicElement[] = [
     docName: 'Doc 1 Test',
     docCredentials:'123',
     npi: '1888945196',
-    createdAt: '07/22/2024',
-    updatedOn: '07/24/2024',
+    phoneNumber: '9933556677',
+    faxNumber: '9933556677',
+    address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+    errorText: 'No Error',
   },
   {
     docName: 'Doc 2 Test',
     docCredentials:'123',
     npi: '1888945196',
-    createdAt: '07/22/2024',
-    updatedOn: '07/24/2024',
+    phoneNumber: '9933556677',
+    faxNumber: '9933556677',
+    address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+    errorText: 'No Error',
   },
   {
     docName: 'Doc 3 Test',
     docCredentials:'123',
     npi: '1888945196',
-    createdAt: '07/22/2024',
-    updatedOn: '07/24/2024',
+    phoneNumber: '9933556677',
+    faxNumber: '9933556677',
+    address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+    errorText: 'No Error',
   },
   {
     docName: 'Doc 4 Test',
     docCredentials:'123',
     npi: '1888945196',
-    createdAt: '07/22/2024',
-    updatedOn: '07/24/2024',
+    phoneNumber: '9933556677',
+    faxNumber: '9933556677',
+    address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+    errorText: 'No Error',
   },
   {
     docName: 'Doc 5 Test',
     docCredentials:'123',
     npi: '1888945196',
-    createdAt: '07/22/2024',
-    updatedOn: '07/24/2024',
+    phoneNumber: '9933556677',
+    faxNumber: '9933556677',
+    address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+    errorText: 'No Error',
   },
   {
     docName: 'Doc 6 Test',
     docCredentials:'123',
     npi: '1888945196',
-    createdAt: '07/22/2024',
-    updatedOn: '07/24/2024',
+    phoneNumber: '9933556677',
+    faxNumber: '9933556677',
+    address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+    errorText: 'No Error',
   },
 ]
 
@@ -65,7 +79,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './bulk-upload-providers.component.scss'
 })
 export class BulkUploadProvidersComponent {
-  displayedColumns: string[] = ['docCredentials', 'docName', 'npi', 'createdAt','updatedOn'];
+  displayedColumns: string[] = ['docCredentials', 'docName', 'npi','address', 'phoneNumber','faxNumber','errorText'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
