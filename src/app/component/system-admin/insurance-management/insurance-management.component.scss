@@ -1,0 +1,33 @@
+::ng-deep{
+    .insurance--mat--table--wrapper{
+        .insurance--mat--table{
+            thead{
+                tr{
+                    th{
+                        font-size: 16px;
+                        font-weight: 700;
+                        color: #1F2F3E;
+                        font-family: "Nunito Sans", sans-serif !important;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: #1F2F3E;
+                        font-family: "Nunito Sans", sans-serif !important;
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-width: 780px){
+    .insurance--mat--table--wrapper{
+        .insurance--mat--table{
+            min-width: 760px;
+        }
+    }
+}

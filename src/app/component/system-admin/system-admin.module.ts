@@ -31,6 +31,8 @@ import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-d
 import { ProviderManagementComponent } from './provider-management/provider-management.component';
 import { BulkUploadProvidersComponent } from './bulk-upload-providers/bulk-upload-providers.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { InsuranceManagementComponent } from './insurance-management/insurance-management.component';
+import { UploadInsurancesComponent } from './upload-insurances/upload-insurances.component';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import { MatChipsModule } from '@angular/material/chips';
     AddFolderModalComponent,
     UploadDocumentsModalComponent,
     ProviderManagementComponent,
-    BulkUploadProvidersComponent
+    BulkUploadProvidersComponent,
+    InsuranceManagementComponent,
+    UploadInsurancesComponent
   ],
   imports: [
     CommonModule,

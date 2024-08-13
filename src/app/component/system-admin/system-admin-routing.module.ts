@@ -22,6 +22,8 @@ import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/man
 import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
 import { ProviderManagementComponent } from './provider-management/provider-management.component';
 import { BulkUploadProvidersComponent } from './bulk-upload-providers/bulk-upload-providers.component';
+import { InsuranceManagementComponent } from './insurance-management/insurance-management.component';
+import { UploadInsurancesComponent } from './upload-insurances/upload-insurances.component';
 
 const routes: Routes = [
   {
@@ -122,6 +124,14 @@ const routes: Routes = [
   {
     path: 'bulk-upload-providers',
     component:BulkUploadProvidersComponent   
+  },
+  {
+    path: 'insurance-management',
+    component:InsuranceManagementComponent   
+  },
+  {
+    path: 'upload-insurances',
+    component:UploadInsurancesComponent   
   },
 ];
 

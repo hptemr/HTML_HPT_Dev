@@ -1,4 +1,4 @@
-.bulk-upload-wrapper{
+.insurance-upload-wrapper{
     .upload--files{
         border-radius: 20px;
         border: 2px dashed #31B7B7;
@@ -34,8 +34,8 @@
         margin: 18px 0;
     }
     ::ng-deep{
-        .bulk--upload--provider--wrapper{
-            .bulk--upload--provider--mat--table{
+        .bulk--upload--insurance--wrapper{
+            .bulk--upload--insurance--mat--table{
                 //  min-width: 1230px;
                 thead{
                     tr{
@@ -62,10 +62,10 @@
     }
 }
 @media only screen and (max-width: 1440px){
-    .bulk-upload-wrapper{
-        .bulk--upload--provider--wrapper{
-            .bulk--upload--provider--mat--table{
-                min-width: 1230px;
+    .insurance-upload-wrapper{
+        .bulk--upload--insurance--wrapper{
+            .bulk--upload--insurance--mat--table{
+                min-width: 1320px;
             }
         }
     }

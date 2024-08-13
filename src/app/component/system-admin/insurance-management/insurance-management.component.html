@@ -1,0 +1,97 @@
+<div class="col-12">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center flex-wrap justify-content-between">
+                <h3 class="mb-2 clr--1F2F3E">Insurances Management</h3>
+                <button mat-raised-button color="primary" class="intake-btn mb-2"  [routerLink]="['/system-admin/upload-insurances']">
+                    Upload Insurances
+                </button>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="row d-flex align-items-end">
+                    <div class="col-12 col-lg-4 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control search--outer" placeholder="Search by Insurance Name">
+                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                            </button>
+                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 col-md-6 col-xl-4 d-flex justify-content-lg-center">
+                        <div class="form-group">
+                            <label class="font-16 fw-700">Total Insurances: 28</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Filter by Insurance Type</label>
+                            <select class="form-select form-control" aria-label="Default select example">
+                                <option>Select</option>
+                                <option value="1">Medicare</option>
+                                <option value="2">Medicaid</option>
+                                <option value="3">Tricare</option>
+                                <option value="4">CHAMPVA</option>
+                                <option value="5">Group Health Plan</option>
+                                <option value="6">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-12 insurance--mat--table--wrapper overflow-auto">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="insurance--mat--table">
+                <!-- Referring Doctor Credentials -->
+                <ng-container matColumnDef="primaryInsuranceName">
+                    <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Primary Insurance Name</th>
+                    <td mat-cell *matCellDef="let element" class=""> {{element.primaryInsuranceName}} </td>
+                </ng-container>
+                
+                <!--Referring Doctor Name -->
+                <ng-container matColumnDef="insuranceType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NPI">Insurance Type</th>
+                    <td mat-cell *matCellDef="let element"> {{element.insuranceType}} </td>
+                </ng-container>
+                
+                <!-- Added on -->
+                <ng-container matColumnDef="createdAt">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Added On"> Added On</th>
+                    <td mat-cell *matCellDef="let element"> {{element?.createdAt ? (element?.createdAt | date: 'MM/dd/yyyy') : '--'}} </td>
+                </ng-container>
+
+                <!-- Updated on -->
+                <ng-container matColumnDef="updatedOn">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state"> Updated on
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{element.updatedOn}}</td>
+                </ng-container>
+                
+                <!-- Actions Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <!-- <button mat-menu-item>
+                                <mat-icon class="text-primary">{{element.status=='Inactive' ? 'refresh' : 'block'}}</mat-icon>
+                                <span class="fw-600">{{element.status=='Inactive' ? 'Reactivate' : 'Inactivate'}}</span>
+                            </button> -->
+                            <button mat-menu-item >
+                                <mat-icon class="text-danger">delete</mat-icon>
+                                <span class="fw-600">Delete</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+        </div>
+    </div>
+</div>
