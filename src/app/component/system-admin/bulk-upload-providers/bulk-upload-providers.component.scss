@@ -61,3 +61,21 @@
         }
     }
 }
+@media only screen and (min-width: 320px) and (max-width: 759px){
+    .bulk-upload-wrapper{
+        .bulk--upload--provider--wrapper{
+            .bulk--upload--provider--mat--table{
+                min-width: 720px;
+            }
+        }
+    }
+}
+@media only screen and (min-width: 760px) and (max-width: 1024px){
+    .bulk-upload-wrapper{
+        .bulk--upload--provider--wrapper{
+            .bulk--upload--provider--mat--table{
+                min-width: 970px;
+            }
+        }
+    }
+}

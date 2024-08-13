@@ -77,7 +77,7 @@
                 <div class="col-12">
                     <div class="divider"></div>
                 </div>
-                <div class="col-12 bulk--upload--provider--wrapper">
+                <div class="col-12 bulk--upload--provider--wrapper overflow-auto">
                     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="bulk--upload--provider--mat--table">
                         <!-- Referring Doctor Credentials -->
                         <ng-container matColumnDef="docCredentials">
