@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 
 const appointmentSchema = new mongoose.Schema({
     status: { type: String, enum: ['Pending', 'Active', 'Rescheduled', 'Accepted', 'Declined', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
+    requestId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "appointment_requests"
+    },
     patientId: {
         type: mongoose.Schema.ObjectId,
         ref: "patients"

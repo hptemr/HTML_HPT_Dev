@@ -63,16 +63,70 @@ const getAppointmentRequestList = async (req, res) => {
 const getAppointmentRequestDetails = async (req, res) => {
     try {
         const { query, fields, patientFields } = req.body;
+        
         let appointmentRequestData = await AppointmentRequest.findOne(query, fields)
             .populate('patientId', patientFields);
 
-        commonHelper.sendResponse(res, 'success', { appointmentRequestData }, '');
+        let appointmentData = await Appointment.findOne({requestId:query._id}, { appointmentId: 1,therapistId:1,patientId:1,caseName:1,appointmentDate:1,practiceLocation:1,status:1 })
+
+        let output = await Appointment.find({ caseName: { $ne: '' } }, { patientId:1,caseName: 1 });
+
+        let caseNameList = output.filter((obj) => {
+            return (obj.caseName);
+        });
+
+        commonHelper.sendResponse(res, 'success', { appointmentRequestData,appointmentData,caseNameList }, '');
     } catch (error) {
         console.log("********Appointment Request Details***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
 
+
+const createAppointment = async (req, res) => {
+    try {
+        const { data,userId,requestId } = req.body;
+        const filterRequest = { _id:requestId };
+        const updateRequest = {
+          $set: {
+              status: 'Accepted',
+          }
+        };
+        await AppointmentRequest.findOneAndUpdate(filterRequest, updateRequest);
+        let alreadyFound = await Appointment.findOne({requestId:requestId}, { appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
+        let existingAppointmentData = alreadyFound;
+        if(!existingAppointmentData){
+            existingAppointmentData = await Appointment.findOne({}, { appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
+        }
+
+        let appointmentData = {
+            appointmentId:existingAppointmentData.appointmentId + 1,
+            caseName: data.caseName=='Other' ? data.caseNameOther : data.caseName,
+            appointmentDate: data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
+            practiceLocation: data.practiceLocation,
+            therapistId: data.therapistId ? data.therapistId : '',
+            patientId: data.patientId,
+            requestId:requestId,
+            acceptInfo:{fromAdminId:userId}
+        }
+       
+        let result = [];let msg = '';
+        if(!alreadyFound){
+            let newRecord = new Appointment(appointmentData)
+            result = await newRecord.save()
+            msg = appointmentMessage.created;
+        }else{
+            msg = appointmentMessage.updated;
+            result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);
+        }
+        
+       //triggerEmail.patientSignupThroughRefferal('patientSignUpThroughRefferal', patientRes.patientData, link)
+        commonHelper.sendResponse(res, 'success', result, msg);
+      } catch (error) {
+        console.log("error>>>", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+      }
+  }
 
 const getAppointmentDetails = async (req, res) => {
     try {
@@ -315,5 +369,6 @@ module.exports = {
     rescheduleAppointment,
     download,
     getAppointmentRequestList,
-    getAppointmentRequestDetails
+    getAppointmentRequestDetails,
+    createAppointment
 };

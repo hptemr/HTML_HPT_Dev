@@ -15,5 +15,5 @@ router.post('/download', appointmentController.download);
 router.post('/createAppointmentRequest', appointmentController.createAppointmentRequest);
 router.post('/getAppointmentRequestList', appointmentController.getAppointmentRequestList); 
 router.post('/getAppointmentRequestDetails', appointmentController.getAppointmentRequestDetails); 
-
+router.post('/createAppointment', appointmentController.createAppointment);
 module.exports = router;
