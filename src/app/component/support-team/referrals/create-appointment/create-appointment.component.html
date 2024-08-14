@@ -104,13 +104,19 @@
             <div class="col-12 col-lg-6 col-md-6 mt-2">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Appointment Date & Time <span class="clr--DF0404 ms-1"> * </span></label>
-                    <div class="input-group">
+                    <!-- Old Date Picker -->
+                    <!-- <div class="input-group">
                       <input class="form-control text-capitalize" placeholder="Select Date" name="dp" [(ngModel)]="model"
                         ngbDatepicker #d="ngbDatepicker" />
                       <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                         type="button">
                         <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                       </button>
+                    </div> -->
+
+                    <!--Added New Date and Time Picker -->
+                    <div class="input-group">
+                        <input class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local" value="2023-01-19T18:45:00">
                     </div>
                   </div>
             </div> 
