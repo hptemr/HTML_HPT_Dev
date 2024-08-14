@@ -80,13 +80,13 @@
 
                         .select-info{ 
                             .form-control{ 
-                                width: 140px !important;
+                                width: 140px;
                              } 
                         }
                         .doctor-filed{
                             ::ng-deep{
                                 .mat-mdc-text-field-wrapper {
-                                  width: 160px !important;
+                                  width: 160px;
                                 }
                             }
                         }
@@ -121,6 +121,9 @@
                             flex-grow: 6;
                             gap: 10px;
                             justify-content: end;
+                        }
+                        .profile--row{
+                            gap: 8px;
                         }
                         .profile--img--box{
                             .img--box{
@@ -463,13 +466,38 @@
             font-family: 'Nunito Sans';
         }  
         .max-width-box{width: 84% !important;} 
+        .profile--row{
+            gap: 11px !important;
+        }
     }      
 }
 
 @media only screen and (min-width: 1441px) and (max-width: 1550px){
     .max-width-box-c{width: 94% !important;} 
     .max-width-box{width: 80% !important;} 
+    .profile--row{
+        gap: 16px !important;
+    }
 }
+
+@media only screen and (min-width: 1920px) and (max-width: 2560px)  {
+    .select-info{ 
+        .form-control{ 
+            width: 85% !important;
+         } 
+    }
+
+    .doctor-filed{
+        ::ng-deep{
+            .mat-mdc-text-field-wrapper {
+              width: 216px !important;
+            }
+        }
+    }
+
+    .max-width-box-c{width: 93% !important;}
+}
+
 @media screen and (orientation:landscape) and (max-width: 850px){
     .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
         padding: 5px 5px 0px 0 !important;
@@ -483,4 +511,7 @@
 .wb-ba-field{
     word-break: break-all;
     width: 250px;
+}
+.w-11{
+    width: 11%;
 }
