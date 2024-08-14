@@ -14,6 +14,11 @@
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
+
+                    <!-- Added New Date and Time Picker -->
+                    <!-- <div class="input-group">
+                            <input class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local" value="2023-01-19T18:45:00">
+                        </div> -->
                 </div>
                 <div class="text text-danger mt-1" *ngIf="requestAppointmentForm.controls['appointmentDate'].touched && requestAppointmentForm.controls['appointmentDate'].hasError('required')">
                     {{ validationMessages.requiredDropdown('Appointment Date') }}
