@@ -172,22 +172,39 @@ export class NavservicesService {
     {
       id: 6,
       icon: 'dashboard',
-      mainTitle: 'Provider Management',
+      mainTitle: 'Doctors Management',
       headTitle1: '',
       path: '/system-admin/provider-management',
       active: false, 
       item: [ 
         {
-          title: 'Provider Management',
+          title: 'Doctors Management',
           icon: 'dashboard',
           type: 'link',
           active: false,
           path: '/system-admin/provider-management', 
         },
       ]
-    },  
+    },
     {
       id: 7,
+      icon: 'healing',
+      mainTitle: 'Insurance Management',
+      headTitle1: '',
+      path: '/system-admin/insurance-management',
+      active: false, 
+      item: [ 
+        {
+          title: 'Insurance Management',
+          icon: 'healing',
+          type: 'link',
+          active: false,
+          path: '/system-admin/insurance-management', 
+        },
+      ]
+    },  
+    {
+      id: 8,
       icon: 'people_outline',
       mainTitle: 'Manage Profile',  
       headTitle1: '',
