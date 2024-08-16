@@ -143,6 +143,60 @@ const appointmentBookedThroughRefferal = async (templateName, patientData) => {
     } 
 }
 
+//Email sent to ST from patient after creating the request from patient
+const appointmentRequestReceivedFromPatient = async (templateName, adminData,patientData, link) => {
+    try {
+        sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
+            if (template && adminData && patientData) {
+                let params = {
+                "{firstName}":adminData.firstName,
+                "{patientName}": patientData.firstName+' '+patientData.lastName,
+                "{link}": link,
+                "{BASE_URL}":process.env.BASE_URL
+                }
+                var mailOptions = {
+                    to: [adminData.email],
+                    cc: ['rohini+1001@arkenea.com'],
+                    subject: template.mail_subject,
+                    html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                }            
+                sendEmailServices.sendEmail(mailOptions)
+            } else {
+                console.log("Templete not found >>>>")
+            }
+        })
+    } catch (error) {
+        console.log("appointmentRequestReceivedFromPatient error>>>>",error)
+    } 
+}
+
+//Email sent to patient from ST after accepting/rejecting the appoitment request
+const appointmentRequestReplyFromAdmin = async (templateName, patientData, link) => {
+    try {
+        sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
+            if (template && patientData) {
+                let params = {
+                "{patientName}": patientData.firstName+' '+patientData.lastName,
+                "{link}": link,
+                "{BASE_URL}":process.env.BASE_URL
+                }
+                var mailOptions = {
+                    to: [patientData.email],
+                    cc: ['rohini+1001@arkenea.com'],
+                    subject: template.mail_subject,
+                    html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                }
+                
+                sendEmailServices.sendEmail(mailOptions)
+            } else {
+                console.log("Templete not found >>>>")
+            }
+        })
+    } catch (error) {
+        console.log("appointmentRequestReceivedFromPatient error>>>>",error)
+    } 
+}
+
 
 module.exports = {
     inviteAdmin,
@@ -150,5 +204,7 @@ module.exports = {
     resetPassword,
     patientSignup,
     patientSignupThroughRefferal,
-    appointmentBookedThroughRefferal
+    appointmentBookedThroughRefferal,
+    appointmentRequestReceivedFromPatient,
+    appointmentRequestReplyFromAdmin
 };
