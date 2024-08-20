@@ -20,6 +20,7 @@ import { DocumentListingComponent } from 'src/app/shared/component/support-billi
 import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
+import { CaseDetailsComponent } from './case-details/case-details.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'appointment-details/:appointmentId',
     component: AppointmentDetailsComponent
+  },
+  {
+    path: 'case-details/:appointmentId',
+    component: CaseDetailsComponent
   },
   {
     path: 'intake-form',

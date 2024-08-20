@@ -8,6 +8,7 @@ import { RequestsComponent } from './requests/requests.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { CaseDetailsComponent } from './case-details/case-details.component';
 @NgModule({
   declarations: [ 
     // AppointmentsComponent,
@@ -17,7 +18,8 @@ import { MaterialModule } from 'src/app/shared/material.module';
     // PatientProfileComponent,
     RequestsComponent,
     CreateAppointmentComponent,
-    CreateRequestAppointmentComponent
+    CreateRequestAppointmentComponent,
+    CaseDetailsComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,486 @@
+.app--details--wrapper{
+    &.profile--right--wrapper{ 
+        .card{
+            .card-header {
+                padding: 5px 40px 18px 40px;
+            }
+            .card-body {
+                padding-right: 15px;
+                margin-top: 20px;
+                padding-bottom: 10px;
+            }
+            .profile--left{
+                padding-bottom: 15px;
+                .head--sec{
+                    height: 67px;
+                }
+            }
+            .profile--round{
+                width: 85px;
+                height: 85px; 
+                margin: -45px auto 18px auto; 
+                .user--name{
+                    border-radius: 100%;
+                    border: 1px solid #31B7B7;
+                    width: 85px;
+                    height: 85px;
+                    background-color: #fff;
+                    span{
+                        font-size: 32px;
+                    }
+                } 
+            }
+            .body--sec{
+                padding: 0 5px !important; 
+                .user--email{
+                    .mat-icon{
+                        width: 16px;
+                        height: 16px;
+                        font-size: 16px;
+                        margin-right: 5px !important;
+                    }
+                    p{
+                        word-break: break-all;
+                        line-height: 16px;
+                    }
+                }
+                .mp--btn{
+                    min-width: 184px;
+                    margin-top: 10px;
+                }
+            }
+            .profile--right{
+                margin-left: 0px;
+                padding-left: 0px;
+                border-left: none;
+                .appointment-information-header-wrapper{
+                        .mat-expansion-panel{
+                            border-radius: 12px !important;
+                            background: #FFF !important;
+                            box-shadow: -3px 9px 32px 0px #9fa2bf26 !important;
+                            &:hover{
+                                background-color: #FFF !important;
+                            }
+                        }
+                        .form-control{
+                            border: 1px solid #CCC;
+                            background-color: #fff !important;
+                            padding: 3px 10px;
+                            height:34px;
+                        }
+                        .badge{
+                            background-color: #F2F2F2; 
+                            padding: 4px 8px;
+                            text-align: center;
+                            border-radius: 5px;
+                            color: #DF0404; 
+                            border-radius: 0px;
+                            font-family: "Nunito Sans", sans-serif !important;
+                        }
+
+                        .select-info{ 
+                            .form-control{ 
+                                width: 140px !important;
+                             } 
+                        }
+                        .doctor-filed{
+                            ::ng-deep{
+                                .mat-mdc-text-field-wrapper {
+                                  width: 160px !important;
+                                }
+                            }
+                        }
+                    .exp-class{
+                        ::ng-deep{ 
+                            .mat-expansion-panel-body{
+                                padding: 5px 24px 5px 24px !important;
+                                 .last--col{
+                                    gap: 9px;
+                                 }
+                            }
+                            .mat-expansion-indicator::after{
+                                color: #31B7B7 !important;
+                                padding: 5px !important;
+                            }
+                        }
+                        .mat-expansion-panel-header{
+                            padding: 5px 24px 5px 24px;
+                            &:hover{
+                                background-color: #fff !important;
+                            }
+                        }
+                        .mat-expansion-panel-header-title{
+                            flex-grow: 4;
+                            font-family: 'Nunito Sans';
+                            span{
+                                color: #DF0404;
+                                background-color: #F2F2F2;
+                            }
+                        }
+                        .mat-expansion-panel-header-description{
+                            flex-grow: 6;
+                            gap: 10px;
+                            justify-content: end;
+                        }
+                        .profile--img--box{
+                            .img--box{
+                                width: 80px;
+                                height: 80px;
+                                border-radius: 100%;
+                                overflow: hidden;
+                                margin-right: 5px;
+                            }
+                        }
+                    }
+
+                    ::ng-deep{
+                        .mat-mdc-text-field-wrapper {
+                            border: 1px solid #CCC !important;
+                            background-color: #F5F6F9 !important;
+                            max-height: 39px;
+                            height: 43px ;
+                        }
+                        .mat-mdc-form-field-infix{
+                            min-height: 38px !important;
+                            padding-top: 7px !important;
+                            padding-bottom: 7px !important;
+                        }
+                        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__leading,.mdc-notched-outline__trailing{
+                            border: none !important;
+                        }
+                        .mdc-text-field__input{
+                            font-size: 14px;
+                            color: #212529;
+                            box-shadow: none;
+                            transition: all 0.3s ease;
+                        }
+                        .mat-mdc-icon-button.mat-mdc-button-base{
+                            color: #fff !important;
+                            background: #31B7B7 !important;
+                            border-radius: inherit !important;
+                            height: 38px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+                }
+                .card-body{
+                    padding-bottom: 0;
+                    .protocol--links{
+                        li{
+                            padding: 5px 10px;
+                            .close--btn{
+                                .mat-icon{
+                                    width: 22px;
+                                    height: 22px;
+                                    font-size: 22px;
+                                    color: #DF0404 !important;
+                                }
+                            }
+                        }
+                    }
+                }
+               
+            }
+            .divider{
+                border-top: 1px solid  rgba(49, 184, 184, 0.30);;
+                margin: 18px 0;
+            }
+            .notes--table{
+                border: 1px solid #31B7B7;
+                border-radius: 10px;
+                padding: 12px;
+                background-color: #F3FBFB;
+                .search--fields{
+                    position: absolute;
+                    top: -2px;
+                    right: 4px;
+                    .mat-icon{
+                        font-size: 19px;
+                        width: 19px;
+                        height: 19px;
+                        color: #1F2F3E;
+                    }
+                } 
+                .form-group {
+                    margin-bottom: 0px; 
+                    .search--outer{
+                        padding: 3px 10px !important;
+                        font-family: "Nunito Sans" !important;
+                        font-size: 14px;
+                        font-weight: 400;
+                        letter-spacing: -0.14px;
+                        color: #1F2F3E;
+                        padding-right: 40px !important; 
+                        background-color: #F5F6F9 !important;
+                        border: 1px solid #CCC;
+                        padding: 8px 10px;
+                        height: 40px !important; 
+                    }
+                
+                    .search--fields{
+                        position: absolute;
+                        top: 3px;
+                        right: 4px;
+                        height: 36px;
+                        .mat-icon {
+                            font-size: 23px !important;
+                            width: 23px !important;
+                            height: 23px !important;
+                            color: #1F2F3E;
+                        }
+                        
+                    }
+                }
+                .input-group.prefix--field .input-group-prepend .input-group-text{
+                    border: 1px solid #CCC;
+                    background-color: #F5F6F9 !important;
+                    padding: 3px 10px;
+                    height: 34px;
+                }
+
+                ::ng-deep{
+                    .mat-mdc-text-field-wrapper {
+                        border: 1px solid #CCC !important;
+                        background-color: #F5F6F9 !important;
+                        max-height: 39px;
+                    }
+                    .mat-mdc-form-field-infix{
+                        min-height: 38px !important;
+                        padding-top: 7px !important;
+                        padding-bottom: 7px !important;
+                    }
+                    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__leading,.mdc-notched-outline__trailing{
+                        border: none !important;
+                    }
+                    .mdc-text-field__input{
+                        font-size: 14px;
+                        color: #212529;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                    }
+                    .mat-mdc-icon-button.mat-mdc-button-base{
+                        color: #fff !important;
+                        background: #31B7B7 !important;
+                        border-radius: inherit !important;
+                        height: 38px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+                .cust--mat--table--wrapper{
+                    .cust--mat--table{
+                        &.mat-mdc-table{
+                        background-color: transparent;
+                            ::ng-deep{ 
+                                thead {
+                                        tr {
+                                            th {
+                                                font-size: 16px;
+                                                font-weight: 700;
+                                                color: #1F2F3E;
+                                                font-family: "Nunito Sans", sans-serif !important;
+                                                padding: 10px;
+                                                &:first-child{
+                                                    width: 200px !important;
+                                                    max-width: 200px !important;
+                                                    word-break: break-all;
+                                                }
+                                                &:last-child{
+                                                    width: 9%;
+                                                } 
+                                                
+                                            }
+                                        }
+                                    } 
+                                tbody {
+                                    tr{
+                                        td{
+                                            padding: 10px !important;
+                                            font-size: 14px; 
+                                            &:first-child{
+                                                width: 200px !important;
+                                                max-width: 200px !important;
+                                                word-break: break-all;
+                                            }
+                                            .action--dd{
+                                                font-size: 12px;
+                                                height: 24px;
+                                                border-radius: 4px;
+                                                border-color:  rgba(51, 184, 184, 0.40); 
+                                                padding: 0 5px;
+                                                width: 240px;
+                                            }
+                                            .width-textArea {  
+                                                width: 200px !important;  
+                                                max-width: 150px !important;  
+                                                word-wrap: break-word;
+                                           }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .mat-mdc-button:disabled{
+                            .mat-icon{
+                                color: #CCCCCC !important;
+                            }
+                        }
+                        .icon-img{
+                            img{
+                                width: 18px;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            .home--exce{
+                margin-top: 30px;
+                .add--btn{
+                    min-width: 50px;
+                    padding: 0;
+                    margin-left: 15px;
+                }
+                .v--outer{
+                    overflow: auto;
+                    .v--box{ 
+                        border-radius: 10px 10px 0 0 ;
+                        overflow: hidden;
+                        margin-right: 15px;
+                    }
+                }
+            }
+            .mat-mdc-paginator{
+                background: transparent;
+            }
+        }
+        .max-width{width: 90%;}
+        .max-width-box{width: 85%; height: 30px;}
+        .max-width-box-c{width: 100%;}
+        .input-group.prefix--field .input-group-prepend .input-group-text{
+            border: 1px solid #CCC;
+            background-color: #F5F6F9 !important;
+            padding: 3px 10px;
+            height: 34px;
+        }
+    }
+    .mdc-button--outlined{
+        &.mat-primary{
+            background: #fff !important;
+        }
+    }
+
+    .share-point-wrapper{
+        border-radius: 12px;
+        background: #FFF;
+        box-shadow: -3px 9px 32px 0px rgba(159, 162, 191, 0.15);
+        padding:00 30px 7px 30px !important;
+
+        .green-icon{
+            margin: 10px 10px 10px 0px;
+        }
+    }
+} 
+
+ 
+@media only screen and (max-width: 599px) {
+    .app--details--wrapper.profile--right--wrapper .profile--right {
+        margin-left: 0 !important; 
+        padding-left: 0 !important;
+        .appointment-information-header-wrapper .exp-class {
+            .profile--img--box{
+                gap: 10px;
+            }
+            .mat-expansion-panel-header{
+                height: auto;
+                ::ng-deep{
+                    .mat-content{
+                        flex-direction: column !important;
+                        gap: 10px;
+                    }
+                }
+            }
+            .mat-expansion-panel-header-description{
+                flex-grow: 3;
+                flex-direction: column;
+                align-items: start !important;
+                gap: 10px;
+            }
+            // .mat-expansion-panel-header-description .intake-btn {
+            //     margin-right: 0px !important;
+            // }
+            .mat-mdc-checkbox {
+                margin-left: -10px !important;
+            }
+        }
+    }
+    .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
+        padding: 5px 5px 0px 0 !important;
+    }
+    .cust--mat--table--wrapper{ 
+        .cust--mat--table{
+            width: 906px;
+        }
+    }
+    .profile--right--wrapper .card{
+        .divider{
+            margin: 10px 0 !important;
+        }
+        .card-header{
+            padding: 10px 15px 0px 15px !important;
+        } 
+        .card-body{
+            margin-top: 0px !important;
+        }
+    }
+    .profile--right--wrapper .card .card-body .profile--right{
+        margin-top: 0px;
+    }
+    .min-h{min-height: 0px !important;}
+    .form-group{margin-bottom: 15px !important;}
+
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){
+    .cust--mat--table--wrapper{
+        overflow: auto;
+        .cust--mat--table{
+            width: 906px;
+        }
+    }
+    .min-h{min-height: 0px !important;}
+    .form-group{margin-bottom: 15px !important;}
+}
+@media only screen and (min-width: 980px) and (max-width: 1279px){
+    .form-group{margin-bottom: 15px !important;}
+}
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    .exp-class{ 
+        .mat-expansion-panel-header-title{
+            flex-grow: 1 !important;
+            font-family: 'Nunito Sans';
+        }  
+        .max-width-box{width: 84% !important;} 
+    }      
+}
+
+@media only screen and (min-width: 1441px) and (max-width: 1550px){
+    .max-width-box-c{width: 94% !important;} 
+    .max-width-box{width: 80% !important;} 
+}
+@media screen and (orientation:landscape) and (max-width: 850px){
+    .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
+        padding: 5px 5px 0px 0 !important;
+    }
+}
+
+.gap-10{gap: 10px;}
+.min-h{min-height: 50px;}
+.wb-ba{word-break: break-all;}
+.mt-6{margin-top: 2.1rem;}
+.wb-ba-field{
+    word-break: break-all;
+    width: 250px;
+}
