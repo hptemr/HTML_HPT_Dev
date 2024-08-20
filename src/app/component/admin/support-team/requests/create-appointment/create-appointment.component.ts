@@ -1,7 +1,7 @@
 import { Component,OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+//import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
@@ -19,7 +19,7 @@ import { practiceLocations, s3Details } from 'src/app/config';
 })
 export class CreateRequestAppointmentComponent {
   requestId: string;
-  model: NgbDateStruct;
+  model: any;//NgbDateStruct;
   selectedValue: number;
   therapistList:any=[];
   orderBy: any = { updatedAt: -1 }
@@ -32,6 +32,8 @@ export class CreateRequestAppointmentComponent {
   public userId: string;
   public userRole: string;
   btnName: string = 'Create';
+  minToDate: any = this.commonService.displayFormatDate(new Date(),true)
+  maxToDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
   statusFlag: string;
   patientId: string = '';
   profileImage: string = '';
@@ -161,19 +163,26 @@ export class CreateRequestAppointmentComponent {
           this.appointmentForm.controls['lastName'].setValue(this.appointmentRequestData.patientId?.lastName);
           this.appointmentForm.controls['email'].setValue(this.appointmentRequestData.patientId?.email);         
           this.appointmentForm.controls['phoneNumber'].setValue(this.appointmentRequestData.patientId?.phoneNumber);
-          this.appointmentForm.controls['appointmentDate'].setValue(this.appointmentDate);
+          
           this.appointmentForm.controls['practiceLocation'].setValue(this.location);
           this.appointmentForm.controls['therapistId'].setValue(therapistId);
           
-          if(this.appointmentDate){
-            let selected_date = this.datePipe.transform(this.appointmentDate, 'MM-dd-yyyy')
-            if(selected_date){
-              let dateObj = selected_date.split('-');
-              let dateArray = dateObj.map(Number);
-              let obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
-              this.model = obj;
-            }            
-          }
+          // if(this.appointmentDate){
+          //   let selected_date = this.datePipe.transform(this.appointmentDate, 'MM-dd-yyyy')
+          //   if(selected_date){
+          //     let dateObj = selected_date.split('-');
+          //     let dateArray = dateObj.map(Number);
+          //    // let obj = {'month':dateArray[0],'day':dateArray[1],'year':dateArray[2]};
+          //     this.model = '08/22/2024';//dateArray[0]+'/'+dateArray[1]+'/'+dateArray[2];
+          //   }            ISODate("2024-08-14T13:05:58.124+0000")
+          // }
+          //let selected_date = this.datePipe.transform(this.appointmentDate, 'MM-dd-yyyy T HH:MM')
+         // this.minToDate = '2024-08-16T00:00';//this.commonService.displayFormatDate(new Date(),true)
+        //  this.maxToDate = '2025-05-16T00:00';//this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
+
+
+          this.appointmentForm.controls['appointmentDate'].setValue(this.commonService.displayFormatDate(new Date(this.appointmentDate),false));
+          //console.log('>?>>>>>',this.minToDate,'>>> ' ,typeof this.minToDate,' ---- ',this.maxToDate,'>>> ' ,typeof this.maxToDate)
           this.appointment_flag = true;    
         }
       })
