@@ -24,7 +24,7 @@
                     <div class="col-12 col-sm-6 col-lg-4">
                         <div class="form-group">
                             <input [(ngModel)]="seachByName" (keyup)="searchRecords($event)" type="text"
-                                class="form-control search--outer" placeholder="Appointment #">
+                                class="form-control search--outer" placeholder="Case Name">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -49,7 +49,7 @@
                                 <mat-form-field class="w-100 am--datepicker">
                                     <input [(ngModel)]="fromDate" (dateChange)="onDateChange($event, 'fromDate')"
                                         readonly="isReadonly" [max]="maxFromDate" placeholder="From Date" matInput
-                                        [matDatepicker]="picker">
+                                        [matDatepicker]="picker" (focus)="picker.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
@@ -62,7 +62,7 @@
                                 <mat-form-field class="w-100 am--datepicker">
                                     <input [(ngModel)]="toDate" (dateChange)="onDateChange($event, 'toDate')"
                                         readonly="isReadonly" [min]="minToDate" [max]="maxToDate" placeholder="To Date"
-                                        matInput [matDatepicker]="picker2">
+                                        matInput [matDatepicker]="picker2" (focus)="picker2.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>

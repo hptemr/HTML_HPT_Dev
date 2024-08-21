@@ -123,7 +123,7 @@
 
                     <!-- Added New Date and Time Picker -->
                     <div class="input-group">
-                            <input class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local"  [min]="minToDate" [max]="maxToDate" formControlName="appointmentDate" placeholder="Select Date" >
+                            <input class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local"  [min]="minToDate" [max]="maxToDate" formControlName="appointmentDate" placeholder="Select Date" onfocus="this.showPicker()" >
                         </div>
                     </div>
                     <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
