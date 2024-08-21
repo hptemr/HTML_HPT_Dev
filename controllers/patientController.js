@@ -147,21 +147,37 @@ const signup = async (req, res) => {
 const getPatientList = async (req, res) => {
     try {
         const { queryMatch, fields, order, offset, limit } = req.body;
-        let totalCount = await Patient.countDocuments([{
-            $lookup:
-            {
-                from: "appointments",
-                localField: "_id",
-                foreignField: "patientId",
-                as: "appmnt"
-            }
-        }, {
-            $match: queryMatch
-        }, {
-            $project: fields
-        }])
+        // let totalCount = await Patient.countDocuments([{
+        //     $lookup:
+        //     {
+        //         from: "appointments",
+        //         localField: "_id",
+        //         foreignField: "patientId",
+        //         as: "appmnt"
+        //     }
+        // }, {
+        //     $match: queryMatch
+        // }, {
+        //     $project: fields
+        // }])
+       
 
-        let patientList = await Patient.aggregate([{
+        // let patientList = await Patient.aggregate([{
+        //     $lookup:
+        //     {
+        //         from: "appointments",
+        //         localField: "_id",
+        //         foreignField: "patientId",
+        //         as: "appmnt"
+        //     }
+        // }, {
+        //     $match: queryMatch
+        // }, {
+        //     $project: fields
+        // }]).sort(order).skip(offset).limit(limit)
+        // commonHelper.sendResponse(res, 'success', { patientList, totalCount }, '');
+
+        let result = await Patient.aggregate([{
             $lookup:
             {
                 from: "appointments",
@@ -173,7 +189,25 @@ const getPatientList = async (req, res) => {
             $match: queryMatch
         }, {
             $project: fields
-        }]).sort(order).skip(offset).limit(limit)
+        },
+        {
+            $sort: order
+        },
+        {
+            $facet: {
+              data: [
+                { $skip: offset },
+                { $limit: limit }
+              ],
+              totalCount: [
+                { $count: "count" }
+              ]
+            }
+          }
+        ])
+
+        const patientList = result[0].data;
+        const totalCount = result[0].totalCount[0] ? result[0].totalCount[0].count : 0;
         commonHelper.sendResponse(res, 'success', { patientList, totalCount }, '');
     } catch (error) {
         console.log("********error*********", error)
