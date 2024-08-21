@@ -93,7 +93,7 @@ export class PatientsComponent {
     let params = {
       queryMatch: this.whereCond,
       //queryMatch: { 'firstName': "Manoj", 'appmnt.status':'Rescheduled' },
-      fields: { firstName: 1, lastName: 1, email: 1, dob: 1, gender: 1 },
+      fields: { firstName: 1, lastName: 1, email: 1, dob: 1, gender: 1, createdAt:1 },
       order: this.orderBy,
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
