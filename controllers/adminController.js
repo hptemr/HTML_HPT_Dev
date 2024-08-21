@@ -14,10 +14,11 @@ const Directory = require('../models/documentDirectoryModel');
 const File = require('../models/documentFilesModel');
 var fs = require('fs')
 const cometChatLogModel = require('../models/cometChatLog');
+const fetch = require('node-fetch');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, firstName, lastName } = req.body;
     let userData = await userCommonHelper.userGetByEmail(email)
     if (userData) {
       return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
@@ -30,8 +31,15 @@ const systemAdminSignUp = async (req, res, next) => {
     newUser.hash_password = await bcrypt.hash(password, salt);
     newUser.role = 'system_admin'
     newUser.status = 'Active'
+    newUser.firstName = firstName
+    newUser.lastName = lastName
 
     const result = await newUser.save();
+
+    // Create in comet chat
+    let fullName = `${firstName} ${lastName}`;
+    createSystemAdminInCometChat(fullName, result._id) 
+    
     commonHelper.sendResponse(res, 'success', result, `System admin ${commonMessage.created}`);
   } catch (error) {
     console.log("error>>>", error)
@@ -39,6 +47,29 @@ const systemAdminSignUp = async (req, res, next) => {
   }
 };
 
+// Create System Admin in comet chat
+const createSystemAdminInCometChat = async (fullName, uid) => {
+  try {
+      const url = `https://${constants.cometChatAppId}.api-us.cometchat.io/v3/users`;
+      const options = {
+        method: 'POST',
+        headers: {accept: 'application/json', 'content-type': 'application/json', apikey: constants.cometChatApikey},
+        body: JSON.stringify({
+          uid: uid,
+          name: fullName,
+          role:'system_admin'
+        })
+      };
+
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => console.log("System admin created in comet chat : ", json))
+        .catch(err => console.log('URL call error: ' + err));
+   
+  } catch (error) {
+    console.log("createSystemAdminInCometChat error>>>",error)
+  }
+};
 
 const invite = async (req, res, next) => {
   try {

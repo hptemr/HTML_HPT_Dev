@@ -25,7 +25,9 @@ var constants = {
   },
   clientUrl: process.env.BASE_URL || 'http://dev.hamiltonpt.com',
   mailServerUrl : process.env.mailServerUri || 'http://dev.hamiltonpt.com',
-  inviteTokenExpiry : 1440 // In minute (24 Hrs)
+  inviteTokenExpiry : 1440, // In minute (24 Hrs)
+  cometChatAppId : '26118921798ec2ec',
+  cometChatApikey : '488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d'
 }
 
-module.exports = constants
+module.exports = constants  
