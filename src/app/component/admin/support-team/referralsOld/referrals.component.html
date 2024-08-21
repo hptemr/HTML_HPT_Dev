@@ -45,7 +45,7 @@
                                 <mat-form-field class="w-100 am--datepicker">
                                     <input [(ngModel)]="sentOn" (dateChange)="onDateChange($event, 'createdAt')"
                                         readonly="true" [max]="maxSentDate" placeholder="Send On" matInput
-                                        [matDatepicker]="picker1">
+                                        [matDatepicker]="picker1" (focus)="picker1.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1></mat-datepicker>
                                 </mat-form-field>
@@ -60,7 +60,7 @@
                                     <input [(ngModel)]="appointmentDate"
                                         (dateChange)="onDateChange($event, 'appointmentDate')" readonly="true"
                                         [max]="maxToDate" placeholder="Appointment Date" matInput
-                                        [matDatepicker]="picker2">
+                                        [matDatepicker]="picker2" (focus)="picker2.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>

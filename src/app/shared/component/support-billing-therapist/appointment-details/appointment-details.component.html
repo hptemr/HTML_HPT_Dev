@@ -162,7 +162,7 @@
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
                                             <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                                                <input matInput [matDatepicker]="picker" placeholder="From Date">
+                                                <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()">
                                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                             </mat-form-field>
@@ -172,7 +172,7 @@
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
                                             <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                                                <input matInput [matDatepicker]="picker1" placeholder="To Date">
+                                                <input matInput [matDatepicker]="picker1" placeholder="To Date" (focus)="picker1.open()">
                                                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker1></mat-datepicker>
                                             </mat-form-field>

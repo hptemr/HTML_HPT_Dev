@@ -61,7 +61,7 @@
                             <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                         </button> -->
                         <mat-form-field class="w-100 am--datepicker">
-                            <input [min]="todayDate" formControlName="appointmentDate" placeholder="Select Date" matInput [matDatepicker]="picker">
+                            <input [min]="todayDate" formControlName="appointmentDate" placeholder="Select Date" matInput [matDatepicker]="picker" (focus)="picker.open()">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>

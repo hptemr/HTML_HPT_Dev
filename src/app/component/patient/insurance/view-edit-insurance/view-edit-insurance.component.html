@@ -73,7 +73,7 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="subscriberDob" readonly
-                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2">
+                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2" (focus)="picker2.open()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                         <mat-datepicker #picker2></mat-datepicker>
                                     </mat-form-field>
@@ -242,7 +242,7 @@
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
                                             <input [max]="todayDate" formControlName="dateOfInjury" readonly
-                                                placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3">
+                                                placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                             <mat-datepicker #picker3></mat-datepicker>
                                         </mat-form-field>
