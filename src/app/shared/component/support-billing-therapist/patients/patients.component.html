@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="col-12 patients--table">
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center justify-content-between">
@@ -44,9 +44,9 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="col-12 cust--mat--table--wrapper">
+            <div class="col-12 provider--mat--table--wrapper overflow-auto">
                 <table mat-table [dataSource]="patientList" matSort (matSortChange)="announceSortChange($event)"
-                    class="cust--mat--table">
+                    class="provider--mat--table">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                             Name
@@ -74,11 +74,11 @@
                     </ng-container>
 
                     <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                        <th mat-header-cell *matHeaderCellDef>
                             Actions
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            <div class="w-100 d-flex align-items-center justify-content-end">
+                            <div class="w-100 d-flex align-items-center justify-content-start">
                                 <button mat-button class="flex-shrink-0 min-width-unset search--fields"
                                     (click)="navigateToAdminUserDetails(element.id)">
                                     <mat-icon
