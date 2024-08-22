@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <label class="col-form-label fw-600">Date of Birth </label>
                     <mat-form-field class="w-100 am--datepicker">
-                        <input value="{{info.dob}}" matInput [matDatepicker]="picker" disabled placeholder="13/05/1990">
+                        <input value="{{info.dob}}" matInput [matDatepicker]="picker" disabled placeholder="13/05/1990" (focus)="picker.open()">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -144,7 +144,7 @@
                             <label class="col-form-label fw-600">Date of Birth </label>
                             <mat-form-field class="w-100 am--datepicker">
                                 <input value="{{info.subscriberDob}}" matInput [matDatepicker]="picker2"
-                                    placeholder="MM/DD/YY" disabled>
+                                    placeholder="MM/DD/YY" disabled  (focus)="picker2.open()">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
                             </mat-form-field>
@@ -262,7 +262,7 @@
                             <label class="col-form-label fw-600">Date of Injury </label>
                             <mat-form-field class="w-100 am--datepicker">
                                 <input value="{{info.dateOfInjury}}" matInput [matDatepicker]="picker3"
-                                    placeholder="MM/DD/YY" disabled>
+                                    placeholder="MM/DD/YY" disabled (focus)="picker3.open()">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                 <mat-datepicker #picker3></mat-datepicker>
                             </mat-form-field>

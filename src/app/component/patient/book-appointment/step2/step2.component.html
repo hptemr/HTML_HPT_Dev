@@ -506,9 +506,9 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="dateOfInjury" readonly
-                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3">
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker3></mat-datepicker>
+                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker7" (focus)="picker7.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker7></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
