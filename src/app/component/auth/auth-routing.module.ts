@@ -8,6 +8,7 @@ import { SignupSupportTeamComponent } from './signup-support-team/signup-support
 import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
 import { TherapistSignupComponent } from './therapist-signup/therapist-signup.component';
 import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component';
+import { TermsOfServicesComponent } from 'src/app/shared/component/terms-of-services/terms-of-services.component';
 
 const routes: Routes = [ 
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'billing-team/signup',
     component: BillingTeamSignupComponent
+  },
+  {
+    path: 'terms-of-services',
+    component: TermsOfServicesComponent
   },
   
 ];
