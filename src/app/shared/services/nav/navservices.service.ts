@@ -205,7 +205,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'description',
         //   mainTitle: 'Documents',  
         //   headTitle1: '',
@@ -277,16 +277,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 4,
-        //   icon: 'description',
-        //   mainTitle: 'Documents',  
-        //   headTitle1: '',
-        //   path: 'document-listing',
-        //   active: false, 
-        //   type: 'link', 
-        //   item: [ ]
-        // },
+        {
+          id: 4,
+          icon: 'description',
+          mainTitle: 'Documents',  
+          headTitle1: '',
+          path: 'document-listing',
+          active: false, 
+          type: 'link', 
+          item: [ ]
+        },
         // {
         //   id: 4,
         //   icon: 'assignment',
