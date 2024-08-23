@@ -45,14 +45,14 @@ export class AppointmentDocumentsComponent {
 
   getDirectoryItems(){
     this.loading =  true
-    this.commonService.showLoader()
+    // this.commonService.showLoader()
     var searchParams = { 
       directory: appointmentDirectory,
       searchValue:this.searchItem.trim()
     }
     this.authService.apiRequest('post', 'admin/getDirectoryItems', searchParams).subscribe(async response => {
       this.loading =  false
-      this.commonService.hideLoader()
+      // this.commonService.hideLoader()
       this.listArrayItems = []
       response.data.directoryList.forEach((value:any) => {
         var tempObj = {_id:value._id,name:value.directory_name,actions:'',icon:'folder',color: 'description'}
@@ -113,20 +113,24 @@ export class AppointmentDocumentsComponent {
       })
     }
 
-    addFolderModal(element:any) {
+    addFolderModal(element:any,message:any) {
+      var extension = element.name.substring(element.name.lastIndexOf('.') + 1);
+      var fileNameWithoutextn = element.name.substring(0, element.name.lastIndexOf('.')) || element.name
       const dialogRef = this.dialog.open(AddFolderModalComponent,{
         panelClass: [ 'custom-alert-container','modal--wrapper'],
-        data: {type:'update',headerName : 'Update File',labelName:'File Name',updateValue:element.name}
+        data: {type:'update',headerName : 'Update File',labelName:'File Name',updateValue:fileNameWithoutextn,error:message}
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result){
           var params = { 
             oldFileName : element.name,
-            newFileName: result,
+            newFileName: result+"."+extension,
             itemId:element._id
           }
           this.authService.apiRequest('post', 'admin/updateFile', params).subscribe(async response => {
             this.getDirectoryItems()
+          },(err)=>{
+            this.addFolderModal(element,err.error.message)
           })
         }
       })

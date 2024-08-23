@@ -26,7 +26,7 @@ export class PreviewComponent {
       this.fileType = "image"
     }else if(extension=='mp4' || extension=='webm'){
       this.fileType = "video"
-    }else if(extension=='mpeg'){
+    }else if(extension=='mpeg' || extension=='mp3'){
       this.fileType = "audio"
     }else{
       this.fileType = "doc"

@@ -125,7 +125,7 @@ export class DocumentDetailingComponent {
         fileId: fileId,
       }
       this.authService.apiRequest('post', 'admin/previewDocumentFile', searchParams).subscribe(async response => {
-        window.open(`${response.message.previewUrl}`,"_blank");
+        window.open(`${response.data.previewUrl}`,"_blank");
       })
       
     }
