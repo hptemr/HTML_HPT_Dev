@@ -406,7 +406,7 @@ const getDirectoryItems = async (req, res) => {
 
 const createDirectory = async (req, res) => {
   try {
-    let directories = await Directory.find({directory_name: req.body.directoryName})
+    let directories = await Directory.find({directory_name: req.body.directoryName,is_deleted:false})
     if(directories.length>0){
       commonHelper.sendResponse(res, 'error', null, "Directory"+documentMessage.exist);
     }else{
@@ -427,8 +427,13 @@ const createDirectory = async (req, res) => {
 
 const updateDirectory = async (req, res) => {
   try {
-    await Directory.updateOne({ _id: new ObjectId(req.body.directoryId) }, { directory_name: req.body.directoryName });
-    commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+    let directories = await Directory.find({directory_name: req.body.directoryName,is_deleted:false})
+    if(directories.length>0){
+      commonHelper.sendResponse(res, 'error', null, "Directory"+documentMessage.exist);
+    }else{
+      await Directory.updateOne({ _id: new ObjectId(req.body.directoryId) }, { directory_name: req.body.directoryName });
+      commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+    }
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -459,15 +464,20 @@ const previewDocumentFile = async (req, res) => {
 
 const updateFile = async (req, res) => {
   try {
-    updatedData = await File.findOneAndUpdate({ _id: new ObjectId(req.body.itemId) }, { file_name: req.body.newFileName },{upsert: true, new: true});
-    console.log(updatedData)
-    let key = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.oldFileName
-    let newkey = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.newFileName
-    await s3.renameFileInS3(key,newkey)
-    commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
-  } catch (error) {
-    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
-  }
+    let fileData = await File.find({ file_name: req.body.newFileName,is_deleted:false})
+      if(fileData.length>0){
+        commonHelper.sendResponse(res, 'error', null, "File"+documentMessage.exist);
+      }else{
+        updatedData = await File.findOneAndUpdate({ _id: new ObjectId(req.body.itemId) }, { file_name: req.body.newFileName },{upsert: true, new: true});
+          let key = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.oldFileName
+          let newkey = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.newFileName
+          await s3.renameFileInS3(key,newkey)
+          commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+        } 
+      }catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+      }
+    
 }
 
 const uploadDocumentFile = async (req, res) => {
@@ -485,7 +495,7 @@ const uploadDocumentFile = async (req, res) => {
       fstream.on('close', async function () {})
     });
     req.busboy.on('finish', async function () {
-      let fileData = await File.find({ file_name: reqBodyData.documentName})
+      let fileData = await File.find({ file_name: reqBodyData.documentName,is_deleted:false})
       if(fileData.length>0){
         fs.unlink(__dirname + '/../tmp/' + newFilename, (err) => {})
         commonHelper.sendResponse(res, 'error', null, "File"+documentMessage.exist);
