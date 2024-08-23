@@ -19,6 +19,23 @@ const fetch = require('node-fetch');
 const systemAdminSignUp = async (req, res, next) => {
   try {
     const { email, password, firstName, lastName } = req.body;
+    // Validate each field
+    if (!userCommonHelper.validateName(firstName)) {
+      return res.status(400).json({ error: "First name must only contain letters and be between 2 and 50 characters long." });
+    }
+
+    if (!userCommonHelper.validateName(lastName)) {
+      return res.status(400).json({ error: "Last name must only contain letters and be between 2 and 50 characters long." });
+    }
+
+    if (!userCommonHelper.validateEmail(email)) {
+        return res.status(400).json({ error: "Invalid email format." });
+    }
+
+    if (!userCommonHelper.validatePassword(password)) {
+        return res.status(400).json({ error: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character." });
+    }
+
     let userData = await userCommonHelper.userGetByEmail(email)
     if (userData) {
       return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);

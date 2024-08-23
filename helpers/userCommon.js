@@ -27,10 +27,36 @@ const patientGetByEmail = async (email) => {
     return existingUser
 }
 
+// Email validation
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Password validation
+function validatePassword(password) {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar;
+}
+
+// Name validation
+function validateName(name) {
+    const nameRegex = /^[A-Za-z]+$/;
+    return nameRegex.test(name) && name.length >= 2 && name.length <= 50;
+}
+
 module.exports = {
     userGetByEmail,
     userGetById,
     roleByCode,
     patientGetByEmail,
-    patientGetById
+    patientGetById,
+    validateEmail,
+    validatePassword,
+    validateName
 };
