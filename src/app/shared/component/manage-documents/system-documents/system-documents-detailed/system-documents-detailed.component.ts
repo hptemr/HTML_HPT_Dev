@@ -54,13 +54,13 @@ export class SystemDocumentsDetailedComponent {
 
   getDirectoryItems(){
     this.loading =  true
-    this.commonService.showLoader()
+    // this.commonService.showLoader()
     var searchParams = {
       directory: this.dirId,
       searchValue:this.searchItem.trim()
     }
     this.authService.apiRequest('post', 'admin/getDirectoryItems', searchParams).subscribe(async response => {
-      this.commonService.hideLoader()
+      // this.commonService.hideLoader()
       this.loading =  false
       this.listArrayItems = []
       response.data.directoryList.forEach((value:any) => {
@@ -123,21 +123,21 @@ export class SystemDocumentsDetailedComponent {
     })
   }
 
-  updateModal(element:any) {
+  updateModal(element:any,messge:any) {
     var headerName = ""
     var labelName = ""
     if(element.icon=='folder'){
       headerName = 'Update Directory'
-      labelName = 'File Name'
+      labelName = 'Directory Name'
     }else{
       headerName='Update File'
-      labelName = 'Directory Name'
+      labelName = 'File Name'
     }
     var extension = element.name.substring(element.name.lastIndexOf('.') + 1);
     var fileNameWithoutextn = element.name.substring(0, element.name.lastIndexOf('.')) || element.name
     const dialogRef = this.dialog.open(AddFolderModalComponent,{
       panelClass: [ 'custom-alert-container','modal--wrapper'],
-      data: {type:'update',headerName : headerName,labelName:labelName,updateValue:fileNameWithoutextn}
+      data: {type:'update',headerName : headerName,labelName:labelName,updateValue:fileNameWithoutextn,error:messge}
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
@@ -148,6 +148,8 @@ export class SystemDocumentsDetailedComponent {
           }
           this.authService.apiRequest('post', 'admin/updateDirectory', params).subscribe(async response => {
             this.getDirectoryItems()
+          },(err)=>{
+            this.updateModal(element,err.error.message)
           })
         }else{
           var params2 = { 
@@ -157,16 +159,18 @@ export class SystemDocumentsDetailedComponent {
           }
           this.authService.apiRequest('post', 'admin/updateFile', params2).subscribe(async response => {
             this.getDirectoryItems()
+          },(err)=>{
+            this.updateModal(element,err.error.message)
           })
         }
       }
     })
   }
 
-  addFolderModal() {
+  addFolderModal(message:any,result:any) {
     const dialogRef = this.dialog.open(AddFolderModalComponent,{
       panelClass: [ 'custom-alert-container','modal--wrapper'],
-      data: {type:'create',headerName : 'Create Directory',labelName:'Folder Name',updateValue:''}
+      data: {type:'create',headerName : 'Create Directory',labelName:'Folder Name',updateValue:result,error:message}
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
@@ -177,6 +181,8 @@ export class SystemDocumentsDetailedComponent {
         }
         this.authService.apiRequest('post', 'admin/createDirectory', params).subscribe(async response => {
           this.getDirectoryItems()
+        },(err)=>{
+          this.addFolderModal(err.error.message,result)
         })
       }
     })

@@ -4,9 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SupportTeamRoutingModule } from './support-team-routing.module';
 import { DatePipe } from '@angular/common';
-import { ReferralsComponent } from './referrals/referrals.component';
+import { RequestsComponent } from './requests/requests.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
-
+import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { CaseDetailsComponent } from './case-details/case-details.component';
 @NgModule({
   declarations: [ 
     // AppointmentsComponent,
@@ -14,11 +16,14 @@ import { CreateAppointmentComponent } from './create-appointment/create-appointm
     // AppointmentRequestsComponent,
     // SystemFollowupModalComponent,
     // PatientProfileComponent,
-    ReferralsComponent,
-    CreateAppointmentComponent
+    RequestsComponent,
+    CreateAppointmentComponent,
+    CreateRequestAppointmentComponent,
+    CaseDetailsComponent
   ],
   imports: [
     CommonModule,
+    MaterialModule,
     SupportTeamRoutingModule,
     FormsModule,
     ReactiveFormsModule,

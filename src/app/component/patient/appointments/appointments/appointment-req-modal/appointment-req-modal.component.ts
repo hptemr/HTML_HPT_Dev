@@ -27,8 +27,8 @@ export class AppointmentReqModalComponent {
   fromDate: any
   toDate: any;
   whereCond: any = {}
-  minToDate: any = new Date()
-  maxFromDate: any
+  minToDate: any = this.commonService.displayFormatDate(new Date(),true)
+  maxFromDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
   requestAppointmentForm: FormGroup;
   validationMessages = validationMessages
   practiceLocationData: string[] = practiceLocations
@@ -54,6 +54,7 @@ export class AppointmentReqModalComponent {
   }
  
   async requestAppointment(formData:any){    
+    console.log('formData >>> ',formData)
     if (this.requestAppointmentForm.valid) {
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();

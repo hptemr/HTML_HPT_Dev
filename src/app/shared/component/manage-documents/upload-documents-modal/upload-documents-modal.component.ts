@@ -29,6 +29,9 @@ export class UploadDocumentsModalComponent {
     if (size >= 15) {
       this.uploadErrorMessage = "The file exceeds the maximum file size limit. Please note that the maximum size allowed is 15mb."
       this.uploadError = true;
+    } else if(files[0].type=='application/x-msdownload' || files[0].type=='application/x-putty-private-key'){
+      this.uploadErrorMessage = "Invalid file type, please upload mentioned above file type"
+      this.uploadError = true;
     } else {
       this.uploadErrorMessage = ""
       this.uploadError = false;
@@ -54,7 +57,7 @@ export class UploadDocumentsModalComponent {
     } 
   }
 
-  uploadDocument(){
+  async uploadDocument(){
     this.submitted = true
     if(this.uploadedFile==undefined || this.uploadError || this.documentName==''){
       return
@@ -67,10 +70,14 @@ export class UploadDocumentsModalComponent {
     formData.append('uploadFile', this.uploadedFile[0], this.uploadedFile[0].name);
     formData.append('endUserId',this.userId)
     this.authService.apiRequest("post", "admin/uploadDocumentFile", formData).subscribe(
-      (res) => {
-        this.commonService.hideLoader()
+      async (res) => {
+        await this.commonService.hideLoader()
         this.submitted = false
         this.dialogRef.close(true)
+      },(err)=>{
+        this.commonService.hideLoader()
+        this.uploadErrorMessage = err.error.message
+        this.uploadError = true;
       })
   }
 }

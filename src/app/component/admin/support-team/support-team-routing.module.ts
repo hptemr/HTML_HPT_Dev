@@ -12,13 +12,15 @@ import { IntakeStep5Component } from 'src/app/shared/component/intake-form/intak
 import { PatientsComponent } from 'src/app/shared/component/support-billing-therapist/patients/patients.component';
 import { PatientDetailsComponent } from 'src/app/shared/component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from 'src/app/shared/component/support-billing-therapist/patient-profile/patient-profile.component';
-import { ReferralsComponent } from './referrals/referrals.component';
+import { RequestsComponent } from './requests/requests.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 import { ConversationsComponent } from '../../../shared/component/conversations/conversations.component';
 import { ConversationsChatComponent } from '../../../shared/component/conversations-ui-kits/conversations-chat/conversations-chat.component';
 import { DocumentListingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-listing/document-listing.component';
 import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
+import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
+import { CaseDetailsComponent } from './case-details/case-details.component';
 
 const routes: Routes = [
   {
@@ -26,7 +28,7 @@ const routes: Routes = [
     component: AppointmentRequestsComponent
   },
   {
-    path: 'appointments',
+    path: 'cases',
     component: AppointmentsComponent
   },
   {
@@ -36,6 +38,10 @@ const routes: Routes = [
   {
     path: 'appointment-details/:appointmentId',
     component: AppointmentDetailsComponent
+  },
+  {
+    path: 'case-details/:appointmentId',
+    component: CaseDetailsComponent
   },
   {
     path: 'intake-form',
@@ -79,22 +85,30 @@ const routes: Routes = [
       }
     ]
   },
+  // {
+  //   path: 'requests',
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: RequestsComponent
+  //     },
+  //     {
+  //       path: 'appointment',
+  //       component: CreateAppointmentComponent
+  //     },
+  //     {
+  //       path: 'appointment/:refferalId',
+  //       component: CreateAppointmentComponent
+  //     }
+  //   ]
+  // },
   {
-    path: 'referrals',
-    children: [
-      {
-        path: '',
-        component: ReferralsComponent
-      },
-      {
-        path: 'appointment',
-        component: CreateAppointmentComponent
-      },
-      {
-        path: 'appointment/:refferalId',
-        component: CreateAppointmentComponent
-      }
-    ]
+    path: 'requests',
+    component:RequestsComponent   
+  },
+  {
+    path: 'create-request-appointment/:requestId',
+    component:CreateRequestAppointmentComponent   
   },
   {
     path: 'conversations',

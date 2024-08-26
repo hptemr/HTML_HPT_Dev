@@ -205,7 +205,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'description',
         //   mainTitle: 'Documents',  
         //   headTitle1: '',
@@ -277,16 +277,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        // {
-        //   id: 4,
-        //   icon: 'description',
-        //   mainTitle: 'Documents',  
-        //   headTitle1: '',
-        //   path: 'document-listing',
-        //   active: false, 
-        //   type: 'link', 
-        //   item: [ ]
-        // },
+        {
+          id: 4,
+          icon: 'description',
+          mainTitle: 'Documents',  
+          headTitle1: '',
+          path: 'document-listing',
+          active: false, 
+          type: 'link', 
+          item: [ ]
+        },
         // {
         //   id: 4,
         //   icon: 'assignment',
@@ -333,17 +333,28 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 2,
-          activeMenu: 'appointments',
+          activeMenu: 'cases',
           icon: 'pending_actions',
-          mainTitle: 'Appointments',
+          mainTitle: 'Cases',
           headTitle1: '',
-          path: '/support-team/appointments',
+          path: '/support-team/cases',
           active: false,
           type: 'link',
           item: []
         },
         {
           id: 3,
+          activeMenu: 'request',
+          icon: 'group',
+          mainTitle: 'Request',
+          headTitle1: '',
+          path: '/support-team/requests',
+          active: false,
+          type: 'link',
+          item: []
+        },
+        {
+          id: 4,
           activeMenu: 'patients',
           icon: 'group',
           mainTitle: 'Patients',
@@ -353,7 +364,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 4,
+          id: 5,
           icon: 'people',
           activeMenu: 'referrals',
           mainTitle: 'Referrals',
@@ -364,7 +375,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 5,
+          id: 6,
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
           headTitle1: '',
@@ -373,7 +384,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 6,
+          id: 7,
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations UiKit',
           headTitle1: '',
@@ -382,7 +393,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 7,
+          id: 8,
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',

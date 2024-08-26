@@ -85,7 +85,7 @@
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
                                 <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY"
-                                    matInput [matDatepicker]="picker">
+                                    matInput [matDatepicker]="picker" (focus)="picker.open()">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
@@ -226,7 +226,7 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="subscriberDob" readonly
-                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2">
+                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2" (focus)="picker2.open()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                         <mat-datepicker #picker2></mat-datepicker>
                                     </mat-form-field>
@@ -336,9 +336,9 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY"
-                                            matInput [matDatepicker]="picker">
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
+                                            matInput [matDatepicker]="picker3" (focus)="picker3.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
@@ -354,9 +354,9 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="dob"   placeholder="MM-DD-YYYY"
-                                            matInput [matDatepicker]="picker">
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
+                                            matInput [matDatepicker]="picker4" (focus)="picker4.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker4></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
@@ -431,9 +431,9 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY"
-                                            matInput [matDatepicker]="picker">
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
+                                            matInput [matDatepicker]="picker5" (focus)="picker5.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker5></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
@@ -449,9 +449,9 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="dob"   placeholder="MM-DD-YYYY"
-                                            matInput [matDatepicker]="picker">
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
+                                            matInput [matDatepicker]="picker6" (focus)="picker6.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker6></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"
@@ -506,9 +506,9 @@
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="dateOfInjury" readonly
-                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3">
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker3></mat-datepicker>
+                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker7" (focus)="picker7.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker7></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                                 <div class="text text-danger mt-1"

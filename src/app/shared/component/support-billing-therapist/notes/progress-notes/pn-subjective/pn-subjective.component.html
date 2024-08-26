@@ -710,7 +710,7 @@
                                                     <label class="col-form-label fw-600">Surgery Date </label>
                                                     <div class="input-group">
                                                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker"  (click)="d.toggle()"/>
                                                         <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                                             type="button">
                                                             <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
@@ -735,7 +735,7 @@
                                                     <label class="col-form-label fw-600">Surgery Date </label>
                                                     <div class="input-group">
                                                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"/>
                                                         <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                                             type="button">
                                                             <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>

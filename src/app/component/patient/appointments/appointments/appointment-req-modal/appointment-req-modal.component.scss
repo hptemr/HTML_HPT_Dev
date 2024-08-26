@@ -93,7 +93,15 @@
             .mdc-button{
                 min-width: 60px !important;
             }
-           
+           .input-group{
+                input::-webkit-datetime-edit-day-field:focus,
+                input::-webkit-datetime-edit-month-field:focus,
+                input::-webkit-datetime-edit-year-field:focus {
+                    background-color:transparent;
+                    outline: none;
+                    color: #1F2F3E;
+                }
+            }
         }
     }
    

@@ -45,7 +45,7 @@
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
                                 <input formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker">
+                                    [matDatepicker]="picker" (focus)="picker.open()">
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
                         </div>
@@ -58,7 +58,7 @@
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
                                 <input formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker2">
+                                    [matDatepicker]="picker2" (focus)="picker2.open()">
                                 <mat-datepicker #picker2></mat-datepicker>
                             </mat-form-field>
                         </div>
@@ -761,10 +761,10 @@
                                                 <div class="input-group">
                                                     <mat-form-field class="w-100 am--datepicker">
                                                         <input formControlName="surDate" readonly
-                                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker">
+                                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
                                                         <mat-datepicker-toggle matIconSuffix
-                                                            [for]="picker"></mat-datepicker-toggle>
-                                                        <mat-datepicker #picker></mat-datepicker>
+                                                            [for]="picker3"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker3></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>
                                             </div>

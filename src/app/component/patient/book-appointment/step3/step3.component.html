@@ -29,7 +29,7 @@
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
                                 <input formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker">
+                                    [matDatepicker]="picker" (focus)="picker.open()">
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
                         </div>
@@ -41,7 +41,7 @@
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
                                 <input formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker2">
+                                    [matDatepicker]="picker2" (focus)="picker2.open()">
                                 <mat-datepicker #picker2></mat-datepicker>
                             </mat-form-field>
                         </div>

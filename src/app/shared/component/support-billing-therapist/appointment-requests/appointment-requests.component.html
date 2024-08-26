@@ -34,7 +34,7 @@
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [(ngModel)]="toDate" (dateChange)="onDateChange($event)"
                                             [min]="minToDate" [max]="maxToDate" readonly="true"
-                                            placeholder="Appointment Date" matInput [matDatepicker]="picker2">
+                                            placeholder="Appointment Date" matInput [matDatepicker]="picker2" (focus)="picker2.open()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                         <mat-datepicker #picker2></mat-datepicker>
                                     </mat-form-field>
