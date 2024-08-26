@@ -186,27 +186,25 @@ const updatePatientCheckIn = async (req, res) => {
 const createAppointmentRequest = async (req, res) => {
     try {
         const { userId, data } = req.body;
+        // console.log('data>>>',data)
+        // data.appointmentDate = new Date(data.appointmentDate)
+        // console.log('>>>>>>>',new Date(data.appointmentDate).toString())
+        // console.log('>>>>>>>',new Date(data.appointmentDate).toISOString())
+        // let appointmentRequestData = await AppointmentRequest.findOne({patientId:userId,practiceLocation:data.practiceLocation,status:'Pending'});
+        // if(appointmentRequestData){
+        //     commonHelper.sendResponse(res, 'errorValidation', null, appointmentMessage.alreadyRequestCreated);
+        // }else{
 
-      // console.log('data>>>',data)
-    //    data.appointmentDate = new Date(data.appointmentDate)
-    //     console.log('>>>>>>>',new Date(data.appointmentDate).toString())
-    //     console.log('>>>>>>>',new Date(data.appointmentDate).toISOString())
+        let newAppointmentRequest = new AppointmentRequest(data);
+        const result = await newAppointmentRequest.save();
 
-        let appointmentRequestData = await AppointmentRequest.findOne({patientId:userId,practiceLocation:data.practiceLocation,status:'Pending'});
-       // console.log('appointmentRequestData>>>',appointmentRequestData)
-        if(appointmentRequestData){
-            commonHelper.sendResponse(res, 'errorValidation', null, appointmentMessage.alreadyRequestCreated);
-        }else{
-            let newAppointmentRequest = new AppointmentRequest(data);
-            const result = await newAppointmentRequest.save();
-
-             const adminData = await User.findOne({role:"support_team",status:"Active"},{firstName:1,lastName:1,email:1});
-             const patientData = await Patient.findOne({_id:data.patientId},{firstName:1,lastName:1,email:1});
-             const link = `${process.env.BASE_URL}/support-team/create-request-appointment/${result._id}`;
-            
-            triggerEmail.appointmentRequestReceivedFromPatient('appointmentRequestReceivedFromPatient', adminData,patientData,link)
-            commonHelper.sendResponse(res, 'success', null, appointmentMessage.requestCreated);
-        }
+        const adminData = await User.findOne({role:"support_team",status:"Active"},{firstName:1,lastName:1,email:1});
+        const patientData = await Patient.findOne({_id:data.patientId},{firstName:1,lastName:1,email:1});
+        const link = `${process.env.BASE_URL}/support-team/create-request-appointment/${result._id}`;
+        
+        triggerEmail.appointmentRequestReceivedFromPatient('appointmentRequestReceivedFromPatient', adminData,patientData,link)
+        commonHelper.sendResponse(res, 'success', null, appointmentMessage.requestCreated);
+        //}
     } catch (error) {
         console.log("********addAppointment***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
