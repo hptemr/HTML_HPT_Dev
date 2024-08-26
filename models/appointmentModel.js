@@ -73,6 +73,14 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    bodyPartFront: {
+        type: Object,
+        default: {}
+    },
+    bodyPartBack: {
+        type: Object,
+        default: {}
+    },
     intakeFormSubmit: { type: Boolean, default: false }, 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
