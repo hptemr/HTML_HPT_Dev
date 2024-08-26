@@ -48,7 +48,7 @@ export class IntakeStep1Component {
     const req_vars = {
       query: { _id: this.appId },
       fields: { checkIn: 0 },
-      patientFields: { _id: 1 },
+      patientFields: { _id:1,firstName:1,middleName:1,lastName:1,dob:1,maritalStatus:1,gender:1,email:1,phoneNumber:1,cellPhoneNumber:1,workExtensionNumber:1 },
       therapistFields: { _id: 1 }
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
@@ -144,6 +144,8 @@ export class IntakeStep1Component {
     this.step1Form.controls['cellPhoneNumber'].setValue(cellPhoneNumber)
     this.step1Form.controls['workExtensionNumber'].setValue(workExtensionNumber)
   }
+  
+  //firstName=1,middleName=1,lastName=1,dob=1,maritalStatus=1,gender=1,email=1,phoneNumber=1,cellPhoneNumber=1,workExtensionNumber=1
 
   loadForm() {
     this.step1Form = new FormGroup({
@@ -151,16 +153,16 @@ export class IntakeStep1Component {
       appointmentDate: new FormControl((this.step1FormData ? this.step1FormData.appointmentDate : ''), Validators.compose([Validators.required])),
       bookingFor: new FormControl((this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue)),
       relationWithPatient: new FormControl((this.step1FormData ? this.step1FormData.relationWithPatient : '')),
-      firstName: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.firstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
-      middleName: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.middleName : '')),
-      lastName: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.lastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
-      dob: new FormControl((this.step1FormData ? new Date(this.step1FormData.patientInfo.dob) : ''), Validators.compose([Validators.required])),
-      maritalStatus: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.maritalStatus : '')),
-      gender: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.gender : '')),
-      email: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.email : ''), Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
-      phoneNumber: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.phoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
-      cellPhoneNumber: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.cellPhoneNumber : '')),
-      workExtensionNumber: new FormControl((this.step1FormData ? this.step1FormData.patientInfo.workExtensionNumber : ''))
+      firstName: new FormControl((this.step1FormData ? this.step1FormData.patientId.firstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      middleName: new FormControl((this.step1FormData ? this.step1FormData.patientId.middleName : '')),
+      lastName: new FormControl((this.step1FormData ? this.step1FormData.patientId.lastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      dob: new FormControl((this.step1FormData ? new Date(this.step1FormData.patientId.dob) : ''), Validators.compose([Validators.required])),
+      maritalStatus: new FormControl((this.step1FormData ? this.step1FormData.patientId.maritalStatus : '')),
+      gender: new FormControl((this.step1FormData ? this.step1FormData.patientId.gender : '')),
+      email: new FormControl((this.step1FormData ? this.step1FormData.patientId.email : ''), Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
+      phoneNumber: new FormControl((this.step1FormData ? this.step1FormData.patientId.phoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
+      cellPhoneNumber: new FormControl((this.step1FormData ? this.step1FormData.patientId.cellPhoneNumber : '')),
+      workExtensionNumber: new FormControl((this.step1FormData ? this.step1FormData.patientId.workExtensionNumber : ''))
     })
   }
 

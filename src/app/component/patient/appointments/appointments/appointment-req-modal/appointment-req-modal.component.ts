@@ -53,7 +53,6 @@ export class AppointmentReqModalComponent {
   }
  
   async requestAppointment(formData:any){    
-    console.log('formData >>> ',formData)
     if (this.requestAppointmentForm.valid) {
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
