@@ -52,14 +52,14 @@ export class DocumentDetailingComponent {
 
   getDirectoryItems(){
     this.loading =  true
-    this.commonService.showLoader()
+    // this.commonService.showLoader()
     var searchParams = {
       directory: this.dirId,
       searchValue:this.searchItem.trim()
     }
     this.authService.apiRequest('post', 'admin/getDirectoryItems', searchParams).subscribe(async response => {
       this.loading =  false
-      this.commonService.hideLoader()
+      // this.commonService.hideLoader()
       this.listArrayItems = []
       response.data.directoryList.forEach((value:any) => {
         var tempObj = {_id:value._id,name:value.directory_name,actions:'',icon:'folder',color: 'description'}
