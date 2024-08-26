@@ -7,8 +7,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SignupSupportTeamComponent } from './signup-support-team/signup-support-team.component';
 import { PracticeAdminSignupComponent } from './practice-admin-signup/practice-admin-signup.component';
 import { TherapistSignupComponent } from './therapist-signup/therapist-signup.component';
-import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component';
-import { TermsOfServicesComponent } from 'src/app/shared/component/terms-of-services/terms-of-services.component';
+import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component'; 
+import { TermsOfServicesComponent } from 'src/app/shared/comman/terms-of-services/terms-of-services.component';
+import { PrivacyPolicyComponent } from 'src/app/shared/comman/privacy-policy/privacy-policy.component';
 
 const routes: Routes = [ 
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'terms-of-services',
     component: TermsOfServicesComponent
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent
   },
   
 ];
