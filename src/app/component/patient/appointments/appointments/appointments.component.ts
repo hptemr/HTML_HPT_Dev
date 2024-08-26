@@ -72,7 +72,7 @@ export class AppointmentsComponent {
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
-      fields: { practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1 },
+      fields: { caseName:1, practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1 },
       patientFields: { firstName: 1 },
       therapistFields: { firstName: 1, lastName: 1, profileImage: 1 },
       order: this.orderBy,
@@ -99,6 +99,7 @@ export class AppointmentsComponent {
           id: element._id,
           info: info,
           appointmentId: element.appointmentId,
+          caseName: element.caseName,
           appointmentDate: element.appointmentDate,
           status: element.status,
           statusClass: element.status.toLowerCase(),
@@ -115,7 +116,7 @@ export class AppointmentsComponent {
     const dialogRef = this.dialog.open( AppointmentReqModalComponent ,{
       panelClass: 'inivite--modal',
       data : {
-        heading: 'Invite Practice Admin'
+        heading: ''
       }
     });
   }

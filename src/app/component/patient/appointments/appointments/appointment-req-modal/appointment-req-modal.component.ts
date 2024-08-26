@@ -45,7 +45,6 @@ export class AppointmentReqModalComponent {
   }
  
   ngOnInit() {
-    console.log('userId>>>',this.userId)
     this.requestAppointmentForm = this.fb.group({
       appointmentDate: ['', [Validators.required]],
       practiceLocation: ['',[Validators.required]],
@@ -63,7 +62,6 @@ export class AppointmentReqModalComponent {
           userId: this.userId,
           data: formData
         }
-        this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'appointment/createAppointmentRequest',reqVars).subscribe(async response => { 
           this.commonService.hideLoader();
           this.dialogRef.close();
