@@ -166,12 +166,23 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        // {
+        //   id: 2,
+        //   icon: 'pending_actions',
+        //   mainTitle: 'Appointments',
+        //   headTitle1: 'Appointments',
+        //   path: '/therapist/appointments',
+        //   active: false,
+        //   type: 'link',
+        //   item: []
+        // },
         {
           id: 2,
+          activeMenu: 'cases',
           icon: 'pending_actions',
-          mainTitle: 'Appointments',
-          headTitle1: 'Appointments',
-          path: '/therapist/appointments',
+          mainTitle: 'Cases',
+          headTitle1: '',
+          path: '/therapist/cases',
           active: false,
           type: 'link',
           item: []

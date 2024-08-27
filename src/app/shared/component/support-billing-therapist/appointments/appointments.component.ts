@@ -50,6 +50,8 @@ export class AppointmentsComponent {
   seachByName: any = ''
   seachById: any = ''
   fieldValues: any = ['Accepted', 'Rescheduled'];
+  seachByPatientNameOrEmail: any = ''
+  patientQuery: any = {}
 
   constructor(
     public dialog: MatDialog,
@@ -85,11 +87,18 @@ export class AppointmentsComponent {
           $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
         }
       } else if (colName == 'byId') {
-        this.whereCond = Object.assign(this.whereCond, { appointmentId: searchStr })
+        // this.whereCond = Object.assign(this.whereCond, { appointmentId: searchStr })
+        this.whereCond = Object.assign(this.whereCond, { caseName: { $regex: searchStr, $options: 'i' } })
+      }else if (colName == 'byPatientNameOrEmail') {
+        this.patientQuery = {
+          status: "Active",
+          $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
+        }
       }
     } else {
       this.userQuery = {}
       this.whereCond = {};
+      this.patientQuery = {}
     }
     this.getAppointmentList('search')
   }
@@ -117,6 +126,8 @@ export class AppointmentsComponent {
     this.seachById = ''
     this.seachByName = ''
     this.whereCond = {};
+    this.seachByPatientNameOrEmail = ''
+    this.patientQuery = {}
     this.getAppointmentList('reset')
   }
 
@@ -147,6 +158,7 @@ export class AppointmentsComponent {
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
+      patientQuery: this.patientQuery, 
       fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, caseName: 1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1, checkIn: 1 },
       patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1 },
       order: this.orderBy,

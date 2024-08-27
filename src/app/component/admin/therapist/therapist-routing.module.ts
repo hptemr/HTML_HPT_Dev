@@ -44,8 +44,12 @@ const routes: Routes = [
     //loadChildren: () => import('.src/app/shared/support-billing-therapist/support-billing-therapist-routing.module').then(mod => mod.supportBillingTherapistModule),
     component: AppointmentRequestsComponent
   },
+  // {
+  //   path: 'appointments',
+  //   component: AppointmentsComponent
+  // },
   {
-    path: 'appointments',
+    path: 'cases',
     component: AppointmentsComponent
   },
   {
