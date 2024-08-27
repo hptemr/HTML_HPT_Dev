@@ -16,6 +16,8 @@ export class BodyDetailsModalComponent {
   validationMessages = validationMessages; 
   partConcernForm: FormGroup;
   submitButton:boolean = false;
+  bodyPartFront:any = [];
+  bodyPartBack:any = [];
   constructor(
     public dialog: MatDialog,
     private commonService: CommonService,
@@ -26,26 +28,34 @@ export class BodyDetailsModalComponent {
   ) {
     this.partName = data.partName != undefined ? data.partName : this.partName;
     this.appId= data.appId != undefined ? data.appId : this.appId;
+    this.bodyPartFront= data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
+    this.bodyPartBack= data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
   }
 
 
   ngOnInit() {
-    console.log('partName>>>',this.partName)
+    console.log('partName>>>',this.partName,'------------',this.bodyPartFront)
+    //console.log('bodyPartBack-------',this.bodyPartBack)
     this.partConcernForm = this.fb.group({
-      partConcern: ['', [Validators.required]],
+      concern: ['', [Validators.required]],
     });
+    
   }
 
   async saveData(data:any) {
-    console.log('data>>>',data)
-    // this.dialogRef.close( );
+    //console.log(this.partName,'data>>>',data)
     if(this.partConcernForm.valid){
       this.submitButton = true;
-      //this.partConcernForm.value['userRole']=this.data.userRole
+
+      this.bodyPartFront.push({'part':this.partName,'concern':data.concern});
       const req_vars = {
         query: { _id: this.appId },
-        data: data,
+        updateInfo: {
+          bodyPartFront: this.bodyPartFront
+        },
       }
+    
+   //   console.log('data>>>',req_vars)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', req_vars).subscribe(async response => {
         if (response.error != undefined && response.error == true) {
          // this.router.navigate([this.activeUserRoute, 'appointments'])
@@ -53,6 +63,7 @@ export class BodyDetailsModalComponent {
          
         }
       })
+
     }
   }
 

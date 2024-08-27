@@ -17,7 +17,7 @@ export class IntakeStep3Component {
   clickedIndex = 0
   step3Form: FormGroup
   step3FormData: any
-
+  selectedPartsFront: string[] = [];
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
   fileError: any = ''
   uploadedPrescriptionFiles: any = []
@@ -76,6 +76,20 @@ export class IntakeStep3Component {
           localStorage.setItem("uploadedPrescriptionFiles", JSON.stringify(this.uploadedPrescriptionFiles))
           this.uploadedPrescriptionFilesTotal = prescriptionFiles.length
         }
+
+        if(this.step3FormData.bodyPartFront){
+          
+          this.step3FormData.bodyPartFront.forEach((element: any) => {
+            if (!this.selectedPartsFront.includes(element.part)) {
+              this.selectedPartsFront.push(element.part);
+            } else {
+              this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
+            }
+          });
+        }
+
+      
+
       }
     })
   }
@@ -106,16 +120,18 @@ export class IntakeStep3Component {
         appId:this.appId
       }
     });
-
   }
-  bodyClick(partName:number) {
-   
+
+  bodyClick(partName:string) {
+    
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 
       data : {
         heading: '',
         partName:partName,
-        appId:this.appId
+        appId:this.appId,
+        bodyPartFront:this.step3FormData.bodyPartFront,
+        bodyPartBack:this.step3FormData.bodyPartBack
       }
     });  
     // dialogRef.afterClosed().subscribe(result => {

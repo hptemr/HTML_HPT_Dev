@@ -1,8 +1,8 @@
 <div class="p-3">
     <form class="row" [formGroup]="partConcernForm" (ngSubmit)="saveData(partConcernForm.value)">
         <label class="fw-600 font-16">Enter Concerns :</label>
-        <textarea class="form-control " type="text" placeholder="Enter Concerns" rows="4" maxlength="100"  formControlName="partConcern"></textarea>
-        <div class="text text-danger mt-1" *ngIf="partConcernForm.controls['partConcern'].touched && partConcernForm.controls['partConcern'].hasError('required')">
+        <textarea class="form-control " type="text" placeholder="Enter Concerns" rows="4" maxlength="100"  formControlName="concern"></textarea>
+        <div class="text text-danger mt-1" *ngIf="partConcernForm.controls['concern'].touched && partConcernForm.controls['concern'].hasError('required')">
             {{ validationMessages.required('Enter Concerns') }}
           </div>
         <div class="w-100 d-flex align-items-center justify-content-end mt-3 ">
