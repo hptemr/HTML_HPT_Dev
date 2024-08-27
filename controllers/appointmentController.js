@@ -14,7 +14,7 @@ const s3Details = constants.s3Details;
 
 const getAppointmentList = async (req, res) => {
     try {
-        const { query, fields, order, offset, limit, patientFields, therapistFields, userQuery } = req.body;
+        const { query, fields, order, offset, limit, patientFields, therapistFields, userQuery, patientQuery } = req.body;
         if (userQuery && Object.keys(userQuery).length) {
             let userList = await User.find(userQuery, { _id: 1 });
             if (userList && userList.length > 0) {
@@ -23,6 +23,17 @@ const getAppointmentList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
+
+        // Patient Search
+        if (patientQuery && Object.keys(patientQuery).length) {
+            let patientList = await Patient.find(patientQuery, { _id: 1 });
+            if (patientList && patientList.length > 0) {
+                query['patientId'] = { $in: patientList }
+            } else {
+                query['noResults'] = true //if no records found then pass default condition just to failed query.
+            }
+        }
+
         let appointmentList = await Appointment.find(query, fields)
             .populate('patientId', patientFields)
             .populate('therapistId', therapistFields)
