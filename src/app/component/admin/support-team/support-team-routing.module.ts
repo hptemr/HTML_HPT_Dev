@@ -21,6 +21,7 @@ import { DocumentDetailingComponent } from 'src/app/shared/component/support-bil
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
 import { CaseDetailsComponent } from './case-details/case-details.component';
+import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
 
 const routes: Routes = [
   {
@@ -105,6 +106,10 @@ const routes: Routes = [
   {
     path: 'requests',
     component:RequestsComponent   
+  },
+  {
+    path: 'requests/resolved-reuests',
+    component:ResolvedRequestsComponent   
   },
   {
     path: 'create-request-appointment/:requestId',

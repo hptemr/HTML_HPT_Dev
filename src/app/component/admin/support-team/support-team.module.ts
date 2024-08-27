@@ -9,6 +9,7 @@ import { CreateAppointmentComponent } from './create-appointment/create-appointm
 import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CaseDetailsComponent } from './case-details/case-details.component';
+import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
 @NgModule({
   declarations: [ 
     // AppointmentsComponent,
@@ -19,7 +20,8 @@ import { CaseDetailsComponent } from './case-details/case-details.component';
     RequestsComponent,
     CreateAppointmentComponent,
     CreateRequestAppointmentComponent,
-    CaseDetailsComponent
+    CaseDetailsComponent,
+    ResolvedRequestsComponent
   ],
   imports: [
     CommonModule,
