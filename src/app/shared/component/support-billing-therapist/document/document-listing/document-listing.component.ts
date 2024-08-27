@@ -37,12 +37,12 @@ export class DocumentListingComponent {
 
   getDefaultDirectories(){
     this.loading =  true
-    this.commonService.showLoader()
+    // this.commonService.showLoader()
     var userRole = this.authService.getLoggedInInfo('role')
     var searchParams = { searchValue:this.searchDirectory.trim(), userRole:userRole}
     this.authService.apiRequest('post', 'admin/getDefaultDirectories', searchParams).subscribe(async response => {
       this.loading =  false
-      this.commonService.hideLoader()
+      // this.commonService.hideLoader()
       var directories = response.data.directoryList
       this.arrLength = directories.length
       this.dataSource.data = directories

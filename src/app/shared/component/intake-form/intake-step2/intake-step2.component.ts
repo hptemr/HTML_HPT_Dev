@@ -88,9 +88,9 @@ export class IntakeStep2Component {
           this.step2Form.disable()
         }
         this.commonService.hideLoader()
-        if (this.step2FormData.payViaInsuranceInfo.insuranceFiles && this.step2FormData.payViaInsuranceInfo.insuranceFiles.length > 0) {
+        if (this.step2FormData.payViaInsuranceInfo && this.step2FormData.payViaInsuranceInfo?.insuranceFiles && this.step2FormData.payViaInsuranceInfo?.insuranceFiles.length > 0) {
           let filesArr: any = []
-          let insuranceFiles = this.step2FormData.payViaInsuranceInfo.insuranceFiles
+          let insuranceFiles = this.step2FormData.payViaInsuranceInfo?.insuranceFiles
           insuranceFiles.forEach((element: any) => {
             filesArr.push({
               name: element,
@@ -109,48 +109,50 @@ export class IntakeStep2Component {
 
 
   loadForm() {
+    console.log('>>>> step2FormData>>>',this.step2FormData)
+
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
-      relationWithPatient: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.relationWithPatient : ''],
-      firstName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      middleName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.middleName : ''],
-      lastName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.lastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      dob: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.dob : ''],
-      maritalStatus: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.maritalStatus : ''],
-      gender: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.gender : ''],
-      email: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.email : '', [Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
-      phoneNumber: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.phoneNumber : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      cellPhoneNumber: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.cellPhoneNumber : ''],
-      workExtensionNumber: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.workExtensionNumber : ''],
+      relationWithPatient: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.relationWithPatient : ''],
+      firstName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      middleName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.middleName : ''],
+      lastName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.lastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      dob: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.dob : ''],
+      maritalStatus: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.maritalStatus : ''],
+      gender: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.gender : ''],
+      email: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.email : '', [Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
+      phoneNumber: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.phoneNumber : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      cellPhoneNumber: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.cellPhoneNumber : ''],
+      workExtensionNumber: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.workExtensionNumber : ''],
 
-      insuranceName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.insuranceName : ''],
-      subscriberFirstName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.subscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberMiddleName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.subscriberMiddleName : ''],
-      subscriberLastName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.subscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberDob: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.subscriberDob : ''],
-      subscriberRelationWithPatient: [this.step2FormData && this.step2FormData.payViaInsuranceInfo.subscriberRelationWithPatient ? this.step2FormData.payViaInsuranceInfo.subscriberRelationWithPatient : '', [Validators.required]],
-      primaryInsuranceCompany: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.primaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      primaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.primaryInsuranceIdPolicy : '', [Validators.required]],
-      primaryInsuranceGroup: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.primaryInsuranceGroup : '', [Validators.required]],
-      primaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.primaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      secondaryInsuranceCompany: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      secondaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.secondaryInsuranceIdPolicy : '', [Validators.required]],
-      secondaryInsuranceGroup: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.secondaryInsuranceGroup : '', [Validators.required]],
-      secondaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.secondaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      injuryRelelatedTo: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.injuryRelelatedTo : ''],
-      carrierName: [this.step2FormData && this.step2FormData.payViaInsuranceInfo.carrierName ? this.step2FormData.payViaInsuranceInfo.carrierName : '', [Validators.required]],
-      dateOfInjury: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.dateOfInjury : '', [Validators.required]],
-      insuranceState: [this.step2FormData && this.step2FormData.payViaInsuranceInfo.insuranceState ? this.step2FormData.payViaInsuranceInfo.insuranceState : '', [Validators.required]],
-      claim: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.claim : '', [Validators.required]],
-      adjusterName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.adjusterName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      adjusterPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.adjusterPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      reportedEmployer: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.reportedEmployer : ''],
-      employerName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      employerPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      employerAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.employerAddress : '', [Validators.required]],
-      attorneyName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      attorneyPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      attorneyAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo.attorneyAddress : '', [Validators.required]],
+      insuranceName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.insuranceName : ''],
+      subscriberFirstName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.subscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      subscriberMiddleName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.subscriberMiddleName : ''],
+      subscriberLastName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.subscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      subscriberDob: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.subscriberDob : ''],
+      subscriberRelationWithPatient: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.subscriberRelationWithPatient ? this.step2FormData.payViaInsuranceInfo?.subscriberRelationWithPatient : '', [Validators.required]],
+      primaryInsuranceCompany: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      primaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceIdPolicy : '', [Validators.required]],
+      primaryInsuranceGroup: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceGroup : '', [Validators.required]],
+      primaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      secondaryInsuranceCompany: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      secondaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceIdPolicy : '', [Validators.required]],
+      secondaryInsuranceGroup: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceGroup : '', [Validators.required]],
+      secondaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      injuryRelelatedTo: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.injuryRelelatedTo : ''],
+      carrierName: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.carrierName ? this.step2FormData.payViaInsuranceInfo?.carrierName : '', [Validators.required]],
+      dateOfInjury: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.dateOfInjury : '', [Validators.required]],
+      insuranceState: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.insuranceState ? this.step2FormData.payViaInsuranceInfo?.insuranceState : '', [Validators.required]],
+      claim: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.claim : '', [Validators.required]],
+      adjusterName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.adjusterName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      adjusterPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.adjusterPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      reportedEmployer: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.reportedEmployer : ''],
+      employerName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      employerPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      employerAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerAddress : '', [Validators.required]],
+      attorneyName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      attorneyPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      attorneyAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
 
   }

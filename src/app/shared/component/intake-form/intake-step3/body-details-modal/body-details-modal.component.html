@@ -1,13 +1,18 @@
 <div class="p-3">
-    <label class="fw-600 font-16">Enter Concerns :</label>
-    <textarea class="form-control " type="text" placeholder="Enter Concerns" rows="4"></textarea>
-    <div class="w-100 d-flex align-items-center justify-content-end mt-3 ">
-        <button mat-stroked-button color="primary" class="m-1" [mat-dialog-close]="false">
-            Cancel
-        </button>
-        <button mat-raised-button color="primary" class="m-1"[mat-dialog-close]="false" (click)="saveData()">
-            Save
-        </button>
-    </div>
+    <form class="row" [formGroup]="partConcernForm" (ngSubmit)="saveData(partConcernForm.value)">
+        <label class="fw-600 font-16">Enter Concerns :</label>
+        <textarea class="form-control " type="text" placeholder="Enter Concerns" rows="4" maxlength="100"  formControlName="partConcern"></textarea>
+        <div class="text text-danger mt-1" *ngIf="partConcernForm.controls['partConcern'].touched && partConcernForm.controls['partConcern'].hasError('required')">
+            {{ validationMessages.required('Enter Concerns') }}
+          </div>
+        <div class="w-100 d-flex align-items-center justify-content-end mt-3 ">
+            <button mat-stroked-button color="primary" class="m-1" [mat-dialog-close]="false">
+                Cancel
+            </button>
+            <button mat-raised-button color="primary" class="m-1" type="submit" [disabled]="submitButton">
+                Save
+            </button>
+        </div>
+    </form>
 </div>
  
