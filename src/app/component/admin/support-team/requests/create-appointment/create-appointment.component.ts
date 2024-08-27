@@ -18,6 +18,7 @@ import { practiceLocations, s3Details } from 'src/app/config';
   providers: [DatePipe]
 })
 export class CreateRequestAppointmentComponent {
+  otherAppType = false;
   requestId: string;
   model: any;//NgbDateStruct;
   selectedValue: number;

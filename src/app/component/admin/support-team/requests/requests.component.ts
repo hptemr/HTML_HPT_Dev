@@ -14,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 export interface PeriodicElement {
   name: string;  
   email : string;
@@ -72,6 +73,19 @@ export class RequestsComponent {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
+
+  check(event:any) {  
+    if (event.checked === true) {
+      const dialogRef = this.dialog.open(AlertComponent,{
+        panelClass: 'custom-alert-container',
+        data : {
+          warningNote: 'Are you sure you want to mark this request as resolved?'
+        }
+      });
+    } else{
+      console.log('else')
+    }
+}
 
   searchRecords(event: any, colName: string) {
     let searchStr = event.target.value.trim()
