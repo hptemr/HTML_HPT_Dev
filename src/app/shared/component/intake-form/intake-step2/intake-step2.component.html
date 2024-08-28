@@ -744,45 +744,10 @@
                                 </div>
                             </div> -->
 
-                            <div class="col-12">
-                                <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-3">Minor Consent</label>
-                                <p class="font-16 clr--1F2F3E lh-24">{{fullNameForSign}} - I hereby authorize this PT
-                                    clinic
-                                    and/or it's
-                                    Individual Therapists and Assistants to evaluate and administer PT treatments to the
-                                    minor
-                                    patient listed above. This authorization is in effect as of the date this form is
-                                    signed.
-                                    This authorization shall remain valid for current and future PT cases until written
-                                    notice
-                                    is given by me revoking said authorization. I understand that I am financially
-                                    responsible
-                                    for all services rendered to the above patient whether I am present at the time of
-                                    treatment
-                                    or not.</p>
+                            <div class="col-12 d-flex flex-column concent--box">
+                                <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-2">Consent</label>
+                                <mat-checkbox (change)="openCMSmodal($event)">I have read and agree to the Hamilton Physical Therapy's <a [routerLink]="['/terms-of-services']" class="fw-700 text-decoration-underline font-16"> Terms of Service </a> and <a [routerLink]="['/privacy-policy']" class="fw-700 text-decoration-underline font-16">Privacy Policy. </a></mat-checkbox>
                             </div>
-
-
-                            <div class="col-12 d-flex align-items-center justify-content-between flex-wrap">
-                                <div  >
-                                    <a class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4 cursor-pointer"
-                                        (click)="cmsModal()">Policies Page</a>
-                                    <a class="text-primary text-decoration-underline fw-700 font-16 mt-2 cursor-pointer"
-                                        (click)="cmsModal()">Hamilton Physical Therapy & Associated Clinics Policies
-                                        Page</a>  
-                                </div>
-                                <div>
-                                    <span class="fw-700 font-16 clr--1F2F3E mb-1 mt-1 me-3">Upload Insurance Card</span>
-    
-                                    <button  mat-raised-button color="primary"
-                                        class="flex-shrink-0 mt-2">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
-                                        Upload  
-                                     </button>
-                                </div>
-                            </div>
-
-
                             <div class="col-12 d-flex  align-items-center justify-content-between">
                                 <div class="signature--box d-flex align-items-center justify-content-center">
                                     {{fullNameForSign}}
@@ -792,6 +757,64 @@
                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                                 Add Insurance  
                              </button>
+                            </div>
+
+                            <div class="col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-12 d-flex align-items-center">
+                                        <label class="fw-700 font-16 clr--1F2F3E mb-0 me-3">Is The Patient A Minor?</label>
+                                        <mat-radio-group (change)="onChange($event)" >
+                                            <mat-radio-button value="0011" class="me-3">Yes </mat-radio-button>
+                                            <mat-radio-button value="0012">No</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                    <!-- *ngIf="selectedValue == 0011" -->
+                                    <div class="col-12 minor--consent"> 
+                                        <label class="fw-700 font-16 clr--1F2F3E mb-1  ">Minor Consent</label>
+                                        <mat-checkbox (change)="openCMSmodal($event)"> 
+                                        <p class="font-16 clr--1F2F3E lh-24 mb-0">{{fullNameForSign}} - I hereby authorize this PT
+                                            clinic
+                                            and/or it's
+                                            Individual Therapists and Assistants to evaluate and administer PT treatments to the
+                                            minor
+                                            patient listed above. This authorization is in effect as of the date this form is
+                                            signed.
+                                            This authorization shall remain valid for current and future PT cases until written
+                                            notice
+                                            is given by me revoking said authorization. I understand that I am financially
+                                            responsible
+                                            for all services rendered to the above patient whether I am present at the time of
+                                            treatment
+                                            or not.</p>
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- <div class="col-12 d-flex align-items-center justify-content-between flex-wrap">
+                                <div  >
+                                    <a class="text-primary text-decoration-underline fw-700 font-16 mt-2 me-4 cursor-pointer"
+                                        (click)="cmsModal()">Policies Page</a>
+                                    <a class="text-primary text-decoration-underline fw-700 font-16 mt-2 cursor-pointer"
+                                        (click)="cmsModal()">Hamilton Physical Therapy & Associated Clinics Policies
+                                        Page</a>  
+                                </div>
+                                <div>
+                                    <span class="fw-700 font-16 clr--1F2F3E mb-1 mt-1 me-3">Upload Insurance Card</span> 
+                                    <button  mat-raised-button color="primary"
+                                        class="flex-shrink-0 mt-2">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
+                                        Upload  
+                                     </button>
+                                </div>
+                            </div> -->
+
+
+                            <div class="col-12 d-flex  align-items-center justify-content-between mt-3">
+                                <div class="signature--box d-flex align-items-center justify-content-center">
+                                    {{fullNameForSign}}
+                                </div>  
                             </div>
     
                             <div class="col-12 d-flex">

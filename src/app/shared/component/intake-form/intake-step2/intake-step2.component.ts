@@ -5,6 +5,7 @@ import { MatRadioChange } from '@angular/material/radio';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AddInsuranceModalComponent } from 'src/app/component/patient/book-appointment/add-insurance-modal/add-insurance-modal.component';
 import { carrierNameList, maritalStatus, practiceLocations, relationWithPatient } from 'src/app/config';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.component';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
@@ -40,6 +41,7 @@ export class IntakeStep2Component {
   insuranceList: any
   states: State[] = states_data
   fullNameForSign: any
+  selectedValue: number
 
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
   fileError: any = ''
@@ -63,6 +65,16 @@ export class IntakeStep2Component {
     this.commonService.showLoader()
     this.getInsuranceList()
     this.getAppointmentDetails()
+  }
+
+  openCMSmodal(event:any) {  
+      if (event.checked === true) {
+        const dialogRef = this.dialog.open(CmsModalComponent,{
+          panelClass: 'cms--container', 
+        });
+      } else{
+        console.log('else')
+      }
   }
 
   async getAppointmentDetails() {
