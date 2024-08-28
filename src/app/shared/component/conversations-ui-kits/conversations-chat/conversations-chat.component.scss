@@ -1,8 +1,6 @@
-.create--group--btn{
-    position: absolute;
-    top: 54px;
-    right: 82px;
-    z-index: 9;
+.create--group--btn{ 
+    float: right;
+    margin-bottom: 5px;
 }
 ::ng-deep { 
     .cc-with-messages__wrapper{
@@ -35,6 +33,7 @@
                     }
                     .cc-list{
                         .listitem__view{
+                            padding: 10px 0;
                             cometchat-list-item{
                                
                             } 
@@ -101,10 +100,9 @@
     ::ng-deep{
         .cc-with-messages__wrapper .cc-with-messages__sidebar{
             margin: 0 !important;
-        }
-        .create--group--btn{
-            top: 10px !important;
-            right: 59px !important;
-        }
+        } 
+    }
+    .create--group--btn{  
+        margin-right: 10px;
     }
 }
