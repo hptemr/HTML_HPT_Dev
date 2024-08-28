@@ -34,7 +34,7 @@ export class SidebarComponent {
 
   toggleMenu(item: Menu) {
     // Reload page if coversation UI Kit Chat Open
-    if(item.mainTitle == 'Conversations UiKit'){
+    if(item.mainTitle == 'Conversations'){
       setTimeout(function () {
         location.reload();
       }, 500)

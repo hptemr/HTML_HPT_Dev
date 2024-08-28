@@ -106,26 +106,27 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        // {
+        //   id: 5,
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations',
+        //   headTitle1: '',
+        //   path: '/practice-admin/conversations',
+        //   active: false,
+        //   item: []
+        // },
         {
           id: 5,
+          activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
-          headTitle1: '',
-          path: '/practice-admin/conversations',
-          active: false,
-          item: []
-        },
-        {
-          id: 6,
-          icon: 'chat_bubble_outline',
-          mainTitle: 'Conversations UiKit',
           headTitle1: '',
           path: '/practice-admin/conversations-chat',
           active: false,
           item: []
         },
         {
-          id: 7,
+          id: 6,
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
@@ -197,26 +198,27 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        // {
+        //   id: 4,
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations',
+        //   headTitle1: '',
+        //   path: '/therapist/conversations',
+        //   active: false,
+        //   item: []
+        // },
+        // {
+        //   id: 4,
+        //   activeMenu: 'conversations-chat',
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations UiKit',
+        //   headTitle1: '',
+        //   path: '/therapist/conversations-chat',
+        //   active: false,
+        //   item: []
+        // },
         {
           id: 4,
-          icon: 'chat_bubble_outline',
-          mainTitle: 'Conversations',
-          headTitle1: '',
-          path: '/therapist/conversations',
-          active: false,
-          item: []
-        },
-        {
-          id: 5,
-          icon: 'chat_bubble_outline',
-          mainTitle: 'Conversations UiKit',
-          headTitle1: '',
-          path: '/therapist/conversations-chat',
-          active: false,
-          item: []
-        },
-        {
-          id: 6,
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -385,26 +387,26 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
+        // {
+        //   id: 6,
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations',
+        //   headTitle1: '',
+        //   path: '/support-team/conversations',
+        //   active: false,
+        //   item: []
+        // },
+        // {
+        //   id: 7,
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations UiKit',
+        //   headTitle1: '',
+        //   path: '/support-team/conversations-chat',
+        //   active: false,
+        //   item: []
+        // },
         {
           id: 6,
-          icon: 'chat_bubble_outline',
-          mainTitle: 'Conversations',
-          headTitle1: '',
-          path: '/support-team/conversations',
-          active: false,
-          item: []
-        },
-        {
-          id: 7,
-          icon: 'chat_bubble_outline',
-          mainTitle: 'Conversations UiKit',
-          headTitle1: '',
-          path: '/support-team/conversations-chat',
-          active: false,
-          item: []
-        },
-        {
-          id: 8,
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -506,28 +508,28 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        // {
+        //   id: 5,
+        //   activeMenu: 'conversations',
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations',
+        //   headTitle1: '',
+        //   path: '/system-admin/conversations',
+        //   active: false,
+        //   item: []
+        // },
         {
           id: 5,
-          activeMenu: 'conversations',
+          activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
-          headTitle1: '',
-          path: '/system-admin/conversations',
-          active: false,
-          item: []
-        },
-        {
-          id: 6,
-          activeMenu: 'conversations',
-          icon: 'chat_bubble_outline',
-          mainTitle: 'Conversations UiKit',
           headTitle1: '',
           path: '/system-admin/conversations-chat',
           active: false,
           item: []
         },
         {
-          id: 7,
+          id: 6,
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
