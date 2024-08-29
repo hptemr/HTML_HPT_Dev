@@ -393,7 +393,7 @@ const getDefaultDirectories = async (req, res) => {
         $match: queryParams
       }
     ])
-    if(req.body.userRole='therapist'){
+    if(req.body.userRole=='therapist'){
       let userData = await User.find({ _id: req.body.userId });
       if(userData[0]['siteLeaderForPracLocation'] && userData[0]['siteLeaderForPracLocation']=='Site Leader'){
         directoryList = directoryList
