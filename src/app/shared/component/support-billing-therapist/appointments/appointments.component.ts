@@ -52,6 +52,8 @@ export class AppointmentsComponent {
   fieldValues: any = ['Accepted', 'Rescheduled'];
   seachByPatientNameOrEmail: any = ''
   patientQuery: any = {}
+  minToDate: Date | null = null;
+  maxToDate: Date | null = null;
 
   constructor(
     public dialog: MatDialog,
@@ -137,9 +139,19 @@ export class AppointmentsComponent {
     if (colName == 'fromDate') {
       obj = { $gte: selectedDate }
       this.selectedFromDate = selectedDate;
+
+      // Set minToDate to one day after the selected fromDate
+      const nextDay = new Date(selectedDate);
+      nextDay.setDate(selectedDate.getDate() + 1);
+      this.minToDate = nextDay;
     } else {
       obj = { $lte: selectedDate }
       this.selectedToDate = selectedDate;
+
+      // Set maxToDate to one day after the selected fromDate
+      const maxDay = new Date(selectedDate);
+      maxDay.setDate(selectedDate.getDate() - 1);
+      this.maxToDate = maxDay;
     }
     if (this.selectedFromDate && this.selectedToDate) {
       obj = { $gte: this.selectedFromDate, $lte: this.selectedToDate }
@@ -212,7 +224,8 @@ export class AppointmentsComponent {
     }
     if (sortState.active == 'name') {
       this.orderBy = {
-        appointmentId: order
+        // appointmentId: order
+        caseName: order
       }
     } else {
       this.orderBy = {

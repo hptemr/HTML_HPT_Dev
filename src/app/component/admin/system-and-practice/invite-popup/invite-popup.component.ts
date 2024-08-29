@@ -17,6 +17,7 @@ export class InvitePopupComponent {
   inviteUserForm: FormGroup;
   practiceLocationData:string[] = practiceLocations
   inviteButton:boolean = false;
+  isTherapist:boolean = false
   constructor(
     private commonService: CommonService,
     private adminService :AdminService,
@@ -29,6 +30,10 @@ export class InvitePopupComponent {
 
   ngOnInit() {
     this.initializePasswordForm()
+    if(this.heading == "Invite Therapist"){
+      this.initializeTherapistFields()
+      this.isTherapist = true
+    }
   }
 
   initializePasswordForm(){
@@ -38,6 +43,11 @@ export class InvitePopupComponent {
       email: ['',[Validators.required, Validators.email]],
       practiceLocation:['', Validators.required]
     });
+  }
+
+  // Therapist Fields
+  initializeTherapistFields() {
+    this.inviteUserForm.addControl('therapistCredentials', this.fb.control('', []));
   }
 
   inviteUser(){

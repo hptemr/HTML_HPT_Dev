@@ -49,6 +49,11 @@
                   {{ validationMessages.requiredDropdown('the Practice location') }}
                 </div>
               </div>
+              <!-- Therapist Field -->
+              <div class="form-group" *ngIf="isTherapist">
+                <label class="col-form-label fw-400">Therapist Credentials</label>
+                <input class="form-control form-control-md" type="text" placeholder="Enter Therapist Credentials" formControlName="therapistCredentials" maxlength="10">
+              </div>
           </div>
       </form>
   </div>

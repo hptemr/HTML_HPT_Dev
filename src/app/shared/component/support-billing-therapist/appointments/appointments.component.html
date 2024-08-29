@@ -61,7 +61,7 @@
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [(ngModel)]="fromDate" (dateChange)="onDateChange($event,'fromDate')"
                                             name="dp" readonly="isReadonly" placeholder="From Date" matInput
-                                            [matDatepicker]="picker" (focus)="picker.open()">
+                                            [matDatepicker]="picker" (focus)="picker.open()" [max]="maxToDate">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
                                     </mat-form-field>
@@ -74,7 +74,7 @@
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [(ngModel)]="toDate" (dateChange)="onDateChange($event,'toDate')"
                                             name="dp2" readonly="isReadonly" placeholder="To Date" matInput
-                                            [matDatepicker]="picker2" (focus)="picker2.open()">
+                                            [matDatepicker]="picker2" (focus)="picker2.open()" [min]="minToDate">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                         <mat-datepicker #picker2></mat-datepicker>
                                     </mat-form-field>
