@@ -393,6 +393,15 @@ const getDefaultDirectories = async (req, res) => {
         $match: queryParams
       }
     ])
+    if(req.body.userRole='therapist'){
+      let userData = await User.find({ _id: req.body.userId });
+      if(userData[0]['siteLeaderForPracLocation'] && userData[0]['siteLeaderForPracLocation']=='Site Leader'){
+        directoryList = directoryList
+      }else{
+        directoryList = directoryList.filter((item) => item.directory_name !== 
+        "Site Leaders");
+      }
+    }
     commonHelper.sendResponse(res, 'success', { directoryList }, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
