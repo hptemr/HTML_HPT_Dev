@@ -20,6 +20,9 @@ const messages = {
         enterCurrentPassword: 'You have enter current password',
         resendInvite: 'Invite resend successfully',
         revokeInvite: 'Invoke invite successfully',
+        npiExists:"NPI already exist",
+        ssnExists:"SSN already exist",
+        licenseExists:"License already exist"
     },
     infoMessage: {
         updated: 'Updated successfully',
