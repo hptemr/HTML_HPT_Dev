@@ -30,8 +30,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Pay Via</label>
-                        <mat-radio-group (change)="onChange($event)" formControlName="payVia"
-                            aria-label="Select an option">
+                        <mat-radio-group (change)="onChange($event)" formControlName="payVia" aria-label="Select an option">
                             <mat-radio-button value="Insurance" class="me-3">Insurance</mat-radio-button>
                             <mat-radio-button value="Selfpay">Self Pay</mat-radio-button>
                         </mat-radio-group>
@@ -85,10 +84,8 @@
                         <div class="form-group">
                             <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
                                 </span></label>
-                            <input (blur)="checkSpace('lastName', $event)" formControlName="lastName"
-                                class="form-control" type="text" placeholder="Enter Last Name" (keyup)="signatureText($event)"/>
-                            <div class="text text-danger mt-1"
-                                *ngIf="step2Form.controls['lastName'].touched && (step2Form.controls['lastName'].hasError('required') || step2Form.controls['lastName'].invalid)">
+                            <input (blur)="checkSpace('lastName', $event)" formControlName="lastName" class="form-control" type="text" placeholder="Enter Last Name" (keyup)="signatureText($event)"/>
+                            <div class="text text-danger mt-1" *ngIf="step2Form.controls['lastName'].touched && (step2Form.controls['lastName'].hasError('required') || step2Form.controls['lastName'].invalid)">
                                 {{ validationMessages.required('Last Name') }}
                             </div>
                         </div>
@@ -98,8 +95,7 @@
                             <label class="col-form-label fw-600">Date of Birth </label>
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
-                                    <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY"
-                                        matInput [matDatepicker]="picker"  (focus)="picker.open()">
+                                    <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker"  (focus)="picker.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
@@ -320,7 +316,7 @@
                                     <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
                                         </span></label>
                                     <input (blur)="checkSpace('primaryInsuranceGroup', $event)"
-                                        formControlName=" " class="form-control" type="text"
+                                        formControlName="primaryInsuranceGroup" class="form-control" type="text"
                                         placeholder="Enter Group"   />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['primaryInsuranceGroup'].touched && (step2Form.controls['primaryInsuranceGroup'].hasError('required') || step2Form.controls['primaryInsuranceGroup'].invalid)">
@@ -349,7 +345,7 @@
                                     <label class="col-form-label fw-600">Effective Date </label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [max]="todayDate" formControlName="primaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                            <input formControlName="primaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker3" (focus)="picker3.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                             <mat-datepicker #picker3></mat-datepicker>
@@ -367,7 +363,7 @@
                                     <label class="col-form-label fw-600">End Date</label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [max]="todayDate" formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            <input [min]="todayDate" formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker4" (focus)="picker4.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                                             <mat-datepicker #picker4></mat-datepicker>
@@ -446,7 +442,7 @@
                                     <label class="col-form-label fw-600">Effective Date </label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [max]="todayDate" formControlName="secondaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                            <input formControlName="secondaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker5" (focus)="picker5.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                             <mat-datepicker #picker5></mat-datepicker>
@@ -464,7 +460,7 @@
                                     <label class="col-form-label fw-600">End Date</label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [max]="todayDate" formControlName="secondaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            <input [min]="todayDate" formControlName="secondaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker6" (focus)="picker6.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
                                             <mat-datepicker #picker6></mat-datepicker>
@@ -519,9 +515,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
                                         </span></label>
-                                    <input (blur)="checkSpace('thirdInsuranceGroup', $event)"
-                                        formControlName="thirdInsuranceGroup" class="form-control" type="text"
-                                        placeholder="Enter Group" />
+                                    <input (blur)="checkSpace('thirdInsuranceGroup', $event)" formControlName="thirdInsuranceGroup" class="form-control" type="text" placeholder="Enter Group" />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['thirdInsuranceGroup'].touched && (step2Form.controls['thirdInsuranceGroup'].hasError('required') || step2Form.controls['thirdInsuranceGroup'].invalid)">
                                         {{ validationMessages.required('Group') }}
@@ -548,7 +542,7 @@
                                     <label class="col-form-label fw-600">Effective Date </label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [max]="todayDate" formControlName="thirdInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                            <input formControlName="thirdInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker5" (focus)="picker5.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                             <mat-datepicker #picker5></mat-datepicker>
@@ -566,7 +560,7 @@
                                     <label class="col-form-label fw-600">End Date</label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [max]="todayDate" formControlName="thirdInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            <input [min]="todayDate" formControlName="thirdInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker6" (focus)="picker6.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
                                             <mat-datepicker #picker6></mat-datepicker>
@@ -768,30 +762,25 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Have you consulted an attorney for your current problem?</label>
-                                    <mat-radio-group (change)="onChange($event)" formControlName="payVia"
-                                        aria-label="Select an option">
+                                    <mat-radio-group (change)="attorneyChange($event)" formControlName="attorney" aria-label="Select an option">
                                         <mat-radio-button value="yes" class="me-3">Yes</mat-radio-button>
                                         <mat-radio-button value="no">Self Pay</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag" >
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> *
-                                        </span></label>
-                                    <input (blur)="checkSpace('attorneyName', $event)" formControlName="attorneyName"
-                                        class="form-control" type="text" placeholder="Enter Attorney Name" />
+                                    <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> *</span></label>
+                                    <input (blur)="checkSpace('attorneyName', $event)" formControlName="attorneyName" class="form-control" type="text" placeholder="Enter Attorney Name" />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['attorneyName'].touched && (step2Form.controls['attorneyName'].hasError('required') || step2Form.controls['attorneyName'].invalid)">
                                         {{ validationMessages.required('Attorney Name') }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag" >
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Attorney Phone <span class="clr--DF0404 ms-1">
-                                            *
-                                        </span></label>
+                                    <label class="col-form-label fw-600">Attorney Phone <span class="clr--DF0404 ms-1"> *</span></label>
                                     <input [imask]="{mask: '(000) 000-0000'}" formControlName="attorneyPhone"
                                         class="form-control" type="text" placeholder="Enter Attorney Phone" />
                                     <div class="text text-danger mt-1"
@@ -877,14 +866,14 @@
                                 <div class="row">
                                     <div class="col-12 d-flex align-items-center">
                                         <label class="fw-700 font-16 clr--1F2F3E mb-0 me-3">Is The Patient A Minor?</label>
-                                        <mat-radio-group (change)="onChange($event)" >
-                                            <mat-radio-button value="0011" class="me-3">Yes </mat-radio-button>
-                                            <mat-radio-button value="0012">No</mat-radio-button>
+                                        <mat-radio-group (change)="changePatientMinor($event)" formControlName="isPatientMinor">
+                                            <mat-radio-button value="yes" class="me-3">Yes </mat-radio-button>
+                                            <mat-radio-button value="no">No</mat-radio-button>
                                         </mat-radio-group>
                                     </div>
                                     <!-- *ngIf="selectedValue == 0011" -->
-                                    <div class="col-12 minor--consent"> 
-                                        <label class="fw-700 font-16 clr--1F2F3E mb-1  ">Minor Consent</label>
+                                    <div class="col-12 minor--consent" *ngIf="isMinorFlag"> 
+                                        <label class="fw-700 font-16 clr--1F2F3E mb-1">Minor Consent</label>
                                         <mat-checkbox (change)="openCMSmodal($event)"> 
                                         <p class="font-16 clr--1F2F3E lh-24 mb-0">{{fullNameForSign}} - I hereby authorize this PT
                                             clinic

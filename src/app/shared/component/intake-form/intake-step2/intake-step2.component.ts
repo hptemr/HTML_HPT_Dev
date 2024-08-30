@@ -48,6 +48,8 @@ export class IntakeStep2Component {
   todayDate = new Date()
   isFormEditable = false
   thirdInsurancesFlag:boolean=false
+  attorneyFlag:boolean=false
+  isMinorFlag:boolean=false
   activeUserRoute = this.commonService.getLoggedInRoute()
   mat_icon:string='add_circle'
   constructor(public dialog: MatDialog,
@@ -175,9 +177,11 @@ export class IntakeStep2Component {
       employerName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       employerPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       employerAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerAddress : '', [Validators.required]],
+      isPatientMinor: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorney : '', []],
+      attorney: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorney : '', []],
       attorneyName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       attorneyPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      attorneyAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
+      //attorneyAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
 
   }
@@ -209,6 +213,7 @@ export class IntakeStep2Component {
     let employerName = ''
     let employerPhone = ''
     let employerAddress = ''
+    let attorney = ''
     let attorneyName = ''
     let attorneyPhone = ''
     let attorneyAddress = ''
@@ -256,9 +261,10 @@ export class IntakeStep2Component {
       employerName = info.employerName
       employerPhone = info.employerPhone
       employerAddress = info.employerAddress
+      attorney = info.attorney
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
-      attorneyAddress = info.attorneyAddress
+      //attorneyAddress = info.attorneyAddress
     }
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
     this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
@@ -298,9 +304,10 @@ export class IntakeStep2Component {
     this.step2Form.controls['employerName'].setValue(employerName)
     this.step2Form.controls['employerPhone'].setValue(employerPhone)
     this.step2Form.controls['employerAddress'].setValue(employerAddress)
+    this.step2Form.controls['attorney'].setValue(attorney)
     this.step2Form.controls['attorneyName'].setValue(attorneyName)
     this.step2Form.controls['attorneyPhone'].setValue(attorneyPhone)
-    this.step2Form.controls['attorneyAddress'].setValue(attorneyAddress)
+    //this.step2Form.controls['attorneyAddress'].setValue(attorneyAddress)
   }
 
   async getInsuranceList() {
@@ -318,12 +325,29 @@ export class IntakeStep2Component {
     this.payViaSelected = event.value
   }
 
+  attorneyChange(event: MatRadioChange) {
+    this.attorneyFlag = false
+    if(event.value=='yes'){
+      this.attorneyFlag = true
+    }else{
+      this.step2Form.controls['attorneyName'].setValue('')
+      this.step2Form.controls['attorneyPhone'].setValue('')
+    }
+    
+  }
+
+  changePatientMinor(event: MatRadioChange) {
+    this.isMinorFlag = false
+    if(event.value=='yes')
+    this.isMinorFlag = true
+  }
+
   checkSpace(colName: any, event: any) {
     this.step2Form.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
 
   signatureText(event: any) {
-    if(this.step2Form.controls['firstName'].value){
+    if(this.step2Form.controls['firstName'].value || this.step2Form.controls['lastName'].value){
       this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
     }
   }
