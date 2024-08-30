@@ -46,8 +46,12 @@ const insurnaceSchema = new mongoose.Schema({
     employerPhone: { type: String, default: "" },
     employerAddress: { type: String, default: "" },
 
+    attorney: { type: Boolean, default: false }, 
     attorneyName: { type: String, default: "" },
     attorneyPhone: { type: String, default: "" },
+
+    isPatientMinor: { type: Boolean, default: false }, 
+    minorConsent: { type: Boolean, default: false }, 
 
     status: { type: String, default: "Active" },
     createdAt: { type: Date, default: Date.now },
