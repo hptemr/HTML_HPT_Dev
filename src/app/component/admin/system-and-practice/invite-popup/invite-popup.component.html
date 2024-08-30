@@ -53,6 +53,9 @@
               <div class="form-group" *ngIf="isTherapist">
                 <label class="col-form-label fw-400">Therapist Credentials</label>
                 <input class="form-control form-control-md" type="text" placeholder="Enter Therapist Credentials" formControlName="therapistCredentials" maxlength="10">
+                <div class="text text-danger mt-1" *ngIf="inviteUserForm.controls['therapistCredentials'].touched && inviteUserForm.controls['therapistCredentials'].hasError('pattern')">
+                  {{ validationMessages.alphabeticChar('Therapist Credentials') }}
+                </div>
               </div>
           </div>
       </form>

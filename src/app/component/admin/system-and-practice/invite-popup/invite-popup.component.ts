@@ -47,7 +47,7 @@ export class InvitePopupComponent {
 
   // Therapist Fields
   initializeTherapistFields() {
-    this.inviteUserForm.addControl('therapistCredentials', this.fb.control('', []));
+    this.inviteUserForm.addControl('therapistCredentials', this.fb.control('', [Validators.pattern(regex.alphanumeric)]));
   }
 
   inviteUser(){
