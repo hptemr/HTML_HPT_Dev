@@ -38,10 +38,10 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                                 Name
                             </th>
-                            <td class="cursor-pointer" mat-cell *matCellDef="let element" (click)="gotoDirectory(element._id,element.icon,element.name)"> 
+                            <td class="" mat-cell *matCellDef="let element" (click)="gotoDirectory(element._id,element.icon,element.name)"> 
                                <div class="d-flex align-items-center">
-                                    <mat-icon class="me-3"> {{element.icon}}</mat-icon>
-                                    <p class="font-14 clr--292D32">{{element.name}}</p>
+                                    <mat-icon class="me-3 cursor-pointer"> {{element.icon}}</mat-icon>
+                                    <p class="font-14 clr--292D32 cursor-pointer">{{element.name}}</p>
                                </div>
                             </td>
                         </ng-container>  

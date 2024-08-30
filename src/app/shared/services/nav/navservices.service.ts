@@ -530,10 +530,11 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 6,
+          activeMenu: 'system-documents',
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
-          path: 'manage-documents/system-documents',
+          path: '/system-admin/manage-documents/system-documents',
           active: false,
           item: []
         },

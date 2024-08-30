@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="d-flex mb-0 pb-1 fw-700 font-16">Enter Document Name <span class="clr--DF0404 ms-1"> * </span>  </label>
-                <input class="form-control" type="text" placeholder="Enter Document Name" [(ngModel)]="documentName" maxlength="50"/>
+                <input class="form-control text-lowercase" type="text" placeholder=" " [(ngModel)]="documentName" maxlength="50"/>
                 <mat-error *ngIf="documentName=='' && submitted">Please enter document name</mat-error>
             </div>
         </div>

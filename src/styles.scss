@@ -20,6 +20,7 @@ input, p,
 .clr--292D32{color: #292D32 !important;}
 .clr--fff{color: #fff;}
 .clr--828282{color: #828282;}
+.clr--848789{color: #848789 !important;}
 .clr--212529{ color: #212529;} 
 .clr--31B7B7 {color: #31B7B7;}
 
@@ -35,6 +36,7 @@ input, p,
 .fw-600{font-weight: 600 !important;} 
 .fw-700{font-weight: 700 !important;} 
 .fw-800{font-weight: 800 !important;} 
+
 
 .ml-3{margin-left: 2rem !important;}
 // Comman classes
@@ -989,6 +991,7 @@ ngb-datepicker{
         color: #828282 !important;
         font-size: 14px !important;
     }
+   
 } 
 
 // SOAP Note ()
@@ -1053,7 +1056,8 @@ ngb-datepicker{
     left: 35px;
     width: 95%;
 }
- 
+
+
 
 
 
@@ -1129,7 +1133,7 @@ ngb-datepicker{
     .note--wrapper .tab--header ul li a{
         font-size: 13px;
     }
-    .note--wrapper .note--body{
+    .note--wrapper .note--body,.note--body--doc{
         padding: 15px;
     }
     .notes--footer--btns {
@@ -1159,7 +1163,7 @@ ngb-datepicker{
         left: 0;
         width: 100%;
     }
-    .note--wrapper .note--body{
+    .note--wrapper .note--body,.note--body--doc{
         height: calc(100vh - 202px);
     }
 }
