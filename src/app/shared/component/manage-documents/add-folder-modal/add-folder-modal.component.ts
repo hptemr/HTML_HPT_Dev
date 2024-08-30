@@ -29,7 +29,7 @@ export class AddFolderModalComponent {
 
   submit(){
     if(this.inputValue!=''){
-      this.dialogRef.close(this.inputValue)
+      this.dialogRef.close(this.inputValue.trim())
     }
   }
 }
