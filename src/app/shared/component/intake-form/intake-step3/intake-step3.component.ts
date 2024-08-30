@@ -18,6 +18,8 @@ export class IntakeStep3Component {
   step3Form: FormGroup
   step3FormData: any
   selectedPartsFront: string[] = [];
+  selectedPartsBack: string[] = [];
+  initialName:string='';
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
   fileError: any = ''
   uploadedPrescriptionFiles: any = []
@@ -52,7 +54,7 @@ export class IntakeStep3Component {
       } else {
         this.step3FormData = response.data.appointmentData
         this.loadForm()
-
+        this.initialName = this.step3FormData.patientInfo.firstName.charAt(0)+''+this.step3FormData.patientInfo.lastName.charAt(0)
         if (this.authService.getLoggedInInfo('role') == 'patient' && this.step3FormData.status == 'Pending') {
           //patient can update the info
           this.isFormEditable = true
@@ -77,8 +79,7 @@ export class IntakeStep3Component {
           this.uploadedPrescriptionFilesTotal = prescriptionFiles.length
         }
 
-        if(this.step3FormData.bodyPartFront){
-          
+        if(this.step3FormData.bodyPartFront){          
           this.step3FormData.bodyPartFront.forEach((element: any) => {
             if (!this.selectedPartsFront.includes(element.part)) {
               this.selectedPartsFront.push(element.part);
@@ -87,9 +88,15 @@ export class IntakeStep3Component {
             }
           });
         }
-
-      
-
+        if(this.step3FormData.bodyPartBack){          
+          this.step3FormData.bodyPartBack.forEach((element: any) => {
+            if (!this.selectedPartsBack.includes(element.part)) {
+              this.selectedPartsBack.push(element.part);
+            } else {
+              this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
+            }
+          });
+        }   
       }
     })
   }
@@ -111,35 +118,30 @@ export class IntakeStep3Component {
     return this.step3Form.controls;
   }
 
-  bodyBackClick(){
-    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
-      panelClass: 'custom-alert-container', 
-      data : {
-        heading: '',
-        partName:'1',
-        appId:this.appId
-      }
-    });
-  }
 
-  bodyClick(partName:string) {
-    
+  bodyClick(from:string,partName:string) {   
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 
       data : {
         heading: '',
         partName:partName,
         appId:this.appId,
+        from:from,
         bodyPartFront:this.step3FormData.bodyPartFront,
         bodyPartBack:this.step3FormData.bodyPartBack
       }
     });  
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result && !result.error){
-    //     this.adminUsers('invite')
-    //     this.commonService.openSnackBar(result.message,"SUCCESS")
-    //   }
-    // });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+          if(from=='bodyPartFront'){
+            this.selectedPartsFront.push(partName);
+          }else if(from=='bodyPartBack'){
+            this.selectedPartsBack.push(partName);
+          }
+      }
+    });
   }
 
   loadForm() {
