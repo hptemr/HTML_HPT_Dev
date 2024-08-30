@@ -66,7 +66,7 @@ export class UploadDocumentsModalComponent {
     const formData:any = new FormData();
     var fileExtension = this.uploadedFile[0].name.split('.').pop()
     formData.append('directory', this.directory);
-    formData.append('documentName', this.documentName+'.'+fileExtension);
+    formData.append('documentName', this.documentName.trim()+'.'+fileExtension);
     formData.append('uploadFile', this.uploadedFile[0], this.uploadedFile[0].name);
     formData.append('endUserId',this.userId)
     this.authService.apiRequest("post", "admin/uploadDocumentFile", formData).subscribe(
