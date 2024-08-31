@@ -95,7 +95,7 @@
                             <label class="col-form-label fw-600">Date of Birth </label>
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
-                                    <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker"  (focus)="picker.open()">
+                                    <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker" (focus)="picker.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
@@ -263,7 +263,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group" *ngIf="">
-                                    <input class="form-control" type="text" placeholder="Enter other relation" />
+                                    <input class="form-control" type="text" formControlName="otherRelation" placeholder="Enter other relation" />
                                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                                 </div>
                             </div>

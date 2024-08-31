@@ -127,6 +127,7 @@ export class IntakeStep2Component {
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
       relationWithPatient: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.relationWithPatient : ''],
+      otherRelation: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.otherRelation : ''],
       firstName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       middleName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.middleName : ''],
       lastName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.lastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -194,6 +195,7 @@ export class IntakeStep2Component {
     let subscriberLastName = ''
     let subscriberDob
     let subscriberRelationWithPatient = ''
+    let otherRelation = ''
     let primaryInsuranceCompany = ''
     let primaryInsuranceIdPolicy = ''
     let primaryInsuranceGroup = ''
@@ -236,6 +238,7 @@ export class IntakeStep2Component {
       subscriberLastName = info.subscriberLastName
       subscriberDob = info.subscriberDob
       subscriberRelationWithPatient = info.subscriberRelationWithPatient
+      otherRelation = info.otherRelation
       primaryInsuranceCompany = info.primaryInsuranceCompany
       primaryInsuranceIdPolicy = info.primaryInsuranceIdPolicy
       primaryInsuranceGroup = info.primaryInsuranceGroup
@@ -271,6 +274,7 @@ export class IntakeStep2Component {
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.step2Form.controls['subscriberLastName'].setValue(subscriberLastName)
     this.step2Form.controls['subscriberDob'].setValue(subscriberDob)
+    this.step2Form.controls['otherRelation'].setValue(otherRelation)
     this.step2Form.controls['subscriberRelationWithPatient'].setValue(subscriberRelationWithPatient)
     this.step2Form.controls['primaryInsuranceCompany'].setValue(primaryInsuranceCompany)
     this.step2Form.controls['primaryInsuranceIdPolicy'].setValue(primaryInsuranceIdPolicy)
