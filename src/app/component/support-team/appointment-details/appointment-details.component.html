@@ -256,10 +256,15 @@
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
                                                 <p class="mb-1 clr--1F2F3E  font-16 fw-400 ">Corvallis PT</p>
                                             </div>
-                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2 w-11">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2 w-11 d-none d-lg-block">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
                                                 <p class="mb-1 clr--1F2F3E  font-16 fw-400">3</p>
                                             </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2  d-lg-none ">
+                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
+                                                <p class="mb-1 clr--1F2F3E  font-16 fw-400">3</p>
+                                            </div>
+
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
                                                 <p class="mb-1 clr--1F2F3E font-16 wb-ba fw-400 ">Preferred: Tue, Nov 13, 2023 02:00 pm</p>
@@ -515,9 +520,7 @@
                                             <div class="d-flex flex-row flex-wrap   mt-3"  *ngIf="showShare"> 
                                                 <img class="green-icon" src="assets/images/ark/green-check-icon.svg" alt="" width="20px">
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 me-3 mt-2">Details are shared with Billing Team </p> 
-                                                 </div>
-
-
+                                            </div> 
                                     </div> 
                                 </div> 
                     </div>
@@ -654,6 +657,15 @@
                     </div>
                 </div>
             </div> 
+
+            <div class="col-12 mt-1 mb-3">
+                <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
+                   <button mat-raised-button color="warn" >
+                        Reject Case
+                    </button> 
+                </div>
+            </div>
+
         </div>
 </div> 
         
