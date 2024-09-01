@@ -453,6 +453,36 @@
             width: 906px;
         }
     }
+    .app--details--wrapper.profile--right--wrapper .profile--right {
+        margin-left: 0 !important; 
+        padding-left: 0 !important;
+        .appointment-information-header-wrapper .exp-class {
+            .profile--img--box{
+                gap: 10px;
+            }
+            .mat-expansion-panel-header{
+                height: auto;
+                ::ng-deep{
+                    .mat-content{
+                        flex-direction: column !important;
+                        gap: 10px;
+                    }
+                }
+            }
+            .mat-expansion-panel-header-description{
+                flex-grow: 3;
+                flex-direction: column;
+                align-items: start !important;
+                gap: 10px;
+            }
+            // .mat-expansion-panel-header-description .intake-btn {
+            //     margin-right: 0px !important;
+            // }
+            .mat-mdc-checkbox {
+                margin-left: -10px !important;
+            }
+        }
+    }
     .min-h{min-height: 0px !important;}
     .form-group{margin-bottom: 15px !important;}
 }
@@ -515,3 +545,7 @@
 .w-11{
     width: 11%;
 }
+.w-97{
+    width: 97% !important;
+}
+ 
