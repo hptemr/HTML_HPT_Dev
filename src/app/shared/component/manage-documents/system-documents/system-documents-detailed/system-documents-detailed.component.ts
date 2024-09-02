@@ -127,8 +127,8 @@ export class SystemDocumentsDetailedComponent {
     var headerName = ""
     var labelName = ""
     if(element.icon=='folder'){
-      headerName = 'Update Directory'
-      labelName = 'Directory Name'
+      headerName = 'Update Folder'
+      labelName = 'Folder Name'
     }else{
       headerName='Update File'
       labelName = 'File Name'
@@ -170,7 +170,7 @@ export class SystemDocumentsDetailedComponent {
   addFolderModal(message:any,result:any) {
     const dialogRef = this.dialog.open(AddFolderModalComponent,{
       panelClass: [ 'custom-alert-container','modal--wrapper'],
-      data: {type:'create',headerName : 'Create Directory',labelName:'Folder Name',updateValue:result,error:message}
+      data: {type:'create',headerName : 'Create Folder',labelName:'Folder Name',updateValue:result,error:message}
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
