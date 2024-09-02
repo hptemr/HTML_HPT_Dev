@@ -47,6 +47,13 @@ const billingSchema = new mongoose.Schema({
     standardized_cognitive_performance:{ selected: { type: Boolean }, units:{ type: String }},
     therapeutic_interventions:{ selected: { type: Boolean }, units:{ type: String }},
   },
+  dt_codes:{
+    therapeutic_activity:{ selected: { type: String }, units:{ type: String }},
+    neuro_muscular_re_education:{ selected: { type: String }, units:{ type: String }},
+    aquatic_exercise:{ selected: { type: String }, units:{ type: String }},
+    therapeutic_exercise:{ selected: { type: String }, units:{ type: String }},
+    manual_therapy:{ selected: { type: String }, units:{ type: String }},
+  },
 
   createdBy: {
     type: mongoose.Schema.ObjectId,
