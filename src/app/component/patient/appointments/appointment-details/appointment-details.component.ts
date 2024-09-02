@@ -55,6 +55,7 @@ export class AppointmentDetailsComponent {
   appId: any
   appInfo: any
   profileImage: any
+  therapistProfileImage: any
   model: NgbDateStruct;
   private _liveAnnouncer: any;  
 
@@ -121,12 +122,18 @@ export class AppointmentDetailsComponent {
   async getAppointmentDetails() {
     const req_vars = {
       query: { _id: this.appId },
-      fields: { practiceLocation: 1, appointmentId: 1, appointmentDate: 1,  patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1 },
+      fields: { practiceLocation: 1, caseName:1, appointmentId: 1, appointmentDate: 1,  patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1 },
       patientFields: { _id: 1 },
-      therapistFields: { _id: 1 }
+      therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage:1 }
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       this.appInfo = response.data.appointmentData
+      // this.appointmentData = response.data.appointmentData;
+      // this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
+      // this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo.patientId.profileImage
+      // this.appointment_flag = true;
+      this.therapistProfileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo.therapistId.profileImage
+
       this.commonService.hideLoader();
     })
   }

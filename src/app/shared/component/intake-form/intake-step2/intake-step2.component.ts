@@ -22,9 +22,7 @@ interface State {
   styleUrl: './intake-step2.component.scss'
 })
 export class IntakeStep2Component {
-
   @ViewChild('insuranceFileInput') insuranceFileInput: any
-
   appId: any
   payViaSelected: any
 
@@ -40,7 +38,7 @@ export class IntakeStep2Component {
   carrierNameList = carrierNameList
   insuranceList: any
   states: State[] = states_data
-  fullNameForSign: any
+  fullNameForSign: string = '';
   selectedValue: number
 
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
@@ -49,9 +47,11 @@ export class IntakeStep2Component {
   uploadedInsuranceFilesTotal = 0
   todayDate = new Date()
   isFormEditable = false
-
+  thirdInsurancesFlag:boolean=false
+  attorneyFlag:boolean=false
+  isMinorFlag:boolean=false
   activeUserRoute = this.commonService.getLoggedInRoute()
-
+  mat_icon:string='add_circle'
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -114,18 +114,20 @@ export class IntakeStep2Component {
           localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.uploadedInsuranceFiles))
           this.uploadedInsuranceFilesTotal = insuranceFiles.length
         }
-        this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value
+        if(this.step2Form.controls['firstName'].value){
+          this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
+        }
+        
       }
     })
   }
 
-
   loadForm() {
-    console.log('>>>> step2FormData>>>',this.step2FormData)
-
+   // console.log('>>>> step2FormData>>>',this.step2FormData)
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
       relationWithPatient: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.relationWithPatient : ''],
+      otherRelation: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.otherRelation : ''],
       firstName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       middleName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.middleName : ''],
       lastName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.lastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -143,15 +145,29 @@ export class IntakeStep2Component {
       subscriberLastName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.subscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberDob: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.subscriberDob : ''],
       subscriberRelationWithPatient: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.subscriberRelationWithPatient ? this.step2FormData.payViaInsuranceInfo?.subscriberRelationWithPatient : '', [Validators.required]],
+      
       primaryInsuranceCompany: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       primaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceIdPolicy : '', [Validators.required]],
       primaryInsuranceGroup: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceGroup : '', [Validators.required]],
       primaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      primaryInsuranceFromDate: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceFromDate : ''],
+      primaryInsuranceToDate: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceToDate : ''],
+    
       secondaryInsuranceCompany: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondaryInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceIdPolicy : '', [Validators.required]],
       secondaryInsuranceGroup: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceGroup : '', [Validators.required]],
       secondaryInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.secondaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      injuryRelelatedTo: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.injuryRelelatedTo : ''],
+      secondaryInsuranceFromDate: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceFromDate : ''],
+      secondaryInsuranceToDate: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceToDate : ''],
+      
+      thirdInsuranceCompany: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.thirdInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      thirdInsuranceIdPolicy: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.thirdInsuranceIdPolicy : '', [Validators.required]],
+      thirdInsuranceGroup: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.thirdInsuranceGroup : '', [Validators.required]],
+      thirdInsuranceCustomerServicePh: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.thirdInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      thirdInsuranceFromDate: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceFromDate : ''],
+      thirdInsuranceToDate: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.primaryInsuranceToDate : ''],
+
+      injuryRelelatedTo: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.injuryRelelatedTo : ''],      
       carrierName: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.carrierName ? this.step2FormData.payViaInsuranceInfo?.carrierName : '', [Validators.required]],
       dateOfInjury: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.dateOfInjury : '', [Validators.required]],
       insuranceState: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.insuranceState ? this.step2FormData.payViaInsuranceInfo?.insuranceState : '', [Validators.required]],
@@ -162,9 +178,11 @@ export class IntakeStep2Component {
       employerName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       employerPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       employerAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerAddress : '', [Validators.required]],
+      isPatientMinor: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorney : '', []],
+      attorney: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorney : '', []],
       attorneyName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       attorneyPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      attorneyAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
+      //attorneyAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
 
   }
@@ -177,6 +195,7 @@ export class IntakeStep2Component {
     let subscriberLastName = ''
     let subscriberDob
     let subscriberRelationWithPatient = ''
+    let otherRelation = ''
     let primaryInsuranceCompany = ''
     let primaryInsuranceIdPolicy = ''
     let primaryInsuranceGroup = ''
@@ -196,9 +215,20 @@ export class IntakeStep2Component {
     let employerName = ''
     let employerPhone = ''
     let employerAddress = ''
+    let attorney = ''
     let attorneyName = ''
     let attorneyPhone = ''
     let attorneyAddress = ''
+    let thirdInsuranceCompany = ''
+    let thirdInsuranceIdPolicy = ''
+    let thirdInsuranceGroup = ''
+    let thirdInsuranceCustomerServicePh = ''
+    let primaryInsuranceFromDate = ''
+    let primaryInsuranceToDate = ''
+    let secondaryInsuranceFromDate = ''
+    let secondaryInsuranceToDate = ''
+    let thirdInsuranceFromDate = ''
+    let thirdInsuranceToDate = ''
 
     if (currentIndex != '') {
       let info = this.insuranceList.filter((item: any) => item.insuranceName === currentIndex)[0]
@@ -208,6 +238,7 @@ export class IntakeStep2Component {
       subscriberLastName = info.subscriberLastName
       subscriberDob = info.subscriberDob
       subscriberRelationWithPatient = info.subscriberRelationWithPatient
+      otherRelation = info.otherRelation
       primaryInsuranceCompany = info.primaryInsuranceCompany
       primaryInsuranceIdPolicy = info.primaryInsuranceIdPolicy
       primaryInsuranceGroup = info.primaryInsuranceGroup
@@ -216,6 +247,12 @@ export class IntakeStep2Component {
       secondaryInsuranceIdPolicy = info.secondaryInsuranceIdPolicy
       secondaryInsuranceGroup = info.secondaryInsuranceGroup
       secondaryInsuranceCustomerServicePh = info.secondaryInsuranceCustomerServicePh
+
+      thirdInsuranceCompany = info.thirdInsuranceCompany
+      thirdInsuranceIdPolicy = info.thirdInsuranceIdPolicy
+      thirdInsuranceGroup = info.thirdInsuranceGroup
+      thirdInsuranceCustomerServicePh = info.thirdInsuranceCustomerServicePh
+
       injuryRelelatedTo = info.injuryRelelatedTo
       carrierName = info.carrierName
       dateOfInjury = info.dateOfInjury
@@ -227,24 +264,39 @@ export class IntakeStep2Component {
       employerName = info.employerName
       employerPhone = info.employerPhone
       employerAddress = info.employerAddress
+      attorney = info.attorney
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
-      attorneyAddress = info.attorneyAddress
+      //attorneyAddress = info.attorneyAddress
     }
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
     this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.step2Form.controls['subscriberLastName'].setValue(subscriberLastName)
     this.step2Form.controls['subscriberDob'].setValue(subscriberDob)
+    this.step2Form.controls['otherRelation'].setValue(otherRelation)
     this.step2Form.controls['subscriberRelationWithPatient'].setValue(subscriberRelationWithPatient)
     this.step2Form.controls['primaryInsuranceCompany'].setValue(primaryInsuranceCompany)
     this.step2Form.controls['primaryInsuranceIdPolicy'].setValue(primaryInsuranceIdPolicy)
     this.step2Form.controls['primaryInsuranceGroup'].setValue(primaryInsuranceGroup)
     this.step2Form.controls['primaryInsuranceCustomerServicePh'].setValue(primaryInsuranceCustomerServicePh)
+    this.step2Form.controls['primaryInsuranceFromDate'].setValue(primaryInsuranceFromDate)
+    this.step2Form.controls['primaryInsuranceToDate'].setValue(primaryInsuranceToDate)
+                
     this.step2Form.controls['secondaryInsuranceCompany'].setValue(secondaryInsuranceCompany)
     this.step2Form.controls['secondaryInsuranceIdPolicy'].setValue(secondaryInsuranceIdPolicy)
     this.step2Form.controls['secondaryInsuranceGroup'].setValue(secondaryInsuranceGroup)
     this.step2Form.controls['secondaryInsuranceCustomerServicePh'].setValue(secondaryInsuranceCustomerServicePh)
+    this.step2Form.controls['secondaryInsuranceFromDate'].setValue(secondaryInsuranceFromDate)
+    this.step2Form.controls['secondaryInsuranceToDate'].setValue(secondaryInsuranceToDate)
+    
+    this.step2Form.controls['thirdInsuranceCompany'].setValue(thirdInsuranceCompany)
+    this.step2Form.controls['thirdInsuranceIdPolicy'].setValue(thirdInsuranceIdPolicy)
+    this.step2Form.controls['thirdInsuranceGroup'].setValue(thirdInsuranceGroup)
+    this.step2Form.controls['thirdInsuranceCustomerServicePh'].setValue(thirdInsuranceCustomerServicePh)      
+    this.step2Form.controls['thirdInsuranceFromDate'].setValue(thirdInsuranceFromDate)
+    this.step2Form.controls['thirdInsuranceToDate'].setValue(thirdInsuranceToDate)
+
     this.step2Form.controls['injuryRelelatedTo'].setValue(injuryRelelatedTo)
     this.step2Form.controls['carrierName'].setValue(carrierName)
     this.step2Form.controls['dateOfInjury'].setValue(dateOfInjury)
@@ -256,9 +308,10 @@ export class IntakeStep2Component {
     this.step2Form.controls['employerName'].setValue(employerName)
     this.step2Form.controls['employerPhone'].setValue(employerPhone)
     this.step2Form.controls['employerAddress'].setValue(employerAddress)
+    this.step2Form.controls['attorney'].setValue(attorney)
     this.step2Form.controls['attorneyName'].setValue(attorneyName)
     this.step2Form.controls['attorneyPhone'].setValue(attorneyPhone)
-    this.step2Form.controls['attorneyAddress'].setValue(attorneyAddress)
+    //this.step2Form.controls['attorneyAddress'].setValue(attorneyAddress)
   }
 
   async getInsuranceList() {
@@ -276,10 +329,55 @@ export class IntakeStep2Component {
     this.payViaSelected = event.value
   }
 
+  attorneyChange(event: MatRadioChange) {
+    this.attorneyFlag = false
+    if(event.value=='yes'){
+      this.attorneyFlag = true
+    }else{
+      this.step2Form.controls['attorneyName'].setValue('')
+      this.step2Form.controls['attorneyPhone'].setValue('')
+    }
+    
+  }
+
+  changePatientMinor(event: MatRadioChange) {
+    this.isMinorFlag = false
+    if(event.value=='yes')
+    this.isMinorFlag = true
+  }
+
   checkSpace(colName: any, event: any) {
     this.step2Form.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
 
+  signatureText(event: any) {
+    if(this.step2Form.controls['firstName'].value || this.step2Form.controls['lastName'].value){
+      this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
+    }
+  }
+
+  thirdInsurance(){
+    if(this.thirdInsurancesFlag){     
+      this.mat_icon = 'add_circle'
+      this.thirdInsurancesFlag = false;  
+      this.step2Form.controls['thirdInsuranceCompany'].setValue('');
+      this.step2Form.controls['thirdInsuranceIdPolicy'].setValue('');
+      this.step2Form.controls['thirdInsuranceGroup'].setValue('');
+      this.step2Form.controls['thirdInsuranceCustomerServicePh'].setValue('');
+      this.step2Form.controls['thirdInsuranceFromDate'].setValue('');
+      this.step2Form.controls['thirdInsuranceToDate'].setValue('');
+      
+      this.step2Form.controls['thirdInsuranceCompany'].reset();
+      this.step2Form.controls['thirdInsuranceIdPolicy'].reset();
+      this.step2Form.controls['thirdInsuranceGroup'].reset();
+      this.step2Form.controls['thirdInsuranceCustomerServicePh'].reset();
+      this.step2Form.controls['thirdInsuranceFromDate'].reset();
+      this.step2Form.controls['thirdInsuranceToDate'].reset();
+    }else{
+      this.mat_icon = 'remove_circle_outline'
+      this.thirdInsurancesFlag = true;  
+    }    
+  } 
 
   cmsModal() {
     const dialogRef = this.dialog.open(CmsModalComponent, {

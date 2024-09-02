@@ -164,9 +164,6 @@
         </div>
     </div>
 </div> -->
-
-
-
 <div class="col-12 app--details--wrapper profile--right--wrapper">  
     <div class="card"> 
         <div class="card-header pb-0">
@@ -174,11 +171,9 @@
                 <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/patient/appointments']">
                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
                 </button>
-                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>
-                
+                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>              
             </div> 
         </div> 
-
         <div class="card-body d-flex flex-column flex-sm-row">
             <div class="profile--right d-flex flex-column w-100">
                 <div class="w-100 mb-0 appointment-information-header-wrapper">  
@@ -187,92 +182,81 @@
                         <button [routerLink]="['/patient/intake-form/step-1', appId]" mat-raised-button color="primary" class="intake-btn" >
                             View Intake Form
                         </button>
-                    </div>
-                 
+                    </div>                 
                    <div class="row exp-class">
-                    <div class="col-12">  
-                        <div class="col-12 mt-2">
-                            <div class="d-flex flex-wrap justify-content-between align-items-baseline">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                    <div class="w-100 mb-2">
-                                        <div class="d-flex flex-row  align-items-center profile--img--box">
-                                            <div class="img--box flex-shrink-0">
-                                                <img src="assets/images/ark/user.png" alt="" class="img-fluid" />
-                                            </div>
-                                            <div class="d-flex flex-column me-9">
-                                                <h3 class="mb-1 clr--1F2F3E font-18 fw-700">John Walter</h3>
-                                                <div class="mb-1 mt-1 d-flex align-items-center">
-                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">johnwalter1991&#64;gmail.com</p>
+                        <div class="col-12">  
+                            <div class="col-12 mt-2">
+                                <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                        <div class="w-100 mb-2">
+                                            <div class="d-flex flex-row  align-items-center profile--img--box">
+                                                <div class="img--box flex-shrink-0">
+                                                    <img src="{{profileImage}}" alt="Profile Image" class="img-fluid" />
                                                 </div>
-                                                <div class="mb-1 d-flex align-items-center">
-                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
-                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 1234-567-8902-4862</p>
-                                                </div> 
+                                                <div class="d-flex flex-column me-9">
+                                                    <h3 class="mb-1 clr--1F2F3E font-18 fw-700">{{info?.firstName}} {{info?.lastName}}</h3>
+                                                    <div class="mb-1 mt-1 d-flex align-items-center">
+                                                        <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">{{info?.email}}</p>
+                                                    </div>
+                                                    <div class="mb-1 d-flex align-items-center">
+                                                        <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
+                                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 {{info?.phoneNumber}}</p>
+                                                    </div> 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                                        <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location </h3>
+                                        <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">{{appInfo?.practiceLocation}}</p>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                                        <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
+                                        <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">{{appInfo?.caseName}}</p>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3">
+                                        <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Next Appointment Date and Time</h3>
+                                        <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">{{appInfo?.appointmentDate | date:"EEE, MMM d, y hh:mm a"}}</p>
+                                    </div>
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                    <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
-                                    <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Corvallis PT</p>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                    <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
-                                    <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Neck pain</p>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3">
-                                    <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Next Appointment Date and Time</h3>
-                                    <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">Tue, Nov 13, 2023 02:00 pm</p>
-                                </div>
-                            </div>
-                        </div>  
- 
-                        <div class="col-12 mt-2">
-                            <div class="d-flex flex-wrap justify-content-between ">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                    <div class="w-100 mb-2">
-                                        <div class="d-flex flex-row  align-items-center profile--img--box">
-                                            <div class="img--box flex-shrink-0 me-9">
-                                                <img src="assets/images/ark/user.png" alt="" class="img-fluid d-none" />
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Therapist Name</h3>
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Elizabeth</p>  
+                            </div>   
+                            <div class="col-12 mt-2">
+                                <div class="d-flex flex-wrap justify-content-between ">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                        <div class="w-100 mb-2">
+                                            <div class="d-flex flex-row  align-items-center profile--img--box">
+                                                <div class="img--box flex-shrink-0 me-9">
+                                                    <img src="{{therapistProfileImage}}" alt="Profile Image" class="img-fluid d-none" />
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Therapist Name</h3>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">{{appInfo?.therapistId.firstName}} {{appInfo?.therapistId.lastName}}</p>  
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                                        <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
+                                        <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">{{appInfo?.payVia}}</p>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                                        <button mat-stroked-button color="primary"
+                                            (click)="viewInsuranveModal()" class="mt-1">
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1 ">
+                                                visibility
+                                            </mat-icon>
+                                            View Insurance
+                                        </button>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3"> </div>
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                    <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
-                                    <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Insurance/Self Pay</p>
-                                </div>
-                              
-
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                    <button mat-stroked-button color="primary"
-                                        (click)="viewInsuranveModal()" class="mt-1">
-                                        <mat-icon
-                                            class="material-symbols-outlined flex-shrink-0 me-1 ms-1 ">
-                                            visibility
-                                        </mat-icon>
-                                        View Insurance
-                                    </button>
-                                </div>
-
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3  ">
-                                      </div>
-
-                             
-
-                            </div>
-                        </div>   
-                    </div>
+                            </div>   
+                        </div>
                    </div> 
                 </div>
             </div> 
         </div>  
-
         <div class="card-body d-flex flex-column flex-sm-row"  *ngIf = "!isShow">
             <div class="profile--right d-flex flex-column w-100">
                 <div class="w-100 mb-0">

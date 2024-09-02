@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 export class BodyDetailsModalComponent {
   partName:string = '';
   appId:string = '';
+  from:string = '';
+  concernText:string = '';
   validationMessages = validationMessages; 
   partConcernForm: FormGroup;
   submitButton:boolean = false;
@@ -27,43 +29,72 @@ export class BodyDetailsModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.partName = data.partName != undefined ? data.partName : this.partName;
-    this.appId= data.appId != undefined ? data.appId : this.appId;
-    this.bodyPartFront= data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
-    this.bodyPartBack= data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
+    this.appId = data.appId != undefined ? data.appId : this.appId;
+    this.from = data.from != undefined ? data.from : this.from;
+    this.bodyPartFront = data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
+    this.bodyPartBack = data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
   }
 
 
   ngOnInit() {
-    console.log('partName>>>',this.partName,'------------',this.bodyPartFront)
-    //console.log('bodyPartBack-------',this.bodyPartBack)
+    if(this.from=='bodyPartFront'){
+      this.bodyPartFront.forEach((element: any) => {
+        if(this.partName==element.part){
+          this.concernText = element.concern
+        }
+      });
+    }  else  if(this.from=='bodyPartBack'){
+      this.bodyPartBack.forEach((element: any) => {
+        if(this.partName==element.part){
+          this.concernText = element.concern
+        }
+      });
+    }
+
     this.partConcernForm = this.fb.group({
-      concern: ['', [Validators.required]],
+      concern: [this.concernText, [Validators.required,Validators.minLength(1), Validators.maxLength(100)]],
     });
     
   }
 
   async saveData(data:any) {
-    //console.log(this.partName,'data>>>',data)
     if(this.partConcernForm.valid){
       this.submitButton = true;
+      let params = {};
+      if(this.from=='bodyPartFront'){
+        this.bodyPartFront.push({'part':this.partName,'concern':data.concern});
+        params =  {
+          bodyPartFront: this.bodyPartFront
+        }
+      } else if(this.from=='bodyPartBack'){
+        this.bodyPartBack.push({'part':this.partName,'concern':data.concern});
+        params = {
+          bodyPartBack: this.bodyPartBack
+        }
+      }
 
-      this.bodyPartFront.push({'part':this.partName,'concern':data.concern});
+     
       const req_vars = {
         query: { _id: this.appId },
-        updateInfo: {
-          bodyPartFront: this.bodyPartFront
-        },
+        updateInfo: params,
       }
     
-   //   console.log('data>>>',req_vars)
       await this.authService.apiRequest('post', 'appointment/updateAppointment', req_vars).subscribe(async response => {
         if (response.error != undefined && response.error == true) {
-         // this.router.navigate([this.activeUserRoute, 'appointments'])
-        } else {
-         
+         if(response.message){
+          this.commonService.openSnackBar(response.message, "ERROR")
+        }    
+         this.dialogRef.close(response);
+        } else {         
+          if(response.message){
+            this.commonService.openSnackBar(response.message, "SUCCESS")
+          }          
+          this.dialogRef.close(response);
         }
       })
-
+    }else{
+        this.partConcernForm.markAllAsTouched();
+        return;
     }
   }
 

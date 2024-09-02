@@ -15,8 +15,7 @@ export class ViewInsuranceModalComponent {
 
   constructor(public dialog: MatDialog, private commonService: CommonService,
     private authService: AuthService, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.info = data.payViaInsuranceInfo
-    console.log(this.info)
+    this.info = data.payViaInsuranceInfo;
   }
 
   cmsModal() {
