@@ -103,7 +103,10 @@ export class AppointmentDetailsComponent {
       // this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
       // this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo.patientId.profileImage
       // this.appointment_flag = true;
-      this.therapistProfileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo.therapistId.profileImage
+      if(this.appInfo && this.appInfo?.therapistId){
+        this.therapistProfileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo?.therapistId.profileImage
+      }
+      
       this.getAppointmentList()
       this.commonService.hideLoader();
     })
