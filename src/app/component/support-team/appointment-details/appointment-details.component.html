@@ -213,23 +213,22 @@
                 <div class="profile--right d-flex flex-column w-100">
                     <div class="w-100 mb-0"> 
                         <mat-accordion class="appointment-information-header-wrapper">
-                            <mat-expansion-panel class="exp-class" expanded="true">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
-                                        Basic Information 
-                                        <span class="  font-14 fw-400 ml-3 badge">This Case is in collections</span>
-                                    </mat-panel-title>
-                                    <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
-                                        <button mat-stroked-button color="primary" [routerLink]="['/support-team/patient-profile']" >View Patient Profile</button>
-                                        <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button>
-                                        <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/billing-details']">View Billing Details</button>
-                                        <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/support-team/intake-form/step-1']">
-                                            View Intake Form
-                                        </button>
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
+                            <mat-expansion-panel class="exp-class" expanded="true"> 
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
+                                            Basic Information <span class="font-14 fw-600 ms-auto">This Case is in Collections</span>
+                                        </mat-panel-title>
+                                        <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
+                                            <button mat-stroked-button color="primary" [routerLink]="['/support-team/patient-profile']" >View Patient Profile</button>
+                                            <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button>
+                                            <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/billing-details']">View Billing Details</button>
+                                            <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/support-team/intake-form/step-1']">
+                                                View Intake Form
+                                            </button>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+
                                 <div class="col-12">
-    
                                     <div class="col-12 mt-2">
                                         <div class="d-flex flex-wrap   align-items-baseline profile--row">
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
@@ -257,10 +256,15 @@
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
                                                 <p class="mb-1 clr--1F2F3E  font-16 fw-400 ">Corvallis PT</p>
                                             </div>
-                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2 w-11">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2 w-11 d-none d-lg-block">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
                                                 <p class="mb-1 clr--1F2F3E  font-16 fw-400">3</p>
                                             </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2  d-lg-none ">
+                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
+                                                <p class="mb-1 clr--1F2F3E  font-16 fw-400">3</p>
+                                            </div>
+
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
                                                 <p class="mb-1 clr--1F2F3E font-16 wb-ba fw-400 ">Preferred: Tue, Nov 13, 2023 02:00 pm</p>
@@ -316,7 +320,7 @@
                                     </div>
     
                                    
-                                    <div class="col-12 mt-2">
+                                    <div class="col-12 mt-2 d-none d-lg-block">
                                         <div class="d-flex flex-row flex-wrap last--col">
                                             <div class="col mb-2 form-group"> 
                                                 <div class="select-info">
@@ -400,6 +404,92 @@
                                     </div>
  
 
+
+                                    <div class="col-12 mt-2 d-lg-none">
+                                        <div class="d-flex flex-row flex-wrap last--col">
+                                            <div class="col-12 col-sm-12 form-group"> 
+                                                <div class="form-group">
+                                                    <label class="col-form-label fw-600">Assign Therapist <span class="clr--DF0404 ms-1"> * </span></label>
+                                                    <select class="form-select form-control  w-97" aria-label="Default select example">
+                                                        <option selected>Select Therapist</option> 
+                                                        <option value="1">Elizabeth</option>
+                                                        <option value="2">Elizabeth 2</option> 
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-12  ">
+                                                <div class="form-group">
+                                                    <label class="col-form-label fw-600">Case Name <span class="clr--DF0404 ms-1"> * </span></label>
+                                                    <input class="form-control form-control-md max-width-box  w-97" type="text" placeholder="Search Case Name" value="Neck Pain"  />
+                                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-sm-12 form-group">
+                                                <div class="form-group">
+                                                    <label class="col-form-label fw-600">Return to Doctor </label>                                                   
+                                                    <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                        <input matInput [matDatepicker]="picker" placeholder="From Date">
+                                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker></mat-datepicker>
+                                                    </mat-form-field>
+                                                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                                </div>
+                                            </div>                         
+
+                                           
+                                            <div class="col-12 col-sm-12  mb-2">
+                                                <div class="form-group">
+                                                    <label class="col-form-label fw-600">Copay Amount</label>
+                                                    <div class="input-group prefix--field max-width-box-c">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="basic-addon1">$</span>
+                                                        </div>
+                                                        <input type="number" class="form-control form-control-md" value="12"  >
+                                                    </div>  
+                                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                                </div>
+                                            </div>
+ 
+
+                                            <div class="col-12 col-sm-12  mb-2">
+                                                <div class="form-group"> 
+                                                    <label class="col-form-label fw-600">High Deductibles</label>
+                                                    <div class="input-group prefix--field max-width-box-c">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="basic-addon1">$</span>
+                                                        </div>
+                                                        <input type="number" class="form-control form-control-md" value="10"  >
+                                                    </div>  
+                                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                                </div> 
+                                            </div>
+
+                                            <div class="col-12 col-sm-12 form-group">
+                                                <div class="form-group">
+                                                    <label class="col-form-label fw-600">Primary Insurance</label>
+                                                    <select class="form-select form-control w-97" aria-label="Default select example">
+                                                        <option selected>Select Insurance</option> 
+                                                        <option value="1">Medical</option>
+                                                        <option value="2">Health</option>  
+                                                    </select>
+                                                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-12 col-sm-12  form-group">
+                                                <button mat-stroked-button color="primary" class="mt-1 w-100" >
+                                                    Update
+                                                </button> 
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+ 
+                                
+
                                     <div class="col-12 mt-1 mb-3">
                                         <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
                                            <button mat-raised-button color="primary" >
@@ -430,9 +520,7 @@
                                             <div class="d-flex flex-row flex-wrap   mt-3"  *ngIf="showShare"> 
                                                 <img class="green-icon" src="assets/images/ark/green-check-icon.svg" alt="" width="20px">
                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 me-3 mt-2">Details are shared with Billing Team </p> 
-                                                 </div>
-
-
+                                            </div> 
                                     </div> 
                                 </div> 
                     </div>
@@ -569,6 +657,15 @@
                     </div>
                 </div>
             </div> 
+
+            <div class="col-12 mt-1 mb-3">
+                <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
+                   <button mat-raised-button color="warn" >
+                        Reject Case
+                    </button> 
+                </div>
+            </div>
+
         </div>
 </div> 
         
