@@ -21,6 +21,7 @@ export class IntakeStep5Component {
   validationMessages = validationMessages
   isFormEditable = false
   activeUserRoute = this.commonService.getLoggedInRoute()
+  short_text:string = 'Read More';
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -85,7 +86,13 @@ export class IntakeStep5Component {
   }
 
   change() {
+    if(this.toggle){
+      this.short_text = 'Read Less';
+    }else{
+      this.short_text = 'Read More';
+    }
     this.toggle = !this.toggle;
+
   }
 
   async finalSubmit() {

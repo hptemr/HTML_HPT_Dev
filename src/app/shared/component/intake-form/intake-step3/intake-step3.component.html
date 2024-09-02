@@ -733,16 +733,10 @@
                                                 </mat-icon>
                                             </button>
                                         </div>
-
                                     </div>
-                                </div>
-
-                                
-                                 
-
+                                </div>                                                           
                                 <div class="col-12 ">
-                                    <p
-                                        class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
+                                    <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                         Previous surgeries and dates
                                     </p>
                                 </div>
@@ -752,8 +746,7 @@
                                         <div class="col-12 col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label fw-600">Surgery Details </label>
-                                                <input formControlName="details" class="form-control" type="text"
-                                                    placeholder="Enter Surgery Details" />
+                                                <input formControlName="details" class="form-control" type="text" placeholder="Enter Surgery Details" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
@@ -761,8 +754,7 @@
                                                 <label class="col-form-label fw-600">Surgery Date </label>
                                                 <div class="input-group">
                                                     <mat-form-field class="w-100 am--datepicker">
-                                                        <input formControlName="surDate" readonly
-                                                            placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
+                                                        <input formControlName="surDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
                                                         <mat-datepicker-toggle matIconSuffix
                                                             [for]="picker3"></mat-datepicker-toggle>
                                                         <mat-datepicker #picker3></mat-datepicker>
@@ -770,16 +762,14 @@
                                                 </div>
                                             </div>
                                             <div *ngIf="isFormEditable">
-                                                <button *ngIf="i == getNewSurgery.controls.length-1 "
-                                                    (click)="addNewSurgery()" mat-raised-button color="primary"
+                                                <button *ngIf="i == getNewSurgery.controls.length-1" (click)="addNewSurgery()" mat-raised-button color="primary"
                                                     class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
                                                         add_circle
                                                     </mat-icon>
                                                 </button>
 
-                                                <button (click)="deleteSurgery(i)"
-                                                    *ngIf="i != getNewSurgery.controls.length-1" mat-raised-button
+                                                <button (click)="deleteSurgery(i)" *ngIf="i != getNewSurgery.controls.length-1" mat-raised-button
                                                     color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
                                                         delete
@@ -791,31 +781,24 @@
                                 </div>
 
                                 <div class="col-12 ">
-                                    <p
-                                        class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
+                                    <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                         Medications you are currently using:
                                     </p>
                                 </div>
                                 <div formArrayName="allergiesToMedications_MedicationArray" class="col-12 col-lg-7">
-                                    <div *ngFor="let list of getNewMedication.controls; let i = index"
-                                        [formGroupName]="i" class="d-flex align-items-center w-100">
+                                    <div *ngFor="let list of getNewMedication.controls; let i = index" [formGroupName]="i" class="d-flex align-items-center w-100">
                                         <div class="form-group w-100">
                                             <label class="col-form-label fw-600">Medication</label>
-                                            <input formControlName="name" class="form-control" type="text"
-                                                placeholder="Enter Medication" />
+                                            <input formControlName="name" class="form-control" type="text" placeholder="Enter Medication" />
                                         </div>
                                         <div *ngIf="isFormEditable">
-                                            <button *ngIf="i == getNewMedication.controls.length-1 "
-                                                (click)="addNewMedication()" mat-raised-button color="primary"
-                                                class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                            <button *ngIf="i == getNewMedication.controls.length-1" (click)="addNewMedication()" mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
                                                     add_circle
                                                 </mat-icon>
                                             </button>
 
-                                            <button (click)="deleteMedication(i)"
-                                                *ngIf="i != getNewMedication.controls.length-1" mat-raised-button
-                                                color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
+                                            <button (click)="deleteMedication(i)" *ngIf="i != getNewMedication.controls.length-1" mat-raised-button  color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
                                                     delete
                                                 </mat-icon>
@@ -873,21 +856,18 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                          
+                            </div>                          
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="divider d-flex w-100"></div>
                 </div>
-
                 <div class="col-12 col-lg-9">
                     <div class="row">
                         <div class="col-12">
                             <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Do you
-                                have
-                                a history of:</p>
+                                have a history of:</p>
                         </div>
                         <div class="d-flex flex-column w-100 disease--desc--wrapper">
                             <div class="dd--body w-100">
@@ -904,8 +884,7 @@
                                             </mat-radio-group>
                                             <div class="form-group mt-2 w-100"
                                                 *ngIf="form['allergiesAsthmaSelf'].value == 'Yes'">
-                                                <input formControlName="allergiesAsthmaSelfYes" class="form-control"
-                                                    type="text" placeholder="Add Description" />
+                                                <input formControlName="allergiesAsthmaSelfYes" class="form-control"  type="text" placeholder="Add Description" />
                                             </div>
                                         </div>
                                     </div>
@@ -923,8 +902,7 @@
                                             </mat-radio-group>
                                             <div class="form-group mt-2 w-100"
                                                 *ngIf="form['headachesSelf'].value == 'Yes'">
-                                                <input formControlName="headachesSelfYes" class="form-control"
-                                                    type="text" placeholder="Add Description" />
+                                                <input formControlName="headachesSelfYes" class="form-control" type="text" placeholder="Add Description" />
                                             </div>
                                         </div>
                                     </div>
@@ -1089,12 +1067,10 @@
                 <div class="col-12">
                     <div class="divider d-flex w-100"></div>
                 </div>
-
                 <div class="col-12 col-lg-9">
                     <div class="row">
                         <div class="col-12">
-                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are you
-                                currently?</p>
+                            <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are you currently?</p>
                         </div>
                         <div class="d-flex flex-column w-100 disease--desc--wrapper">
                             <div class="dd--body w-100">
@@ -1163,12 +1139,10 @@
             <div class="col-12">
                 <div class="divider d-flex w-100"></div>
             </div>
-
             <div class="col-12">
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are your
-                            symptoms: <span class="ms-2 clr--828282 font-14 fw-400">(Select One) </span></p>
+                        <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are your symptoms: <span class="ms-2 clr--828282 font-14 fw-400">(Select One) </span></p>
                     </div>
                     <mat-radio-group formControlName="symptoms" aria-label="Select an option">
                         <mat-radio-button value="Getting Worse" class="me-4">Getting Worse</mat-radio-button>
@@ -1176,8 +1150,7 @@
                             <div class="d-flex align-items-center">
                                 <span class="flex-shrink-0 me-2">The Same </span>
                                 <div class="form-group mt-2 w-100" *ngIf="form['symptoms'].value == 'The Same'">
-                                    <input formControlName="symptomsSame" class="form-control" type="text"
-                                        placeholder="Add Description" />
+                                    <input formControlName="symptomsSame" class="form-control" type="text" placeholder="Add Description" />
                                 </div>
                             </div>
                         </mat-radio-button>
@@ -1185,7 +1158,6 @@
                     </mat-radio-group>
                 </div>
             </div>
-
             <div class="col-12">
                 <div class="row">
                     <div class="col-12">
@@ -1204,9 +1176,7 @@
                                 {{i}}
                             </li>
                         </ul>
-                    </div>
-
-                    
+                    </div>                  
                     <div class="col-12 mt-4">
                         <div class="body--marking--wrapper w-100">
                             <div class="row">

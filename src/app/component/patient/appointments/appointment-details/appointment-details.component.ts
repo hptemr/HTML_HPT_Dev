@@ -18,33 +18,7 @@ export interface PeriodicElement {
   dateAddedOn: string; 
   action: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  { 
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am',  
-    action : ''
-  },  
-  { 
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am',  
-    action : ''
-  },  
-
-  { 
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am',  
-    action : ''
-  },  
-
-  { 
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am',  
-    action : ''
-  },  
-
-  { 
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am',  
-    action : ''
-  },  
-];
-
-
+const ELEMENT_DATA: PeriodicElement[] = [];
 @Component({
   selector: 'app-appointment-details',
   templateUrl: './appointment-details.component.html',
@@ -69,6 +43,7 @@ export class AppointmentDetailsComponent {
   practiceLocVal: any = ''
   practiceLocations: any = practiceLocations
   validationMessages: any = validationMessages
+  orderBy: any = { createdAt: -1 }
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, public commonService: CommonService) {
     //appId
@@ -90,15 +65,11 @@ export class AppointmentDetailsComponent {
     this.getAppointmentDetails()
   }
 
-
- 
-
   handlePageEvent(event: any) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
      
   }
-
 
     /** Announce the change in sort state for assistive technology. */
     announceSortChange(sortState: Sort) { 
@@ -133,48 +104,99 @@ export class AppointmentDetailsComponent {
       // this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo.patientId.profileImage
       // this.appointment_flag = true;
       this.therapistProfileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo.therapistId.profileImage
-
+      this.getAppointmentList()
       this.commonService.hideLoader();
     })
   }
 
-  rescheduleModal() {
-    const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent, {
-      disableClose: true,
-      panelClass: ['custom-alert-container', 'rechedule--wrapper'],
-      data: {
-        appointmentId: this.appId,
-        userRole: this.info.role,
-        userId: this.info._id,
-      }
-    })
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && !result.error) {
-        this.commonService.openSnackBar(result.message, "SUCCESS")
-        this.router.navigate(['/patient/appointments'])
-      }
+  async getAppointmentList(action = '') {
+    if (action == '') {
+     // this.commonService.showLoader()
+    }
+
+    let reqVars = {
+      query: { patientId: this.authService.getLoggedInInfo('_id'),caseName:this.appInfo?.caseName },
+      userQuery: {},
+      fields: { caseName:1, practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1,checkIn:1 },
+      patientFields: { firstName: 1 },
+      therapistFields: { firstName: 1, lastName: 1, profileImage: 1 },
+      order: this.orderBy,
+      limit: this.pageSize,
+      offset: (this.pageIndex * this.pageSize)
+    }
+
+    await this.authService.apiRequest('post', 'appointment/getAppointmentList', reqVars).subscribe(async response => {
+      //this.commonService.hideLoader()
+      this.totalCount = response.data.totalCount
+      let finalData: any = []
+      await response.data.appointmentList.map((element: any) => {
+        let info: any = {
+          fullName: '',
+          profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + 'default.png'
+        }
+
+        if (element.therapistId) {
+          info.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + element.therapistId.profileImage
+          info.fullName = element.therapistId.firstName + " " + element.therapistId.lastName
+        }
+
+        let newColumns = {
+          id: element._id,
+          info: info,
+          appointmentId: element.appointmentId,
+          checkIn: element.checkIn,
+          appointmentDate: element.appointmentDate,
+          status: element.status,
+          statusClass: element.status.toLowerCase(),
+          practiceLocation: element.practiceLocation,
+        }
+        finalData.push(newColumns)
+      })
+      if(finalData.length>0)this.isShow = true
+      this.appointmentList = new MatTableDataSource(finalData)
     })
   }
+  
 
-  writeComment() {
-    const dialogRef = this.dialog.open(WriteCommentModalComponent, {
-      disableClose: true,
-      panelClass: 'custom-alert-container',
-      data: {
-        appointmentId: this.appId,
-        userRole: this.info.role,
-        userId: this.info._id,
-      }
-    })
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && !result.error) {
-        this.commonService.openSnackBar(result.message, "SUCCESS")
-        this.router.navigate(['/patient/appointments'])
-      }
-    })
-  }
+  // rescheduleModal() {
+  //   const dialogRef = this.dialog.open(RescheduleAppointmentModalComponent, {
+  //     disableClose: true,
+  //     panelClass: ['custom-alert-container', 'rechedule--wrapper'],
+  //     data: {
+  //       appointmentId: this.appId,
+  //       userRole: this.info.role,
+  //       userId: this.info._id,
+  //     }
+  //   })
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result && !result.error) {
+  //       this.commonService.openSnackBar(result.message, "SUCCESS")
+  //       this.router.navigate(['/patient/appointments'])
+  //     }
+  //   })
+  // }
+
+  // writeComment() {
+  //   const dialogRef = this.dialog.open(WriteCommentModalComponent, {
+  //     disableClose: true,
+  //     panelClass: 'custom-alert-container',
+  //     data: {
+  //       appointmentId: this.appId,
+  //       userRole: this.info.role,
+  //       userId: this.info._id,
+  //     }
+  //   })
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result && !result.error) {
+  //       this.commonService.openSnackBar(result.message, "SUCCESS")
+  //       this.router.navigate(['/patient/appointments'])
+  //     }
+  //   })
+  // }
 
   viewInsuranveModal() {
     const dialogRef = this.dialog.open(ViewInsuranceModalComponent, {
