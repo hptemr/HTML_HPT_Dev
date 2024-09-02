@@ -174,10 +174,10 @@
                             <div class="w-100 d-flex align-items-center justify-content-center flex-column">
                                 <!-- <a href="#" class="font-14 pending--link">Pending Intake Form</a> -->
                                <div class="d-flex w-100 my-2 justify-content-center">
-                                    <button mat-button class="flex-shrink-0 min-width-unset me-3"  (click)="navigateToappointmentDetails(element.id)" >
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                    <button mat-button class="flex-shrink-0 min-width-unset me-3" (click)="navigateToappointmentDetails(element.id)" >
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary"> visibility </mat-icon>
                                     </button>
-                                    <mat-checkbox class="" (change)="check($event)">Resolved</mat-checkbox> 
+                                    <mat-checkbox class="" [disabled]="resolved[element.id]" (change)="check($event,element.id)" [(ngModel)]="resolved[element.id]">Resolved</mat-checkbox> 
                                </div>
                                <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Received on <span class="fw-400">{{element.createdAt  | date: 'EEE, MMM d, y'}} </span></p>
                             </div>

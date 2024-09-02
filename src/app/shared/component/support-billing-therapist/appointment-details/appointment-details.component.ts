@@ -238,6 +238,20 @@ export class AppointmentDetailsComponent implements OnInit {
     }
   }
 
+  async patientCheckIn(event: any, obj: any) {
+    if (event.source._checked != undefined) {
+      let reqVars = {
+        query: { _id: obj._id },
+        updateInfo: {
+          checkIn: event.source._checked,
+        }
+      }
+      await this.authService.apiRequest('post', 'appointment/updatePatientCheckIn', reqVars).subscribe(async response => {
+        //this.getAppointmentList()     
+      })
+    }
+  }
+
   // navigateToappointmentDetails(requestId: string) {
   //   this.router.navigate([this.commonService.getLoggedInRoute(), 'create-request-appointment',requestId]);
   // }

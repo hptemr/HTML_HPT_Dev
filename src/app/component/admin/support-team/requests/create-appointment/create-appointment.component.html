@@ -84,12 +84,15 @@
                         <div class="col-12 col-sm-6 col-lg-6">
                             <div class="form-group w-100">
                                 <label class="col-form-label fw-600">Case Type <span class="clr--DF0404 ms-1"> * </span></label>
-                                <select class="form-select form-control" aria-label="Default select example" readonly="readonlyFlag">
+                                <select class="form-select form-control" aria-label="Default select example" readonly="readonlyFlag" formControlName="caseType" >
                                     <option value="" selected>Select Case Type</option>
-                                    <option>OT</option>
-                                    <option>PT</option>
-                                    <option>SLP </option>
+                                    <option value="OT">OT</option>
+                                    <option value="PT">PT</option>
+                                    <option value="SLP">SLP</option>
                                 </select> 
+                                <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['caseType'].touched && appointmentForm.controls['caseType'].hasError('required')">
+                                    {{ validationMessages.required('Case Type') }}
+                                </div>
                             </div>
                         </div> 
                     </div>
