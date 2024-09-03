@@ -7,7 +7,7 @@
         border: none !important;
         background: transparent !important;
         .cc-with-messages__sidebar{
-            height: calc(100vh - 145px) !important;
+            height: calc(100vh - 179px) !important;
             border-right: 0 !important;
             box-shadow: 0 0 5px #ddd;
             margin: 10px;
@@ -66,14 +66,15 @@
                     .cc-messages__list{
                         .cc-message-list__wrapper{
                             .cc-message-list{
-                                height: calc(100vh - 325px) !important;
+                                height: calc(100vh - 359px) !important;
                             }
-                            .cc-message-bubble{
-                                .cc-message-bubble__content{ 
-                                    border-radius: 4px !important;
-                                    background: rgb(51 191 191) !important;
-                                } 
-                            }
+                            // .cc-message-bubble{
+                            //     .cc-message-bubble__content{ 
+                            //         border-radius: 4px !important;
+                            //         background: rgb(51 191 191) !important;
+                            //         padding: 7px 2px;
+                            //     } 
+                            // }
                         }
                     }
                     .cc-messages__composer{
@@ -96,6 +97,10 @@
             right: 30px !important;
         }
     } 
+}
+
+::ng-deep cometchat-audio-bubble .cc__audio__bubble{ 
+    background-color: red !important;
 }
 
   
