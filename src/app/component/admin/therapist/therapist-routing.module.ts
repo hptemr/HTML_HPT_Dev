@@ -38,6 +38,8 @@ import { DocumentListingComponent } from 'src/app/shared/component/support-billi
 import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 
+import { UserListingComponent } from '../system-and-practice/user-managment/user-listing/user-listing.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -200,7 +202,16 @@ const routes: Routes = [
   {
     path: 'file-preview/:file',
     component: PreviewComponent, 
-  }
+  },
+  {
+    path: 'user-managment',
+    children: [
+      {
+        path: 'therapists',
+        component: UserListingComponent,
+      }
+    ]
+  },
 ];
 
 @NgModule({

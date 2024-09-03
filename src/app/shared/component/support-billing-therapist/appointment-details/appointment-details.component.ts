@@ -14,7 +14,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { s3Details } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-import { AppointmentService } from 'src/app/shared/services/appointment.service';
+//import { AppointmentService } from 'src/app/shared/services/appointment.service';
 export interface PeriodicElement {
   note: string;  
   dateAddedOn: string;   
@@ -133,7 +133,8 @@ export class AppointmentDetailsComponent implements OnInit {
   
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private appointmentService: AppointmentService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
+    //,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -143,7 +144,7 @@ export class AppointmentDetailsComponent implements OnInit {
     //localStorage.removeItem('appointments');
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
-    this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
+    //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
 
     // if (this.userRole == 'support_team') {
     //   this.isFormEditable = true
@@ -185,7 +186,7 @@ export class AppointmentDetailsComponent implements OnInit {
           //   //this.appointmentService.changeAppointment(this.appointment)
           // }
           this.app_data[this.appointmentId] = this.appointmentData;
-          this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)          
+          //this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)          
           
           //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
           

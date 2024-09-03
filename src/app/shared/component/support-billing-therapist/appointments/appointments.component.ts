@@ -92,9 +92,16 @@ export class AppointmentsComponent {
         // this.whereCond = Object.assign(this.whereCond, { appointmentId: searchStr })
         this.whereCond = Object.assign(this.whereCond, { caseName: { $regex: searchStr, $options: 'i' } })
       }else if (colName == 'byPatientNameOrEmail') {
+        let firstName = finalStr;
+        let lastName = finalStr;
+        let final_str = searchStr.trim().split(' ');
+        if(final_str[0] && final_str[1]){
+          firstName =  { $regex: final_str[0], $options: 'i' }
+          lastName =  { $regex: final_str[1], $options: 'i' }
+        }
         this.patientQuery = {
           status: "Active",
-          $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
+          $or: [{ firstName: firstName }, { lastName: lastName }, { email: finalStr }]
         }
       }
     } else {
@@ -250,7 +257,7 @@ export class AppointmentsComponent {
 
   navigateToappointmentDetails(appointmentId: string) {
     // this.router.navigate([this.commonService.getLoggedInRoute(), 'appointment-details', appointmentId]);
-    this.router.navigate([this.commonService.getLoggedInRoute(), 'appointment-details', appointmentId]);
+    this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);
   }
 
 }

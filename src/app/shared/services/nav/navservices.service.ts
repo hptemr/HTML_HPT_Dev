@@ -167,6 +167,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 2,
+          icon: 'accessibility',
+          mainTitle: 'Therapists',
+          headTitle1: 'Therapists',
+          path: '/therapist/user-managment/therapists',
+          active: false,
+          type: 'link',
+          item: []
+        },
         // {
         //   id: 2,
         //   icon: 'pending_actions',
@@ -178,7 +188,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 2,
+          id: 3,
           activeMenu: 'cases',
           icon: 'pending_actions',
           mainTitle: 'Cases',
@@ -189,7 +199,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 3,
+          id: 4,
           activeMenu: 'patients',
           icon: 'group',
           mainTitle: 'Patients',
@@ -218,7 +228,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 4,
+          id: 5,
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',

@@ -68,6 +68,9 @@ import { AppointmentRequestsComponent } from './component/support-billing-therap
 import { PatientDetailsComponent } from './component/support-billing-therapist/patient-details/patient-details.component';
 import { PatientProfileComponent } from './component/support-billing-therapist/patient-profile/patient-profile.component';
 import { ViewInsuranceModalComponent } from './comman/view-insurance-modal/view-insurance-modal.component';
+
+import { UserListingComponent } from '../component/admin/system-and-practice/user-managment/user-listing/user-listing.component';
+
 import { DatePipe } from '@angular/common';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
@@ -125,7 +128,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PatientProfileComponent,
     ViewInsuranceModalComponent,
     DocumentListingComponent,
-    DocumentDetailingComponent
+    DocumentDetailingComponent,
+    UserListingComponent
   ],
   imports: [
     CommonModule,

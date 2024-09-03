@@ -116,7 +116,6 @@ export class UserListingComponent {
         this.userRole = userRole
         this.pageTitle = pageTitle
         this.profileUrlSegment = profileUrlSegment
-  
         this.whereCond = { role:  this.userRole }
       });
     }

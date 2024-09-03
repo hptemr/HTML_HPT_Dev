@@ -37,7 +37,7 @@ const routes: Routes = [
     component: ManageProfileComponent
   },
   {
-    path: 'appointment-details/:appointmentId',
+    path: 'appointment-details/:appointmentId',//recheck this Component, no need
     component: AppointmentDetailsComponent
   },
   {
