@@ -526,13 +526,55 @@
     .min-h{min-height: 0px !important;}
     .form-group{margin-bottom: 15px !important;}
 }
+
+@media only screen and (min-width: 1024px) and (max-width: 1366px){
+    .cust--mat--table--wrapper{
+        overflow: auto;
+        .cust--mat--table{
+            width: 906px;
+        }
+    }
+    .app--details--wrapper.profile--right--wrapper .profile--right {
+        margin-left: 0 !important; 
+        padding-left: 0 !important;
+        .appointment-information-header-wrapper .exp-class {
+            .profile--img--box{
+                gap: 10px;
+            }
+            .mat-expansion-panel-header{
+                height: auto;
+                ::ng-deep{
+                    .mat-content{
+                        flex-direction: column !important;
+                        gap: 10px;
+                    }
+                }
+            }
+            .mat-expansion-panel-header-description{
+                flex-grow: 3;
+                flex-direction: column;
+                align-items: start !important;
+                gap: 10px;
+            }
+            // .mat-expansion-panel-header-description .intake-btn {
+            //     margin-right: 0px !important;
+            // }
+            .mat-mdc-checkbox {
+                margin-left: -10px !important;
+            }
+        }
+    }
+    .min-h{min-height: 0px !important;}
+    .form-group{margin-bottom: 15px !important;}
+}
+
 @media only screen and (min-width: 980px) and (max-width: 1279px){
     .form-group{margin-bottom: 15px !important;}
 }
 @media only screen and (min-width: 1280px) and (max-width: 1440px){
     .exp-class{ 
         .mat-expansion-panel-header-title{
-            flex-grow: 1 !important;
+            flex-grow: 3 !important;
             font-family: 'Nunito Sans';
         }  
         .max-width-box{width: 84% !important;} 
