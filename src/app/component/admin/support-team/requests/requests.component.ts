@@ -35,7 +35,7 @@ export class RequestsComponent {
   displayedColumns: string[] = ['name','appointmentDate','practiceLocation','action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   orderBy: any = { updatedAt: -1 }
-  whereCond: any = {}
+  whereCond: any = {resolved:false}
   userQuery: any = {}
   // fromDate: NgbDateStruct = ''
   // toDate: NgbDateStruct = ''
@@ -57,6 +57,8 @@ export class RequestsComponent {
   selectedToDate: any = ''
   seachByPname: any = ''
   seachById: any = ''
+  resolved: any = []
+  public userId: string = this.authService.getLoggedInInfo('_id');
   constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,public authService: AuthService,public commonService: CommonService, private router: Router,) {}
 
   @ViewChild(MatSort) sort: MatSort;
@@ -74,18 +76,52 @@ export class RequestsComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-  check(event:any) {  
+  check(event:any,id:any) {  
     if (event.checked === true) {
+     let textMsg = 'Are you sure you want to mark this request as resolved?'
+      // if (event.checked === false) {
+      //    textMsg = 'Are you sure you want to mark this request as unresolved?'
+      // }
       const dialogRef = this.dialog.open(AlertComponent,{
         panelClass: 'custom-alert-container',
         data : {
-          warningNote: 'Are you sure you want to mark this request as resolved?'
+          warningNote: textMsg
         }
       });
-    } else{
-      console.log('else')
-    }
-}
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.resolveRequest(id)
+          this.resolved[id] = true;  
+        }else{
+          this.resolved[id] = false;
+        }
+      });
+    }  
+  }
+
+  async resolveRequest(id: string) {
+      let data = {
+        resolved:true,
+        resolvedBy:this.userId,
+      }
+      let reqVars = {
+        query: { _id: id },
+        userId: this.userId,
+        updateInfo: data
+      }
+      await this.authService.apiRequest('post', 'appointment/resolvedRequest',reqVars).subscribe(async response => { 
+        if (response.error) {
+          if(response.message){
+            this.commonService.openSnackBar(response.message, "ERROR")   
+          }
+        } else {          
+          if(response.message){
+            this.getRequestsList('')
+            this.commonService.openSnackBar(response.message, "SUCCESS")   
+          }          
+        }
+      })
+  }
 
   searchRecords(event: any, colName: string) {
     let searchStr = event.target.value.trim()
@@ -145,11 +181,10 @@ export class RequestsComponent {
       if (action == "") {
         this.commonService.showLoader()
       }
-  
       let reqVars = {
         query: this.whereCond,
         userQuery: this.userQuery,
-        fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, caseName: 1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1, checkIn: 1 },
+        fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, caseName: 1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1, resolved: 1 },
         patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1 },
         order: this.orderBy,
         limit: this.pageSize,
@@ -170,12 +205,14 @@ export class RequestsComponent {
               appointmentDate: element.appointmentDate,
               status: element.status,
               caseName: element.caseName,
+              caseType: element.caseType,
               statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
               patientName: element.patientId?.firstName + " " + element.patientId?.lastName,
               patientEmail: element.patientId?.email,
-              profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientId?.profileImage,
+              profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientId?.profileImage          
             }
             finalData.push(newColumns)
+            this.resolved[element._id] = element.resolved ? element.resolved : false;
           })
         }
   

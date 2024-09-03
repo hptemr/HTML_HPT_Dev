@@ -60,6 +60,7 @@ export class CreateRequestAppointmentComponent {
     this.appointmentForm = this.fb.group({
       caseName: ['', [Validators.required]],
       caseNameOther: [''],
+      caseType: ['', [Validators.required]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required]],
@@ -158,6 +159,7 @@ export class CreateRequestAppointmentComponent {
           }else{
             this.appointmentForm.controls['caseName'].setValue(caseName); 
           }
+          this.appointmentForm.controls['caseType'].setValue(appointmentData.caseType);
           let therapistId = (appointmentData && appointmentData.therapistId) ? appointmentData.therapistId : '';
                    
           this.appointmentForm.controls['firstName'].setValue(this.appointmentRequestData.patientId?.firstName);
