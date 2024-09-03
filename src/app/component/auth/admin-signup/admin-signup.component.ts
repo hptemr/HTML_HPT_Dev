@@ -86,6 +86,8 @@ export class AdminSignupComponent {
           localStorage.setItem('user', JSON.stringify(res.data));
           this.commonService.redirectToHome()
         }
+      },error: (err) => {
+        err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
       }
     })
   }
