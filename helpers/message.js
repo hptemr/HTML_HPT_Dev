@@ -22,7 +22,8 @@ const messages = {
         revokeInvite: 'Invoke invite successfully',
         npiExists:"NPI already exist",
         ssnExists:"SSN already exist",
-        licenseExists:"License already exist"
+        licenseExists:"License already exist",
+        deleteUser: 'Your account is deleted. Please contact system admin or support team.',
     },
     infoMessage: {
         updated: 'Updated successfully',

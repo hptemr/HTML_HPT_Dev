@@ -212,6 +212,13 @@ const updateUser = async (req, res) => {
       let password = await bcrypt.hash(updateInfo.password, salt)
       delete updateInfo.password
       Object.assign(updateInfo, { salt: salt, hash_password: password })
+
+      // Check if Sign Up User account is deleted
+      let userStatus = ['Deleted']
+      let userData = await userCommonHelper.userGetById(decryptTokenData.userId)
+      if (userStatus.includes(userData.status)){
+        return commonHelper.sendResponse(res, 'info', null, userMessage.deleteUser);
+      } 
     }
     let user = await User.findOneAndUpdate(query, updateInfo, { new: true })
     const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '1d' });
