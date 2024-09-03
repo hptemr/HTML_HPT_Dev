@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './privacy-policy.component.scss'
 })
 export class PrivacyPolicyComponent {
-
+  baseUrl : string = ""
+  ngOnInit() {
+    this.baseUrl = `${window.location.protocol}//${window.location.hostname}`;  
+  }
 }
