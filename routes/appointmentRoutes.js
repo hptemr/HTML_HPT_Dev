@@ -16,4 +16,5 @@ router.post('/createAppointmentRequest', appointmentController.createAppointment
 router.post('/getAppointmentRequestList', appointmentController.getAppointmentRequestList); 
 router.post('/getAppointmentRequestDetails', appointmentController.getAppointmentRequestDetails); 
 router.post('/createAppointment', appointmentController.createAppointment);
+router.post('/resolvedRequest', appointmentController.resolvedRequest);
 module.exports = router;
