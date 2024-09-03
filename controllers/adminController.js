@@ -206,20 +206,26 @@ const updateUser = async (req, res) => {
     
     if (req.body.passwordReset != undefined && req.body.passwordReset == true) {
       let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
-      query._id = decryptTokenData.userId
 
+       // Check if Sign Up User account is deleted
+       let userStatus = ['Deleted']
+       let bodyInviteToken = query._id
+       let userData = await userCommonHelper.userGetById(decryptTokenData.userId)
+       if(!userData || userData==null){
+         return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound);
+       }else if(userData!=null && (!userData.inviteToken || userData.inviteToken!=bodyInviteToken)){
+        return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
+       }else if (userStatus.includes(userData.status)){
+         return commonHelper.sendResponse(res, 'info', null, userMessage.deleteUser);
+       } 
+
+      query._id = decryptTokenData.userId
       let salt = await bcrypt.genSalt(10)
       let password = await bcrypt.hash(updateInfo.password, salt)
       delete updateInfo.password
       Object.assign(updateInfo, { salt: salt, hash_password: password })
-
-      // Check if Sign Up User account is deleted
-      let userStatus = ['Deleted']
-      let userData = await userCommonHelper.userGetById(decryptTokenData.userId)
-      if (userStatus.includes(userData.status)){
-        return commonHelper.sendResponse(res, 'info', null, userMessage.deleteUser);
-      } 
     }
+    
     let user = await User.findOneAndUpdate(query, updateInfo, { new: true })
     const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '1d' });
     const userObject = user.toObject();
@@ -574,7 +580,8 @@ const revokeInvite = async (req, res) => {
   try {
     const { _id } = req.body
     // Update invite token
-    await User.findOneAndUpdate({ _id: _id }, { inviteToken: "" });
+    // await User.findOneAndUpdate({ _id: _id }, { inviteToken: "" });
+    await User.findByIdAndDelete(_id);
     commonHelper.sendResponse(res, 'success', null, userMessage.revokeInvite);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
