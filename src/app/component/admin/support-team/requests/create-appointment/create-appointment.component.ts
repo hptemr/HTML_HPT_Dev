@@ -66,6 +66,7 @@ export class CreateRequestAppointmentComponent {
       email: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       appointmentDate: ['', [Validators.required]],
+      appointmentType: ['', [Validators.required]],
       practiceLocation: ['',[Validators.required]],
       therapistId: [''],     
     });
@@ -152,6 +153,9 @@ export class CreateRequestAppointmentComponent {
           this.location = (appointmentData && appointmentData.practiceLocation) ? appointmentData.practiceLocation : this.appointmentRequestData.practiceLocation;
 
           let caseName = (appointmentData && appointmentData.caseName) ? appointmentData.caseName : '';
+          let caseType = (appointmentData && appointmentData.caseType) ? appointmentData.caseType : '';
+          let appointmentType = (appointmentData && appointmentData.appointmentType) ? appointmentData.appointmentType : '';
+          
           if(appointmentData && appointmentData.status && appointmentData.status=='Pending'){
             this.appointmentForm.controls['caseNameOther'].setValue(caseName);
             this.onCaseSelected('Other');
@@ -159,9 +163,11 @@ export class CreateRequestAppointmentComponent {
           }else{
             this.appointmentForm.controls['caseName'].setValue(caseName); 
           }
-          this.appointmentForm.controls['caseType'].setValue(appointmentData.caseType);
+          this.appointmentForm.controls['caseType'].setValue(caseType);
           let therapistId = (appointmentData && appointmentData.therapistId) ? appointmentData.therapistId : '';
                    
+          console.log('>>>',this.appointmentRequestData.patientId,'>>>>>>>>>>>', this.appointmentRequestData.patientId.firstName)
+          
           this.appointmentForm.controls['firstName'].setValue(this.appointmentRequestData.patientId?.firstName);
           this.appointmentForm.controls['lastName'].setValue(this.appointmentRequestData.patientId?.lastName);
           this.appointmentForm.controls['email'].setValue(this.appointmentRequestData.patientId?.email);         

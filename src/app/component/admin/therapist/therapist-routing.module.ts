@@ -39,7 +39,7 @@ import { DocumentDetailingComponent } from 'src/app/shared/component/support-bil
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 
 import { UserListingComponent } from '../system-and-practice/user-managment/user-listing/user-listing.component';
-
+import { AdminProfileComponent } from '../system-and-practice/user-managment/admin-profile/admin-profile.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -209,6 +209,10 @@ const routes: Routes = [
       {
         path: 'therapists',
         component: UserListingComponent,
+      },
+      {
+        path: 'admin-profile/:adminId',
+        component: AdminProfileComponent,
       }
     ]
   },
