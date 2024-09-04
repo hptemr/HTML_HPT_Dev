@@ -24,7 +24,7 @@
                                         <button mat-stroked-button color="primary"  [routerLink]="['/support-team/patients/patient-profile',appointmentData?.patientId._id]" >View Patient Profile</button>
                                         <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button>
                                         <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/billing-details']">View Billing Details</button>
-                                        <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/support-team/intake-form/step-1']">
+                                        <button mat-raised-button color="primary" class="intake-btn" [routerLink]="['/support-team/intake-form/step-1', appointmentId]">
                                             View Intake Form
                                         </button>
                                     </mat-panel-description>

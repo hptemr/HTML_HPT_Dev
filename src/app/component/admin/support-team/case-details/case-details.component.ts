@@ -167,8 +167,7 @@ export class CaseDetailsComponent {
           this.appointment_flag = true;
           this.selectedTherapistId = this.appointmentData?.therapistId?._id
           // this.app_data[this.appointmentId] = this.appointmentData;
-          // this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)   
-          console.log("this.appointmentData>>>>",this.appointmentData)       
+          // this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)        
         }
       })
     }
