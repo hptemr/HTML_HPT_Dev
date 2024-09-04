@@ -16,6 +16,7 @@ const appointmentSchema = new mongoose.Schema({
     },
     appointmentId: Number,
     appointmentType: { type: String, default: "" },
+    appointmentTypeOther: { type: String, default: "" },
     caseName: { type: String, default: "" },
     caseType: { type: String, default: "" },
     appointmentDate: { type: Date, default: Date.now },

@@ -130,6 +130,7 @@ const createAppointment = async (req, res) => {
             caseName: data.caseName=='Other' ? data.caseNameOther : data.caseName,
             caseType : data.caseType,
             appointmentType : data.appointmentType,
+            appointmentTypeOther : data.appointmentTypeOther,
             appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
             practiceLocation: data.practiceLocation,
             therapistId: data.therapistId ? data.therapistId : '',
