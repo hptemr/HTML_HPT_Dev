@@ -97,6 +97,8 @@ export class IntakeStep3Component {
             }
           });
         }   
+
+        console.log('this.selectedPartsFront>>>',this.selectedPartsFront)
       }
     })
   }

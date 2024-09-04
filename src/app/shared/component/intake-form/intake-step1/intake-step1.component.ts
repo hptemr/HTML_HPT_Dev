@@ -9,13 +9,24 @@ import { maritalStatus, practiceLocations, relationWithPatient } from 'src/app/c
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
-
+import { states_data } from '../../../../state';
+import { cities_data } from '../../../../city';
+interface State {
+  state: string;
+  state_code: string;
+}
+interface City {
+  city: string;
+  state_code: string;
+}
 @Component({
   selector: 'app-intake-step1',
   templateUrl: './intake-step1.component.html',
   styleUrl: './intake-step1.component.scss'
 })
 export class IntakeStep1Component {
+  states: State[] = states_data;
+  cities: City[] = []
   model: NgbDateStruct;
   appId: any
   selectedValue: any;
@@ -28,6 +39,7 @@ export class IntakeStep1Component {
   relationWithPatient = relationWithPatient
   validationMessages = validationMessages
   todayDate = new Date();
+  selectedCity: string = "";
   maxAppntDate = this.commonService.getMaxAppoinmentFutureMonths()
   activeUserRoute = this.commonService.getLoggedInRoute()
   constructor(public dialog: MatDialog, private router: Router,
@@ -48,7 +60,7 @@ export class IntakeStep1Component {
     const req_vars = {
       query: { _id: this.appId },
       fields: { checkIn: 0 },
-      patientFields: { _id:1,firstName:1,middleName:1,lastName:1,dob:1,maritalStatus:1,gender:1,email:1,phoneNumber:1,cellPhoneNumber:1,workExtensionNumber:1 },
+      patientFields: { _id:1,firstName:1,middleName:1,lastName:1,dob:1,maritalStatus:1,gender:1,email:1,phoneNumber:1,cellPhoneNumber:1,workExtensionNumber:1,address1:1,city:1,state:1,zipcode:1 },
       therapistFields: { _id: 1 }
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
@@ -108,6 +120,11 @@ export class IntakeStep1Component {
     let phoneNumber = ''
     let cellPhoneNumber = ''
     let workExtensionNumber = ''
+
+    let address = ''
+    let city = ''
+    let state = ''
+    let zipcode = ''
     if (current == 'Myself') {
       firstName = this.patientInfo.firstName
       middleName = this.patientInfo.middleName
@@ -119,6 +136,12 @@ export class IntakeStep1Component {
       phoneNumber = this.patientInfo.phoneNumber
       cellPhoneNumber = this.patientInfo.cellPhoneNumber ? this.patientInfo.cellPhoneNumber : ""
       workExtensionNumber = this.patientInfo.workExtensionNumber ? this.patientInfo.workExtensionNumber : ""
+      console.log('patientInfo >>>>',this.patientInfo)
+      address = this.patientInfo.address1 ? this.patientInfo.address1 : ""
+      city = this.patientInfo.city ? this.patientInfo.city : ""
+      state = this.patientInfo.state ? this.patientInfo.state : ""
+      zipcode = this.patientInfo.zipcode ? this.patientInfo.zipcode : ""
+
     } else if (this.step1FormData) {
       let patientAppInfo = this.step1FormData.patientInfo
       firstName = patientAppInfo.firstName
@@ -131,6 +154,10 @@ export class IntakeStep1Component {
       phoneNumber = patientAppInfo.phoneNumber
       cellPhoneNumber = patientAppInfo.cellPhoneNumber
       workExtensionNumber = patientAppInfo.workExtensionNumber
+      address = patientAppInfo.address1
+      city = patientAppInfo.city
+      state = patientAppInfo.state
+      zipcode = patientAppInfo.zipcode
     }
     this.step1Form.controls['bookingFor'].setValue(this.selectedValue)
     this.step1Form.controls['firstName'].setValue(firstName)
@@ -143,11 +170,18 @@ export class IntakeStep1Component {
     this.step1Form.controls['phoneNumber'].setValue(phoneNumber)
     this.step1Form.controls['cellPhoneNumber'].setValue(cellPhoneNumber)
     this.step1Form.controls['workExtensionNumber'].setValue(workExtensionNumber)
+    console.log('address>>>',address)
+    this.step1Form.controls['address'].setValue(address)
+    this.step1Form.controls['city'].setValue(city)
+    this.step1Form.controls['state'].setValue(state)
+    this.step1Form.controls['zipcode'].setValue(zipcode)
   }
   
   //firstName=1,middleName=1,lastName=1,dob=1,maritalStatus=1,gender=1,email=1,phoneNumber=1,cellPhoneNumber=1,workExtensionNumber=1
 
   loadForm() {
+    this.onStateChange(this.step1FormData ? this.step1FormData.patientId.state : '')
+    this.selectedCity = (this.step1FormData ? this.step1FormData.patientId.city : '')
     this.step1Form = new FormGroup({
       practiceLocation: new FormControl((this.step1FormData ? this.step1FormData.practiceLocation : ''), Validators.compose([Validators.required])),
       appointmentDate: new FormControl((this.step1FormData ? this.step1FormData.appointmentDate : ''), Validators.compose([Validators.required])),
@@ -162,7 +196,11 @@ export class IntakeStep1Component {
       email: new FormControl((this.step1FormData ? this.step1FormData.patientId.email : ''), Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
       phoneNumber: new FormControl((this.step1FormData ? this.step1FormData.patientId.phoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
       cellPhoneNumber: new FormControl((this.step1FormData ? this.step1FormData.patientId.cellPhoneNumber : '')),
-      workExtensionNumber: new FormControl((this.step1FormData ? this.step1FormData.patientId.workExtensionNumber : ''))
+      workExtensionNumber: new FormControl((this.step1FormData ? this.step1FormData.patientId.workExtensionNumber : '')),
+      address1: new FormControl((this.step1FormData ? this.step1FormData.patientId.address1 : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(100)])),
+      city: new FormControl((this.step1FormData ? this.step1FormData.patientId.city : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(25)])),
+      state: new FormControl((this.step1FormData ? this.step1FormData.patientId.state : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(25)])),
+      zipcode: new FormControl((this.step1FormData ? this.step1FormData.patientId.zipcode : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(6)]))
     })
   }
 
@@ -215,5 +253,15 @@ export class IntakeStep1Component {
   checkSpace(colName: any, event: any) {
     this.step1Form.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
+
+  onStateChange(selected_state_code:any) {
+    this.selectedCity = '';
+    this.getCitiesByState(selected_state_code);
+  }
+
+  getCitiesByState(state_code: string): City[] {
+    return this.cities = cities_data.filter(city => city.state_code === state_code);
+  }
+
 
 }

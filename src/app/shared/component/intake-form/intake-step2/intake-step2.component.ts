@@ -178,13 +178,13 @@ export class IntakeStep2Component {
       employerName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       employerPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       employerAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.employerAddress : '', [Validators.required]],
-      isPatientMinor: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorney : '', []],
+      isPatientMinor: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.isPatientMinor : '', []],
       attorney: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorney : '', []],
       attorneyName: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       attorneyPhone: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       //attorneyAddress: [this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
-
+    this.isMinorFlag = this.step2FormData ? this.step2FormData.payViaInsuranceInfo?.isPatientMinor=='yes' ? true : false : false    
   }
 
   getInsuranceDetails(event: any) {
@@ -228,8 +228,8 @@ export class IntakeStep2Component {
     let secondaryInsuranceFromDate = ''
     let secondaryInsuranceToDate = ''
     let thirdInsuranceFromDate = ''
-    let thirdInsuranceToDate = ''
-
+    let thirdInsuranceToDate = ''    
+    let isPatientMinor = false
     if (currentIndex != '') {
       let info = this.insuranceList.filter((item: any) => item.insuranceName === currentIndex)[0]
       insuranceName = info.insuranceName
@@ -264,11 +264,14 @@ export class IntakeStep2Component {
       employerName = info.employerName
       employerPhone = info.employerPhone
       employerAddress = info.employerAddress
+      isPatientMinor = info.isPatientMinor ? info.isPatientMinor=='yes' ? true : false : false
       attorney = info.attorney
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
+      console.log('>>>',info.isPatientMinor)
     }
+    console.log('######>>>',isPatientMinor)
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
     this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
@@ -308,6 +311,8 @@ export class IntakeStep2Component {
     this.step2Form.controls['employerName'].setValue(employerName)
     this.step2Form.controls['employerPhone'].setValue(employerPhone)
     this.step2Form.controls['employerAddress'].setValue(employerAddress)
+
+    this.step2Form.controls['isPatientMinor'].setValue(isPatientMinor)
     this.step2Form.controls['attorney'].setValue(attorney)
     this.step2Form.controls['attorneyName'].setValue(attorneyName)
     this.step2Form.controls['attorneyPhone'].setValue(attorneyPhone)

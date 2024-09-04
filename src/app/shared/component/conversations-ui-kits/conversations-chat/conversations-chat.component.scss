@@ -97,6 +97,13 @@
             right: 30px !important;
         }
     } 
+    .cc-message-information__wrapper{
+        height: auto !important;
+        .cc-message-information__list-item{
+            max-height: 300px;
+            overflow: auto;
+        }
+    }
 }
 
 ::ng-deep cometchat-audio-bubble .cc__audio__bubble{ 
@@ -109,8 +116,12 @@
         .cc-with-messages__wrapper .cc-with-messages__sidebar{
             margin: 0 !important;
         } 
+        .cc-message-information__wrapper{
+            width: 320px !important;
+        }
     }
     .create--group--btn{  
         margin-right: 10px;
     }
+    
 }

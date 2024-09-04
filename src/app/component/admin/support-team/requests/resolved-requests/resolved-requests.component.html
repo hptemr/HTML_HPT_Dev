@@ -11,18 +11,16 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <select class="form-select form-control">
+                            <select (ngModelChange)="selectRecords('practiceLocation',$event)"  [(ngModel)]="practiceLocationsVal" class="form-select form-control"  aria-label="Default select example">
                                 <option selected value="">Select Practice Location</option>
-                                <option value="">Corvallis PT </option>
-                                <option value="">Darby PT </option>
-                                <option value="">Frenchtown PT </option>
-                                <option value="">Hamilton PT at The Canyons </option>
+                                <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}
+                                </option>
                             </select>
                         </div>
                     </div> 
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <input  type="text"
+                            <input [(ngModel)]="seachByPname" (keyup)="searchRecords($event,'byPname')" type="text"
                             class="form-control search--outer" placeholder="Patient Name and Email">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
@@ -33,11 +31,12 @@
                         <div class="form-group">
                                 <div class="input-group"> 
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input  name="dp"  placeholder="Received on From Date" matInput
+                                        <input [(ngModel)]="fromDate" (dateChange)="onDateChange($event,'fromDate')"
+                                            name="dp" readonly="isReadonly" placeholder="Received on From Date" matInput
                                             [matDatepicker]="picker" (focus)="picker.open()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
-                                    </mat-form-field> 
+                                    </mat-form-field>
                               </div>
                         </div>
                     </div>
@@ -46,87 +45,99 @@
                                 <div class="input-group">
 
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input  
+                                        <input [(ngModel)]="toDate" (dateChange)="onDateChange($event,'toDate')"
                                             name="dp2" readonly="isReadonly" placeholder="Received on To Date" matInput
                                             [matDatepicker]="picker2" (focus)="picker2.open()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                         <mat-datepicker #picker2></mat-datepicker>
-                                    </mat-form-field> 
+                                    </mat-form-field>
                               </div> 
                         </div>
                     </div>  
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <button mat-stroked-button  color="primary">Reset Filter</button>
+                            <button mat-stroked-button (click)="reset()" color="primary">Reset Filter</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card-body" >
+        <div class="card-body" *ngIf="dayTwo">
             <div class="col-12 cust--mat--table--wrapper">
                 <div class="mat-elevation-z8">
-                    <table mat-table [dataSource]="dataSource" class="cust--mat--table box--row--table"> 
-                      <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <table mat-table [dataSource]="appointmentRequestList" matSort (matSortChange)="announceSortChange($event)" class="cust--mat--table box--row--table">  
+                    <ng-container matColumnDef="patientName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Appointment #
+                        </th>
                         <td mat-cell *matCellDef="let element"> 
                             <div class="d-flex align-items-start">
                                 <div class="img--box flex-shrink-0">
-                                    <img src="assets/images/ark/user-3.png" alt="Patient Profile Pic" class="img-fluid" />
+                                    <img src="{{element.profileImage}}" alt="Patient Profile Pic" class="img-fluid" />
                                 </div>
                                 <div> 
-                                    <h2 class="mb-1 font-16 text-primary clr--1F2F3E fw-500">{{element.name}}</h2>
+                                    <h2 class="mb-1 font-16 text-primary clr--1F2F3E fw-500">{{element.patientName}}</h2>
                                     <p class="mb-1 font-14 text-primary clr--1F2F3E d-flex align-items-center wb-ba">
                                         <mat-icon class="mail-con text-primary me-2 flex-shrink-0">mail</mat-icon>
-                                        rohini&#64;arkenea.com
+                                        {{element.patientEmail}}
                                     </p> 
                                 </div>
                             </div>
                         </td>
                       </ng-container> 
                       
-                      <ng-container matColumnDef="padt">
-                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                      <ng-container matColumnDef="appointmentDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date">
+                            Appointment Date & Time 
+                        </th>
                         <td mat-cell *matCellDef="let element"> 
                             <h6 class="mb-1 font-14 text-primary clr--1F2F3E fw-700 lh-20">Preferred Appointment <br> Date and Time</h6>
-                            <p class="mb-0 font-14 clr--1F2F3E "> {{element.padt}} </p>
+                            <p class="mb-0 font-14 clr--1F2F3E ">{{element.appointmentDate | date: 'EEE, MMM d, y hh:mm a'}}</p>                           
                         </td>
                       </ng-container>
                    
-                      <ng-container matColumnDef="pl">
-                        <th mat-header-cell *matHeaderCellDef> </th>
+                      <ng-container matColumnDef="practiceLocation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by location">
+                            practiceLocation
+                        </th>
                         <td mat-cell *matCellDef="let element">
                             <h6 class="mb-1 font-14 text-primary clr--1F2F3E fw-700 lh-20">Practice Location</h6>
-                            <p class="mb-0 font-14 clr--1F2F3E "> {{element.pl}} </p> 
+                            <p class="mb-0 font-14 clr--1F2F3E "> {{element.practiceLocation ? element.practiceLocation : ''}} </p> 
                         </td>
                       </ng-container>
                    
-                      <ng-container matColumnDef="rb">
-                        <th mat-header-cell *matHeaderCellDef> </th>
+                      <ng-container matColumnDef="resolvedBy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by resolved by">
+                            resolvedBy
+                        </th>
                         <td mat-cell *matCellDef="let element">
                             <h6 class="mb-1 font-14 text-primary clr--1F2F3E fw-700 lh-20">Resolved By</h6>
-                            <p class="mb-0 font-14 clr--1F2F3E "> {{element.rb}} </p>  
+                            <p class="mb-0 font-14 clr--1F2F3E ">{{element.resolvedByName }} </p>  
                         </td>
                       </ng-container>
 
-                      <ng-container matColumnDef="ro">
-                        <th mat-header-cell *matHeaderCellDef> </th>
-                        <td mat-cell *matCellDef="let element">
+                      <ng-container matColumnDef="resolvedOn">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by resolved date">
+                            resolvedOn
+                        </th>
+                        <td mat-cell *matCellDef="let element">  
                             <h6 class="mb-1 font-14 text-primary clr--1F2F3E fw-700 lh-20">Resolved on</h6>
-                            <p class="mb-0 font-14 clr--1F2F3E "> {{element.ro}} </p>  
+                            <p class="mb-0 font-14 clr--1F2F3E "> {{element.resolvedOn | date: 'EEE, MMM d, y hh:mm a'}} </p>  
                         </td>
                       </ng-container>
 
-                      <ng-container matColumnDef="symbol">
-                        <th mat-header-cell *matHeaderCellDef> </th>
+                      <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                            Actions
+                        </th>
                         <td mat-cell *matCellDef="let element"> 
                             <div class="w-100 d-flex align-items-center justify-content-center flex-column"> 
                                 <div class="d-flex w-100 justify-content-center">
-                                     <button mat-button class="flex-shrink-0 min-width-unset mb-1 icon--visi">
+                                     <button mat-button class="flex-shrink-0 min-width-unset mb-1 icon--visi" (click)="navigateToappointmentDetails(element.id)">
                                          <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary ">visibility </mat-icon>
                                      </button> 
                                 </div>
-                                <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Received on <span class="fw-400">{{element.symbol}}</span></p>
+                                <p class="mb-0 font-14 text-primary clr--1F2F3E fw-700">Received on <span class="fw-400">{{element.createdAt  | date: 'EEE, MMM d, y'}}</span></p>
                              </div> 
                         </td>
                       </ng-container>
@@ -134,13 +145,20 @@
                       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
-                  
-                    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                                   showFirstLastButtons
-                                   aria-label="Select page of periodic elements">
-                    </mat-paginator>
-                  </div>
-                  
+                    <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount"
+                    [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions"
+                    [pageIndex]="pageIndex"></mat-paginator>
+                    
+                </div>                  
+            </div>
+            <div class="card-body day--one--wrapper d-flex align-items-center justify-content-center" *ngIf="dayOne">
+                <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                    <img src="assets/images/ark/calendar-lg.png" alt="" class="img-fluid mb-4" />
+                    <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="!dayOneFlag">No Records Found!</p>
+                    <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="dayOneFlag">
+                        Currently there are no appointments requests to show!
+                    </p>
+                </div>
             </div>
         </div> 
     </div>
