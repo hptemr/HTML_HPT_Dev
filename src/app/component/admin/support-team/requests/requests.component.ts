@@ -1,8 +1,3 @@
- 
-
- 
- 
-
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -32,7 +27,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   styleUrl: './requests.component.scss'
 })
 export class RequestsComponent {
-  displayedColumns: string[] = ['name','appointmentDate','practiceLocation','action'];
+  displayedColumns: string[] = ['patientName','appointmentDate','practiceLocation','action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   orderBy: any = { updatedAt: -1 }
   whereCond: any = {resolved:false}
