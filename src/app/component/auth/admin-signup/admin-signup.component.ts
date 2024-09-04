@@ -114,7 +114,7 @@ export class AdminSignupComponent {
 
   createUserInCometChat(user:any){
     let fullName = `${user.firstName} ${user.lastName}`
-    let roles = ['practice_admin']
+    let roles = ['practice_admin','support_team']
     if(roles.includes(user.role)){
       this.userService.createUser(user._id, fullName, user.role)
     }

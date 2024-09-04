@@ -406,17 +406,18 @@ export class NavservicesService implements OnInit {
         //   active: false,
         //   item: []
         // },
-        // {
-        //   id: 7,
-        //   icon: 'chat_bubble_outline',
-        //   mainTitle: 'Conversations UiKit',
-        //   headTitle1: '',
-        //   path: '/support-team/conversations-chat',
-        //   active: false,
-        //   item: []
-        // },
         {
           id: 6,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/support-team/conversations-chat',
+          active: false,
+          item: []
+        },
+        {
+          id: 7,
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
