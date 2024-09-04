@@ -4,6 +4,7 @@ import { CmsModalComponent } from '../cms-modal/cms-modal.component';
 import { AuthService } from '../../services/api/auth.service';
 import { CommonService } from '../../services/helper/common.service';
 import { s3Details } from 'src/app/config';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-view-insurance-modal',
@@ -18,11 +19,24 @@ export class ViewInsuranceModalComponent {
     this.info = data.payViaInsuranceInfo;
   }
 
+  selectedValue: number;
+  onChange(event: MatRadioChange) {
+    console.log(this.selectedValue = event.value)
+  }
+
   cmsModal() {
     const dialogRef = this.dialog.open(CmsModalComponent, {
       panelClass: 'cms--container',
     });
   }
+  openCMSmodal(event:any) {  
+    if (event.checked === true) {
+      const dialogRef = this.dialog.open(CmsModalComponent,{
+        panelClass: 'cms--container', 
+      });
+    } else{ 
+    }
+}
 
   getIcon(row: any) {
     let fileType = row.split(/[#?]/)[0].split('.').pop().trim();
