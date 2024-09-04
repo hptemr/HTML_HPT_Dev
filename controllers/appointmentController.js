@@ -128,6 +128,8 @@ const createAppointment = async (req, res) => {
         let appointmentData = {
             appointmentId:appointmentId,
             caseName: data.caseName=='Other' ? data.caseNameOther : data.caseName,
+            caseType : data.caseType,
+            appointmentType : data.appointmentType,
             appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
             practiceLocation: data.practiceLocation,
             therapistId: data.therapistId ? data.therapistId : '',
@@ -151,6 +153,7 @@ const createAppointment = async (req, res) => {
         if(!caseFound){
             let caseData = {
                 caseName:appointmentData.caseName,
+                caseType : data.caseType,
                 patientId:data.patientId,
                 appointments:result._id
             };
