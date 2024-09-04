@@ -6,12 +6,10 @@ const planSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "appointments"
   },
-  patientId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "patients"
-  },
-  daily_note_plan: { type: Boolean },
-  daily_note: { type: String },
+  daily_note_plan:[{
+    plan: String,
+    note: String
+  }],
   freequency_per_week: { type: String },
   duration_per_week: { type: String },
   plan_start_date: { type: Date },
@@ -52,6 +50,7 @@ const planSchema = new mongoose.Schema({
     aphasia_assessment: { type: Boolean },
     cognitive_skills: { type: Boolean },
   },
+  status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "users"

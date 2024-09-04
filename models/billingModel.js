@@ -6,14 +6,10 @@ const billingSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "appointments"
   },
-  patientId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "patients"
-  },
   total_treatment_minutes: { type: String },
   total_direct_minutes: { type: String },
   total_units: { type: String },
-  pt_codes:{
+  united_pt_codes:{
     low_complexity:{ selected: { type: Boolean }, units:{ type: String }},
     moderate_complexity:{ selected: { type: Boolean }, units:{ type: String }},
     high_complexity:{ selected: { type: Boolean }, units:{ type: String }},
@@ -23,7 +19,7 @@ const billingSchema = new mongoose.Schema({
     mechanical_traction:{ selected: { type: Boolean }, units:{ type: String }},
     e_stim_unattended:{ selected: { type: Boolean }, units:{ type: String }}
   },
-  ot_codes:{
+  united_ot_codes:{
     low_complexity:{ selected: { type: Boolean }, units:{ type: String }},
     moderate_complexity:{ selected: { type: Boolean }, units:{ type: String }},
     high_complexity:{ selected: { type: Boolean }, units:{ type: String }},
@@ -33,7 +29,7 @@ const billingSchema = new mongoose.Schema({
     mechanical_traction:{ selected: { type: Boolean }, units:{ type: String }},
     e_stim_unattended:{ selected: { type: Boolean }, units:{ type: String }}
   },
-  slp_codes:{
+  united_slp_codes:{
     evaluation_of_speech:{ selected: { type: Boolean }, units:{ type: String }},
     evaluation_of_speech_language:{ selected: { type: Boolean }, units:{ type: String }},
     voice_and_resonance:{ selected: { type: Boolean }, units:{ type: String }},
@@ -47,14 +43,47 @@ const billingSchema = new mongoose.Schema({
     standardized_cognitive_performance:{ selected: { type: Boolean }, units:{ type: String }},
     therapeutic_interventions:{ selected: { type: Boolean }, units:{ type: String }},
   },
-  dt_codes:{
-    therapeutic_activity:{ selected: { type: String }, units:{ type: String }},
-    neuro_muscular_re_education:{ selected: { type: String }, units:{ type: String }},
-    aquatic_exercise:{ selected: { type: String }, units:{ type: String }},
-    therapeutic_exercise:{ selected: { type: String }, units:{ type: String }},
-    manual_therapy:{ selected: { type: String }, units:{ type: String }},
+  direct_pt_codes:{
+    therapeutic_activity:{ minutes: { type: String }, units:{ type: String }},
+    neuro_muscular_re_education:{ minutes: { type: String }, units:{ type: String }},
+    aquatic_exercise:{ minutes: { type: String }, units:{ type: String }},
+    therapeutic_exercise:{ minutes: { type: String }, units:{ type: String }},
+    manual_therapy:{ minutes: { type: String }, units:{ type: String }},
+  },
+  direct_ot_codes:{
+    therapeutic_activity:{ minutes: { type: String }, units:{ type: String }},
+    neuro_muscular_re_education:{ minutes: { type: String }, units:{ type: String }},
+    aquatic_exercise:{ minutes: { type: String }, units:{ type: String }},
+    therapeutic_exercise:{ minutes: { type: String }, units:{ type: String }},
+    manual_therapy:{ minutes: { type: String }, units:{ type: String }},
+    therapeutic_interventions:{ minutes: { type: String }, units:{ type: String }},
+  },
+  direct_slp_codes:{
+    gait_train:{ minutes: { type: String }, units:{ type: String }},
+    performance_test:{ minutes: { type: String }, units:{ type: String }}
   },
 
+  dme_pt_codes:{
+    half_foam_roll_12:{ quanitity:{ type: String }},
+    pulley:{ quanitity:{ type: String }},
+    half_foam_roll_36:{ quanitity:{ type: String }},
+    who_free_fab:{ quanitity:{ type: String }},
+    who_custom:{ quanitity:{ type: String }},
+  },
+  dme_ot_codes:{
+    padding_bandage:{ quanitity:{ type: String }},
+    elastomull:{ quanitity:{ type: String }},
+    putty:{ quanitity:{ type: String }},
+    hfo_custom:{ quanitity:{ type: String }},
+    ho_custom:{ quanitity:{ type: String }},
+  },
+  dme_slp_codes:{
+    patellofemoral_sleeve:{ quanitity:{ type: String }},
+    knee_orthosis:{ quanitity:{ type: String }},
+    aso_brace:{ quanitity:{ type: String }},
+    fo_custom:{ quanitity:{ type: String }},
+    whfo_custom:{ quanitity:{ type: String }},
+  },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "users"
