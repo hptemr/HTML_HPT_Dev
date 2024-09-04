@@ -22,7 +22,8 @@ const messages = {
         revokeInvite: 'Invoke invite successfully',
         npiExists:"NPI already exist",
         ssnExists:"SSN already exist",
-        licenseExists:"License already exist"
+        licenseExists:"License already exist",
+        deleteUser: 'Your account is deleted. Please contact system admin or support team.',
     },
     infoMessage: {
         updated: 'Updated successfully',
@@ -51,6 +52,7 @@ const messages = {
         created: 'Appointment has been created successfully',
         requestCreated: 'Appointment request has been sent successfully',
         alreadyRequestCreated: 'Appointment request already sent!',
+        resolved: 'Appointment request has been resolved successfully',
     },
     emergencyContactsMessage: {
         created: 'Contact details have been created successfully!',

@@ -109,6 +109,9 @@ const createAppointment = async (req, res) => {
         const updateRequest = {
           $set: {
               status: 'Accepted',
+              resolved:true,
+              resolvedBy:userId,
+              resolvedOn:new Date()
           }
         };
         await AppointmentRequest.findOneAndUpdate(filterRequest, updateRequest);
@@ -129,7 +132,7 @@ const createAppointment = async (req, res) => {
             practiceLocation: data.practiceLocation,
             therapistId: data.therapistId ? data.therapistId : '',
             patientId: data.patientId,
-            requestId:requestId,
+            requestId:requestId,            
             acceptInfo:{fromAdminId:userId}
         }
        
@@ -178,7 +181,6 @@ const getAppointmentDetails = async (req, res) => {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
-
 
 const updatePatientCheckIn = async (req, res) => {
     try {
@@ -235,6 +237,18 @@ const acceptAppointment = async (req, res) => {
         }
         await Appointment.findOneAndUpdate({ _id: query._id },data);
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.accepted);
+    } catch (error) {
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+const resolvedRequest = async (req, res) => {
+    try {
+        const { query, updateInfo } = req.body;
+        
+        Object.assign(updateInfo, { resolvedOn:new Date() })
+        await AppointmentRequest.findOneAndUpdate(query, updateInfo);
+        commonHelper.sendResponse(res, 'success', null, appointmentMessage.resolved);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
@@ -392,6 +406,7 @@ module.exports = {
     getAppointmentDetails,
     createAppointmentRequest,
     acceptAppointment,
+    resolvedRequest,
     cancelAppointment,
     addAppointment,
     updateAppointment,
