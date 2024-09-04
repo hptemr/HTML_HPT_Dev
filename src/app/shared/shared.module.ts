@@ -70,6 +70,7 @@ import { PatientProfileComponent } from './component/support-billing-therapist/p
 import { ViewInsuranceModalComponent } from './comman/view-insurance-modal/view-insurance-modal.component';
 
 import { UserListingComponent } from '../component/admin/system-and-practice/user-managment/user-listing/user-listing.component';
+//import { AdminProfileComponent } from '../component/admin/system-and-practice/user-managment/admin-profile/admin-profile.component';
 
 import { DatePipe } from '@angular/common';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
@@ -77,7 +78,6 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
 @NgModule({
   declarations: [
     ContentComponent,
@@ -129,7 +129,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ViewInsuranceModalComponent,
     DocumentListingComponent,
     DocumentDetailingComponent,
-    UserListingComponent
+    UserListingComponent,
+   // AdminProfileComponent
   ],
   imports: [
     CommonModule,

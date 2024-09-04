@@ -71,6 +71,8 @@ export class AppointmentRequestsComponent {
     let userType = this.authService.getLoggedInInfo('role')
     if (userType == 'support_team') {
       this.whereCond = Object.assign(this.whereCond, { status: { $in: this.fieldValues }, appointmentDate: { $gte: today, $lte: this.eodDate } })
+    } else if (userType == 'therapist') {
+      this.whereCond = Object.assign(this.whereCond, { appointmentDate: { $gte: today } })
     } else {
       this.whereCond = Object.assign(this.whereCond, { status: { $in: this.fieldValues }, appointmentDate: { $gte: today } })
     }

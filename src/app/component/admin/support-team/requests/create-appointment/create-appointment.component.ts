@@ -21,7 +21,7 @@ export class CreateRequestAppointmentComponent {
   otherAppType = false;
   requestId: string;
   model: any;//NgbDateStruct;
-  selectedValue: number;
+  selectedValue: any;
   therapistList:any=[];
   orderBy: any = { updatedAt: -1 }
   appointmentRequestData:any=[];
@@ -66,8 +66,10 @@ export class CreateRequestAppointmentComponent {
       email: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       appointmentDate: ['', [Validators.required]],
+      appointmentType: [''],
+      appointmentTypeOther: [''],
       practiceLocation: ['',[Validators.required]],
-      therapistId: [''],     
+      therapistId: ['',[Validators.required]],     
     });
     this.getAppointmentRequestDetails();
     this.getTherapistList()
@@ -152,6 +154,10 @@ export class CreateRequestAppointmentComponent {
           this.location = (appointmentData && appointmentData.practiceLocation) ? appointmentData.practiceLocation : this.appointmentRequestData.practiceLocation;
 
           let caseName = (appointmentData && appointmentData.caseName) ? appointmentData.caseName : '';
+          let caseType = (appointmentData && appointmentData.caseType) ? appointmentData.caseType : '';
+          let appointmentType = (appointmentData && appointmentData.appointmentType) ? appointmentData.appointmentType : '';
+          
+          
           if(appointmentData && appointmentData.status && appointmentData.status=='Pending'){
             this.appointmentForm.controls['caseNameOther'].setValue(caseName);
             this.onCaseSelected('Other');
@@ -159,7 +165,15 @@ export class CreateRequestAppointmentComponent {
           }else{
             this.appointmentForm.controls['caseName'].setValue(caseName); 
           }
-          this.appointmentForm.controls['caseType'].setValue(appointmentData.caseType);
+          this.appointmentForm.controls['caseType'].setValue(caseType);
+
+          this.appointmentForm.controls['appointmentType'].setValue(appointmentType);
+          this.selectedValue = appointmentType;
+          if(appointmentType && appointmentType=='Other'){
+            let appointmentTypeOther = (appointmentData && appointmentData.appointmentTypeOther) ? appointmentData.appointmentTypeOther : '';
+            this.appointmentForm.controls['appointmentTypeOther'].setValue(appointmentTypeOther);
+          }
+          
           let therapistId = (appointmentData && appointmentData.therapistId) ? appointmentData.therapistId : '';
                    
           this.appointmentForm.controls['firstName'].setValue(this.appointmentRequestData.patientId?.firstName);
@@ -214,8 +228,9 @@ export class CreateRequestAppointmentComponent {
     
   }
 
-  onChange(event: MatRadioChange) {
-    console.log(this.selectedValue = event.value)
+  onChange(value: any) {
+    this.selectedValue = value
+    console.log(this.selectedValue = value)
   }
 
   onPhoneInputChange(event: Event): void {

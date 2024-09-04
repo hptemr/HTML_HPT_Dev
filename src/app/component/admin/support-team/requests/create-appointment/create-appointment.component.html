@@ -162,7 +162,7 @@
 
                 <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Therapist </label>
+                        <label class="col-form-label fw-600">Therapist <span class="clr--DF0404 ms-1"> * </span></label>
                         <select class="form-select form-control" aria-label="Default select example" formControlName="therapistId">
                             <option value="" selected>Select</option>
                             <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
@@ -175,13 +175,31 @@
                 <div class="col-12 col-sm-6 col-lg-6 mt-2">
                     <div class="form-group w-100">
                         <label class="col-form-label fw-600 pb-0">Select Appointment type</label>
-                        <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                            <mat-radio-button value="01" class="me-3">Evaluation</mat-radio-button>
-                            <mat-radio-button value="02" class="me-3">Follow-up</mat-radio-button> 
-                            <mat-radio-button value="03" class="me-3">Aquatic</mat-radio-button>
-                            <mat-radio-button value="04">Other</mat-radio-button>
-                        </mat-radio-group> 
-                        <input  *ngIf="selectedValue == 04" class="form-control mt-1" type="text" placeholder="Enter Appointment type"/>
+                        <!-- <mat-radio-group aria-label="Select an option" (change)="onChange($event)" formControlName="appointmentType" >
+                            <mat-radio-button value="Evaluation" class="me-3">Evaluation</mat-radio-button>
+                            <mat-radio-button value="Follow-up" class="me-3">Follow-up</mat-radio-button> 
+                            <mat-radio-button value="Aquatic" class="me-3">Aquatic</mat-radio-button>
+                            <mat-radio-button value="Other">Other</mat-radio-button>
+                        </mat-radio-group>  -->
+
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="appointmentType"  #appointmentTy (change)='onChange(appointmentTy.value)' readonly="readonlyFlag">
+                            <option value="" selected>Select Appointment Type</option>
+                            <option value="Evaluation">Evaluation</option>
+                            <option value="Follow-up">Follow-up</option>
+                            <option value="Aquatic">Aquatic</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <!-- <mat-radio-button value="Evaluation" class="me-3">Evaluation</mat-radio-button>
+                        <mat-radio-button value="Follow-up" class="me-3">Follow-up</mat-radio-button> 
+                        <mat-radio-button value="Aquatic" class="me-3">Aquatic</mat-radio-button>
+                        <mat-radio-button value="Break time" class="me-3">Break time</mat-radio-button>
+                        <mat-radio-button value="Admin time" class="me-3">Admin time</mat-radio-button>
+                        <mat-radio-button value="Meeting" class="me-3">Meeting</mat-radio-button>
+                        <mat-radio-button value="Therapist off" class="me-3">Therapist off</mat-radio-button>
+                        <mat-radio-button value="Meeting" class="me-3">Meeting</mat-radio-button>
+                        <mat-radio-button value="Other">Other</mat-radio-button> -->
+                        <input class="form-control mt-1" type="text" formControlName="appointmentTypeOther" *ngIf="selectedValue == 'Other'" placeholder="Enter Appointment type" maxlength="50"/>
                     </div>
                 </div> 
             </div>
