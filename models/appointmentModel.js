@@ -15,7 +15,9 @@ const appointmentSchema = new mongoose.Schema({
         ref: "users"
     },
     appointmentId: Number,
+    appointmentType: { type: String, default: "" },
     caseName: { type: String, default: "" },
+    caseType: { type: String, default: "" },
     appointmentDate: { type: Date, default: Date.now },
     practiceLocation: { type: String, default: "" },
     checkIn: { type: Boolean, default: false },
