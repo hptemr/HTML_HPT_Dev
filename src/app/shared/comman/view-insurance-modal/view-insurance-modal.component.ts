@@ -5,6 +5,7 @@ import { AuthService } from '../../services/api/auth.service';
 import { CommonService } from '../../services/helper/common.service';
 import { s3Details } from 'src/app/config';
 import { MatRadioChange } from '@angular/material/radio';
+import { tr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-view-insurance-modal',
@@ -13,10 +14,14 @@ import { MatRadioChange } from '@angular/material/radio';
 })
 export class ViewInsuranceModalComponent {
   info: any
+  thirdInsurancesFlag = false;
 
   constructor(public dialog: MatDialog, private commonService: CommonService,
     private authService: AuthService, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.info = data.payViaInsuranceInfo;
+  }
+  thirdInsurance(){
+    this.thirdInsurancesFlag = true;
   }
 
   selectedValue: number;

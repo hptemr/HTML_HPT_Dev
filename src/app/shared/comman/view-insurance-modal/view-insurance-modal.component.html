@@ -191,6 +191,33 @@
                                 disabled placeholder="Enter Customer Service Ph" />
                         </div>
                     </div>
+                    <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Effective Date </label>
+                            <div class="input-group">
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input formControlName="primaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                        matInput [matDatepicker]="picker3" (focus)="picker3.open()">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                </mat-form-field>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">End Date</label>
+                            <div class="input-group">
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input   formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                        matInput [matDatepicker]="picker4" (focus)="picker4.open()">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </div> 
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -223,6 +250,110 @@
                             <label class="col-form-label fw-600">Customer Service Ph # </label>
                             <input value="{{info.secondaryInsuranceCustomerServicePh}}" class="form-control" type="text"
                                 disabled placeholder="Enter Customer Service Ph" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Effective Date </label>
+                            <div class="input-group">
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input formControlName="primaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                        matInput [matDatepicker]="picker6" (focus)="picker6.open()">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker6></mat-datepicker>
+                                </mat-form-field>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">End Date</label>
+                            <div class="input-group">
+                                <mat-form-field class="w-100 am--datepicker">
+                                    <input   formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                        matInput [matDatepicker]="picker7" (focus)="picker7.open()">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker7></mat-datepicker>
+                                </mat-form-field>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-start justify-content-sm-between">
+                        <div>&nbsp;</div> 
+                        <button (click)="thirdInsurance()" mat-raised-button color="primary" class="flex-shrink-0 mt-2" ><mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                                Add Insurance  
+                        </button>
+                    </div>
+                    <div class="col-12" *ngIf="thirdInsurancesFlag">
+                        <div class="row" >
+                            <div class="col-12">
+                                <h2 class="mb-2 mt-2 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Third Insurances</h2>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Third Insurances <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input   class="form-control"
+                                        type="text" placeholder="Enter Secondary Insurances Name" />
+                                     
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">ID/Policy # <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input  class="form-control" type="text"
+                                        placeholder="Enter ID/Policy" />
+                                    
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input  class="form-control" type="text" placeholder="Enter Group" />
+                                     
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Customer Service Ph # <span
+                                            class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input class="form-control"
+                                        type="text" placeholder="Enter Customer Service Ph" />
+                                     
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Effective Date </label>
+                                    <div class="input-group">
+                                        <mat-form-field class="w-100 am--datepicker">
+                                            <input formControlName="thirdInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                                matInput [matDatepicker]="picker5" (focus)="picker5.open()">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker5></mat-datepicker>
+                                        </mat-form-field>
+                                    </div> 
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">End Date</label>
+                                    <div class="input-group">
+                                        <mat-form-field class="w-100 am--datepicker">
+                                            <input  formControlName="thirdInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                                matInput [matDatepicker]="picker6" (focus)="picker6.open()">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker6></mat-datepicker>
+                                        </mat-form-field>
+                                    </div> 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
