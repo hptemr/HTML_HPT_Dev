@@ -1,0 +1,90 @@
+<div class="modal--wrapper d-flex flex-column w-100 efax--modal--wrapper">
+    <div class="modal--header w-100">
+        <h1 class="mb-0  d-flex align-items-center">
+            <button mat-stroked-button color="primary" class="me-3 back--btn">
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+            </button>
+            E-Fax One Page Notes
+        </h1>  
+    </div>
+    <div class="modal--body w-100">
+        <div class="row"> 
+            <div class="col-12  ">
+                <div class="row">
+                    <div class="col-12 d-flex align-items-start mb-2">
+                        <label class="font-16 fw-600 mb-0 flex-shrink-0">Patient Name : </label>
+                        <p class="font-16 mb-0 ms-1">John Doey</p>
+                    </div>
+                    <div class="col-12 d-flex align-items-start mb-2">
+                        <label class="font-16 fw-600 mb-0 flex-shrink-0">Note Type : </label>
+                        <p class="font-16 mb-0 ms-1">Progress Note</p>
+                    </div>
+                    <div class="col-12 d-flex align-items-start mb-2">
+                        <label class="font-16 fw-600 mb-0 flex-shrink-0">Date of Service : </label>
+                        <p class="font-16 mb-0 ms-1">2nd August, 2024</p>
+                    </div>
+                    <div class="col-12 mt-3"> 
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label class="fw-600">Send to</mat-label>
+                            <mat-select [formControl]="toppings" multiple>
+                              <mat-select-trigger>
+                                {{toppings.value?.[0] || ''}}
+                                @if ((toppings.value?.length || 0) > 1) {
+                                  <span class="example-additional-selection">
+                                    (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+                                  </span>
+                                }
+                              </mat-select-trigger>
+                              @for (topping of sendToList; track topping) {
+                            <mat-option [value]="topping">{{topping}}</mat-option>
+                          }
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-12 mt-3">
+                       <div class="row"> 
+                            <div class="col-12">
+                                <div class="form-group mb-0">
+                                    <label class="col-form-label fw-600">Add Fax Number </label>
+                                    <div class="d-flex align-items-start flex-column flex-sm-row">
+                                        <input class="form-control form-control-md mb-2" type="number"  placeholder="Enter Fax Number"/> 
+                                        <button mat-raised-button color="primary" class="flex-shrink-0 ms-2 mb-2">Add Fax Number</button>
+                                    </div>
+                                </div>
+                                <div class="chips d-inline-flex align-items-center">
+                                   9921992199
+                                    <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 ">close </mat-icon>
+                                    </button>
+                                </div>
+                                <div class="chips d-inline-flex align-items-center">
+                                    8855214587
+                                     <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1">
+                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 ">close </mat-icon>
+                                     </button>
+                                 </div>
+                                 <div class="chips d-inline-flex align-items-center">
+                                    98221547965
+                                     <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1">
+                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 ">close </mat-icon>
+                                     </button>
+                                 </div>
+                                 <div class="chips d-inline-flex align-items-center">
+                                    7709998989
+                                     <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1">
+                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 ">close </mat-icon>
+                                     </button>
+                                 </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
+        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
+        <button mat-raised-button color="primary" mat-dialog-close>Send</button>
+    </div>
+</div>

@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="col-5 d-flex justify-content-end">
-            <button mat-raised-button color="primary" class="ml-auto">Download/ Print Note</button>
+            
         </div>
     </div>
     <div class="modal--body w-100 mt-2 mb-2">
@@ -22,10 +22,23 @@
             </div>
         </div> 
     </div>
-    <div class="modal--footer w-100 d-flex flex-column justify-content-start mt-2">
-        <img src="../../../../../assets/images/ark/signature-img.png" class="img-fluid" alt="">
-        <p class="font-16 fw-600 mb-1">PT signature</p>
+    <div class="modal--footer w-100 
+    d-flex align-items-start align-items-sm-center
+    flex-column flex-sm-row
+    justify-content-between 
+    pb-0">
+        <div class="d-flex flex-column align-items-center mb-2">
+            <div class="signature--box d-flex align-items-center justify-content-center">
+                prashantthorat
+            </div>
+            <p class="font-16 fw-600 mb-1">PT signature</p>
+        </div>
+        <div class="d-flex align-items-center">
+            <button mat-stroked-button color="primary" class="m-1" mat-dialog-close>Download/ Print Note</button> 
+            <button mat-raised-button color="primary" class="m-1" (click)="efaxModal()" mat-dialog-close>E-Fax</button>  
+        </div>
     </div>
+    
 </div>
 
 <!-- Print Section Code -->

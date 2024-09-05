@@ -1,0 +1,28 @@
+ 
+.efaxhistory--modal--wrapper{
+    ::ng-deep{
+        .cust--mat--table--wrapper {
+            .cust--mat--table{
+                &.mat-mdc-table{
+                    tbody{
+                        tr{
+                            td{
+                                font-size: 14px;  
+                                padding-top: 10px;
+                                padding-bottom: 10px;
+                                .Success {
+                                    color: green;
+                                    font-family: 600;
+                                }
+                                .Failure {
+                                    color: red;
+                                    font-family: 600;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

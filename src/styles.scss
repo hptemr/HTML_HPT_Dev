@@ -7,7 +7,7 @@ input, p,
 .col-form-label,
 .dropdown-menu,
 .mat-mdc-menu-item-text,
-.font-nunito {
+.font-nunito, .mat-label {
     font-family: "Nunito Sans", sans-serif !important;
     
 } 
@@ -496,6 +496,8 @@ a{
                 tr{
                     th{
                         border-bottom-color:#EEE;
+                        font-family: "Nunito Sans", sans-serif !important;
+                        font-weight: 700;
                         &:first-child{
                             padding-left: 0;
                         } 
@@ -938,6 +940,13 @@ ngb-datepicker{
 }
 .mat-mdc-radio-button .mdc-radio{
     padding-left: 0 !important;
+}
+.mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full, 
+.mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full{
+    background: #31B7B7 !important;
+}
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text{
+    color: #31B7B7 !important;
 }
 
 .doc--pic{

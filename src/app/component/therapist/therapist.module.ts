@@ -31,6 +31,8 @@ import { DisObjectiveComponent } from 'src/app/shared/component/support-billing-
 import { DisPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-plan/dis-plan.component';
 import { DisSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/dis-subjective/dis-subjective.component';
 import { DischargeNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/discharge-note/discharge-note.component';
+import { EFaxModalComponent } from './appointment-details/e-fax-modal/e-fax-modal.component';
+import { EFaxHistoryModalComponent } from './appointment-details/e-fax-history-modal/e-fax-history-modal.component';
  
 @NgModule({
   declarations: [ 
@@ -65,7 +67,9 @@ import { DischargeNoteComponent } from 'src/app/shared/component/support-billing
     SelectFolderComponent,
     SelectFilesComponent,
     CaseNoteModalComponent,
-    OnePageNoteModalComponent
+    OnePageNoteModalComponent,
+    EFaxModalComponent,
+    EFaxHistoryModalComponent
   ],
   imports: [
     CommonModule,

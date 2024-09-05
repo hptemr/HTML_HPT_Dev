@@ -1,0 +1,38 @@
+.efax--modal--wrapper{
+    ::ng-deep{
+        .back--btn{
+            min-width: 42px;
+            .material-symbols-outlined{
+                width: 24px;
+                height: 24px;
+                font-size: 24px; 
+            }
+        }
+        .mat-mdc-select-value,
+        .mat-mdc-form-field .mat-mdc-floating-label.mdc-floating-label{
+            font-family: "Nunito Sans", sans-serif !important;
+        }
+        .chips{
+            border-radius: 5px;
+            background: #31B7B7;
+            font-size: 14px;
+            color: #fff;
+            padding: 2px 9px;
+            margin: 0 10px 10px 0;
+            .chip--close--btn{
+                height: auto;
+                color: #fff;
+                .mat-icon{
+                    font-size: 14px;
+                    height: 14px;
+                    width: 14px; 
+                }
+            }
+        }
+        .modal--footer{
+            border-top: 1px solid #ddd;
+        }
+    }
+}
+
+
