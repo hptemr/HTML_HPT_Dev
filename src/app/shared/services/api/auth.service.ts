@@ -68,6 +68,7 @@ export class AuthService {
     let storage: any
     storage = localStorage.getItem('user') ? localStorage.getItem('user') : null
     let user_details = JSON.parse(storage);
+    console.log('user_details>>>',user_details)
     if(user_details && user_details!=null ){
       if (column == 'all') {
         data = user_details

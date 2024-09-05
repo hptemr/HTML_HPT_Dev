@@ -41,7 +41,7 @@ export class UserListingComponent {
   pageTitle :string =''
   profileUrlSegment: string =''
   isUserList:boolean=true
-
+  public userId: string;
   orderBy: any = { createdAt: -1 }
   whereCond: any = {}
   totalCount = 0
@@ -68,6 +68,11 @@ export class UserListingComponent {
   @ViewChild('statusSelect') statusSelect: ElementRef;
 
   ngOnInit() {
+    this.userId = this.authService.getLoggedInInfo('_id')
+    this.userRole = this.authService.getLoggedInInfo('role')
+    if(this.userRole=='therapist' && this.authService.getLoggedInInfo('siteLeaderForPracLocation')!='Site Leader'){
+      this.router.navigate(['/therapist/dashboard'])
+    }
     this.getRouteSegment()
     this.adminUsers()
   }

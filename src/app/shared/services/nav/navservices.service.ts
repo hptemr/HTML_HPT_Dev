@@ -44,6 +44,7 @@ export class NavservicesService implements OnInit {
 
   getMenu() {
     let userType = this.authservice.getLoggedInInfo('role')
+
     if (userType == 'practice_admin') {
       this.navigationMenu = [
         {
@@ -268,6 +269,11 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
       ]
+    
+      if (userType == 'therapist' && this.authservice.getLoggedInInfo('siteLeaderForPracLocation')!='Site Leader'){
+        this.navigationMenu.splice(1, 1);
+      }
+
     } else if (userType == 'billing_team') {
       this.navigationMenu = [
         {
