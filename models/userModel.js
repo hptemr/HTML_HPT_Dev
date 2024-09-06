@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String }, //['system_admin', 'practice_admin', 'therapist', 'billing_team','support_team'],
   NPI: { type: Number },
   SSN: { type: String },
+  siteLeaderPracticeLocations:{ type: String },
   siteLeaderForPracLocation: { type: String },
   loginCount: { type: Number, default: 0 },
   failedAttempts: { type: Number, default: 0 },

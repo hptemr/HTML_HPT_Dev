@@ -24,6 +24,7 @@ const userLogin = async (req, res) => {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 email: userData.email,
+                siteLeaderForPracLocation: userData.siteLeaderForPracLocation,
                 role: userData.role,
                 token: token,
                 loginCount: loginCount,

@@ -61,6 +61,7 @@ const getAppointmentRequestList = async (req, res) => {
             }
         }
         let appointmentRequestList = await AppointmentRequest.find(query, fields)
+            .populate('resolvedBy', {"firstName": 1,"lastName": 1,"profileImage": 1})
             .populate('patientId', patientFields)
             .sort(order).skip(offset).limit(limit)
 
@@ -130,6 +131,7 @@ const createAppointment = async (req, res) => {
             caseName: data.caseName=='Other' ? data.caseNameOther : data.caseName,
             caseType : data.caseType,
             appointmentType : data.appointmentType,
+            appointmentTypeOther : data.appointmentTypeOther,
             appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
             practiceLocation: data.practiceLocation,
             therapistId: data.therapistId ? data.therapistId : '',
