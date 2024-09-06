@@ -95,7 +95,8 @@ export class AdminProfileComponent {
             // Therapist Fields
             if (this.userRole == 'therapist') {
               this.initializeTherapistFields()
-              this.practiceAdminProfileForm.controls['siteLeaderForPracLocation'].setValue((res.data && res.data.siteLeaderForPracLocatio)? res.data.siteLeaderForPracLocation : '');
+           
+              this.practiceAdminProfileForm.controls['siteLeaderForPracLocation'].setValue((res.data && res.data.siteLeaderForPracLocation) ? res.data.siteLeaderForPracLocation : 'None');
               this.practiceAdminProfileForm.controls['NPI'].setValue((res.data && res.data.NPI)? res.data.NPI : '');
               this.practiceAdminProfileForm.controls['SSN'].setValue((res.data && res.data.SSN)? res.data.SSN : '');
               this.practiceAdminProfileForm.controls['licenceNumber'].setValue((res.data && res.data.licenceNumber)? res.data.licenceNumber : '');
