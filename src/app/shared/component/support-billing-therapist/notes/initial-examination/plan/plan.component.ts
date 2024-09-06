@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -54,7 +54,7 @@ export class PlanComponent {
   ]
   actionType = ""
   submitted = false
-  constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
   }
@@ -142,10 +142,12 @@ export class PlanComponent {
     if(this.actionType=='create'){
       this.authService.apiRequest('post', 'soapNote/createPlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
+        window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
+        window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
       })
     }
   }
