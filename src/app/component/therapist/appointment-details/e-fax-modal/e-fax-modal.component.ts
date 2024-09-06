@@ -36,23 +36,28 @@ export class EFaxModalComponent {
       this.options = this.myControl.valueChanges.pipe(
         startWith(''),
         map(value => {
-          const filterValue = value.toLowerCase();
+          const filterValue = value;
   
-          return this.allOptions.filter(option => option.toLowerCase().includes(filterValue));
+          return this.allOptions.filter(option => option.includes(filterValue));
         })
       );
     }
-    allOptions = ['Apple', 'Banana', 'Orange', 'Pear', 'Grape'];
+    allOptions = ['Eithan Novak', 'Josie Mayo', 'Amora Stevens', 'Briella George', 'Calliope Stark'];
 
     selectedOptions: string[] = [];
   
     addOption(option: string) {
       this.selectedOptions.push(option);
-      this.myControl.setValue(this.selectedOptions);
+      // this.myControl.setValue(this.selectedOptions);
     }
   
     removeOption(option: string) {
+      console.log(this.selectedOptions)
+
       this.selectedOptions = this.selectedOptions.filter(item => item !== option);
-      this.myControl.setValue(this.selectedOptions);
+
+      console.log(this.selectedOptions)
+
+      // this.myControl.setValue(this.selectedOptions);
     }
 }

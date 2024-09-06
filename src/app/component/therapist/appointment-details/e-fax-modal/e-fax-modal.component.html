@@ -1,7 +1,7 @@
 <div class="modal--wrapper d-flex flex-column w-100 efax--modal--wrapper">
     <div class="modal--header w-100">
         <h1 class="mb-0  d-flex align-items-center">
-            <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="backtoOnePageModal()">
+            <button mat-dialog-close mat-stroked-button color="primary" class="me-3 back--btn" (click)="backtoOnePageModal()">
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
             </button>
             E-Fax One Page Notes
@@ -25,21 +25,22 @@
                     </div>
 
 
-                    <div class="col-12 mt-3"> 
-                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Send to</mat-label>
-                            <input matInput type="text" [formControl]="myControl" [matAutocomplete]="auto">
+                    <div class="col-12  send--to d-flex flex-column">
+                        <label class="col-form-label fw-600">Send To </label> 
+                        <mat-form-field appearance="outline" class="w-100"> 
+                            <input matInput type="text" [formControl]="myControl" [matAutocomplete]="auto" placeholder="Send to">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of options | async" (click)="addOption(option)"> 
+                                <mat-option *ngFor="let option of options | async" (click)="addOption(option)" (keydown.enter)="addOption(option)"> 
+                                    {{option}}
                                 </mat-option>
                             </mat-autocomplete>
-                            </mat-form-field> 
+                        </mat-form-field> 
 
-                            <mat-chip-set>
-                                <mat-chip *ngFor="let option of selectedOptions" (remove)="removeOption(option)"> 
-                                    <mat-icon matChipRemove>cancel</mat-icon>
-                                </mat-chip>
-                            </mat-chip-set>
+                        <mat-chip-set class="mt-2">
+                            <mat-chip *ngFor="let option of selectedOptions" class="chips"> 
+                               {{option}} <mat-icon class="chip--close--btn" matChipRemove (click)="removeOption(option)">close</mat-icon>
+                            </mat-chip>
+                        </mat-chip-set>
                     </div>
 
 
@@ -47,10 +48,10 @@
                        <div class="row"> 
                             <div class="col-12">
                                 <div class="form-group mb-0">
-                                    <label class="col-form-label fw-600">Add Fax Number </label>
+                                    <label class="col-form-label fw-600">Add New Fax Number </label>
                                     <div class="d-flex align-items-start flex-column flex-sm-row">
-                                        <input class="form-control form-control-md mb-2" type="number"  placeholder="Enter Fax Number"/> 
-                                        <button mat-raised-button color="primary" class="flex-shrink-0 ms-2 mb-2">Add Fax Number</button>
+                                        <input class="form-control form-control-md mb-2" type="number"  placeholder="Enter New Fax Number"/> 
+                                        <button mat-raised-button color="primary" class="flex-shrink-0 ms-2 mb-2">Add New Fax Number</button>
                                     </div>
                                 </div>
                                 <div class="chips d-inline-flex align-items-center">
