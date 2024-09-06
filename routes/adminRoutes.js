@@ -3,6 +3,9 @@ const router = express.Router();
 const adminController = require('../controllers/adminController');
 const verifyToken = require('../middlewares/authMiddleware');
 const commonMiddleware = require('../middlewares/commonMiddleware ');
+const multer = require('multer');
+// Multer configuration
+const upload = multer({ dest: 'uploads/' });
 
 router.post('/systemAdmin/signUp', adminController.systemAdminSignUp);
 
@@ -30,5 +33,7 @@ router.post('/resendInvite', adminController.resendInvite);
 router.post('/revokeInvite', adminController.revokeInvite);
 // Comet chat log url
 router.post('/cometChatLog', adminController.cometChatLog);
+// Provider Management
+router.post('/uploadFile', upload.single('file'), adminController.uploadFile);
 
 module.exports = router;

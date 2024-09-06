@@ -15,6 +15,7 @@ const File = require('../models/documentFilesModel');
 var fs = require('fs')
 const cometChatLogModel = require('../models/cometChatLog');
 const fetch = require('node-fetch');
+const csv = require('csv-parser');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -600,6 +601,94 @@ const cometChatLog = async (req, res) => {
     }
   }
 
+const uploadFile = async (req, res) => {
+    try {
+
+      const filePath = req.file.path;
+      // const doctors = [];
+      // const errors = [];
+
+      // fs.createReadStream(filePath)
+      //   .pipe(csv())
+      //   .on('data', (row) => {
+      //     // const error = validateRow(row);
+      //     // if (error.length > 0) {
+      //     //   errors.push({ row, error });
+      //     // } else {
+      //     //   doctors.push(row);
+      //     // }
+      //     doctors.push(row);
+      //   })
+      //   .on('end', async () => {
+      //     // await Doctor.insertMany(doctors);
+      //     // res.json({ doctors, errors });
+      //     commonHelper.sendResponse(res, 'success', { doctors, errors } , 'Upload file successfully');
+      //     fs.unlinkSync(filePath); // Delete the uploaded file after processing
+      //   });
+
+
+      // const filePath = path.join(__dirname, req.file.path);
+      const data = [];
+      const errorsList = [];
+
+      fs.createReadStream(filePath)
+        .pipe(csv())
+        .on('data', (row) => {
+          const errors = validateUploadFileRow(row);
+          if (errors.length > 0) {
+            // errorsList.push({ row, errors });
+            errorsList.push({ ...row, errors });
+          } else {
+            data.push({
+              Name: row["Name"],
+              Credentials: row["Credentials"],
+              Address: row["Address"],
+              phoneNumber: row["phoneNumber"],
+              faxNumber: row["faxNumber"],
+              NPI: row["NPI"],
+              errors: []
+            });
+          }
+        })
+        .on('end', async () => {
+          fs.unlinkSync(filePath); // Delete the uploaded file after processing
+          let allData = [ ...data, ...errorsList ]
+          let allList = { totalRecord: allData, totalRecordCount: allData.length, errorRecordCount :errorsList.length }
+          commonHelper.sendResponse(res, 'success', allList , 'Upload file successfully');
+        })
+    } catch (error) {
+      console.log("*******uploadFile******", error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  // Validation function
+  const validateUploadFileRow = (row) =>{
+    const errors = [];
+    // Check required fields
+    if (!row["Name"]) errors.push("Doctor Name is required");
+    if (!row["Credentials"]) errors.push("Doctor Credentials is required");
+    if (!row["Address"]) errors.push("Address is required");
+    if (!row["phoneNumber"]) errors.push("Phone Number is required");
+    if (!row["faxNumber"]) errors.push("Fax Number is required");
+    if (!row["NPI"]) errors.push("Doctor NPI is required");
+    
+    // Validate phone numbers (numeric and 11 digits)
+    const phoneNumberRegex = /^\d{11}$/;
+    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits");
+    if (!phoneNumberRegex.test(row["faxNumber"])) errors.push("Fax Number must be 11 digits");
+
+    // Validate Doctor NPI (numeric and 10 digits)
+    const npiRegex = /^\d{10}$/;
+    if (!npiRegex.test(row["NPI"])) errors.push("Doctor NPI must be 10 digits");
+
+    // Validate Doctor Name (character only)
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(row["Name"])) errors.push("Doctor Name must contain only letters");
+
+    return errors;
+  }
+
 
 module.exports = {
   invite,
@@ -624,5 +713,6 @@ module.exports = {
   uploadDocumentFile,
   cometChatLog,
   resendInvite,
-  revokeInvite
+  revokeInvite,
+  uploadFile
 };
