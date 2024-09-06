@@ -33,8 +33,6 @@ const billingSchema = new mongoose.Schema({
     evaluation_of_speech:{ selected: { type: Boolean }, units:{ type: String }},
     evaluation_of_speech_language:{ selected: { type: Boolean }, units:{ type: String }},
     voice_and_resonance:{ selected: { type: Boolean }, units:{ type: String }},
-    re_evaluation:{ selected: { type: Boolean }, units:{ type: String }},
-    paraffin_bath:{ selected: { type: Boolean }, units:{ type: String }},
     evaluation_of_oral:{ selected: { type: Boolean }, units:{ type: String }},
     use_of_speech_device:{ selected: { type: Boolean }, units:{ type: String }},
     slp_treatment:{ selected: { type: Boolean }, units:{ type: String }},

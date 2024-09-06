@@ -6,10 +6,9 @@ const planSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "appointments"
   },
-  daily_note_plan:[{
-    plan: String,
-    note: String
-  }],
+  soap_note_type: { type: String },
+  plan_note_type: { type: String },
+  plan_note: { type: String },
   freequency_per_week: { type: String },
   duration_per_week: { type: String },
   plan_start_date: { type: Date },
@@ -24,7 +23,7 @@ const planSchema = new mongoose.Schema({
     modalities: { type: Boolean },
     splinting: { type: Boolean },
     wound_care: { type: Boolean },
-    self_are: { type: Boolean },
+    self_care: { type: Boolean },
     group_therapy: { type: Boolean },
     cognition: { type: Boolean }
   },
@@ -38,7 +37,7 @@ const planSchema = new mongoose.Schema({
     modalities: { type: Boolean },
     splinting: { type: Boolean },
     wound_care: { type: Boolean },
-    self_are: { type: Boolean },
+    self_care: { type: Boolean },
     group_therapy: { type: Boolean },
     cognition: { type: Boolean }
   },
