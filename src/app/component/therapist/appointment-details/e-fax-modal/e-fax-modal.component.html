@@ -1,7 +1,7 @@
 <div class="modal--wrapper d-flex flex-column w-100 efax--modal--wrapper">
     <div class="modal--header w-100">
         <h1 class="mb-0  d-flex align-items-center">
-            <button mat-stroked-button color="primary" class="me-3 back--btn">
+            <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="backtoOnePageModal()">
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
             </button>
             E-Fax One Page Notes
@@ -23,24 +23,26 @@
                         <label class="font-16 fw-600 mb-0 flex-shrink-0">Date of Service : </label>
                         <p class="font-16 mb-0 ms-1">2nd August, 2024</p>
                     </div>
+
+
                     <div class="col-12 mt-3"> 
-                        <mat-form-field class="w-100" appearance="outline">
-                            <mat-label class="fw-600">Send to</mat-label>
-                            <mat-select [formControl]="toppings" multiple>
-                              <mat-select-trigger>
-                                {{toppings.value?.[0] || ''}}
-                                @if ((toppings.value?.length || 0) > 1) {
-                                  <span class="example-additional-selection">
-                                    (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
-                                  </span>
-                                }
-                              </mat-select-trigger>
-                              @for (topping of sendToList; track topping) {
-                            <mat-option [value]="topping">{{topping}}</mat-option>
-                          }
-                            </mat-select>
-                          </mat-form-field>
+                         <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Send to</mat-label>
+                            <input matInput type="text" [formControl]="myControl" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of options | async" (click)="addOption(option)"> 
+                                </mat-option>
+                            </mat-autocomplete>
+                            </mat-form-field> 
+
+                            <mat-chip-set>
+                                <mat-chip *ngFor="let option of selectedOptions" (remove)="removeOption(option)"> 
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                            </mat-chip-set>
                     </div>
+
+
                     <div class="col-12 mt-3">
                        <div class="row"> 
                             <div class="col-12">

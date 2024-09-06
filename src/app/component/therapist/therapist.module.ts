@@ -33,6 +33,8 @@ import { DisSubjectiveComponent } from 'src/app/shared/component/support-billing
 import { DischargeNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/discharge-note/discharge-note.component';
 import { EFaxModalComponent } from './appointment-details/e-fax-modal/e-fax-modal.component';
 import { EFaxHistoryModalComponent } from './appointment-details/e-fax-history-modal/e-fax-history-modal.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
  
 @NgModule({
   declarations: [ 
@@ -77,6 +79,8 @@ import { EFaxHistoryModalComponent } from './appointment-details/e-fax-history-m
     FormsModule,
     ReactiveFormsModule, 
     SharedModule,
+    MatChipsModule,
+    MatAutocompleteModule 
 
   ]
 })
