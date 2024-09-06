@@ -1,0 +1,139 @@
+<div class="col-12 bulk-upload-wrapper">
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12 d-flex align-items-center flex-wrap justify-content-between">
+                <h3 class="mb-2 clr--1F2F3E">Bulk Upload Referring Doctors</h3>
+                <button class="flex-shrink-0 mb-2" mat-stroked-button color="primary" [routerLink]="['/system-admin/provider-management']"> 
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1">  keyboard_backspace  </mat-icon> 
+                    Back to Doctors-Management
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 d-flex align-items-center justify-content-between flex-wrap mb-2">
+                    <label class="fw-700 font-16 mb-0"> Upload File</label>
+                    <a class="font-16 fw-600 text-primary cursor-pointer" (click)="downloadSampleFile()">Download Sample CSV File</a>
+                </div>
+                <div class="col-12 mb-2">
+                    <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
+                        <input class="input--file" type="file" id="" (change)="onFileSelected($event)" accept=".csv">
+                        <mat-icon class="upload-icon"> upload_file </mat-icon>
+                        <h6 class="fw-700 font-16 ">Select File from your Computer</h6>
+                        <!-- <h5 class="font-16 fw-500 mb-1">File Uploaded Successfully.</h5> -->
+                        <div class="text text-danger mt-1" *ngIf="isFileError">
+                            {{ fileError }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-column">
+                        <p class="font-16 fw-600 clr--848789 mb-2"><span class="clr--1F2F3E fw-700">Note:</span> Only .CSV file is accepted.</p>
+                        <p class="font-16 fw-600 clr--848789 mb-2"><span class="clr--1F2F3E fw-700">Note:</span> Please upload a file upto 15 MB.</p>
+                    </div>
+                </div>
+                <div class="col-12"  *ngIf="fileName">
+                    <div class="d-flex flex-column mt-2">
+                        <label class="fw-700 font-16">Uploaded File</label>
+<!-- 
+                        <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                            <mat-chip-row >
+                              Sample File-1
+                              <button matChipRemove >
+                                <mat-icon>cancel</mat-icon>
+                              </button>
+                            </mat-chip-row>
+                        </mat-chip-grid> -->
+
+                        <div class="d-flex flex-row align-items-center pt-2">
+                            <div class="d-flex flex-row align-items-center me-2">
+                                <mat-icon class="text-primary me-2"> description </mat-icon>
+                                <h5 class="font-16 fw-500 mb-0 mt-1">{{fileName}}</h5>
+                            </div>
+                            <button mat-button class="p-0 flex-shrink-0 min-width-unset" (click)="removeFile()">
+                                <span class="material-icons clr--DF0404">
+                                    cancel
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-center my-3">
+                    <button mat-raised-button color="primary" class="intake-btn" [disabled]="!selectedFile">
+                        Save Uploaded Data
+                    </button>
+                </div>
+                <div class="col-12">
+                    <div class="divider"></div>
+                </div>
+                <div class="col-12">
+                    <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                        <mat-chip-row *ngIf="totalRecordFound>0">
+                            <label class="fw-600 mb-0">Total Records Found: {{totalRecordFound}}</label>
+                        </mat-chip-row>
+                        <mat-chip-row>
+                            <label class="fw-600 mb-0">New Entries Added: 0, Total Entries Updted: 12</label>
+                        </mat-chip-row>
+                        <mat-chip-row *ngIf="errorRecordFound>0">
+                            <label class="fw-600 mb-0">Error Found In: {{errorRecordFound}} records</label>
+                        </mat-chip-row>
+                    </mat-chip-grid>
+                </div>
+                <div class="col-12">
+                    <div class="divider"></div>
+                </div>
+                <div class="col-12 bulk--upload--provider--wrapper overflow-auto" *ngIf="totalRecordFound">
+                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="bulk--upload--provider--mat--table">
+                        <!-- Referring Doctor Credentials -->
+                        <ng-container matColumnDef="Credentials">
+                            <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Credentials</th>
+                            <td mat-cell *matCellDef="let element" class=""> {{element.Credentials}} </td>
+                        </ng-container>
+                        
+                        <!--Referring Doctor Name -->
+                        <ng-container matColumnDef="Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NPI">Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+                        </ng-container>
+                        
+                        <!-- Referring Doctor NPI -->
+                        <ng-container matColumnDef="NPI">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status">NPI</th>
+                            <td mat-cell *matCellDef="let element"> {{element.NPI}} </td>
+                        </ng-container>
+
+                        <!-- Referring Doctor address -->
+                        <ng-container matColumnDef="Address">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status">Address</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+                        </ng-container>
+                        
+                        <!-- Phone -->
+                        <ng-container matColumnDef="phoneNumber">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Added On">Phone Number</th>
+                            <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                        </ng-container>
+
+                        <!-- Fax -->
+                        <ng-container matColumnDef="faxNumber">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state">Fax Number</th>
+                            <td mat-cell *matCellDef="let element">{{element.faxNumber}}</td>
+                        </ng-container>
+
+                        <!-- Fax -->
+                        <ng-container matColumnDef="errors">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state">Error Text</th>
+                            <td mat-cell *matCellDef="let element">{{element.errors.length>0? element.errors.join(', ') : 'NA' }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

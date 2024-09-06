@@ -21,6 +21,8 @@ import { ProtocolsComponent } from 'src/app/shared/component/manage-documents/pr
 import { ProtocolDetailedDocumentsComponent } from 'src/app/shared/component/manage-documents/protocols/protocol-detailed-documents/protocol-detailed-documents.component';
 import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manage-documents/system-documents/system-documents-detailed/system-documents-detailed.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
+import { ProviderManagementComponent } from './doctor-management/provider-management/provider-management.component';
+import { BulkUploadProvidersComponent } from './doctor-management/bulk-upload-providers/bulk-upload-providers.component';
 
 const routes: Routes = [
   {
@@ -127,6 +129,14 @@ const routes: Routes = [
   {
     path: 'file-preview/:file',
     component: PreviewComponent, 
+  },
+  {
+    path: 'provider-management',
+    component:ProviderManagementComponent   
+  },
+  {
+    path: 'bulk-upload-providers',
+    component:BulkUploadProvidersComponent   
   },
 ];
 

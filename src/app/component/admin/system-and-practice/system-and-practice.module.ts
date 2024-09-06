@@ -25,6 +25,8 @@ import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manag
 import { AddFolderModalComponent } from 'src/app/shared/component/manage-documents/add-folder-modal/add-folder-modal.component';
 import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-documents/upload-documents-modal/upload-documents-modal.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
+import { ProviderManagementComponent } from './doctor-management/provider-management/provider-management.component';
+import { BulkUploadProvidersComponent } from './doctor-management/bulk-upload-providers/bulk-upload-providers.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { PreviewComponent } from 'src/app/shared/component/manage-documents/file
     SystemDocumentsDetailedComponent,
     AddFolderModalComponent,
     UploadDocumentsModalComponent,
-    PreviewComponent
+    PreviewComponent,
+    ProviderManagementComponent,
+    BulkUploadProvidersComponent
   ],
   imports: [
     CommonModule,
