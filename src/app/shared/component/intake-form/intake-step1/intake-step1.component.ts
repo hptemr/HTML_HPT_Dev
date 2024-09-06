@@ -51,6 +51,7 @@ export class IntakeStep1Component {
   }
 
   ngOnInit() {
+    console.log('>>>>>>>>####>>>>>>')
     this.commonService.showLoader()
     this.patientInfo = this.authService.getLoggedInInfo()
     this.getAppointmentDetails()
