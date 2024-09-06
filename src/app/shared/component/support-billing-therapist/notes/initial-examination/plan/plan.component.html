@@ -1,247 +1,125 @@
 <div class="initial--exam--plan--wrapper container-fluid p-0">
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-600">Daily Note Plan (Additional Information Needed)</label>
-                <mat-radio-group [disabled]="isDisabled" aria-label="Select an option">
-                    <mat-radio-button value="1" class="me-3">Progressing Patient as per POC</mat-radio-button>
-                    <mat-radio-button value="2">Anticipating D/C Next Visit</mat-radio-button>
-                </mat-radio-group>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="5" disabled>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. 
-                </textarea> 
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="divider d-flex w-100"></div>
-        </div>
-        <div class="col-12 select--ans d-flex align-items-center flex-wrap">
-            <label class="col-form-label fw-600 me-3 lw">Frequency Per Week <span class="clr--DF0404 ms-1"> * </span></label>
-            <ul class="m-0 p-0 d-flex flex-wrap">
-                <li *ngFor="let i of [1,2,3,4,5]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
-                    {{i}}
-                </li>
-            </ul>
-        </div>
-        <div class="col-12 select--ans d-flex align-items-center flex-wrap">
-            <label class="col-form-label fw-600 me-3 lw">Duration (In Weeks) <span class="clr--DF0404 ms-1"> * </span></label>
-            <ul class="m-0 p-0 d-flex flex-wrap">
-                <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" [class.active]="clickedIndex2 === i" (click)="clickedIndex2 = i">
-                    {{i}}
-                </li>
-            </ul>
-        </div>
-        <div class="col-12 d-flex align-items-center flex-wrap mt-1">
-            <label class="col-form-label fw-600 me-3 lw">Plan Dates <span class="clr--DF0404 ms-1"> * </span></label>
-            <div class="d-flex flex-wrap align-items-center date-pick">
+    <form [formGroup]="planNoteForm">
+        <div class="row">
+            <div class="col-12">
                 <div class="form-group">
-                    <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                        <input [disabled]="isDisabled" matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                    <label class="col-form-label fw-600">Daily Note Plan (Additional Information Needed)</label>
+                    <mat-radio-group formControlName="planType" aria-label="Select an option">
+                        <mat-radio-button value="Progressing Patient as per POC" class="me-3">Progressing Patient as per POC</mat-radio-button>
+                        <mat-radio-button value="Anticipating D/C Next Visit">Anticipating D/C Next Visit</mat-radio-button>
+                    </mat-radio-group>
+                    
                 </div>
+            </div>
+            <div class="col-12">
                 <div class="form-group">
-                    <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                        <input [disabled]="isDisabled" matInput [matDatepicker]="picker1" placeholder="To Date" (focus)="picker1.open()">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field>
-                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                    <textarea  formControlName="planNote" class="form-control text-left fw-400 clr--828282" type="text" rows="5"> 
+                    </textarea> 
                 </div>
             </div>
-        </div>
-        <div class="col-12 mt-4">
-            <h1 class="mb-0 clr--212529 font-16 fw-700 text-uppercase">Treatment To Be Provided</h1>
-        </div>
-        <div class="col-12 mt-1 d-flex align-items-center justify-content-between">
-            <p class="col-form-label fw-600 pb-0">Procedures</p>
-            <!-- <button [disabled]="isDisabled" class="flex-shrink-0" mat-stroked-button color="primary">Select All</button> -->
-        </div>
-        <div class="col-12 mt-3">
-            <div class="d-flex flex-row align-items-start flex-wrap unlimited-codes-unit-wrapper">
-                <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
-                    <div class="row">
-                        <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
-                            <h3 class="mb-0 clr--1F2F3E font-14 fw-700">PT</h3>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" [checked]="true" [disabled]="isDisabled" class="">Therapeutic Activity</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Neuromuscular Rehabilitation</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Aquatic Therapy</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Therapeutic Exercise</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Patient Ed./ HEP/ RTM</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Manual Therapy</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" [checked]="true" class="">Modalities</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Splinting/Bracing/Orthotics</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Wound Care/Debridament</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Self Care</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Group Therapy</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Cognition</mat-checkbox>
-                            </div>
+            <div class="col-12">
+                <div class="divider d-flex w-100"></div>
+            </div>
+            <div class="col-12 select--ans d-flex align-items-center flex-wrap">
+                <label class="col-form-label fw-600 me-3 lw">Frequency Per Week <span class="clr--DF0404 ms-1"> * </span></label>
+                <ul class="m-0 p-0 d-flex flex-wrap">
+                    <li *ngFor="let i of [1,2,3,4,5]" [class.active]="clickedIndex === i" (click)="clickedIndex = i;clickFrequency()">
+                        {{i}}
+                    </li>
+                </ul>
+                <div class="text text-danger mt-1" style="margin-left: 5px;" *ngIf="submitted && planNoteForm.controls['frequencyPerWeek'].hasError('required')">
+                    Please select value
+                </div>
+            </div>
+            <div class="col-12 select--ans d-flex align-items-center flex-wrap">
+                <label class="col-form-label fw-600 me-3 lw">Duration (In Weeks) <span class="clr--DF0404 ms-1"> * </span></label>
+                <ul class="m-0 p-0 d-flex flex-wrap">
+                    <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" [class.active]="clickedIndex2 === i" (click)="clickedIndex2 = i;clickDuraction()">
+                        {{i}}
+                    </li>
+                </ul>
+                <div class="text text-danger mt-1" style="margin-left: 5px;" *ngIf="submitted && planNoteForm.controls['durationPerWeek'].hasError('required')">
+                    Please select value
+                </div>
+            </div>
+            <div class="col-12 d-flex align-items-center flex-wrap mt-1">
+                <label class="col-form-label fw-600 me-3 lw">Plan Dates <span class="clr--DF0404 ms-1"> * </span></label>
+                <div class="d-flex flex-wrap align-items-center date-pick">
+                    <div class="form-group">
+                        <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                            <input matInput [matDatepicker]="picker"  formControlName="planStartDate" placeholder="From Date" (focus)="picker.open()">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <div class="text text-danger mt-1" *ngIf="submitted && planNoteForm.controls['planStartDate'].hasError('required')">
+                            Please select start date
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
-                    <div class="row">
-                        <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
-                            <h3 class="mb-0 clr--1F2F3E font-14 fw-700">OT</h3>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled"   class="">Therapeutic Activity</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled"  class="" >Neuromuscular Rehabilitation</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Aquatic Therapy</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Therapeutic Exercise</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Patient Ed./ HEP/ RTM</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Manual Therapy</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled"   class="">Modalities</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Splinting/Bracing/Orthotics</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Wound Care/Debridament</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Self Care</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Group Therapy</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Cognition</mat-checkbox>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
-                    <div class="row">
-                        <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
-                            <h3 class="mb-0 clr--1F2F3E font-14 fw-700">SLP</h3>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Evaluation of Oral and Pharyngeal Swallowing Function</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">SLP Treatment; Individual</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Treatment of swallowing dysfunction and/or oral function for feeding</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Speech-generating augmentative/ alternative device</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Aphasia assessment</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3">
-                            <div class="me-2">
-                                <mat-checkbox [disabled]="isDisabled" class="">Development of Cognitive Skills</mat-checkbox>
-                            </div>
+                    <div class="form-group">
+                        <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                            <input formControlName="planEndDate" matInput [matDatepicker]="picker1" placeholder="To Date" (focus)="picker1.open()">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <div class="text text-danger mt-1" *ngIf="submitted && planNoteForm.controls['planEndDate'].hasError('required')">
+                            Please select end date
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="col-12 mt-4">
+                <h1 class="mb-0 clr--212529 font-16 fw-700 text-uppercase">Treatment To Be Provided</h1>
+            </div>
+            <div class="col-12 mt-1 d-flex align-items-center justify-content-between">
+                <p class="col-form-label fw-600 pb-0">Procedures</p>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="d-flex flex-row align-items-start flex-wrap unlimited-codes-unit-wrapper">
+                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
+                        <div class="row">
+                            <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
+                                <h3 class="mb-0 clr--1F2F3E font-14 fw-700">PT</h3>
+                            </div>
+                            <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3" *ngFor="let ptcode of ptList;let i=index">
+                                <div class="me-2">
+                                    <mat-checkbox [checked]="ptcode.selected" class="" (change)="showOptions($event,i,'ptCode')">{{ptcode.name}}</mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
+                        <div class="row">
+                            <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
+                                <h3 class="mb-0 clr--1F2F3E font-14 fw-700">OT</h3>
+                            </div>
+                            <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3" *ngFor="let otcode of otList; let i=index">
+                                <div class="me-2">
+                                    <mat-checkbox [checked]="otcode.selected" class="" (change)="showOptions($event,i,'otCode')">{{otcode.name}}</mat-checkbox>
+                                </div>
+                            </div>
 
-    </div>
-    <div class="d-flex align-items-center justify-content-end  notes--footer--btns">
-        <button mat-raised-button color="primary" class="m-1">
-            Save as Draft
-        </button>
-    </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
+                        <div class="row">
+                            <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
+                                <h3 class="mb-0 clr--1F2F3E font-14 fw-700">SLP</h3>
+                            </div>
+                            <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3" *ngFor="let slpcode of slpList;let i=index">
+                                <div class="me-2">
+                                    <mat-checkbox [checked]="slpcode.selected" class="" (change)="showOptions($event,i,'slpCode')">{{slpcode.name}}</mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex align-items-center justify-content-end  notes--footer--btns">
+            <button mat-raised-button color="primary" class="m-1" (click)="saveDraft()">
+                Save as Draft
+            </button>
+        </div>
+    </form>
 </div>
