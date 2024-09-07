@@ -8,6 +8,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { CommonService } from '../../../../../shared/services/helper/common.service';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 
 // export interface PeriodicElement {
 //   docCredentials: string; 
@@ -96,7 +97,7 @@ const PROVIDER_DATA: ProviderList[] = []
 export class BulkUploadProvidersComponent {
   // displayedColumns: string[] = ['docCredentials', 'docName', 'npi','address', 'phoneNumber','faxNumber','errorText'];
   displayedColumns: string[] = ['Credentials', 'Name', 'NPI','Address', 'phoneNumber','faxNumber','errors'];
-  dataSource = new MatTableDataSource(PROVIDER_DATA);
+  dataSource = new MatTableDataSource<ProviderList>(PROVIDER_DATA);
 
   selectedFile: File | null = null;
   isFileError: boolean = false;
@@ -106,6 +107,13 @@ export class BulkUploadProvidersComponent {
   fileName: string | null = null;
   totalRecordFound : number = 0
   errorRecordFound : number = 0
+  dataWithoutError : any =[]
+
+  // Pagignator
+  totalCount = 0
+  pageIndex = 0
+  pageSize = pageSize
+  pageSizeOptions = pageSizeOptions
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -131,7 +139,7 @@ export class BulkUploadProvidersComponent {
     }
   }
 
-  /* ---------------------  ------------------------- ------------------------*/
+/* ---------------------  ------------------------- ------------------------*/
   downloadSampleFile(){
     const link = document.createElement('a');
     link.href = 'assets/images/sample_doctor_management.csv';
@@ -165,29 +173,32 @@ export class BulkUploadProvidersComponent {
       // Set selected file
       this.selectedFile = file;
       this.fileName = file.name;
-      this.uploadFile(this.selectedFile)
+      this.uploadProviders(this.selectedFile)
     }
   }
 
-  async uploadFile(file: File){
+  async uploadProviders(file: File){
     this.commonService.showLoader()
     this.totalRecordFound = 0
     this.errorRecordFound = 0
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    this.authService.apiRequest('post', 'admin/uploadFile', formData).subscribe(async (res) => {
-      console.log("uploadFile>>>", res);
+    this.authService.apiRequest('post', 'admin/uploadProviders', formData).subscribe(async (res) => {
       if (res && !res.error) {
         this.totalRecordFound = res.data.totalRecordCount
         this.errorRecordFound = res.data.errorRecordCount
         this.dataSource = new MatTableDataSource<ProviderList>(res.data.totalRecord)
+        this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
+        // Pagignation
+        this.totalCount = res.data.totalRecordCount
       }
       this.commonService.hideLoader()
     }, (err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : "";
       this.commonService.hideLoader()
+      this.resetFileAndRecordData()
     })
   }
 
@@ -201,9 +212,40 @@ export class BulkUploadProvidersComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
-        this.selectedFile = null;
-        this.fileName = null;
-        this.isFileError = false;
+        this.resetFileAndRecordData()
+      }
+    });
+  }
+
+  resetFileAndRecordData(){
+    // Reset file related data
+    this.selectedFile = null;
+    this.fileName = null;
+    this.isFileError = false;
+
+    // Reset Record
+    this.totalRecordFound = 0
+    this.errorRecordFound = 0
+    this.dataSource = new MatTableDataSource<ProviderList>([])
+    this.dataWithoutError =[]
+    // Pagignation
+    this.totalCount = 0
+  }
+
+  saveUploadedData(){
+    const dialogRef = this.dialog.open(AlertComponent, {
+      panelClass: 'custom-alert-container',
+      data: {
+        warningNote: `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure want to process ${this.dataWithoutError.length} records?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+        console.log("this.dataWithoutError>>>",this.dataWithoutError)
+        // Here remove error key from array object - dataWithoutError
+        const updatedArray = this.dataWithoutError.map(({ errors, ...rest }:ProviderList) => rest);
+        console.log("updatedArray>>>",updatedArray);
       }
     });
   }
