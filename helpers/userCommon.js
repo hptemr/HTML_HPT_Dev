@@ -50,6 +50,56 @@ function validateName(name) {
     return nameRegex.test(name) && name.length >= 2 && name.length <= 50;
 }
 
+ // Validate the presence of all required headers of uploaded provider file
+ const validateUploadProviderFileHeader = (headers) =>{
+    const requiredHeaders = [
+      'Name',
+      'Credentials',
+      'Address',
+      'phoneNumber',
+      'faxNumber',
+      'NPI'
+    ];
+    const missingHeaders = requiredHeaders.filter((header) => !headers.includes(header));
+    return missingHeaders.length === 0;
+  }
+
+  // Validation uploaded provider file rows
+  const validateUploadProviderFile = (row) =>{
+    const errors = [];
+    // Check required fields
+    if (!row["Name"]) errors.push("Doctor Name is required");
+    if (!row["Credentials"]) errors.push("Doctor Credentials is required");
+    if (!row["Address"]) errors.push("Address is required");
+    if (!row["phoneNumber"]) errors.push("Phone Number is required");
+    if (!row["faxNumber"]) errors.push("Fax Number is required");
+    if (!row["NPI"]) errors.push("Doctor NPI is required");
+    
+    // Validate phone numbers (numeric and 11 digits)
+    const phoneNumberRegex = /^\d{11}$/;
+    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
+    if (!phoneNumberRegex.test(row["faxNumber"])) errors.push("Fax Number must be 11 digits and numeric");
+
+    // Validate Doctor NPI (numeric and 10 digits)
+    const npiRegex = /^\d{10}$/;
+    if (!npiRegex.test(row["NPI"])) errors.push("Doctor NPI must be 10 digits and numeric");
+
+    // Validate Doctor Name (character only)
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(row["Name"])) errors.push("Doctor Name must contain only letters");
+
+    // Alphanumeric input
+    const alphaNumeric = /^[a-zA-Z0-9]+$/
+    if (!alphaNumeric.test(row["Credentials"])) errors.push("Doctor Credentials must contain only alphanumeric character");
+
+    // Max length
+    if (row["Name"].length > 50) errors.push('Doctor Name not more than 50 characters');
+    if (row["Credentials"].length > 10) errors.push('Doctor Credentials not more than 10 characters');
+    if (row["Address"].length > 500) errors.push('Address not more than 10 characters');
+
+    return errors;
+  }
+
 module.exports = {
     userGetByEmail,
     userGetById,
@@ -58,5 +108,7 @@ module.exports = {
     patientGetById,
     validateEmail,
     validatePassword,
-    validateName
+    validateName,
+    validateUploadProviderFileHeader,
+    validateUploadProviderFile
 };

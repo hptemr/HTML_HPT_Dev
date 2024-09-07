@@ -34,6 +34,6 @@ router.post('/revokeInvite', adminController.revokeInvite);
 // Comet chat log url
 router.post('/cometChatLog', adminController.cometChatLog);
 // Provider Management
-router.post('/uploadFile', upload.single('file'), adminController.uploadFile);
+router.post('/uploadProviders', upload.single('file'), adminController.uploadProviders);
 
 module.exports = router;
