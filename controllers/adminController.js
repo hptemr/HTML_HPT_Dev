@@ -16,6 +16,8 @@ var fs = require('fs')
 const cometChatLogModel = require('../models/cometChatLog');
 const fetch = require('node-fetch');
 const csv = require('csv-parser');
+const Provider = require('../models/providerModel');
+const ProviderLogs = require('../models/providerLogsModel');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -674,7 +676,7 @@ const uploadProviders = async (req, res) => {
               totalRecordCount: allData.length, 
               errorRecordCount :errorsList.length 
             }
-            commonHelper.sendResponse(res, 'success', allList , 'Upload file successfully');
+            commonHelper.sendResponse(res, 'success', allList , 'File upload successfully');
           }
         })
     } catch (error) {
@@ -682,6 +684,107 @@ const uploadProviders = async (req, res) => {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
   }
+
+  const saveUploadedProviderData = async (req, res) => {
+    try {
+      console.log("req.body>>>>",req.body)
+      let records = req.body
+      const errorsList = [];
+      let updateCount = { count: 0 };
+      let insertCount = { count: 0 };
+      // Process records in batches of 100
+      // const batchSize = 100;
+      const batchSize = 2;
+      for (let i = 0; i < records.length; i += batchSize) {
+        const batch = records.slice(i, i + batchSize);
+        console.log("batch>>>",batch)
+        console.log("batchSize>>>",batchSize)
+        const batchErrors = await processBatch(batch,updateCount, insertCount);
+        errorsList.push(...batchErrors);
+      }
+
+      console.log("errorsList>>>",errorsList)
+      if(errorsList.length>0){
+        await ProviderLogs.insertMany(errorsList);
+      }
+
+      let reponseData = {
+        errorsCount : errorsList.length,
+        updateCount: updateCount.count,
+        insertCount: insertCount.count
+      }
+      commonHelper.sendResponse(res, 'success', reponseData , 'Data upload successfully');
+    } catch (error) {
+      console.log("*******saveUploadedProviderData******", error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+// Process data in batches
+async function processBatch(batch, updateCount, insertCount) {
+    const errorsList = [];
+
+    // Create promises for batch processing
+    const operations = batch.map(async row => {
+      const doctorData = {
+        name: row.Name,
+        credentials: row.Credentials,
+        address: row.Address,
+        phoneNumber: row.phoneNumber,
+        faxNumber: row.faxNumber,
+        npi: row.NPI
+      };
+
+    try {
+      // Check if the doctor exists in the database by NPI
+      const existingDoctor = await Provider.findOne({ npi: row.NPI });
+      if (existingDoctor) {
+        // If doctor exists, update the record and set the updatedDate
+        doctorData.updatedAt = new Date();
+        await Provider.updateOne({ npi: row.NPI }, doctorData);
+        updateCount.count++;
+      } else {
+        // If doctor doesn't exist, insert a new record with createdDate
+        doctorData.createdAt = new Date();
+        const newDoctor = new Provider(doctorData);
+        await newDoctor.save();
+        insertCount.count++;
+      }
+    } catch (err) {
+      console.error(`Failed to update/insert record with NPI ${row["Doctor NPI"]}:`, err);
+      errorsList.push({
+        row,
+        error: err
+      });
+    }
+  });
+
+  // Wait for all operations in this batch to complete
+  await Promise.all(operations);
+
+  return errorsList;
+}
+
+const getProviderList = async (req, res) => {
+  try {
+    const { query, fields, order, offset, limit } = req.body;
+    let providerList = await Provider.find(query, fields).sort(order).skip(offset).limit(limit).lean();
+    let totalCount = await Provider.find(query).count()
+    commonHelper.sendResponse(res, 'success', { providerList, totalCount }, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const deleteProvider = async (req, res) => {
+  try {
+    const { _id } = req.body
+    await Provider.findOneAndUpdate({ _id: _id }, { status: 'Delete' });
+    commonHelper.sendResponse(res, 'success', null, userMessage.providerDelete);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
 
 module.exports = {
   invite,
@@ -707,5 +810,8 @@ module.exports = {
   cometChatLog,
   resendInvite,
   revokeInvite,
-  uploadProviders
+  uploadProviders,
+  saveUploadedProviderData,
+  getProviderList,
+  deleteProvider
 };

@@ -24,6 +24,7 @@ const messages = {
         ssnExists:"SSN already exist",
         licenseExists:"License already exist",
         deleteUser: 'Your account is deleted. Please contact system admin or support team.',
+        providerDelete: 'User delete successfully'
     },
     infoMessage: {
         updated: 'Updated successfully',
