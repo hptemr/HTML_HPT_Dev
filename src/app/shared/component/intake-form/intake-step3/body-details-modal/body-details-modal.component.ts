@@ -20,6 +20,9 @@ export class BodyDetailsModalComponent {
   submitButton:boolean = false;
   bodyPartFront:any = [];
   bodyPartBack:any = [];
+  userId = this.authService.getLoggedInInfo('_id')
+  userRole = this.authService.getLoggedInInfo('role')
+  appointmentUpdateInfo:any = [];
   constructor(
     public dialog: MatDialog,
     private commonService: CommonService,
@@ -33,6 +36,7 @@ export class BodyDetailsModalComponent {
     this.from = data.from != undefined ? data.from : this.from;
     this.bodyPartFront = data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
     this.bodyPartBack = data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
+    this.appointmentUpdateInfo = data.appointmentUpdateInfo != undefined ? data.appointmentUpdateInfo : [];
   }
 
 
@@ -72,13 +76,17 @@ export class BodyDetailsModalComponent {
           bodyPartBack: this.bodyPartBack
         }
       }
-
-     
+      this.appointmentUpdateInfo.push({
+        fromPatientId : (this.userRole=='patient') ? this.userId : '',
+        fromAdminId:(this.userRole!='patient') ? this.userId : '',
+        userRole:this.userRole,
+        updatedAt:new Date()
+      });
+      Object.assign(params, { appointmentUpdateInfo: this.appointmentUpdateInfo })
       const req_vars = {
         query: { _id: this.appId },
         updateInfo: params,
       }
-    
       await this.authService.apiRequest('post', 'appointment/updateAppointment', req_vars).subscribe(async response => {
         if (response.error != undefined && response.error == true) {
          if(response.message){
