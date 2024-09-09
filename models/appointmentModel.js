@@ -43,9 +43,12 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         type: {} //all the info will save in this object, if patient select payVia insurance only.
     },
-
+    adminPayViaInsuranceInfo: {
+        type: Object,
+        type: {} //all the info will save in this object, if patient select payVia insurance only.
+    },
     emergencyContact: { type: Array, default: [] },
-
+    adminEmergencyContact: { type: Array, default: [] },
     reminderViaMobile: {
         type: String,
         enum: ['Yes', 'No'],
@@ -76,6 +79,10 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    adminPatientMedicalHistory: {
+        type: Object,
+        default: {}
+    },
     bodyPartFront: {
         type: Object,
         default: {}
@@ -84,6 +91,7 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    appointmentUpdateInfo: { type: Array, default: [] },//keys will be ==> "fromPatientId , fromAdminId, updatedAt, userRole"
     intakeFormSubmit: { type: Boolean, default: false }, 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
