@@ -54,6 +54,9 @@ export class IntakeStep4Component {
         this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
         this.step4FormData = response.data.appointmentData.emergencyContact[0];
+        if(this.userRole!='patient' && response.data.appointmentData && response.data.appointmentData.adminEmergencyContact[0]){
+          this.step4FormData = response.data.appointmentData.adminEmergencyContact[0];
+        }
         this.appointmentUpdateInfo = response.data.appointmentData.appointmentUpdateInfo;
         this.loadForm()
         // if (this.authService.getLoggedInInfo('role') == 'patient' && response.data.appointmentData.status == 'Pending') {

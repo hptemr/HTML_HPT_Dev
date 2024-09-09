@@ -147,6 +147,11 @@ export class IntakeStep3Component {
 
   loadForm() {
     let step3info: any = this.step3FormData ? this.step3FormData.patientMedicalHistory : null
+
+    if(this.userRole!='patient' && this.step3FormData.adminpatientMedicalHistory){
+       step3info = this.step3FormData ? this.step3FormData.adminpatientMedicalHistory : null
+    }
+
     this.step3Form = new FormGroup({
       dob: new FormControl(''),
       fullName: new FormControl(''),
@@ -378,13 +383,17 @@ export class IntakeStep3Component {
           userRole:this.userRole,
           updatedAt:new Date()
         });
-
+        let updateInfo = {}
+        if(this.userRole=='patient'){
+         updateInfo = { patientMedicalHistory: formData,
+          appointmentUpdateInfo:appointmentUpdateInfo}
+        }else if(this.userRole!='patient'){
+          updateInfo = { adminpatientMedicalHistory: formData,
+            appointmentUpdateInfo:appointmentUpdateInfo }
+        }
       let params = {
         query: { _id: this.appId },
-        updateInfo: {
-          patientMedicalHistory: formData,
-          appointmentUpdateInfo:appointmentUpdateInfo
-        },
+        updateInfo: updateInfo,
         uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles)       
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
