@@ -19,9 +19,11 @@ export class IntakeStep5Component {
   step5Form: FormGroup
   step5FormData: any
   validationMessages = validationMessages
-  isFormEditable = false
+  isFormEditable = true
   activeUserRoute = this.commonService.getLoggedInRoute()
   short_text:string = 'Read More';
+  userId = this.authService.getLoggedInInfo('_id')
+  userRole = this.authService.getLoggedInInfo('role')
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -49,13 +51,13 @@ export class IntakeStep5Component {
       } else {
         this.step5FormData = response.data.appointmentData
         this.loadForm()
-        if (this.authService.getLoggedInInfo('role') == 'patient' && this.step5FormData.status == 'Pending') {
-          //patient can update the info
-          this.isFormEditable = true
-        } else {
-          this.isFormEditable = false
-          this.step5Form.disable()
-        }
+        // if (this.authService.getLoggedInInfo('role') == 'patient' && this.step5FormData.status == 'Pending') {
+        //   //patient can update the info
+        //   this.isFormEditable = true
+        // } else {
+        //   this.isFormEditable = false
+        //   this.step5Form.disable()
+        // }
         this.commonService.hideLoader()
       }
     })
@@ -99,6 +101,15 @@ export class IntakeStep5Component {
     if (this.isFormEditable) {
       let formData = this.step5Form.value
       Object.assign(formData, { intakeFormSubmit: true })
+      let appointmentUpdateInfo = this.step5FormData.appointmentUpdateInfo;
+      appointmentUpdateInfo.push({
+        fromPatientId : (this.userRole=='patient') ? this.userId : '',
+        fromAdminId:(this.userRole!='patient') ? this.userId : '',
+        userRole:this.userRole,
+        updatedAt:new Date()
+      });
+      Object.assign(formData, {  appointmentUpdateInfo:appointmentUpdateInfo })
+
       let params = {
         query: { _id: this.appId },
         updateInfo: formData

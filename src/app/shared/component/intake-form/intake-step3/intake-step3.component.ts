@@ -24,9 +24,10 @@ export class IntakeStep3Component {
   fileError: any = ''
   uploadedPrescriptionFiles: any = []
   uploadedPrescriptionFilesTotal = 0
-  isFormEditable = false
+  isFormEditable = true
   activeUserRoute = this.commonService.getLoggedInRoute()
-
+  userId = this.authService.getLoggedInInfo('_id')
+  userRole = this.authService.getLoggedInInfo('role')
   constructor(public dialog: MatDialog, private router: Router,
     private fb: FormBuilder, private commonService: CommonService,
     private authService: AuthService, private route: ActivatedRoute) {
@@ -34,7 +35,6 @@ export class IntakeStep3Component {
       this.appId = params['appId']
     })
   }
-
 
   ngOnInit() {
     this.commonService.showLoader()
@@ -54,13 +54,13 @@ export class IntakeStep3Component {
       } else {
         this.step3FormData = response.data.appointmentData
         this.loadForm()
-        this.initialName = this.step3FormData.patientInfo.firstName.charAt(0)+''+this.step3FormData.patientInfo.lastName.charAt(0)
+        this.initialName = this.step3FormData?.patientInfo?.firstName.charAt(0)+''+this.step3FormData?.patientInfo?.lastName.charAt(0)
         if (this.authService.getLoggedInInfo('role') == 'patient' && this.step3FormData.status == 'Pending') {
           //patient can update the info
-          this.isFormEditable = true
+         //8 this.isFormEditable = true
         } else {
-          this.isFormEditable = false
-          this.step3Form.disable()
+          //8 this.isFormEditable = false
+          //8 this.step3Form.disable()
         }
         this.commonService.hideLoader()
 
@@ -128,7 +128,8 @@ export class IntakeStep3Component {
         appId:this.appId,
         from:from,
         bodyPartFront:this.step3FormData.bodyPartFront,
-        bodyPartBack:this.step3FormData.bodyPartBack
+        bodyPartBack:this.step3FormData.bodyPartBack,
+        appointmentUpdateInfo:this.step3FormData.appointmentUpdateInfo
       }
     });  
 
@@ -146,7 +147,6 @@ export class IntakeStep3Component {
 
   loadForm() {
     let step3info: any = this.step3FormData ? this.step3FormData.patientMedicalHistory : null
-
     this.step3Form = new FormGroup({
       dob: new FormControl(''),
       fullName: new FormControl(''),
@@ -301,9 +301,9 @@ export class IntakeStep3Component {
     })
 
     this.clickedIndex = this.step3FormData ? step3info?.rateYourPain : 0
-    this.step3Form.controls['dob'].setValue(this.step3FormData.patientInfo.dob)
+    this.step3Form.controls['dob'].setValue((this.step3FormData?.patientInfo && this.step3FormData?.patientInfo.dob) ? this.step3FormData?.patientInfo.dob : '')
     this.step3Form.controls['appointmentDate'].setValue(this.step3FormData.appointmentDate)
-    this.step3Form.controls['fullName'].setValue(this.step3FormData.patientInfo.firstName + " " + this.step3FormData.patientInfo.middleName + " " + this.step3FormData.patientInfo.lastName)
+    this.step3Form.controls['fullName'].setValue((this.step3FormData?.patientInfo && this.step3FormData.patientInfo) ? (this.step3FormData.patientInfo.firstName + " " + this.step3FormData.patientInfo.middleName + " " + this.step3FormData.patientInfo.lastName) : '')
 
     let allergies = this.step3FormData ? step3info?.allergiesToMedications_AllergyArray : []
     if (allergies && allergies.length > 0) {
@@ -371,12 +371,21 @@ export class IntakeStep3Component {
         Object.assign(formData, { prescriptionFiles: prescriptionFiles })
       }
 
+      let appointmentUpdateInfo = this.step3FormData.appointmentUpdateInfo;
+        appointmentUpdateInfo.push({
+          fromPatientId : (this.userRole=='patient') ? this.userId : '',
+          fromAdminId:(this.userRole!='patient') ? this.userId : '',
+          userRole:this.userRole,
+          updatedAt:new Date()
+        });
+
       let params = {
         query: { _id: this.appId },
         updateInfo: {
-          patientMedicalHistory: formData
+          patientMedicalHistory: formData,
+          appointmentUpdateInfo:appointmentUpdateInfo
         },
-        uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles),
+        uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles)       
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         localStorage.removeItem('uploadedPrescriptionFiles')

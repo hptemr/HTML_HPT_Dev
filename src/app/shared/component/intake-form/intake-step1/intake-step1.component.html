@@ -33,10 +33,9 @@
                 <div class="col-12 col-lg-6 col-md-6  ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">
-                            Practice Location
-                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
+                            Practice Location <!-- <span class="clr--DF0404 ms-1">*</span> -->
                         </label>
-                        <select formControlName="practiceLocation" class="form-select form-control"  aria-label="Default select example"   >
+                        <select formControlName="practiceLocation" class="form-select form-control" aria-label="Default select example">
                             <option value="">Practice Location</option>
                             <option value="{{element}}" *ngFor="let element of practiceLocations;">
                                 {{element}}
@@ -52,14 +51,11 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">
-                            Select Date & Time
-                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
+                            Select Date & Time <!-- <span class="clr--DF0404 ms-1">*</span> -->
                         </label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input (focus)="picker.open()" [min]="todayDate" [max]="maxAppntDate" 
-                                    formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker" (focus)="picker.open()">
+                                <input (focus)="picker.open()" [min]="todayDate" [max]="maxAppntDate" formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker" (focus)="picker.open()">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
@@ -70,11 +66,11 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Booking For</label>
-                        <mat-radio-group formControlName="bookingFor" aria-label="Select an option"
-                            (change)="onChange($event)">
+                        <mat-radio-group formControlName="bookingFor" aria-label="Select an option" (change)="onChange($event)">
                             <mat-radio-button value="Myself" class="me-3">Myself</mat-radio-button>
                             <mat-radio-button value="Other">Other</mat-radio-button>
                         </mat-radio-group>
@@ -101,8 +97,7 @@
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
                         <label class="col-form-label fw-600">
-                            First Name
-                            <span class="clr--DF0404 ms-1"> *</span>
+                            First Name <span class="clr--DF0404 ms-1"> *</span>
                         </label>
                         <input (blur)="checkSpace('firstName', $event)" [readonly]="isReadonly"
                             formControlName="firstName" class="form-control" type="text"
@@ -177,8 +172,7 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Email </label>
-                        <input formControlName="email" [readonly]="isReadonly" class="form-control" type="email"
-                            placeholder="Enter Email" />
+                        <input formControlName="email" [readonly]="isReadonly" class="form-control" type="email" placeholder="Enter Email" />
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['email'].touched && (step1Form.controls['email'].hasError('required') || step1Form.controls['email'].invalid)">
                             {{ validationMessages.required('valid Email') }}
@@ -188,10 +182,8 @@
 
                 <div class="col-12 col-lg-6 col-md-6  ">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> *
-                            </span></label>
-                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="phoneNumber" [readonly]="isReadonly"
-                            class="form-control" placeholder="Enter Phone Number" maxlength="14" />
+                        <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="phoneNumber" [readonly]="isReadonly" class="form-control" placeholder="Enter Phone Number" maxlength="14" />
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['phoneNumber'].touched && (step1Form.controls['phoneNumber'].hasError('required') || step1Form.controls['phoneNumber'].invalid)">
                             {{ validationMessages.required('valid Phone Number') }}
@@ -201,17 +193,13 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Cell Phone Number </label>
-                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="cellPhoneNumber" 
-                            [readonly]="isReadonly" class="form-control" placeholder="Enter Cell Phone Number"
-                            maxlength="14" />
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="cellPhoneNumber" [readonly]="isReadonly" class="form-control" placeholder="Enter Cell Phone Number" maxlength="14" />
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Work Extension </label>
-                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="workExtensionNumber"
-                            [readonly]="isReadonly" class="form-control" placeholder="Enter Work Extension Number"
-                            maxlength="14"  />
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="workExtensionNumber" [readonly]="isReadonly" class="form-control" placeholder="Enter Work Extension Number" maxlength="14"  />
                     </div>
                 </div>  
 
@@ -221,7 +209,6 @@
          
                 <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                     <div class="form-group">
-
                         <label class="col-form-label fw-600">Address  <span class="clr--DF0404 ms-1"> * </span>  </label>
                         <input class="form-control" type="text" [readonly]="isReadonly"  placeholder="Address" formControlName="address1" />
                         <div class="text text-danger mt-1" *ngIf="step1Form.controls['address1'].touched && (step1Form.controls['address1'].hasError('required') || step1Form.controls['address1'].invalid)">
