@@ -72,8 +72,8 @@
                         <mat-chip-row *ngIf="totalRecordFound>0">
                             <label class="fw-600 mb-0">Total Records Found: {{totalRecordFound}}</label>
                         </mat-chip-row>
-                        <mat-chip-row>
-                            <label class="fw-600 mb-0">New Entries Added: 0, Total Entries Updted: 12</label>
+                        <mat-chip-row *ngIf="isSaveUploadedData">
+                            <label class="fw-600 mb-0">New Entries Added: {{insertRecordCount}}, Total Entries Updted: {{updateRecordCount}}</label>
                         </mat-chip-row>
                         <mat-chip-row *ngIf="errorRecordFound>0">
                             <label class="fw-600 mb-0">Error Found In: {{errorRecordFound}} records</label>

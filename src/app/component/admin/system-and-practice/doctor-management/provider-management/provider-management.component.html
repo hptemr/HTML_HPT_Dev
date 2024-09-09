@@ -11,7 +11,7 @@
                 <div class="row d-flex align-items-end">
                     <div class="col-12 col-lg-4 col-md-6 col-xl-4">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Search by NPI Number, Doctor Name">
+                            <input type="text" class="form-control search--outer" placeholder="Search by NPI Number, Doctor Name"  [formControl]="searchProviders">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-12 col-lg-4 col-md-6 col-xl-4 d-flex justify-content-lg-center">
                         <div class="form-group">
-                            <label class="font-16 fw-700">Total Referring Doctors: 28</label>
+                            <label class="font-16 fw-700">Total Referring Doctors: {{totalCount}}</label>
                         </div>
                     </div>
                     <div class="col-12 col-lg-4 col-md-6 col-xl-4">
@@ -41,16 +41,16 @@
         <div class="col-12 provider--mat--table--wrapper overflow-auto">
             <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="provider--mat--table">
                 <!-- Referring Doctor Credentials -->
-                <ng-container matColumnDef="docCredentials">
+                <ng-container matColumnDef="credentials">
                     <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Credentials
                     </th>
-                    <td mat-cell *matCellDef="let element" class=""> {{element.docCredentials}} </td>
+                    <td mat-cell *matCellDef="let element" class=""> {{element.credentials}} </td>
                 </ng-container>
                 
                 <!--Referring Doctor Name -->
-                <ng-container matColumnDef="docName">
+                <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NPI">Name</th>
-                    <td mat-cell *matCellDef="let element"> {{element.docName}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
                 
                 <!-- Referring Doctor NPI -->
@@ -67,10 +67,10 @@
                 </ng-container>
 
                 <!-- Updated on -->
-                <ng-container matColumnDef="updatedOn">
+                <ng-container matColumnDef="updatedAt">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state"> Updated on
                     </th>
-                    <td mat-cell *matCellDef="let element">{{element.updatedOn}}</td>
+                    <td mat-cell *matCellDef="let element">{{element?.updatedAt ? (element?.updatedAt | date: 'MM/dd/yyyy') : '--'}}</td>
                 </ng-container>
                 
                 <!-- Actions Column -->
@@ -85,7 +85,7 @@
                                 <mat-icon class="text-primary">{{element.status=='Inactive' ? 'refresh' : 'block'}}</mat-icon>
                                 <span class="fw-600">{{element.status=='Inactive' ? 'Reactivate' : 'Inactivate'}}</span>
                             </button> -->
-                            <button mat-menu-item >
+                            <button mat-menu-item (click)="deleteProvider(element)">
                                 <mat-icon class="text-danger">delete</mat-icon>
                                 <span class="fw-600">Delete</span>
                             </button>
@@ -96,7 +96,10 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator> -->
+            <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
+            [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" >
+        </mat-paginator>
         </div>
     </div>
 </div>

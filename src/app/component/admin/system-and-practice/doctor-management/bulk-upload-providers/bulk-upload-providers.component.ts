@@ -109,6 +109,11 @@ export class BulkUploadProvidersComponent {
   errorRecordFound : number = 0
   dataWithoutError : any =[]
 
+  // After save
+  insertRecordCount : number = 0
+  updateRecordCount : number = 0
+  isSaveUploadedData : boolean = false
+
   // Pagignator
   totalCount = 0
   pageIndex = 0
@@ -228,8 +233,10 @@ export class BulkUploadProvidersComponent {
     this.errorRecordFound = 0
     this.dataSource = new MatTableDataSource<ProviderList>([])
     this.dataWithoutError =[]
+    this.isSaveUploadedData = false
     // Pagignation
     this.totalCount = 0
+
   }
 
   saveUploadedData(){
@@ -246,6 +253,22 @@ export class BulkUploadProvidersComponent {
         // Here remove error key from array object - dataWithoutError
         const updatedArray = this.dataWithoutError.map(({ errors, ...rest }:ProviderList) => rest);
         console.log("updatedArray>>>",updatedArray);
+        this.authService.apiRequest('post', 'admin/saveUploadedProviderData', updatedArray).subscribe(async (res) => {
+          console.log("res res>>>",res);
+          if (res && !res.error) {
+            this.insertRecordCount = res.data.insertCount
+            this.updateRecordCount = res.data.updateCount
+            this.isSaveUploadedData = true
+            this.commonService.openSnackBar(res.message, "SUCCESS");
+            // Resest File
+            this.selectedFile = null;
+            this.fileName = null;
+          }
+          this.commonService.hideLoader()
+        }, (err) => {
+          err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : "";
+          this.commonService.hideLoader()
+        })
       }
     });
   }

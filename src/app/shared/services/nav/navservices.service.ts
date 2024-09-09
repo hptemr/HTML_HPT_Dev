@@ -128,6 +128,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 6,
+          activeMenu: 'manage-documents',
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
@@ -230,6 +231,7 @@ export class NavservicesService implements OnInit {
         // },
         {
           id: 5,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -308,6 +310,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 4,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -424,6 +427,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 7,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
