@@ -54,6 +54,9 @@ export class IntakeStep2Component {
   mat_icon:string='add_circle'
   userId = this.authService.getLoggedInInfo('_id')
   userRole = this.authService.getLoggedInInfo('role')
+  patientId:string=''
+  otherRelationFlag:boolean=false
+  subscriberOtherRelationFlag:boolean=false
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -65,7 +68,6 @@ export class IntakeStep2Component {
 
   ngOnInit() {
     this.commonService.showLoader()
-    this.getInsuranceList()
     this.getAppointmentDetails()
   }
 
@@ -91,6 +93,11 @@ export class IntakeStep2Component {
         this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
         this.step2FormData = response.data.appointmentData
+       
+        if(this.step2FormData && this.step2FormData.patientId && this.step2FormData.patientId._id){
+          this.patientId = this.step2FormData.patientId._id
+        }
+        this.getInsuranceList();
         this.payViaSelected = this.step2FormData.payVia
         this.loadForm()
 
@@ -125,15 +132,15 @@ export class IntakeStep2Component {
   }
 
   loadForm() {
-   // console.log('>>>> step2FormData>>>',this.step2FormData)
-   let payViaInsuranceInfo = [];
-   if(this.step2FormData && this.step2FormData.payViaInsuranceInfo){
-     payViaInsuranceInfo = this.step2FormData.payViaInsuranceInfo
-   }
+    
+    let payViaInsuranceInfo = [];
+    if(this.step2FormData && this.step2FormData.payViaInsuranceInfo){
+      payViaInsuranceInfo = this.step2FormData.payViaInsuranceInfo
+    }
 
-   if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
-    payViaInsuranceInfo = this.step2FormData.adminPayViaInsuranceInfo;
-   }
+    if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
+      payViaInsuranceInfo = this.step2FormData.adminPayViaInsuranceInfo;
+    }
 
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
@@ -155,8 +162,10 @@ export class IntakeStep2Component {
       subscriberMiddleName: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberMiddleName : ''],
       subscriberLastName: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberDob: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberDob : ''],
-      subscriberRelationWithPatient: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.subscriberRelationWithPatient ? this.step2FormData.payViaInsuranceInfo?.subscriberRelationWithPatient : '', [Validators.required]],
-      
+      subscriberRelationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberRelationWithPatient : '', [Validators.required]],
+      subscriberOtherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberOtherRelation : [Validators.required]],
+      subscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberGender : [Validators.required]],
+
       primaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       primaryInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceIdPolicy : '', [Validators.required]],
       primaryInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceGroup : '', [Validators.required]],
@@ -200,6 +209,17 @@ export class IntakeStep2Component {
     if(payViaInsuranceInfo?.thirdInsuranceCompany){
       this.thirdInsurance()
     }
+    
+    if(payViaInsuranceInfo && payViaInsuranceInfo?.relationWithPatient=='Other'){ 
+      const mockEvent = { target: { value: 'Other' } }; 
+      this.relationShipPatient(mockEvent)
+    }
+
+    if(payViaInsuranceInfo && payViaInsuranceInfo?.subscriberRelationWithPatient=='Other'){
+      const mockEvent = { target: { value: 'Other' } }; 
+      this.subscriberRelationShipPatient(mockEvent)
+    }
+  
   }
 
   getInsuranceDetails(event: any) {
@@ -210,7 +230,7 @@ export class IntakeStep2Component {
     let subscriberLastName = ''
     let subscriberDob
     let subscriberRelationWithPatient = ''
-    let otherRelation = ''
+    let subscriberOtherRelation = ''
     let primaryInsuranceCompany = ''
     let primaryInsuranceIdPolicy = ''
     let primaryInsuranceGroup = ''
@@ -253,19 +273,29 @@ export class IntakeStep2Component {
       subscriberLastName = info.subscriberLastName
       subscriberDob = info.subscriberDob
       subscriberRelationWithPatient = info.subscriberRelationWithPatient
-      otherRelation = info.otherRelation
+      subscriberOtherRelation = info.subscriberOtherRelation
+      
       primaryInsuranceCompany = info.primaryInsuranceCompany
       primaryInsuranceIdPolicy = info.primaryInsuranceIdPolicy
       primaryInsuranceGroup = info.primaryInsuranceGroup
       primaryInsuranceCustomerServicePh = info.primaryInsuranceCustomerServicePh
+      primaryInsuranceFromDate = info.primaryInsuranceFromDate
+      primaryInsuranceToDate = info.primaryInsuranceToDate
+  
       secondaryInsuranceCompany = info.secondaryInsuranceCompany
       secondaryInsuranceIdPolicy = info.secondaryInsuranceIdPolicy
       secondaryInsuranceGroup = info.secondaryInsuranceGroup
       secondaryInsuranceCustomerServicePh = info.secondaryInsuranceCustomerServicePh
+      secondaryInsuranceFromDate = info.secondaryInsuranceFromDate
+      secondaryInsuranceFromDate = info.secondaryInsuranceFromDate    
+
       thirdInsuranceCompany = info.thirdInsuranceCompany
       thirdInsuranceIdPolicy = info.thirdInsuranceIdPolicy
       thirdInsuranceGroup = info.thirdInsuranceGroup
       thirdInsuranceCustomerServicePh = info.thirdInsuranceCustomerServicePh
+      thirdInsuranceFromDate = info.thirdInsuranceFromDate
+      thirdInsuranceToDate = info.thirdInsuranceToDate
+
       injuryRelelatedTo = info.injuryRelelatedTo
       carrierName = info.carrierName
       dateOfInjury = info.dateOfInjury
@@ -290,7 +320,7 @@ export class IntakeStep2Component {
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.step2Form.controls['subscriberLastName'].setValue(subscriberLastName)
     this.step2Form.controls['subscriberDob'].setValue(subscriberDob)
-    this.step2Form.controls['otherRelation'].setValue(otherRelation)
+    this.step2Form.controls['subscriberOtherRelation'].setValue(subscriberOtherRelation)
     this.step2Form.controls['subscriberRelationWithPatient'].setValue(subscriberRelationWithPatient)
     this.step2Form.controls['primaryInsuranceCompany'].setValue(primaryInsuranceCompany)
     this.step2Form.controls['primaryInsuranceIdPolicy'].setValue(primaryInsuranceIdPolicy)
@@ -333,8 +363,10 @@ export class IntakeStep2Component {
   }
 
   async getInsuranceList() {
+
+
     let reqVars = {
-      query: { status: 'Active' },
+      query: { patientId:this.patientId,status: 'Active' },
       fields: { updatedAt: 0 },
       order: { insuranceName: 1 },
     }
@@ -556,5 +588,26 @@ export class IntakeStep2Component {
     }
   }
 
+  relationShipPatient(event: any) {
+    this.otherRelationFlag = false;
+    const selectedValue = event.target ? event.target.value : event; 
+    if(selectedValue=='Other'){      
+      this.step2Form.controls['otherRelation'].setValidators([Validators.required])
+      this.otherRelationFlag = true;
+    }else{
+      this.step2Form.controls['otherRelation'].setValidators([])
+    }
+  }
+
+  subscriberRelationShipPatient(event: any) {
+    this.subscriberOtherRelationFlag = false;
+    const selectedValue = event.target ? event.target.value : event; 
+    if(selectedValue=='Other'){      
+      this.step2Form.controls['subscriberOtherRelation'].setValidators([Validators.required])
+      this.subscriberOtherRelationFlag = true;
+    }else{
+      this.step2Form.controls['subscriberOtherRelation'].setValidators([])
+    }
+  }
 
 }

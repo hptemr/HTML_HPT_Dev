@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
@@ -21,6 +21,7 @@ interface State {
   styleUrl: './view-edit-insurance.component.scss'
 })
 export class ViewEditInsuranceComponent {
+  @ViewChild('insuranceFileInput') insuranceFileInput: any
   model: NgbDateStruct;
   insuranceId: string;
   public userId: string;
@@ -30,13 +31,17 @@ export class ViewEditInsuranceComponent {
   insuranceData: any
   validationMessages = validationMessages
   relationWithPatient = relationWithPatient
+  relationWithPatientFlag:boolean=false
   carrierNameList = carrierNameList
   states: State[] = states_data
   fullNameForSign: any
   todayDate = new Date()
   pageName:any = '';
   isReadOnly:boolean=false
+  thirdInsurancesFlag:boolean=false
+  mat_icon:string='add_circle'
   successMsg:string='Insurance Details Added Successfully'
+
   constructor(public dialog: MatDialog,private fb: FormBuilder,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
       const locationArray = location.href.split('/')
@@ -93,15 +98,30 @@ export class ViewEditInsuranceComponent {
       subscriberMiddleName: [''],
       subscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberDob: [''],
+      subscriberGender: ['',[Validators.required]],
       subscriberRelationWithPatient: ['', [Validators.required]],
+      subscriberOtherRelation: [''],
       primaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       primaryInsuranceIdPolicy: ['', [Validators.required]],
       primaryInsuranceGroup: ['', [Validators.required]],
       primaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      secondaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      primaryInsuranceFromDate: [''],
+      primaryInsuranceToDate: [''],
+
+      secondaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],      
       secondaryInsuranceIdPolicy: ['', [Validators.required]],
       secondaryInsuranceGroup: ['', [Validators.required]],
       secondaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      secondaryInsuranceFromDate: [''],
+      secondaryInsuranceToDate: [''],
+
+      thirdInsuranceCompany: ['', [Validators.minLength(1), Validators.maxLength(35)]],
+      thirdInsuranceIdPolicy: ['', []],
+      thirdInsuranceGroup: ['', []],
+      thirdInsuranceCustomerServicePh: ['', [Validators.minLength(14), Validators.maxLength(14)]],
+      thirdInsuranceFromDate: [''],
+      thirdInsuranceToDate: [''],
+
       injuryRelelatedTo: [''],
       carrierName: ['', [Validators.required]],
       dateOfInjury: ['', [Validators.required]],
@@ -125,14 +145,25 @@ export class ViewEditInsuranceComponent {
       this.insuranceForm.controls['subscriberLastName'].disable();
       this.insuranceForm.controls['subscriberDob'].disable();
       this.insuranceForm.controls['subscriberRelationWithPatient'].disable();
+      this.insuranceForm.controls['subscriberOtherRelation'].disable();
       this.insuranceForm.controls['primaryInsuranceCompany'].disable();
       this.insuranceForm.controls['primaryInsuranceIdPolicy'].disable();
       this.insuranceForm.controls['primaryInsuranceGroup'].disable();
       this.insuranceForm.controls['primaryInsuranceCustomerServicePh'].disable();
+      this.insuranceForm.controls['primaryInsuranceFromDate'].disable();
+      this.insuranceForm.controls['primaryInsuranceToDate'].disable();
       this.insuranceForm.controls['secondaryInsuranceCompany'].disable();
       this.insuranceForm.controls['secondaryInsuranceIdPolicy'].disable();
       this.insuranceForm.controls['secondaryInsuranceGroup'].disable();
       this.insuranceForm.controls['secondaryInsuranceCustomerServicePh'].disable();
+      this.insuranceForm.controls['secondaryInsuranceFromDate'].disable();
+      this.insuranceForm.controls['secondaryInsuranceToDate'].disable();
+      this.insuranceForm.controls['thirdInsuranceCompany'].disable();
+      this.insuranceForm.controls['thirdInsuranceIdPolicy'].disable();
+      this.insuranceForm.controls['thirdInsuranceGroup'].disable();
+      this.insuranceForm.controls['thirdInsuranceCustomerServicePh'].disable();
+      this.insuranceForm.controls['thirdInsuranceFromDate'].disable();
+      this.insuranceForm.controls['thirdInsuranceToDate'].disable();
       this.insuranceForm.controls['injuryRelelatedTo'].disable();
       this.insuranceForm.controls['carrierName'].disable();
       this.insuranceForm.controls['dateOfInjury'].disable();
@@ -146,10 +177,8 @@ export class ViewEditInsuranceComponent {
       this.insuranceForm.controls['employerAddress'].disable();
       this.insuranceForm.controls['attorneyName'].disable();
       this.insuranceForm.controls['attorneyPhone'].disable();
-    }
-    
+    }    
   }
-
   
   getInsuranceData() {
     let insuranceName = ''
@@ -158,6 +187,7 @@ export class ViewEditInsuranceComponent {
     let subscriberLastName = ''
     let subscriberDob
     let subscriberRelationWithPatient = ''
+    let subscriberOtherRelation = ''
     let primaryInsuranceCompany = ''
     let primaryInsuranceIdPolicy = ''
     let primaryInsuranceGroup = ''
@@ -179,6 +209,16 @@ export class ViewEditInsuranceComponent {
     let employerAddress = ''
     let attorneyName = ''
     let attorneyPhone = ''
+    let primaryInsuranceFromDate = ''
+    let primaryInsuranceToDate = ''
+    let secondaryInsuranceFromDate = ''
+    let secondaryInsuranceToDate = ''
+    let thirdInsuranceCompany = ''
+    let thirdInsuranceIdPolicy = ''
+    let thirdInsuranceGroup = ''
+    let thirdInsuranceCustomerServicePh = ''
+    let thirdInsuranceFromDate = ''
+    let thirdInsuranceToDate = ''    
 
     let info = this.insuranceData;
     insuranceName = info.insuranceName
@@ -187,14 +227,28 @@ export class ViewEditInsuranceComponent {
     subscriberLastName = info.subscriberLastName
     subscriberDob = info.subscriberDob
     subscriberRelationWithPatient = info.subscriberRelationWithPatient
+    subscriberOtherRelation = info.subscriberOtherRelation
     primaryInsuranceCompany = info.primaryInsuranceCompany
     primaryInsuranceIdPolicy = info.primaryInsuranceIdPolicy
     primaryInsuranceGroup = info.primaryInsuranceGroup
     primaryInsuranceCustomerServicePh = info.primaryInsuranceCustomerServicePh
+    primaryInsuranceFromDate = info.primaryInsuranceFromDate
+    primaryInsuranceToDate = info.primaryInsuranceToDate
+
     secondaryInsuranceCompany = info.secondaryInsuranceCompany
     secondaryInsuranceIdPolicy = info.secondaryInsuranceIdPolicy
     secondaryInsuranceGroup = info.secondaryInsuranceGroup
     secondaryInsuranceCustomerServicePh = info.secondaryInsuranceCustomerServicePh
+    secondaryInsuranceFromDate = info.secondaryInsuranceFromDate
+    secondaryInsuranceToDate = info.secondaryInsuranceToDate     
+
+    thirdInsuranceCompany = info.thirdInsuranceCompany
+    thirdInsuranceIdPolicy = info.thirdInsuranceIdPolicy
+    thirdInsuranceGroup = info.thirdInsuranceGroup
+    thirdInsuranceCustomerServicePh = info.thirdInsuranceCustomerServicePh
+    thirdInsuranceFromDate = info.thirdInsuranceFromDate
+    thirdInsuranceToDate = info.thirdInsuranceToDate
+
     injuryRelelatedTo = info.injuryRelelatedTo
     carrierName = info.carrierName
     dateOfInjury = info.dateOfInjury
@@ -208,6 +262,7 @@ export class ViewEditInsuranceComponent {
     employerAddress = info.employerAddress
     attorneyName = info.attorneyName
     attorneyPhone = info.attorneyPhone
+    
 
     this.insuranceForm.controls['insuranceName'].setValue(insuranceName)
     this.insuranceForm.controls['subscriberFirstName'].setValue(subscriberFirstName)
@@ -215,14 +270,28 @@ export class ViewEditInsuranceComponent {
     this.insuranceForm.controls['subscriberLastName'].setValue(subscriberLastName)
     this.insuranceForm.controls['subscriberDob'].setValue(subscriberDob)
     this.insuranceForm.controls['subscriberRelationWithPatient'].setValue(subscriberRelationWithPatient)
+    this.insuranceForm.controls['subscriberOtherRelation'].setValue(subscriberOtherRelation)
     this.insuranceForm.controls['primaryInsuranceCompany'].setValue(primaryInsuranceCompany)
     this.insuranceForm.controls['primaryInsuranceIdPolicy'].setValue(primaryInsuranceIdPolicy)
     this.insuranceForm.controls['primaryInsuranceGroup'].setValue(primaryInsuranceGroup)
     this.insuranceForm.controls['primaryInsuranceCustomerServicePh'].setValue(primaryInsuranceCustomerServicePh)
+    this.insuranceForm.controls['primaryInsuranceFromDate'].setValue(primaryInsuranceFromDate)
+    this.insuranceForm.controls['primaryInsuranceToDate'].setValue(primaryInsuranceToDate)
+
     this.insuranceForm.controls['secondaryInsuranceCompany'].setValue(secondaryInsuranceCompany)
     this.insuranceForm.controls['secondaryInsuranceIdPolicy'].setValue(secondaryInsuranceIdPolicy)
     this.insuranceForm.controls['secondaryInsuranceGroup'].setValue(secondaryInsuranceGroup)
     this.insuranceForm.controls['secondaryInsuranceCustomerServicePh'].setValue(secondaryInsuranceCustomerServicePh)
+    this.insuranceForm.controls['secondaryInsuranceFromDate'].setValue(secondaryInsuranceFromDate)
+    this.insuranceForm.controls['secondaryInsuranceToDate'].setValue(secondaryInsuranceToDate)
+
+    this.insuranceForm.controls['thirdInsuranceCompany'].setValue(thirdInsuranceCompany)
+    this.insuranceForm.controls['thirdInsuranceIdPolicy'].setValue(thirdInsuranceIdPolicy)
+    this.insuranceForm.controls['thirdInsuranceGroup'].setValue(thirdInsuranceGroup)
+    this.insuranceForm.controls['thirdInsuranceCustomerServicePh'].setValue(thirdInsuranceCustomerServicePh)
+    this.insuranceForm.controls['thirdInsuranceFromDate'].setValue(thirdInsuranceFromDate)
+    this.insuranceForm.controls['thirdInsuranceToDate'].setValue(thirdInsuranceToDate)
+
     this.insuranceForm.controls['injuryRelelatedTo'].setValue(injuryRelelatedTo)
     this.insuranceForm.controls['carrierName'].setValue(carrierName)
     this.insuranceForm.controls['dateOfInjury'].setValue(dateOfInjury)
@@ -236,6 +305,15 @@ export class ViewEditInsuranceComponent {
     this.insuranceForm.controls['employerAddress'].setValue(employerAddress)
     this.insuranceForm.controls['attorneyName'].setValue(attorneyName)
     this.insuranceForm.controls['attorneyPhone'].setValue(attorneyPhone)
+
+    if(subscriberRelationWithPatient=='Other'){
+      const mockEvent = { target: { value: 'Other' } }; 
+      this.relationShipPatient(mockEvent)
+    }
+    
+    if(thirdInsuranceCompany){
+      this.thirdInsurance()
+    }
   }
 
   
@@ -297,9 +375,47 @@ export class ViewEditInsuranceComponent {
     });
   }
 
-  // addInsurance(){
-  //   const dialogRef = this.dialog.open(AddInsuranceModalComponent,{
-  //     panelClass: 'custom-alert-container', 
-  //   });
-  // }
+  relationShipPatient(event: any) {
+    this.relationWithPatientFlag = false;
+    const selectedValue = event.target ? event.target.value : event; 
+    if(selectedValue=='Other'){      
+      this.insuranceForm.controls['subscriberOtherRelation'].setValidators([Validators.required])
+      this.relationWithPatientFlag = true;
+    }else{
+      this.insuranceForm.controls['subscriberOtherRelation'].setValidators([])
+    }
+  }
+
+  thirdInsurance(){
+    if(this.thirdInsurancesFlag){
+      this.insuranceForm.controls['thirdInsuranceCompany'].setValidators([]);
+      this.insuranceForm.controls['thirdInsuranceIdPolicy'].setValidators([]);
+      this.insuranceForm.controls['thirdInsuranceGroup'].setValidators([]);
+      this.insuranceForm.controls['thirdInsuranceCustomerServicePh'].setValidators([]);
+      this.mat_icon = 'add_circle'
+      this.thirdInsurancesFlag = false;  
+      this.insuranceForm.controls['thirdInsuranceCompany'].setValue('');
+      this.insuranceForm.controls['thirdInsuranceIdPolicy'].setValue('');
+      this.insuranceForm.controls['thirdInsuranceGroup'].setValue('');
+      this.insuranceForm.controls['thirdInsuranceCustomerServicePh'].setValue('');
+      this.insuranceForm.controls['thirdInsuranceFromDate'].setValue('');
+      this.insuranceForm.controls['thirdInsuranceToDate'].setValue('');    
+      this.insuranceForm.controls['thirdInsuranceCompany'].reset();
+      this.insuranceForm.controls['thirdInsuranceIdPolicy'].reset();
+      this.insuranceForm.controls['thirdInsuranceGroup'].reset();
+      this.insuranceForm.controls['thirdInsuranceCustomerServicePh'].reset();
+      this.insuranceForm.controls['thirdInsuranceFromDate'].reset();
+      this.insuranceForm.controls['thirdInsuranceToDate'].reset();
+    }else{
+      this.insuranceForm.controls['thirdInsuranceCompany'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]);
+      this.insuranceForm.controls['thirdInsuranceIdPolicy'].setValidators([Validators.required])
+      this.insuranceForm.controls['thirdInsuranceGroup'].setValidators([Validators.required])
+      this.insuranceForm.controls['thirdInsuranceCustomerServicePh'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
+      this.mat_icon = 'remove_circle_outline'
+      this.thirdInsurancesFlag = true;  
+    }    
+  } 
+
+
+
 }
