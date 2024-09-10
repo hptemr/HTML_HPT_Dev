@@ -3,7 +3,7 @@
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center flex-wrap justify-content-between">
                 <h3 class="mb-2 clr--1F2F3E">Referring Doctors Management</h3>
-                <button mat-raised-button color="primary" class="intake-btn mb-2"  [routerLink]="['/system-admin/bulk-upload-providers']">
+                <button mat-raised-button color="primary" class="intake-btn mb-2"  [routerLink]="['/practice-admin/bulk-upload-providers']">
                     Bulk Upload Referring Doctors
                 </button>
             </div>
@@ -39,7 +39,7 @@
     </div>
     <div class="card-body">
         <div class="col-12 provider--mat--table--wrapper overflow-auto">
-            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="provider--mat--table">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="provider--mat--table" *ngIf="isProviderList">
                 <!-- Referring Doctor Credentials -->
                 <ng-container matColumnDef="credentials">
                     <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Credentials
@@ -96,9 +96,16 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+
+            <div class="no--record--found align-items-center justify-content-center w-100 mt-4" *ngIf="!isProviderList">
+                <div class="d-flex flex-column align-items-center w-100">
+                    <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                    <p class="">Please upload a .CSV file with the list of doctors to view them here</p>
+                </div>
+            </div> 
             <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator> -->
             <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
-            [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" >
+            [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" *ngIf="isProviderList">
         </mat-paginator>
         </div>
     </div>

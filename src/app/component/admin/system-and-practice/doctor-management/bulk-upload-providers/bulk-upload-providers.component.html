@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="col-12 d-flex align-items-center flex-wrap justify-content-between">
                 <h3 class="mb-2 clr--1F2F3E">Bulk Upload Referring Doctors</h3>
-                <button class="flex-shrink-0 mb-2" mat-stroked-button color="primary" [routerLink]="['/system-admin/provider-management']"> 
+                <button class="flex-shrink-0 mb-2" mat-stroked-button color="primary" [routerLink]="['/practice-admin/provider-management']"> 
                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1">  keyboard_backspace  </mat-icon> 
                     Back to Doctors-Management
                 </button>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-12 mb-2">
                     <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
-                        <input class="input--file" type="file" id="" (change)="onFileSelected($event)" accept=".csv">
+                        <input class="input--file" type="file" id="" #fileInput  (change)="onFileSelected($event, fileInput)" accept=".csv">
                         <mat-icon class="upload-icon"> upload_file </mat-icon>
                         <h6 class="fw-700 font-16 ">Select File from your Computer</h6>
                         <!-- <h5 class="font-16 fw-500 mb-1">File Uploaded Successfully.</h5> -->
@@ -50,7 +50,7 @@
                                 <mat-icon class="text-primary me-2"> description </mat-icon>
                                 <h5 class="font-16 fw-500 mb-0 mt-1">{{fileName}}</h5>
                             </div>
-                            <button mat-button class="p-0 flex-shrink-0 min-width-unset" (click)="removeFile()">
+                            <button mat-button class="p-0 flex-shrink-0 min-width-unset" (click)="removeFile(fileInput)">
                                 <span class="material-icons clr--DF0404">
                                     cancel
                                 </span>
@@ -83,7 +83,7 @@
                 <div class="col-12">
                     <div class="divider"></div>
                 </div>
-                <div class="col-12 bulk--upload--provider--wrapper overflow-auto" *ngIf="totalRecordFound">
+                <div class="col-12 bulk--upload--provider--wrapper overflow-auto" >
                     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="bulk--upload--provider--mat--table">
                         <!-- Referring Doctor Credentials -->
                         <ng-container matColumnDef="Credentials">
@@ -130,6 +130,13 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
+
+                    <div class="no--record--found align-items-center justify-content-center w-100 mt-4" *ngIf="!totalRecordFound">
+                        <div class="d-flex flex-column align-items-center w-100">
+                            <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                            <p class="">Please upload a .CSV file with the list of doctors to view them here</p>
+                        </div>
+                    </div> 
                     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator> -->
                     <mat-paginator [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
                     </mat-paginator>

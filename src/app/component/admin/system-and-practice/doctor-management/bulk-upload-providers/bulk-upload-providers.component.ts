@@ -20,61 +20,115 @@ import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 //   errorText: string;
 // }
 
-// const ELEMENT_DATA: PeriodicElement[] = [
+// const ELEMENT_DATA: ProviderList[] = [
 //   {
-//     docName: 'Doc 1 Test',
-//     docCredentials:'123',
-//     npi: '1888945196',
+//     Name: 'Doc 1 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
 //     phoneNumber: '9933556677',
 //     faxNumber: '9933556677',
-//     address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errorText: 'No Error',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
 //   },
 //   {
-//     docName: 'Doc 2 Test',
-//     docCredentials:'123',
-//     npi: '1888945196',
+//     Name: 'Doc 2 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
 //     phoneNumber: '9933556677',
 //     faxNumber: '9933556677',
-//     address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errorText: 'No Error',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
 //   },
 //   {
-//     docName: 'Doc 3 Test',
-//     docCredentials:'123',
-//     npi: '1888945196',
+//     Name: 'Doc 3 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
 //     phoneNumber: '9933556677',
 //     faxNumber: '9933556677',
-//     address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errorText: 'No Error',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
 //   },
 //   {
-//     docName: 'Doc 4 Test',
-//     docCredentials:'123',
-//     npi: '1888945196',
+//     Name: 'Doc 4 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
 //     phoneNumber: '9933556677',
 //     faxNumber: '9933556677',
-//     address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errorText: 'No Error',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
 //   },
 //   {
-//     docName: 'Doc 5 Test',
-//     docCredentials:'123',
-//     npi: '1888945196',
+//     Name: 'Doc 1 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
 //     phoneNumber: '9933556677',
 //     faxNumber: '9933556677',
-//     address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errorText: 'No Error',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
 //   },
 //   {
-//     docName: 'Doc 6 Test',
-//     docCredentials:'123',
-//     npi: '1888945196',
+//     Name: 'Doc 2 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
 //     phoneNumber: '9933556677',
 //     faxNumber: '9933556677',
-//     address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errorText: 'No Error',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
 //   },
+//   {
+//     Name: 'Doc 3 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
+//     phoneNumber: '9933556677',
+//     faxNumber: '9933556677',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
+//   },
+//   {
+//     Name: 'Doc 4 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
+//     phoneNumber: '9933556677',
+//     faxNumber: '9933556677',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
+//   },
+//   {
+//     Name: 'Doc 1 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
+//     phoneNumber: '9933556677',
+//     faxNumber: '9933556677',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
+//   },
+//   {
+//     Name: 'Doc 2 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
+//     phoneNumber: '9933556677',
+//     faxNumber: '9933556677',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
+//   },
+//   {
+//     Name: 'Doc 3 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
+//     phoneNumber: '9933556677',
+//     faxNumber: '9933556677',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
+//   },
+//   {
+//     Name: 'Doc 4 Test',
+//     Credentials:'123',
+//     NPI: '1888945196',
+//     phoneNumber: '9933556677',
+//     faxNumber: '9933556677',
+//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errors: [],
+//   }
 // ]
 
 export interface ProviderList {
@@ -87,6 +141,7 @@ export interface ProviderList {
   errors: Array<string>;
 }
 
+// const PROVIDER_DATA: ProviderList[] = ELEMENT_DATA
 const PROVIDER_DATA: ProviderList[] = []
 
 @Component({
@@ -102,7 +157,7 @@ export class BulkUploadProvidersComponent {
   selectedFile: File | null = null;
   isFileError: boolean = false;
   // maxFileSize: number = 15 * 1024 * 1024; // 15 MB in bytes
-  maxFileSize: number = 1024; //1 KB for test
+  maxFileSize: number = 3000; //3 MB for test
   fileError: string | null = null;
   fileName: string | null = null;
   totalRecordFound : number = 0
@@ -152,7 +207,7 @@ export class BulkUploadProvidersComponent {
     link.click();
   }
 
-  onFileSelected(event: Event): void {
+  onFileSelected(event: Event, fileInput: HTMLInputElement){
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
@@ -174,11 +229,14 @@ export class BulkUploadProvidersComponent {
         this.fileName = null;
         return;
       }
-
+      
       // Set selected file
       this.selectedFile = file;
       this.fileName = file.name;
       this.uploadProviders(this.selectedFile)
+
+       // Reset the file input so that the same file can be selected again
+       fileInput.value = '';
     }
   }
 
@@ -197,6 +255,8 @@ export class BulkUploadProvidersComponent {
         this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
         // Pagignation
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
         this.totalCount = res.data.totalRecordCount
       }
       this.commonService.hideLoader()
@@ -207,7 +267,7 @@ export class BulkUploadProvidersComponent {
     })
   }
 
-  removeFile(): void {
+  removeFile(fileInput: HTMLInputElement){
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
@@ -218,6 +278,9 @@ export class BulkUploadProvidersComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
         this.resetFileAndRecordData()
+
+        // Reset the file input value to allow re-uploading the same file
+        fileInput.value = '';
       }
     });
   }

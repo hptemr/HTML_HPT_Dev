@@ -110,6 +110,7 @@ export class ProviderManagementComponent {
   searchQuery:any =""
 
   searchProviders = new FormControl('');
+  isProviderList:boolean=true
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,  
@@ -165,6 +166,7 @@ export class ProviderManagementComponent {
         }
         providerDetails.push(newColumns)
       })
+      this.isProviderList = this.totalCount>0?true:false 
       this.dataSource = new MatTableDataSource<ProviderList>(providerDetails)
     })
   }
@@ -220,13 +222,15 @@ export class ProviderManagementComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-  /** Announce the change in sort state for assistive technology. */
+  // Sortig here
   announceSortChange(sortState: Sort) { 
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+    let order = 1
+    if (sortState.direction == 'desc') {
+      order = -1
+    } 
+
+    this.orderBy = { [sortState.active]:order }
+    this.providerList()
   }
 
 }

@@ -136,6 +136,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 7,
+          activeMenu: 'provider-management',
+          icon: 'dashboard',
+          mainTitle: 'Doctors Management',
+          headTitle1: '',
+          path: '/practice-admin/provider-management',
+          active: false,
+          item: []
+        },
         // {
         //   id: 7,
         //   icon: 'people_outline',
