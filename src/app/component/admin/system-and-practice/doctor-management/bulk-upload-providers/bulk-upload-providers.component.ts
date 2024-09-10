@@ -172,8 +172,10 @@ export class BulkUploadProvidersComponent {
   // Pagignator
   totalCount = 0
   pageIndex = 0
-  pageSize = pageSize
-  pageSizeOptions = pageSizeOptions
+  // pageSize = pageSize
+  // pageSizeOptions = pageSizeOptions
+  pageSize = 100
+  pageSizeOptions = [150, 200, 250]
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,

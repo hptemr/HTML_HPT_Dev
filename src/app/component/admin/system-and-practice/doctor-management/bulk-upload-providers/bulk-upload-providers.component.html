@@ -87,44 +87,44 @@
                     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="bulk--upload--provider--mat--table">
                         <!-- Referring Doctor Credentials -->
                         <ng-container matColumnDef="Credentials">
-                            <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Credentials</th>
+                            <th mat-header-cell *matHeaderCellDef class="" >Credentials</th>
                             <td mat-cell *matCellDef="let element" class=""> {{element.Credentials}} </td>
                         </ng-container>
                         
                         <!--Referring Doctor Name -->
                         <ng-container matColumnDef="Name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NPI">Name</th>
+                            <th mat-header-cell *matHeaderCellDef >Name</th>
                             <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
                         </ng-container>
                         
                         <!-- Referring Doctor NPI -->
                         <ng-container matColumnDef="NPI">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status">NPI</th>
+                            <th mat-header-cell *matHeaderCellDef >NPI</th>
                             <td mat-cell *matCellDef="let element"> {{element.NPI}} </td>
                         </ng-container>
 
                         <!-- Referring Doctor address -->
                         <ng-container matColumnDef="Address">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status">Address</th>
+                            <th mat-header-cell *matHeaderCellDef >Address</th>
                             <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
                         </ng-container>
                         
                         <!-- Phone -->
                         <ng-container matColumnDef="phoneNumber">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Added On">Phone Number</th>
+                            <th mat-header-cell *matHeaderCellDef >Phone Number</th>
                             <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
                         </ng-container>
 
                         <!-- Fax -->
                         <ng-container matColumnDef="faxNumber">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state">Fax Number</th>
+                            <th mat-header-cell *matHeaderCellDef >Fax Number</th>
                             <td mat-cell *matCellDef="let element">{{element.faxNumber}}</td>
                         </ng-container>
 
                         <!-- Fax -->
                         <ng-container matColumnDef="errors">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state">Error Text</th>
-                            <td mat-cell *matCellDef="let element">{{element.errors.length>0? element.errors.join(', ') : 'NA' }}</td>
+                            <th mat-header-cell *matHeaderCellDef >Error Text</th>
+                            <td mat-cell *matCellDef="let element">{{element.errors.length>0? element.errors.join(', ') : '-' }}</td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
