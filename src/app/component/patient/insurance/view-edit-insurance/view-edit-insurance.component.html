@@ -59,7 +59,7 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
                                 <!-- <div class="input-group">
@@ -85,10 +85,10 @@
 
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Relationship with Patient <span class="clr--DF0404 ms-1"> * </span></label>
-                                <select formControlName="subscriberRelationWithPatient" class="form-select form-control" aria-label="Default select example">
+                                <select formControlName="subscriberRelationWithPatient" class="form-select form-control" aria-label="Default select example" (change)="relationShipPatient($event)" >
                                     <option value="" selected>Select Relation</option>
                                     <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}} </option>
                                 </select>
@@ -97,9 +97,23 @@
                                     {{ validationMessages.required('Relationship with Patient') }}
                                 </div>
                             </div>
-                            <div class="form-group" *ngIf="">
-                                <input class="form-control" type="text" placeholder="Enter other relation" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                            <div class="form-group" *ngIf="relationWithPatientFlag">
+                                <input class="form-control" type="text" formControlName="subscriberOtherRelation" placeholder="Enter other relation" />
+                                <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['subscriberOtherRelation'].touched && (insuranceForm.controls['subscriberOtherRelation'].hasError('required') || insuranceForm.controls['subscriberOtherRelation'].invalid)">
+                                {{ validationMessages.required('Enter your relation with patient') }}
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                            <div class="form-group mt-6">
+                                <!-- <label class="col-form-label fw-600 ">Gender</label> -->
+                                <mat-radio-group formControlName="subscriberGender" aria-label="Select an option" class="">
+                                    <mat-radio-button value="Male" class="me-5">Male</mat-radio-button>
+                                    <mat-radio-button value="Female">Female</mat-radio-button>
+                                </mat-radio-group>
+                                <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['subscriberGender'].touched && (insuranceForm.controls['subscriberGender'].hasError('required') || insuranceForm.controls['subscriberGender'].invalid)">
+                                    {{ validationMessages.required('Select Gender') }}
+                               </div>
                             </div>
                         </div>
                     </div>
@@ -147,6 +161,41 @@
                                         *ngIf="insuranceForm.controls['primaryInsuranceCustomerServicePh'].touched && (insuranceForm.controls['primaryInsuranceCustomerServicePh'].hasError('required') || insuranceForm.controls['primaryInsuranceCustomerServicePh'].invalid)">
                                         {{ validationMessages.required('Customer Service Ph') }}
                                     </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Effective Date </label>
+                                <div class="input-group">
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input formControlName="primaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                            matInput [matDatepicker]="picker3" (focus)="picker3.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['primaryInsuranceFromDate'].touched && (insuranceForm.controls['primaryInsuranceFromDate'].hasError('required') || insuranceForm.controls['primaryInsuranceFromDate'].invalid)">
+                                    {{ validationMessages.requiredDropdown('Effective Date') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">End Date</label>
+                                <div class="input-group">
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input [min]="todayDate" formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            matInput [matDatepicker]="picker5" (focus)="picker5.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker5></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['primaryInsuranceToDate'].touched && (insuranceForm.controls['primaryInsuranceToDate'].hasError('required') || insuranceForm.controls['primaryInsuranceToDate'].invalid)">
+                                    {{ validationMessages.requiredDropdown('Effective End Date') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,6 +248,142 @@
                                     </div>
                             </div>
                         </div>
+
+                        <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Effective Date </label>
+                                <div class="input-group">
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input formControlName="secondaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                            matInput [matDatepicker]="picker6" (focus)="picker6.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker6></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['secondaryInsuranceFromDate'].touched && (insuranceForm.controls['secondaryInsuranceFromDate'].hasError('required') || insuranceForm.controls['secondaryInsuranceFromDate'].invalid)">
+                                    {{ validationMessages.requiredDropdown('Effective Date') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">End Date</label>
+                                <div class="input-group">
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input [min]="todayDate" formControlName="secondaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            matInput [matDatepicker]="picker7" (focus)="picker7.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker7></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['secondaryInsuranceToDate'].touched && (insuranceForm.controls['secondaryInsuranceToDate'].hasError('required') || insuranceForm.controls['secondaryInsuranceToDate'].invalid)">
+                                    {{ validationMessages.requiredDropdown('Effective End Date') }}
+                                </div>
+                            </div>                               
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-start justify-content-sm-between">
+                        <div>&nbsp;</div> 
+                        <button mat-raised-button color="primary" type="button" class="flex-shrink-0 mt-2" (click)="thirdInsurance()"><mat-icon class="material-symbols-outlined flex-shrink-0"> {{mat_icon}} </mat-icon>
+                                Add Insurance  
+                        </button>
+                    </div>
+
+                    <div class="row" *ngIf="thirdInsurancesFlag">
+                        <div class="col-12">
+                            <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Third Insurances</h2>
+                        </div>
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Third Insurances <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
+                                <input formControlName="thirdInsuranceCompany"
+                                    (blur)="checkSpace('thirdInsuranceCompany', $event)" class="form-control"
+                                    type="text" placeholder="Enter Secondary Insurances Name" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['thirdInsuranceCompany'].touched && (insuranceForm.controls['thirdInsuranceCompany'].hasError('required') || insuranceForm.controls['thirdInsuranceCompany'].invalid)">
+                                    {{ validationMessages.required('Insurance Company') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">ID/Policy # <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
+                                <input (blur)="checkSpace('thirdInsuranceIdPolicy', $event)"
+                                    formControlName="thirdInsuranceIdPolicy" class="form-control" type="text"
+                                    placeholder="Enter ID/Policy" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['thirdInsuranceIdPolicy'].touched && (insuranceForm.controls['thirdInsuranceIdPolicy'].hasError('required') || insuranceForm.controls['thirdInsuranceIdPolicy'].invalid)">
+                                    {{ validationMessages.required('ID/Policy') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
+                                <input (blur)="checkSpace('thirdInsuranceGroup', $event)" formControlName="thirdInsuranceGroup" class="form-control" type="text" placeholder="Enter Group" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['thirdInsuranceGroup'].touched && (insuranceForm.controls['thirdInsuranceGroup'].hasError('required') || insuranceForm.controls['thirdInsuranceGroup'].invalid)">
+                                    {{ validationMessages.required('Group') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Customer Service Ph # <span
+                                        class="clr--DF0404 ms-1"> *
+                                    </span></label>
+                                <input [imask]="{mask: '(000) 000-0000'}"
+                                    formControlName="thirdInsuranceCustomerServicePh" class="form-control"
+                                    type="text" placeholder="Enter Customer Service Ph" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['thirdInsuranceCustomerServicePh'].touched && (insuranceForm.controls['thirdInsuranceCustomerServicePh'].hasError('required') || insuranceForm.controls['thirdInsuranceCustomerServicePh'].invalid)">
+                                    {{ validationMessages.required('Customer Service Ph') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">Effective Date </label>
+                                <div class="input-group">
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input formControlName="thirdInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                            matInput [matDatepicker]="picker8" (focus)="picker8.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker8"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker8></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['thirdInsuranceFromDate'].touched && (insuranceForm.controls['thirdInsuranceFromDate'].hasError('required') || insuranceForm.controls['thirdInsuranceFromDate'].invalid)">
+                                    {{ validationMessages.requiredDropdown('Effective Date') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-lx-4 col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label fw-600">End Date</label>
+                                <div class="input-group">
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input [min]="todayDate" formControlName="thirdInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            matInput [matDatepicker]="picker9" (focus)="picker9.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker9"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker9></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['thirdInsuranceToDate'].touched && (insuranceForm.controls['thirdInsuranceToDate'].hasError('required') || insuranceForm.controls['thirdInsuranceToDate'].invalid)">
+                                    {{ validationMessages.requiredDropdown('Effective End Date') }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -241,10 +426,9 @@
                                 <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> * </span> </label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [max]="todayDate" formControlName="dateOfInjury" readonly
-                                                placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
-                                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker3></mat-datepicker>
+                                            <input [max]="todayDate" formControlName="dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker4" (focus)="picker4.open()">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker4></mat-datepicker>
                                         </mat-form-field>
                                     </div>
                                     <div class="text text-danger mt-1"
@@ -350,7 +534,7 @@
 
                     <div class="row"> 
                         <div class="col-12">
-                            <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Attorney Information </h2>
+                            <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Attorney Information </h2>     
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
