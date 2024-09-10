@@ -132,7 +132,7 @@ export class IntakeStep2Component {
   }
 
   loadForm() {
-    console.log('>>>> step2FormData>>>',this.step2FormData)
+    
     let payViaInsuranceInfo = [];
     if(this.step2FormData && this.step2FormData.payViaInsuranceInfo){
       payViaInsuranceInfo = this.step2FormData.payViaInsuranceInfo
@@ -144,8 +144,8 @@ export class IntakeStep2Component {
 
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
-      relationWithPatient: [this.step2FormData ? this.step2FormData?.relationWithPatient : ''],
-      otherRelation: [this.step2FormData ? this.step2FormData?.otherRelation : ''],
+      relationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.relationWithPatient : ''],
+      otherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.otherRelation : ''],
       firstName: [payViaInsuranceInfo ? payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       middleName: [payViaInsuranceInfo ? payViaInsuranceInfo?.middleName : ''],
       lastName: [payViaInsuranceInfo ? payViaInsuranceInfo?.lastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -209,13 +209,13 @@ export class IntakeStep2Component {
     if(payViaInsuranceInfo?.thirdInsuranceCompany){
       this.thirdInsurance()
     }
-
-    if(this.step2FormData && this.step2FormData?.relationWithPatient=='Other'){
+    
+    if(payViaInsuranceInfo && payViaInsuranceInfo?.relationWithPatient=='Other'){ 
       const mockEvent = { target: { value: 'Other' } }; 
       this.relationShipPatient(mockEvent)
     }
 
-    if(payViaInsuranceInfo && payViaInsuranceInfo?.subscriberOtherRelation=='Other'){
+    if(payViaInsuranceInfo && payViaInsuranceInfo?.subscriberRelationWithPatient=='Other'){
       const mockEvent = { target: { value: 'Other' } }; 
       this.subscriberRelationShipPatient(mockEvent)
     }
