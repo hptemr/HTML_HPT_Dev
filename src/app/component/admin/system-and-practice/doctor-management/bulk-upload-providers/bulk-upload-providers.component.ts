@@ -177,6 +177,9 @@ export class BulkUploadProvidersComponent {
   pageSize = 100
   pageSizeOptions = [150, 200, 250]
 
+  showTable:boolean = false
+
+
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     public dialog: MatDialog,
@@ -257,9 +260,11 @@ export class BulkUploadProvidersComponent {
         this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
         // Pagignation
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
         this.totalCount = res.data.totalRecordCount
+        this.dataSource.paginator = this.paginator;
+        if(this.errorRecordFound>0){
+          this.showTable = true
+        }
       }
       this.commonService.hideLoader()
     }, (err) => {
@@ -305,10 +310,14 @@ export class BulkUploadProvidersComponent {
   }
 
   saveUploadedData(){
+    let uploadAlertMessage = "Are you sure want to processs all records?"
+    if(this.errorRecordFound>0){
+      uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure want to process ${this.dataWithoutError.length} records?`
+    }
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure want to process ${this.dataWithoutError.length} records?`
+        warningNote: uploadAlertMessage
       }
     });
 
