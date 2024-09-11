@@ -37,7 +37,7 @@ const messages = {
         linkValid: 'Link is valid',
         passwordChange: "Password has been changed successfully!",
         emailTemplate404: 'Template not found in the system', 
-        csvFileHeaderMissing: "CSV file is missing required headers or contains invalid headers."
+        csvFileHeaderMissing: "All column should be match with sample csv file!"
     },
     commonMessage: {
         created: 'created successfully',

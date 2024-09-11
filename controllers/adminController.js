@@ -18,6 +18,8 @@ const fetch = require('node-fetch');
 const csv = require('csv-parser');
 const Provider = require('../models/providerModel');
 const ProviderLogs = require('../models/providerLogsModel');
+const UploadInsurancesLogs = require('../models/uploadInsurancesLogsModel');
+const UploadInsurances = require('../models/uploadInsurancesModel');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -634,6 +636,7 @@ const uploadProviders = async (req, res) => {
 
       let headersValidated = false;
       let validHeaders = true;
+      let rowNumber = 1;  // Start row number from 1
 
       fs.createReadStream(filePath)
         .pipe(csv())
@@ -649,10 +652,11 @@ const uploadProviders = async (req, res) => {
         })
         .on('data', (row) => {
           if (headersValidated && validHeaders) {
+            rowNumber++;
             const errors = userCommonHelper.validateUploadProviderFile(row);
             if (errors.length > 0) {
               // errorsList.push({ row, errors });
-              errorsList.push({ ...row, errors });
+              errorsList.push({ ...row, errors, rowNumber });
             } else {
               data.push({
                 Name: row["Name"],
@@ -661,7 +665,8 @@ const uploadProviders = async (req, res) => {
                 phoneNumber: row["phoneNumber"],
                 faxNumber: row["faxNumber"],
                 NPI: row["NPI"],
-                errors: []
+                errors: [],
+                rowNumber:''
               });
             }
           }
@@ -786,6 +791,151 @@ const deleteProvider = async (req, res) => {
   }
 }
 
+const uploadInsurances = async (req, res) => {
+  try {
+    const filePath = req.file.path;
+    const data = [];
+    const errorsList = [];
+
+    let headersValidated = false;
+    let validHeaders = true;
+    let rowNumber = 1;  // Start row number from 1
+
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('headers', (headers) => {
+        // Validate if all required headers are present
+        headersValidated = true;
+        validHeaders = userCommonHelper.validateUploadInsuranceFileHeader(headers);
+  
+        if (!validHeaders) {
+          fs.unlinkSync(filePath); // Delete the uploaded file after processing
+          commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+        }
+      })
+      .on('data', (row) => {
+        if (headersValidated && validHeaders) {
+          console.log("row>>>>>>>",row)
+          rowNumber++;
+          const errors = userCommonHelper.validateUploadInsuranceFile(row);
+          console.log("errors>>>>>",errors)
+          if (errors.length > 0) {
+            // errorsList.push({ row, errors });
+            errorsList.push({ ...row, errors, rowNumber });
+          } else {
+            data.push({
+              insuranceName: row["insuranceName"],
+              insuranceType: row["insuranceType"],
+              insuranceAddress: row["insuranceAddress"],
+              payerID: row["payerID"],
+              phoneNumber: row["phoneNumber"],
+              billingType: row["billingType"],
+              errors: [],
+              rowNumber :''
+            });
+          }
+        }
+      })
+      .on('end', async () => {
+        if (headersValidated && validHeaders) {
+          fs.unlinkSync(filePath); // Delete the uploaded file after processing
+          let allData = [ ...data, ...errorsList ]
+          let allList = { 
+            totalRecord: allData, 
+            dataWithoutError:data,
+            totalRecordCount: allData.length, 
+            errorRecordCount :errorsList.length 
+          }
+          commonHelper.sendResponse(res, 'success', allList , 'File upload successfully');
+        }
+      })
+  } catch (error) {
+    console.log("*******uploadInsurances******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
+const saveUploadedInsurancesData = async (req, res) => {
+  try {
+    console.log("req.body>>>>",req.body)
+    let records = req.body
+    const errorsList = [];
+    let updateCount = { count: 0 };
+    let insertCount = { count: 0 };
+    // Process records in batches of 100
+    // const batchSize = 100;
+    const batchSize = 2;
+    for (let i = 0; i < records.length; i += batchSize) {
+      const batch = records.slice(i, i + batchSize);
+      console.log("batch>>>",batch)
+      console.log("batchSize>>>",batchSize)
+      const batchErrors = await processUplaodInsurancesBatch(batch,updateCount, insertCount);
+      errorsList.push(...batchErrors);
+    }
+
+    console.log("errorsList>>>",errorsList)
+    if(errorsList.length>0){
+      await UploadInsurancesLogs.insertMany(errorsList);
+    }
+
+    let reponseData = {
+      errorsCount : errorsList.length,
+      updateCount: updateCount.count,
+      insertCount: insertCount.count
+    }
+    commonHelper.sendResponse(res, 'success', reponseData , 'Data upload successfully');
+  } catch (error) {
+    console.log("*******saveUploadedInsurancesData******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+async function processUplaodInsurancesBatch(batch, updateCount, insertCount) {
+  const errorsList = [];
+
+  // Create promises for batch processing
+  const operations = batch.map(async row => {
+    const insurancesData = {
+      insuranceName: row.insuranceName,
+      insuranceType: row.insuranceType,
+      insuranceAddress: row.insuranceAddress,
+      payerID: row.payerID,
+      phoneNumber: row.phoneNumber,
+      billingType: row.billingType
+    };
+
+  try {
+    // Check if the insurance exists in the database by payerID
+    const existingInsurance = await UploadInsurances.findOne({ payerID: row.payerID });
+    if (existingInsurance) {
+      // If insurance exists, update the record and set the updatedDate
+      insurancesData.updatedAt = new Date();
+      await UploadInsurances.updateOne({ npi: row.NPI }, insurancesData);
+      updateCount.count++;
+    } else {
+      // If insurance doesn't exist, insert a new record with createdDate
+      insurancesData.createdAt = new Date();
+      const newInsurance = new UploadInsurances(insurancesData);
+      await newInsurance.save();
+      insertCount.count++;
+    }
+  } catch (err) {
+    console.error(`Failed to update/insert record with Payer ID ${row["payerID"]}:`, err);
+    errorsList.push({
+      row,
+      error: err
+    });
+  }
+});
+
+// Wait for all operations in this batch to complete
+await Promise.all(operations);
+
+return errorsList;
+}
+
+
 module.exports = {
   invite,
   changePassword,
@@ -813,5 +963,7 @@ module.exports = {
   uploadProviders,
   saveUploadedProviderData,
   getProviderList,
-  deleteProvider
+  deleteProvider,
+  uploadInsurances,
+  saveUploadedInsurancesData
 };
