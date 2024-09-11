@@ -59,7 +59,7 @@ const routes: Routes = [
     component: ManageProfileComponent
   },
   {
-    path: 'appointment-details/:appointmentId',
+    path: 'case-details/:appointmentId',
     component: AppointmentDetailsComponent
   },
   {

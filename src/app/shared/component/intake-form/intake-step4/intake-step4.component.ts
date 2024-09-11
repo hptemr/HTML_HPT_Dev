@@ -22,8 +22,11 @@ export class IntakeStep4Component {
   validationMessages = validationMessages
   emergencyContactList: any
   todayDate = new Date()
-  isFormEditable = false
+  isFormEditable = true
   activeUserRoute = this.commonService.getLoggedInRoute()
+  appointmentUpdateInfo:any=[];
+  userId = this.authService.getLoggedInInfo('_id')
+  userRole = this.authService.getLoggedInInfo('role')
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -50,15 +53,19 @@ export class IntakeStep4Component {
       if (response.error != undefined && response.error == true) {
         this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
-        this.step4FormData = response.data.appointmentData.emergencyContact[0]
-        this.loadForm()
-        if (this.authService.getLoggedInInfo('role') == 'patient' && response.data.appointmentData.status == 'Pending') {
-          //patient can update the info
-          this.isFormEditable = true
-        } else {
-          this.isFormEditable = false
-          this.step4Form.disable()
+        this.step4FormData = response.data.appointmentData.emergencyContact[0];
+        if(this.userRole!='patient' && response.data.appointmentData && response.data.appointmentData.adminEmergencyContact[0]){
+          this.step4FormData = response.data.appointmentData.adminEmergencyContact[0];
         }
+        this.appointmentUpdateInfo = response.data.appointmentData.appointmentUpdateInfo;
+        this.loadForm()
+        // if (this.authService.getLoggedInInfo('role') == 'patient' && response.data.appointmentData.status == 'Pending') {
+        //   //patient can update the info
+        //   this.isFormEditable = true
+        // } else {
+        //   this.isFormEditable = false
+        //   this.step4Form.disable()
+        // }
         this.commonService.hideLoader()
       }
     })
@@ -129,11 +136,19 @@ export class IntakeStep4Component {
 
   async bookAppointmentStep4() {
     if (this.isFormEditable) {
+        this.appointmentUpdateInfo.push({
+          fromPatientId : (this.userRole=='patient') ? this.userId : '',
+          fromAdminId:(this.userRole!='patient') ? this.userId : '',
+          userRole:this.userRole,
+          updatedAt:new Date()
+        });
+
       let params = {
         query: { _id: this.appId },
         updateInfo: {
           emergencyContact: this.step4Form.value
-        }
+        },
+        appointmentUpdateInfo:this.appointmentUpdateInfo
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])

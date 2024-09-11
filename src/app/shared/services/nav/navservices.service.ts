@@ -44,6 +44,7 @@ export class NavservicesService implements OnInit {
 
   getMenu() {
     let userType = this.authservice.getLoggedInInfo('role')
+
     if (userType == 'practice_admin') {
       this.navigationMenu = [
         {
@@ -127,10 +128,21 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 6,
+          activeMenu: 'manage-documents',
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
           path: 'manage-documents/system-documents',
+          active: false,
+          item: []
+        },
+        {
+          id: 7,
+          activeMenu: 'provider-management',
+          icon: 'dashboard',
+          mainTitle: 'Doctors Management',
+          headTitle1: '',
+          path: '/practice-admin/provider-management',
           active: false,
           item: []
         },
@@ -229,6 +241,7 @@ export class NavservicesService implements OnInit {
         // },
         {
           id: 5,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -268,6 +281,11 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
       ]
+    
+      if (userType == 'therapist' && this.authservice.getLoggedInInfo('siteLeaderForPracLocation')!='Site Leader'){
+        this.navigationMenu.splice(1, 1);
+      }
+
     } else if (userType == 'billing_team') {
       this.navigationMenu = [
         {
@@ -302,6 +320,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 4,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -418,6 +437,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 7,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
