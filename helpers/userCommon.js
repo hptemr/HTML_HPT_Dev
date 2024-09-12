@@ -142,6 +142,14 @@ function validateName(name) {
     return errors;
   }
 
+  // Helper function to clean numeric input (trim spaces and remove internal spaces)
+  function cleanNumericInput(input) {
+    if (input) {
+      return input.replace(/\s+/g, '').trim();
+    }
+    return input;
+  }
+
 
 module.exports = {
     userGetByEmail,
@@ -155,5 +163,6 @@ module.exports = {
     validateUploadProviderFileHeader,
     validateUploadProviderFile,
     validateUploadInsuranceFileHeader,
-    validateUploadInsuranceFile
+    validateUploadInsuranceFile,
+    cleanNumericInput
 };

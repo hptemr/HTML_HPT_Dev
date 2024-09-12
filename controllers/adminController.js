@@ -653,6 +653,11 @@ const uploadProviders = async (req, res) => {
         .on('data', (row) => {
           if (headersValidated && validHeaders) {
             rowNumber++;
+            // Clean up row data before validation
+            row['NPI'] = userCommonHelper.cleanNumericInput(row['NPI']);
+            row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+            row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
+
             const errors = userCommonHelper.validateUploadProviderFile(row);
             if (errors.length > 0) {
               // errorsList.push({ row, errors });
@@ -674,7 +679,7 @@ const uploadProviders = async (req, res) => {
         .on('end', async () => {
           if (headersValidated && validHeaders) {
             fs.unlinkSync(filePath); // Delete the uploaded file after processing
-            let allData = [ ...data, ...errorsList ]
+            let allData = [ ...errorsList, ...data ]
             let allList = { 
               totalRecord: allData, 
               dataWithoutError:data,
@@ -839,7 +844,7 @@ const uploadInsurances = async (req, res) => {
       .on('end', async () => {
         if (headersValidated && validHeaders) {
           fs.unlinkSync(filePath); // Delete the uploaded file after processing
-          let allData = [ ...data, ...errorsList ]
+          let allData = [ ...errorsList, ...data ]
           let allList = { 
             totalRecord: allData, 
             dataWithoutError:data,
@@ -935,6 +940,26 @@ await Promise.all(operations);
 return errorsList;
 }
 
+const getUploadInsuranceList = async (req, res) => {
+  try {
+    const { query, fields, order, offset, limit } = req.body;
+    let insuranceList = await UploadInsurances.find(query, fields).sort(order).skip(offset).limit(limit).lean();
+    let totalCount = await UploadInsurances.find(query).count()
+    commonHelper.sendResponse(res, 'success', { insuranceList, totalCount }, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const deleteInsurance = async (req, res) => {
+  try {
+    const { _id } = req.body
+    await UploadInsurances.findOneAndUpdate({ _id: _id }, { status: 'Delete' });
+    commonHelper.sendResponse(res, 'success', null, userMessage.insuranceDelete);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
 
 module.exports = {
   invite,
@@ -965,5 +990,7 @@ module.exports = {
   getProviderList,
   deleteProvider,
   uploadInsurances,
-  saveUploadedInsurancesData
+  saveUploadedInsurancesData,
+  getUploadInsuranceList,
+  deleteInsurance
 };
