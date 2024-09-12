@@ -249,6 +249,7 @@ export class BulkUploadProvidersComponent {
     this.commonService.showLoader()
     this.totalRecordFound = 0
     this.errorRecordFound = 0
+    this.showTable = false
     const formData: FormData = new FormData();
     formData.append('file', file);
 

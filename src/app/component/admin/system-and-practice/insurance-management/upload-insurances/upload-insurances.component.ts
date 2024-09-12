@@ -260,26 +260,26 @@ export class UploadInsurancesComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
-        // console.log("this.dataWithoutError>>>",this.dataWithoutError)
-        // // Here remove error key from array object - dataWithoutError
-        // const updatedArray = this.dataWithoutError.map(({ errors, ...rest }:InsuranceList) => rest);
-        // console.log("updatedArray>>>",updatedArray);
-        // this.authService.apiRequest('post', 'admin/saveUploadedProviderData', updatedArray).subscribe(async (res) => {
-        //   console.log("res res>>>",res);
-        //   if (res && !res.error) {
-        //     this.insertRecordCount = res.data.insertCount
-        //     this.updateRecordCount = res.data.updateCount
-        //     this.isSaveUploadedData = true
-        //     this.commonService.openSnackBar(res.message, "SUCCESS");
-        //     // Resest File
-        //     this.selectedFile = null;
-        //     this.fileName = null;
-        //   }
-        //   this.commonService.hideLoader()
-        // }, (err) => {
-        //   err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : "";
-        //   this.commonService.hideLoader()
-        // })
+        console.log("this.dataWithoutError>>>",this.dataWithoutError)
+        // Here remove error key from array object - dataWithoutError
+        const updatedArray = this.dataWithoutError.map(({ errors, ...rest }:InsuranceList) => rest);
+        console.log("updatedArray>>>",updatedArray);
+        this.authService.apiRequest('post', 'admin/saveUploadedInsurancesData', updatedArray).subscribe(async (res) => {
+          console.log("res res>>>",res);
+          if (res && !res.error) {
+            this.insertRecordCount = res.data.insertCount
+            this.updateRecordCount = res.data.updateCount
+            this.isSaveUploadedData = true
+            this.commonService.openSnackBar(res.message, "SUCCESS");
+            // Resest File
+            this.selectedFile = null;
+            this.fileName = null;
+          }
+          this.commonService.hideLoader()
+        }, (err) => {
+          err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : "";
+          this.commonService.hideLoader()
+        })
       }
     });
   }

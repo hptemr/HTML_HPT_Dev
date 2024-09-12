@@ -195,7 +195,7 @@ export class ProviderManagementComponent {
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: `Are you sure you want to delete ${provider.name} with *NPI: ${provider.npi}`
+        warningNote: `Are you sure you want to delete ${provider.name} with NPI: ${provider.npi}?`
       }
     });
 
