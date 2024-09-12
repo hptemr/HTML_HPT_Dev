@@ -4,7 +4,8 @@ const appointmentSchema = new mongoose.Schema({
     status: { type: String, enum: ['Pending', 'Active', 'Rescheduled', 'Accepted', 'Declined', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
     requestId: {
         type: mongoose.Schema.ObjectId,
-        ref: "appointment_requests"
+        ref: "appointment_requests",
+        required: false
     },
     patientId: {
         type: mongoose.Schema.ObjectId,
@@ -15,6 +16,7 @@ const appointmentSchema = new mongoose.Schema({
         ref: "users"
     },
     appointmentId: Number,
+    doctorId: { type: String, default: "" },
     appointmentType: { type: String, default: "" },
     appointmentTypeOther: { type: String, default: "" },
     caseName: { type: String, default: "" },
