@@ -19,7 +19,7 @@ import { ConversationsChatComponent } from '../../../shared/component/conversati
 import { DocumentListingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-listing/document-listing.component';
 import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
-import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
+import { CreateRequestAppointmentComponent } from './requests/create-request-appointment/create-request-appointment.component';
 import { CaseDetailsComponent } from './case-details/case-details.component';
 import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
 
@@ -103,6 +103,10 @@ const routes: Routes = [
   //     }
   //   ]
   // },
+  {
+    path: 'create-appointment',
+    component:CreateAppointmentComponent   
+  },
   {
     path: 'requests',
     component:RequestsComponent   

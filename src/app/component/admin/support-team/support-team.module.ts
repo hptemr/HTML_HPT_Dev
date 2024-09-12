@@ -6,7 +6,7 @@ import { SupportTeamRoutingModule } from './support-team-routing.module';
 import { DatePipe } from '@angular/common';
 import { RequestsComponent } from './requests/requests.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
-import { CreateRequestAppointmentComponent } from './requests/create-appointment/create-appointment.component';
+import { CreateRequestAppointmentComponent } from './requests/create-request-appointment/create-request-appointment.component';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CaseDetailsComponent } from './case-details/case-details.component';
 import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
