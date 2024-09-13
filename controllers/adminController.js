@@ -686,7 +686,7 @@ const uploadProviders = async (req, res) => {
               totalRecordCount: allData.length, 
               errorRecordCount :errorsList.length 
             }
-            commonHelper.sendResponse(res, 'success', allList , 'File upload successfully');
+            commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
           }
         })
     } catch (error) {
@@ -723,7 +723,7 @@ const uploadProviders = async (req, res) => {
         updateCount: updateCount.count,
         insertCount: insertCount.count
       }
-      commonHelper.sendResponse(res, 'success', reponseData , 'Data upload successfully');
+      commonHelper.sendResponse(res, 'success', reponseData , 'Data uploaded successfully');
     } catch (error) {
       console.log("*******saveUploadedProviderData******", error)
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -851,7 +851,7 @@ const uploadInsurances = async (req, res) => {
             totalRecordCount: allData.length, 
             errorRecordCount :errorsList.length 
           }
-          commonHelper.sendResponse(res, 'success', allList , 'File upload successfully');
+          commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
         }
       })
   } catch (error) {
@@ -889,7 +889,7 @@ const saveUploadedInsurancesData = async (req, res) => {
       updateCount: updateCount.count,
       insertCount: insertCount.count
     }
-    commonHelper.sendResponse(res, 'success', reponseData , 'Data upload successfully');
+    commonHelper.sendResponse(res, 'success', reponseData , 'Data uploaded successfully');
   } catch (error) {
     console.log("*******saveUploadedInsurancesData******", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
