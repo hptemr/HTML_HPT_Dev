@@ -16,6 +16,10 @@ var fs = require('fs')
 const cometChatLogModel = require('../models/cometChatLog');
 const fetch = require('node-fetch');
 const csv = require('csv-parser');
+const Provider = require('../models/providerModel');
+const ProviderLogs = require('../models/providerLogsModel');
+const UploadInsurancesLogs = require('../models/uploadInsurancesLogsModel');
+const UploadInsurances = require('../models/uploadInsurancesModel');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -632,6 +636,7 @@ const uploadProviders = async (req, res) => {
 
       let headersValidated = false;
       let validHeaders = true;
+      let rowNumber = 1;  // Start row number from 1
 
       fs.createReadStream(filePath)
         .pipe(csv())
@@ -647,10 +652,16 @@ const uploadProviders = async (req, res) => {
         })
         .on('data', (row) => {
           if (headersValidated && validHeaders) {
+            rowNumber++;
+            // Clean up row data before validation
+            row['NPI'] = userCommonHelper.cleanNumericInput(row['NPI']);
+            row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+            row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
+
             const errors = userCommonHelper.validateUploadProviderFile(row);
             if (errors.length > 0) {
               // errorsList.push({ row, errors });
-              errorsList.push({ ...row, errors });
+              errorsList.push({ ...row, errors, rowNumber });
             } else {
               data.push({
                 Name: row["Name"],
@@ -659,7 +670,8 @@ const uploadProviders = async (req, res) => {
                 phoneNumber: row["phoneNumber"],
                 faxNumber: row["faxNumber"],
                 NPI: row["NPI"],
-                errors: []
+                errors: [],
+                rowNumber:''
               });
             }
           }
@@ -667,14 +679,14 @@ const uploadProviders = async (req, res) => {
         .on('end', async () => {
           if (headersValidated && validHeaders) {
             fs.unlinkSync(filePath); // Delete the uploaded file after processing
-            let allData = [ ...data, ...errorsList ]
+            let allData = [ ...errorsList, ...data ]
             let allList = { 
               totalRecord: allData, 
               dataWithoutError:data,
               totalRecordCount: allData.length, 
               errorRecordCount :errorsList.length 
             }
-            commonHelper.sendResponse(res, 'success', allList , 'Upload file successfully');
+            commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
           }
         })
     } catch (error) {
@@ -682,6 +694,272 @@ const uploadProviders = async (req, res) => {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
   }
+
+  const saveUploadedProviderData = async (req, res) => {
+    try {
+      console.log("req.body>>>>",req.body)
+      let records = req.body
+      const errorsList = [];
+      let updateCount = { count: 0 };
+      let insertCount = { count: 0 };
+      // Process records in batches of 100
+      // const batchSize = 100;
+      const batchSize = 2;
+      for (let i = 0; i < records.length; i += batchSize) {
+        const batch = records.slice(i, i + batchSize);
+        console.log("batch>>>",batch)
+        console.log("batchSize>>>",batchSize)
+        const batchErrors = await processBatch(batch,updateCount, insertCount);
+        errorsList.push(...batchErrors);
+      }
+
+      console.log("errorsList>>>",errorsList)
+      if(errorsList.length>0){
+        await ProviderLogs.insertMany(errorsList);
+      }
+
+      let reponseData = {
+        errorsCount : errorsList.length,
+        updateCount: updateCount.count,
+        insertCount: insertCount.count
+      }
+      commonHelper.sendResponse(res, 'success', reponseData , 'Data uploaded successfully');
+    } catch (error) {
+      console.log("*******saveUploadedProviderData******", error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+// Process data in batches
+async function processBatch(batch, updateCount, insertCount) {
+    const errorsList = [];
+
+    // Create promises for batch processing
+    const operations = batch.map(async row => {
+      const doctorData = {
+        name: row.Name,
+        credentials: row.Credentials,
+        address: row.Address,
+        phoneNumber: row.phoneNumber,
+        faxNumber: row.faxNumber,
+        npi: row.NPI
+      };
+
+    try {
+      // Check if the doctor exists in the database by NPI
+      const existingDoctor = await Provider.findOne({ npi: row.NPI });
+      if (existingDoctor) {
+        // If doctor exists, update the record and set the updatedDate
+        doctorData.updatedAt = new Date();
+        await Provider.updateOne({ npi: row.NPI }, doctorData);
+        updateCount.count++;
+      } else {
+        // If doctor doesn't exist, insert a new record with createdDate
+        doctorData.createdAt = new Date();
+        const newDoctor = new Provider(doctorData);
+        await newDoctor.save();
+        insertCount.count++;
+      }
+    } catch (err) {
+      console.error(`Failed to update/insert record with NPI ${row["Doctor NPI"]}:`, err);
+      errorsList.push({
+        row,
+        error: err
+      });
+    }
+  });
+
+  // Wait for all operations in this batch to complete
+  await Promise.all(operations);
+
+  return errorsList;
+}
+
+const getProviderList = async (req, res) => {
+  try {
+    const { query, fields, order, offset, limit } = req.body;
+    let providerList = await Provider.find(query, fields).sort(order).skip(offset).limit(limit).lean();
+    let totalCount = await Provider.find(query).count()
+    commonHelper.sendResponse(res, 'success', { providerList, totalCount }, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const deleteProvider = async (req, res) => {
+  try {
+    const { _id } = req.body
+    await Provider.findOneAndUpdate({ _id: _id }, { status: 'Delete' });
+    commonHelper.sendResponse(res, 'success', null, userMessage.providerDelete);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const uploadInsurances = async (req, res) => {
+  try {
+    const filePath = req.file.path;
+    const data = [];
+    const errorsList = [];
+
+    let headersValidated = false;
+    let validHeaders = true;
+    let rowNumber = 1;  // Start row number from 1
+
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('headers', (headers) => {
+        // Validate if all required headers are present
+        headersValidated = true;
+        validHeaders = userCommonHelper.validateUploadInsuranceFileHeader(headers);
+  
+        if (!validHeaders) {
+          fs.unlinkSync(filePath); // Delete the uploaded file after processing
+          commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+        }
+      })
+      .on('data', (row) => {
+        if (headersValidated && validHeaders) {
+          console.log("row>>>>>>>",row)
+          rowNumber++;
+          const errors = userCommonHelper.validateUploadInsuranceFile(row);
+          console.log("errors>>>>>",errors)
+          if (errors.length > 0) {
+            // errorsList.push({ row, errors });
+            errorsList.push({ ...row, errors, rowNumber });
+          } else {
+            data.push({
+              insuranceName: row["insuranceName"],
+              insuranceType: row["insuranceType"],
+              insuranceAddress: row["insuranceAddress"],
+              payerID: row["payerID"],
+              phoneNumber: row["phoneNumber"],
+              billingType: row["billingType"],
+              errors: [],
+              rowNumber :''
+            });
+          }
+        }
+      })
+      .on('end', async () => {
+        if (headersValidated && validHeaders) {
+          fs.unlinkSync(filePath); // Delete the uploaded file after processing
+          let allData = [ ...errorsList, ...data ]
+          let allList = { 
+            totalRecord: allData, 
+            dataWithoutError:data,
+            totalRecordCount: allData.length, 
+            errorRecordCount :errorsList.length 
+          }
+          commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
+        }
+      })
+  } catch (error) {
+    console.log("*******uploadInsurances******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
+const saveUploadedInsurancesData = async (req, res) => {
+  try {
+    console.log("req.body>>>>",req.body)
+    let records = req.body
+    const errorsList = [];
+    let updateCount = { count: 0 };
+    let insertCount = { count: 0 };
+    // Process records in batches of 100
+    // const batchSize = 100;
+    const batchSize = 2;
+    for (let i = 0; i < records.length; i += batchSize) {
+      const batch = records.slice(i, i + batchSize);
+      console.log("batch>>>",batch)
+      console.log("batchSize>>>",batchSize)
+      const batchErrors = await processUplaodInsurancesBatch(batch,updateCount, insertCount);
+      errorsList.push(...batchErrors);
+    }
+
+    console.log("errorsList>>>",errorsList)
+    if(errorsList.length>0){
+      await UploadInsurancesLogs.insertMany(errorsList);
+    }
+
+    let reponseData = {
+      errorsCount : errorsList.length,
+      updateCount: updateCount.count,
+      insertCount: insertCount.count
+    }
+    commonHelper.sendResponse(res, 'success', reponseData , 'Data uploaded successfully');
+  } catch (error) {
+    console.log("*******saveUploadedInsurancesData******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+async function processUplaodInsurancesBatch(batch, updateCount, insertCount) {
+  const errorsList = [];
+
+  // Create promises for batch processing
+  const operations = batch.map(async row => {
+    const insurancesData = {
+      insuranceName: row.insuranceName,
+      insuranceType: row.insuranceType,
+      insuranceAddress: row.insuranceAddress,
+      payerID: row.payerID,
+      phoneNumber: row.phoneNumber,
+      billingType: row.billingType
+    };
+
+  try {
+    // Check if the insurance exists in the database by payerID
+    const existingInsurance = await UploadInsurances.findOne({ payerID: row.payerID });
+    if (existingInsurance) {
+      // If insurance exists, update the record and set the updatedDate
+      insurancesData.updatedAt = new Date();
+      await UploadInsurances.updateOne({ npi: row.NPI }, insurancesData);
+      updateCount.count++;
+    } else {
+      // If insurance doesn't exist, insert a new record with createdDate
+      insurancesData.createdAt = new Date();
+      const newInsurance = new UploadInsurances(insurancesData);
+      await newInsurance.save();
+      insertCount.count++;
+    }
+  } catch (err) {
+    console.error(`Failed to update/insert record with Payer ID ${row["payerID"]}:`, err);
+    errorsList.push({
+      row,
+      error: err
+    });
+  }
+});
+
+// Wait for all operations in this batch to complete
+await Promise.all(operations);
+
+return errorsList;
+}
+
+const getUploadInsuranceList = async (req, res) => {
+  try {
+    const { query, fields, order, offset, limit } = req.body;
+    let insuranceList = await UploadInsurances.find(query, fields).sort(order).skip(offset).limit(limit).lean();
+    let totalCount = await UploadInsurances.find(query).count()
+    commonHelper.sendResponse(res, 'success', { insuranceList, totalCount }, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const deleteInsurance = async (req, res) => {
+  try {
+    const { _id } = req.body
+    await UploadInsurances.findOneAndUpdate({ _id: _id }, { status: 'Delete' });
+    commonHelper.sendResponse(res, 'success', null, userMessage.insuranceDelete);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
 
 module.exports = {
   invite,
@@ -707,5 +985,12 @@ module.exports = {
   cometChatLog,
   resendInvite,
   revokeInvite,
-  uploadProviders
+  uploadProviders,
+  saveUploadedProviderData,
+  getProviderList,
+  deleteProvider,
+  uploadInsurances,
+  saveUploadedInsurancesData,
+  getUploadInsuranceList,
+  deleteInsurance
 };

@@ -24,6 +24,8 @@ const messages = {
         ssnExists:"SSN already exist",
         licenseExists:"License already exist",
         deleteUser: 'Your account is deleted. Please contact system admin or support team.',
+        providerDelete: 'User delete successfully',
+        insuranceDelete: 'Insurance delete successfully'
     },
     infoMessage: {
         updated: 'Updated successfully',
@@ -36,7 +38,7 @@ const messages = {
         linkValid: 'Link is valid',
         passwordChange: "Password has been changed successfully!",
         emailTemplate404: 'Template not found in the system', 
-        csvFileHeaderMissing: "CSV file is missing required headers or contains invalid headers."
+        csvFileHeaderMissing: "All column should be match with sample csv file!"
     },
     commonMessage: {
         created: 'created successfully',

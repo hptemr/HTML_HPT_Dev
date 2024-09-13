@@ -100,6 +100,57 @@ function validateName(name) {
     return errors;
   }
 
+// Validate the presence of all required headers of uploaded insurance file
+ const validateUploadInsuranceFileHeader = (headers) =>{
+    const requiredHeaders = [
+      'insuranceName',
+      'insuranceType',
+      'insuranceAddress',
+      'payerID',
+      'phoneNumber',
+      'billingType'
+    ];
+    const missingHeaders = requiredHeaders.filter((header) => !headers.includes(header));
+    return missingHeaders.length === 0;
+  }
+
+  // Validation uploaded insurance file rows
+  const validateUploadInsuranceFile = (row) =>{
+    const errors = [];
+    // Check required fields
+    if (!row["insuranceName"]) errors.push("Insurance Name is required");
+    if (!row["insuranceType"]) errors.push("Insurance Type is required");
+    if (!row["insuranceAddress"]) errors.push("Insurance Address is required");
+    if (!row["payerID"]) errors.push("Payer ID is required");
+    if (!row["phoneNumber"]) errors.push("Phone Number is required");
+    if (!row["billingType"]) errors.push("Billing Type is required");
+    
+    // Validate phone numbers (numeric and 11 digits)
+    const phoneNumberRegex = /^\d{11}$/;
+    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
+
+    // Max length
+    if (row["payerID"].length > 10) errors.push('Payer ID not more than 10 characters');
+    if (row["insuranceAddress"].length > 250) errors.push('Insurance Address not more than 10 characters');
+
+    // Required Insurance Type
+    const requiredInsuranceType = ['Medicare','Medicaid','Tricare','CHAMPVA','Group Health Plan','Other'];
+    if (!requiredInsuranceType.includes(row["insuranceType"])) errors.push('Please select valid insurance type');
+    const requiredBillingType = ['AMA','CMS'];
+    if (!requiredBillingType.includes(row["billingType"])) errors.push('Please select valid billing type');
+
+    return errors;
+  }
+
+  // Helper function to clean numeric input (trim spaces and remove internal spaces)
+  function cleanNumericInput(input) {
+    if (input) {
+      return input.replace(/\s+/g, '').trim();
+    }
+    return input;
+  }
+
+
 module.exports = {
     userGetByEmail,
     userGetById,
@@ -110,5 +161,8 @@ module.exports = {
     validatePassword,
     validateName,
     validateUploadProviderFileHeader,
-    validateUploadProviderFile
+    validateUploadProviderFile,
+    validateUploadInsuranceFileHeader,
+    validateUploadInsuranceFile,
+    cleanNumericInput
 };

@@ -39,7 +39,7 @@ const addInsurance = async (req, res) => {
 const updateInsurance = async (req, res) => {
     try {
         const { query, data } = req.body;
-       
+        console.log('data>>>',data)
         let result = await Insurance.findOneAndUpdate({ _id: query._id }, data);
         if(result){
             commonHelper.sendResponse(res, 'success', null, insuranceMessage.updated);

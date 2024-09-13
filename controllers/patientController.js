@@ -215,6 +215,22 @@ const getPatientList = async (req, res) => {
     }
 }
 
+const searchPatientList = async (req, res) => {
+    try {
+        const { query, fields } = req.body;
+            console.log('query >>>< ',query)
+            console.log('fields >>>< ',fields)
+        const result = await Patient.find(query,fields);
+       // console.log('result >>>< ',result)
+
+        const patientList = result;     
+        commonHelper.sendResponse(res, 'success', { patientList }, '');
+    } catch (error) {
+        console.log("********error*********", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
 function isExtension(ext, extnArray) {
     var result = false;
     var i;
@@ -480,5 +496,6 @@ module.exports = {
     updateProfile,
     changeProfileImage,
     deleteProfileImage,
-    changePassword
+    changePassword,
+    searchPatientList
 };

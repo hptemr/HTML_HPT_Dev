@@ -4,7 +4,8 @@ const appointmentSchema = new mongoose.Schema({
     status: { type: String, enum: ['Pending', 'Active', 'Rescheduled', 'Accepted', 'Declined', 'Approved', 'Cancelled', 'Completed',], default: 'Pending' },
     requestId: {
         type: mongoose.Schema.ObjectId,
-        ref: "appointment_requests"
+        ref: "appointment_requests",
+        required: false
     },
     patientId: {
         type: mongoose.Schema.ObjectId,
@@ -15,6 +16,7 @@ const appointmentSchema = new mongoose.Schema({
         ref: "users"
     },
     appointmentId: Number,
+    doctorId: { type: String, default: "" },
     appointmentType: { type: String, default: "" },
     appointmentTypeOther: { type: String, default: "" },
     caseName: { type: String, default: "" },
@@ -43,9 +45,12 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         type: {} //all the info will save in this object, if patient select payVia insurance only.
     },
-
+    adminPayViaInsuranceInfo: {
+        type: Object,
+        type: {} //all the info will save in this object, if patient select payVia insurance only.
+    },
     emergencyContact: { type: Array, default: [] },
-
+    adminEmergencyContact: { type: Array, default: [] },
     reminderViaMobile: {
         type: String,
         enum: ['Yes', 'No'],
@@ -76,6 +81,10 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    adminPatientMedicalHistory: {
+        type: Object,
+        default: {}
+    },
     bodyPartFront: {
         type: Object,
         default: {}
@@ -84,6 +93,7 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    appointmentUpdateInfo: { type: Array, default: [] },//keys will be ==> "fromPatientId , fromAdminId, updatedAt, userRole"
     intakeFormSubmit: { type: Boolean, default: false }, 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
