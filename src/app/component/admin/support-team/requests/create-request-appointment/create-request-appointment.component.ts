@@ -84,7 +84,7 @@ export class CreateRequestAppointmentComponent {
           requestId:this.requestId,
           userId: this.userId,
           data: formData,
-          signup:'Existing'
+          patientType:'Existing'
         }
         this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'appointment/createAppointment',reqVars).subscribe(async response => { 
