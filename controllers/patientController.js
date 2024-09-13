@@ -484,8 +484,20 @@ changeProfileImage = async (req, res) => {
       console.log("changePassword error>>>>", error)
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
-  };
+  }
 
+  const getPatientSignupToken = async (req, res) => {
+    try {
+        const { query } = req.body;
+        let alreadyPatient = ''; let alreadyAdmin = '';
+        alreadyPatient = await Patient.findOne(query);
+        let validations = { 'email': userMessage.patientEmailExist }
+        commonHelper.sendResponse(res, 'errorValidation', validations, 'Please check the validation field.');
+    } catch (error) {
+      console.log("changePassword error>>>>", error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
 module.exports = {
     signup,
     getPatientList,
@@ -497,5 +509,6 @@ module.exports = {
     changeProfileImage,
     deleteProfileImage,
     changePassword,
-    searchPatientList
+    searchPatientList,
+    getPatientSignupToken
 };

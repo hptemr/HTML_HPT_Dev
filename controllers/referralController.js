@@ -262,10 +262,12 @@ const deleteAppointment = async (req, res) => {
 const getPatientThroughSignUpToken = async (req, res) => {
   try {
     const { signUpToken } = req.body
+    console.log('signUpToken>>>',signUpToken)
     let decryptTokenData = commonHelper.decryptData(signUpToken, process.env.CRYPTO_SECRET)
     let patientId= decryptTokenData? decryptTokenData.patientId:''
     // let patientData = await PatientTemp.findOne({ _id: patientId });
     let patientData = await Patient.findOne({ _id: patientId });
+    console.log(patientId,' ##>>>',patientData)
     commonHelper.sendResponse(res, 'success', patientData, '');
   } catch (error) {
     console.log("*************getPatientThroughSignUpToken**error*****", error)
