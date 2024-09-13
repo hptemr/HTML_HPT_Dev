@@ -247,7 +247,7 @@ export class UploadInsurancesComponent {
   }
 
   saveUploadedData(){
-    let uploadAlertMessage = "Are you sure want to processs all records?"
+    let uploadAlertMessage = "Are you sure you want to processs all records?"
     if(this.errorRecordFound>0){
       uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure want to process ${this.dataWithoutError.length} records?`
     }

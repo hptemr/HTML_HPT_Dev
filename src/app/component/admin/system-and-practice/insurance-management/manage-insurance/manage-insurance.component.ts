@@ -197,7 +197,7 @@ export class ManageInsuranceComponent {
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: `Are you sure you want to delete insurance ${insurance.insuranceName} with Payer ID: ${insurance.payerID}?`
+        warningNote: `Are you sure you want to delete ${insurance.insuranceName} with Payer ID: ${insurance.payerID}?`
       }
     });
 
