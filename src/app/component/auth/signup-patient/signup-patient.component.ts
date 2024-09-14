@@ -52,6 +52,7 @@ export class SignupPatientComponent implements OnInit {
   isRequired: boolean = false;
   emailError = false;
   invalidEmailErrorMessage: string = '';
+  readonlyFlag: boolean = false;
 
   firstFormGroupData: any
   secondFormGroupData: any
@@ -99,8 +100,8 @@ export class SignupPatientComponent implements OnInit {
   }
   
   ngOnInit() {
-    console.log('>>>',this.tokenId)
      this.userId = localStorage.getItem("userId");
+
      this.documents_type_list = documents_list;
      this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
     if(localStorage.getItem("firstFormGroupData")){
@@ -611,16 +612,29 @@ export class SignupPatientComponent implements OnInit {
   }
 
   getPatientDetailsSignupToken(){
-    if(this.signUpToken){
-      let bodyData = {signUpToken: this.signUpToken}
-      this.authService.apiRequest('post', 'patients/getPatientSignupToken', bodyData).subscribe(async response => {
-        if(response && !response.error){
-          this.patientGetByToken = response.data
-          if(!localStorage.getItem("firstFormGroupData")){
-            this.firstFormGroup.controls['firstName'].setValue((this.patientGetByToken && this.patientGetByToken.firstName)? this.patientGetByToken.firstName : '');
-            this.firstFormGroup.controls['lastName'].setValue((this.patientGetByToken && this.patientGetByToken.lastName)? this.patientGetByToken.lastName : '');
-            this.firstFormGroup.controls['email'].setValue((this.patientGetByToken && this.patientGetByToken.email)? this.patientGetByToken.email : '');
-          }
+    if(this.tokenId){
+        let reqVars = {
+          query: {signupToken:this.tokenId},
+          fields: { firstName: 1, lastName: 1, email: 1, status: 1, _id:1 },     
+        }
+      
+      this.authService.apiRequest('post', 'patients/getPatientSignupToken', reqVars).subscribe(async response => {
+        if(response && response.error){
+          this.commonService.openSnackBar(response.message, "ERROR")
+          this.router.navigate(['/signup']);
+        }else if(response.data){
+          localStorage.setItem("userId", response.data._id);
+          this.userId = response.data._id;
+          this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
+          this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
+          this.firstFormGroup.controls['email'].setValue(response.data.email);
+
+          //this.firstFormGroup.controls['firstName'].disable();
+         // this.firstFormGroup.controls['lastName'].disable();
+          //this.firstFormGroup.controls['email'].disable();
+
+          this.readonlyFlag = true
+
         }
       }, (err) => {
         console.error(err)
