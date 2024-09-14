@@ -100,23 +100,6 @@ const getAppointmentRequestDetails = async (req, res) => {
     }
 }
 
-const createAppointmentTest = async (req, res) => {
-    try {
-        const { data,userId,requestId,patientType } = req.body;
-    if(patientType=='New'){
-        alreadyPatient = await Patient.findOne({email:data.email,status: { $ne: 'Deleted' }});
-        if (alreadyPatient) {
-            let validations = { 'email': appointmentMessage.patientEmailExist }
-            commonHelper.sendResponse(res, 'errorValidation', validations, 'Please check the validation field.');
-        }else{
-           
-         }
-    }
-    } catch (error) {
-        console.log("********Appointment Request Details***error***", error)
-        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
-    }
-}
 
 const createAppointment = async (req, res) => {
     try {

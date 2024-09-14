@@ -488,11 +488,16 @@ changeProfileImage = async (req, res) => {
 
   const getPatientSignupToken = async (req, res) => {
     try {
-        const { query } = req.body;
-        let alreadyPatient = ''; let alreadyAdmin = '';
-        alreadyPatient = await Patient.findOne(query);
-        let validations = { 'email': userMessage.patientEmailExist }
-        commonHelper.sendResponse(res, 'errorValidation', validations, 'Please check the validation field.');
+        const { query,fields } = req.body;
+
+        let patientData = ''; 
+        patientData = await Patient.findOne(query,fields);
+        if(patientData){
+            commonHelper.sendResponse(res, 'success', patientData, '');   
+        }else{
+            commonHelper.sendResponse(res, 'error', null, infoMessage.linkExpired);
+        }
+
     } catch (error) {
       console.log("changePassword error>>>>", error)
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
