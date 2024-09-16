@@ -102,13 +102,13 @@ export class UploadInsurancesComponent {
 
   selectedFile: File | null = null;
   isFileError: boolean = false;
-  // maxFileSize: number = 15 * 1024 * 1024; // 15 MB in bytes
-  maxFileSize: number = 4024; //3 MB for test
+  maxFileSize: number = 15 * 1024 * 1024; // 15 MB in bytes
   fileError: string | null = null;
   fileName: string | null = null;
   totalRecordFound : number = 0
   errorRecordFound : number = 0
   dataWithoutError : any =[]
+  allRecordFoundError : boolean = false
 
   // After save
   insertRecordCount : number = 0
@@ -185,6 +185,7 @@ export class UploadInsurancesComponent {
     this.commonService.showLoader()
     this.totalRecordFound = 0
     this.errorRecordFound = 0
+    this.allRecordFoundError = false
     const formData: FormData = new FormData();
     formData.append('file', file);
 
@@ -192,6 +193,9 @@ export class UploadInsurancesComponent {
       if (res && !res.error) {
         this.totalRecordFound = res.data.totalRecordCount
         this.errorRecordFound = res.data.errorRecordCount
+        if(res.data.totalRecordCount>0 && res.data.errorRecordCount>0 && res.data.totalRecordCount==res.data.errorRecordCount){
+          this.allRecordFoundError = true
+        }
         this.dataSource = new MatTableDataSource<InsuranceList>(res.data.totalRecord)
         this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
@@ -215,7 +219,7 @@ export class UploadInsurancesComponent {
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: 'Are you sure want to cancel the upload? No records will be updated.'
+        warningNote: 'Are you sure you want to cancel the upload? No records will be updated.'
       }
     });
 
@@ -241,6 +245,7 @@ export class UploadInsurancesComponent {
     this.dataSource = new MatTableDataSource<InsuranceList>([])
     this.dataWithoutError =[]
     this.isSaveUploadedData = false
+    this.showTable = false
     // Pagignation
     this.totalCount = 0
 
@@ -249,7 +254,7 @@ export class UploadInsurancesComponent {
   saveUploadedData(){
     let uploadAlertMessage = "Are you sure you want to processs all records?"
     if(this.errorRecordFound>0){
-      uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure want to process ${this.dataWithoutError.length} records?`
+      uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure you want to process ${this.dataWithoutError.length} records?`
     }
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
