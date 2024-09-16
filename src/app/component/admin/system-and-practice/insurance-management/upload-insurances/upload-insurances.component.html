@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="col-12 d-flex justify-content-center my-3">
-                    <button mat-raised-button color="primary" class="intake-btn" [disabled]="!selectedFile || allRecordFoundError" (click)="saveUploadedData()">
+                    <button mat-raised-button color="primary" class="intake-btn" [disabled]="!selectedFile || allRecordFoundError || totalRecordFound==0" (click)="saveUploadedData()">
                         Save Uploaded Data
                     </button>
                 </div>
