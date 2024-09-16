@@ -69,7 +69,8 @@ export class PlanComponent {
       planEndDate: ['',Validators.required],
     })
     var params = {
-      appointmentId:this.appointmentId
+      appointmentId:this.appointmentId,
+      soapNoteType:'initial_examination'
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
       if(response.data && response.data.appointmentId){
@@ -142,11 +143,13 @@ export class PlanComponent {
     if(this.actionType=='create'){
       this.authService.apiRequest('post', 'soapNote/createPlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
+        this.commonService.openSnackBar("Created Successfully", "SUCCESS")
         window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
+        this.commonService.openSnackBar("Updated Successfully", "SUCCESS")
         window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
       })
     }
