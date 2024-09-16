@@ -6,7 +6,7 @@ const subjectiveSchema = new mongoose.Schema({
         ref: "appointments"
       },
     note_date:  { type: Date },
-    note_type: { type: String, default: "" },//['initial examination','daily note','progress note','discharge note','case note']
+    soap_note_type: { type: String, default: "" },//['initial examination','daily note','progress note','discharge note','case note']
     diagnosis_code: [{
         code: String,
         name: String
@@ -18,6 +18,7 @@ const subjectiveSchema = new mongoose.Schema({
     surgery_date:  { type: Date },
     surgery_type: { type: String },
     subjective_note: { type: String },
+    updateInfo: { type: Array, default: [] },//keys will be ==> "fromAdminId, updatedAt, userRole"
     status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
     createdBy: {
         type: mongoose.Schema.ObjectId,

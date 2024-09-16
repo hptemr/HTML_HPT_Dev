@@ -2,6 +2,7 @@ const { commonMessage, appointmentMessage, infoMessage } = require('../helpers/m
 const commonHelper = require('../helpers/common');
 const PlanTemp = require('../models/planModel');
 const BillingTemp = require('../models/billingModel');
+const subjectiveTemp = require('../models/subjectiveModel');
 const Appointment = require('../models/appointmentModel');
 require('dotenv').config();
 let ObjectId = require('mongoose').Types.ObjectId;
@@ -157,6 +158,40 @@ const finalizeNote = async (req, res) => {
   }
 }
 
+const submitSubjective = async (req, res) => {
+  try {
+    const { data,userId,subjectiveId } = req.body;
+    if(subjectiveId){
+      let optionsUpdatePlan = { returnOriginal: false };
+      await subjectiveTemp.findOneAndUpdate({ _id: subjectiveId }, data, optionsUpdatePlan);
+    }else{
+      await subjectiveTemp.create(data)
+    }
+
+    commonHelper.sendResponse(res, 'success',{},'');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const getSubjectiveData = async (req, res) => {
+  try {
+      const { query } = req.body;
+      console.log('### query>>>>',query)
+      let subjectiveData = await subjectiveTemp.findOne(query);
+      //let appointmentDatesList = await Appointment.findOne({_id:req.body.appointmentId}, { caseType: 1,caseName:1,status:1 })
+      let appointmentDatesList = appointmentsList();
+      let returnData = {subjectiveData:subjectiveData,appointmentDatesList:appointmentDatesList}
+
+      commonHelper.sendResponse(res, 'success',returnData);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+function appointmentsList(){
+  return ["01/09/2024","13/05/2024","08/08/2024"];
+}
 
 module.exports = {
     createPlanNote,
@@ -165,5 +200,7 @@ module.exports = {
     createBillingNote,
     getBillingNote,
     updateBillingNote,
-    finalizeNote
+    finalizeNote,
+    submitSubjective,
+    getSubjectiveData
 };

@@ -92,7 +92,7 @@ const patientSignup = async (templateName, userData) => {
                     "{link}": userData.link
                     }
                 }
-  console.log('userData>>>',userData)
+
                 var mailOptions = {
                     to: [userData.email],
                     subject: template.mail_subject,

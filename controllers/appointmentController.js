@@ -134,7 +134,7 @@ const createAppointment = async (req, res) => {
             if(proceed){           
                 let existingAppointmentData = alreadyFound;
                 let appointmentId = 1;
-                if(!existingAppointmentData){
+                if(existingAppointmentData.length==0){
                     existingAppointmentData = await Appointment.findOne({}, { _id:1,appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
                     appointmentId = existingAppointmentData.appointmentId + 1;
                 }else if(alreadyFound && alreadyFound.appointmentId){
