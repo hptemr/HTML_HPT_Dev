@@ -86,10 +86,12 @@ export class CreateAppointmentComponent {
       this.caseNameFlag = false;
       this.caseNameOtherFlag = true;
       this.appointmentForm.controls['caseName'].setValidators([]);
+      this.appointmentForm.controls['caseNameOther'].setValidators([Validators.required]);
     }else{
       this.caseNameFlag = true;
       this.caseNameOtherFlag = false;
       this.appointmentForm.controls['caseName'].setValidators([Validators.required]);
+      this.appointmentForm.controls['caseNameOther'].setValidators([]);
     }
   }
 
@@ -98,7 +100,6 @@ export class CreateAppointmentComponent {
   }
 
   async createAppointment(formData:any){
-    console.log('formData>>>',formData)
     if (this.appointmentForm.valid) {
         //this.clickOnRequestAppointment = true
         this.commonService.showLoader();
@@ -108,7 +109,7 @@ export class CreateAppointmentComponent {
         }
   
         delete formData.seachByPname;
-      console.log('#####formData>>>',formData)
+
         let reqVars = {
           requestId:'',
           userId: this.userId,
@@ -194,12 +195,14 @@ export class CreateAppointmentComponent {
   }
 
   selectPatient(id: string): any {
+    
     if(this.patientList.length>0) {
       let selected = this.patientList.find(item => typeof item === 'object' && item.id === id) || null;
       if(selected) {
         this.appointmentForm.controls['firstName'].setValue(selected.firstName);
         this.appointmentForm.controls['lastName'].setValue(selected.lastName);
         this.appointmentForm.controls['email'].setValue(selected.patientEmail);
+        this.appointmentForm.controls['caseNameOther'].setValidators([]);
 
         this.appointmentForm.controls['firstName'].disable()
         this.appointmentForm.controls['lastName'].disable()
@@ -209,6 +212,8 @@ export class CreateAppointmentComponent {
         this.appointmentForm.controls['caseType'].reset();
         this.appointmentForm.controls['caseName'].reset('');
         this.appointmentForm.controls['caseNameOther'].reset('');
+        
+
         this.getCaseList(id)
       }    
     }
@@ -254,7 +259,7 @@ export class CreateAppointmentComponent {
       if(selected && selected.caseType){
         this.appointmentForm.controls['caseType'].setValue(selected.caseType);
       }      
-    }   
+    }       
    }
 
    onPhoneInputChange(event: Event): void {

@@ -63,7 +63,7 @@
                                 <div class="col-12 {{isTherapist?'col-lg-6':''}}">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="text" placeholder="Email " formControlName="email"/>
+                                        <input class="form-control form-control-md text-lowercase" type="text" placeholder="Email " formControlName="email"/>
                                       </div>
                                 </div>
 
@@ -110,7 +110,17 @@
                                     </div>
                                 </div>
                                  
-                                <div class="col-12 my-2 d-flex justify-content-end">
+                                <div class="col-12 my-2 d-flex align-items: center justify-content-between mt-3 ">
+                                    <div class="d-flex align-items-center">
+                                        <div class="signature--box d-flex align-items-center justify-content-center">
+                                            prashantthorat
+                                        </div> 
+                                        <button  mat-raised-button color="primary"
+                                            class="flex-shrink-0 ms-3">
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
+                                            Update Signature
+                                        </button>
+                                    </div>
                                     <button mat-raised-button color="primary" (click)="updateProfile()" [disabled]="!updateProfileForm.valid">Save</button>
                                 </div>
                             </form>

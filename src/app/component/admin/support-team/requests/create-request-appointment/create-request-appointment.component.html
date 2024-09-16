@@ -70,7 +70,7 @@
                                 <select class="form-select form-control me-3" aria-label="Default select example" #mySelect formControlName="caseName" (change)='onCaseSelected(mySelect.value)'>
                                     <option value="" selected>Select</option>
                                     <option *ngFor="let case of casenameList" [value]="case.caseName">{{ case.caseName }}</option>
-                                    <option value="Other">Other</option>
+                                    <option value="Other">Create a new case</option>
                                 </select>
                                 <input class="form-control mt-3" type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
                             </div>

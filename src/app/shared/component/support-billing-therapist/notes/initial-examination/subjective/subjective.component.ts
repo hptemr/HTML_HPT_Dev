@@ -45,6 +45,7 @@ export class SubjectiveComponent implements OnInit {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
+    console.log('userId>>>',this.userId,'....userRole>>>',this.userRole)
     //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
     //const getAppointment = this.appointmentService.getAppointment(this.appointmentId)
     //console.log('getAppointment >>>',getAppointment)

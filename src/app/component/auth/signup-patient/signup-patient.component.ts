@@ -283,6 +283,7 @@ export class SignupPatientComponent implements OnInit {
 
   async signupSubmit(steps:any, data:any) {
       var query = {};
+      data.signupToken = this.tokenId
       const req_vars = {
         query: Object.assign({ _id: this.userId }, query),
         step:steps,
@@ -616,23 +617,21 @@ export class SignupPatientComponent implements OnInit {
         let reqVars = {
           query: {signupToken:this.tokenId},
           fields: { firstName: 1, lastName: 1, email: 1, status: 1, _id:1 },     
-        }
-      
+        }      
       this.authService.apiRequest('post', 'patients/getPatientSignupToken', reqVars).subscribe(async response => {
         if(response && response.error){
           this.commonService.openSnackBar(response.message, "ERROR")
+          localStorage.setItem("firstFormGroupData",'');
+          localStorage.setItem("secondFormGroupData",'');
+           localStorage.setItem('thiredFormGroupData','');
+          localStorage.setItem("userId",'');
           this.router.navigate(['/signup']);
         }else if(response.data){
-          localStorage.setItem("userId", response.data._id);
-          this.userId = response.data._id;
+          // localStorage.setItem("userId", response.data._id);
+          // this.userId = response.data._id;
           this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
           this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
           this.firstFormGroup.controls['email'].setValue(response.data.email);
-
-          //this.firstFormGroup.controls['firstName'].disable();
-         // this.firstFormGroup.controls['lastName'].disable();
-          //this.firstFormGroup.controls['email'].disable();
-
           this.readonlyFlag = true
 
         }
