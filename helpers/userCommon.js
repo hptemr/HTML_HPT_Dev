@@ -65,7 +65,7 @@ function validateName(name) {
   }
 
   // Validation uploaded provider file rows
-  const validateUploadProviderFile = (row) =>{
+  const validateUploadProviderFile = (row, npiSet) =>{
     const errors = [];
     // Check required fields
     if (!row["Name"]) errors.push("Doctor Name is required");
@@ -97,6 +97,13 @@ function validateName(name) {
     if (row["Credentials"].length > 10) errors.push('Doctor Credentials not more than 10 characters');
     if (row["Address"].length > 500) errors.push('Address not more than 10 characters');
 
+    // Check for duplicate NPI in the file
+    if (npiSet.has(row["NPI"])) {
+      errors.push(`Duplicate NPI found: ${row["NPI"]}`);
+    } else {
+      npiSet.add(row["NPI"]); // Add NPI to the set if it's unique
+    }
+
     return errors;
   }
 
@@ -115,7 +122,7 @@ function validateName(name) {
   }
 
   // Validation uploaded insurance file rows
-  const validateUploadInsuranceFile = (row) =>{
+  const validateUploadInsuranceFile = (row, payerIDSet) =>{
     const errors = [];
     // Check required fields
     if (!row["insuranceName"]) errors.push("Insurance Name is required");
@@ -138,6 +145,13 @@ function validateName(name) {
     if (!requiredInsuranceType.includes(row["insuranceType"])) errors.push('Please select valid insurance type');
     const requiredBillingType = ['AMA','CMS'];
     if (!requiredBillingType.includes(row["billingType"])) errors.push('Please select valid billing type');
+
+    // Check for duplicate Payer Id in the file
+    if (payerIDSet.has(row["payerID"])) {
+      errors.push(`Duplicate Payer ID found: ${row["payerID"]}`);
+    } else {
+      payerIDSet.add(row["payerID"]); // Add Payer Id to the set if it's unique
+    }
 
     return errors;
   }

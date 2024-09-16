@@ -637,6 +637,7 @@ const uploadProviders = async (req, res) => {
       let headersValidated = false;
       let validHeaders = true;
       let rowNumber = 1;  // Start row number from 1
+      const npiSet = new Set();  // To track duplicate NPIs
 
       fs.createReadStream(filePath)
         .pipe(csv())
@@ -658,7 +659,8 @@ const uploadProviders = async (req, res) => {
             row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
             row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
 
-            const errors = userCommonHelper.validateUploadProviderFile(row);
+            // const errors = userCommonHelper.validateUploadProviderFile(row);
+            const errors = userCommonHelper.validateUploadProviderFile(row,npiSet);
             if (errors.length > 0) {
               // errorsList.push({ row, errors });
               errorsList.push({ ...row, errors, rowNumber });
@@ -703,8 +705,8 @@ const uploadProviders = async (req, res) => {
       let updateCount = { count: 0 };
       let insertCount = { count: 0 };
       // Process records in batches of 100
-      // const batchSize = 100;
-      const batchSize = 2;
+      const batchSize = 100;
+      // const batchSize = 2;
       for (let i = 0; i < records.length; i += batchSize) {
         const batch = records.slice(i, i + batchSize);
         console.log("batch>>>",batch)
@@ -805,6 +807,7 @@ const uploadInsurances = async (req, res) => {
     let headersValidated = false;
     let validHeaders = true;
     let rowNumber = 1;  // Start row number from 1
+    const payerIDSet = new Set();  // To track duplicate Payer Ids
 
     fs.createReadStream(filePath)
       .pipe(csv())
@@ -822,7 +825,7 @@ const uploadInsurances = async (req, res) => {
         if (headersValidated && validHeaders) {
           console.log("row>>>>>>>",row)
           rowNumber++;
-          const errors = userCommonHelper.validateUploadInsuranceFile(row);
+          const errors = userCommonHelper.validateUploadInsuranceFile(row,payerIDSet);
           console.log("errors>>>>>",errors)
           if (errors.length > 0) {
             // errorsList.push({ row, errors });
@@ -869,8 +872,8 @@ const saveUploadedInsurancesData = async (req, res) => {
     let updateCount = { count: 0 };
     let insertCount = { count: 0 };
     // Process records in batches of 100
-    // const batchSize = 100;
-    const batchSize = 2;
+    const batchSize = 100;
+    // const batchSize = 2;
     for (let i = 0; i < records.length; i += batchSize) {
       const batch = records.slice(i, i + batchSize);
       console.log("batch>>>",batch)
@@ -916,7 +919,7 @@ async function processUplaodInsurancesBatch(batch, updateCount, insertCount) {
     if (existingInsurance) {
       // If insurance exists, update the record and set the updatedDate
       insurancesData.updatedAt = new Date();
-      await UploadInsurances.updateOne({ npi: row.NPI }, insurancesData);
+      await UploadInsurances.updateOne({ payerID: row.payerID }, insurancesData);
       updateCount.count++;
     } else {
       // If insurance doesn't exist, insert a new record with createdDate
