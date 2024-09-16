@@ -25,6 +25,7 @@ const patientTempSchema = new mongoose.Schema({
   document_temp_name:{ type: String },
   document_size:{ type: String },
   acceptConsent:{ type: Boolean, default: false },
+  signupToken:{ type: String },
   status: { type: String, enum: ['Pending','Active'], default: 'Pending'},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

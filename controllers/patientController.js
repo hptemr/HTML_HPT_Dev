@@ -19,22 +19,27 @@ var constants = require('./../config/constants')
 const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const s3Details = constants.s3Details;
 
+
 const signup = async (req, res) => {
     try {
         const { query, step, data, patientIdRegisterByRefferal } = req.body;
         let alreadyPatient = ''; let alreadyAdmin = '';
-        if (data.email && !patientIdRegisterByRefferal) {
-            alreadyPatient = await Patient.findOne({ email: data.email });
+        const pendingPatient = await Patient.findOne({ email: data.email,status:"Pending",signupToken: {$ne: null} });
+        if (data.email && !pendingPatient) {
+            alreadyPatient = await Patient.findOne({ email: data.email,status:"Active" });
         }
+    
         // if(data.email){
         //     alreadyAdmin = await User.findOne({ email: data.email });
         // }
         let found = [];
         // This conditon for patient register through refferal appointment
-        if(data.patientEmailGetByToken && step==1){
-            found = await PatientTemp.findOne({ email: data.patientEmailGetByToken });
-        }
-        else if (query._id) {
+        // if(data.patientEmailGetByToken && step==1){
+        //     found = await PatientTemp.findOne({ email: data.patientEmailGetByToken });
+        // }
+        // else 
+        
+        if (query._id) {
             found = await PatientTemp.findOne({ _id: query._id });
         } else {
             found = await PatientTemp.findOne({ email: data.email });
@@ -77,22 +82,28 @@ const signup = async (req, res) => {
                         document_temp_name: found.document_temp_name,
                         document_size: found.document_size,
                         acceptConsent: found.acceptConsent ? found.acceptConsent : data.acceptConsent,
+                        signupToken:'',
                         status: 'Active'
                     }
-
-                    if(patientIdRegisterByRefferal){
+                    const pendingPatientTemp = await Patient.findOne({ signupToken: found.signupToken,status:"Pending" });
+            
+                    if(pendingPatientTemp){
                         // Patient Register through referral
-                        const filterPatient = { _id: new ObjectId(patientIdRegisterByRefferal) };
+                        // const filterPatient = { _id: new ObjectId(patientIdRegisterByRefferal) };
+                        // const updatePatient = { $set: request_data };
+                        // let optionsUpdatePatient = { returnOriginal: false };
+                        // result = await Patient.findOneAndUpdate(filterPatient, updatePatient, optionsUpdatePatient);
+                        const filterPatient = { _id: pendingPatientTemp._id };
                         const updatePatient = { $set: request_data };
                         let optionsUpdatePatient = { returnOriginal: false };
                         result = await Patient.findOneAndUpdate(filterPatient, updatePatient, optionsUpdatePatient);
                     }else{
-                        // Normal patient register
+                       // Normal patient register
                         let newPatient = new Patient(request_data);
                         result = await newPatient.save();
                     }
 
-                    if (result._id) {
+                    if (result && result._id) {
                         result_id = result._id;
                         const token = jwt.sign({ _id: result_id }, process.env.SECRET, { expiresIn: '1d' });
                         userData = {
@@ -489,13 +500,12 @@ changeProfileImage = async (req, res) => {
   const getPatientSignupToken = async (req, res) => {
     try {
         const { query,fields } = req.body;
-
-        let patientData = ''; 
-        patientData = await Patient.findOne(query,fields);
+        //let patientData = ''; 
+        const patientData = await Patient.findOne(query,fields);
         if(patientData){
             commonHelper.sendResponse(res, 'success', patientData, '');   
         }else{
-            commonHelper.sendResponse(res, 'error', null, infoMessage.linkExpired);
+            commonHelper.sendResponse(res, 'errorValidation', null, infoMessage.linkExpired);
         }
 
     } catch (error) {

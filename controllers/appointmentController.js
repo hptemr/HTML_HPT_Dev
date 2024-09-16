@@ -12,6 +12,7 @@ const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 let ObjectId = require('mongoose').Types.ObjectId;
 const s3Details = constants.s3Details;
+const crypto = require('crypto');
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -471,12 +472,12 @@ async function patientAppointmentSignupEmail(patientData) {
 
         let newPatient = new Patient(request_data);
         const patient_result = await newPatient.save();
-
-        let tokenObj = {
-            tokenExpiry: Date.now() + (120 * 60 * 1000),
-            userId: patient_result._id
-        }
-        let encryptToken = commonHelper.encryptData(tokenObj, process.env.CRYPTO_SECRET)
+        // let tokenObj = {
+        //     tokenExpiry: Date.now() + (120 * 60 * 1000),
+        //     userId: patient_result._id
+        // }
+        // let encryptToken = commonHelper.encryptData(tokenObj, process.env.CRYPTO_SECRET)
+        let encryptToken = crypto.randomBytes(50).toString('hex');
         const updateDoc = {
             $set: {
                 signupToken: encryptToken
@@ -498,12 +499,11 @@ async function patientAppointmentSignupEmail(patientData) {
         };
         await Appointment.findOneAndUpdate({_id:patientData.appId},appRequest); 
 
-        const link = `${process.env.BASE_URL}/signup/${encryptToken}`;
+        const link = `${process.env.BASE_URL}/signup/${encryptToken}/`;
         patientData.link = link;
         patientData.appointmentSignup = 'yes';
         triggerEmail.patientSignup('patientAppointmentSignup', patientData);
- 
-        console.log('data>>>', data,'link>>>>',link)
+
         return true;
     } catch (error) {
         console.log('query error >>>', error)
