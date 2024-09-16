@@ -1,4 +1,4 @@
 insuranceName,insuranceType,insuranceAddress,payerID,phoneNumber,billingType
 Health insurance,Medicare,"1234 Elm St, Springfield, IL 62704",MNS,98765432101,AMA
 Aviva India,Medicare,"5678 Oak St, Centerville, OH 45459",XYZ,87654321098,AMA
-Aviva India,Other,"9101 Pine St, Anytown, CA 90210",MNS,76543210987,AMA
+Aviva India,Other,"9101 Pine St, Anytown, CA 90210",ABC,76543210987,AMA
