@@ -226,10 +226,18 @@ export class ManageInsuranceComponent {
 
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) { 
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+    let order = 1
+    if (sortState.direction == 'desc') {
+      order = -1
+    } 
+
+    this.orderBy = { [sortState.active]:order }
+    this.InsuranceList()
+
+    // if (sortState.direction) {
+    //   this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    // } else {
+    //   this._liveAnnouncer.announce('Sorting cleared');
+    // }
   }
 }

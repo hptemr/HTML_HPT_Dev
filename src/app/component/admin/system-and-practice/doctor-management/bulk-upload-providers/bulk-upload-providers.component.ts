@@ -162,6 +162,7 @@ export class BulkUploadProvidersComponent {
   totalRecordFound : number = 0
   errorRecordFound : number = 0
   dataWithoutError : any =[]
+  allRecordFoundError : boolean = false
 
   // After save
   insertRecordCount : number = 0
@@ -249,6 +250,7 @@ export class BulkUploadProvidersComponent {
     this.totalRecordFound = 0
     this.errorRecordFound = 0
     this.showTable = false
+    this.allRecordFoundError = false
     const formData: FormData = new FormData();
     formData.append('file', file);
 
@@ -256,6 +258,9 @@ export class BulkUploadProvidersComponent {
       if (res && !res.error) {
         this.totalRecordFound = res.data.totalRecordCount
         this.errorRecordFound = res.data.errorRecordCount
+        if(res.data.totalRecordCount>0 && res.data.errorRecordCount>0 && res.data.totalRecordCount==res.data.errorRecordCount){
+          this.allRecordFoundError = true
+        }
         this.dataSource = new MatTableDataSource<ProviderList>(res.data.totalRecord)
         this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
@@ -278,7 +283,7 @@ export class BulkUploadProvidersComponent {
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: 'Are you sure want to cancel the upload? No records will be updated.'
+        warningNote: 'Are you sure you want to cancel the upload? No records will be updated.'
       }
     });
 
@@ -304,6 +309,7 @@ export class BulkUploadProvidersComponent {
     this.dataSource = new MatTableDataSource<ProviderList>([])
     this.dataWithoutError =[]
     this.isSaveUploadedData = false
+    this.showTable = false
     // Pagignation
     this.totalCount = 0
 
@@ -312,7 +318,7 @@ export class BulkUploadProvidersComponent {
   saveUploadedData(){
     let uploadAlertMessage = "Are you sure you want to processs all records?"
     if(this.errorRecordFound>0){
-      uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure want to process ${this.dataWithoutError.length} records?`
+      uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure you want to process ${this.dataWithoutError.length} records?`
     }
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
