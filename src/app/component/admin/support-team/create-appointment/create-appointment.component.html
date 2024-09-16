@@ -51,7 +51,7 @@
                             <select class="form-select form-control me-3" formControlName="caseName" *ngIf="caseNameFlag" aria-label="Default select example" #mySelect (change)='onCaseSelected(mySelect.value)'>
                                 <option value="" selected>Select</option>
                                 <option *ngFor="let case of casenameList" [value]="case.caseName">{{ case.caseName }}</option>
-                                <option value="Other">Other</option>
+                                <option value="Other">Create a new case</option>
                             </select>
                             <div class="text text-danger mt-1" *ngIf="caseNameFlag && appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
                                 {{ validationMessages.requiredDropdown('Case name') }}
@@ -173,7 +173,7 @@
                         <option value="Evaluation">Evaluation</option>
                         <option value="Follow-up">Follow-up</option>
                         <option value="Aquatic">Aquatic</option>
-                        <option value="Other">Create a new case</option>
+                        <option value="Other">Other</option>
                     </select>
                
                 </div>

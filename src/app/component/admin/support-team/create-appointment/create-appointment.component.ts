@@ -54,7 +54,7 @@ export class CreateAppointmentComponent {
       patientType: ['New', [Validators.required]],
       seachByPname: [''],
       caseName: ['Other', [Validators.required]],
-      caseType: ['', [Validators.required]],
+      caseType: ['PT', [Validators.required]],
       caseNameOther: ['',Validators.required],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -82,7 +82,7 @@ export class CreateAppointmentComponent {
       this.appointmentForm.controls['lastName'].enable();
       
       this.appointmentForm.controls['email'].enable();
-      this.appointmentForm.controls['caseType'].reset();
+      //this.appointmentForm.controls['caseType'].reset();
       this.caseNameFlag = false;
       this.caseNameOtherFlag = true;
       this.appointmentForm.controls['caseName'].setValidators([]);
@@ -101,7 +101,7 @@ export class CreateAppointmentComponent {
 
   async createAppointment(formData:any){
     if (this.appointmentForm.valid) {
-        //this.clickOnRequestAppointment = true
+        this.clickOnRequestAppointment = true
         this.commonService.showLoader();
        
         if(formData.patientType=='Existing'){
@@ -118,7 +118,7 @@ export class CreateAppointmentComponent {
         }
         this.emailError = false; this.invalidEmailErrorMessage = '';   
         this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {
-        this.clickOnRequestAppointment = false;
+    
         this.commonService.hideLoader();
         if (response.error) {
           if (response.message) {
@@ -209,7 +209,7 @@ export class CreateAppointmentComponent {
         this.appointmentForm.controls['email'].disable()
 
         this.patientId = id;
-        this.appointmentForm.controls['caseType'].reset();
+        //this.appointmentForm.controls['caseType'].reset();
         this.appointmentForm.controls['caseName'].reset('');
         this.appointmentForm.controls['caseNameOther'].reset('');
         
@@ -250,7 +250,7 @@ export class CreateAppointmentComponent {
    onCaseSelected(value: any) {
     this.caseNameOtherFlag = false
     this.appointmentForm.controls['caseNameOther'].setValidators([]);
-    this.appointmentForm.controls['caseType'].setValue('');
+    //this.appointmentForm.controls['caseType'].setValue('PT');
     if(value=='Other'){
      this.caseNameOtherFlag = true
      this.appointmentForm.controls['caseNameOther'].setValidators([Validators.required]);
