@@ -2,8 +2,12 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header pb-0">
-                <div class="col-12 d-flex align-items-center justify-content-between">
-                    <h3 class="mb-2 clr--1F2F3E">Cases</h3>
+                <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                    <h3 class="mb-0 clr--1F2F3E">Cases</h3>
+                    <button mat-raised-button color="primary" [routerLink]="['/support-team/create-appointment']" >
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                        Create Appointment  
+                    </button> 
                 </div>
                 <div class="col-12 mt-3">
                     <div class="row">

@@ -1,0 +1,72 @@
+.insurance-upload-wrapper{
+    .upload--files{
+        border-radius: 20px;
+        border: 2px dashed #31B7B7;
+        background: #FFF;
+        padding: 30px 15px 24px 15px;
+        margin-bottom: 10px;
+        position: relative;
+        h6{
+            margin: 15px 0;
+            color: #1F2F3E;
+        }
+        p{
+            color: #848789;
+        }
+        .input--file{
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        }
+        .upload-icon{
+        font-size: 42px;
+        width: 42px;
+        height: 42px;
+        color: #31B7B7;
+        }
+    }
+    .divider {
+        border-top: 1px solid rgba(49, 184, 184, .3);
+        margin: 18px 0;
+    }
+    ::ng-deep{
+        .bulk--upload--insurance--wrapper{
+            .bulk--upload--insurance--mat--table{
+                //  min-width: 1230px;
+                thead{
+                    tr{
+                        th{
+                            font-size: 16px;
+                            font-weight: 700;
+                            color: #1F2F3E;
+                            font-family: "Nunito Sans", sans-serif !important;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            font-size: 14px;
+                            font-weight: 600;
+                            color: #1F2F3E;
+                            font-family: "Nunito Sans", sans-serif !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-width: 1440px){
+    .insurance-upload-wrapper{
+        .bulk--upload--insurance--wrapper{
+            .bulk--upload--insurance--mat--table{
+                min-width: 1320px;
+            }
+        }
+    }
+}

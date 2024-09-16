@@ -2,16 +2,16 @@
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center flex-wrap justify-content-between">
-                <h3 class="mb-2 clr--1F2F3E">Referring Doctors Management</h3>
-                <button mat-raised-button color="primary" class="intake-btn mb-2"  [routerLink]="['/practice-admin/bulk-upload-providers']">
-                    Bulk Upload Referring Doctors
+                <h3 class="mb-2 clr--1F2F3E">Insurances Management</h3>
+                <button mat-raised-button color="primary" class="intake-btn mb-2"  [routerLink]="['/practice-admin/upload-insurance']">
+                    Upload Insurances
                 </button>
             </div>
             <div class="col-12 mt-2">
                 <div class="row d-flex align-items-end">
                     <div class="col-12 col-lg-4 col-md-6 col-xl-4">
                         <div class="form-group">
-                            <input type="text" class="form-control search--outer" placeholder="Search by NPI Number, Name"  [formControl]="searchProviders">
+                            <input type="text" class="form-control search--outer" placeholder="Search by Insurance Name" [formControl]="searchInsurance">
                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                             </button>
@@ -20,44 +20,40 @@
                     </div>
                     <div class="col-12 col-lg-4 col-md-6 col-xl-4 d-flex justify-content-lg-center">
                         <div class="form-group">
-                            <label class="font-16 fw-700">Total Referring Doctors: {{totalCount}}</label>
+                            <label class="font-16 fw-700">Total Insurances: {{totalCount}}</label>
                         </div>
                     </div>
                     <div class="col-12 col-lg-4 col-md-6 col-xl-4">
-                        <!-- <div class="form-group">
-                            <label class="col-form-label fw-600">Filter by Status</label>
-                            <select class="form-select form-control" aria-label="Default select example">
-                                <option>Select</option>
-                                <option value="1">Active</option>
-                                <option value="2">Inactive</option>
-                                <option value="3">All</option>
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Filter by Insurance Type</label>
+                            <select class="form-select form-control" aria-label="Default select example" #statusSelect
+                            (change)="onStatusChange($event)">
+                                <option value="">Select</option>
+                                <option value="Medicare">Medicare</option>
+                                <option value="Medicaid">Medicaid</option>
+                                <option value="Tricare">Tricare</option>
+                                <option value="CHAMPVA">CHAMPVA</option>
+                                <option value="Group Health Plan">Group Health Plan</option>
+                                <option value="Other">Other</option>
                             </select>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
         </div>
     </div>
     <div class="card-body">
-        <div class="col-12 provider--mat--table--wrapper overflow-auto">
-            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="provider--mat--table" *ngIf="isProviderList">
+        <div class="col-12 insurance--mat--table--wrapper overflow-auto">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="insurance--mat--table">
                 <!-- Referring Doctor Credentials -->
-                <ng-container matColumnDef="credentials">
-                    <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Credentials
-                    </th>
-                    <td mat-cell *matCellDef="let element" class=""> {{element.credentials}} </td>
+                <ng-container matColumnDef="insuranceName">
+                    <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Primary Insurance Name</th>
+                    <td mat-cell *matCellDef="let element" class=""> {{element.insuranceName}} </td>
                 </ng-container>
                 
                 <!--Referring Doctor Name -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NPI">Name</th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                </ng-container>
-                
-                <!-- Referring Doctor NPI -->
-                <ng-container matColumnDef="npi">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status">NPI
-                    </th>
-                    <td mat-cell *matCellDef="let element"> {{element.npi}} </td>
+                <ng-container matColumnDef="insuranceType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NPI">Insurance Type</th>
+                    <td mat-cell *matCellDef="let element"> {{element.insuranceType}} </td>
                 </ng-container>
                 
                 <!-- Added on -->
@@ -85,7 +81,7 @@
                                 <mat-icon class="text-primary">{{element.status=='Inactive' ? 'refresh' : 'block'}}</mat-icon>
                                 <span class="fw-600">{{element.status=='Inactive' ? 'Reactivate' : 'Inactivate'}}</span>
                             </button> -->
-                            <button mat-menu-item (click)="deleteProvider(element)">
+                            <button mat-menu-item (click)="deleteInsurance(element)">
                                 <mat-icon class="text-danger">delete</mat-icon>
                                 <span class="fw-600">Delete</span>
                             </button>
@@ -96,23 +92,15 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-         
-            <div class="no--record--found align-items-center justify-content-center w-100 mt-4" *ngIf="!isProviderList && !searchQuery">
-                <div class="d-flex flex-column align-items-center w-100">
-                    <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
-                    <p class="">Please upload a .CSV file with the list of doctors to view them here</p>
-                </div>
-            </div> 
-            <div class="no--record--found align-items-center justify-content-center w-100 mt-4" *ngIf="!isProviderList  && searchQuery">
+
+            <div class="no--record--found align-items-center justify-content-center w-100 mt-4" *ngIf="!isInsuranceList">
                 <div class="d-flex flex-column align-items-center w-100">
                     <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
                     <p class="">No record Found</p>
                 </div>
             </div> 
-            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator> -->
-            <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize"
-            [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" *ngIf="isProviderList">
-        </mat-paginator>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
         </div>
     </div>
 </div>

@@ -23,6 +23,8 @@ import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manag
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 import { ProviderManagementComponent } from './doctor-management/provider-management/provider-management.component';
 import { BulkUploadProvidersComponent } from './doctor-management/bulk-upload-providers/bulk-upload-providers.component';
+import { UploadInsurancesComponent } from './insurance-management/upload-insurances/upload-insurances.component';
+import { ManageInsuranceComponent } from './insurance-management/manage-insurance/manage-insurance.component';
 
 const routes: Routes = [
   {
@@ -137,6 +139,14 @@ const routes: Routes = [
   {
     path: 'bulk-upload-providers',
     component:BulkUploadProvidersComponent   
+  },
+  {
+    path: 'insurance-management',
+    component:ManageInsuranceComponent   
+  },
+  {
+    path: 'upload-insurance',
+    component:UploadInsurancesComponent   
   },
 ];
 

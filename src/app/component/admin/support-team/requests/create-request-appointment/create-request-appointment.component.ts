@@ -13,8 +13,8 @@ import { DatePipe } from '@angular/common';
 import { practiceLocations, s3Details } from 'src/app/config';
 @Component({
   selector: 'app-create-appointment', 
-  templateUrl: './create-appointment.component.html',
-  styleUrl: './create-appointment.component.scss',
+  templateUrl: './create-request-appointment.component.html',
+  styleUrl: './create-request-appointment.component.scss',
   providers: [DatePipe]
 })
 export class CreateRequestAppointmentComponent {
@@ -83,7 +83,8 @@ export class CreateRequestAppointmentComponent {
         let reqVars = {
           requestId:this.requestId,
           userId: this.userId,
-          data: formData
+          data: formData,
+          patientType:'Existing'
         }
         this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'appointment/createAppointment',reqVars).subscribe(async response => { 
@@ -230,7 +231,7 @@ export class CreateRequestAppointmentComponent {
 
   onChange(value: any) {
     this.selectedValue = value
-    console.log(this.selectedValue = value)
+    //console.log(this.selectedValue = value)
   }
 
   onPhoneInputChange(event: Event): void {
