@@ -17,4 +17,5 @@ router.post('/changeProfileImage', patientController.changeProfileImage);
 router.post('/deleteProfileImage', patientController.deleteProfileImage);
 router.post('/changePassword', patientController.changePassword);
 router.post('/searchPatientList',patientController.searchPatientList);
+router.post('/getPatientSignupToken',patientController.getPatientSignupToken);
 module.exports = router;

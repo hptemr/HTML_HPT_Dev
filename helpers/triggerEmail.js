@@ -77,10 +77,22 @@ const patientSignup = async (templateName, userData) => {
     try {
         sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
             if (template) {
+
                 let params = {
                 "{firstName}": userData.firstName,
                 "{link}": userData.link
                 }
+
+                if(userData.appointmentSignup && userData.appointmentSignup=='yes'){
+                params = {
+                    "{firstName}": userData.firstName,
+                    "{therapist_name}": userData.therapist_name,
+                    "{appointment_date}": userData.appointment_date,
+                    "{practice_location}": userData.practice_location,
+                    "{link}": userData.link
+                    }
+                }
+  console.log('userData>>>',userData)
                 var mailOptions = {
                     to: [userData.email],
                     subject: template.mail_subject,

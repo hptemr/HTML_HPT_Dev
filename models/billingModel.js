@@ -6,6 +6,7 @@ const billingSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "appointments"
   },
+  soap_note_type: { type: String },
   total_treatment_minutes: { type: String },
   total_direct_minutes: { type: String },
   total_units: { type: String },
@@ -60,28 +61,26 @@ const billingSchema = new mongoose.Schema({
     gait_train:{ minutes: { type: String }, units:{ type: String }},
     performance_test:{ minutes: { type: String }, units:{ type: String }}
   },
-
-  dme_pt_codes:{
-    half_foam_roll_12:{ quanitity:{ type: String }},
-    pulley:{ quanitity:{ type: String }},
-    half_foam_roll_36:{ quanitity:{ type: String }},
-    who_free_fab:{ quanitity:{ type: String }},
-    who_custom:{ quanitity:{ type: String }},
+  dme_cpt_codes:{
+    half_foam_roll_12:{ quantity:{ type: String }},
+    pulley:{ quantity:{ type: String }},
+    half_foam_roll_36:{ quantity:{ type: String }},
+    who_free_fab:{ quantity:{ type: String }},
+    who_custom:{ quantity:{ type: String }},
+    padding_bandage:{ quantity:{ type: String }},
+    elastomull:{ quantity:{ type: String }},
+    putty:{ quantity:{ type: String }},
+    hfo_custom:{ quantity:{ type: String }},
+    ho_custom:{ quantity:{ type: String }},
+    patellofemoral_sleeve:{ quantity:{ type: String }},
+    knee_orthosis:{ quantity:{ type: String }},
+    aso_brace:{ quantity:{ type: String }},
+    fo_custom:{ quantity:{ type: String }},
+    whfo_custom:{ quantity:{ type: String }},
   },
-  dme_ot_codes:{
-    padding_bandage:{ quanitity:{ type: String }},
-    elastomull:{ quanitity:{ type: String }},
-    putty:{ quanitity:{ type: String }},
-    hfo_custom:{ quanitity:{ type: String }},
-    ho_custom:{ quanitity:{ type: String }},
-  },
-  dme_slp_codes:{
-    patellofemoral_sleeve:{ quanitity:{ type: String }},
-    knee_orthosis:{ quanitity:{ type: String }},
-    aso_brace:{ quanitity:{ type: String }},
-    fo_custom:{ quanitity:{ type: String }},
-    whfo_custom:{ quanitity:{ type: String }},
-  },
+  additional_cpt_code:  {type: Array, default: [] }, 
+  no_visit_charges: { type: Boolean },
+  status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "users"

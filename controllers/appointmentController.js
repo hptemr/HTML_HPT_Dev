@@ -1,4 +1,4 @@
-const { commonMessage, appointmentMessage } = require('../helpers/message');
+const { commonMessage,userMessage, appointmentMessage } = require('../helpers/message');
 const commonHelper = require('../helpers/common');
 const Appointment = require('../models/appointmentModel');
 const User = require('../models/userModel');
@@ -10,6 +10,7 @@ const AppointmentRequest = require('../models/appointmentRequestModel');
 const triggerEmail = require('../helpers/triggerEmail');
 const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
+let ObjectId = require('mongoose').Types.ObjectId;
 const s3Details = constants.s3Details;
 
 const getAppointmentList = async (req, res) => {
@@ -102,85 +103,106 @@ const getAppointmentRequestDetails = async (req, res) => {
 
 const createAppointment = async (req, res) => {
     try {
-        const { data,userId,requestId,signup } = req.body;
+        const { data,userId,requestId,patientType } = req.body;
         //data.appointmentDate = new Date(data.appointmentDate)        
-        let alreadyFound = [];
-        if(requestId){
-            const filterRequest = { _id:requestId };
-            const updateRequest = {
-                $set: {
-                    status: 'Accepted',
-                    resolved:true,
-                    resolvedBy:userId,
-                    resolvedOn:new Date()
+            let alreadyFound = []; let proceed = true;
+
+            if(patientType=='New'){
+                alreadyPatient = await Patient.findOne({email:data.email,status: { $ne: 'Deleted' }});
+                if (alreadyPatient) {
+                    proceed = false;
+                    let validations = { 'email': appointmentMessage.patientEmailExist }
+                    commonHelper.sendResponse(res, 'errorValidation', validations, 'Please check the validation field.');
                 }
-            };
-            await AppointmentRequest.findOneAndUpdate(filterRequest, updateRequest);
-            alreadyFound = await Appointment.findOne({requestId:requestId}, { _id:1,appointmentId: 1 });//.sort({ createdAt: -1 }).limit(1)
-        }
-       
-        let existingAppointmentData = alreadyFound;
-        let appointmentId = 1;
-        if(!existingAppointmentData){
-            existingAppointmentData = await Appointment.findOne({}, { _id:1,appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
-            appointmentId = existingAppointmentData.appointmentId + 1;
-        }else if(alreadyFound && alreadyFound.appointmentId){
-            appointmentId = alreadyFound.appointmentId;
-        }
+            }
 
-        let caseType = data.caseType ? data.caseType : '';
-        let caseName = data.caseName=='Other' ? data.caseNameOther : data.caseName
-        let caseFound = await Case.findOne({caseName:caseName,patientId:data.patientId}, { _id: 1,caseType:1,appointments:1 });
-        if(!caseFound){
-            let caseData = {
-                caseName:appointmentData.caseName,
-                caseType : caseType,
-                patientId:data.patientId,
-                appointments:result._id
-            };
-            let newCaseRecord = new Case(caseData)
-            const caseResult = await newCaseRecord.save();
-        }else if(caseType==''){
-            caseType = caseFound.caseType ? caseFound.caseType : ''
-        }
+            if(requestId){
+                const filterRequest = { _id:requestId };
+                const updateRequest = {
+                    $set: {
+                        status: 'Accepted',
+                        resolved:true,
+                        resolvedBy:userId,
+                        resolvedOn:new Date()
+                    }
+                };
+                await AppointmentRequest.findOneAndUpdate(filterRequest, updateRequest);
+                alreadyFound = await Appointment.findOne({requestId:requestId}, { _id:1,appointmentId: 1 });//.sort({ createdAt: -1 }).limit(1)
+            }    
+           
+            if(proceed){           
+                let existingAppointmentData = alreadyFound;
+                let appointmentId = 1;
+                if(!existingAppointmentData){
+                    existingAppointmentData = await Appointment.findOne({}, { _id:1,appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
+                    appointmentId = existingAppointmentData.appointmentId + 1;
+                }else if(alreadyFound && alreadyFound.appointmentId){
+                    appointmentId = alreadyFound.appointmentId;
+                }
 
-        let appointmentData = {
-            appointmentId:appointmentId,
-            caseName: caseName,
-            caseType : caseType,
-            appointmentType : data.appointmentType,
-            appointmentTypeOther : data.appointmentTypeOther,
-            appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
-            practiceLocation: data.practiceLocation,
-            therapistId: data.therapistId ? data.therapistId : '',
-            patientId: data.patientId,
-            doctorId: data.doctorId ? data.doctorId : '',
-            requestId: requestId ? requestId : '',            
-            acceptInfo: {fromAdminId:userId}
-        }
+                let caseType = data.caseType ? data.caseType : '';
+                let caseName = data.caseName=='Other' ? data.caseNameOther : data.caseName
+                let caseFound = await Case.findOne({caseName:caseName,patientId:data.patientId}, { _id: 1,caseType:1,appointments:1 });
+                let caseId = '';
+                if(caseFound){
+                    caseId = caseFound._id;
+                }
+                if(!caseFound){
+                    let caseData = {
+                        caseName:caseName,
+                        caseType : caseType,
+                        patientId:data.patientId,
+                    };
+                    let newCaseRecord = new Case(caseData)
+                    const caseResult = await newCaseRecord.save();
+                    caseId = caseResult._id;
+                }else if(caseType==''){
+                    caseType = caseFound.caseType ? caseFound.caseType : ''
+                }
+                let appointmentData = {
+                    appointmentId:appointmentId,
+                    caseName: caseName,
+                    caseType : caseType,
+                    appointmentType : data.appointmentType,
+                    appointmentTypeOther : data.appointmentTypeOther,
+                    appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
+                    practiceLocation: data.practiceLocation,
+                    therapistId: data.therapistId ? data.therapistId : '',
+                    patientId: data.patientId,
+                    doctorId: data.doctorId ? data.doctorId : '',
+                    requestId: requestId ? requestId : '',            
+                    acceptInfo: {fromAdminId:userId}
+                }
 
-        if(appointmentData.requestId==''){
-            delete appointmentData['requestId']; 
-        }
+                if(appointmentData.requestId==''){
+                    delete appointmentData['requestId']; 
+                }
 
-        let result = [];let msg = '';
-        if(alreadyFound.length==0){
-            let newRecord = new Appointment(appointmentData)
-            result = await newRecord.save()
-            msg = appointmentMessage.created;
-        }else{
-            msg = appointmentMessage.updated;
-            result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);
-        }
-
-        const patientData = await Patient.findOne({_id:data.patientId},{firstName:1,lastName:1,email:1});
-        if(signup=='New'){
-
-        }
-
-        const link = `${process.env.BASE_URL}/patient/appointment-details/${result._id}`;
-      //8  triggerEmail.appointmentRequestReplyFromAdmin('appointmentRequestReplyFromAdmin', patientData, link);
-        commonHelper.sendResponse(res, 'success', result, msg);
+                let result = [];let msg = '';
+                if(alreadyFound.length==0){
+                    let newRecord = new Appointment(appointmentData)
+                    result = await newRecord.save()
+                    msg = appointmentMessage.created;
+                    if(caseId){
+                        const caseRequest = {
+                            $set: {
+                                appointments:result._id
+                            }
+                        };
+                        await Case.findOneAndUpdate({_id:caseId}, caseRequest);
+                    }
+                }else{
+                    msg = appointmentMessage.updated;
+                    result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);
+                }
+                if(patientType=='New'){
+                    const therapistData = await User.findOne({_id:data.therapistId},{firstName:1,lastName:1});
+                    
+                    const patientData = {firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:result._id};
+                    patientAppointmentSignupEmail(patientData)
+                }
+                commonHelper.sendResponse(res, 'success', result, msg);
+            }
       } catch (error) {
         console.log("error>>>", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -422,20 +444,73 @@ const getPatientCaseList = async (req, res) => {
     try {
         const { query } = req.body;
         console.log("********Appointment Request Details***error***", query.id)
-        let output = await Case.find({patientId:query.id }, { patientId:1,caseName: 1,_id:1 });
-        let caseNameList = ''; 
+        let output = await Case.find({patientId:query.id }, { patientId:1,caseName: 1,caseType: 1,_id:1 });
+        let caseNameList = []; 
         if(output.length>0){
-             caseNameList = output.filter((obj) => {
-                return (obj.caseName);
+              output.filter((obj) => {
+                caseNameList.push({caseName:obj.caseName,caseType:obj.caseType})             
             });
         }
-
         commonHelper.sendResponse(res, 'success', { caseNameList }, '');
     } catch (error) {
-        console.log("********Appointment Request Details***error***", error)
+        console.log("********get Patient Case List ***error***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
+
+async function patientAppointmentSignupEmail(patientData) {
+    try {
+        let request_data = {
+            firstName: patientData.firstName,
+            lastName: patientData.lastName,
+            email: patientData.email,
+            phoneNumber: patientData.phoneNumber,
+            status: 'Pending'
+        }     
+        console.log('Patient_data>>>',request_data)
+
+        let newPatient = new Patient(request_data);
+        const patient_result = await newPatient.save();
+
+        let tokenObj = {
+            tokenExpiry: Date.now() + (120 * 60 * 1000),
+            userId: patient_result._id
+        }
+        let encryptToken = commonHelper.encryptData(tokenObj, process.env.CRYPTO_SECRET)
+        const updateDoc = {
+            $set: {
+                signupToken: encryptToken
+            }
+        };
+        const options = { returnOriginal: false };
+        await Patient.findOneAndUpdate({ _id: new ObjectId(patient_result._id) }, updateDoc, options);
+
+        const caseRequest = {
+            $set: {
+                patientId: patient_result._id,
+            }
+        };
+        await Case.findOneAndUpdate({_id:patientData.caseId}, caseRequest);
+        const appRequest = {
+            $set: {
+                patientId: patient_result._id,
+            }
+        };
+        await Appointment.findOneAndUpdate({_id:patientData.appId},appRequest); 
+
+        const link = `${process.env.BASE_URL}/signup/${encryptToken}`;
+        patientData.link = link;
+        patientData.appointmentSignup = 'yes';
+        triggerEmail.patientSignup('patientAppointmentSignup', patientData);
+ 
+        console.log('data>>>', data,'link>>>>',link)
+        return true;
+    } catch (error) {
+        console.log('query error >>>', error)
+        return error;
+    }
+};
+
 
 module.exports = {
     getAppointmentList,

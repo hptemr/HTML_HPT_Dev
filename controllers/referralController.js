@@ -262,6 +262,7 @@ const deleteAppointment = async (req, res) => {
 const getPatientThroughSignUpToken = async (req, res) => {
   try {
     const { signUpToken } = req.body
+    
     let decryptTokenData = commonHelper.decryptData(signUpToken, process.env.CRYPTO_SECRET)
     let patientId= decryptTokenData? decryptTokenData.patientId:''
     // let patientData = await PatientTemp.findOne({ _id: patientId });
