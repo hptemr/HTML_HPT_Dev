@@ -19,6 +19,7 @@ var constants = require('./../config/constants')
 const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const s3Details = constants.s3Details;
 
+
 const signup = async (req, res) => {
     try {
         const { query, step, data, patientIdRegisterByRefferal } = req.body;
@@ -499,14 +500,12 @@ changeProfileImage = async (req, res) => {
   const getPatientSignupToken = async (req, res) => {
     try {
         const { query,fields } = req.body;
-
         //let patientData = ''; 
-     
         const patientData = await Patient.findOne(query,fields);
         if(patientData){
             commonHelper.sendResponse(res, 'success', patientData, '');   
         }else{
-            commonHelper.sendResponse(res, 'error', null, infoMessage.linkExpired);
+            commonHelper.sendResponse(res, 'errorValidation', null, infoMessage.linkExpired);
         }
 
     } catch (error) {
