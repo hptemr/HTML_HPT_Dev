@@ -5,154 +5,100 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table'; 
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { CommonService } from '../../../../../shared/services/helper/common.service';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
-import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
+import { ChangeDetectorRef } from '@angular/core';
 
 // export interface PeriodicElement {
-//   docCredentials: string; 
-//   npi: string;
-//   docName: string;
+//   primaryInsuranceName: string; 
+//   insuranceType: string;
+//   payerId: string;
 //   address: string;  
 //   phoneNumber: string;
-//   faxNumber: string; 
+//   billingType: string; 
 //   errorText: string;
 // }
 
-// const ELEMENT_DATA: ProviderList[] = [
+// const ELEMENT_DATA: PeriodicElement[] = [
 //   {
-//     Name: 'Doc 1 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
+//     primaryInsuranceName: 'Insurance 1',
+//     insuranceType:'Medicare',
+//     payerId: '1888945196',
 //     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
+//     billingType: 'AMA',
+//     address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errorText: 'No Error',
 //   },
 //   {
-//     Name: 'Doc 2 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
+//     primaryInsuranceName: 'Insurance 2',
+//     insuranceType:'Medicaid',
+//     payerId: '1888945197',
 //     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
+//     billingType: 'CMS',
+//     address: '675 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errorText: 'No Error',
 //   },
 //   {
-//     Name: 'Doc 3 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
+//     primaryInsuranceName: 'Insurance 3',
+//     insuranceType:'Tricare',
+//     payerId: '1888945198',
 //     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
+//     billingType: 'AMA',
+//     address: '676 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errorText: 'No Error',
 //   },
 //   {
-//     Name: 'Doc 4 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
+//     primaryInsuranceName: 'Insurance 4',
+//     insuranceType:'CHAMPVA',
+//     payerId: '1888945199',
 //     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
+//     billingType: 'CMS',
+//     address: '677 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errorText: 'No Error',
 //   },
 //   {
-//     Name: 'Doc 1 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
+//     primaryInsuranceName: 'Insurance 5',
+//     insuranceType:'Group Health Plan',
+//     payerId: '1888945200',
 //     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
+//     billingType: 'AMA',
+//     address: '676 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errorText: 'No Error',
 //   },
 //   {
-//     Name: 'Doc 2 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
+//     primaryInsuranceName: 'Insurance 6',
+//     insuranceType:'Other',
+//     payerId: '1888945201',
 //     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
+//     billingType: 'CMS',
+//     address: '677 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
+//     errorText: 'No Error',
 //   },
-//   {
-//     Name: 'Doc 3 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 4 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 1 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 2 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 3 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 4 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   }
 // ]
 
-export interface ProviderList {
-  Name: string; 
-  Credentials: string;
-  Address: string;
-  phoneNumber: string;  
-  faxNumber: string;
-  NPI: string; 
+
+export interface InsuranceList {
+  insuranceName: string; 
+  insuranceType: string;
+  insuranceAddress: string;
+  payerID: string;  
+  phoneNumber: string;
+  billingType: string; 
   errors: Array<string>;
 }
-
-// const PROVIDER_DATA: ProviderList[] = ELEMENT_DATA
-const PROVIDER_DATA: ProviderList[] = []
+const INSURANCE_DATA: InsuranceList[] = []
 
 @Component({
-  selector: 'app-bulk-upload-providers',
-  templateUrl: './bulk-upload-providers.component.html',
-  styleUrl: './bulk-upload-providers.component.scss'
+  selector: 'app-upload-insurances',
+  templateUrl: './upload-insurances.component.html',
+  styleUrl: './upload-insurances.component.scss'
 })
-export class BulkUploadProvidersComponent {
-  // displayedColumns: string[] = ['docCredentials', 'docName', 'npi','address', 'phoneNumber','faxNumber','errorText'];
-  displayedColumns: string[] = ['Credentials', 'Name', 'NPI','Address', 'phoneNumber','faxNumber','errors'];
-  dataSource = new MatTableDataSource<ProviderList>(PROVIDER_DATA);
+export class UploadInsurancesComponent {
+  // displayedColumns: string[] = ['primaryInsuranceName', 'insuranceType', 'payerId','address', 'phoneNumber','billingType','errorText'];
+  // dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['insuranceName', 'insuranceType', 'payerID','insuranceAddress', 'phoneNumber','billingType','errors'];
+  dataSource = new MatTableDataSource(INSURANCE_DATA);
 
   selectedFile: File | null = null;
   isFileError: boolean = false;
@@ -179,36 +125,25 @@ export class BulkUploadProvidersComponent {
 
   showTable:boolean = false
 
-
   constructor(
-    private _liveAnnouncer: LiveAnnouncer,
+    private _liveAnnouncer: LiveAnnouncer,  
     public dialog: MatDialog,
     public commonService: CommonService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  ngOnInit(){
+    // this.dataSource = new MatTableDataSource(INSURANCE_DATA);
   }
-
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) { 
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-/* ---------------------  ------------------------- ------------------------*/
+ 
   downloadSampleFile(){
     const link = document.createElement('a');
-    link.href = 'assets/images/sample_doctor_management.csv';
-    link.download = 'sample_doctor_management.csv';
+    link.href = 'assets/images/sample_insurance_management.csv';
+    link.download = 'sample_insurance_management.csv';
     link.click();
   }
 
@@ -238,30 +173,30 @@ export class BulkUploadProvidersComponent {
       // Set selected file
       this.selectedFile = file;
       this.fileName = file.name;
-      this.uploadProviders(this.selectedFile)
+      this.uploadInsurance(this.selectedFile)
 
        // Reset the file input so that the same file can be selected again
        fileInput.value = '';
     }
   }
 
-  async uploadProviders(file: File){
+
+  async uploadInsurance(file: File){
     this.commonService.showLoader()
     this.totalRecordFound = 0
     this.errorRecordFound = 0
-    this.showTable = false
     this.allRecordFoundError = false
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    this.authService.apiRequest('post', 'admin/uploadProviders', formData).subscribe(async (res) => {
+    await this.authService.apiRequest('post', 'admin/uploadInsurances', formData).subscribe(async (res) => {
       if (res && !res.error) {
         this.totalRecordFound = res.data.totalRecordCount
         this.errorRecordFound = res.data.errorRecordCount
         if(res.data.totalRecordCount>0 && res.data.errorRecordCount>0 && res.data.totalRecordCount==res.data.errorRecordCount){
           this.allRecordFoundError = true
         }
-        this.dataSource = new MatTableDataSource<ProviderList>(res.data.totalRecord)
+        this.dataSource = new MatTableDataSource<InsuranceList>(res.data.totalRecord)
         this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
         // Pagignation
@@ -270,6 +205,7 @@ export class BulkUploadProvidersComponent {
         if(this.errorRecordFound>0){
           this.showTable = true
         }
+        // this.cdr.detectChanges(); // Manually trigger change detection
       }
       this.commonService.hideLoader()
     }, (err) => {
@@ -306,7 +242,7 @@ export class BulkUploadProvidersComponent {
     // Reset Record
     this.totalRecordFound = 0
     this.errorRecordFound = 0
-    this.dataSource = new MatTableDataSource<ProviderList>([])
+    this.dataSource = new MatTableDataSource<InsuranceList>([])
     this.dataWithoutError =[]
     this.isSaveUploadedData = false
     this.showTable = false
@@ -331,9 +267,9 @@ export class BulkUploadProvidersComponent {
       if(result && !result.error){
         console.log("this.dataWithoutError>>>",this.dataWithoutError)
         // Here remove error key from array object - dataWithoutError
-        const updatedArray = this.dataWithoutError.map(({ errors, ...rest }:ProviderList) => rest);
+        const updatedArray = this.dataWithoutError.map(({ errors, ...rest }:InsuranceList) => rest);
         console.log("updatedArray>>>",updatedArray);
-        this.authService.apiRequest('post', 'admin/saveUploadedProviderData', updatedArray).subscribe(async (res) => {
+        this.authService.apiRequest('post', 'admin/saveUploadedInsurancesData', updatedArray).subscribe(async (res) => {
           console.log("res res>>>",res);
           if (res && !res.error) {
             this.insertRecordCount = res.data.insertCount
@@ -353,4 +289,20 @@ export class BulkUploadProvidersComponent {
     });
   }
 
+
+/* ---------------------  ------------------------- ------------------------*/
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) { 
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
 }

@@ -128,6 +128,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 6,
+          activeMenu: 'manage-documents',
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
@@ -135,6 +136,26 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 7,
+          activeMenu: 'provider-management',
+          icon: 'dashboard',
+          mainTitle: 'Doctors Management',
+          headTitle1: '',
+          path: '/practice-admin/provider-management',
+          active: false,
+          item: []
+        },
+        {
+          id: 8,
+          activeMenu: 'insurance-management',
+          icon: 'dashboard',
+          mainTitle: 'Insurance Management',
+          headTitle1: '',
+          path: '/practice-admin/insurance-management',
+          active: false,
+          item: []
+        }
         // {
         //   id: 7,
         //   icon: 'people_outline',
@@ -230,6 +251,7 @@ export class NavservicesService implements OnInit {
         // },
         {
           id: 5,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -308,6 +330,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 4,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
@@ -424,6 +447,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 7,
+          activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',

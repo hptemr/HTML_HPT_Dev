@@ -27,6 +27,8 @@ import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-d
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 import { ProviderManagementComponent } from './doctor-management/provider-management/provider-management.component';
 import { BulkUploadProvidersComponent } from './doctor-management/bulk-upload-providers/bulk-upload-providers.component';
+import { UploadInsurancesComponent } from './insurance-management/upload-insurances/upload-insurances.component';
+import { ManageInsuranceComponent } from './insurance-management/manage-insurance/manage-insurance.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { BulkUploadProvidersComponent } from './doctor-management/bulk-upload-pr
     UploadDocumentsModalComponent,
     PreviewComponent,
     ProviderManagementComponent,
-    BulkUploadProvidersComponent
+    BulkUploadProvidersComponent,
+    ManageInsuranceComponent,
+    UploadInsurancesComponent
   ],
   imports: [
     CommonModule,

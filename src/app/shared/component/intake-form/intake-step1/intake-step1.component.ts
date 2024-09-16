@@ -40,8 +40,11 @@ export class IntakeStep1Component {
   validationMessages = validationMessages
   todayDate = new Date();
   selectedCity: string = "";
+  userId = this.authService.getLoggedInInfo('_id')
+  userRole = this.authService.getLoggedInInfo('role')
   maxAppntDate = this.commonService.getMaxAppoinmentFutureMonths()
   activeUserRoute = this.commonService.getLoggedInRoute()
+  
   constructor(public dialog: MatDialog, private router: Router,
     private commonService: CommonService,
     private authService: AuthService, private route: ActivatedRoute) {
@@ -51,7 +54,6 @@ export class IntakeStep1Component {
   }
 
   ngOnInit() {
-    console.log('>>>>>>>>####>>>>>>')
     this.commonService.showLoader()
     this.patientInfo = this.authService.getLoggedInInfo()
     this.getAppointmentDetails()
@@ -71,7 +73,7 @@ export class IntakeStep1Component {
         this.step1FormData = response.data.appointmentData
         this.selectedValue = this.step1FormData.bookingFor
         this.loadForm()
-
+        
         if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending') {
           if (this.selectedValue == 'Myself') {
             this.isReadonly = true
@@ -85,8 +87,8 @@ export class IntakeStep1Component {
             this.step1Form.controls['maritalStatus'].enable()
           }
         } else {
-          this.isReadonly = true
-          this.step1Form.disable()
+          //8 this.isReadonly = true
+          //8 this.step1Form.disable()
         }
         this.commonService.hideLoader()
       }
@@ -137,7 +139,7 @@ export class IntakeStep1Component {
       phoneNumber = this.patientInfo.phoneNumber
       cellPhoneNumber = this.patientInfo.cellPhoneNumber ? this.patientInfo.cellPhoneNumber : ""
       workExtensionNumber = this.patientInfo.workExtensionNumber ? this.patientInfo.workExtensionNumber : ""
-      console.log('patientInfo >>>>',this.patientInfo)
+     // console.log('patientInfo >>>>',this.patientInfo)
       address = this.patientInfo.address1 ? this.patientInfo.address1 : ""
       city = this.patientInfo.city ? this.patientInfo.city : ""
       state = this.patientInfo.state ? this.patientInfo.state : ""
@@ -171,7 +173,7 @@ export class IntakeStep1Component {
     this.step1Form.controls['phoneNumber'].setValue(phoneNumber)
     this.step1Form.controls['cellPhoneNumber'].setValue(cellPhoneNumber)
     this.step1Form.controls['workExtensionNumber'].setValue(workExtensionNumber)
-    console.log('address>>>',address)
+   
     this.step1Form.controls['address'].setValue(address)
     this.step1Form.controls['city'].setValue(city)
     this.step1Form.controls['state'].setValue(state)
@@ -206,7 +208,14 @@ export class IntakeStep1Component {
   }
 
   async bookAppointmentStep1() {
-    if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending') {
+    //if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending') {
+    let appointmentUpdateInfo = this.step1FormData.appointmentUpdateInfo;
+      appointmentUpdateInfo.push({
+        fromPatientId : (this.userRole=='patient') ? this.userId : '',
+        fromAdminId:(this.userRole!='patient') ? this.userId : '',
+        userRole:this.userRole,
+        updatedAt:new Date()
+      });
       let finalReqBody: any = this.step1Form.value
       if (this.isReadonly) {
         finalReqBody = {
@@ -234,15 +243,17 @@ export class IntakeStep1Component {
             phoneNumber: finalReqBody.phoneNumber,
             cellPhoneNumber: finalReqBody.cellPhoneNumber,
             workExtension: finalReqBody.workExtension
-          }
+          },
+          appointmentUpdateInfo:appointmentUpdateInfo
         }
       }
+ 
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
       })
-    } else {
-      this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
-    }
+    // } else {
+    //   this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
+    // }
   }
 
   contactModal() {

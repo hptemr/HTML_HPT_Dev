@@ -1,11 +1,11 @@
-<div class="col-12 bulk-upload-wrapper">
+<div class="col-12 insurance-upload-wrapper">
     <div class="card">
         <div class="card-header">
             <div class="col-12 d-flex align-items-center flex-wrap justify-content-between">
-                <h3 class="mb-2 clr--1F2F3E">Bulk Upload Referring Doctors</h3>
-                <button class="flex-shrink-0 mb-2" mat-stroked-button color="primary" [routerLink]="['/practice-admin/provider-management']"> 
+                <h3 class="mb-2 clr--1F2F3E">Upload Insurances</h3>
+                <button class="flex-shrink-0 mb-2" mat-stroked-button color="primary" [routerLink]="['/practice-admin/insurance-management']"> 
                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1">  keyboard_backspace  </mat-icon> 
-                    Back to Doctors-Management
+                    Back to Insurances-Management
                 </button>
             </div>
         </div>
@@ -32,11 +32,11 @@
                         <p class="font-16 fw-600 clr--848789 mb-2"><span class="clr--1F2F3E fw-700">Note:</span> Please upload a file upto 15 MB.</p>
                     </div>
                 </div>
-                <div class="col-12"  *ngIf="fileName">
+                <div class="col-12" *ngIf="fileName">
                     <div class="d-flex flex-column mt-2">
                         <label class="fw-700 font-16">Uploaded File</label>
-<!-- 
-                        <mat-chip-grid #chipGrid aria-label="Fruit selection">
+
+                        <!-- <mat-chip-grid #chipGrid aria-label="Fruit selection">
                             <mat-chip-row >
                               Sample File-1
                               <button matChipRemove >
@@ -83,30 +83,30 @@
                 <div class="col-12">
                     <div class="divider"></div>
                 </div>
-                <div class="col-12 bulk--upload--provider--wrapper overflow-auto" >
-                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="bulk--upload--provider--mat--table" *ngIf="showTable">
-                        <!-- Referring Doctor Credentials -->
-                        <ng-container matColumnDef="Credentials">
-                            <th mat-header-cell *matHeaderCellDef class="" >Credentials</th>
-                            <td mat-cell *matCellDef="let element" class=""> {{element.Credentials}} </td>
+                <div class="col-12 bulk--upload--insurance--wrapper overflow-auto" >
+                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="bulk--upload--insurance--mat--table" *ngIf="showTable">
+                        
+                        <ng-container matColumnDef="insuranceName">
+                            <th mat-header-cell *matHeaderCellDef class="" >Insurance Name</th>
+                            <td mat-cell *matCellDef="let element" class=""> {{element.insuranceName}} </td>
                         </ng-container>
                         
-                        <!--Referring Doctor Name -->
-                        <ng-container matColumnDef="Name">
-                            <th mat-header-cell *matHeaderCellDef >Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+                        <!--Insurance Type -->
+                        <ng-container matColumnDef="insuranceType">
+                            <th mat-header-cell *matHeaderCellDef >Insurance Type</th>
+                            <td mat-cell *matCellDef="let element"> {{element.insuranceType}} </td>
                         </ng-container>
                         
-                        <!-- Referring Doctor NPI -->
-                        <ng-container matColumnDef="NPI">
-                            <th mat-header-cell *matHeaderCellDef >NPI</th>
-                            <td mat-cell *matCellDef="let element"> {{element.NPI}} </td>
+                        <!-- Payer ID -->
+                        <ng-container matColumnDef="payerID">
+                            <th mat-header-cell *matHeaderCellDef >Payer ID</th>
+                            <td mat-cell *matCellDef="let element"> {{element.payerID}} </td>
                         </ng-container>
 
-                        <!-- Referring Doctor address -->
-                        <ng-container matColumnDef="Address">
-                            <th mat-header-cell *matHeaderCellDef >Address</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+                        <!-- Insurance address -->
+                        <ng-container matColumnDef="insuranceAddress">
+                            <th mat-header-cell *matHeaderCellDef >Insurance Address</th>
+                            <td mat-cell *matCellDef="let element"> {{element.insuranceAddress}} </td>
                         </ng-container>
                         
                         <!-- Phone -->
@@ -115,17 +115,16 @@
                             <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
                         </ng-container>
 
-                        <!-- Fax -->
-                        <ng-container matColumnDef="faxNumber">
-                            <th mat-header-cell *matHeaderCellDef >Fax Number</th>
-                            <td mat-cell *matCellDef="let element">{{element.faxNumber}}</td>
+                        <!-- Billing Type -->
+                        <ng-container matColumnDef="billingType">
+                            <th mat-header-cell *matHeaderCellDef >Billing Type</th>
+                            <td mat-cell *matCellDef="let element">{{element.billingType}}</td>
                         </ng-container>
 
-                        <!-- Fax -->
+                        <!-- Errors -->
                         <ng-container matColumnDef="errors">
                             <th mat-header-cell *matHeaderCellDef >Error Text</th>
                             <td mat-cell *matCellDef="let element">
-                                <!-- {{element.errors.length>0? element.errors.join(', ') : '-' }} -->
                                 <span *ngIf="element.errors.length>0">Row No: </span>{{element.errors.length>0? ' '+element.rowNumber+',':''}} 
                                 <span *ngIf="element.errors.length>0">Error: </span>{{element.errors.length>0? ' '+element.errors.join(', ') : '-' }}
                             </td>

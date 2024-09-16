@@ -1,0 +1,185 @@
+<div class="container-fluid book--appointment--wrapper">
+    <div class="row">
+        <div class="col-12 d-flex align-items-center mb-2">
+            <button mat-stroked-button color="primary" class="me-3 back--btn"  [routerLink]="['/support-team/referrals']">
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+            </button>
+            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                <span class="me-3">{{(refferalId)?'Edit':'Create'}} Appointment </span> 
+            </h3>
+        </div>
+    </div>
+    <div class="card m-0"> 
+        <form [formGroup]="createAppointmentForm">
+            <div class="row">
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
+                        <!-- [formControl]="existingEmail" -->
+                        <input class="form-control" type="email" placeholder="Enter Email" formControlName="email" /> 
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['email'].touched && createAppointmentForm.controls['email'].hasError('required')">
+                            {{ validationMessages.required('an email address') }}
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['email'].touched && createAppointmentForm.controls['email'].hasError('email')">
+                            {{ validationMessages.validEmail }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text" placeholder="Enter First Name" formControlName="firstName" maxlength="35"/>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['firstName'].touched && createAppointmentForm.controls['firstName'].hasError('required')">
+                            {{ validationMessages.required('your First Name') }}
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['firstName'].touched && createAppointmentForm.controls['firstName'].hasError('pattern')">
+                            {{ validationMessages.alphabeticChar('First Name') }}
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text" placeholder="Enter Last Name" formControlName="lastName" maxlength="35"/>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['lastName'].touched && createAppointmentForm.controls['lastName'].hasError('required')">
+                            {{ validationMessages.required('your Last Name') }}
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['lastName'].touched && createAppointmentForm.controls['lastName'].hasError('pattern')">
+                            {{ validationMessages.alphabeticChar('Last Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Appointment Date<span class="clr--DF0404 ms-1"> * </span></label>
+                        <div class="input-group">
+                        <!-- <input class="form-control text-capitalize" placeholder="Select Date" name="dp" [(ngModel)]="model"
+                            ngbDatepicker #d="ngbDatepicker" /> -->
+                        <!-- <input class="form-control text-capitalize" placeholder="Select Date" name="dp" ngbDatepicker #d="ngbDatepicker" [min]="todayDate" formControlName="appointmentDate"/>
+                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
+                            type="button">
+                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                        </button> -->
+                        <mat-form-field class="w-100 am--datepicker">
+                            <input [min]="todayDate" formControlName="appointmentDate" placeholder="Select Date" matInput [matDatepicker]="picker" (focus)="picker.open()">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['appointmentDate'].touched && createAppointmentForm.controls['appointmentDate'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Appointment Date') }}
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Practice Location<span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="practiceLocation">
+                            <option value="" selected>Select</option>
+                            <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['practiceLocation'].touched && createAppointmentForm.controls['practiceLocation'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Practice Location') }}
+                        </div>
+                    </div>
+                </div>   
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Therapist<span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="therapist">
+                            <option value="" selected>Select</option>
+                            <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['therapist'].touched && createAppointmentForm.controls['therapist'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Therapist') }}
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Referred By <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text" placeholder="Enter Doctor Name" formControlName="referredBy" maxlength="200"/>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['referredBy'].touched && createAppointmentForm.controls['referredBy'].hasError('required')">
+                            {{ validationMessages.required('Doctor Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text" placeholder="Enter Phone Number" formControlName="phoneNumber" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="15"/>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['phoneNumber'].touched && createAppointmentForm.controls['phoneNumber'].hasError('required')">
+                            {{ validationMessages.required('a valid phone number') }}
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['phoneNumber'].touched && createAppointmentForm.controls['phoneNumber'].hasError('pattern')">
+                            {{ validationMessages.invalidPhoneNumber }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h2 class="text-uppercase font-16 fw-700 mb-2 mt-4">Doctor's Office Address</h2>
+                </div>
+                <div class="col-12 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Street Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text" placeholder="Enter Address" formControlName="streetName" maxlength="1000"/>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['streetName'].touched && createAppointmentForm.controls['streetName'].hasError('required')">
+                            {{ validationMessages.required('Street Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Apartment #  </label>
+                        <input class="form-control" type="text" placeholder="Enter Apartment #" formControlName="appartment" maxlength="200"/>
+                        <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="state" (ngModelChange)="onStateChange($event)">
+                            <option selected value="">Select State</option>
+                            <option *ngFor="let item of states" value="{{item.state_code}}" [selected]="">{{item.state}}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['state'].touched && createAppointmentForm.controls['state'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('State') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">City <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="city">
+                            <option selected value="">Select City</option>
+                            <option *ngFor="let item of cities" value="{{item.city}}" >{{item.city}}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['city'].touched && createAppointmentForm.controls['city'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('City') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Postal Code</label>
+                        <input class="form-control" type="text" placeholder="Enter Postal Code" formControlName="zipcode" maxlength="6"/>
+                        <div class="text text-danger mt-1" *ngIf="createAppointmentForm.controls['zipcode'].touched && createAppointmentForm.controls['zipcode'].hasError('pattern')">
+                            {{ validationMessages.required('a valid postal code') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
+        <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/support-team/referrals']">
+            Cancel
+        </button>
+        <button mat-raised-button color="primary" class="m-1" *ngIf="!refferalId" [disabled]="!createAppointmentForm.valid || clickOnCreateAppointment" (click)="createAppointment()">
+            Invite
+        </button>
+        <button mat-raised-button color="primary" class="m-1"  *ngIf="refferalId && !isViewAppointment" [disabled]="!createAppointmentForm.valid || clickOnUpdateAppointment" (click)="updateAppointment()">
+            Update
+        </button>
+    </div>
+</div>
