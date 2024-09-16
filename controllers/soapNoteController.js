@@ -9,21 +9,26 @@ const _ = require('lodash');
 
 const createPlanNote = async (req, res) => {
     try {
-        let createParams = {
-            appointmentId:new ObjectId(req.body.appointmentId),
-            soap_note_type:req.body.soapNoteType,
-            plan_note_type:req.body.planType,
-            plan_note:req.body.planNote,
-            freequency_per_week: req.body.frequencyPerWeek,
-            duration_per_week: req.body.durationPerWeek,
-            plan_start_date:new Date(req.body.planStartDate),
-            plan_end_date:new Date(req.body.planEndDate),
-            pt_treatment_provided:req.body.ptList,
-            ot_treatment_provided:req.body.otList,
-            slp_treatment_provided:req.body.slpList,
-            createdBy: new ObjectId(req.body.endUserId),
-        }
-        await PlanTemp.create(createParams)
+      let createParams = {
+        appointmentId:new ObjectId(req.body.appointmentId),
+        soap_note_type:req.body.soapNoteType,
+        plan_note:req.body.planNote,
+        plan_start_date:new Date(req.body.planStartDate),
+        plan_end_date:new Date(req.body.planEndDate),
+        createdBy: new ObjectId(req.body.endUserId),
+      }
+      if(req.body.soapNoteType == 'initial_examination'){
+        createParams.plan_note_type = req.body.planType,
+        createParams.freequency_per_week = req.body.frequencyPerWeek,
+        createParams.duration_per_week = req.body.durationPerWeek,
+        createParams.pt_treatment_provided = req.body.ptList,
+        createParams.ot_treatment_provided = req.body.otList,
+        createParams.slp_treatment_provided = req.body.slpList
+      } else if(req.body.soapNoteType == 'daily_note'){
+        createParams.process_patient = req.body.processPatient,
+        createParams.anticipat_DC = req.body.anticipatDC
+      }
+      await PlanTemp.create(createParams)
       commonHelper.sendResponse(res, 'success',{},'');
     } catch (error) {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -32,7 +37,7 @@ const createPlanNote = async (req, res) => {
 
 const getPlanNote = async (req, res) => {
     try {
-        planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId });
+        planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId,soap_note_type: req.body.soapNoteType });
         commonHelper.sendResponse(res, 'success',planData);
     } catch (error) {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -41,25 +46,30 @@ const getPlanNote = async (req, res) => {
 
 const updatePlanNote = async (req, res) => {
     try {
-        let updateParams = {
-            appointmentId:new ObjectId(req.body.appointmentId),
-            soap_note_type:req.body.soapNoteType,
-            plan_note_type:req.body.planType,
-            plan_note:req.body.planNote,
-            freequency_per_week: req.body.frequencyPerWeek,
-            duration_per_week: req.body.durationPerWeek,
-            plan_start_date:new Date(req.body.planStartDate),
-            plan_end_date:new Date(req.body.planEndDate),
-            pt_treatment_provided:req.body.ptList,
-            ot_treatment_provided:req.body.otList,
-            slp_treatment_provided:req.body.slpList,
-            updatedAt: new Date()
-        }
-        const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId) };
-        const updatePlan = { $set: updateParams };
-        let optionsUpdatePlan = { returnOriginal: false };
-        result = await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-        commonHelper.sendResponse(res, 'success',{},'');
+      let updateParams = {
+        appointmentId:new ObjectId(req.body.appointmentId),
+        soap_note_type:req.body.soapNoteType,
+        plan_note:req.body.planNote,
+        plan_start_date:new Date(req.body.planStartDate),
+        plan_end_date:new Date(req.body.planEndDate),
+        updatedAt: new Date(),
+      }
+      if(req.body.soapNoteType == 'initial_examination'){
+        updateParams.plan_note_type = req.body.planType,
+        updateParams.freequency_per_week = req.body.frequencyPerWeek,
+        updateParams.duration_per_week = req.body.durationPerWeek,
+        updateParams.pt_treatment_provided = req.body.ptList,
+        updateParams.ot_treatment_provided = req.body.otList,
+        updateParams.slp_treatment_provided = req.body.slpList
+      } else if(req.body.soapNoteType == 'daily_note'){
+        updateParams.process_patient = req.body.processPatient,
+        updateParams.anticipat_DC = req.body.anticipatDC
+      }
+      const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId) };
+      const updatePlan = { $set: updateParams };
+      let optionsUpdatePlan = { returnOriginal: false };
+      result = await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+      commonHelper.sendResponse(res, 'success',{},'');
     } catch (error) {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
