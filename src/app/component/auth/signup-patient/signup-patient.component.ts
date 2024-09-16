@@ -283,6 +283,7 @@ export class SignupPatientComponent implements OnInit {
 
   async signupSubmit(steps:any, data:any) {
       var query = {};
+      data.signupToken = this.tokenId
       const req_vars = {
         query: Object.assign({ _id: this.userId }, query),
         step:steps,
@@ -623,8 +624,8 @@ export class SignupPatientComponent implements OnInit {
           this.commonService.openSnackBar(response.message, "ERROR")
           this.router.navigate(['/signup']);
         }else if(response.data){
-          localStorage.setItem("userId", response.data._id);
-          this.userId = response.data._id;
+          // localStorage.setItem("userId", response.data._id);
+          // this.userId = response.data._id;
           this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
           this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
           this.firstFormGroup.controls['email'].setValue(response.data.email);
