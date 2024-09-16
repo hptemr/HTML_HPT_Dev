@@ -164,6 +164,13 @@ function validateName(name) {
     return input;
   }
 
+  function trimString(str) {
+    if (str) {
+      return str.trim();
+    }
+    return str;
+  }
+
 
 module.exports = {
     userGetByEmail,
@@ -178,5 +185,6 @@ module.exports = {
     validateUploadProviderFile,
     validateUploadInsuranceFileHeader,
     validateUploadInsuranceFile,
-    cleanNumericInput
+    cleanNumericInput,
+    trimString
 };

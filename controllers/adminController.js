@@ -688,7 +688,12 @@ const uploadProviders = async (req, res) => {
               totalRecordCount: allData.length, 
               errorRecordCount :errorsList.length 
             }
-            commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
+
+            if(allData.length==0){
+              commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
+            }else{
+              commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
+            }
           }
         })
     } catch (error) {
@@ -753,6 +758,7 @@ async function processBatch(batch, updateCount, insertCount) {
       if (existingDoctor) {
         // If doctor exists, update the record and set the updatedDate
         doctorData.updatedAt = new Date();
+        doctorData.status = "Active";
         await Provider.updateOne({ npi: row.NPI }, doctorData);
         updateCount.count++;
       } else {
@@ -825,6 +831,11 @@ const uploadInsurances = async (req, res) => {
         if (headersValidated && validHeaders) {
           console.log("row>>>>>>>",row)
           rowNumber++;
+          // Clean up row data before validation
+          row['payerID'] = userCommonHelper.cleanNumericInput(row['payerID']);
+          row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+          row['insuranceType'] = userCommonHelper.trimString(row['insuranceType']);
+
           const errors = userCommonHelper.validateUploadInsuranceFile(row,payerIDSet);
           console.log("errors>>>>>",errors)
           if (errors.length > 0) {
@@ -854,7 +865,12 @@ const uploadInsurances = async (req, res) => {
             totalRecordCount: allData.length, 
             errorRecordCount :errorsList.length 
           }
-          commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
+
+          if(allData.length==0){
+            commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
+          }else{
+            commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
+          }
         }
       })
   } catch (error) {
@@ -919,6 +935,7 @@ async function processUplaodInsurancesBatch(batch, updateCount, insertCount) {
     if (existingInsurance) {
       // If insurance exists, update the record and set the updatedDate
       insurancesData.updatedAt = new Date();
+      insurancesData.status = "Active";
       await UploadInsurances.updateOne({ payerID: row.payerID }, insurancesData);
       updateCount.count++;
     } else {
