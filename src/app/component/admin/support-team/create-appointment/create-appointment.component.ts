@@ -12,6 +12,9 @@ import { validationMessages } from '../../../../utils/validation-messages';
 export class lists {
   constructor(public id: string, public firstName: string,public lastName: string,public status: string,public patientName: string, public patientEmail: string,public profileImage: string) {}
 }
+export class caselist {
+  constructor(public caseName: string, public caseType: string) {}
+}
 
 @Component({
   selector: 'app-create-appointment', 
@@ -22,13 +25,15 @@ export class CreateAppointmentComponent {
   model: NgbDateStruct;
   selectedValue: string;
   selectedAppTypeValue: string;
-  casenameList:any = [];
+  casenameList:caselist[] = [];
   whereCond: any = {}
   public userId: string = this.authService.getLoggedInInfo('_id');
+  userRole = this.authService.getLoggedInInfo('role')
   seachByPname: any = ''
   public patientList:lists[] = []
   appointmentForm: FormGroup;
-  caseNameOtherFlag:boolean=false;
+  caseNameFlag:boolean=false;
+  caseNameOtherFlag:boolean=true;
   convertPhoneNumber: string = '';
   practiceLocationData: string[] = practiceLocations
   validationMessages = validationMessages
@@ -36,20 +41,29 @@ export class CreateAppointmentComponent {
   patientId: string;
   therapistList:any=[];
   orderBy: any = { updatedAt: -1 }
+  invalidEmailErrorMessage: string = '';
+  emailError:boolean = false;
   constructor(  public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService) {}
 
   ngOnInit() {    
+    if(this.userRole!='support_team'){
+      this.router.navigate([''])
+    }
+   
     this.appointmentForm = this.fb.group({
-      caseName: ['', [Validators.required]],
-      caseNameOther: [''],
+      patientType: ['New', [Validators.required]],
+      seachByPname: [''],
+      caseName: ['Other', [Validators.required]],
+      caseType: ['', [Validators.required]],
+      caseNameOther: ['',Validators.required],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required,Validators.email]],
       appointmentDate: ['', [Validators.required]],
       practiceLocation: ['',[Validators.required]],
       therapistId: ['',[Validators.required]],    
-      phoneNumber: ['', [Validators.required]],
-      doctorId: ['',[Validators.required]],    
+      phoneNumber: ['', []],
+      doctorId: ['',[]],    
       appointmentType: [''],
       appointmentTypeOther: [''],      
     });
@@ -58,6 +72,25 @@ export class CreateAppointmentComponent {
 
   onChange(event: MatRadioChange) {
     this.selectedValue = event.value
+    this.appointmentForm.controls['caseNameOther'].setValue('');
+    if(this.selectedValue=='New'){
+      this.appointmentForm.controls['firstName'].setValue('');
+      this.appointmentForm.controls['lastName'].setValue('');
+      this.appointmentForm.controls['email'].setValue('');
+
+      this.appointmentForm.controls['firstName'].enable();
+      this.appointmentForm.controls['lastName'].enable();
+      
+      this.appointmentForm.controls['email'].enable();
+      this.appointmentForm.controls['caseType'].reset();
+      this.caseNameFlag = false;
+      this.caseNameOtherFlag = true;
+      this.appointmentForm.controls['caseName'].setValidators([]);
+    }else{
+      this.caseNameFlag = true;
+      this.caseNameOtherFlag = false;
+      this.appointmentForm.controls['caseName'].setValidators([Validators.required]);
+    }
   }
 
   onAppointmentTypeChange(value: any) {
@@ -65,31 +98,36 @@ export class CreateAppointmentComponent {
   }
 
   async createAppointment(formData:any){
+    console.log('formData>>>',formData)
     if (this.appointmentForm.valid) {
         //this.clickOnRequestAppointment = true
         this.commonService.showLoader();
        
-        let patientText = 'Existing'
-        //patientText = 'New'
-
-        if(patientText=='Existing'){
+        if(formData.patientType=='Existing'){
           Object.assign(formData, {patientId: this.patientId})
         }
-
+  
+        delete formData.seachByPname;
+      console.log('#####formData>>>',formData)
         let reqVars = {
           requestId:'',
           userId: this.userId,
           data: formData,
-          signup:patientText
+          patientType:formData.patientType
         }
-        
-        this.commonService.showLoader();       
+        this.emailError = false; this.invalidEmailErrorMessage = '';   
         this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {
         this.clickOnRequestAppointment = false;
         this.commonService.hideLoader();
         if (response.error) {
           if (response.message) {
             this.commonService.openSnackBar(response.message, "ERROR");
+          }
+          if(response.data.email){
+            this.appointmentForm.controls["email"].markAsTouched();
+            //this.appointmentForm.controls['email'].setValue('');
+            this.emailError = true;
+            this.invalidEmailErrorMessage = response.data.email;
           }
         } else {
           if (response.message) {
@@ -156,10 +194,9 @@ export class CreateAppointmentComponent {
   }
 
   selectPatient(id: string): any {
-    if(this.patientList.length>0){
+    if(this.patientList.length>0) {
       let selected = this.patientList.find(item => typeof item === 'object' && item.id === id) || null;
-        //id     status      patientName    patientEmail   profileImage
-      if(selected){
+      if(selected) {
         this.appointmentForm.controls['firstName'].setValue(selected.firstName);
         this.appointmentForm.controls['lastName'].setValue(selected.lastName);
         this.appointmentForm.controls['email'].setValue(selected.patientEmail);
@@ -169,6 +206,9 @@ export class CreateAppointmentComponent {
         this.appointmentForm.controls['email'].disable()
 
         this.patientId = id;
+        this.appointmentForm.controls['caseType'].reset();
+        this.appointmentForm.controls['caseName'].reset('');
+        this.appointmentForm.controls['caseNameOther'].reset('');
         this.getCaseList(id)
       }    
     }
@@ -188,6 +228,7 @@ export class CreateAppointmentComponent {
     }
    }
 
+
    async getTherapistList() {
     const reqVars = {
       query: { role: 'therapist', status: 'Active' },
@@ -204,9 +245,15 @@ export class CreateAppointmentComponent {
    onCaseSelected(value: any) {
     this.caseNameOtherFlag = false
     this.appointmentForm.controls['caseNameOther'].setValidators([]);
+    this.appointmentForm.controls['caseType'].setValue('');
     if(value=='Other'){
      this.caseNameOtherFlag = true
      this.appointmentForm.controls['caseNameOther'].setValidators([Validators.required]);
+    }else{    
+      let selected = this.casenameList.find(item => typeof item === 'object' && item.caseName === value) || null;
+      if(selected && selected.caseType){
+        this.appointmentForm.controls['caseType'].setValue(selected.caseType);
+      }      
     }   
    }
 

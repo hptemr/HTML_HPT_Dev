@@ -4,7 +4,7 @@ import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, Valida
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
 //import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute,Params } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
@@ -52,6 +52,7 @@ export class SignupPatientComponent implements OnInit {
   isRequired: boolean = false;
   emailError = false;
   invalidEmailErrorMessage: string = '';
+  readonlyFlag: boolean = false;
 
   firstFormGroupData: any
   secondFormGroupData: any
@@ -86,7 +87,11 @@ export class SignupPatientComponent implements OnInit {
   public thirdFormGroup: FormGroup;
   signUpToken:any = ""
   patientGetByToken:any = null
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe,private activateRoute: ActivatedRoute) {
+  public tokenId: any;
+  constructor( private route: ActivatedRoute,private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe,private activateRoute: ActivatedRoute) {
+    this.route.params.subscribe((params: Params) => {
+      this.tokenId = params['tokenId'];
+    })
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -95,10 +100,9 @@ export class SignupPatientComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.userId = localStorage.getItem("userId");
+     this.userId = localStorage.getItem("userId");
 
-    this.documents_type_list = documents_list;
-
+     this.documents_type_list = documents_list;
      this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
     if(localStorage.getItem("firstFormGroupData")){
       this.firstFormGroupData = JSON.parse(this.firstFormGroupData)
@@ -173,6 +177,9 @@ export class SignupPatientComponent implements OnInit {
     }); 
     this.filterStartDate();
     this.getPatientDataThroughToken()
+    if(this.tokenId){
+      this.getPatientDetailsSignupToken()
+    }
   }
 
   checkSpace(colName: any, event: any) {
@@ -597,6 +604,37 @@ export class SignupPatientComponent implements OnInit {
             this.firstFormGroup.controls['lastName'].setValue((this.patientGetByToken && this.patientGetByToken.lastName)? this.patientGetByToken.lastName : '');
             this.firstFormGroup.controls['email'].setValue((this.patientGetByToken && this.patientGetByToken.email)? this.patientGetByToken.email : '');
           }
+        }
+      }, (err) => {
+        console.error(err)
+      })
+    }
+  }
+
+  getPatientDetailsSignupToken(){
+    if(this.tokenId){
+        let reqVars = {
+          query: {signupToken:this.tokenId},
+          fields: { firstName: 1, lastName: 1, email: 1, status: 1, _id:1 },     
+        }
+      
+      this.authService.apiRequest('post', 'patients/getPatientSignupToken', reqVars).subscribe(async response => {
+        if(response && response.error){
+          this.commonService.openSnackBar(response.message, "ERROR")
+          this.router.navigate(['/signup']);
+        }else if(response.data){
+          localStorage.setItem("userId", response.data._id);
+          this.userId = response.data._id;
+          this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
+          this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
+          this.firstFormGroup.controls['email'].setValue(response.data.email);
+
+          //this.firstFormGroup.controls['firstName'].disable();
+         // this.firstFormGroup.controls['lastName'].disable();
+          //this.firstFormGroup.controls['email'].disable();
+
+          this.readonlyFlag = true
+
         }
       }, (err) => {
         console.error(err)
