@@ -69,7 +69,8 @@ export class PlanComponent {
       planEndDate: ['',Validators.required],
     })
     var params = {
-      appointmentId:this.appointmentId
+      appointmentId:this.appointmentId,
+      soapNoteType:'initial_examination'
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
       if(response.data && response.data.appointmentId){
