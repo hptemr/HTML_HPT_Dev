@@ -499,11 +499,11 @@ async function patientAppointmentSignupEmail(patientData) {
         };
         await Appointment.findOneAndUpdate({_id:patientData.appId},appRequest); 
 
-        const link = `${process.env.BASE_URL}/signup/${encryptToken}`;
+        const link = `${process.env.BASE_URL}/signup/${encryptToken}/`;
         patientData.link = link;
         patientData.appointmentSignup = 'yes';
         triggerEmail.patientSignup('patientAppointmentSignup', patientData);
-        
+
         return true;
     } catch (error) {
         console.log('query error >>>', error)
