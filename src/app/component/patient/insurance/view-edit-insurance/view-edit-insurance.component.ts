@@ -11,6 +11,7 @@ import { validationMessages } from 'src/app/utils/validation-messages';
 import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component'; 
 import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList } from 'src/app/config';
 import { states_data } from 'src/app/state';
+import { MatRadioChange } from '@angular/material/radio';
 interface State {
   state: string;
   state_code: string;
@@ -357,11 +358,7 @@ export class ViewEditInsuranceComponent {
     this.insuranceForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
 
-  cmsModal() {
-    const dialogRef = this.dialog.open(CmsModalComponent, {
-      panelClass: 'cms--container',
-    });
-  }
+ 
 
   successModal() {
     const dialogRef = this.dialog.open(SuccessModalComponent,{
@@ -416,6 +413,15 @@ export class ViewEditInsuranceComponent {
     }    
   } 
 
+  openCMSmodal(event:any) {  
+    if (event.checked === true) {
+      const dialogRef = this.dialog.open(CmsModalComponent,{
+        panelClass: 'cms--container', 
+      });
+    } else{ 
+    }
+}
+ 
 
 
 }

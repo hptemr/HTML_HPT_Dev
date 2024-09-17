@@ -9,7 +9,7 @@
             box-shadow: 0px 6.879px 14px 0px rgba(18, 18, 18, 0.10);
             overflow: hidden;
             padding: 5px;
-            margin-top: 30px;
+            margin-top: 10px;
             font-size: 21px;
             font-family: "Great Vibes", cursive;
             font-weight: 600; 
@@ -22,8 +22,41 @@
                 left: -38px;
                 top: -6px;
                 height: 36px;
-                width: 173px;
+                width: 103px;
             } 
+        }
+        .doc--desc{
+            width: 230px;
+            margin-right: 20px;
+            h5{
+                word-break: break-all;
+            }
+        } 
+        .concent--box{
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+            margin-top: 15px;
+            ::ng-deep{
+                .mat-mdc-checkbox {
+                    margin-left: -8px;
+                    .mdc-label{
+                        font-size: 16px !important;
+                    }
+                }
+            }
+        }
+        .minor--consent{
+            ::ng-deep{
+                .mat-mdc-checkbox {
+                    .mdc-form-field{
+                        align-items: flex-start;
+                        .mdc-checkbox{
+                            margin-top: -6px;
+                            margin-left: -11px;
+                        }
+                    }
+                }
+            }
         }
     }  
 }

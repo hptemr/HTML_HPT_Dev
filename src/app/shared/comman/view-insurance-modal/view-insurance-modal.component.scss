@@ -14,6 +14,17 @@
         font-family: "Great Vibes", cursive;
         font-weight: 600; 
     }
+    .ui--button{
+        input[type=file]{
+            z-index: 999999;
+            opacity: 0;
+            position: absolute;
+            left: -38px;
+            top: -6px;
+            height: 36px;
+            width: 103px;
+        } 
+    }
     .doc--desc{
         width: 230px;
         margin-right: 20px;
@@ -22,6 +33,9 @@
         }
     }
     .concent--box{
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+        margin-top: 15px;
         ::ng-deep{
             .mat-mdc-checkbox {
                 margin-left: -8px;
