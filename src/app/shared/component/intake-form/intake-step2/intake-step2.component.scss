@@ -23,7 +23,7 @@
                 left: -38px;
                 top: -6px;
                 height: 36px;
-                width: 173px;
+                width: 103px;
             } 
         }
         .doc--desc{
@@ -32,8 +32,11 @@
             h5{
                 word-break: break-all;
             }
-        }
+        } 
         .concent--box{
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+            margin-top: 15px;
             ::ng-deep{
                 .mat-mdc-checkbox {
                     margin-left: -8px;
