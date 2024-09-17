@@ -196,7 +196,8 @@ export class UploadInsurancesComponent {
         if(res.data.totalRecordCount>0 && res.data.errorRecordCount>0 && res.data.totalRecordCount==res.data.errorRecordCount){
           this.allRecordFoundError = true
         }
-        this.dataSource = new MatTableDataSource<InsuranceList>(res.data.totalRecord)
+        // this.dataSource = new MatTableDataSource<InsuranceList>(res.data.totalRecord)
+        this.dataSource = new MatTableDataSource<InsuranceList>(res.data.dataWithError)
         this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
         // Pagignation
@@ -252,7 +253,8 @@ export class UploadInsurancesComponent {
   }
 
   saveUploadedData(){
-    let uploadAlertMessage = "Are you sure you want to processs all records?"
+    // let uploadAlertMessage = "Are you sure you want to processs all records?"
+    let uploadAlertMessage = "Are you sure you want to make these updates? It can affect all of the Cases depending on the Insurance selected."
     if(this.errorRecordFound>0){
       uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure you want to process ${this.dataWithoutError.length} records?`
     }

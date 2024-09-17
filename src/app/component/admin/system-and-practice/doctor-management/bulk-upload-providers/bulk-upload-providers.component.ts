@@ -261,7 +261,8 @@ export class BulkUploadProvidersComponent {
         if(res.data.totalRecordCount>0 && res.data.errorRecordCount>0 && res.data.totalRecordCount==res.data.errorRecordCount){
           this.allRecordFoundError = true
         }
-        this.dataSource = new MatTableDataSource<ProviderList>(res.data.totalRecord)
+        // this.dataSource = new MatTableDataSource<ProviderList>(res.data.totalRecord)
+        this.dataSource = new MatTableDataSource<ProviderList>(res.data.dataWithError)
         this.dataWithoutError = res.data.dataWithoutError
         this.commonService.openSnackBar(res.message, "SUCCESS");
         // Pagignation
@@ -290,7 +291,6 @@ export class BulkUploadProvidersComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
         this.resetFileAndRecordData()
-
         // Reset the file input value to allow re-uploading the same file
         fileInput.value = '';
       }
@@ -316,7 +316,8 @@ export class BulkUploadProvidersComponent {
   }
 
   saveUploadedData(){
-    let uploadAlertMessage = "Are you sure you want to processs all records?"
+    // let uploadAlertMessage = "Are you sure you want to processs all records?"
+    let uploadAlertMessage = "Are you sure you want to make these updates? It can affect all of the Cases depending on the Referred Doctor selected."
     if(this.errorRecordFound>0){
       uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure you want to process ${this.dataWithoutError.length} records?`
     }

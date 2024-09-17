@@ -137,15 +137,15 @@ const routes: Routes = [
     component:ProviderManagementComponent   
   },
   {
-    path: 'bulk-upload-providers',
+    path: 'provider-management/bulk-upload-providers',
     component:BulkUploadProvidersComponent   
   },
   {
     path: 'insurance-management',
-    component:ManageInsuranceComponent   
+    component:ManageInsuranceComponent
   },
   {
-    path: 'upload-insurance',
+    path: 'insurance-management/upload-insurance',
     component:UploadInsurancesComponent   
   },
 ];
