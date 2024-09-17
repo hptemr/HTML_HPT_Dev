@@ -685,6 +685,7 @@ const uploadProviders = async (req, res) => {
             let allList = { 
               totalRecord: allData, 
               dataWithoutError:data,
+              dataWithError:errorsList,
               totalRecordCount: allData.length, 
               errorRecordCount :errorsList.length 
             }
@@ -835,6 +836,7 @@ const uploadInsurances = async (req, res) => {
           row['payerID'] = userCommonHelper.cleanNumericInput(row['payerID']);
           row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
           row['insuranceType'] = userCommonHelper.trimString(row['insuranceType']);
+          row['billingType'] = userCommonHelper.trimString(row['billingType']);
 
           const errors = userCommonHelper.validateUploadInsuranceFile(row,payerIDSet);
           console.log("errors>>>>>",errors)
@@ -862,6 +864,7 @@ const uploadInsurances = async (req, res) => {
           let allList = { 
             totalRecord: allData, 
             dataWithoutError:data,
+            dataWithError:errorsList,
             totalRecordCount: allData.length, 
             errorRecordCount :errorsList.length 
           }

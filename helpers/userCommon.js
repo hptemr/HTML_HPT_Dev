@@ -67,42 +67,42 @@ function validateName(name) {
   // Validation uploaded provider file rows
   const validateUploadProviderFile = (row, npiSet) =>{
     const errors = [];
-    // Check required fields
-    if (!row["Name"]) errors.push("Doctor Name is required");
+    const phoneNumberRegex = /^\d{11}$/; // Validate phone numbers (numeric and 11 digits)
+    const npiRegex = /^\d{10}$/; // Validate Doctor NPI (numeric and 10 digits)
+    const nameRegex = /^[a-zA-Z\s]+$/; // Validate Doctor Name (character only)
+    const alphaNumeric = /^[a-zA-Z0-9]+$/; // Alphanumeric input
+
+    // Doctor Credentials Validation
     if (!row["Credentials"]) errors.push("Doctor Credentials is required");
-    if (!row["Address"]) errors.push("Address is required");
-    if (!row["phoneNumber"]) errors.push("Phone Number is required");
-    if (!row["faxNumber"]) errors.push("Fax Number is required");
-    if (!row["NPI"]) errors.push("Doctor NPI is required");
-    
-    // Validate phone numbers (numeric and 11 digits)
-    const phoneNumberRegex = /^\d{11}$/;
-    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
-    if (!phoneNumberRegex.test(row["faxNumber"])) errors.push("Fax Number must be 11 digits and numeric");
-
-    // Validate Doctor NPI (numeric and 10 digits)
-    const npiRegex = /^\d{10}$/;
-    if (!npiRegex.test(row["NPI"])) errors.push("Doctor NPI must be 10 digits and numeric");
-
-    // Validate Doctor Name (character only)
-    const nameRegex = /^[a-zA-Z\s]+$/;
-    if (!nameRegex.test(row["Name"])) errors.push("Doctor Name must contain only letters");
-
-    // Alphanumeric input
-    const alphaNumeric = /^[a-zA-Z0-9]+$/
+    if (row["Credentials"].length > 10) errors.push('Doctor Credentials not more than 10 characters');
     if (!alphaNumeric.test(row["Credentials"])) errors.push("Doctor Credentials must contain only alphanumeric character");
 
-    // Max length
+    // Doctor Name Validation
+    if (!row["Name"]) errors.push("Doctor Name is required");
     if (row["Name"].length > 50) errors.push('Doctor Name not more than 50 characters');
-    if (row["Credentials"].length > 10) errors.push('Doctor Credentials not more than 10 characters');
-    if (row["Address"].length > 500) errors.push('Address not more than 10 characters');
+    if (!nameRegex.test(row["Name"])) errors.push("Doctor Name must contain only letters");
 
+    // Doctor NPI Validation
+    if (!row["NPI"]) errors.push("Doctor NPI is required");
+    if (!npiRegex.test(row["NPI"])) errors.push("Doctor NPI must be 10 digits and numeric");
     // Check for duplicate NPI in the file
     if (npiSet.has(row["NPI"])) {
       errors.push(`Duplicate NPI found: ${row["NPI"]}`);
     } else {
       npiSet.add(row["NPI"]); // Add NPI to the set if it's unique
     }
+
+    // Address Validation
+    if (!row["Address"]) errors.push("Address is required");
+    if (row["Address"].length > 500) errors.push('Address not more than 10 characters');
+
+    // PhoneNumber Validation
+    if (!row["phoneNumber"]) errors.push("Phone Number is required");
+    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
+
+    // FaxNumber Validation
+    if (!row["faxNumber"]) errors.push("Fax Number is required");
+    if (!phoneNumberRegex.test(row["faxNumber"])) errors.push("Fax Number must be 11 digits and numeric");
 
     return errors;
   }
@@ -123,35 +123,39 @@ function validateName(name) {
 
   // Validation uploaded insurance file rows
   const validateUploadInsuranceFile = (row, payerIDSet) =>{
-    const errors = [];
-    // Check required fields
-    if (!row["insuranceName"]) errors.push("Insurance Name is required");
-    if (!row["insuranceType"]) errors.push("Insurance Type is required");
-    if (!row["insuranceAddress"]) errors.push("Insurance Address is required");
-    if (!row["payerID"]) errors.push("Payer ID is required");
-    if (!row["phoneNumber"]) errors.push("Phone Number is required");
-    if (!row["billingType"]) errors.push("Billing Type is required");
-    
-    // Validate phone numbers (numeric and 11 digits)
-    const phoneNumberRegex = /^\d{11}$/;
-    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
-
-    // Max length
-    if (row["payerID"].length > 10) errors.push('Payer ID not more than 10 characters');
-    if (row["insuranceAddress"].length > 250) errors.push('Insurance Address not more than 10 characters');
-
-    // Required Insurance Type
-    const requiredInsuranceType = ['Medicare','Medicaid','Tricare','CHAMPVA','Group Health Plan','Other'];
-    if (!requiredInsuranceType.includes(row["insuranceType"])) errors.push('Please select valid insurance type');
+    const phoneNumberRegex = /^\d{11}$/; // Validate phone numbers (numeric and 11 digits)
+    const requiredInsuranceType = ['Medicare','Medicaid','Tricare','CHAMPVA','Group Health Plan','Other']; // Required Insurance Type
     const requiredBillingType = ['AMA','CMS'];
-    if (!requiredBillingType.includes(row["billingType"])) errors.push('Please select valid billing type');
+    const errors = [];
 
+    // Insurance Name Validation
+    if (!row["insuranceName"]) errors.push("Insurance Name is required");
+
+    // Insurance Type Validation
+    if (!row["insuranceType"]) errors.push("Insurance Type is required");
+    if (!requiredInsuranceType.includes(row["insuranceType"])) errors.push('Please add valid insurance type');
+
+    // Payer ID Validation
+    if (!row["payerID"]) errors.push("Payer ID is required");
+    if (row["payerID"].length > 10) errors.push('Payer ID not more than 10 characters');
     // Check for duplicate Payer Id in the file
     if (payerIDSet.has(row["payerID"])) {
       errors.push(`Duplicate Payer ID found: ${row["payerID"]}`);
     } else {
       payerIDSet.add(row["payerID"]); // Add Payer Id to the set if it's unique
     }
+
+    // Insurance Address Validation
+    if (!row["insuranceAddress"]) errors.push("Insurance Address is required");
+    if (row["insuranceAddress"].length > 250) errors.push('Insurance Address not more than 10 characters');
+    
+    // Phone Number Validation
+    if (!row["phoneNumber"]) errors.push("Phone Number is required");
+    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
+
+    // Billing Type Validation
+    if (!row["billingType"]) errors.push("Billing Type is required");
+    if (!requiredBillingType.includes(row["billingType"])) errors.push('Please add valid billing type');
 
     return errors;
   }
