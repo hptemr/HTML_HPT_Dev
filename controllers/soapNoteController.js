@@ -18,7 +18,7 @@ const createPlanNote = async (req, res) => {
         plan_end_date:new Date(req.body.planEndDate),
         createdBy: new ObjectId(req.body.endUserId),
       }
-      if(req.body.soapNoteType == 'initial_examination'){
+      if(req.body.soapNoteType == 'initial_examination' || req.body.soapNoteType == 'progress_note'){
         createParams.plan_note_type = req.body.planType,
         createParams.freequency_per_week = req.body.frequencyPerWeek,
         createParams.duration_per_week = req.body.durationPerWeek,
@@ -55,7 +55,7 @@ const updatePlanNote = async (req, res) => {
         plan_end_date:new Date(req.body.planEndDate),
         updatedAt: new Date(),
       }
-      if(req.body.soapNoteType == 'initial_examination'){
+      if(req.body.soapNoteType == 'initial_examination' || req.body.soapNoteType == 'progress_note'){
         updateParams.plan_note_type = req.body.planType,
         updateParams.freequency_per_week = req.body.frequencyPerWeek,
         updateParams.duration_per_week = req.body.durationPerWeek,
