@@ -5,6 +5,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table'; 
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ViewDetailsModalComponent } from './view-details-modal/view-details-modal.component';
 
 export interface PeriodicElement {
   docCredentials: string; 
@@ -92,6 +93,14 @@ export class ProviderManagementComponent {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+ 
+
+  viewDetailsModal() {
+    const dialogRef = this.dialog.open(ViewDetailsModalComponent,{
+      width:'650px',
+      panelClass: [ 'modal--wrapper'],
+    });
   }
 
 }
