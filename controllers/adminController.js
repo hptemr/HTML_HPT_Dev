@@ -836,7 +836,7 @@ const uploadInsurances = async (req, res) => {
           row['payerID'] = userCommonHelper.cleanNumericInput(row['payerID']);
           row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
           row['insuranceType'] = userCommonHelper.trimString(row['insuranceType']);
-          row['billingType'] = userCommonHelper.trimString(row['billingType']);
+          row['billingType'] = userCommonHelper.cleanNumericInput(row['billingType']);
 
           const errors = userCommonHelper.validateUploadInsuranceFile(row,payerIDSet);
           console.log("errors>>>>>",errors)

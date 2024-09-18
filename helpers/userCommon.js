@@ -67,7 +67,7 @@ function validateName(name) {
   // Validation uploaded provider file rows
   const validateUploadProviderFile = (row, npiSet) =>{
     const errors = [];
-    const phoneNumberRegex = /^\d{11}$/; // Validate phone numbers (numeric and 11 digits)
+    const phoneNumberRegex = /^\d{10}$/; // Validate phone numbers (numeric and 10 digits)
     const npiRegex = /^\d{10}$/; // Validate Doctor NPI (numeric and 10 digits)
     const nameRegex = /^[a-zA-Z\s]+$/; // Validate Doctor Name (character only)
     const alphaNumeric = /^[a-zA-Z0-9]+$/; // Alphanumeric input
@@ -98,11 +98,11 @@ function validateName(name) {
 
     // PhoneNumber Validation
     if (!row["phoneNumber"]) errors.push("Phone Number is required");
-    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
+    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 10 digits and numeric");
 
     // FaxNumber Validation
     if (!row["faxNumber"]) errors.push("Fax Number is required");
-    if (!phoneNumberRegex.test(row["faxNumber"])) errors.push("Fax Number must be 11 digits and numeric");
+    if (!phoneNumberRegex.test(row["faxNumber"])) errors.push("Fax Number must be 10 digits and numeric");
 
     return errors;
   }
@@ -123,7 +123,7 @@ function validateName(name) {
 
   // Validation uploaded insurance file rows
   const validateUploadInsuranceFile = (row, payerIDSet) =>{
-    const phoneNumberRegex = /^\d{11}$/; // Validate phone numbers (numeric and 11 digits)
+    const phoneNumberRegex = /^\d{10}$/; // Validate phone numbers (numeric and 10 digits)
     const requiredInsuranceType = ['Medicare','Medicaid','Tricare','CHAMPVA','Group Health Plan','Other']; // Required Insurance Type
     const requiredBillingType = ['AMA','CMS'];
     const errors = [];
@@ -151,7 +151,7 @@ function validateName(name) {
     
     // Phone Number Validation
     if (!row["phoneNumber"]) errors.push("Phone Number is required");
-    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 11 digits and numeric");
+    if (!phoneNumberRegex.test(row["phoneNumber"])) errors.push("Phone Number must be 10 digits and numeric");
 
     // Billing Type Validation
     if (!row["billingType"]) errors.push("Billing Type is required");
