@@ -1,5 +1,6 @@
 import { Component,OnInit,AfterViewInit, ViewChild } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
+import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
@@ -7,6 +8,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { icd_data } from '../../../../../../ICD';
 import { validationMessages } from '../../../../../../utils/validation-messages';
 import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/intake-step3/body-details-modal/body-details-modal.component';
 //import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
   selector: 'app-subjective', 
@@ -19,7 +21,8 @@ export class SubjectiveComponent implements OnInit {
   clickedIndex = 0;
   model: NgbDateStruct;
   selectedValue: number;
-  appointment_dates:any=["07/12/2024","05/14/2024","04/10/2024"];
+  appointment_dates:any=[];
+  appointment_data:any=[];
   tabs = [
     {number: '1'}, {number: '2'}, {number: '3'},
     {number: '4'}, {number: '5'}, {number: '6'},
@@ -37,7 +40,7 @@ export class SubjectiveComponent implements OnInit {
   appointment: any = null
   submitted:boolean=false;
   subjectiveId: string = '';
-  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
+  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -49,7 +52,7 @@ export class SubjectiveComponent implements OnInit {
 
     this.subjectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
-      note_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      note_date: ['', [Validators.required]],
       diagnosis_code: this.fb.array([this.fb.group({
         code: ['',Validators.required],
         name: ['',Validators.required]
@@ -77,6 +80,7 @@ export class SubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData;
 
+   
         this.subjectiveId = subjectiveData._id;
         this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
@@ -86,7 +90,6 @@ export class SubjectiveComponent implements OnInit {
 
         subjectiveData.diagnosis_code.forEach((element: any,index:number) => {
           let item = {'code':element.code,'name':element.name};      
-          console.log(' item>>>',item)
           if(this.icdCodeList.length==0){
             const ctrls = this.subjectiveForm.get('diagnosis_code') as FormArray;
             ctrls.removeAt(0)  
@@ -97,24 +100,20 @@ export class SubjectiveComponent implements OnInit {
           }));
           this.icdCodeList.push(item);
         })
-        console.log(' icdCodeList>>>',this.icdCodeList)
         this.selectedCode = this.icdCodeList.length>0 ? true : false;
       }
 
       if(response.data && response.data.appointmentDatesList){
-        this.appointment_dates = response.data.appointmentDatesList
+        this.appointment_dates = response.data.appointmentDatesList       
+      }
+
+      if(response.data && response.data.appointmentData){
+        this.appointment_data = response.data.appointmentData
       }
     })
   }
 
   getDiagnosisCodes(Obj:any) {
-
-    // this.diagnosisCodeInfo.push(this.fb.group({
-    //   code: [selectedData[0].code, Validators.required],
-    //   name: [selectedData[0].name, Validators.required],
-    // }));
-
-
     return this.fb.group({      
       code: [Obj.code, Validators.compose([ Validators.required ])],
       name: [Obj.name, Validators.compose([ Validators.required ])],
@@ -123,7 +122,6 @@ export class SubjectiveComponent implements OnInit {
 
 
   subjectiveSubmit(formData:any){
-
     if (this.subjectiveForm.invalid){
       this.subjectiveForm.markAllAsTouched();
     }else{
@@ -147,7 +145,7 @@ export class SubjectiveComponent implements OnInit {
           data: formData,
           subjectiveId:this.subjectiveId
         }  
-        console.log(' reqVars>>>',reqVars)
+       
         this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
           if (response.error) {
             if (response.message) {
@@ -210,5 +208,10 @@ export class SubjectiveComponent implements OnInit {
 
   }
 
+  bodyClick() {
+    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+      panelClass: 'custom-alert-container', 
+    });  
+  }
   
 }
