@@ -35,6 +35,17 @@
                 word-break: break-all;
             }
         }
+        .primary--insu{
+            .form-control{ 
+                padding-right: 90px;
+                pointer-events: none;
+            }
+        }
+        .updt--btn{
+            position: absolute;
+            right: 6px;
+            top: 6px;
+        }
     }
     .max-width{width: 90%;}
     .max-width-box{width: 81%;}
