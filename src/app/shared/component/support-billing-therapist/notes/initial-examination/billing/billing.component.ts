@@ -17,14 +17,14 @@ export class BillingComponent {
   userId =""
   actionType = ""
   unitedPtList = [
-    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",selected:false},
-    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",selected:false},
-    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",selected:false},
-    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",selected:false},
-    {name:"Paraffin Bath",value:"paraffin_bath",units:"",selected:false},
-    {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",selected:false},
-    {name:"Mechanical traction",value:"mechanical_traction",units:"",selected:false},
-    {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",selected:false}
+    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:false},
+    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",minutes:"",units:"",selected:false},
+    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:false},
+    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:false},
+    {name:"Paraffin Bath",value:"paraffin_bath",units:"",minutes:"",selected:false},
+    {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",minutes:"",selected:false},
+    {name:"Mechanical traction",value:"mechanical_traction",units:"",minutes:"",selected:false},
+    {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",minutes:"",selected:false}
   ]
   unitedOtList = [
     {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",selected:false},
@@ -91,6 +91,7 @@ export class BillingComponent {
   quantity = ""
   additionalCodes:any = []
   caseType = "PT"
+  billingType = "CMS"
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
