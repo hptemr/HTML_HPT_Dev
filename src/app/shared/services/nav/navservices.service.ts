@@ -260,6 +260,16 @@ export class NavservicesService implements OnInit {
           type: 'link', 
           item: [ ]
         },
+        {
+          id: 6,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/therapist/conversations-chat',
+          active: false,
+          item: []
+        },
         // {
         //   id: 4,
         //   icon: 'people',
@@ -338,6 +348,16 @@ export class NavservicesService implements OnInit {
           active: false, 
           type: 'link', 
           item: [ ]
+        },
+        {
+          id: 5,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/billing-team/conversations-chat',
+          active: false,
+          item: []
         },
         // {
         //   id: 4,
