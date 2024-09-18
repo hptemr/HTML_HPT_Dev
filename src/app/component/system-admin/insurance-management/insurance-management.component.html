@@ -45,8 +45,13 @@
             <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="insurance--mat--table">
                 <!-- Referring Doctor Credentials -->
                 <ng-container matColumnDef="primaryInsuranceName">
-                    <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Primary Insurance Name</th>
+                    <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Insurance Name</th>
                     <td mat-cell *matCellDef="let element" class=""> {{element.primaryInsuranceName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="payerId">
+                    <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Name">Payer ID</th>
+                    <td mat-cell *matCellDef="let element" class=""> {{element.payerId}} </td>
                 </ng-container>
                 
                 <!--Referring Doctor Name -->
@@ -75,14 +80,14 @@
                         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                             <mat-icon>more_vert</mat-icon>
                         </button>
-                        <mat-menu #menu="matMenu">
-                            <!-- <button mat-menu-item>
-                                <mat-icon class="text-primary">{{element.status=='Inactive' ? 'refresh' : 'block'}}</mat-icon>
-                                <span class="fw-600">{{element.status=='Inactive' ? 'Reactivate' : 'Inactivate'}}</span>
-                            </button> -->
+                        <mat-menu #menu="matMenu"> 
                             <button mat-menu-item >
                                 <mat-icon class="text-danger">delete</mat-icon>
                                 <span class="fw-600">Delete</span>
+                            </button>
+                            <button mat-menu-item (click)="viewInsuDetailsModal()"> 
+                                <mat-icon class="text-primary">visibility</mat-icon>
+                                <span class="fw-600">View</span>
                             </button>
                         </mat-menu>
                     </td>
