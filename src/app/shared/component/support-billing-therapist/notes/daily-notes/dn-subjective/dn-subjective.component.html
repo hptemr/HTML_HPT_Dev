@@ -6,13 +6,13 @@
         </div>
         <div class="col-12 col-lg-5">
             <div class="form-group mb-4">
-                <!-- <label class="col-form-label fw-600">Date of Daily Note</label>
+                <!-- <label class="col-form-label fw-600">Date of Service</label>
                 <mat-form-field class="w-100 am--datepicker">
                     <input [disabled]="isDisabled"  matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field> -->
-                <label class="col-form-label fw-600">Date of Daily Note <span class="clr--DF0404 ms-1"> * </span></label>
+                <label class="col-form-label fw-600">Date of Service <span class="clr--DF0404 ms-1"> * </span></label>
                 <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="daily_note_date">
                   <option value="" disabled>Select date</option>
                   <option *ngFor="let d of appointment_dates" [value]="d">{{d}}</option>
