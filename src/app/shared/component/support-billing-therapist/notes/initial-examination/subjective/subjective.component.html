@@ -15,7 +15,7 @@
                     <label class="col-form-label fw-600">Date of Initial Examination <span class="clr--DF0404 ms-1"> * </span></label>
                     <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="note_date">
                       <option value="" disabled>Select date</option>
-                      <option *ngFor="let d of appointment_dates" [value]="d">{{d}}</option>
+                      <option *ngFor="let d of appointment_dates" [value]="d.appointmentDate">{{d.appointmentDate | date:'MM-dd-YYYY' }}</option>
                     </select>
                     <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['note_date'].touched && subjectiveForm.controls['note_date'].hasError('required')">
                         {{ validationMessages.requiredDropdown('Initial examination date') }}
@@ -131,14 +131,14 @@
             <div class="col-12 medical--history--outer">
                 <div class="row"> 
                     <div class="col-12">
-                        <p class="fw-700 font-16 mb-2 mt-2">Patient Medical History Form</p> 
+                        <p class="fw-700 font-16 mb-2 mt-2 text-uppercase">Patient Medical History Form</p> 
                     </div>  
                     <div class="col-12 col-lg-9">
                         <div class="row">
                             <div class="col-12">
                                 <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Have you or any immediate family member ever been told you have: <span class="ms-2 clr--828282 fw-400">(Select Yes or No) </span></p> 
                             </div> 
-                            <div class="d-flex flex-column w-100 disease--name--wrapper">
+                            <div class="d-flex flex-column w-100 disease--desc--wrapper">
                                 <div class="dd--header w-100 d-flex align-items-center">
                                     <div class="disease--box"> 
                                     </div>
@@ -162,7 +162,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 0">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -174,7 +174,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 2">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -191,7 +191,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 4">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -203,7 +203,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 5">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -220,7 +220,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 6">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -232,7 +232,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 7">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -249,7 +249,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 8">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -261,7 +261,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 9">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -278,7 +278,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 10">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -290,7 +290,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 11">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -307,7 +307,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 301">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -319,7 +319,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 302">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -336,7 +336,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 303">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -348,7 +348,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -365,7 +365,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -377,7 +377,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 306">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -394,7 +394,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 307">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -406,7 +406,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 308">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -423,7 +423,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 310">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -435,7 +435,7 @@
                                                     <mat-radio-button  [value]="3" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 311">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -453,7 +453,7 @@
                             <div class="col-12">
                                 <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">In the past 3 months have you had or do experience:</p> 
                             </div>
-                            <div class="d-flex flex-column w-100 disease--name--wrapper"> 
+                            <div class="d-flex flex-column w-100 disease--desc--wrapper"> 
                                 <div class="dd--body w-100">
                                     <div class="dd--row w-100 d-flex align-items-start">
                                         <div class="disease--box">
@@ -467,7 +467,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 111">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -483,7 +483,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 13">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -499,7 +499,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 16">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -515,7 +515,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 18">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -531,7 +531,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 20">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -547,7 +547,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 21">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -563,7 +563,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 22">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -579,7 +579,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 23">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -595,7 +595,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 24">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -611,7 +611,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 25">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -627,7 +627,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 26">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -643,7 +643,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 27">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -710,7 +710,7 @@
                                                     <label class="col-form-label fw-600">Surgery Date </label>
                                                     <div class="input-group">
                                                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" />
+                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
                                                         <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                                             type="button">
                                                             <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
@@ -735,7 +735,7 @@
                                                     <label class="col-form-label fw-600">Surgery Date </label>
                                                     <div class="input-group">
                                                         <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"/>
+                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
                                                         <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                                             type="button">
                                                             <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
@@ -747,7 +747,7 @@
                                                 </button>
                                             </div>  
                                         </div>
-                                    
+                                       
                                     </div>
         
                                     <div class="col-12 ">
@@ -776,7 +776,7 @@
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> add_circle </mat-icon> 
                                             </button>
                                         </div>
-                                    
+                                       
                                     </div>
                                 </div>
                             </div>  
@@ -791,7 +791,7 @@
                             <div class="col-12">
                                 <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Do you have a history of:</p> 
                             </div>
-                            <div class="d-flex flex-column w-100 disease--name--wrapper"> 
+                            <div class="d-flex flex-column w-100 disease--desc--wrapper"> 
                                 <div class="dd--body w-100">
                                     <div class="dd--row w-100 d-flex align-items-start">
                                         <div class="disease--box">
@@ -804,7 +804,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue === 31">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -820,7 +820,7 @@
                                                     <mat-radio-button  [value]="321" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 32">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -836,7 +836,7 @@
                                                     <mat-radio-button  [value]="331" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 33">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -852,7 +852,7 @@
                                                     <mat-radio-button  [value]="341" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 34">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -868,7 +868,7 @@
                                                     <mat-radio-button  [value]="341" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 35">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -884,7 +884,7 @@
                                                     <mat-radio-button  [value]="341" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 36">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -900,7 +900,7 @@
                                                     <mat-radio-button  [value]="341" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 37">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -916,7 +916,7 @@
                                                     <mat-radio-button  [value]="341" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 38">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -932,7 +932,7 @@
                                                     <mat-radio-button  [value]="341" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 39">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -948,7 +948,7 @@
                                                     <mat-radio-button  [value]="341" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 40">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -966,7 +966,7 @@
                             <div class="col-12">
                                 <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are you currently?</p> 
                             </div>
-                            <div class="d-flex flex-column w-100 disease--name--wrapper"> 
+                            <div class="d-flex flex-column w-100 disease--desc--wrapper"> 
                                 <div class="dd--body w-100">
                                     <div class="dd--row w-100 d-flex align-items-start">
                                         <div class="disease--box">
@@ -979,7 +979,7 @@
                                                     <mat-radio-button  [value]="1" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue === 51">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -995,7 +995,7 @@
                                                     <mat-radio-button  [value]="321" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 52">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -1011,7 +1011,7 @@
                                                     <mat-radio-button  [value]="331" checked>No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="selectedValue == 53">
-                                                    <input class="form-control" type="text" placeholder="Add nameription" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -1053,11 +1053,358 @@
                             <div class="col-12 select--ans d-flex align-items-center disabled">
                                 <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
                                 <ul class="m-0 p-0 d-flex flex-wrap disabled">
-                                    <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
-                                        {{i}}
-                                    </li>
+                                     <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
+                                         {{i}}
+                                     </li>
                                 </ul>
                             </div>  
+                            <div class="col-12 mt-4">
+                                <div class="body--marking--wrapper w-100">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h1 class="font-16 fw-600 clr--1F2F3E mb-3">Please mark on the body chart where you have pain.</h1>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-12 col-lg-6 d-flex justify-content-lg-end">
+                                                    <div class="human--body--wrapper">
+                                                        <div class="img--outer head--box">
+                                                            <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                                src="/assets/images/human_body/upper_head.png" alt="">
+                                                            <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                                src="/assets/images/human_body/coloured/upper_head.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer ">
+                                                            <img (click)="bodyClick()" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="img--outer  ">
+                                                            <img (click)="bodyClick()" class="body--part default--img throat" src="/assets/images/human_body/throat.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img throat"
+                                                                src="/assets/images/human_body/coloured/throat.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer active">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--shoulder"
+                                                                src="/assets/images/human_body/left_shoulder.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--shoulder"
+                                                                src="/assets/images/human_body/coloured/left_shoulder.png" alt="">
+                                                        </div>
+                                                    
+                                                        <div class="img--outer  ">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--shoulder"
+                                                                src="/assets/images/human_body/right_shoulder.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--shoulder"
+                                                                src="/assets/images/human_body/coloured/right_shoulder.png" alt="">
+                                                        </div>
+                                                    
+                                                        <div class="img--outer ">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--chest"
+                                                                src="/assets/images/human_body/left_chest.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--chest"
+                                                                src="/assets/images/human_body/coloured/left_chest.png" alt="">
+                                                        </div>
+                                                    
+                                                        <div class="img--outer ">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--chest"
+                                                                src="/assets/images/human_body/right_chest.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--chest"
+                                                                src="/assets/images/human_body/coloured/right_chest.png" alt="">
+                                                        </div>
+                                                    
+                                                        <div class="img--outer  ">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--biceps"
+                                                                src="/assets/images/human_body/left_biceps.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--biceps"
+                                                                src="/assets/images/human_body/coloured/left_biceps.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--biceps"
+                                                                src="/assets/images/human_body/right_biceps.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--biceps"
+                                                                src="/assets/images/human_body/coloured/right_biceps.png" alt="">
+                                                        </div>
+                                                    
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--hand"
+                                                                src="/assets/images/human_body/left_hand_part_1.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--hand"
+                                                                src="/assets/images/human_body/coloured/left_hand_part_1.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--hand"
+                                                                src="/assets/images/human_body/right_hand_part_1.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--hand"
+                                                                src="/assets/images/human_body/coloured/right_hand_part_1.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--hand--palm"
+                                                                src="/assets/images/human_body/left_hand_palm.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--hand--palm"
+                                                                src="/assets/images/human_body/coloured/left_hand_palm.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--hand--palm"
+                                                                src="/assets/images/human_body/right_hand_palm.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--hand--palm"
+                                                                src="/assets/images/human_body/coloured/right_hand_palm.png" alt="">
+                                                        </div>
+                                                    
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--ribs"
+                                                                src="/assets/images/human_body/left_ribs.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--ribs"
+                                                                src="/assets/images/human_body/coloured/left_ribs.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--ribs"
+                                                                src="/assets/images/human_body/right_ribs.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--ribs"
+                                                                src="/assets/images/human_body/coloured/right_ribs.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img main--belly"
+                                                                src="/assets/images/human_body/main_belly.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img main--belly"
+                                                                src="/assets/images/human_body/coloured/main_belly.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--belly"
+                                                                src="/assets/images/human_body/left_belly.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--belly"
+                                                                src="/assets/images/human_body/coloured/left_belly.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--belly"
+                                                                src="/assets/images/human_body/right_belly.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--belly"
+                                                                src="/assets/images/human_body/coloured/right_belly.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img genitalia"
+                                                                src="/assets/images/human_body/genitalia.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img genitalia"
+                                                                src="/assets/images/human_body/coloured/genitalia.png" alt="">
+                                                        </div>
+                                                    
+                                                    
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--inner--things"
+                                                                src="/assets/images/human_body/left_inner_thigh.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--inner--things"
+                                                                src="/assets/images/human_body/coloured/left_inner_thigh.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--inner--things"
+                                                                src="/assets/images/human_body/right_inner_thigh.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--inner--things"
+                                                                src="/assets/images/human_body/coloured/right_inner_thigh.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--things"
+                                                                src="/assets/images/human_body/left_thigh.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--things"
+                                                                src="/assets/images/human_body/coloured/left_thigh.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--things"
+                                                                src="/assets/images/human_body/right_thigh.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--things"
+                                                                src="/assets/images/human_body/coloured/right_thigh.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--knee"
+                                                                src="/assets/images/human_body/left_knee.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--knee"
+                                                                src="/assets/images/human_body/coloured/left_knee.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--knee"
+                                                                src="/assets/images/human_body/right_knee.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--knee"
+                                                                src="/assets/images/human_body/coloured/right_knee.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--leg"
+                                                                src="/assets/images/human_body/left_leg.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--leg"
+                                                                src="/assets/images/human_body/coloured/left_leg.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--leg"
+                                                                src="/assets/images/human_body/right_leg.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--leg"
+                                                                src="/assets/images/human_body/coloured/right_leg.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left--leg--botton"
+                                                                src="/assets/images/human_body/left_leg_bottom.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left--leg--botton"
+                                                                src="/assets/images/human_body/coloured/left_leg_bottom.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right--leg--botton"
+                                                                src="/assets/images/human_body/right_leg_bottom.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right--leg--botton"
+                                                                src="/assets/images/human_body/coloured/right_leg_bottom.png" alt="">
+                                                        </div>
+                                                    
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="human--body--wrapper back--body--wrapper">
+                                                        <div class="img--outer head--box">
+                                                            <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                                src="/assets/images/human_body/backbody/head_back.png" alt="">
+                                                            <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                                src="/assets/images/human_body/backbody/coloured/head_back.png" alt="">
+                                                        </div> 
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img nape" src="/assets/images/human_body/backbody/nape.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img nape"
+                                                                src="/assets/images/human_body/backbody/coloured/nape.png" alt="">
+                                                        </div> 
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img spinal-cord" src="/assets/images/human_body/backbody/column.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img spinal-cord"
+                                                                src="/assets/images/human_body/backbody/coloured/column.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img clavicule-left" src="/assets/images/human_body/backbody/clavicule-left.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img clavicule-left"
+                                                                src="/assets/images/human_body/backbody/coloured/clavicule-left.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img back-left" src="/assets/images/human_body/backbody/back_left.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img back-left"
+                                                                src="/assets/images/human_body/backbody/coloured/back_left.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img back-right" src="/assets/images/human_body/backbody/back_right.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img back-right"
+                                                                src="/assets/images/human_body/backbody/coloured/back_right.png" alt="">
+                                                        </div>
+                                                        <!-- <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img armback-left" src="/assets/images/human_body/backbody/armback-left.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img armback-left"
+                                                                src="/assets/images/human_body/backbody/coloured/armback-left.png" alt="">
+                                                        </div> -->
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-1" src="/assets/images/human_body/backbody/left-hand-1.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-1"
+                                                                src="/assets/images/human_body/backbody/coloured/left-hand-1.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-2" src="/assets/images/human_body/backbody/left-hand-2.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-2"
+                                                                src="/assets/images/human_body/backbody/coloured/left-hand-2.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-3" src="/assets/images/human_body/backbody/left-hand-3.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-3"
+                                                                src="/assets/images/human_body/backbody/coloured/left-hand-3.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-1" src="/assets/images/human_body/backbody/right-hand-1.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-1"
+                                                                src="/assets/images/human_body/backbody/coloured/right-hand-1.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-2" src="/assets/images/human_body/backbody/right-hand-2.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-2"
+                                                                src="/assets/images/human_body/backbody/coloured/right-hand-2.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-3" src="/assets/images/human_body/backbody/right-hand-3.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-3"
+                                                                src="/assets/images/human_body/backbody/coloured/right-hand-3.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img clavicule-right" src="/assets/images/human_body/backbody/clavicule-right.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img clavicule-right"
+                                                                src="/assets/images/human_body/backbody/coloured/clavicule-right.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img lowerback" src="/assets/images/human_body/backbody/loin(lowerback).png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img lowerback"
+                                                                src="/assets/images/human_body/backbody/coloured/loin(lowerback).png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img hips" src="/assets/images/human_body/backbody/hips.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img hips"
+                                                                src="/assets/images/human_body/backbody/coloured/hips.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-1"
+                                                                src="/assets/images/human_body/backbody/left-leg-1.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-1"
+                                                                src="/assets/images/human_body/backbody/coloured/left-leg-1.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-2"
+                                                                src="/assets/images/human_body/backbody/left-leg-2.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-2"
+                                                                src="/assets/images/human_body/backbody/coloured/left-leg-2.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-3"
+                                                                src="/assets/images/human_body/backbody/left-leg-3.png" alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-3"
+                                                                src="/assets/images/human_body/backbody/coloured/left-leg-3.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-1" src="/assets/images/human_body/backbody/right-leg-1.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-1"
+                                                                src="/assets/images/human_body/backbody/coloured/right-leg-1.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-2" src="/assets/images/human_body/backbody/right-leg-2.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-2"
+                                                                src="/assets/images/human_body/backbody/coloured/right-leg-2.png" alt="">
+                                                        </div>
+                                                        <div class="img--outer">
+                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-3" src="/assets/images/human_body/backbody/right-leg-3.png"
+                                                                alt="">
+                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-3"
+                                                                src="/assets/images/human_body/backbody/coloured/right-leg-3.png" alt="">
+                                                        </div>
+                                                    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6">
+                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">05/10/2024</span></p>
+                                                </div>
+                                                <div class="col-12 col-sm-6 d-flex align-items-center justify-content-sm-end justify-content-start">
+                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Patient Initials:<span class="fw-400 ms-2">JD</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
                             <div class="col-12 disabled">
                                 <p class="clr--1F2F3E font-16 lh-24 mt-4 mb-0">Congress passed the Health Insurance Portability and Accountability Act, or HIPAA, in 1996. Its primary purpose is to ensure that people who change jobs cannot be denied health insurance in a new job because of a pre-existing health condition. The law also established minimum standards of privacy and security to ensure that sensitive information about individuals' health would remain confidential.</p>
                                 <p class="clr--1F2F3E font-16 lh-24 mb-0">   I hereby acknowledge that I have received and have been given an opportunity to read a copy of the clinic's Notice of Privacy Practices (NPP). I understand that if I have any questions regarding the Notice or my privacy rights, I can contact the clinic's HR department at (406) 375-9034; or by email at hradmin&#64;hamiltonpt.com.</p>
@@ -1068,7 +1415,7 @@
                             </div>
                         </div> 
                     </div>
-                
+                  
                 </div>
             </div>
         </div>
