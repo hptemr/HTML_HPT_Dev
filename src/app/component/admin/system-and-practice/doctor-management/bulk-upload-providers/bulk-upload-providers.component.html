@@ -135,7 +135,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements" [hidden]="!showTable" ></mat-paginator> -->
-                    <mat-paginator [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" [hidden]="!showTable">
+                    <mat-paginator [length]="errorRecordFound" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" [hidden]="!showTable">
                     </mat-paginator>
                 </div>
 
