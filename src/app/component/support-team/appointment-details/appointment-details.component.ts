@@ -11,6 +11,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { ShareModalComponent } from 'src/app/shared/comman/share-modal/share-modal.component';
+import { SelectPrimaryInsuModalComponent } from 'src/app/shared/comman/select-primary-insu-modal/select-primary-insu-modal.component';
  
 
 export interface PeriodicElement {
@@ -178,5 +179,11 @@ export class AppointmentDetailsComponent {
     })
   }
     
+  selectInsuranceModal() {
+    const dialogRef = this.dialog.open(SelectPrimaryInsuModalComponent,{
+      width:'650px',
+      panelClass: [ 'modal--wrapper'],
+    });
+  }
   
 }

@@ -95,8 +95,20 @@
                                     .cust--w{
                                         width: 85%;
                                     }
-                                    .update--btn{
-
+                                    &.primary--insu{
+                                        width: 26%;
+                                        padding-right: 0;
+                                        .cust--w{
+                                            width: 100%;
+                                            padding-right: 90px;
+                                            pointer-events: none;
+                                        }
+                                        .updt--btn{
+                                            position: absolute;
+                                            right: 3px;
+                                            top: 3px;
+                                            height: 30px; 
+                                        }
                                     }
                                 }
                             }
@@ -458,6 +470,12 @@
     }
     .update--btn{
         margin-bottom: 25px;
+    }
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col.primary--insu .updt--btn{
+        width: 30px !important;
+    }
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col.primary--insu{
+        width: 100% !important;
     }
 
 }

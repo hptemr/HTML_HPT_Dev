@@ -380,18 +380,18 @@
                                             <!-- <div class="text text-danger mt-1">Error here</div> -->
                                         </div>
                                     </div>
-                                    <div class="cust--col">
+                                    <div class="cust--col  primary--insu">
                                         <div class="form-group select-info">
                                             <label class="col-form-label fw-600">Primary Insurance</label>
-                                            <select class="cust--w form-select form-control form-control-md"
-                                                aria-label="Default select example">
-                                                <option selected>Select Insurance</option>
-                                                <option value="1">Medical</option>
-                                                <option value="2">Health</option>
-                                            </select>
+                                             <div class="d-flex w-100 position-relative">
+                                                <input class="form-control form-control-md cust--w" type="text" placeholder="Primary Insurance"  />
+                                                <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal()">
+                                                    Update
+                                                </button>
+                                             </div>
                                         </div>
                                     </div>
-                                    <button mat-stroked-button color="primary" class="mt-3 update--btn">
+                                    <button mat-stroked-button color="primary" class="mt-3 mb-3 ms-auto update--btn">
                                         Update
                                     </button>
                                 </div>
@@ -569,15 +569,6 @@
                     </mat-paginator>
                 </div>
             </div>
-        </div>
-
-        <div class="col-12 mt-1 mb-3">
-            <div class="d-flex align-items-center justify-content-end w-100 footer--btns">
-                <button mat-raised-button color="warn">
-                    Reject Case
-                </button>
-            </div>
-        </div>
-
+        </div> 
     </div>
 </div>
