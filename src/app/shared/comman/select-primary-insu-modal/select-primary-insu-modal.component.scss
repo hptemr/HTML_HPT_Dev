@@ -4,6 +4,15 @@
             .cust--mat--table--wrapper{
                 .cust--mat--table{
                     &.mat-mdc-table{
+                        thead{
+                            tr{
+                                th{
+                                    &:first-child{
+                                        padding-left: 10px;
+                                    }
+                                }
+                            }
+                        }
                         tbody{
                             tr{
                                 td{
