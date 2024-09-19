@@ -11,6 +11,7 @@ import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { pageSize, pageSizeOptions } from 'src/app/config';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { ViewInsuDetailsComponent } from '../view-insu-details/view-insu-details.component';
 
 // export interface PeriodicElement {
 //   primaryInsuranceName: string; 
@@ -218,6 +219,17 @@ export class ManageInsuranceComponent {
       }
     });
   }
+
+  viewInsuranceDetails(insuranceData:any) {
+    const dialogRef = this.dialog.open(ViewInsuDetailsComponent,{
+      width:'650px',
+      panelClass: [ 'modal--wrapper'],
+      data : {
+        insuranceDetails: insuranceData
+      }
+    });
+  }
+
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
