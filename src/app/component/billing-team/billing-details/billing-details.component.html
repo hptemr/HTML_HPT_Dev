@@ -31,11 +31,14 @@
                                     </div>
                                 </div> -->
                             </div>
-                            <div class="col-12 col-md-5 col-lg-6 col-xl-6 d-flex justify-content-sm-end">
-                                <button class="flex-shrink-0" mat-raised-button color="primary"> 
+                            <div class="col-12 col-md-5 col-lg-6 col-xl-6 d-flex justify-content-sm-end"> 
+                                <button class="flex-shrink-0" mat-raised-button color="primary" (click)="manageAutorizationModal()"> 
+                                    Manage Authorization
+                               </button>
+                                <button class="flex-shrink-0 ms-2" mat-raised-button color="primary"> 
                                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> add_circle_outline </mat-icon> 
                                     Add Third Insurance
-                                </button>
+                                </button> 
                             </div>
                         </div>
                     </div>
@@ -63,7 +66,7 @@
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">Number of Visits used elsewhere </label>
+                            <label class="col-form-label fw-600">Number of Visits/Dollar amount used elsewhere</label>
                             <input class="form-control" type="text" placeholder="Enter Number of Visits" />
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
@@ -84,48 +87,7 @@
                             <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Authorization Date From</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Select Date" name="dp"
-                                    ngbDatepicker #from="ngbDatepicker" />
-                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="from.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Authorization Date To</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Select Date" name="dp"
-                                    ngbDatepicker #to="ngbDatepicker" />
-                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="to.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-3 d-flex align-items-center">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Authorization Required</label>
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
-                                <mat-radio-button value="2" class="me-3">No</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-3 mb-2">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Authorization Number</label>
-                            <input class="form-control" type="text" placeholder="Enter Authorization Number" />
-                            <!-- <div class="text text-danger mt-1">Error here</div> -->
-                        </div>
-                    </div>
+                    
                     <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Effective Date </label>
@@ -217,57 +179,66 @@
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-9">
                         <input type="text" class="form-control form-control-md" placeholder="lorem ipsum dollor">
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Passport Provider</label>
-                            <input class="form-control" type="text" placeholder="Enter Passport Provider" />
-                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-3 d-flex align-items-center">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Passport Approval</label>
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
-                                <mat-radio-button value="2" class="me-3">No</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-3 d-flex align-items-center">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Authorization Required</label>
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
-                                <mat-radio-button value="2" class="me-3">No</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Authorization Date From</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Select Date" name="dp"
-                                    ngbDatepicker #from1="ngbDatepicker" />
-                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="from1.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
+
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-2 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Authorization Required</label>
+                                    <mat-radio-group aria-label="Select an option">
+                                        <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                                        <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-2">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Passport Approval</label>
+                                    <mat-radio-group aria-label="Select an option">
+                                        <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                                        <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Authorization Date To</label>
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="Select Date" name="dp"
+                                            ngbDatepicker #to1="ngbDatepicker" />
+                                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="to1.toggle()"
+                                            type="button">
+                                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Authorization Date From</label>
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="Select Date" name="dp"
+                                            ngbDatepicker #from1="ngbDatepicker" />
+                                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="from1.toggle()"
+                                            type="button">
+                                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-2">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Passport Provider</label>
+                                    <input class="form-control" type="text" placeholder="Enter Passport Provider" />
+                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                        <div class="form-group">
-                            <label class="col-form-label fw-600">Authorization Date To</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Select Date" name="dp"
-                                    ngbDatepicker #to1="ngbDatepicker" />
-                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="to1.toggle()"
-                                    type="button">
-                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+
+ 
+                    
                 </div>
 
                 <div class="row">
