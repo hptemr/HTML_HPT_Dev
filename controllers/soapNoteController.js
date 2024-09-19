@@ -177,9 +177,9 @@ const submitSubjective = async (req, res) => {
 const getSubjectiveData = async (req, res) => {
   try {
       const { query } = req.body;
-      console.log('### query>>>>',query)
+     
       let subjectiveData = await subjectiveTemp.findOne(query);
-      let appointmentData = await Appointment.findOne({_id:query.appointmentId})
+      let appointmentData = await Appointment.findOne({_id:query.appointmentId}).populate('patientId', {firstName:1,lastName:1})
       
       let appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
 
