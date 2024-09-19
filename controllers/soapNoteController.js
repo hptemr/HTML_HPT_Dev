@@ -179,9 +179,11 @@ const getSubjectiveData = async (req, res) => {
       const { query } = req.body;
       console.log('### query>>>>',query)
       let subjectiveData = await subjectiveTemp.findOne(query);
-      //let appointmentDatesList = await Appointment.findOne({_id:req.body.appointmentId}, { caseType: 1,caseName:1,status:1 })
-      let appointmentDatesList = appointmentsList();
-      let returnData = {subjectiveData:subjectiveData,appointmentDatesList:appointmentDatesList}
+      let appointmentData = await Appointment.findOne({_id:query.appointmentId})
+      
+      let appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
+
+      let returnData = {subjectiveData:subjectiveData,appointmentDatesList:appointmentDatesList,appointmentData:appointmentData}
 
       commonHelper.sendResponse(res, 'success',returnData);
   } catch (error) {
@@ -189,8 +191,17 @@ const getSubjectiveData = async (req, res) => {
   }
 }
 
-function appointmentsList(){
-  return ["01/09/2024","13/05/2024","08/08/2024"];
+async function appointmentsList(casename,patientId){
+
+  let data = await Appointment.find({patientId:patientId,caseName:casename},{_id:1,appointmentDate:1}).sort({ createdAt: -1 });
+
+  let appointmentDateList = []; 
+  if(data.length>0){
+    appointmentDateList = data.filter((obj) => {
+          return (obj.appointmentDate);
+      });
+  }
+  return appointmentDateList;
 }
 
 module.exports = {
