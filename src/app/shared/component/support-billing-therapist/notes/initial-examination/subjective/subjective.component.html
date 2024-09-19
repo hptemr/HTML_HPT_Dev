@@ -718,7 +718,7 @@
                                         <div class="d-flex align-items-center w-100" *ngFor="let medication of allergiesToMedications_MedicationArray; let i = index">
                                             <div class="form-group w-100">
                                                 <label class="col-form-label fw-600">Medication</label>
-                                                <input class="form-control" type="text" placeholder="Enter Medication" value="{{medication['name']}}" />
+                                                <input class="form-control" type="text" placeholder="Enter Medication" [disabled]="isDisabled" value="{{medication['name']}}" />
                                             </div>                                      
                                         </div>
                                     </div>
@@ -749,7 +749,7 @@
                                                     <mat-radio-button value="No"  [checked]="allergiesAsthmaSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="allergiesAsthmaSelf === 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{allergiesAsthmaSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{allergiesAsthmaSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -765,7 +765,7 @@
                                                     <mat-radio-button value="No"  [checked]="headachesSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="headachesSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{headachesSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{headachesSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -781,7 +781,7 @@
                                                     <mat-radio-button value="No"  [checked]="bronchitisSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="bronchitisSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bronchitisSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{bronchitisSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -797,7 +797,7 @@
                                                     <mat-radio-button value="No"  [checked]="kidneyDiseaseSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="kidneyDiseaseSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{kidneyDiseaseSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{kidneyDiseaseSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -813,7 +813,7 @@
                                                     <mat-radio-button value="No"  [checked]="rheumaticFeverSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="rheumaticFeverSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{rheumaticFeverSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{rheumaticFeverSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -829,7 +829,7 @@
                                                     <mat-radio-button value="No"  [checked]="ulcersSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="ulcersSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{ulcersSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{ulcersSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -845,7 +845,7 @@
                                                     <mat-radio-button value="No"  [checked]="sexuallyTransmittedDiseaseSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="sexuallyTransmittedDiseaseSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{sexuallyTransmittedDiseaseSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{sexuallyTransmittedDiseaseSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -861,7 +861,7 @@
                                                     <mat-radio-button value="No"  [checked]="seizuresSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="seizuresSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{seizuresSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{seizuresSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -877,7 +877,7 @@
                                                     <mat-radio-button value="No"  [checked]="pacemakerSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="pacemakerSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{pacemakerSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{pacemakerSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -893,7 +893,7 @@
                                                     <mat-radio-button value="No"  [checked]="anyMetalInBodySelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="anyMetalInBodySelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{anyMetalInBodySelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{anyMetalInBodySelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -923,7 +923,7 @@
                                                     <mat-radio-button value="No" [checked]="areYouPregnantSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="areYouPregnantSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{areYouPregnantSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouPregnantSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -939,7 +939,7 @@
                                                     <mat-radio-button value="No" [checked]="areYouDepressedSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="areYouDepressedSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{areYouDepressedSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouDepressedSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -955,7 +955,7 @@
                                                     <mat-radio-button value="No" [checked]="areYouUnderStressSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="areYouUnderStressSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{areYouUnderStressSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouUnderStressSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
