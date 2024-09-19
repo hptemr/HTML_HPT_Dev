@@ -76,6 +76,12 @@ export class UserService {
     CometChat.createUser(user, authKey).then(
       (user: CometChat.User) => {
           console.log("User created successfully", user);
+           /* ======
+            After create we login the user in comet chat.
+            Because after sign up in HPT user direct login to HPT portal.
+          */
+          let userData : any = user
+          this.loginUser(userData.uid)
       }, (error: CometChat.CometChatException) => {
           let parameter: any = {'uid':uid, 'name': name, 'role':role, 'authKey':authKey}
           this.commonService.cometChatLog(this.loginUserData,'createUser','error', parameter, error)
