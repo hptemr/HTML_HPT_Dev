@@ -3,12 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-select-primary-insu-modal', 
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatDialogModule, MatTableModule, MatCheckboxModule],
+  imports: [MatIconModule, MatButtonModule, MatDialogModule, MatTableModule, MatRadioModule],
   templateUrl: './select-primary-insu-modal.component.html',
   styleUrl: './select-primary-insu-modal.component.scss'
 })
