@@ -8,6 +8,7 @@ const sendEmailServices = require('../helpers/sendEmail');
 const emailTemplateModel = require('../models/emailTemplateModel');
 const AppointmentRequest = require('../models/appointmentRequestModel');
 const triggerEmail = require('../helpers/triggerEmail');
+const EmergencyContact = require('../models/emergencyContactModel');
 const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 let ObjectId = require('mongoose').Types.ObjectId;
@@ -363,19 +364,67 @@ const rescheduleAppointment = async (req, res) => {
 
 const updateAppointment = async (req, res) => {
     try {
-        const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles } = req.body;
-      
-        console.log("********query*****", query)
-        console.log("********updateInfo*****", updateInfo)
-        await Appointment.findOneAndUpdate(query, updateInfo);
-
+        const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles } = req.body;      
+        // console.log("********query*****", query)
+        // console.log("********updateInfo*****", updateInfo)
+       const appointment_data = await Appointment.findOneAndUpdate(query, updateInfo);      
+        if(updateInfo.emergencyContact){
+            if(updateInfo.emergencyContact.ec1myContactCheckbox || updateInfo.emergencyContact.ec2myContactCheckbox){               
+                addEmergencyContact(updateInfo.emergencyContact,query._id,appointment_data.patientId)
+            }
+        }
         if ((uploadedInsuranceFiles && uploadedInsuranceFiles.length > 0) || (uploadedPrescriptionFiles && uploadedPrescriptionFiles.length > 0)) {
             await s3UploadDocuments(req, res)
         }
-
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+
+async function addEmergencyContact(data,appointmentId,patientId){
+    try {
+        let request_data = {};
+        if(data['ec1myContactCheckbox']){
+            id = 1;
+             request_data = {
+                 patientId:patientId,
+                 appointmentId:appointmentId,
+                 firstName: data['ec'+id+'FirstName'],
+                 lastName: data['ec'+id+'LastName'],
+                 dob: data['ec'+id+'Dob'],
+                 relationWithPatient: data['ec'+id+'RelationWithPatient'],
+                 otherRelation: data['ec'+id+'OtherRelation'],
+                 phoneNumber: data['ec'+id+'PhoneNumber'],
+                 myTreatmentCheckbox: data['ec'+id+'myTreatmentCheckbox'],
+                 myAccountCheckbox: data['ec'+id+'myAccountCheckbox'],
+             }          
+             let newContact = new EmergencyContact(request_data);
+             await newContact.save();
+        }
+        if(data['ec2myContactCheckbox']){
+            id = 2;
+            let request_data = {
+                 patientId:patientId,
+                 appointmentId:appointmentId,
+                 firstName: data['ec'+id+'FirstName'],
+                 lastName: data['ec'+id+'LastName'],
+                 dob: data['ec'+id+'Dob'],
+                 relationWithPatient: data['ec'+id+'RelationWithPatient'],
+                 otherRelation: data['ec'+id+'OtherRelation'],
+                 phoneNumber: data['ec'+id+'PhoneNumber'],
+                 myTreatmentCheckbox: data['ec'+id+'myTreatmentCheckbox'],
+                 myAccountCheckbox: data['ec'+id+'myAccountCheckbox'],
+             }
+           
+             let newContact = new EmergencyContact(request_data);
+             await newContact.save();
+        }
+        return true;
+    } catch (error) {
+        console.log('add Emergency Contact Error >>>',error)
+        return false;
     }
 }
 

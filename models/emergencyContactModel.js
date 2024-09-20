@@ -4,6 +4,11 @@ const emergencyContactSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "patients"
     },
+    appointmentId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "appointments",
+        required: false
+    },
     firstName: { type: String, default: "" },
     lastName: { type: String, default: "" },
     dob: { type: Date, default: "" },
