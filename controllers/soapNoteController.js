@@ -177,14 +177,10 @@ const submitSubjective = async (req, res) => {
 const getSubjectiveData = async (req, res) => {
   try {
       const { query } = req.body;
-     
       let subjectiveData = await subjectiveTemp.findOne(query);
       let appointmentData = await Appointment.findOne({_id:query.appointmentId}).populate('patientId', {firstName:1,lastName:1})
-      
       let appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
-
       let returnData = {subjectiveData:subjectiveData,appointmentDatesList:appointmentDatesList,appointmentData:appointmentData}
-
       commonHelper.sendResponse(res, 'success',returnData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
