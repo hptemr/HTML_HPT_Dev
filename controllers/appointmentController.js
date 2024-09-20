@@ -364,6 +364,9 @@ const rescheduleAppointment = async (req, res) => {
 const updateAppointment = async (req, res) => {
     try {
         const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles } = req.body;
+      
+        console.log("********query*****", query)
+        console.log("********updateInfo*****", updateInfo)
         await Appointment.findOneAndUpdate(query, updateInfo);
 
         if ((uploadedInsuranceFiles && uploadedInsuranceFiles.length > 0) || (uploadedPrescriptionFiles && uploadedPrescriptionFiles.length > 0)) {
