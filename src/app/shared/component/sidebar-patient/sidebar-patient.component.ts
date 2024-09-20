@@ -28,6 +28,9 @@ export class SidebarPatientComponent {
         if (this.subMenus.includes(this.currentMainMenu)) {
           this.currentMainMenu = 'appointments'
         }
+        if(this.currentMainMenu=='edit-emergency-contact' || this.currentMainMenu=='add-emergency-contact' || this.currentMainMenu=='view-emergency-contact'){
+          this.currentMainMenu = 'emergency-contact'
+        }
       }
     })
   }
@@ -38,6 +41,7 @@ export class SidebarPatientComponent {
   }
 
   toggleMenu(item: Menu) {
+    console.log('toggleMenu > item>>>',item)
     this.itemsLength = item.item?.length;
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
@@ -66,6 +70,8 @@ export class SidebarPatientComponent {
   }
 
   toggle(item: Menu, mainMenu?: Menu) {
+    console.log('item>>>',item)
+    console.log('mainMenu>>>',mainMenu)
     if (!item.active) {
       this.menus.forEach((a: Menu) => {
         a.item?.forEach((child) => {
