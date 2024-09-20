@@ -70,7 +70,8 @@ function validateName(name) {
     const phoneNumberRegex = /^\d{10}$/; // Validate phone numbers (numeric and 10 digits)
     const npiRegex = /^\d{10}$/; // Validate Doctor NPI (numeric and 10 digits)
     const nameRegex = /^[a-zA-Z\s]+$/; // Validate Doctor Name (character only)
-    const alphaNumeric = /^[a-zA-Z0-9]+$/; // Alphanumeric input
+    // const alphaNumeric = /^[a-zA-Z0-9]+$/; // Alphanumeric input
+    const alphaNumeric = /^[a-zA-Z0-9 ]*$/
 
     // Doctor Credentials Validation
     if (!row["Credentials"]) errors.push("Doctor Credentials is required");
@@ -94,7 +95,7 @@ function validateName(name) {
 
     // Address Validation
     if (!row["Address"]) errors.push("Address is required");
-    if (row["Address"].length > 500) errors.push('Address not more than 10 characters');
+    if (row["Address"].length > 500) errors.push('Address not more than 500 characters');
 
     // PhoneNumber Validation
     if (!row["phoneNumber"]) errors.push("Phone Number is required");
