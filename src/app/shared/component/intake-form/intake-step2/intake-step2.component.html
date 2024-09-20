@@ -174,7 +174,7 @@
                             <div class="col-12">
                                 <h2 class="mb-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16 text-uppercase">Insurances * </h2>
                             </div>
-                            <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="insuranceList.length>0">
                                 <div class="d-flex align-items-center w-100">
                                     <div class="form-group w-100">
                                         <label class="col-form-label fw-600">Select from added Insurance</label>
@@ -187,8 +187,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                </div>
-                            
+                                </div>                            
                             </div>
                             <div class="col-12">
                                 <h2 class="mb-3 mt-2  clr--1F2F3E fw-700 d-flex flex-wrap font-16"> Subscriber's Details
@@ -702,13 +701,13 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Was this reported to your employer?</label>
-                                    <mat-radio-group formControlName="reportedEmployer" aria-label="Select an option" >
-                                        <mat-radio-button [value]="097" class="me-3">Yes</mat-radio-button>
-                                        <mat-radio-button [value]="098">No</mat-radio-button>
+                                    <mat-radio-group formControlName="reportedEmployer" (change)="onEmployerChange($event)" aria-label="Select an option" >
+                                        <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
+                                        <mat-radio-button value="No">No</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <div class="col-12"  >
+                            <div class="col-12" *ngIf="employerSelected=='Yes'">
                                 <div class="row">
                                     <div class="col-12">
                                         <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Employers Information
@@ -766,13 +765,13 @@
                                     <label class="col-form-label fw-600">Have you consulted an attorney for your current problem?</label>
                                     <mat-radio-group (change)="attorneyChange($event)" formControlName="attorney" aria-label="Select an option">
                                         <mat-radio-button value="yes" class="me-3">Yes</mat-radio-button>
-                                        <mat-radio-button value="no">Self Pay</mat-radio-button>
+                                        <mat-radio-button value="no">No</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag" >
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> *</span></label>
+                                    <label class="col-form-label fw-600">Attorney Name </label>
                                     <input (blur)="checkSpace('attorneyName', $event)" formControlName="attorneyName" class="form-control" type="text" placeholder="Enter Attorney Name" />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['attorneyName'].touched && (step2Form.controls['attorneyName'].hasError('required') || step2Form.controls['attorneyName'].invalid)">
@@ -782,7 +781,7 @@
                             </div>
                             <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag" >
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Attorney Phone <span class="clr--DF0404 ms-1"> *</span></label>
+                                    <label class="col-form-label fw-600">Attorney Phone </label>
                                     <input [imask]="{mask: '(000) 000-0000'}" formControlName="attorneyPhone"
                                         class="form-control" type="text" placeholder="Enter Attorney Phone" />
                                     <div class="text text-danger mt-1"
@@ -843,7 +842,7 @@
                                         flex-column flex-sm-row 
                                         align-items-start align-items-sm-center 
                                         justify-content-start justify-content-sm-between">
-                                <div class="signature--box d-flex align-items-center justify-content-center">
+                                <div class="signature--box d-flex align-items-center justify-content-center" *ngIf="fullNameForSign">
                                     {{fullNameForSign}}
                                 </div> 
                                 <!-- <button  mat-raised-button color="primary"
@@ -905,7 +904,7 @@
                             </div> -->
 
 
-                            <div class="col-12 d-flex  align-items-center justify-content-between mt-3"  *ngIf="isMinorFlag">
+                            <div class="col-12 d-flex  align-items-center justify-content-between mt-3"  *ngIf="isMinorFlag && fullNameForSign">
                                 <div class="signature--box d-flex align-items-center justify-content-center">
                                     {{fullNameForSign}}
                                 </div>  
@@ -933,9 +932,9 @@
                 [routerLink]="['/',activeUserRoute, 'intake-form','step-1', appId]">
                 Previous
             </button>
-            <button [disabled]="step2Form.invalid && payViaSelected=='Insurance'" (click)="bookAppointmentStep2()"
-                mat-raised-button color="primary" class="m-1">
-                Next
+            <!--[disabled]=" step2Form.invalid && payViaSelected=='Insurance'" -->
+            <button  (click)="bookAppointmentStep2()" mat-raised-button color="primary" class="m-1">
+                Next 
             </button>
         </div>
     </form>

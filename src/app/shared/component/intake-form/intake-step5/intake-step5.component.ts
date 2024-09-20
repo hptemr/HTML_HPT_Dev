@@ -5,7 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
-
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 @Component({
   selector: 'app-intake-step5',
   templateUrl: './intake-step5.component.html',
@@ -98,28 +98,37 @@ export class IntakeStep5Component {
   }
 
   async finalSubmit() {
-    if (this.isFormEditable) {
-      let formData = this.step5Form.value
-      Object.assign(formData, { intakeFormSubmit: true })
-      let appointmentUpdateInfo = this.step5FormData.appointmentUpdateInfo;
-      appointmentUpdateInfo.push({
-        fromPatientId : (this.userRole=='patient') ? this.userId : '',
-        fromAdminId:(this.userRole!='patient') ? this.userId : '',
-        userRole:this.userRole,
-        updatedAt:new Date()
-      });
-      Object.assign(formData, {  appointmentUpdateInfo:appointmentUpdateInfo })
+    this.successModal()
+    // if (this.isFormEditable) {
+    //   let formData = this.step5Form.value
+    //   Object.assign(formData, { intakeFormSubmit: true })
+    //   let appointmentUpdateInfo = this.step5FormData.appointmentUpdateInfo;
+    //   appointmentUpdateInfo.push({
+    //     fromPatientId : (this.userRole=='patient') ? this.userId : '',
+    //     fromAdminId:(this.userRole!='patient') ? this.userId : '',
+    //     userRole:this.userRole,
+    //     updatedAt:new Date()
+    //   });
+    //   Object.assign(formData, {  appointmentUpdateInfo:appointmentUpdateInfo })
 
-      let params = {
-        query: { _id: this.appId },
-        updateInfo: formData
-      }
-      await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-        this.router.navigate([this.activeUserRoute, 'appointment-details', this.appId])
-      })
-    } else {
-      this.router.navigate([this.activeUserRoute, 'appointment-details', this.appId])
-    }
+    //   let params = {
+    //     query: { _id: this.appId },
+    //     updateInfo: formData
+    //   }
+    //   await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+    //     this.router.navigate([this.activeUserRoute, 'appointment-details', this.appId])
+    //   })
+    // } else {
+    //   this.router.navigate([this.activeUserRoute, 'appointment-details', this.appId])
+    // }
   }
 
+  successModal() {
+    const dialogRef = this.dialog.open(SuccessModalComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        successNote: 'Thank you for requesting an appointment. Your recovery is our only priority. We are working diligently on your request and  will respond in 1 business day or less. '
+      }
+    });
+  }
 }

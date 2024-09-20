@@ -368,41 +368,45 @@ export class IntakeStep3Component {
   }
 
   async bookAppointmentStep3() {
-    if (this.isFormEditable) {
-      let formData = this.step3Form.value
-      let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
-      let prescriptionFiles = this.getPrescriptionFiles()
-      if (prescriptionFiles.length > 0) {
-        Object.assign(formData, { prescriptionFiles: prescriptionFiles })
-      }
-
-      let appointmentUpdateInfo = this.step3FormData.appointmentUpdateInfo;
-        appointmentUpdateInfo.push({
-          fromPatientId : (this.userRole=='patient') ? this.userId : '',
-          fromAdminId:(this.userRole!='patient') ? this.userId : '',
-          userRole:this.userRole,
-          updatedAt:new Date()
-        });
-        let updateInfo = {}
-        if(this.userRole=='patient'){
-         updateInfo = { patientMedicalHistory: formData,
-          appointmentUpdateInfo:appointmentUpdateInfo}
-        }else if(this.userRole!='patient'){
-          updateInfo = { adminPatientMedicalHistory: formData,
-            appointmentUpdateInfo:appointmentUpdateInfo }
+    if (this.step3Form.invalid){
+      this.step3Form.markAllAsTouched();
+    }else{
+      if (this.isFormEditable) {
+        let formData = this.step3Form.value
+        let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
+        let prescriptionFiles = this.getPrescriptionFiles()
+        if (prescriptionFiles.length > 0) {
+          Object.assign(formData, { prescriptionFiles: prescriptionFiles })
         }
-      let params = {
-        query: { _id: this.appId },
-        updateInfo: updateInfo,
-        uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles)       
-      }
-      await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+
+        let appointmentUpdateInfo = this.step3FormData.appointmentUpdateInfo;
+          appointmentUpdateInfo.push({
+            fromPatientId : (this.userRole=='patient') ? this.userId : '',
+            fromAdminId:(this.userRole!='patient') ? this.userId : '',
+            userRole:this.userRole,
+            updatedAt:new Date()
+          });
+          let updateInfo = {}
+          if(this.userRole=='patient'){
+          updateInfo = { patientMedicalHistory: formData,
+            appointmentUpdateInfo:appointmentUpdateInfo}
+          }else if(this.userRole!='patient'){
+            updateInfo = { adminPatientMedicalHistory: formData,
+              appointmentUpdateInfo:appointmentUpdateInfo }
+          }
+        let params = {
+          query: { _id: this.appId },
+          updateInfo: updateInfo,
+          uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles)       
+        }
+        await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+          localStorage.removeItem('uploadedPrescriptionFiles')
+          this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
+        })
+      } else {
         localStorage.removeItem('uploadedPrescriptionFiles')
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
-      })
-    } else {
-      localStorage.removeItem('uploadedPrescriptionFiles')
-      this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
+      }
     }
   }
 

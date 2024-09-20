@@ -25,6 +25,10 @@ export class IntakeStep4Component {
   isFormEditable = true
   activeUserRoute = this.commonService.getLoggedInRoute()
   appointmentUpdateInfo:any=[];
+  relationOtherFlag1:boolean=false;
+  relationOtherFlag2:boolean=false;
+  selectedIndex1:number=100
+  selectedIndex2:number=101
   userId = this.authService.getLoggedInInfo('_id')
   userRole = this.authService.getLoggedInInfo('role')
   constructor(public dialog: MatDialog,
@@ -77,19 +81,50 @@ export class IntakeStep4Component {
       ec1LastName: new FormControl((this.step4FormData ? this.step4FormData.ec1LastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       ec1Dob: new FormControl((this.step4FormData ? this.step4FormData.ec1Dob : ''), Validators.compose([Validators.required])),
       ec1RelationWithPatient: new FormControl((this.step4FormData ? this.step4FormData.ec1RelationWithPatient : '')),
+      ec1OtherRelation: new FormControl((this.step4FormData ? this.step4FormData.ec1OtherRelation : '')),
       ec1PhoneNumber: new FormControl((this.step4FormData ? this.step4FormData.ec1PhoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
       ec1myTreatmentCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec1myTreatmentCheckbox : false)),
       ec1myAccountCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec1myAccountCheckbox : false)),
+      ec1myContactCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec1myContactCheckbox : false)),
 
       ec2FirstName: new FormControl((this.step4FormData ? this.step4FormData.ec2FirstName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       ec2LastName: new FormControl((this.step4FormData ? this.step4FormData.ec2LastName : ''), Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       ec2Dob: new FormControl((this.step4FormData ? this.step4FormData.ec2Dob : ''), Validators.compose([Validators.required])),
       ec2RelationWithPatient: new FormControl((this.step4FormData ? this.step4FormData.ec2RelationWithPatient : '')),
+      ec2OtherRelation: new FormControl((this.step4FormData ? this.step4FormData.ec2OtherRelation : '')),
       ec2PhoneNumber: new FormControl((this.step4FormData ? this.step4FormData.ec2PhoneNumber : ''), Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
       ec2myTreatmentCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec2myTreatmentCheckbox : false)),
       ec2myAccountCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec2myAccountCheckbox : false)),
+      ec2myContactCheckbox: new FormControl((this.step4FormData ? this.step4FormData.ec2myContactCheckbox : false)),
     })
+    
+    if(this.step4FormData && this.step4FormData?.ec1myContactCheckbox){
+      this.step4Form.controls['ec1myContactCheckbox'].disable()
+      
+    }
+    if(this.step4FormData && this.step4FormData?.ec2myContactCheckbox){
+      this.step4Form.controls['ec2myContactCheckbox'].disable()
+    }
+
   }
+
+    onRelationSelected(value: any) {
+    this.relationOtherFlag1 = false
+    this.step4Form.controls['ec1OtherRelation'].setValidators([]);
+    if(value=='Other'){
+      this.relationOtherFlag1 = true
+      this.step4Form.controls['ec1OtherRelation'].setValidators([Validators.required]); 
+    }   
+   }
+
+   onRelation2Selected(value: any) {
+    this.relationOtherFlag2 = false
+    this.step4Form.controls['ec2OtherRelation'].setValidators([]);
+    if(value=='Other'){
+      this.relationOtherFlag2 = true
+      this.step4Form.controls['ec2OtherRelation'].setValidators([Validators.required]); 
+    }   
+   }
 
   async getEmergencyContactList() {
     let reqVars = {
@@ -108,53 +143,67 @@ export class IntakeStep4Component {
 
   getContact(formNumber: any, event: any) {
     let currentIndex = event.target.value
-    let firstName = ''
-    let lastName = ''
-    let dob = ''
-    let relationWithPatient = ''
-    let phoneNumber = ''
-    let myTreatments = false
-    let myAccounts = false
-    if (currentIndex != '') {
-      let ecObj = this.emergencyContactList[currentIndex]
-      firstName = ecObj.firstName
-      lastName = ecObj.lastName
-      dob = ecObj.dob
-      relationWithPatient = ecObj.relationWithPatient
-      phoneNumber = ecObj.phoneNumber
-      myTreatments = ecObj.myTreatmentCheckbox
-      myAccounts = ecObj.myAccountCheckbox
-    }
-    this.step4Form.controls['ec' + formNumber + 'FirstName'].setValue(firstName)
-    this.step4Form.controls['ec' + formNumber + 'LastName'].setValue(lastName)
-    this.step4Form.controls['ec' + formNumber + 'Dob'].setValue(dob)
-    this.step4Form.controls['ec' + formNumber + 'RelationWithPatient'].setValue(relationWithPatient)
-    this.step4Form.controls['ec' + formNumber + 'PhoneNumber'].setValue(phoneNumber)
-    this.step4Form.controls['ec' + formNumber + 'myTreatmentCheckbox'].setValue(myTreatments)
-    this.step4Form.controls['ec' + formNumber + 'myAccountCheckbox'].setValue(myAccounts)
+        if(formNumber==1){
+          this.selectedIndex1 = currentIndex;  
+          if(event.target.value==''){this.selectedIndex1=100}
+        }else if(formNumber==2){
+          this.selectedIndex2 = currentIndex;  
+          if(event.target.value==''){this.selectedIndex2=101}
+        }
+     
+        let firstName = ''
+        let lastName = ''
+        let dob = ''
+        let relationWithPatient = ''
+        let phoneNumber = ''
+        let myTreatments = false
+        let myAccounts = false
+        if (currentIndex != '') {
+          let ecObj = this.emergencyContactList[currentIndex]
+          firstName = ecObj.firstName
+          lastName = ecObj.lastName
+          dob = ecObj.dob
+          relationWithPatient = ecObj.relationWithPatient
+          phoneNumber = ecObj.phoneNumber
+          myTreatments = ecObj.myTreatmentCheckbox
+          myAccounts = ecObj.myAccountCheckbox
+        }
+        this.step4Form.controls['ec' + formNumber + 'FirstName'].setValue(firstName)
+        this.step4Form.controls['ec' + formNumber + 'LastName'].setValue(lastName)
+        this.step4Form.controls['ec' + formNumber + 'Dob'].setValue(dob)
+        this.step4Form.controls['ec' + formNumber + 'RelationWithPatient'].setValue(relationWithPatient)
+        this.step4Form.controls['ec' + formNumber + 'PhoneNumber'].setValue(phoneNumber)
+        this.step4Form.controls['ec' + formNumber + 'myTreatmentCheckbox'].setValue(myTreatments)
+        this.step4Form.controls['ec' + formNumber + 'myAccountCheckbox'].setValue(myAccounts)
+        this.step4Form.controls['ec' + formNumber + 'myContactCheckbox'].setValue(myAccounts)
+    
   }
 
   async bookAppointmentStep4() {
-    if (this.isFormEditable) {
-        this.appointmentUpdateInfo.push({
-          fromPatientId : (this.userRole=='patient') ? this.userId : '',
-          fromAdminId:(this.userRole!='patient') ? this.userId : '',
-          userRole:this.userRole,
-          updatedAt:new Date()
-        });
+    if (this.step4Form.invalid){
+      this.step4Form.markAllAsTouched();
+    }else{
+      if (this.isFormEditable) {
+          this.appointmentUpdateInfo.push({
+            fromPatientId : (this.userRole=='patient') ? this.userId : '',
+            fromAdminId:(this.userRole!='patient') ? this.userId : '',
+            userRole:this.userRole,
+            updatedAt:new Date()
+          });
 
-      let params = {
-        query: { _id: this.appId },
-        updateInfo: {
-          emergencyContact: this.step4Form.value
-        },
-        appointmentUpdateInfo:this.appointmentUpdateInfo
-      }
-      await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+        let params = {
+          query: { _id: this.appId },
+          updateInfo: {
+            emergencyContact: this.step4Form.value
+          },
+          appointmentUpdateInfo:this.appointmentUpdateInfo
+        }
+        await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+          this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
+        })
+      } else {
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
-      })
-    } else {
-      this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
+      }
     }
   }
 

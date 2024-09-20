@@ -57,6 +57,7 @@ export class IntakeStep2Component {
   patientId:string=''
   otherRelationFlag:boolean=false
   subscriberOtherRelationFlag:boolean=false
+  employerSelected:string=''
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -123,7 +124,7 @@ export class IntakeStep2Component {
           localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(this.uploadedInsuranceFiles))
           this.uploadedInsuranceFilesTotal = insuranceFiles.length
         }
-        if(this.step2Form.controls['firstName'].value){
+        if(this.step2Form.controls['firstName'].value && this.step2Form.controls['lastName'].value){
           this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
         }
         
@@ -141,7 +142,7 @@ export class IntakeStep2Component {
     if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
       payViaInsuranceInfo = this.step2FormData.adminPayViaInsuranceInfo;
     }
-
+    
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
       relationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.relationWithPatient : ''],
@@ -195,13 +196,13 @@ export class IntakeStep2Component {
       adjusterName: [payViaInsuranceInfo ? payViaInsuranceInfo?.adjusterName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       adjusterPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.adjusterPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       reportedEmployer: [payViaInsuranceInfo ? payViaInsuranceInfo?.reportedEmployer : ''],
-      employerName: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      employerPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      employerAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerAddress : '', [Validators.required]],
+      employerName: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.minLength(1), Validators.maxLength(35)]],
+      employerPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
+      employerAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerAddress : '', []],
       isPatientMinor: [payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor : '', []],
       attorney: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorney : '', []],
-      attorneyName: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      attorneyPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyPhone : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      attorneyName: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.maxLength(35)]],
+      attorneyPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
       //attorneyAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
     this.isMinorFlag = payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor=='yes' ? true : false : false    
@@ -219,7 +220,12 @@ export class IntakeStep2Component {
       const mockEvent = { target: { value: 'Other' } }; 
       this.subscriberRelationShipPatient(mockEvent)
     }
-  
+    if(this.payViaSelected=='Selfpay'){
+      Object.keys(this.step2Form.controls).forEach(control => {
+        this.step2Form.get(control)?.clearValidators();
+        this.step2Form.get(control)?.updateValueAndValidity();
+      });
+    }
   }
 
   getInsuranceDetails(event: any) {
@@ -363,8 +369,6 @@ export class IntakeStep2Component {
   }
 
   async getInsuranceList() {
-
-
     let reqVars = {
       query: { patientId:this.patientId,status: 'Active' },
       fields: { updatedAt: 0 },
@@ -378,7 +382,24 @@ export class IntakeStep2Component {
   onChange(event: MatRadioChange) {
     this.payViaSelected = event.value
     if(this.payViaSelected=='Insurance'){
+      this.loadForm()
+    }else if(this.payViaSelected=='Selfpay'){
+      Object.keys(this.step2Form.controls).forEach(control => {
+        this.step2Form.get(control)?.clearValidators();
+        this.step2Form.get(control)?.updateValueAndValidity();
+      });
+    }
+  }
 
+  onEmployerChange(event: MatRadioChange) {
+    this.employerSelected = event.value
+    this.step2Form.controls['employerName'].setValidators([])
+    this.step2Form.controls['employerPhone'].setValidators([])
+    this.step2Form.controls['employerAddress'].setValidators([])
+    if(this.employerSelected=='Yes'){
+      this.step2Form.controls['employerName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
+      this.step2Form.controls['employerPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
+      this.step2Form.controls['employerAddress'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1000)])
     }
   }
 
@@ -404,7 +425,7 @@ export class IntakeStep2Component {
   }
 
   signatureText(event: any) {
-    if(this.step2Form.controls['firstName'].value || this.step2Form.controls['lastName'].value){
+    if(this.step2Form.controls['firstName'].value && this.step2Form.controls['lastName'].value){
       this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
     }
   }
@@ -457,40 +478,44 @@ export class IntakeStep2Component {
   }
 
   async bookAppointmentStep2() {
-    if (this.isFormEditable) {
-      let appointmentUpdateInfo = this.step2FormData.appointmentUpdateInfo;
-      appointmentUpdateInfo.push({
-        fromPatientId : (this.userRole=='patient') ? this.userId : '',
-        fromAdminId:(this.userRole!='patient') ? this.userId : '',
-        userRole:this.userRole,
-        updatedAt:new Date()
-      });
-      let formData = this.step2Form.value
-      let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
-      let insuranceFiles = this.getInsuranceFiles()
-      if (insuranceFiles.length > 0) {
-        Object.assign(formData, { insuranceFiles: insuranceFiles })
-      }
-      let updateInfo = {}
-      if(this.userRole=='patient'){
-       updateInfo = { payViaInsuranceInfo: formData}
-      }else if(this.userRole!='patient'){
-        updateInfo = { adminPayViaInsuranceInfo: formData }
-      }
+    if (this.step2Form.invalid){
+      this.step2Form.markAllAsTouched();
+    }else{
+      if (this.isFormEditable) {
+        let appointmentUpdateInfo = this.step2FormData.appointmentUpdateInfo;
+        appointmentUpdateInfo.push({
+          fromPatientId : (this.userRole=='patient') ? this.userId : '',
+          fromAdminId:(this.userRole!='patient') ? this.userId : '',
+          userRole:this.userRole,
+          updatedAt:new Date()
+        });
+        let formData = this.step2Form.value
+        let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
+        let insuranceFiles = this.getInsuranceFiles()
+        if (insuranceFiles.length > 0) {
+          Object.assign(formData, { insuranceFiles: insuranceFiles })
+        }
+        let updateInfo = {}
+        if(this.userRole=='patient'){
+        updateInfo = { payViaInsuranceInfo: formData}
+        }else if(this.userRole!='patient'){
+          updateInfo = { adminPayViaInsuranceInfo: formData }
+        }
 
-      let params = {
-        query: { _id: this.appId },
-        updateInfo: updateInfo,
-        uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
-        appointmentUpdateInfo:appointmentUpdateInfo
-      }
-      await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+        let params = {
+          query: { _id: this.appId },
+          updateInfo: updateInfo,
+          uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
+          appointmentUpdateInfo:appointmentUpdateInfo
+        }
+        await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+          localStorage.removeItem('uploadedInsuranceFiles')
+          this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
+        })
+      } else {
         localStorage.removeItem('uploadedInsuranceFiles')
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
-      })
-    } else {
-      localStorage.removeItem('uploadedInsuranceFiles')
-      this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
+      }
     }
   }
 

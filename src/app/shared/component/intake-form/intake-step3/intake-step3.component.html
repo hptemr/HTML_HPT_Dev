@@ -1553,8 +1553,8 @@
                 [routerLink]="['/',activeUserRoute, 'intake-form','step-2', appId]">
                 Previous
             </button>
-            <button [disabled]="step3Form.invalid" (click)="bookAppointmentStep3()" mat-raised-button color="primary"
-                class="m-1">
+            <!-- [disabled]="step3Form.invalid"  -->
+            <button (click)="bookAppointmentStep3()" mat-raised-button color="primary" class="m-1">
                 Next
             </button>
         </div>

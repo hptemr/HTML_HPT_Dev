@@ -105,7 +105,7 @@ export class BodyDetailsModalComponent {
          this.dialogRef.close(response);
         } else {         
           if(response.message){
-            this.commonService.openSnackBar(response.message, "SUCCESS")
+            this.commonService.openSnackBar('Your body chart has been updated successfully!', "SUCCESS")
           }          
           this.dialogRef.close(response);
         }
