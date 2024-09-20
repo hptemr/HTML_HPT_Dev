@@ -161,8 +161,8 @@
                                                     <mat-radio-button class="me-4" value="Yes" [checked]="cancerSelf=='Yes'">Yes</mat-radio-button>
                                                     <mat-radio-button value="No" [checked]="cancerSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="appointment_data && appointment_data?.patientMedicalHistory?.cancerSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{appointment_data?.patientMedicalHistory?.cancerSelfYes}}" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="appointment_data && cancerSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{cancerSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -173,8 +173,8 @@
                                                     <mat-radio-button  class="me-4" value="Yes" [checked]="cancerFamily=='Yes'">Yes</mat-radio-button>
                                                     <mat-radio-button value="No" [checked]="cancerFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="appointment_data && appointment_data?.patientMedicalHistory?.cancerFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{appointment_data?.patientMedicalHistory?.cancerFamilyYes}}"/> 
+                                                <div class="form-group mt-2 w-100" *ngIf="appointment_data && cancerFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{cancerFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>

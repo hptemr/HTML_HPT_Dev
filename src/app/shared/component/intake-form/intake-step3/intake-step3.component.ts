@@ -148,8 +148,8 @@ export class IntakeStep3Component {
   loadForm() {
     let step3info: any = this.step3FormData ? this.step3FormData.patientMedicalHistory : null
 
-    if(this.userRole!='patient' && this.step3FormData.adminpatientMedicalHistory){
-       step3info = this.step3FormData ? this.step3FormData.adminpatientMedicalHistory : null
+    if(this.userRole!='patient' && this.step3FormData.adminPatientMedicalHistory){
+       step3info = this.step3FormData ? this.step3FormData.adminPatientMedicalHistory : null
     }
 
     this.step3Form = new FormGroup({
@@ -388,7 +388,7 @@ export class IntakeStep3Component {
          updateInfo = { patientMedicalHistory: formData,
           appointmentUpdateInfo:appointmentUpdateInfo}
         }else if(this.userRole!='patient'){
-          updateInfo = { adminpatientMedicalHistory: formData,
+          updateInfo = { adminPatientMedicalHistory: formData,
             appointmentUpdateInfo:appointmentUpdateInfo }
         }
       let params = {
