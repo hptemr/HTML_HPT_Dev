@@ -89,7 +89,7 @@ const INSURANCE_DATA: InsuranceList[] = []
 export class ManageInsuranceComponent {
   // displayedColumns: string[] = ['primaryInsuranceName','insuranceType','createdAt','updatedOn','action'];
   // dataSource = new MatTableDataSource(ELEMENT_DATA);
-  displayedColumns: string[] = ['insuranceName','insuranceType','createdAt','updatedAt','action'];
+  displayedColumns: string[] = ['insuranceName','payerID','insuranceType','createdAt','updatedAt','action'];
   dataSource = new MatTableDataSource(INSURANCE_DATA);
 
   // Provider list variable declaration
