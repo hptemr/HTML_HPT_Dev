@@ -29,7 +29,7 @@
                         <div class="form-group position-relative">
                             <!-- <input type="text" class="form-control search--outer" [(ngModel)]="seachByPname" (keyup)="searchRecords($event,'byPname')" placeholder="Select Patient"> -->
                                 <input type="text" class="form-control search--outer"
-                                  placeholder="search Patient"
+                                  placeholder="Search By Patient Name"
                                   aria-label="Patient"
                                   [matAutocomplete]="auto"
                                    (keyup)="searchRecords($event,'byPname')" formControlName="seachByPname" />
@@ -104,7 +104,7 @@
                     <input class="form-control" type="email" formControlName="email" placeholder="Enter Email" />
 
                     <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['email'].touched && (appointmentForm.controls['email'].hasError('required') || appointmentForm.controls['email'].invalid)">
-                        {{ validationMessages.required('Email') }}
+                        {{ validationMessages.required('an email address') }}
                     </div>    
                     <div class="text text-danger mt-1" *ngIf="emailError">
                         {{invalidEmailErrorMessage}}
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
-                    {{ validationMessages.required('Appointment date') }}
+                    {{ validationMessages.required('appointment date time') }}
                 </div>    
             </div> 
             <div class="col-12 col-lg-6 col-md-6 mt-2 ">
