@@ -134,8 +134,10 @@ export class SubjectiveComponent implements OnInit {
   areYouUnderStressSelfYes:string = '';
   symptoms:string = '';
   symptomsSame:string = '';
-  rateYourPain:string = '';
-  
+  rateYourPain:number = 0;
+  initialName:string = '';
+  selectedPartsFront: string[] = [];
+  selectedPartsBack: string[] = [];
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -208,7 +210,6 @@ export class SubjectiveComponent implements OnInit {
         if(this.appointment_data && this.appointment_data?.patientMedicalHistory){
           this.cancerSelf = this.appointment_data?.patientMedicalHistory?.cancerSelf;//=='Yes' ? true : false;
           this.cancerFamily = this.appointment_data?.patientMedicalHistory?.cancerFamily;//=='Yes' ? true : false;
-
           
           this.diabetesSelf = this.appointment_data?.patientMedicalHistory?.diabetesSelf;
           this.diabetesSelfYes = this.appointment_data?.patientMedicalHistory?.diabetesSelfYes;
@@ -242,12 +243,10 @@ export class SubjectiveComponent implements OnInit {
           this.rheumatoidArthritisSelfYes= this.appointment_data?.patientMedicalHistory?.rheumatoidArthritisSelfYes;
           this.rheumatoidArthritisFamily= this.appointment_data?.patientMedicalHistory?.rheumatoidArthritisFamily;
           this.rheumatoidArthritisFamilyYes= this.appointment_data?.patientMedicalHistory?.rheumatoidArthritisFamilyYes;
-
           this.bleedingDisordersSelf= this.appointment_data?.patientMedicalHistory?.bleedingDisordersSelf;
           this.bleedingDisordersSelfYes= this.appointment_data?.patientMedicalHistory?.bleedingDisordersSelfYes;
           this.bleedingDisordersFamily= this.appointment_data?.patientMedicalHistory?.bleedingDisordersFamily;
           this.bleedingDisordersFamilyYes= this.appointment_data?.patientMedicalHistory?.bleedingDisordersFamilyYes;
-
           this.changeYourHealthSelf= this.appointment_data?.patientMedicalHistory?.changeYourHealthSelf;
           this.changeYourHealthSelfYes= this.appointment_data?.patientMedicalHistory?.changeYourHealthSelfYes;
           this.nauseaVomitingSelf= this.appointment_data?.patientMedicalHistory?.nauseaVomitingSelf;
@@ -282,7 +281,6 @@ export class SubjectiveComponent implements OnInit {
           this.headachesSelfYes= this.appointment_data?.patientMedicalHistory?.headachesSelfYes;
           this.bronchitisSelf= this.appointment_data?.patientMedicalHistory?.bronchitisSelf;
           this.bronchitisSelfYes= this.appointment_data?.patientMedicalHistory?.bronchitisSelfYes;
-
           this.kidneyDiseaseSelf= this.appointment_data?.patientMedicalHistory?.kidneyDiseaseSelf;
           this.kidneyDiseaseSelfYes= this.appointment_data?.patientMedicalHistory?.kidneyDiseaseSelfYes;
           this.rheumaticFeverSelf= this.appointment_data?.patientMedicalHistory?.rheumaticFeverSelf;       
@@ -291,7 +289,6 @@ export class SubjectiveComponent implements OnInit {
           this.ulcersSelfYes= this.appointment_data?.patientMedicalHistory?.ulcersSelfYes;
           this.sexuallyTransmittedDiseaseSelf= this.appointment_data?.patientMedicalHistory?.sexuallyTransmittedDiseaseSelf;
           this.sexuallyTransmittedDiseaseSelfYes= this.appointment_data?.patientMedicalHistory?.sexuallyTransmittedDiseaseSelfYes;
-
           this.seizuresSelf= this.appointment_data?.patientMedicalHistory?.seizuresSelf;
           this.seizuresSelfYes= this.appointment_data?.patientMedicalHistory?.seizuresSelfYes;
           this.pacemakerSelf= this.appointment_data?.patientMedicalHistory?.pacemakerSelf;       
@@ -300,25 +297,40 @@ export class SubjectiveComponent implements OnInit {
           this.anyMetalInBodySelfYes= this.appointment_data?.patientMedicalHistory?.anyMetalInBodySelfYes;
           this.areYouPregnantSelf= this.appointment_data?.patientMedicalHistory?.areYouPregnantSelf;
           this.areYouPregnantSelfYes= this.appointment_data?.patientMedicalHistory?.areYouPregnantSelfYes;
-
           this.areYouDepressedSelf= this.appointment_data?.patientMedicalHistory?.areYouDepressedSelf;
           this.areYouDepressedSelfYes= this.appointment_data?.patientMedicalHistory?.areYouDepressedSelfYes;
           this.areYouUnderStressSelf= this.appointment_data?.patientMedicalHistory?.areYouUnderStressSelf;
           this.areYouUnderStressSelfYes= this.appointment_data?.patientMedicalHistory?.areYouUnderStressSelfYes;
+          if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
+            this.initialName = this.appointment_data?.patientInfo?.firstName.charAt(0)+''+this.appointment_data?.patientInfo?.lastName.charAt(0)
+          }
+                    
+          this.symptoms = this.appointment_data?.patientMedicalHistory?.symptoms;
+          this.symptomsSame = this.appointment_data?.patientMedicalHistory?.symptomsSame;
+          this.rateYourPain = this.appointment_data?.patientMedicalHistory?.rateYourPain ? this.appointment_data?.patientMedicalHistory?.rateYourPain : 0;
 
 
-          this.symptoms= this.appointment_data?.patientMedicalHistory?.symptoms;
-          this.symptomsSame= this.appointment_data?.patientMedicalHistory?.symptomsSame;
-          this.rateYourPain= this.appointment_data?.patientMedicalHistory?.rateYourPain;
-
-        }
-        
-      }
-       console.log('>>>>>',this.allergiesToMedications_AllergyArray)
-
-       console.log('>>>>>',this.allergiesToMedications_SurgeryArray)
-
-      // console.log('>>>',this.appointment_data?.patientMedicalHistory?.cancerFamily,'--------',this.appointment_data?.patientMedicalHistory?.cancerSelf)
+          if(this.appointment_data.bodyPartFront){          
+            this.appointment_data.bodyPartFront.forEach((element: any) => {
+              if (!this.selectedPartsFront.includes(element.part)) {
+                this.selectedPartsFront.push(element.part);
+              } else {
+                this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
+              }
+            });
+          }
+          if(this.appointment_data.bodyPartBack){          
+            this.appointment_data.bodyPartBack.forEach((element: any) => {
+              if (!this.selectedPartsBack.includes(element.part)) {
+                this.selectedPartsBack.push(element.part);
+              } else {
+                this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
+              }
+            });
+          } 
+        }       
+      }       
+      
     })
   }
 
@@ -417,10 +429,37 @@ export class SubjectiveComponent implements OnInit {
     
   }
 
-  bodyClick() {
+  // bodyClick() {
+  //   const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+  //     panelClass: 'custom-alert-container', 
+  //   });  
+  // }
+
+  bodyClick(from:string,partName:string) {   
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 
+      data : {
+        heading: '',
+        partName:partName,
+        appId:this.appointment_data._id,
+        from:from,
+        bodyPartFront:this.appointment_data.bodyPartFront,
+        bodyPartBack:this.appointment_data.bodyPartBack,
+        appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
+        readOnly:true
+      }
     });  
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+          if(from=='bodyPartFront'){
+            this.selectedPartsFront.push(partName);
+          }else if(from=='bodyPartBack'){
+            this.selectedPartsBack.push(partName);
+          }
+      }
+    });
   }
   
 }

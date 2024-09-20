@@ -718,7 +718,7 @@
                                         <div class="d-flex align-items-center w-100" *ngFor="let medication of allergiesToMedications_MedicationArray; let i = index">
                                             <div class="form-group w-100">
                                                 <label class="col-form-label fw-600">Medication</label>
-                                                <input class="form-control" type="text" placeholder="Enter Medication" value="{{medication['name']}}" />
+                                                <input class="form-control" type="text" placeholder="Enter Medication" [disabled]="isDisabled" value="{{medication['name']}}" />
                                             </div>                                      
                                         </div>
                                     </div>
@@ -749,7 +749,7 @@
                                                     <mat-radio-button value="No"  [checked]="allergiesAsthmaSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="allergiesAsthmaSelf === 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{allergiesAsthmaSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{allergiesAsthmaSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -765,7 +765,7 @@
                                                     <mat-radio-button value="No"  [checked]="headachesSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="headachesSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{headachesSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{headachesSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -781,7 +781,7 @@
                                                     <mat-radio-button value="No"  [checked]="bronchitisSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="bronchitisSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bronchitisSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{bronchitisSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -797,7 +797,7 @@
                                                     <mat-radio-button value="No"  [checked]="kidneyDiseaseSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="kidneyDiseaseSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{kidneyDiseaseSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{kidneyDiseaseSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -813,7 +813,7 @@
                                                     <mat-radio-button value="No"  [checked]="rheumaticFeverSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="rheumaticFeverSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{rheumaticFeverSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{rheumaticFeverSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -829,7 +829,7 @@
                                                     <mat-radio-button value="No"  [checked]="ulcersSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="ulcersSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{ulcersSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{ulcersSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -845,7 +845,7 @@
                                                     <mat-radio-button value="No"  [checked]="sexuallyTransmittedDiseaseSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="sexuallyTransmittedDiseaseSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{sexuallyTransmittedDiseaseSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{sexuallyTransmittedDiseaseSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -861,7 +861,7 @@
                                                     <mat-radio-button value="No"  [checked]="seizuresSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="seizuresSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{seizuresSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{seizuresSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -877,7 +877,7 @@
                                                     <mat-radio-button value="No"  [checked]="pacemakerSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="pacemakerSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{pacemakerSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{pacemakerSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -893,7 +893,7 @@
                                                     <mat-radio-button value="No"  [checked]="anyMetalInBodySelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="anyMetalInBodySelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{anyMetalInBodySelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{anyMetalInBodySelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -923,7 +923,7 @@
                                                     <mat-radio-button value="No" [checked]="areYouPregnantSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="areYouPregnantSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{areYouPregnantSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouPregnantSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -939,7 +939,7 @@
                                                     <mat-radio-button value="No" [checked]="areYouDepressedSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="areYouDepressedSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{areYouDepressedSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouDepressedSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -955,7 +955,7 @@
                                                     <mat-radio-button value="No" [checked]="areYouUnderStressSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="areYouUnderStressSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{areYouUnderStressSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouUnderStressSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -997,7 +997,7 @@
                             <div class="col-12 select--ans d-flex align-items-center disabled">
                                 <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
                                 <ul class="m-0 p-0 d-flex flex-wrap disabled">
-                                     <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
+                                     <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="rateYourPain === i">
                                          {{i}}
                                      </li>
                                 </ul>
@@ -1012,185 +1012,184 @@
                                             <div class="row">
                                                 <div class="col-12 col-lg-6 d-flex justify-content-lg-end">
                                                     <div class="human--body--wrapper">
-                                                        <div class="img--outer head--box">
-                                                            <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                        <div class="img--outer head--box" [ngClass]="{'active': selectedPartsFront.includes('upper_head')}">
+                                                            <img id="header" (click)="bodyClick('bodyPartFront','upper_head')" class="body--part default--img"
                                                                 src="/assets/images/human_body/upper_head.png" alt="">
-                                                            <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                            <img id="header" (click)="bodyClick('bodyPartFront','upper_head')" class="body--part hover--img"
                                                                 src="/assets/images/human_body/coloured/upper_head.png" alt="">
                                                         </div>
-                                                        <div class="img--outer ">
-                                                            <img (click)="bodyClick()" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png"
+                                                        <div class="img--outer " [ngClass]="{'active': selectedPartsFront.includes('face')}">
+                                                            <img (click)="bodyClick('bodyPartFront','face')" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
+                                                            <img (click)="bodyClick('bodyPartFront','face')" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png"
                                                                 alt="">
                                                         </div>
-                                                        <div class="img--outer  ">
-                                                            <img (click)="bodyClick()" class="body--part default--img throat" src="/assets/images/human_body/throat.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('throat')}">
+                                                            <img (click)="bodyClick('bodyPartFront','throat')" class="body--part default--img throat" src="/assets/images/human_body/throat.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img throat"
+                                                            <img (click)="bodyClick('bodyPartFront','throat')" class="body--part hover--img throat"
                                                                 src="/assets/images/human_body/coloured/throat.png" alt="">
                                                         </div>
-                                                        <div class="img--outer active">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--shoulder"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_shoulder')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_shoulder')" class="body--part default--img left--shoulder"
                                                                 src="/assets/images/human_body/left_shoulder.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--shoulder"
+                                                            <img (click)="bodyClick('bodyPartFront','left_shoulder')" class="body--part hover--img left--shoulder"
                                                                 src="/assets/images/human_body/coloured/left_shoulder.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer  ">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--shoulder"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_shoulder')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_shoulder')" class="body--part default--img right--shoulder"
                                                                 src="/assets/images/human_body/right_shoulder.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--shoulder"
+                                                            <img (click)="bodyClick('bodyPartFront','right_shoulder')" class="body--part hover--img right--shoulder"
                                                                 src="/assets/images/human_body/coloured/right_shoulder.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer ">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--chest"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_chest')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_chest')" class="body--part default--img left--chest"
                                                                 src="/assets/images/human_body/left_chest.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--chest"
+                                                            <img (click)="bodyClick('bodyPartFront','left_chest')" class="body--part hover--img left--chest"
                                                                 src="/assets/images/human_body/coloured/left_chest.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer ">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--chest"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_chest')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_chest')" class="body--part default--img right--chest"
                                                                 src="/assets/images/human_body/right_chest.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--chest"
+                                                            <img (click)="bodyClick('bodyPartFront','right_chest')" class="body--part hover--img right--chest"
                                                                 src="/assets/images/human_body/coloured/right_chest.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer  ">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--biceps"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_biceps')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_biceps')" class="body--part default--img left--biceps"
                                                                 src="/assets/images/human_body/left_biceps.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--biceps"
+                                                            <img (click)="bodyClick('bodyPartFront','left_biceps')" class="body--part hover--img left--biceps"
                                                                 src="/assets/images/human_body/coloured/left_biceps.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--biceps"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_biceps')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_biceps')" class="body--part default--img right--biceps"
                                                                 src="/assets/images/human_body/right_biceps.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--biceps"
+                                                            <img (click)="bodyClick('bodyPartFront','right_biceps')" class="body--part hover--img right--biceps"
                                                                 src="/assets/images/human_body/coloured/right_biceps.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--hand"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_hand_part_1')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_part_1')" class="body--part default--img left--hand"
                                                                 src="/assets/images/human_body/left_hand_part_1.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--hand"
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_part_1')" class="body--part hover--img left--hand"
                                                                 src="/assets/images/human_body/coloured/left_hand_part_1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--hand"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_hand_part_1')}">
+                                                            <img (click)="bodyClick('bodyPartFront','throat')" class="body--part default--img right--hand"
                                                                 src="/assets/images/human_body/right_hand_part_1.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--hand"
+                                                            <img (click)="bodyClick('bodyPartFront','right_hand_part_1')" class="body--part hover--img right--hand"
                                                                 src="/assets/images/human_body/coloured/right_hand_part_1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--hand--palm"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_hand_palm')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_palm')" class="body--part default--img left--hand--palm"
                                                                 src="/assets/images/human_body/left_hand_palm.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--hand--palm"
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_palm')" class="body--part hover--img left--hand--palm"
                                                                 src="/assets/images/human_body/coloured/left_hand_palm.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--hand--palm"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_hand_palm')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_hand_palm')" class="body--part default--img right--hand--palm"
                                                                 src="/assets/images/human_body/right_hand_palm.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--hand--palm"
+                                                            <img (click)="bodyClick('bodyPartFront','right_hand_palm')" class="body--part hover--img right--hand--palm"
                                                                 src="/assets/images/human_body/coloured/right_hand_palm.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--ribs"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_ribs')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_ribs')" class="body--part default--img left--ribs"
                                                                 src="/assets/images/human_body/left_ribs.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--ribs"
+                                                            <img (click)="bodyClick('bodyPartFront','left_ribs')" class="body--part hover--img left--ribs"
                                                                 src="/assets/images/human_body/coloured/left_ribs.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--ribs"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_ribs')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_ribs')" class="body--part default--img right--ribs"
                                                                 src="/assets/images/human_body/right_ribs.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--ribs"
+                                                            <img (click)="bodyClick('bodyPartFront','right_ribs')" class="body--part hover--img right--ribs"
                                                                 src="/assets/images/human_body/coloured/right_ribs.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img main--belly"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('main_belly')}">
+                                                            <img (click)="bodyClick('bodyPartFront','main_belly')" class="body--part default--img main--belly"
                                                                 src="/assets/images/human_body/main_belly.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img main--belly"
+                                                            <img (click)="bodyClick('bodyPartFront','main_belly')" class="body--part hover--img main--belly"
                                                                 src="/assets/images/human_body/coloured/main_belly.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--belly"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_belly')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_belly')" class="body--part default--img left--belly"
                                                                 src="/assets/images/human_body/left_belly.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--belly"
+                                                            <img (click)="bodyClick('bodyPartFront','left_belly')" class="body--part hover--img left--belly"
                                                                 src="/assets/images/human_body/coloured/left_belly.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--belly"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_belly')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_belly')" class="body--part default--img right--belly"
                                                                 src="/assets/images/human_body/right_belly.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--belly"
+                                                            <img (click)="bodyClick('bodyPartFront','right_belly')" class="body--part hover--img right--belly"
                                                                 src="/assets/images/human_body/coloured/right_belly.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img genitalia"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('genitalia')}">
+                                                            <img (click)="bodyClick('bodyPartFront','genitalia')" class="body--part default--img genitalia"
                                                                 src="/assets/images/human_body/genitalia.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img genitalia"
+                                                            <img (click)="bodyClick('bodyPartFront','genitalia')" class="body--part hover--img genitalia"
                                                                 src="/assets/images/human_body/coloured/genitalia.png" alt="">
-                                                        </div>
+                                                        </div>                                            
                                                     
-                                                    
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--inner--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_inner_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_inner_thigh')" class="body--part default--img left--inner--things"
                                                                 src="/assets/images/human_body/left_inner_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--inner--things"
+                                                            <img (click)="bodyClick('bodyPartFront','left_inner_thigh')" class="body--part hover--img left--inner--things"
                                                                 src="/assets/images/human_body/coloured/left_inner_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--inner--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_inner_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_inner_thigh')" class="body--part default--img right--inner--things"
                                                                 src="/assets/images/human_body/right_inner_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--inner--things"
+                                                            <img (click)="bodyClick('bodyPartFront','right_inner_thigh')" class="body--part hover--img right--inner--things"
                                                                 src="/assets/images/human_body/coloured/right_inner_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_thigh')" class="body--part default--img left--things"
                                                                 src="/assets/images/human_body/left_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--things"
+                                                            <img (click)="bodyClick('bodyPartFront','left_thigh')" class="body--part hover--img left--things"
                                                                 src="/assets/images/human_body/coloured/left_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_thigh')" class="body--part default--img right--things"
                                                                 src="/assets/images/human_body/right_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--things"
+                                                            <img (click)="bodyClick('bodyPartFront','right_thigh')" class="body--part hover--img right--things"
                                                                 src="/assets/images/human_body/coloured/right_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--knee"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_knee')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_knee')" class="body--part default--img left--knee"
                                                                 src="/assets/images/human_body/left_knee.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--knee"
+                                                            <img (click)="bodyClick('bodyPartFront','left_knee')" class="body--part hover--img left--knee"
                                                                 src="/assets/images/human_body/coloured/left_knee.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--knee"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_knee')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_knee')" class="body--part default--img right--knee"
                                                                 src="/assets/images/human_body/right_knee.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--knee"
+                                                            <img (click)="bodyClick('bodyPartFront','right_knee')" class="body--part hover--img right--knee"
                                                                 src="/assets/images/human_body/coloured/right_knee.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--leg"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_leg')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg')" class="body--part default--img left--leg"
                                                                 src="/assets/images/human_body/left_leg.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--leg"
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg')" class="body--part hover--img left--leg"
                                                                 src="/assets/images/human_body/coloured/left_leg.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--leg"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_leg')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg')" class="body--part default--img right--leg"
                                                                 src="/assets/images/human_body/right_leg.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--leg"
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg')" class="body--part hover--img right--leg"
                                                                 src="/assets/images/human_body/coloured/right_leg.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--leg--botton"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_leg_bottom')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg_bottom')" class="body--part default--img left--leg--botton"
                                                                 src="/assets/images/human_body/left_leg_bottom.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--leg--botton"
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg_bottom')" class="body--part hover--img left--leg--botton"
                                                                 src="/assets/images/human_body/coloured/left_leg_bottom.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--leg--botton"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_leg_bottom')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg_bottom')" class="body--part default--img right--leg--botton"
                                                                 src="/assets/images/human_body/right_leg_bottom.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--leg--botton"
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg_bottom')" class="body--part hover--img right--leg--botton"
                                                                 src="/assets/images/human_body/coloured/right_leg_bottom.png" alt="">
                                                         </div>
                                                     
@@ -1198,136 +1197,136 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6">
                                                     <div class="human--body--wrapper back--body--wrapper">
-                                                        <div class="img--outer head--box">
-                                                            <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                        <div class="img--outer head--box" [ngClass]="{'active': selectedPartsBack.includes('head_back')}">
+                                                            <img id="header" (click)="bodyClick('bodyPartBack','head_back')" class="body--part default--img"
                                                                 src="/assets/images/human_body/backbody/head_back.png" alt="">
-                                                            <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                            <img id="header" (click)="bodyClick('bodyPartBack','head_back')" class="body--part hover--img"
                                                                 src="/assets/images/human_body/backbody/coloured/head_back.png" alt="">
                                                         </div> 
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img nape" src="/assets/images/human_body/backbody/nape.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('nape')}">
+                                                            <img (click)="bodyClick('bodyPartBack','nape')" class="body--part default--img nape" src="/assets/images/human_body/backbody/nape.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img nape"
+                                                            <img (click)="bodyClick('bodyPartBack','nape')" class="body--part hover--img nape"
                                                                 src="/assets/images/human_body/backbody/coloured/nape.png" alt="">
                                                         </div> 
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img spinal-cord" src="/assets/images/human_body/backbody/column.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('column')}">
+                                                            <img (click)="bodyClick('bodyPartBack','column')" class="body--part default--img spinal-cord" src="/assets/images/human_body/backbody/column.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img spinal-cord"
+                                                            <img (click)="bodyClick('bodyPartBack','column')" class="body--part hover--img spinal-cord"
                                                                 src="/assets/images/human_body/backbody/coloured/column.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img clavicule-left" src="/assets/images/human_body/backbody/clavicule-left.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('clavicule-left')}">
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-left')" class="body--part default--img clavicule-left" src="/assets/images/human_body/backbody/clavicule-left.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img clavicule-left"
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-left')" class="body--part hover--img clavicule-left"
                                                                 src="/assets/images/human_body/backbody/coloured/clavicule-left.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img back-left" src="/assets/images/human_body/backbody/back_left.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('back_left')}">
+                                                            <img (click)="bodyClick('bodyPartBack','back_left')" class="body--part default--img back-left" src="/assets/images/human_body/backbody/back_left.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img back-left"
+                                                            <img (click)="bodyClick('bodyPartBack','back_left')" class="body--part hover--img back-left"
                                                                 src="/assets/images/human_body/backbody/coloured/back_left.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img back-right" src="/assets/images/human_body/backbody/back_right.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('back_right')}">
+                                                            <img (click)="bodyClick('bodyPartBack','back_right')" class="body--part default--img back-right" src="/assets/images/human_body/backbody/back_right.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img back-right"
+                                                            <img (click)="bodyClick('bodyPartBack','back_right')" class="body--part hover--img back-right"
                                                                 src="/assets/images/human_body/backbody/coloured/back_right.png" alt="">
                                                         </div>
-                                                        <!-- <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img armback-left" src="/assets/images/human_body/backbody/armback-left.png"
+                                                        <!-- <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right_leg_bottom')}">
+                                                            <img (click)="bodyClick('bodyPartBack','')" class="body--part default--img armback-left" src="/assets/images/human_body/backbody/armback-left.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img armback-left"
+                                                            <img (click)="bodyClick('bodyPartBack','')" class="body--part hover--img armback-left"
                                                                 src="/assets/images/human_body/backbody/coloured/armback-left.png" alt="">
                                                         </div> -->
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-1" src="/assets/images/human_body/backbody/left-hand-1.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-hand-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-1')" class="body--part default--img left-hand-1" src="/assets/images/human_body/backbody/left-hand-1.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-1"
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-1')" class="body--part hover--img left-hand-1"
                                                                 src="/assets/images/human_body/backbody/coloured/left-hand-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-2" src="/assets/images/human_body/backbody/left-hand-2.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-hand-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-2')" class="body--part default--img left-hand-2" src="/assets/images/human_body/backbody/left-hand-2.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-2"
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-2')" class="body--part hover--img left-hand-2"
                                                                 src="/assets/images/human_body/backbody/coloured/left-hand-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-3" src="/assets/images/human_body/backbody/left-hand-3.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-hand-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-3')" class="body--part default--img left-hand-3" src="/assets/images/human_body/backbody/left-hand-3.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-3"
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-3')" class="body--part hover--img left-hand-3"
                                                                 src="/assets/images/human_body/backbody/coloured/left-hand-3.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-1" src="/assets/images/human_body/backbody/right-hand-1.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-hand-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-1')" class="body--part default--img right-hand-1" src="/assets/images/human_body/backbody/right-hand-1.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-1"
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-1')" class="body--part hover--img right-hand-1"
                                                                 src="/assets/images/human_body/backbody/coloured/right-hand-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-2" src="/assets/images/human_body/backbody/right-hand-2.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-hand-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-2')" class="body--part default--img right-hand-2" src="/assets/images/human_body/backbody/right-hand-2.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-2"
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-2')" class="body--part hover--img right-hand-2"
                                                                 src="/assets/images/human_body/backbody/coloured/right-hand-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-3" src="/assets/images/human_body/backbody/right-hand-3.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-hand-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-3')" class="body--part default--img right-hand-3" src="/assets/images/human_body/backbody/right-hand-3.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-3"
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-3')" class="body--part hover--img right-hand-3"
                                                                 src="/assets/images/human_body/backbody/coloured/right-hand-3.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img clavicule-right" src="/assets/images/human_body/backbody/clavicule-right.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('clavicule-right')}">
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-right')" class="body--part default--img clavicule-right" src="/assets/images/human_body/backbody/clavicule-right.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img clavicule-right"
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-right')" class="body--part hover--img clavicule-right"
                                                                 src="/assets/images/human_body/backbody/coloured/clavicule-right.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img lowerback" src="/assets/images/human_body/backbody/loin(lowerback).png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('loin-lowerback')}">
+                                                            <img (click)="bodyClick('bodyPartBack','loin-lowerback')" class="body--part default--img lowerback" src="/assets/images/human_body/backbody/loin-lowerback.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img lowerback"
-                                                                src="/assets/images/human_body/backbody/coloured/loin(lowerback).png" alt="">
+                                                            <img (click)="bodyClick('bodyPartBack','loin-lowerback')" class="body--part hover--img lowerback"
+                                                                src="/assets/images/human_body/backbody/coloured/loin-lowerback.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img hips" src="/assets/images/human_body/backbody/hips.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('hips')}">
+                                                            <img (click)="bodyClick('bodyPartBack','hips')" class="body--part default--img hips" src="/assets/images/human_body/backbody/hips.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img hips"
+                                                            <img (click)="bodyClick('bodyPartBack','hips')" class="body--part hover--img hips"
                                                                 src="/assets/images/human_body/backbody/coloured/hips.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-1"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-leg-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-1')" class="body--part default--img left-leg-1"
                                                                 src="/assets/images/human_body/backbody/left-leg-1.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-1"
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-1')" class="body--part hover--img left-leg-1"
                                                                 src="/assets/images/human_body/backbody/coloured/left-leg-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-2"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-leg-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-2')" class="body--part default--img left-leg-2"
                                                                 src="/assets/images/human_body/backbody/left-leg-2.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-2"
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-2')" class="body--part hover--img left-leg-2"
                                                                 src="/assets/images/human_body/backbody/coloured/left-leg-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-3"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-leg-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-3')" class="body--part default--img left-leg-3"
                                                                 src="/assets/images/human_body/backbody/left-leg-3.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-3"
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-3')" class="body--part hover--img left-leg-3"
                                                                 src="/assets/images/human_body/backbody/coloured/left-leg-3.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-1" src="/assets/images/human_body/backbody/right-leg-1.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-leg-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-1')" class="body--part default--img right-leg-1" src="/assets/images/human_body/backbody/right-leg-1.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-1"
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-1')" class="body--part hover--img right-leg-1"
                                                                 src="/assets/images/human_body/backbody/coloured/right-leg-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-2" src="/assets/images/human_body/backbody/right-leg-2.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-leg-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-2')" class="body--part default--img right-leg-2" src="/assets/images/human_body/backbody/right-leg-2.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-2"
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-2')" class="body--part hover--img right-leg-2"
                                                                 src="/assets/images/human_body/backbody/coloured/right-leg-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-3" src="/assets/images/human_body/backbody/right-leg-3.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-leg-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-3')" class="body--part default--img right-leg-3" src="/assets/images/human_body/backbody/right-leg-3.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-3"
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-3')" class="body--part hover--img right-leg-3"
                                                                 src="/assets/images/human_body/backbody/coloured/right-leg-3.png" alt="">
                                                         </div>
                                                     
@@ -1338,10 +1337,10 @@
                                         <div class="col-12 mt-3">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
-                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">05/10/2024</span></p>
+                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">{{appointment_data?.appointmentDate | date:'MM-dd-YYYY' }}</span></p>
                                                 </div>
                                                 <div class="col-12 col-sm-6 d-flex align-items-center justify-content-sm-end justify-content-start">
-                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Patient Initials:<span class="fw-400 ms-2">JD</span></p>
+                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Patient Initials:<span class="fw-400 ms-2">{{initialName}}</span></p>
                                                 </div>
                                             </div>
                                         </div>

@@ -18,6 +18,7 @@ export class BodyDetailsModalComponent {
   validationMessages = validationMessages; 
   partConcernForm: FormGroup;
   submitButton:boolean = false;
+  readOnly:boolean = false;
   bodyPartFront:any = [];
   bodyPartBack:any = [];
   userId = this.authService.getLoggedInInfo('_id')
@@ -37,10 +38,15 @@ export class BodyDetailsModalComponent {
     this.bodyPartFront = data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
     this.bodyPartBack = data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
     this.appointmentUpdateInfo = data.appointmentUpdateInfo != undefined ? data.appointmentUpdateInfo : [];
+    if(data.readOnly){
+      this.readOnly= data.readOnly;
+    }
+    
   }
 
 
   ngOnInit() {
+    console.log('>>>',this.readOnly)
     if(this.from=='bodyPartFront'){
       this.bodyPartFront.forEach((element: any) => {
         if(this.partName==element.part){
@@ -58,6 +64,10 @@ export class BodyDetailsModalComponent {
     this.partConcernForm = this.fb.group({
       concern: [this.concernText, [Validators.required,Validators.minLength(1), Validators.maxLength(100)]],
     });
+    if(this.readOnly){
+      this.submitButton = true
+      this.partConcernForm.get('concern')?.disable();
+    }
     
   }
 
