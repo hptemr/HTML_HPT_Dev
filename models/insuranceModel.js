@@ -32,6 +32,7 @@ const insurnaceSchema = new mongoose.Schema({
     thirdInsuranceFromDate: { type: Date, default: "" },
     thirdInsuranceToDate: { type: Date, default: "" },
     injuryRelelatedTo: { type: String, default: "" },
+    otherPersonalInjury: { type: String, default: "" },
     carrierName: { type: String, default: "" },
     dateOfInjury: { type: String, default: "" },
     insuranceState: { type: String, default: "" },
