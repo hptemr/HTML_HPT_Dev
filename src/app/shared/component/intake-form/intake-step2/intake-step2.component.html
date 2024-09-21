@@ -955,7 +955,7 @@
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag" >
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag">
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Attorney Name </label>
                                     <input (blur)="checkSpace('attorneyName', $event)" formControlName="attorneyName" class="form-control" type="text" placeholder="Enter Attorney Name" />
@@ -965,7 +965,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag" >
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="attorneyFlag">
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Attorney Phone </label>
                                     <input [imask]="{mask: '(000) 000-0000'}" formControlName="attorneyPhone"
@@ -1090,7 +1090,7 @@
                             </div> -->
 
 
-                            <div class="col-12 d-flex  align-items-center justify-content-between mt-3"  *ngIf="isMinorFlag && fullNameForSign">
+                            <div class="col-12 d-flex  align-items-center justify-content-between mt-3" *ngIf="isMinorFlag && fullNameForSign">
                                 <div class="signature--box d-flex align-items-center justify-content-center">
                                     {{fullNameForSign}}
                                 </div>  

@@ -5,7 +5,7 @@ import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AddInsuranceModalComponent } from 'src/app/component/patient/book-appointment/add-insurance-modal/add-insurance-modal.component';
 import { carrierNameList, maritalStatus, practiceLocations, relationWithPatient } from 'src/app/config';
-import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
+//import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.component';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
@@ -15,7 +15,6 @@ interface State {
   state: string;
   state_code: string;
 }
-
 @Component({
   selector: 'app-intake-step2',
   templateUrl: './intake-step2.component.html',
@@ -147,7 +146,6 @@ export class IntakeStep2Component {
     }
     
     this.payViaSelected = payViaInsuranceInfo.payVia
-    console.log('loadForm payViaSelected >>>>',this.payViaSelected)
 
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
@@ -186,7 +184,7 @@ export class IntakeStep2Component {
       secondarySubscriberDob: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberDob : ''],
       secondarySubscriberRelationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberRelationWithPatient : '', [Validators.required]],
       secondarySubscriberOtherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberOtherRelation : [Validators.required]],
-      secondarySubscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberGender : [Validators.required]],
+      secondarySubscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberGender : '', [Validators.required]],
       secondaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondaryInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceIdPolicy : '', [Validators.required]],
       secondaryInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceGroup : '', [Validators.required]],
@@ -200,7 +198,7 @@ export class IntakeStep2Component {
       thirdSubscriberDob: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberDob : ''],
       thirdSubscriberRelationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberRelationWithPatient : '', []],
       thirdSubscriberOtherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberOtherRelation : []],
-      thirdSubscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberGender : []],
+      thirdSubscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberGender : '', []],
 
       thirdInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceCompany : '', [Validators.minLength(1), Validators.maxLength(35)]],
       thirdInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceIdPolicy : '', []],
@@ -294,6 +292,7 @@ export class IntakeStep2Component {
     let secondarySubscriberDob = ''
     let secondarySubscriberOtherRelation = ''
     let secondarySubscriberRelationWithPatient = ''
+    let secondarySubscriberGender = ''
     let secondaryInsuranceCompany = ''
     let secondaryInsuranceIdPolicy = ''
     let secondaryInsuranceGroup = ''
@@ -319,6 +318,7 @@ export class IntakeStep2Component {
     let thirdSubscriberLastName = ''
     let thirdSubscriberDob = ''
     let thirdSubscriberOtherRelation = ''
+    let thirdSubscriberGender = ''
     let thirdSubscriberRelationWithPatient = ''
 
     let thirdInsuranceCompany = ''
@@ -354,6 +354,8 @@ export class IntakeStep2Component {
       secondarySubscriberDob= info.secondarySubscriberDob
       secondarySubscriberOtherRelation= info.secondarySubscriberOtherRelation
       secondarySubscriberRelationWithPatient= info.secondarySubscriberRelationWithPatient
+      secondarySubscriberGender = info.secondarySubscriberGender    
+
       secondaryInsuranceCompany = info.secondaryInsuranceCompany
       secondaryInsuranceIdPolicy = info.secondaryInsuranceIdPolicy
       secondaryInsuranceGroup = info.secondaryInsuranceGroup
@@ -366,6 +368,7 @@ export class IntakeStep2Component {
       thirdSubscriberLastName = info.thirdSubscriberLastName    
       thirdSubscriberDob = info.thirdSubscriberDob    
       thirdSubscriberOtherRelation = info.thirdSubscriberOtherRelation    
+      thirdSubscriberGender = info.thirdSubscriberGender    
       thirdSubscriberRelationWithPatient = info.thirdSubscriberRelationWithPatient    
       thirdInsuranceCompany = info.thirdInsuranceCompany
       thirdInsuranceIdPolicy = info.thirdInsuranceIdPolicy
@@ -414,7 +417,8 @@ export class IntakeStep2Component {
     this.step2Form.controls['secondarySubscriberLastName'].setValue(secondarySubscriberLastName)
     this.step2Form.controls['secondarySubscriberDob'].setValue(secondarySubscriberDob)
     this.step2Form.controls['secondarySubscriberOtherRelation'].setValue(secondarySubscriberOtherRelation)
-    this.step2Form.controls['secondarySubscriberRelationWithPatient'].setValue(secondarySubscriberRelationWithPatient)                
+    this.step2Form.controls['secondarySubscriberRelationWithPatient'].setValue(secondarySubscriberRelationWithPatient)    
+    this.step2Form.controls['secondarySubscriberGender'].setValue(secondarySubscriberGender)            
     this.step2Form.controls['secondaryInsuranceCompany'].setValue(secondaryInsuranceCompany)
     this.step2Form.controls['secondaryInsuranceIdPolicy'].setValue(secondaryInsuranceIdPolicy)
     this.step2Form.controls['secondaryInsuranceGroup'].setValue(secondaryInsuranceGroup)
@@ -427,7 +431,8 @@ export class IntakeStep2Component {
     this.step2Form.controls['thirdSubscriberLastName'].setValue(thirdSubscriberLastName)
     this.step2Form.controls['thirdSubscriberDob'].setValue(thirdSubscriberDob)
     this.step2Form.controls['thirdSubscriberOtherRelation'].setValue(thirdSubscriberOtherRelation)
-    this.step2Form.controls['thirdSubscriberRelationWithPatient'].setValue(thirdSubscriberRelationWithPatient)        
+    this.step2Form.controls['thirdSubscriberRelationWithPatient'].setValue(thirdSubscriberRelationWithPatient)     
+    this.step2Form.controls['thirdSubscriberGender'].setValue(thirdSubscriberGender)   
     this.step2Form.controls['thirdInsuranceCompany'].setValue(thirdInsuranceCompany)
     this.step2Form.controls['thirdInsuranceIdPolicy'].setValue(thirdInsuranceIdPolicy)
     this.step2Form.controls['thirdInsuranceGroup'].setValue(thirdInsuranceGroup)
@@ -496,8 +501,9 @@ export class IntakeStep2Component {
     }else{
       this.step2Form.controls['attorneyName'].setValue('')
       this.step2Form.controls['attorneyPhone'].setValue('')
-    }
-    
+      this.step2Form.get('attorneyName')?.markAsUntouched();
+      this.step2Form.get('attorneyPhone')?.markAsUntouched();
+    }    
   }
 
   changePatientMinor(event: MatRadioChange) {
@@ -592,9 +598,6 @@ export class IntakeStep2Component {
   }
 
   async bookAppointmentStep2() {
-    console.log(this.step2Form.invalid,'>>>',this.step2Form.value)
-
-    console.log('step2FormSSSS>>>',this.step2Form)
     if (this.step2Form.invalid){
       this.step2Form.markAllAsTouched();
     }else{
