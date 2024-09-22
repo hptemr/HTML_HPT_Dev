@@ -73,6 +73,10 @@ export class IntakeStep1Component {
         this.step1FormData = response.data.appointmentData
         this.selectedValue = this.step1FormData.bookingFor
         this.loadForm()
+        if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData && this.step1FormData.caseName) {      
+          this.step1Form.controls['practiceLocation'].disable()
+          this.step1Form.controls['appointmentDate'].disable()
+        }
         
         if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending') {
           if (this.selectedValue == 'Myself') {
@@ -90,9 +94,11 @@ export class IntakeStep1Component {
           //8 this.isReadonly = true
           //8 this.step1Form.disable()
         }
+
         this.commonService.hideLoader()
       }
     })
+   
   }
 
   onChange(event: MatRadioChange) {

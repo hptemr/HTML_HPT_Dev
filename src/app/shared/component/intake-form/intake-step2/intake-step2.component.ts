@@ -60,6 +60,7 @@ export class IntakeStep2Component {
   subscriberOtherRelationFlag:boolean=false
   secondarySubscriberOtherRelationFlag:boolean=false
   thirdSubscriberOtherRelationFlag:boolean=false
+  payViaSelectedFlag:boolean=false
   employerSelected:string=''
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
@@ -103,6 +104,14 @@ export class IntakeStep2Component {
         }
         this.getInsuranceList();
         // this.payViaSelected = this.step2FormData.payVia
+        if(this.step2FormData && this.step2FormData.payViaInsuranceInfo){
+          this.payViaSelected = this.step2FormData.payViaInsuranceInfo.payVia;
+        }
+    
+        if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
+          this.payViaSelected = this.step2FormData.adminPayViaInsuranceInfo.payVia;
+        }
+        
         this.loadForm()
 
         // if (this.authService.getLoggedInInfo('role') == 'patient' && this.step2FormData.status == 'Pending') {
@@ -227,7 +236,6 @@ export class IntakeStep2Component {
     });
     this.isMinorFlag = payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor=='yes' ? true : false : false    
 
-   // onChange
 
     if(payViaInsuranceInfo?.thirdInsuranceCompany){
       //this.thirdInsurancesFlag = true;  
@@ -470,10 +478,12 @@ export class IntakeStep2Component {
     })
   }
 
-  onChange(event: MatRadioChange) {
-    this.payViaSelected = event.value
+  onChange(event: MatRadioChange): void {
+   this.payViaSelected = event.value
+   this.payViaSelectedFlag = false;
     if(this.payViaSelected=='Insurance'){
-      this.loadForm()
+      this.payViaSelectedFlag = true;
+      
     }else if(this.payViaSelected=='Selfpay'){
       Object.keys(this.step2Form.controls).forEach(control => {
         this.step2Form.get(control)?.clearValidators();
