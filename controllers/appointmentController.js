@@ -197,12 +197,18 @@ const createAppointment = async (req, res) => {
                     msg = appointmentMessage.updated;
                     result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);
                 }
+                const therapistData = await User.findOne({_id:data.therapistId},{firstName:1,lastName:1});                    
+                const patientData = {appointment_date:data.appointmentDate,firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:result._id};
                 if(patientType=='New'){
-                    const therapistData = await User.findOne({_id:data.therapistId},{firstName:1,lastName:1});
-                    
-                    const patientData = {firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:result._id};
                     patientAppointmentSignupEmail(patientData)
+                }else if(!requestId && patientType=='Existing'){                  
+                    let link = `${process.env.BASE_URL}/patient/appointment-details/${result._id}/`;
+                    triggerEmail.appointmentCreatedByAdminReplyPatient('appointmentCreatedByAdminReplyPatient',patientData,link);
+                }else if(requestId && patientType=='Existing'){
+                    let link = `${process.env.BASE_URL}/patient/appointment-details/${result._id}/`;
+                    triggerEmail.appointmentRequestReplyFromAdmin('appointmentRequestReplyFromAdmin',patientData,link);
                 }
+
                 commonHelper.sendResponse(res, 'success', result, msg);
             }
       } catch (error) {
@@ -266,7 +272,7 @@ const createAppointmentRequest = async (req, res) => {
     }
 }
 
-const acceptAppointment = async (req, res) => {
+const acceptAppointment = async (req, res) => {//NOT In USSE
     try {
         const { query,userId,userRole,data } = req.body;
         let therapistId = data.therapistId.id;
@@ -296,7 +302,7 @@ const resolvedRequest = async (req, res) => {
     }
 }
 
-const cancelAppointment = async (req, res) => {
+const cancelAppointment = async (req, res) => {//NOT IN USE
     try {
         const { query, updateInfo } = req.body;
         await Appointment.findOneAndUpdate(query, updateInfo);
@@ -306,7 +312,7 @@ const cancelAppointment = async (req, res) => {
     }
 }
 
-const addAppointment = async (req, res) => {
+const addAppointment = async (req, res) => {//NOT IN USE
     try {
         let appointmentData = await Appointment.findOne({}, { appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
         let newRecord = new Appointment(req.body)
@@ -520,8 +526,7 @@ async function patientAppointmentSignupEmail(patientData) {
             phoneNumber: patientData.phoneNumber,
             status: 'Pending'
         }     
-        console.log('Patient_data>>>',request_data)
-
+        
         let newPatient = new Patient(request_data);
         const patient_result = await newPatient.save();
         // let tokenObj = {

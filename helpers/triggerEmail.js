@@ -178,7 +178,7 @@ const appointmentRequestReceivedFromPatient = async (templateName, adminData,pat
             }
         })
     } catch (error) {
-        console.log("appointmentRequestReceivedFromPatient error>>>>",error)
+        console.log("appointment Request Received From Patient error>>>>",error)
     } 
 }
 
@@ -188,13 +188,46 @@ const appointmentRequestReplyFromAdmin = async (templateName, patientData, link)
         sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
             if (template && patientData) {
                 let params = {
-                "{patientName}": patientData.firstName+' '+patientData.lastName,
+                "{firstName}": patientData.firstName,
+                "{appointment_date}": patientData.appointment_date,
+                "{practice_location}": patientData.practice_location,
+                "{therapist_name}": patientData.therapist_name,
                 "{link}": link,
                 "{BASE_URL}":process.env.BASE_URL
                 }
                 var mailOptions = {
                     to: [patientData.email],
                     cc: ['rohini+1001@arkenea.com'],
+                    subject: template.mail_subject,
+                    html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                }
+                
+                sendEmailServices.sendEmail(mailOptions)
+            } else {
+                console.log("Templete not found >>>>")
+            }
+        })
+    } catch (error) {
+        console.log("appointmentRequestReceivedFromPatient error>>>>",error)
+    } 
+}
+
+//Email sent to patient from ST after creating the appoitment from admin side
+const appointmentCreatedByAdminReplyPatient = async (templateName, patientData, link) => {
+    try {
+        sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
+            if (template && patientData) {
+                let params = {
+                "{patientName}": patientData.firstName+' '+patientData.lastName,
+                "{appointment_date}": patientData.appointment_date,
+                "{practice_location}": patientData.practice_location,
+                "{therapist_name}": patientData.therapist_name,
+                "{link}": link,
+                "{BASE_URL}":process.env.BASE_URL
+                }
+                var mailOptions = {
+                    to: [patientData.email],
+                    cc: ['rohini+1002@arkenea.com'],
                     subject: template.mail_subject,
                     html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
                 }
@@ -218,5 +251,6 @@ module.exports = {
     patientSignupThroughRefferal,
     appointmentBookedThroughRefferal,
     appointmentRequestReceivedFromPatient,
-    appointmentRequestReplyFromAdmin
+    appointmentRequestReplyFromAdmin,
+    appointmentCreatedByAdminReplyPatient
 };
