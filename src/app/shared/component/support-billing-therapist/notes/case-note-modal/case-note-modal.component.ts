@@ -40,22 +40,6 @@ export class CaseNoteModalComponent implements OnInit {
       if (this.appointmentId) {
         this.dialogRef.close();
         this.successModal();
-
-        // let reqVars = {
-        //   query: { _id: this.appointmentId },
-        //   userId: this.userId,
-        //   userRole: this.userRole,
-        //   data: formData
-        // }
-        // await this.authService.apiRequest('post', 'appointment/acceptAppointment', reqVars).subscribe(async response => {
-        //   this.commonService.hideLoader();
-        //   if (response.error) {
-        //     this.commonService.openSnackBar(response.message, "ERROR")
-        //   } else {
-        //     this.commonService.openSnackBar(response.message, "SUCCESS")
-        //     this.successModal();
-        //   }
-        // })
       }
 
     }
