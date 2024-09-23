@@ -23,6 +23,13 @@ export class SidebarComponent {
       if (event instanceof NavigationEnd) {
         const locationArray = event.url.split('/')
         this.currentMainMenu = locationArray[2]
+
+        if(this.currentMainMenu=='create-request-appointment'){
+          this.currentMainMenu = 'requests'
+        }
+        if(this.currentMainMenu=='case-details' || this.currentMainMenu=='initial-examination' || this.currentMainMenu=='daily-notes' || this.currentMainMenu=='progress-notes' || this.currentMainMenu=='discharge-notes'){
+           this.currentMainMenu = 'cases'
+        }
       }
     })
   }
