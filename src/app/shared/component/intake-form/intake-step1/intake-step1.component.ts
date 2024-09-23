@@ -92,7 +92,7 @@ export class IntakeStep1Component {
           //   this.step1Form.controls['gender'].enable()
           //   this.step1Form.controls['maritalStatus'].enable()
           // }
-        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step1FormData.intakeFormSubmit) {
+        }else if ((this.userRole == 'support_team' || this.userRole == 'billing_team') && this.step1FormData.intakeFormSubmit) {
           this.isReadonly = false
         } else {
           this.isReadonly = true
@@ -227,8 +227,9 @@ export class IntakeStep1Component {
   }
 
   async bookAppointmentStep1() {
-    //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support-team' || this.authService.getLoggedInInfo('role') == 'billing-team')) {
-      if (this.step1Form.invalid){
+    //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
+      console.log(this.isReadonly,'step1Form>>>',this.step1Form)
+      if (this.step1Form.invalid){      
         this.step1Form.markAllAsTouched();
       }else{
         let appointmentUpdateInfo = this.step1FormData.appointmentUpdateInfo;

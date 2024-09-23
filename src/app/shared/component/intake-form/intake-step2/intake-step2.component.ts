@@ -113,9 +113,10 @@ export class IntakeStep2Component {
 
         if (this.userRole == 'patient' && !this.step2FormData.intakeFormSubmit) {
           this.isReadonly = false
-        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step1FormData.intakeFormSubmit) {
+        }else if ((this.userRole == 'support_team' || this.userRole == 'billing_team') && this.step2FormData.intakeFormSubmit) {
           this.isReadonly = false
         } else {
+          console.log(this.userRole,'>>>>>>>>>is Read Only>>>>')
           this.isReadonly = true
           this.step2Form.disable()
         }
@@ -138,6 +139,8 @@ export class IntakeStep2Component {
         if(this.step2Form.controls['firstName'].value && this.step2Form.controls['lastName'].value){
           this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
         }      
+
+        console.log('>>>>>>>>>isReadonly>>>>',this.isReadonly)
       }
     })
   }
@@ -608,42 +611,42 @@ export class IntakeStep2Component {
   }
 
   async bookAppointmentStep2() {
-    //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support-team' || this.authService.getLoggedInInfo('role') == 'billing-team')) {
+    //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
       console.log(this.step2Form.invalid,' >>>>>step2Form>>>',this.step2Form)
       if (this.step2Form.invalid){
         this.step2Form.markAllAsTouched();
       }else{
-        if (this.isReadonly) {
-          let appointmentUpdateInfo = this.step2FormData.appointmentUpdateInfo;
-          appointmentUpdateInfo.push({
-            fromPatientId : (this.userRole=='patient') ? this.userId : '',
-            fromAdminId:(this.userRole!='patient') ? this.userId : '',
-            userRole:this.userRole,
-            updatedAt:new Date()
-          });
-          let formData = this.step2Form.value
-          let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
-          let insuranceFiles = this.getInsuranceFiles()
-          if (insuranceFiles.length > 0) {
-            Object.assign(formData, { insuranceFiles: insuranceFiles })
-          }
-          let updateInfo = {}
-          if(this.userRole=='patient'){
-          updateInfo = { payViaInsuranceInfo: formData}
-          }else if(this.userRole!='patient'){
-            updateInfo = { adminPayViaInsuranceInfo: formData }
-          }
+        if (!this.isReadonly) {
+              let appointmentUpdateInfo = this.step2FormData.appointmentUpdateInfo;
+              appointmentUpdateInfo.push({
+                fromPatientId : (this.userRole=='patient') ? this.userId : '',
+                fromAdminId:(this.userRole!='patient') ? this.userId : '',
+                userRole:this.userRole,
+                updatedAt:new Date()
+              });
+              let formData = this.step2Form.value
+              let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
+              let insuranceFiles = this.getInsuranceFiles()
+              if (insuranceFiles.length > 0) {
+                Object.assign(formData, { insuranceFiles: insuranceFiles })
+              }
+              let updateInfo = {}
+              if(this.userRole=='patient'){
+              updateInfo = { payViaInsuranceInfo: formData}
+              }else if(this.userRole!='patient'){
+                updateInfo = { adminPayViaInsuranceInfo: formData }
+              }
 
-          let params = {
-            query: { _id: this.appId },
-            updateInfo: updateInfo,
-            uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
-            appointmentUpdateInfo:appointmentUpdateInfo
-          }
-          await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-            localStorage.removeItem('uploadedInsuranceFiles')
-            this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
-          })
+              let params = {
+                query: { _id: this.appId },
+                updateInfo: updateInfo,
+                uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
+                appointmentUpdateInfo:appointmentUpdateInfo
+              }
+              await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+                localStorage.removeItem('uploadedInsuranceFiles')
+                this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
+              })
         } else {
           localStorage.removeItem('uploadedInsuranceFiles')
           this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])

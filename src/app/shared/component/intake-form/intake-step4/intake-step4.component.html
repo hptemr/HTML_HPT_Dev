@@ -20,8 +20,7 @@
                 </div>                
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="emergencyContactList && emergencyContactList.length>0">
                     <label class="col-form-label fw-600">Please check your contact list</label>
-                    <select [disabled]="!isFormEditable" (change)="getContact(1,$event)" class="form-select form-control m-1"
-                        aria-label="Default select example">
+                    <select [disabled]="isReadonly" (change)="getContact(1,$event)" class="form-select form-control" aria-label="Default select example">
                         <option value="" selected>Select from Added Contacts</option>
                         <option value="{{i}}" *ngFor="let element of emergencyContactList; let i=index" [disabled]="selectedIndex2==i">
                             {{element.firstName}} {{element.lastName}}
@@ -31,8 +30,7 @@
 
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> *
-                            </span></label>
+                        <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
                         <input (blur)="checkSpace('ec1FirstName', $event)" formControlName="ec1FirstName"
                             class="form-control" type="text" placeholder="Enter First Name" />
                         <div class="text text-danger mt-1"
@@ -82,7 +80,7 @@
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="relationOtherFlag1">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Other Relation<span class="clr--DF0404 ms-1"> *</span></label>
-                        <input [disabled]="!isFormEditable" class="form-control" formControlName="ec1OtherRelation" type="text" placeholder="Enter Other Relation" />
+                        <input [disabled]="!isReadonly" class="form-control" formControlName="ec1OtherRelation" type="text" placeholder="Enter Other Relation" />
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
@@ -122,8 +120,7 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="emergencyContactList.length>0">
                     <label class="col-form-label fw-600">Please check your contact list</label>
-                    <select [disabled]="!isFormEditable" (change)="getContact(2,$event)" class="form-select form-control m-1"
-                        aria-label="Default select example">
+                    <select [disabled]="isReadonly" (change)="getContact(2,$event)" class="form-select form-control" aria-label="Default select example">
                         <option value="" selected>Select from Added Contacts</option>
                         <option value="{{i}}" *ngFor="let element of emergencyContactList; let i=index" [disabled]="selectedIndex1==i">
                             {{element.firstName}} {{element.lastName}}
@@ -183,7 +180,7 @@
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="relationOtherFlag2">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Other Relation<span class="clr--DF0404 ms-1"> *</span></label>
-                        <input [disabled]="!isFormEditable" class="form-control" type="text" formControlName="ec2OtherRelation" placeholder="Enter Other Relation" />
+                        <input [disabled]="!isReadonly" class="form-control" type="text" formControlName="ec2OtherRelation" placeholder="Enter Other Relation" />
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">

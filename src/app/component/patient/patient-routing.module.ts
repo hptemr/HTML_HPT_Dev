@@ -32,7 +32,7 @@ const routes: Routes = [
     component: AppointmentsComponent,
   },
   {
-    path: 'appointment-details/:appId',
+    path: 'case-details/:appId',
     component: AppointmentDetailsComponent,
   },
   {

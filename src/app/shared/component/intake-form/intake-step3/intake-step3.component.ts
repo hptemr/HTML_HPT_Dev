@@ -58,7 +58,7 @@ export class IntakeStep3Component {
       
         if (this.userRole == 'patient' && !this.step3FormData.intakeFormSubmit) {
           this.isReadonly = false
-        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step3FormData.intakeFormSubmit) {
+        }else if ((this.userRole == 'support_team' || this.userRole == 'billing_team') && this.step3FormData.intakeFormSubmit) {
           this.isReadonly = false
         } else {
           this.isReadonly = true
@@ -371,41 +371,42 @@ export class IntakeStep3Component {
   }
 
   async bookAppointmentStep3() {
+    console.log(this.isReadonly,' #### step3 Form>>>>>>',this.step3Form)
     if (this.step3Form.invalid){
       this.step3Form.markAllAsTouched();
     }else{
-      if (this.isReadonly) {
-        let formData = this.step3Form.value
-        let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
-        let prescriptionFiles = this.getPrescriptionFiles()
-        if (prescriptionFiles.length > 0) {
-          Object.assign(formData, { prescriptionFiles: prescriptionFiles })
-        }
-
-        let appointmentUpdateInfo = this.step3FormData.appointmentUpdateInfo;
-          appointmentUpdateInfo.push({
-            fromPatientId : (this.userRole=='patient') ? this.userId : '',
-            fromAdminId:(this.userRole!='patient') ? this.userId : '',
-            userRole:this.userRole,
-            updatedAt:new Date()
-          });
-          let updateInfo = {}
-          if(this.userRole=='patient'){
-          updateInfo = { patientMedicalHistory: formData,
-            appointmentUpdateInfo:appointmentUpdateInfo}
-          }else if(this.userRole!='patient'){
-            updateInfo = { adminPatientMedicalHistory: formData,
-              appointmentUpdateInfo:appointmentUpdateInfo }
+      if (!this.isReadonly) {
+          let formData = this.step3Form.value
+          let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
+          let prescriptionFiles = this.getPrescriptionFiles()
+          if (prescriptionFiles.length > 0) {
+            Object.assign(formData, { prescriptionFiles: prescriptionFiles })
           }
-        let params = {
-          query: { _id: this.appId },
-          updateInfo: updateInfo,
-          uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles)       
-        }
-        await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-          localStorage.removeItem('uploadedPrescriptionFiles')
-          this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
-        })
+
+          let appointmentUpdateInfo = this.step3FormData.appointmentUpdateInfo;
+            appointmentUpdateInfo.push({
+              fromPatientId : (this.userRole=='patient') ? this.userId : '',
+              fromAdminId:(this.userRole!='patient') ? this.userId : '',
+              userRole:this.userRole,
+              updatedAt:new Date()
+            });
+            let updateInfo = {}
+            if(this.userRole=='patient'){
+            updateInfo = { patientMedicalHistory: formData,
+              appointmentUpdateInfo:appointmentUpdateInfo}
+            }else if(this.userRole!='patient'){
+              updateInfo = { adminPatientMedicalHistory: formData,
+                appointmentUpdateInfo:appointmentUpdateInfo }
+            }
+          let params = {
+            query: { _id: this.appId },
+            updateInfo: updateInfo,
+            uploadedPrescriptionFiles: JSON.parse(uploadedPrescriptionFiles)       
+          }
+          await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+            localStorage.removeItem('uploadedPrescriptionFiles')
+            this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
+          })
       } else {
         localStorage.removeItem('uploadedPrescriptionFiles')
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])

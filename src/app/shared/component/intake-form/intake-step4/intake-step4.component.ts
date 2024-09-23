@@ -19,7 +19,7 @@ export class IntakeStep4Component {
   validationMessages = validationMessages
   emergencyContactList: any
   todayDate = new Date()
-  isFormEditable = true
+  //isFormEditable = true
   activeUserRoute = this.commonService.getLoggedInRoute()
   appointmentUpdateInfo:any=[];
   relationOtherFlag1:boolean=false;
@@ -39,8 +39,9 @@ export class IntakeStep4Component {
   }
 
   ngOnInit() {
-    this.commonService.showLoader()
-    this.getEmergencyContactList()
+    if (this.userRole== 'patient'){
+      this.getEmergencyContactList(this.userId)
+    }
     this.getAppointmentDetails()
   }
 
@@ -51,20 +52,25 @@ export class IntakeStep4Component {
       patientFields: { _id: 1 },
       therapistFields: { _id: 1 }
     }
+    this.commonService.showLoader()
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
         this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
         this.step4FormData = response.data.appointmentData.emergencyContact[0];
+        if(this.userRole!='patient'){
+          this.getEmergencyContactList(response.data?.appointmentData?.patientId);
+        } 
+
         if(this.userRole!='patient' && response.data.appointmentData && response.data.appointmentData.adminEmergencyContact[0]){
           this.step4FormData = response.data.appointmentData.adminEmergencyContact[0];
         }
         this.appointmentUpdateInfo = response.data.appointmentData.appointmentUpdateInfo;
         this.loadForm()
-       
-        if (this.userRole== 'patient' && !this.step4FormData.intakeFormSubmit) {
+        
+        if (this.userRole== 'patient' && !response.data?.appointmentData?.intakeFormSubmit) {
           this.isReadonly = false
-        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step4FormData.intakeFormSubmit) {
+        }else if ((this.userRole == 'support_team' || this.userRole == 'billing_team') && response.data?.appointmentData?.intakeFormSubmit) {
           this.isReadonly = false
         } else {
           this.isReadonly = true
@@ -127,9 +133,9 @@ export class IntakeStep4Component {
     }   
    }
 
-  async getEmergencyContactList() {
+  async getEmergencyContactList(patientId:string) {
     let reqVars = {
-      query: { patientId: this.authService.getLoggedInInfo("_id") },
+      query: { patientId: patientId },
       fields: { updatedAt: 0 },
       order: { firstName: 1 },
     }
@@ -144,14 +150,18 @@ export class IntakeStep4Component {
 
   getContact(formNumber: any, event: any) {
     let currentIndex = event.target.value
+    this.step4Form.controls['ec1myContactCheckbox']?.enable()
+    this.step4Form.controls['ec2myContactCheckbox']?.enable()
         if(formNumber==1){
+          this.step4Form.controls['ec1myContactCheckbox']?.disable()
           this.selectedIndex1 = currentIndex;  
-          if(event.target.value==''){this.selectedIndex1=100}
+          if(event.target.value==''){this.selectedIndex1=100;        this.step4Form.controls['ec1myContactCheckbox']?.enable()  }
         }else if(formNumber==2){
+          this.step4Form.controls['ec2myContactCheckbox']?.disable()
           this.selectedIndex2 = currentIndex;  
-          if(event.target.value==''){this.selectedIndex2=101}
+          if(event.target.value==''){this.selectedIndex2=101; this.step4Form.controls['ec2myContactCheckbox']?.enable()}
         }
-     
+
         let firstName = ''
         let lastName = ''
         let dob = ''
@@ -177,31 +187,28 @@ export class IntakeStep4Component {
         this.step4Form.controls['ec' + formNumber + 'myTreatmentCheckbox'].setValue(myTreatments)
         this.step4Form.controls['ec' + formNumber + 'myAccountCheckbox'].setValue(myAccounts)
         this.step4Form.controls['ec' + formNumber + 'myContactCheckbox'].setValue(myAccounts)
-    
   }
 
   async bookAppointmentStep4() {
+    console.log(this.isReadonly,' #### step4 Form>>>>>>',this.step4Form)
     if (this.step4Form.invalid){
       this.step4Form.markAllAsTouched();
     }else{
-      if (this.isFormEditable) {
+      if (!this.isReadonly) {
           this.appointmentUpdateInfo.push({
             fromPatientId : (this.userRole=='patient') ? this.userId : '',
             fromAdminId:(this.userRole!='patient') ? this.userId : '',
             userRole:this.userRole,
             updatedAt:new Date()
           });
-
-        let params = {
-          query: { _id: this.appId },
-          updateInfo: {
-            emergencyContact: this.step4Form.value
-          },
-          appointmentUpdateInfo:this.appointmentUpdateInfo
-        }
-        await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-          this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
-        })
+          let params = {
+            query: {_id: this.appId},
+            updateInfo: {emergencyContact: this.step4Form.value},
+            appointmentUpdateInfo:this.appointmentUpdateInfo
+          }
+          await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+            this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
+          })
       } else {
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
       }
