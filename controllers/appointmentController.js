@@ -131,11 +131,10 @@ const createAppointment = async (req, res) => {
                 await AppointmentRequest.findOneAndUpdate(filterRequest, updateRequest);
                 alreadyFound = await Appointment.findOne({requestId:requestId}, { _id:1,appointmentId: 1 });//.sort({ createdAt: -1 }).limit(1)
             }    
-           
             if(proceed){           
                 let existingAppointmentData = alreadyFound;
                 let appointmentId = 1;
-                if(existingAppointmentData.length==0){
+                if(!existingAppointmentData){
                     existingAppointmentData = await Appointment.findOne({}, { _id:1,appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
                     appointmentId = existingAppointmentData.appointmentId + 1;
                 }else if(alreadyFound && alreadyFound.appointmentId){
@@ -181,7 +180,7 @@ const createAppointment = async (req, res) => {
                 }
 
                 let result = [];let msg = '';
-                if(alreadyFound.length==0){
+                if(!alreadyFound){
                     let newRecord = new Appointment(appointmentData)
                     result = await newRecord.save()
                     msg = appointmentMessage.created;
@@ -197,6 +196,7 @@ const createAppointment = async (req, res) => {
                     msg = appointmentMessage.updated;
                     result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);
                 }
+             
                 const therapistData = await User.findOne({_id:data.therapistId},{firstName:1,lastName:1});                    
                 const patientData = {appointment_date:data.appointmentDate,firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:result._id};
                 if(patientType=='New'){

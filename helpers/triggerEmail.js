@@ -218,7 +218,7 @@ const appointmentCreatedByAdminReplyPatient = async (templateName, patientData, 
         sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
             if (template && patientData) {
                 let params = {
-                "{patientName}": patientData.firstName+' '+patientData.lastName,
+                "{firstName}": patientData.firstName+' '+patientData.lastName,
                 "{appointment_date}": patientData.appointment_date,
                 "{practice_location}": patientData.practice_location,
                 "{therapist_name}": patientData.therapist_name,
