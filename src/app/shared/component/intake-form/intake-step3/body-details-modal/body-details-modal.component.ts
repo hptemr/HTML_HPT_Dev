@@ -46,7 +46,6 @@ export class BodyDetailsModalComponent {
 
 
   ngOnInit() {
-    console.log('>>>',this.readOnly)
     if(this.from=='bodyPartFront'){
       this.bodyPartFront.forEach((element: any) => {
         if(this.partName==element.part){

@@ -99,6 +99,7 @@ export class IntakeStep5Component {
 
   async finalSubmit() {
     this.successModal()
+
     // if (this.isFormEditable) {
     //   let formData = this.step5Form.value
     //   Object.assign(formData, { intakeFormSubmit: true })
@@ -129,6 +130,10 @@ export class IntakeStep5Component {
       data : {
         successNote: 'Thank you for requesting an appointment. Your recovery is our only priority. We are working diligently on your request and  will respond in 1 business day or less. '
       }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(["/patient/appointments"])
     });
   }
 }

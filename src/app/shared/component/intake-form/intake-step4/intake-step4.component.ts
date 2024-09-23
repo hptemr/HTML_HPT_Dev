@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatRadioChange } from '@angular/material/radio';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { relationWithPatient } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
-
 @Component({
   selector: 'app-intake-step4',
   templateUrl: './intake-step4.component.html',
@@ -29,6 +26,7 @@ export class IntakeStep4Component {
   relationOtherFlag2:boolean=false;
   selectedIndex1:number=100
   selectedIndex2:number=101
+  isReadonly:boolean = true
   userId = this.authService.getLoggedInInfo('_id')
   userRole = this.authService.getLoggedInInfo('role')
   constructor(public dialog: MatDialog,
@@ -63,13 +61,16 @@ export class IntakeStep4Component {
         }
         this.appointmentUpdateInfo = response.data.appointmentData.appointmentUpdateInfo;
         this.loadForm()
-        // if (this.authService.getLoggedInInfo('role') == 'patient' && response.data.appointmentData.status == 'Pending') {
-        //   //patient can update the info
-        //   this.isFormEditable = true
-        // } else {
-        //   this.isFormEditable = false
-        //   this.step4Form.disable()
-        // }
+       
+        if (this.userRole== 'patient' && !this.step4FormData.intakeFormSubmit) {
+          this.isReadonly = false
+        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step4FormData.intakeFormSubmit) {
+          this.isReadonly = false
+        } else {
+          this.isReadonly = true
+          this.step4Form.disable()
+        }
+      
         this.commonService.hideLoader()
       }
     })
@@ -205,6 +206,10 @@ export class IntakeStep4Component {
         this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
       }
     }
+  }
+
+  async nextStep() {
+    this.router.navigate([this.activeUserRoute, 'intake-form', 'step-5', this.appId])
   }
 
 }

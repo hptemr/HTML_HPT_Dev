@@ -24,11 +24,10 @@ export class IntakeStep2Component {
   @ViewChild('insuranceFileInput') insuranceFileInput: any
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   appId: any
-  payViaSelected: any
+  payViaSelected: any = 'Selfpay'
   injurySelected: any
   workerCompensation:boolean=false
   maxDate: any
-  isReadonly = true
   step2Form: FormGroup;
   step1FormData: any
   step2FormData: any
@@ -47,7 +46,7 @@ export class IntakeStep2Component {
   uploadedInsuranceFiles: any = []
   uploadedInsuranceFilesTotal = 0
   todayDate = new Date()
-  isFormEditable = true
+  isReadonly = true
   thirdInsurancesFlag:boolean=false
   attorneyFlag:boolean=false
   isMinorFlag:boolean=false
@@ -72,7 +71,6 @@ export class IntakeStep2Component {
   }
 
   ngOnInit() {
-    this.commonService.showLoader()
     this.getAppointmentDetails()
   }
 
@@ -93,6 +91,7 @@ export class IntakeStep2Component {
       patientFields: { _id: 1 },
       therapistFields: { _id: 1 }
     }
+    this.commonService.showLoader()
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
         this.router.navigate([this.activeUserRoute, 'appointments'])
@@ -103,24 +102,24 @@ export class IntakeStep2Component {
           this.patientId = this.step2FormData.patientId._id
         }
         this.getInsuranceList();
-        // this.payViaSelected = this.step2FormData.payVia
         if(this.step2FormData && this.step2FormData.payViaInsuranceInfo){
           this.payViaSelected = this.step2FormData.payViaInsuranceInfo.payVia;
         }
     
         if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
           this.payViaSelected = this.step2FormData.adminPayViaInsuranceInfo.payVia;
-        }
-        
+        }        
         this.loadForm()
 
-        // if (this.authService.getLoggedInInfo('role') == 'patient' && this.step2FormData.status == 'Pending') {
-        //   //patient can update the info
-        //   this.isFormEditable = true
-        // } else {
-        //   this.isFormEditable = false
-        //   this.step2Form.disable()
-        // }
+        if (this.userRole == 'patient' && !this.step2FormData.intakeFormSubmit) {
+          this.isReadonly = false
+        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step1FormData.intakeFormSubmit) {
+          this.isReadonly = false
+        } else {
+          this.isReadonly = true
+          this.step2Form.disable()
+        }
+
         this.commonService.hideLoader()
         if (this.step2FormData.payViaInsuranceInfo && this.step2FormData.payViaInsuranceInfo?.insuranceFiles && this.step2FormData.payViaInsuranceInfo?.insuranceFiles.length > 0) {
           let filesArr: any = []
@@ -138,8 +137,7 @@ export class IntakeStep2Component {
         }
         if(this.step2Form.controls['firstName'].value && this.step2Form.controls['lastName'].value){
           this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
-        }
-        
+        }      
       }
     })
   }
@@ -153,9 +151,11 @@ export class IntakeStep2Component {
     if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
       payViaInsuranceInfo = this.step2FormData.adminPayViaInsuranceInfo;
     }
-    
-    this.payViaSelected = payViaInsuranceInfo.payVia
 
+    if(payViaInsuranceInfo.payVia){
+      this.payViaSelected = payViaInsuranceInfo.payVia
+    }
+  
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
       relationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.relationWithPatient : ''],
@@ -608,45 +608,50 @@ export class IntakeStep2Component {
   }
 
   async bookAppointmentStep2() {
-    if (this.step2Form.invalid){
-      this.step2Form.markAllAsTouched();
-    }else{
-      if (this.isFormEditable) {
-        let appointmentUpdateInfo = this.step2FormData.appointmentUpdateInfo;
-        appointmentUpdateInfo.push({
-          fromPatientId : (this.userRole=='patient') ? this.userId : '',
-          fromAdminId:(this.userRole!='patient') ? this.userId : '',
-          userRole:this.userRole,
-          updatedAt:new Date()
-        });
-        let formData = this.step2Form.value
-        let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
-        let insuranceFiles = this.getInsuranceFiles()
-        if (insuranceFiles.length > 0) {
-          Object.assign(formData, { insuranceFiles: insuranceFiles })
-        }
-        let updateInfo = {}
-        if(this.userRole=='patient'){
-        updateInfo = { payViaInsuranceInfo: formData}
-        }else if(this.userRole!='patient'){
-          updateInfo = { adminPayViaInsuranceInfo: formData }
-        }
+    //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support-team' || this.authService.getLoggedInInfo('role') == 'billing-team')) {
+      console.log(this.step2Form.invalid,' >>>>>step2Form>>>',this.step2Form)
+      if (this.step2Form.invalid){
+        this.step2Form.markAllAsTouched();
+      }else{
+        if (this.isReadonly) {
+          let appointmentUpdateInfo = this.step2FormData.appointmentUpdateInfo;
+          appointmentUpdateInfo.push({
+            fromPatientId : (this.userRole=='patient') ? this.userId : '',
+            fromAdminId:(this.userRole!='patient') ? this.userId : '',
+            userRole:this.userRole,
+            updatedAt:new Date()
+          });
+          let formData = this.step2Form.value
+          let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
+          let insuranceFiles = this.getInsuranceFiles()
+          if (insuranceFiles.length > 0) {
+            Object.assign(formData, { insuranceFiles: insuranceFiles })
+          }
+          let updateInfo = {}
+          if(this.userRole=='patient'){
+          updateInfo = { payViaInsuranceInfo: formData}
+          }else if(this.userRole!='patient'){
+            updateInfo = { adminPayViaInsuranceInfo: formData }
+          }
 
-        let params = {
-          query: { _id: this.appId },
-          updateInfo: updateInfo,
-          uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
-          appointmentUpdateInfo:appointmentUpdateInfo
-        }
-        await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+          let params = {
+            query: { _id: this.appId },
+            updateInfo: updateInfo,
+            uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
+            appointmentUpdateInfo:appointmentUpdateInfo
+          }
+          await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+            localStorage.removeItem('uploadedInsuranceFiles')
+            this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
+          })
+        } else {
           localStorage.removeItem('uploadedInsuranceFiles')
           this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
-        })
-      } else {
-        localStorage.removeItem('uploadedInsuranceFiles')
-        this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
+        }
       }
-    }
+    // } else {
+    //   this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
+    // }
   }
 
   addInsurance() {
@@ -790,7 +795,7 @@ export class IntakeStep2Component {
   onInjuryChange(event: MatRadioChange): void {
     this.injurySelected = event.value
     if (event.source) {
-      console.log('Source exists:', event.source);
+     // console.log('Source exists:', event.source);
     }
     this.workerCompensation = false
     this.step2Form.get('carrierName')?.markAsUntouched();
@@ -812,4 +817,7 @@ export class IntakeStep2Component {
     //else if(this.injurySelected=='Other Personal Injury'){  }
   }
 
+  async nextStep() {
+    this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
+  }
 }

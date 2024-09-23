@@ -174,6 +174,7 @@ export class AppointmentDetailsComponent implements OnInit {
         this.commonService.hideLoader();
         if (response.data && response.data.appointmentData) {
           this.appointmentData = response.data.appointmentData;
+         
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;
@@ -253,8 +254,8 @@ export class AppointmentDetailsComponent implements OnInit {
     }
   }
 
-  // navigateToappointmentDetails(requestId: string) {
-  //   this.router.navigate([this.commonService.getLoggedInRoute(), 'create-request-appointment',requestId]);
-  // }
+  navigateToappointmentDetails(path: string,id:string) {
+    this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+  }
 
 }

@@ -73,32 +73,45 @@ export class IntakeStep1Component {
         this.step1FormData = response.data.appointmentData
         this.selectedValue = this.step1FormData.bookingFor
         this.loadForm()
-        if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData && this.step1FormData.caseName) {      
-          this.step1Form.controls['practiceLocation'].disable()
-          this.step1Form.controls['appointmentDate'].disable()
+        if (this.userRole == 'patient' && this.step1FormData && this.step1FormData.caseName) {      
+          this.step1Form.controls['practiceLocation']?.disable()
+          this.step1Form.controls['appointmentDate']?.disable()
         }
         
-        if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending') {
-          if (this.selectedValue == 'Myself') {
-            this.isReadonly = true
-            this.step1Form.controls['dob'].disable()
-            this.step1Form.controls['gender'].disable()
-            this.step1Form.controls['maritalStatus'].disable()
-          } else {
+        if (this.userRole == 'patient' && !this.step1FormData.intakeFormSubmit) {
             this.isReadonly = false
-            this.step1Form.controls['dob'].enable()
-            this.step1Form.controls['gender'].enable()
-            this.step1Form.controls['maritalStatus'].enable()
-          }
+            
+          // if (this.selectedValue == 'Myself') {
+          //   //8 this.isReadonly = true
+          //   this.step1Form.controls['dob'].disable()
+          //   this.step1Form.controls['gender'].disable()
+          //   this.step1Form.controls['maritalStatus'].disable()
+          // } else {
+          //   this.isReadonly = false
+          //   this.step1Form.controls['dob'].enable()
+          //   this.step1Form.controls['gender'].enable()
+          //   this.step1Form.controls['maritalStatus'].enable()
+          // }
+        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step1FormData.intakeFormSubmit) {
+          this.isReadonly = false
         } else {
-          //8 this.isReadonly = true
-          //8 this.step1Form.disable()
+          this.isReadonly = true
+
+          // this.step1Form.controls['practiceLocation']?.disable()
+          // this.step1Form.controls['bookingFor']?.disable()
+          // this.step1Form.controls['appointmentDate']?.disable()
+          // this.step1Form.controls['relationWithPatient']?.disable()
+          // this.step1Form.controls['maritalStatus']?.disable()
+          // this.step1Form.controls['gender']?.disable()
+          // this.step1Form.controls['city']?.disable()
+          // this.step1Form.controls['state']?.disable()
+
+          this.step1Form.disable()
         }
 
         this.commonService.hideLoader()
       }
     })
-   
   }
 
   onChange(event: MatRadioChange) {
@@ -214,52 +227,61 @@ export class IntakeStep1Component {
   }
 
   async bookAppointmentStep1() {
-    //if (this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending') {
-    let appointmentUpdateInfo = this.step1FormData.appointmentUpdateInfo;
-      appointmentUpdateInfo.push({
-        fromPatientId : (this.userRole=='patient') ? this.userId : '',
-        fromAdminId:(this.userRole!='patient') ? this.userId : '',
-        userRole:this.userRole,
-        updatedAt:new Date()
-      });
-      let finalReqBody: any = this.step1Form.value
-      if (this.isReadonly) {
-        finalReqBody = {
-          dob: this.patientInfo.dob,
-          gender: this.patientInfo.gender,
-          maritalStatus: this.patientInfo.maritalStatus,
-        }
-        Object.assign(finalReqBody, this.step1Form.value)
+    //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support-team' || this.authService.getLoggedInInfo('role') == 'billing-team')) {
+      if (this.step1Form.invalid){
+        this.step1Form.markAllAsTouched();
+      }else{
+        let appointmentUpdateInfo = this.step1FormData.appointmentUpdateInfo;
+          appointmentUpdateInfo.push({
+            fromPatientId : (this.userRole=='patient') ? this.userId : '',
+            fromAdminId:(this.userRole!='patient') ? this.userId : '',
+            userRole:this.userRole,
+            updatedAt:new Date()
+          });
+          let finalReqBody: any = this.step1Form.value
+          if (this.isReadonly) {
+            finalReqBody = {
+              dob: this.patientInfo.dob,
+              gender: this.patientInfo.gender,
+              maritalStatus: this.patientInfo.maritalStatus,
+            }
+            Object.assign(finalReqBody, this.step1Form.value)
+          }
+          let params = {
+            query: { _id: this.appId },
+            updateInfo: {
+              practiceLocation: finalReqBody.practiceLocation,
+              appointmentDate: finalReqBody.appointmentDate,
+              bookingFor: finalReqBody.bookingFor,
+              relationWithPatient: finalReqBody.relationWithPatient,
+              patientInfo: {
+                firstName: finalReqBody.firstName,
+                middleName: finalReqBody.middleName,
+                lastName: finalReqBody.lastName,
+                dob: finalReqBody.dob,
+                maritalStatus: finalReqBody.maritalStatus,
+                gender: finalReqBody.gender,
+                email: finalReqBody.email,
+                phoneNumber: finalReqBody.phoneNumber,
+                cellPhoneNumber: finalReqBody.cellPhoneNumber,
+                workExtension: finalReqBody.workExtension
+              },
+              appointmentUpdateInfo:appointmentUpdateInfo
+            }
+          }
+    
+          await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+            this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
+          })
       }
-      let params = {
-        query: { _id: this.appId },
-        updateInfo: {
-          practiceLocation: finalReqBody.practiceLocation,
-          appointmentDate: finalReqBody.appointmentDate,
-          bookingFor: finalReqBody.bookingFor,
-          relationWithPatient: finalReqBody.relationWithPatient,
-          patientInfo: {
-            firstName: finalReqBody.firstName,
-            middleName: finalReqBody.middleName,
-            lastName: finalReqBody.lastName,
-            dob: finalReqBody.dob,
-            maritalStatus: finalReqBody.maritalStatus,
-            gender: finalReqBody.gender,
-            email: finalReqBody.email,
-            phoneNumber: finalReqBody.phoneNumber,
-            cellPhoneNumber: finalReqBody.cellPhoneNumber,
-            workExtension: finalReqBody.workExtension
-          },
-          appointmentUpdateInfo:appointmentUpdateInfo
-        }
-      }
- 
-      await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-        this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
-      })
-    // } else {
-    //   this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
-    // }
+    //  } else {
+    //    this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
+    //  }
+  }
+
+
+  async nextStep() {
+    this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
   }
 
   contactModal() {

@@ -24,7 +24,8 @@ export class IntakeStep3Component {
   fileError: any = ''
   uploadedPrescriptionFiles: any = []
   uploadedPrescriptionFilesTotal = 0
-  isFormEditable = true
+  //isFormEditable  deletePrescription  getNewAllergy   getNewSurgery   getNewMedication    
+  isReadonly:boolean = true
   activeUserRoute = this.commonService.getLoggedInRoute()
   userId = this.authService.getLoggedInInfo('_id')
   userRole = this.authService.getLoggedInInfo('role')
@@ -54,14 +55,17 @@ export class IntakeStep3Component {
       } else {
         this.step3FormData = response.data.appointmentData
         this.loadForm()
-        this.initialName = this.step3FormData?.patientInfo?.firstName.charAt(0)+''+this.step3FormData?.patientInfo?.lastName.charAt(0)
-        if (this.authService.getLoggedInInfo('role') == 'patient' && this.step3FormData.status == 'Pending') {
-          //patient can update the info
-         //8 this.isFormEditable = true
+      
+        if (this.userRole == 'patient' && !this.step3FormData.intakeFormSubmit) {
+          this.isReadonly = false
+        }else if ((this.userRole == 'support-team' || this.userRole == 'billing-team') && this.step3FormData.intakeFormSubmit) {
+          this.isReadonly = false
         } else {
-          //8 this.isFormEditable = false
-          //8 this.step3Form.disable()
+          this.isReadonly = true
+          this.step3Form.disable()
         }
+      
+        this.initialName = this.step3FormData?.patientInfo?.firstName.charAt(0)+''+this.step3FormData?.patientInfo?.lastName.charAt(0)
         this.commonService.hideLoader()
 
         if (this.step3FormData.patientMedicalHistory && this.step3FormData.patientMedicalHistory.prescriptionFiles && this.step3FormData.patientMedicalHistory.prescriptionFiles.length > 0) {
@@ -79,7 +83,8 @@ export class IntakeStep3Component {
           this.uploadedPrescriptionFilesTotal = prescriptionFiles.length
         }
 
-        if(this.step3FormData.bodyPartFront){          
+        if(this.step3FormData.bodyPartFront){         
+          this.selectedPartsFront = []; 
           this.step3FormData.bodyPartFront.forEach((element: any) => {
             if (!this.selectedPartsFront.includes(element.part)) {
               this.selectedPartsFront.push(element.part);
@@ -88,7 +93,8 @@ export class IntakeStep3Component {
             }
           });
         }
-        if(this.step3FormData.bodyPartBack){          
+        if(this.step3FormData.bodyPartBack){   
+          this.selectedPartsBack = [];        
           this.step3FormData.bodyPartBack.forEach((element: any) => {
             if (!this.selectedPartsBack.includes(element.part)) {
               this.selectedPartsBack.push(element.part);
@@ -97,6 +103,7 @@ export class IntakeStep3Component {
             }
           });
         }   
+
       }
     })
   }
@@ -113,11 +120,9 @@ export class IntakeStep3Component {
     return icon
   }
 
-
   get form() {
     return this.step3Form.controls;
   }
-
 
   bodyClick(from:string,partName:string) {   
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
@@ -129,29 +134,27 @@ export class IntakeStep3Component {
         from:from,
         bodyPartFront:this.step3FormData.bodyPartFront,
         bodyPartBack:this.step3FormData.bodyPartBack,
-        appointmentUpdateInfo:this.step3FormData.appointmentUpdateInfo
+        appointmentUpdateInfo:this.step3FormData.appointmentUpdateInfo,
+        readOnly:this.isReadonly
       }
     });  
-
-
     dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){
+      if(result && !result.error){        
           if(from=='bodyPartFront'){
             this.selectedPartsFront.push(partName);
           }else if(from=='bodyPartBack'){
             this.selectedPartsBack.push(partName);
           }
+          this.getAppointmentDetails()
       }
     });
   }
 
   loadForm() {
     let step3info: any = this.step3FormData ? this.step3FormData.patientMedicalHistory : null
-
     if(this.userRole!='patient' && this.step3FormData.adminPatientMedicalHistory){
        step3info = this.step3FormData ? this.step3FormData.adminPatientMedicalHistory : null
     }
-
     this.step3Form = new FormGroup({
       dob: new FormControl(''),
       fullName: new FormControl(''),
@@ -371,7 +374,7 @@ export class IntakeStep3Component {
     if (this.step3Form.invalid){
       this.step3Form.markAllAsTouched();
     }else{
-      if (this.isFormEditable) {
+      if (this.isReadonly) {
         let formData = this.step3Form.value
         let uploadedPrescriptionFiles: any = localStorage.getItem('uploadedPrescriptionFiles')
         let prescriptionFiles = this.getPrescriptionFiles()
@@ -502,4 +505,7 @@ export class IntakeStep3Component {
     }
   }
 
+  async nextStep() {
+    this.router.navigate([this.activeUserRoute, 'intake-form', 'step-4', this.appId])
+  }
 }

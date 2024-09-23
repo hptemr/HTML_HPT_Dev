@@ -63,8 +63,7 @@ export const documents_list = [
 export const appointmentStatus = [
   "Pending Intake Form",
   "Scheduled",
-  "Not scheduled",
-  "Rejected"
+  // "Not Scheduled",
 ]
 export const bookingStatus = [
   'Approved',

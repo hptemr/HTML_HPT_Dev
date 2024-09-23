@@ -2,11 +2,10 @@
     <div class="card">
         <div class="card-header pb-0">
             <div class="col-12 d-flex align-items-center">
-                <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/therapist/cases']">
+                <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="navigateToappointmentDetails('/cases','')">
                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
                 </button>
-                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>
-                
+                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>                
             </div> 
         </div>
         <div class="card-body d-flex flex-column flex-sm-row">
@@ -19,8 +18,8 @@
                                     Case Information
                                 </mat-panel-title>
                                 <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
-                                    <button mat-raised-button color="primary" class="intake-btn" [routerLink]="['/therapist/intake-form/step-1', appointmentId]">
-                                        View Intake Form
+                                    <button mat-raised-button color="primary" [disabled]="!appointmentData?.intakeFormSubmit" class="intake-btn" (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
+                                        View Intake Form 
                                     </button>
                                 </mat-panel-description>
                             </mat-expansion-panel-header>

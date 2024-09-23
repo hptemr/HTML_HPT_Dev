@@ -591,7 +591,7 @@ export class SignupPatientComponent implements OnInit {
 
   setLocalStorage(res: any) {
     localStorage.setItem('user', JSON.stringify(res));
-    this.router.navigate(["/patient/dashboard"])
+    this.router.navigate(["/patient/appointments"])
   }
 
   getPatientDataThroughToken(){

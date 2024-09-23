@@ -40,6 +40,12 @@ import { PreviewComponent } from 'src/app/shared/component/manage-documents/file
 
 import { UserListingComponent } from '../system-and-practice/user-managment/user-listing/user-listing.component';
 import { AdminProfileComponent } from '../system-and-practice/user-managment/admin-profile/admin-profile.component';
+
+import { IntakeStep1Component } from 'src/app/shared/component/intake-form/intake-step1/intake-step1.component';
+import { IntakeStep2Component } from 'src/app/shared/component/intake-form/intake-step2/intake-step2.component';
+import { IntakeStep3Component } from 'src/app/shared/component/intake-form/intake-step3/intake-step3.component';
+import { IntakeStep4Component } from 'src/app/shared/component/intake-form/intake-step4/intake-step4.component';
+import { IntakeStep5Component } from 'src/app/shared/component/intake-form/intake-step5/intake-step5.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -61,6 +67,31 @@ const routes: Routes = [
   {
     path: 'case-details/:appointmentId',
     component: AppointmentDetailsComponent
+  },
+  {
+    path: 'intake-form',
+    children: [
+      {
+        path: 'step-1/:appId',
+        component: IntakeStep1Component,
+      },
+      {
+        path: 'step-2/:appId',
+        component: IntakeStep2Component,
+      },
+      {
+        path: 'step-3/:appId',
+        component: IntakeStep3Component,
+      },
+      {
+        path: 'step-4/:appId',
+        component: IntakeStep4Component,
+      },
+      {
+        path: 'step-5/:appId',
+        component: IntakeStep5Component,
+      },
+    ]
   },
   {
     path: 'initial-examination',

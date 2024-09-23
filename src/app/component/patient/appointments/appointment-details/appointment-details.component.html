@@ -180,7 +180,7 @@
                     <div class="col-12 d-flex align-items-center justify-content-between mb-3 mt-3">
                         <h2  class="text-primary clr--31B7B7 font-18 fw-600">Basic Information</h2>
                         <button [routerLink]="['/patient/intake-form/step-1', appId]" mat-raised-button color="primary" class="intake-btn" >
-                            View Intake Form
+                            {{(appInfo?.intakeFormSubmit==true) ? 'View' : 'Add'}} Intake Form                     
                         </button>
                     </div>                 
                    <div class="row exp-class">

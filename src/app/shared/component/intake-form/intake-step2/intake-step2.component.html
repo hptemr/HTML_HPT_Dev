@@ -1116,8 +1116,11 @@
                 Previous
             </button>
             <!--[disabled]=" step2Form.invalid && payViaSelected=='Insurance'" -->
-            <button  (click)="bookAppointmentStep2()" mat-raised-button color="primary" class="m-1">
-                Next 
+            <button  (click)="bookAppointmentStep2()" mat-raised-button color="primary" class="m-1" *ngIf="!isReadonly">
+                Next
+            </button>
+            <button (click)="nextStep()" mat-raised-button color="primary" class="m-1" *ngIf="isReadonly">
+                Next
             </button>
         </div>
     </form>

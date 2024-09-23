@@ -93,7 +93,7 @@ export class AppointmentDetailsComponent {
   async getAppointmentDetails() {
     const req_vars = {
       query: { _id: this.appId },
-      fields: { practiceLocation: 1, caseName:1, appointmentId: 1, appointmentDate: 1,  patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1 },
+      fields: { practiceLocation: 1, caseName:1, appointmentId: 1, appointmentDate: 1,  patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1,intakeFormSubmit:1 },
       patientFields: { _id: 1 },
       therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage:1 }
     }

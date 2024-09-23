@@ -453,7 +453,7 @@ export class UpdatePatientProfileComponent implements OnInit {
         if(this.selectedTab==3){
           this.commonService.openSnackBar('Profile details are updated successfully.', "SUCCESS")   
           // this.selectedTab = 0;
-          this.router.navigate(["/patient/dashboard"])
+          this.router.navigate(["/patient/appointments"])
         } 
         if(steps==0){
           this.updatePatientInLocalStorage(data)

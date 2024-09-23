@@ -410,6 +410,7 @@ export class ViewEditInsuranceComponent {
   }
   
   async formSubmit(formData:any=null){
+    console.log('insuranceForm >>>>>',this.insuranceForm)
     if (this.insuranceForm.invalid) {
         this.insuranceForm.markAllAsTouched();
         return;
