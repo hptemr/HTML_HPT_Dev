@@ -135,6 +135,7 @@ export class CaseDetailsComponent {
     public dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer,
     private route: ActivatedRoute,
+    private router: Router,
     public commonService: CommonService,
     public authService:AuthService
   ) {
@@ -240,4 +241,7 @@ export class CaseDetailsComponent {
   }
     
   
+  navigateToappointmentDetails(path: string,id:string) {
+    this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+  }
 }

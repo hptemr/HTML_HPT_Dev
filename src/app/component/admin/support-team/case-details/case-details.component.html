@@ -2,7 +2,7 @@
         <div class="card">
             <div class="card-header pb-0">
                 <div class="col-12 d-flex align-items-center">
-                    <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/support-team/cases']">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="navigateToappointmentDetails('/cases','')">
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
                     </button>
                     <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>
@@ -21,10 +21,10 @@
                                         <span class="  font-14 fw-400 ml-3 badge">This Case is in collections</span>
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
-                                        <button mat-stroked-button color="primary"  [routerLink]="['/support-team/patients/patient-profile',appointmentData?.patientId._id]" >View Patient Profile</button>
+                                        <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile',appointmentData?.patientId._id)">View Patient Profile</button>
                                         <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button>
                                         <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/billing-details']">View Billing Details</button>
-                                        <button mat-raised-button color="primary" class="intake-btn" [routerLink]="['/support-team/intake-form/step-1', appointmentId]">
+                                        <button mat-raised-button color="primary" class="intake-btn"  (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
                                             View Intake Form
                                         </button>
                                     </mat-panel-description>
@@ -200,7 +200,7 @@
                 </div>
             </div>
 
-            <div class="card-body d-flex flex-column flex-sm-row  ">  
+            <!-- <div class="card-body d-flex flex-column flex-sm-row" >  
                 <div class=" d-flex flex-column w-100 share-point-wrapper">
                     <div class="w-100 mb-0 exp-class"> 
                                 <div class="col-12">  
@@ -222,7 +222,7 @@
                                 </div> 
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="card-body mt-2">
                 <div class="row">

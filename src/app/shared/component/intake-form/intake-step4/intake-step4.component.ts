@@ -70,7 +70,7 @@ export class IntakeStep4Component {
         
         if (this.userRole== 'patient' && !response.data?.appointmentData?.intakeFormSubmit) {
           this.isReadonly = false
-        }else if ((this.userRole == 'support_team' || this.userRole == 'billing_team') && response.data?.appointmentData?.intakeFormSubmit) {
+        }else if (this.userRole == 'support_team' && response.data?.appointmentData?.intakeFormSubmit) {
           this.isReadonly = false
         } else {
           this.isReadonly = true

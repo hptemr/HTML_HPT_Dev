@@ -92,7 +92,7 @@ export class IntakeStep1Component {
           //   this.step1Form.controls['gender'].enable()
           //   this.step1Form.controls['maritalStatus'].enable()
           // }
-        }else if ((this.userRole == 'support_team' || this.userRole == 'billing_team') && this.step1FormData.intakeFormSubmit) {
+        }else if (this.userRole == 'support_team' && this.step1FormData.intakeFormSubmit) {
           this.isReadonly = false
         } else {
           this.isReadonly = true

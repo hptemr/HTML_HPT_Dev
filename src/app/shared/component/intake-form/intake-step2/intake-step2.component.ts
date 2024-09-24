@@ -113,10 +113,9 @@ export class IntakeStep2Component {
 
         if (this.userRole == 'patient' && !this.step2FormData.intakeFormSubmit) {
           this.isReadonly = false
-        }else if ((this.userRole == 'support_team' || this.userRole == 'billing_team') && this.step2FormData.intakeFormSubmit) {
+        }else if (this.userRole == 'support_team' && this.step2FormData.intakeFormSubmit) {
           this.isReadonly = false
         } else {
-          console.log(this.userRole,'>>>>>>>>>is Read Only>>>>')
           this.isReadonly = true
           this.step2Form.disable()
         }
