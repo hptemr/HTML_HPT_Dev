@@ -205,6 +205,7 @@ const createAppointment = async (req, res) => {
                                         adminPatientMedicalHistory: appdata.adminPatientMedicalHistory,
                                         bodyPartFront: appdata.bodyPartFront,
                                         bodyPartBack: appdata.bodyPartBack,
+                                        intakeFormSubmit:appdata.intakeFormSubmit,
                                         status:'Scheduled'
                                     }
                                     result = await Appointment.findOneAndUpdate({_id:result._id},updateAppointmentData);                                            
