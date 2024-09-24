@@ -32,6 +32,7 @@ const addInsurance = async (req, res) => {
         await newRecord.save();
         commonHelper.sendResponse(res, 'success', null, insuranceMessage.created);
     } catch (error) {
+        console.log('add Insurance error>>>',error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -39,7 +40,7 @@ const addInsurance = async (req, res) => {
 const updateInsurance = async (req, res) => {
     try {
         const { query, data } = req.body;
-        console.log('data>>>',data)
+   
         let result = await Insurance.findOneAndUpdate({ _id: query._id }, data);
         if(result){
             commonHelper.sendResponse(res, 'success', null, insuranceMessage.updated);
@@ -47,6 +48,7 @@ const updateInsurance = async (req, res) => {
             commonHelper.sendResponse(res, 'success', null, commonMessage.wentWrong);
         }        
     } catch (error) {
+        console.log('update Insurance error>>>',error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
