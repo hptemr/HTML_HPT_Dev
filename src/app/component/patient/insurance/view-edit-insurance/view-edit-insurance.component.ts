@@ -12,6 +12,7 @@ import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/succe
 import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList } from 'src/app/config';
 import { states_data } from 'src/app/state';
 import { MatRadioChange } from '@angular/material/radio';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 interface State {
   state: string;
   state_code: string;
@@ -120,12 +121,12 @@ export class ViewEditInsuranceComponent {
       primaryInsuranceFromDate: [''],
       primaryInsuranceToDate: [''],
 
-      secondarySubscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      secondarySubscriberFirstName: ['',[Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondarySubscriberMiddleName: [''],
       secondarySubscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondarySubscriberDob: [''],
       secondarySubscriberRelationWithPatient: ['', [Validators.required]],
-      secondarySubscriberOtherRelation: ['', [Validators.required]],
+      secondarySubscriberOtherRelation: [''],
       secondarySubscriberGender: ['', [Validators.required]],
       secondaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],      
       secondaryInsuranceIdPolicy: ['', [Validators.required]],
@@ -138,34 +139,35 @@ export class ViewEditInsuranceComponent {
       thirdSubscriberMiddleName: [''],
       thirdSubscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
       thirdSubscriberDob: [''],
-      thirdSubscriberRelationWithPatient: ['', []],
-      thirdSubscriberOtherRelation: [[]],
-      thirdSubscriberGender: ['', []],
+      thirdSubscriberRelationWithPatient: [''],
+      thirdSubscriberOtherRelation: [''],
+      thirdSubscriberGender: [''],
       thirdInsuranceCompany: ['', [Validators.minLength(1), Validators.maxLength(35)]],
-      thirdInsuranceIdPolicy: ['', []],
-      thirdInsuranceGroup: ['', []],
+      thirdInsuranceIdPolicy: [''],
+      thirdInsuranceGroup: [''],
       thirdInsuranceCustomerServicePh: ['', [Validators.minLength(14), Validators.maxLength(14)]],
       thirdInsuranceFromDate: [''],
       thirdInsuranceToDate: [''],
 
       injuryRelelatedTo: [''],
       otherPersonalInjury: [''],
-      carrierName: ['', [Validators.required]],
-      dateOfInjury: ['', [Validators.required]],
-      insuranceState: ['', [Validators.required]],
-      claim: ['', [Validators.required]],
-      adjusterName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      adjusterPhone: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      carrierName: [''],
+      dateOfInjury: [''],
+      insuranceState: [''],
+      claim: [''],
+      adjusterName: [''],
+      adjusterPhone: [''],
       reportedEmployer: [''],
-      employerName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      employerPhone: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      employerAddress: ['', [Validators.required]],
-      isPatientMinor: ['', []],
-      attorney: ['',[]],
-      attorneyName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      attorneyPhone: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+      employerName: [''],
+      employerPhone: [''],
+      employerAddress: [''],
+      isPatientMinor: [''],
+      attorney: [''],
+      attorneyName: [''],
+      attorneyPhone: [''],
+      adultConsent: [false],
+      minorConsent: [false],
     });
-
 
     if(this.isReadOnly){
       this.insuranceForm.controls['insuranceName'].disable();
@@ -224,6 +226,7 @@ export class ViewEditInsuranceComponent {
       this.insuranceForm.controls['employerAddress'].disable();
       this.insuranceForm.controls['attorneyName'].disable();
       this.insuranceForm.controls['attorneyPhone'].disable();
+      this.insuranceForm.controls['isPatientMinor'].disable();
     }    
   }
   
@@ -235,6 +238,7 @@ export class ViewEditInsuranceComponent {
     let subscriberDob
     let subscriberRelationWithPatient = ''
     let subscriberOtherRelation = ''
+    let subscriberGender = ''
     let primaryInsuranceCompany = ''
     let primaryInsuranceIdPolicy = ''
     let primaryInsuranceGroup = ''
@@ -263,6 +267,7 @@ export class ViewEditInsuranceComponent {
     let employerName = ''
     let employerPhone = ''
     let employerAddress = ''
+    let attorney = ''
     let attorneyName = ''
     let attorneyPhone = ''
     let primaryInsuranceFromDate = ''
@@ -283,7 +288,9 @@ export class ViewEditInsuranceComponent {
     let thirdInsuranceCustomerServicePh = ''
     let thirdInsuranceFromDate = ''
     let thirdInsuranceToDate = ''    
-
+    let isPatientMinor = ''
+    let adultConsent= false
+    let minorConsent= false
     let info = this.insuranceData;
     insuranceName = info.insuranceName
     subscriberFirstName = info.subscriberFirstName
@@ -292,6 +299,7 @@ export class ViewEditInsuranceComponent {
     subscriberDob = info.subscriberDob
     subscriberRelationWithPatient = info.subscriberRelationWithPatient
     subscriberOtherRelation = info.subscriberOtherRelation
+    subscriberGender = info.subscriberGender
     primaryInsuranceCompany = info.primaryInsuranceCompany
     primaryInsuranceIdPolicy = info.primaryInsuranceIdPolicy
     primaryInsuranceGroup = info.primaryInsuranceGroup
@@ -305,6 +313,7 @@ export class ViewEditInsuranceComponent {
     secondarySubscriberDob= info.secondarySubscriberDob
     secondarySubscriberOtherRelation= info.secondarySubscriberOtherRelation
     secondarySubscriberRelationWithPatient= info.secondarySubscriberRelationWithPatient
+    secondarySubscriberGender= info.secondarySubscriberGender
     secondaryInsuranceCompany = info.secondaryInsuranceCompany
     secondaryInsuranceIdPolicy = info.secondaryInsuranceIdPolicy
     secondaryInsuranceGroup = info.secondaryInsuranceGroup
@@ -338,15 +347,19 @@ export class ViewEditInsuranceComponent {
     employerName = info.employerName
     employerPhone = info.employerPhone
     employerAddress = info.employerAddress
+    attorney = info.attorney
     attorneyName = info.attorneyName
     attorneyPhone = info.attorneyPhone
-    
+    isPatientMinor = info.isPatientMinor
+    adultConsent = info.adultConsent
+    minorConsent = info.minorConsent
     this.insuranceForm.controls['insuranceName'].setValue(insuranceName)
     this.insuranceForm.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.insuranceForm.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.insuranceForm.controls['subscriberLastName'].setValue(subscriberLastName)
     this.insuranceForm.controls['subscriberDob'].setValue(subscriberDob)
     this.insuranceForm.controls['subscriberRelationWithPatient'].setValue(subscriberRelationWithPatient)
+    this.insuranceForm.controls['subscriberGender'].setValue(subscriberGender)
     this.insuranceForm.controls['subscriberOtherRelation'].setValue(subscriberOtherRelation)
     this.insuranceForm.controls['primaryInsuranceCompany'].setValue(primaryInsuranceCompany)
     this.insuranceForm.controls['primaryInsuranceIdPolicy'].setValue(primaryInsuranceIdPolicy)
@@ -396,9 +409,14 @@ export class ViewEditInsuranceComponent {
     this.insuranceForm.controls['employerName'].setValue(employerName)
     this.insuranceForm.controls['employerPhone'].setValue(employerPhone)
     this.insuranceForm.controls['employerAddress'].setValue(employerAddress)
+    this.insuranceForm.controls['attorney'].setValue(attorney)
     this.insuranceForm.controls['attorneyName'].setValue(attorneyName)
     this.insuranceForm.controls['attorneyPhone'].setValue(attorneyPhone)
+    this.insuranceForm.controls['isPatientMinor'].setValue(isPatientMinor)
+    this.insuranceForm.controls['adultConsent'].setValue(adultConsent)
+    this.insuranceForm.controls['minorConsent'].setValue(minorConsent)
 
+    this.isMinorFlag = (isPatientMinor=='Yes') ? true : false; 
     if(subscriberRelationWithPatient=='Other'){
       const mockEvent = { target: { value: 'Other' } }; 
       this.relationShipPatient(mockEvent)
@@ -410,7 +428,15 @@ export class ViewEditInsuranceComponent {
   }
   
   async formSubmit(formData:any=null){
-    console.log('insuranceForm >>>>>',this.insuranceForm)
+    console.log(this.insuranceForm.invalid,' Submit insuranceForm >>>>>',this.insuranceForm)
+
+    for (const control in this.insuranceForm.controls) {
+      if (this.insuranceForm.controls[control].invalid) {
+        console.log(`Field ${control} has an error`, this.insuranceForm.controls[control].errors);
+      }
+    }
+
+
     if (this.insuranceForm.invalid) {
         this.insuranceForm.markAllAsTouched();
         return;
@@ -529,10 +555,14 @@ export class ViewEditInsuranceComponent {
   }
 
   attorneyChange(event: MatRadioChange) {
-    this.attorneyFlag = false
-    if(event.value=='yes'){
+    this.attorneyFlag = false;
+    if(event.value=='Yes'){
       this.attorneyFlag = true
+      this.insuranceForm.controls['attorneyName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
+      this.insuranceForm.controls['attorneyPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])     
     }else{
+      this.insuranceForm.controls['attorneyName'].setValidators([]);
+      this.insuranceForm.controls['attorneyPhone'].setValidators([]);
       this.insuranceForm.controls['attorneyName'].setValue('')
       this.insuranceForm.controls['attorneyPhone'].setValue('')
       this.insuranceForm.get('attorneyName')?.markAsUntouched();
@@ -542,8 +572,8 @@ export class ViewEditInsuranceComponent {
 
   changePatientMinor(event: MatRadioChange) {
     this.isMinorFlag = false
-    if(event.value=='yes')
-    this.isMinorFlag = true
+    if(event.value=='Yes')
+      this.isMinorFlag = true
   }
 
   signatureText(event: any) {
@@ -609,24 +639,35 @@ export class ViewEditInsuranceComponent {
     }    
   } 
 
-  openCMSmodal(event:any) {  
+  openCMSmodal(event:any,from:string) {  
     if (event.checked === true) {
       const dialogRef = this.dialog.open(CmsModalComponent,{
         panelClass: 'cms--container', 
       });
     } else{ 
+      console.log('ELSE')
+      // if(from=='adultConsent'){
+      //     this.insuranceForm.controls['adultConsent'].setValue(false)
+      // }else if(from=='minorConsent'){
+      //     this.insuranceForm.controls['minorConsent'].setValue(false)
+      // }
     }
 }
  
 onEmployerChange(event: MatRadioChange) {
   this.employerSelected = event.value
-  this.insuranceForm.controls['employerName'].setValidators([])
-  this.insuranceForm.controls['employerPhone'].setValidators([])
-  this.insuranceForm.controls['employerAddress'].setValidators([])
+
   if(this.employerSelected=='Yes'){
     this.insuranceForm.controls['employerName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
     this.insuranceForm.controls['employerPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
     this.insuranceForm.controls['employerAddress'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1000)])
+  }else{
+    this.insuranceForm.controls['employerName'].setValidators([])
+    this.insuranceForm.controls['employerPhone'].setValidators([])
+    this.insuranceForm.controls['employerAddress'].setValidators([])
+    this.insuranceForm.get('employerName')?.markAsUntouched();
+    this.insuranceForm.get('employerPhone')?.markAsUntouched();
+    this.insuranceForm.get('employerAddress')?.markAsUntouched();
   }
 }
 
@@ -665,6 +706,7 @@ thirdSubscriberRelationShipPatient(event: any) {
 
 onInjuryChange(event: MatRadioChange): void {
   this.injurySelected = event.value
+
   if (event.source) {
     console.log('Source exists:', event.source);
   }
@@ -676,6 +718,13 @@ onInjuryChange(event: MatRadioChange): void {
   this.insuranceForm.get('adjusterName')?.markAsUntouched();
   this.insuranceForm.get('adjusterPhone')?.markAsUntouched();
   
+  this.insuranceForm.controls['carrierName'].setValidators([])
+  this.insuranceForm.controls['dateOfInjury'].setValidators([])
+  this.insuranceForm.controls['insuranceState'].setValidators([])
+  this.insuranceForm.controls['claim'].setValidators([])
+  this.insuranceForm.controls['adjusterName'].setValidators([])
+  this.insuranceForm.controls['adjusterPhone'].setValidators([])
+
   if(this.injurySelected=="Worker's Compensation (WCOMP)"){
     this.workerCompensation = true
     this.insuranceForm.controls['carrierName'].setValidators([Validators.required])
@@ -685,6 +734,8 @@ onInjuryChange(event: MatRadioChange): void {
     this.insuranceForm.controls['adjusterName'].setValidators([Validators.required,Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
     this.insuranceForm.controls['adjusterPhone'].setValidators([Validators.required,Validators.minLength(14), Validators.maxLength(14)])
   }
+
+  
   //else if(this.injurySelected=='Other Personal Injury'){  }
 }
 

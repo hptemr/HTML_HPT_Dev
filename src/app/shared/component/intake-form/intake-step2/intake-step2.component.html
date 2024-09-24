@@ -1007,8 +1007,7 @@
                                                 <p class="m-0 font-14">{{fileObj.size}} </p>
                                             </div>
                                         </div>
-                                        <button (click)="deleteInsurance(i)" mat-raised-button color="warn"
-                                            class="flex-shrink-0">
+                                        <button (click)="deleteInsurance(i)" mat-raised-button color="warn"  class="flex-shrink-0" *ngIf="!isReadonly">
                                             <mat-icon class="material-symbols-outlined flex-shrink-0"> delete </mat-icon>
                                             Delete
                                         </button>

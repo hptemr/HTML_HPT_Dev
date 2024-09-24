@@ -37,15 +37,15 @@ export class BodyDetailsModalComponent {
     this.from = data.from != undefined ? data.from : this.from;
     this.bodyPartFront = data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
     this.bodyPartBack = data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
+
+
     this.appointmentUpdateInfo = data.appointmentUpdateInfo != undefined ? data.appointmentUpdateInfo : [];
     if(data.readOnly){
       this.readOnly= data.readOnly;
-    }
-    
+    }    
   }
 
-
-  ngOnInit() {
+  ngOnInit() {  
     if(this.from=='bodyPartFront'){
       this.bodyPartFront.forEach((element: any) => {
         if(this.partName==element.part){
@@ -73,17 +73,22 @@ export class BodyDetailsModalComponent {
   async saveData(data:any) {
     if(this.partConcernForm.valid){
       this.submitButton = true;
-      let params = {};
+      let params = {};    //        adminBodyPartBack
       if(this.from=='bodyPartFront'){
         this.bodyPartFront.push({'part':this.partName,'concern':data.concern});
-        params =  {
-          bodyPartFront: this.bodyPartFront
-        }
+
+        if(this.userRole=='patient'){
+          params = { bodyPartFront: this.bodyPartFront }
+        }else{
+          params = { adminBodyPartFront: this.bodyPartFront }
+        }        
       } else if(this.from=='bodyPartBack'){
         this.bodyPartBack.push({'part':this.partName,'concern':data.concern});
-        params = {
-          bodyPartBack: this.bodyPartBack
-        }
+        if(this.userRole=='patient'){
+          params = { bodyPartBack: this.bodyPartBack }
+        }else{
+          params = { adminBodyPartBack: this.bodyPartBack }
+        } 
       }
       this.appointmentUpdateInfo.push({
         fromPatientId : (this.userRole=='patient') ? this.userId : '',

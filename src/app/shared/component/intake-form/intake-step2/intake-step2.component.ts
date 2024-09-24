@@ -139,7 +139,7 @@ export class IntakeStep2Component {
           this.fullNameForSign = this.step2Form.controls['firstName'].value + " " + this.step2Form.controls['lastName'].value;
         }      
 
-        console.log('>>>>>>>>>isReadonly>>>>',this.isReadonly)
+
       }
     })
   }
@@ -280,6 +280,11 @@ export class IntakeStep2Component {
         this.step2Form.get(control)?.updateValueAndValidity();
       });
     }
+
+    const mockEvent6: MatRadioChange = { value: this.payViaSelected, source: this.radioButton! }; 
+    this.onChange(mockEvent6)
+
+
   }
 
   getInsuranceDetails(event: any) {
@@ -407,7 +412,6 @@ export class IntakeStep2Component {
     }
     
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
-
     this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.step2Form.controls['subscriberLastName'].setValue(subscriberLastName)
