@@ -43,7 +43,6 @@ const getAppointmentList = async (req, res) => {
             .sort(order).skip(offset).limit(limit)
 
         let totalCount = await Appointment.find(query).countDocuments()
-
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
         console.log("********Appointment***error***", error)
@@ -132,6 +131,7 @@ const createAppointment = async (req, res) => {
                 alreadyFound = await Appointment.findOne({requestId:requestId}, { _id:1,appointmentId: 1 });//.sort({ createdAt: -1 }).limit(1)
             }    
             if(proceed){           
+                let appointment_status = 'Pending Intake Form';
                 let existingAppointmentData = alreadyFound;
                 let appointmentId = 1;
                 if(!existingAppointmentData){
@@ -144,7 +144,9 @@ const createAppointment = async (req, res) => {
                 let caseType = data.caseType ? data.caseType : '';
                 let caseName = data.caseName=='Other' ? data.caseNameOther : data.caseName
                 let caseFound = await Case.findOne({caseName:caseName,patientId:data.patientId}, { _id: 1,caseType:1,appointments:1 });
+                
                 let caseId = '';
+                
                 if(caseFound){
                     caseId = caseFound._id;
                 }
@@ -155,8 +157,8 @@ const createAppointment = async (req, res) => {
                         patientId:data.patientId,
                     };
                     let newCaseRecord = new Case(caseData)
-                    const caseResult = await newCaseRecord.save();
-                    caseId = caseResult._id;
+                    caseFound = await newCaseRecord.save();
+                    caseId = caseFound._id;
                 }else if(caseType==''){
                     caseType = caseFound.caseType ? caseFound.caseType : ''
                 }
@@ -172,7 +174,8 @@ const createAppointment = async (req, res) => {
                     patientId: data.patientId,
                     doctorId: data.doctorId ? data.doctorId : '',
                     requestId: requestId ? requestId : '',            
-                    acceptInfo: {fromAdminId:userId}
+                    acceptInfo: {fromAdminId:userId},
+                    status:appointment_status
                 }
 
                 if(appointmentData.requestId==''){
@@ -185,18 +188,36 @@ const createAppointment = async (req, res) => {
                     result = await newRecord.save()
                     msg = appointmentMessage.created;
                     if(caseId){
-                        const caseRequest = {
-                            $set: {
-                                appointments:result._id
-                            }
-                        };
+                        let caseRequest = { $set: {appointments:result._id} };
+                        if(caseFound && caseFound.appointments && caseFound.appointments.length>0){
+                            caseRequest = {$addToSet:{appointments:result._id}};
+                            // START carry forward intake form data from last appoitment
+                            const sortedAppointments = caseFound.appointments.sort((a, b) => b.toString().localeCompare(a.toString()));
+                            for (let i = 0; i < sortedAppointments.length; i++) {
+                                let appdata = await Appointment.findOne({_id:sortedAppointments[i],intakeFormSubmit:true})
+                                if(appdata && appdata.payViaInsuranceInfo){
+                                    let updateAppointmentData = {
+                                        emergencyContact:appdata.emergencyContact,
+                                        adminEmergencyContact: appdata.adminEmergencyContact,
+                                        payViaInsuranceInfo : appdata.payViaInsuranceInfo,
+                                        adminPayViaInsuranceInfo : appdata.adminPayViaInsuranceInfo,
+                                        patientMedicalHistory : appdata.patientMedicalHistory,
+                                        adminPatientMedicalHistory: appdata.adminPatientMedicalHistory,
+                                        bodyPartFront: appdata.bodyPartFront,
+                                        bodyPartBack: appdata.bodyPartBack,
+                                        status:'Scheduled'
+                                    }
+                                    result = await Appointment.findOneAndUpdate({_id:result._id},updateAppointmentData);                                            
+                                    break;
+                                }
+                           } // END carry forward intake form data from last appoitment
                         await Case.findOneAndUpdate({_id:caseId}, caseRequest);
+                       }
                     }
                 }else{
                     msg = appointmentMessage.updated;
                     result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);
-                }
-             
+                }                
                 const therapistData = await User.findOne({_id:data.therapistId},{firstName:1,lastName:1});                    
                 const patientData = {appointment_date:data.appointmentDate,firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:result._id};
                 if(patientType=='New'){
