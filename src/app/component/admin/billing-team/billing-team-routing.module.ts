@@ -22,9 +22,13 @@ const routes: Routes = [
     path: 'dashboard',
     component: AppointmentRequestsComponent,
   },
+  // {
+  //   path: 'appointments',
+  //   component: AppointmentsComponent,
+  // },
   {
-    path: 'appointments',
-    component: AppointmentsComponent,
+    path: 'cases',
+    component: AppointmentsComponent
   },
   {
     path: 'case-details/:appointmentId',
