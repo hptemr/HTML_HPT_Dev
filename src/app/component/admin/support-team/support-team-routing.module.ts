@@ -38,7 +38,7 @@ const routes: Routes = [
   },
   {
     path: 'appointment-details/:appointmentId',//recheck this Component, no need
-    component: AppointmentDetailsComponent
+    component: CaseDetailsComponent //AppointmentDetailsComponent
   },
   {
     path: 'case-details/:appointmentId',
