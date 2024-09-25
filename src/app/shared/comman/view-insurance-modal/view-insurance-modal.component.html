@@ -154,8 +154,16 @@
                                 <option selected>{{info.subscriberRelationWithPatient}}</option>
                             </select>
                         </div>
-                        <div class="form-group" *ngIf="">
-                            <input value="s" class="form-control" type="text" placeholder="Enter other relation" />
+                        <div class="form-group" *ngIf="info.subscriberRelationWithPatient=='Other'">
+                            <input value="{{info.subscriberOtherRelation}}" class="form-control" disabled type="text" placeholder="Enter other relation" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Subscriber Gender</label>
+                            <mat-radio-group aria-label="Select an option" disabled>
+                                <mat-radio-button value="1" class="me-3" checked>{{info.subscriberGender}}</mat-radio-button>
+                            </mat-radio-group>
                         </div>
                     </div>
                 </div>
@@ -196,8 +204,7 @@
                             <label class="col-form-label fw-600">Effective Date </label>
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
-                                    <input formControlName="primaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
-                                        matInput [matDatepicker]="picker3" (focus)="picker3.open()">
+                                    <input value="{{info.primaryInsuranceFromDate}}" disabled placeholder="MM-DD-YYYY"  matInput [matDatepicker]="picker3" (focus)="picker3.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                     <mat-datepicker #picker3></mat-datepicker>
                                 </mat-form-field>
@@ -209,8 +216,8 @@
                         <div class="form-group">
                             <label class="col-form-label fw-600">End Date</label>
                             <div class="input-group">
-                                <mat-form-field class="w-100 am--datepicker">
-                                    <input   formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                <mat-form-field class="w-100 am--datepicker" >
+                                    <input disabled value="{{info.primaryInsuranceToDate}}" placeholder="MM-DD-YYYY"
                                         matInput [matDatepicker]="picker4" (focus)="picker4.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                                     <mat-datepicker #picker4></mat-datepicker>
@@ -221,6 +228,61 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-12">
+                        <h2 class="mb-3 mt-2  clr--1F2F3E fw-700 d-flex flex-wrap font-16"> Subscriber's Details </h2>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">First Name </label>
+                            <input value="{{info.secondarySubscriberFirstName}}" class="form-control" type="text" disabled
+                                placeholder="Enter First Name" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Middle Name </label>
+                            <input value="{{info.secondarySubscriberMiddleName}}" class="form-control" type="text" disabled
+                                placeholder="Enter Middle Name" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Last Name </label>
+                            <input value="{{info.secondarySubscriberLastName}}" class="form-control" type="text" disabled
+                                placeholder="Enter Last Name" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Date of Birth </label>
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input value="{{info.secondarySubscriberDob}}" matInput [matDatepicker]="picker2"
+                                    placeholder="MM/DD/YY" disabled  (focus)="picker2.open()">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Relationship with Patient</label>
+                            <select class="form-select form-control" aria-label="Default select example" disabled>
+                                <option selected>{{info.secondarySubscriberRelationWithPatient}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="info.secondarySubscriberRelationWithPatient=='Other'">
+                            <input value="{{info.secondarySubscriberOtherRelation}}" class="form-control" disabled type="text" placeholder="Enter other relation" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Subscriber Gender</label>
+                            <mat-radio-group aria-label="Select an option" disabled>
+                                <mat-radio-button value="1" class="me-3" checked>{{info.secondarySubscriberGender}}</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+
                     <div class="col-12">
                         <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Secondary Insurances </h2>
                     </div>
@@ -257,7 +319,7 @@
                             <label class="col-form-label fw-600">Effective Date </label>
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
-                                    <input formControlName="primaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                    <input value="{{info.secondaryInsuranceFromDate}}" disabled placeholder="MM-DD-YYYY"
                                         matInput [matDatepicker]="picker6" (focus)="picker6.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
                                     <mat-datepicker #picker6></mat-datepicker>
@@ -271,7 +333,7 @@
                             <label class="col-form-label fw-600">End Date</label>
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker">
-                                    <input   formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                    <input  value="{{info.secondaryInsuranceToDate}}" disabled placeholder="MM-DD-YYYY"
                                         matInput [matDatepicker]="picker7" (focus)="picker7.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
                                     <mat-datepicker #picker7></mat-datepicker>
@@ -279,14 +341,64 @@
                             </div> 
                         </div>
                     </div>
-                    <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-start justify-content-sm-between">
-                        <div>&nbsp;</div> 
-                        <button (click)="thirdInsurance()" mat-raised-button color="primary" class="flex-shrink-0 mt-2" ><mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                Add Insurance  
-                        </button>
-                    </div>
-                    <div class="col-12" *ngIf="thirdInsurancesFlag">
+
+                    <div class="col-12" *ngIf="info.thirdSubscriberFirstName && info.thirdSubscriberLastName && info.thirdSubscriberGender">
                         <div class="row" >
+                            <div class="col-12">
+                                <h2 class="mb-3 mt-2  clr--1F2F3E fw-700 d-flex flex-wrap font-16"> Subscriber's Details </h2>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">First Name </label>
+                                    <input value="{{info.thirdSubscriberFirstName}}" class="form-control" type="text" disabled
+                                        placeholder="Enter First Name" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Middle Name </label>
+                                    <input value="{{info.thirdSubscriberMiddleName}}" class="form-control" type="text" disabled
+                                        placeholder="Enter Middle Name" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Last Name </label>
+                                    <input value="{{info.thirdSubscriberLastName}}" class="form-control" type="text" disabled
+                                        placeholder="Enter Last Name" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Date of Birth </label>
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input value="{{info.thirdSubscriberDob}}" matInput [matDatepicker]="picker2"
+                                            placeholder="MM/DD/YY" disabled  (focus)="picker2.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Relationship with Patient</label>
+                                    <select class="form-select form-control" aria-label="Default select example" disabled>
+                                        <option selected>{{info.thirdSubscriberRelationWithPatient}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" *ngIf="info.thirdSubscriberRelationWithPatient=='Other'">
+                                    <input value="{{info.thirdSubscriberOtherRelation}}" class="form-control" disabled type="text" placeholder="Enter other relation" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Subscriber Gender</label>
+                                    <mat-radio-group aria-label="Select an option" disabled>
+                                        <mat-radio-button value="1" class="me-3" checked>{{info.thirdSubscriberGender}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <h2 class="mb-2 mt-2 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Third Insurances</h2>
                             </div>
@@ -294,8 +406,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Third Insurances <span class="clr--DF0404 ms-1"> *
                                         </span></label>
-                                    <input   class="form-control"
-                                        type="text" placeholder="Enter Secondary Insurances Name" />
+                                    <input class="form-control" type="text" value="{{info.thirdInsuranceCompany}}" disabled placeholder="Enter Insurances Name" />
                                      
                                 </div>
                             </div>
@@ -303,8 +414,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">ID/Policy # <span class="clr--DF0404 ms-1"> *
                                         </span></label>
-                                    <input  class="form-control" type="text"
-                                        placeholder="Enter ID/Policy" />
+                                    <input  class="form-control" type="text" value="{{info.thirdInsuranceIdPolicy}}" disabled placeholder="Enter ID/Policy" />
                                     
                                 </div>
                             </div>
@@ -312,7 +422,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Group # <span class="clr--DF0404 ms-1"> *
                                         </span></label>
-                                    <input  class="form-control" type="text" placeholder="Enter Group" />
+                                    <input  class="form-control" type="text" value="{{info.thirdInsuranceGroup}}" disabled placeholder="Enter Group" />
                                      
                                 </div>
                             </div>
@@ -322,7 +432,7 @@
                                             class="clr--DF0404 ms-1"> *
                                         </span></label>
                                     <input class="form-control"
-                                        type="text" placeholder="Enter Customer Service Ph" />
+                                        type="text" value="{{info.thirdInsuranceCustomerServicePh}}" disabled placeholder="Enter Customer Service Ph" />
                                      
                                 </div>
                             </div>
@@ -332,7 +442,7 @@
                                     <label class="col-form-label fw-600">Effective Date </label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input formControlName="thirdInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
+                                            <input value="{{info.thirdInsuranceFromDate}}" disabled placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker5" (focus)="picker5.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                             <mat-datepicker #picker5></mat-datepicker>
@@ -346,7 +456,7 @@
                                     <label class="col-form-label fw-600">End Date</label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input  formControlName="thirdInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            <input  value="{{info.thirdInsuranceToDate}}" disabled placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker6" (focus)="picker6.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
                                             <mat-datepicker #picker6></mat-datepicker>
@@ -357,6 +467,7 @@
                         </div>
                     </div>
                 </div>
+
 
                 <div class="row">
                     <div class="col-12">
