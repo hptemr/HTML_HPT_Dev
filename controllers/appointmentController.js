@@ -129,12 +129,15 @@ const createAppointment = async (req, res) => {
                 };
                 await AppointmentRequest.findOneAndUpdate(filterRequest, updateRequest);
                 alreadyFound = await Appointment.findOne({requestId:requestId}, { _id:1,appointmentId: 1 });//.sort({ createdAt: -1 }).limit(1)
-            }    
+            }   
+            console.log(typeof alreadyFound,'alreadyFound >>>',alreadyFound) 
             if(proceed){           
                 let appointment_status = 'Pending Intake Form';
                 let existingAppointmentData = alreadyFound;
+
+                console.log('existingAppointmentData >>>',existingAppointmentData)
                 let appointmentId = 1;
-                if(existingAppointmentData.length==0){
+                if(alreadyFound == null){
                     existingAppointmentData = await Appointment.findOne({}, { _id:1,appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
                     appointmentId = existingAppointmentData.appointmentId + 1;
                 }else if(alreadyFound && alreadyFound.appointmentId){
@@ -184,7 +187,7 @@ const createAppointment = async (req, res) => {
 
                 let result = [];let msg = '';let appId = '';
     
-                if(alreadyFound.length==0){
+                if(alreadyFound == null){
                     let newRecord = new Appointment(appointmentData)
                     result = await newRecord.save();                   
                     appId = result._id;
