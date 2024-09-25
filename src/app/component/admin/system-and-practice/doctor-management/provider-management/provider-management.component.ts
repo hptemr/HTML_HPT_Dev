@@ -180,7 +180,7 @@ export class ProviderManagementComponent {
 
   searchControlProviders(){
     this.searchProviders.valueChanges
-    .pipe(debounceTime(300)) // Debounce for 300ms
+    .pipe(debounceTime(500)) // Debounce for 500ms
     .subscribe(value => {
       // Perform search when value changes
       this.searchProvidersByQuery(value);

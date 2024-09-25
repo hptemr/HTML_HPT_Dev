@@ -171,7 +171,7 @@ export class ManageInsuranceComponent {
 
   searchControlInsurance(){
     this.searchInsurance.valueChanges
-    .pipe(debounceTime(300)) // Debounce for 300ms
+    .pipe(debounceTime(500)) // Debounce for 500ms
     .subscribe(value => {
       // Perform search when value changes
       this.searchInsuranceByQuery(value);
