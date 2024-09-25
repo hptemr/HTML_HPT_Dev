@@ -68,26 +68,30 @@ export class UserService {
 
   // Create user on comet chat
   createUser(uid: string, name: string, role:string) {
-    let authKey: string = cometChatCredentials.authKey;
-    var user: CometChat.User = new CometChat.User(uid);
-    user.setName(name);
-    user.setRole(role);
+    return new Promise((resolve, reject) => {
+      let authKey: string = cometChatCredentials.authKey;
+      var user: CometChat.User = new CometChat.User(uid);
+      user.setName(name);
+      user.setRole(role);
 
-    CometChat.createUser(user, authKey).then(
-      (user: CometChat.User) => {
-          console.log("User created successfully", user);
-           /* ======
-            After create we login the user in comet chat.
-            Because after sign up in HPT user direct login to HPT portal.
-          */
-          let userData : any = user
-          this.loginUser(userData.uid)
-      }, (error: CometChat.CometChatException) => {
-          let parameter: any = {'uid':uid, 'name': name, 'role':role, 'authKey':authKey}
-          this.commonService.cometChatLog(this.loginUserData,'createUser','error', parameter, error)
-          console.log("createUser error:", error);
-      }
-    );
+      CometChat.createUser(user, authKey).then(
+        (user: CometChat.User) => {
+            console.log("User created successfully", user);
+            /* ======
+              After create we login the user in comet chat.
+              Because after sign up in HPT user direct login to HPT portal.
+            */
+            let userData : any = user
+            this.loginUser(userData.uid)
+            resolve(true)
+        }, (error: CometChat.CometChatException) => {
+            let parameter: any = {'uid':uid, 'name': name, 'role':role, 'authKey':authKey}
+            this.commonService.cometChatLog(this.loginUserData,'createUser','error', parameter, error)
+            console.log("createUser error:", error);
+            reject()
+        }
+      );
+    });
   }
 
   // Update user on comet chat
