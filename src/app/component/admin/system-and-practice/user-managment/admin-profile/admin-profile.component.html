@@ -141,7 +141,7 @@
                                 <!-- Therapist Field -->
                                 <div class="col-12 col-lg-6" *ngIf="isTherapist">
                                     <div class="form-group">
-                                        <label class="col-form-label fw-600">Licence Number</label>
+                                        <label class="col-form-label fw-600">Licence Number <span class="clr--DF0404 ms-1"> *</span></label>
                                         <input class="form-control form-control-md" type="text" placeholder="Licence Number " formControlName="licenceNumber" maxlength="15"/>
                                         <div class="text text-danger mt-1" *ngIf="practiceAdminProfileForm.controls['licenceNumber'].touched && practiceAdminProfileForm.controls['licenceNumber'].hasError('required')">
                                             {{ validationMessages.required('a valid Licence number') }}
