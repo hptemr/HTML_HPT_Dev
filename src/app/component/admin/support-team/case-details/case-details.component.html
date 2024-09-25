@@ -18,19 +18,20 @@
                                 <mat-expansion-panel-header>
                                     <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
                                         Basic Information 
-                                        <span class="  font-14 fw-400 ml-3 badge">This Case is in collections</span>
+                                        <span class="font-14 fw-400 ml-3 badge">This Case is in collections</span>
+                                       
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                         <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile',appointmentData?.patientId._id)">View Patient Profile</button>
                                         <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button>
                                         <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/billing-details']">View Billing Details</button>
-                                        <button mat-raised-button color="primary" class="intake-btn"  (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
+                                        <button mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
                                             View Intake Form
                                         </button>
-                                    </mat-panel-description>
+                                    </mat-panel-description>                                   
                                 </mat-expansion-panel-header>
-                                <div class="col-12">
-    
+                                <span class="font-14 fw-400 ml-3 badge pull-right" *ngIf="!appointmentData?.intakeFormSubmit">Patient hasn't filled in the Intake Form yet</span>
+                                <div class="col-12">    
                                     <div class="col-12 mt-2">
                                         <div class="d-flex flex-wrap justify-content-between align-items-baseline">
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">

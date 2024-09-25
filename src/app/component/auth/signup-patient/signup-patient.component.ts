@@ -616,7 +616,7 @@ export class SignupPatientComponent implements OnInit {
     if(this.tokenId){
         let reqVars = {
           query: {signupToken:this.tokenId},
-          fields: { firstName: 1, lastName: 1, email: 1, status: 1, _id:1 },     
+          fields: { firstName: 1, lastName: 1, email: 1,phoneNumber:1, status: 1, _id:1 },     
         }      
       this.authService.apiRequest('post', 'patients/getPatientSignupToken', reqVars).subscribe(async response => {
         if(response && response.error){
@@ -632,8 +632,10 @@ export class SignupPatientComponent implements OnInit {
           this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
           this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
           this.firstFormGroup.controls['email'].setValue(response.data.email);
+          if(response.data.phoneNumber){
+            this.firstFormGroup.controls['phoneNumber'].setValue(response.data.phoneNumber);
+          }          
           this.readonlyFlag = true
-
         }
       }, (err) => {
         console.error(err)

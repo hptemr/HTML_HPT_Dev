@@ -241,13 +241,11 @@
                                         <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">{{appInfo?.payVia}}</p>
                                     </div>
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                        <button mat-stroked-button color="primary"
-                                            (click)="viewInsuranveModal()" class="mt-1">
-                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1 ">
-                                                visibility
-                                            </mat-icon>
+                                        <button mat-stroked-button color="primary" [disabled]="!appInfo?.intakeFormSubmit" (click)="viewInsuranveModal()" class="mt-1">
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1 "> visibility </mat-icon>
                                             View Insurance
                                         </button>
+                                        <span class="font-14 fw-400 ml-3 badge" *ngIf="!appInfo?.intakeFormSubmit">Insurance details are not found</span>
                                     </div>
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3"> </div>
                                 </div>
