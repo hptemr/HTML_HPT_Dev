@@ -134,7 +134,7 @@ const createAppointment = async (req, res) => {
                 let appointment_status = 'Pending Intake Form';
                 let existingAppointmentData = alreadyFound;
                 let appointmentId = 1;
-                if(!existingAppointmentData){
+                if(existingAppointmentData.length==0){
                     existingAppointmentData = await Appointment.findOne({}, { _id:1,appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
                     appointmentId = existingAppointmentData.appointmentId + 1;
                 }else if(alreadyFound && alreadyFound.appointmentId){
@@ -182,15 +182,18 @@ const createAppointment = async (req, res) => {
                     delete appointmentData['requestId']; 
                 }
 
-                let result = [];let msg = '';
-                if(!alreadyFound){
+                let result = [];let msg = '';let appId = '';
+    
+                if(alreadyFound.length==0){
                     let newRecord = new Appointment(appointmentData)
-                    result = await newRecord.save()
+                    result = await newRecord.save();                   
+                    appId = result._id;
                     msg = appointmentMessage.created;
-                    if(caseId){
-                        let caseRequest = { $set: {appointments:result._id} };
+                    if(caseId){                 
+                        let caseRequest = { $set: {appointments:appId} };
                         if(caseFound && caseFound.appointments && caseFound.appointments.length>0){
-                            caseRequest = {$addToSet:{appointments:result._id}};
+                            console.log(caseFound.appointments.length,'......here... caseFound: ',caseFound)
+                            caseRequest = {$addToSet:{appointments:appId}};
                             // START carry forward intake form data from last appoitment
                             const sortedAppointments = caseFound.appointments.sort((a, b) => b.toString().localeCompare(a.toString()));
                             for (let i = 0; i < sortedAppointments.length; i++) {
@@ -208,19 +211,20 @@ const createAppointment = async (req, res) => {
                                         intakeFormSubmit:appdata.intakeFormSubmit,
                                         status:'Scheduled'
                                     }
-                                    result = await Appointment.findOneAndUpdate({_id:result._id},updateAppointmentData);                                            
+                                    await Appointment.findOneAndUpdate({_id:appId},updateAppointmentData);                                            
                                     break;
                                 }
                            } // END carry forward intake form data from last appoitment
-                        await Case.findOneAndUpdate({_id:caseId}, caseRequest);
                        }
+                       await Case.findOneAndUpdate({_id:caseId}, caseRequest);
                     }
                 }else{
                     msg = appointmentMessage.updated;
-                    result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);
+                    appId = alreadyFound._id;
+                    result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);                    
                 }                
                 const therapistData = await User.findOne({_id:data.therapistId},{firstName:1,lastName:1});                    
-                const patientData = {appointment_date:data.appointmentDate,firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:result._id};
+                const patientData = {appointment_date:data.appointmentDate,firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:appId};
                 if(patientType=='New'){
                     patientAppointmentSignupEmail(patientData)
                 }else if(!requestId && patientType=='Existing'){                  
@@ -548,7 +552,7 @@ async function patientAppointmentSignupEmail(patientData) {
             phoneNumber: patientData.phoneNumber,
             status: 'Pending'
         }     
-        
+        console.log('patientData >>>>>>',patientData)
         let newPatient = new Patient(request_data);
         const patient_result = await newPatient.save();
         // let tokenObj = {

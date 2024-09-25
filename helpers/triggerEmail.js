@@ -77,7 +77,7 @@ const patientSignup = async (templateName, userData) => {
     try {
         sendEmailServices.getEmailTemplateByCode(templateName).then((template) => {
             if (template) {
-
+                console.log('userData >>>>>>',userData)
                 let params = {
                 "{firstName}": userData.firstName,
                 "{link}": userData.link
@@ -92,7 +92,7 @@ const patientSignup = async (templateName, userData) => {
                     "{link}": userData.link
                     }
                 }
-
+                console.log('params >>>>>>',params)
                 var mailOptions = {
                     to: [userData.email],
                     subject: template.mail_subject,
