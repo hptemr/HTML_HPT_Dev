@@ -19,6 +19,7 @@ export class DnPlanComponent {
   typeBelow:any = ""
   processPatient = ""
   actionType = "create"
+  minDate = new Date();
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')

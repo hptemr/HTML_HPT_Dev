@@ -47,7 +47,7 @@
                 <div class="d-flex flex-wrap align-items-center date-pick">
                     <div class="form-group">
                         <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                            <input matInput [matDatepicker]="picker"  formControlName="planStartDate" placeholder="From Date" (focus)="picker.open()">
+                            <input matInput [matDatepicker]="picker"  formControlName="planStartDate" placeholder="From Date" [min]="minDate" (focus)="picker.open()">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="form-group">
                         <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                            <input formControlName="planEndDate" matInput [matDatepicker]="picker1" placeholder="To Date" (focus)="picker1.open()">
+                            <input formControlName="planEndDate" matInput [matDatepicker]="picker1" placeholder="To Date" [min]="minDate" (focus)="picker1.open()">
                             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
                         </mat-form-field>
