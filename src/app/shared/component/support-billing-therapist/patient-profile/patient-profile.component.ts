@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { s3Details } from 'src/app/config';
 import { DatePipe } from '@angular/common';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-patient-profile',
   templateUrl: './patient-profile.component.html',
@@ -22,14 +22,27 @@ export class PatientProfileComponent {
   birthdate: any = '';
   patientData: any = '';
   activeUserRoute = this.commonService.getLoggedInRoute()
-  constructor(private router: Router, public dialog: MatDialog, private navigationService: NavigationService, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, private datePipe: DatePipe) {
+  previousUrl: string | undefined;
+  currentUrl: string | undefined;
+  constructor(private router: Router, public dialog: MatDialog, private navigationService: NavigationService, private route: ActivatedRoute, private location: Location, public authService: AuthService, public commonService: CommonService, private datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.patientId = params['userId'];
     })
   }
 
   ngOnInit() {
+    this.currentUrl = this.router.url;
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.previousUrl = this.currentUrl;
+        this.currentUrl = event.url;  // Update the current URL
+      }
+    });
     this.getPatientDetail()
+  }
+
+  goBack(): void {
+    this.location.back(); // Go to the previous URL in browser history
   }
 
   async getPatientDetail() {
