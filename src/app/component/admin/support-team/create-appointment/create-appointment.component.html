@@ -17,7 +17,7 @@
             </div>
             <div class="col-12  ">
                 <div class="row">
-                    <div class="col-12 col-sm-6 col-lg-4 mb-2">
+                    <div class="col-12   mb-2">
                         <div class="form-group">                         
                             <mat-radio-group aria-label="Select an option" formControlName="patientType" (change)="onChange($event)">
                               <mat-radio-button value="New" class="me-3" checked>New Patient</mat-radio-button>
@@ -27,9 +27,9 @@
                     </div> 
                     <div class="col-12 col-sm-6 col-lg-4 mb-2" *ngIf="selectedValue == 'Existing'">
                         <div class="form-group position-relative">
-                            <!-- <input type="text" class="form-control search--outer" [(ngModel)]="seachByPname" (keyup)="searchRecords($event,'byPname')" placeholder="Select Patient"> -->
+                            <label class="col-form-label fw-600">&nbsp;</label>
                                 <input type="text" class="form-control search--outer"
-                                  placeholder="search Patient"
+                                  placeholder="Search By Patient Name"
                                   aria-label="Patient"
                                   [matAutocomplete]="auto"
                                    (keyup)="searchRecords($event,'byPname')" formControlName="seachByPname" />
@@ -37,10 +37,7 @@
                                   <mat-option *ngFor="let pt of patientList" [value]="pt.patientName" (click)="selectPatient(pt.id)">
                                     <span>{{ pt.patientName }} | {{ pt.patientEmail }}</span>
                                   </mat-option>
-                                </mat-autocomplete>
-                            <!-- <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                            </button>  -->
+                                </mat-autocomplete> 
                         </div>
                     </div> 
 
@@ -57,12 +54,13 @@
                                 {{ validationMessages.requiredDropdown('Case name') }}
                             </div>  
 
-                            <input class="form-control mt-1" type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
+                            <input class="form-control " type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
                             <div class="text text-danger mt-1" *ngIf="caseNameOtherFlag && appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
                                 {{ validationMessages.required('Case name') }}
                             </div>    
-                        </div>
-
+                        </div>  
+                    </div> 
+                    <div class="col-12 col-sm-6 col-lg-4 mb-2">
                         <div class="form-group w-100">
                             <label class="col-form-label fw-600">Case Type <span class="clr--DF0404 ms-1"> * </span></label>
                             <select class="form-select form-control" aria-label="Default select example" formControlName="caseType" >
@@ -75,8 +73,7 @@
                                 {{ validationMessages.required('Case Type') }}
                             </div>
                         </div>
-                     
-                    </div>                    
+                    </div>                   
                 </div>
             </div>
 
@@ -104,7 +101,7 @@
                     <input class="form-control" type="email" formControlName="email" placeholder="Enter Email" />
 
                     <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['email'].touched && (appointmentForm.controls['email'].hasError('required') || appointmentForm.controls['email'].invalid)">
-                        {{ validationMessages.required('Email') }}
+                        {{ validationMessages.required('an email address') }}
                     </div>    
                     <div class="text text-danger mt-1" *ngIf="emailError">
                         {{invalidEmailErrorMessage}}
@@ -119,7 +116,7 @@
                     </div>
                 </div>
                 <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
-                    {{ validationMessages.required('Appointment date') }}
+                    {{ validationMessages.required('appointment date time') }}
                 </div>    
             </div> 
             <div class="col-12 col-lg-6 col-md-6 mt-2 ">

@@ -1,7 +1,11 @@
 .initial--exam--billing--wrapper{
+    .form-group{
+        margin-bottom: 0;
+    }
     .width-50{
         width: 50px;
         height: 36px;
+        margin-bottom: 10px;
     }
     .billing-total-unit-wrapper{
         .form-group{

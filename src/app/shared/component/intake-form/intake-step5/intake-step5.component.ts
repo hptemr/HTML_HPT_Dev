@@ -5,7 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
-
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 @Component({
   selector: 'app-intake-step5',
   templateUrl: './intake-step5.component.html',
@@ -19,7 +19,7 @@ export class IntakeStep5Component {
   step5Form: FormGroup
   step5FormData: any
   validationMessages = validationMessages
-  isFormEditable = true
+  isReadonly = true
   activeUserRoute = this.commonService.getLoggedInRoute()
   short_text:string = 'Read More';
   userId = this.authService.getLoggedInInfo('_id')
@@ -37,7 +37,6 @@ export class IntakeStep5Component {
     this.getAppointmentDetails()
   }
 
-
   async getAppointmentDetails() {
     const req_vars = {
       query: { _id: this.appId },
@@ -45,19 +44,21 @@ export class IntakeStep5Component {
       patientFields: { _id: 1 },
       therapistFields: { _id: 1 }
     }
+    this.commonService.showLoader()
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
         this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
         this.step5FormData = response.data.appointmentData
         this.loadForm()
-        // if (this.authService.getLoggedInInfo('role') == 'patient' && this.step5FormData.status == 'Pending') {
-        //   //patient can update the info
-        //   this.isFormEditable = true
-        // } else {
-        //   this.isFormEditable = false
-        //   this.step5Form.disable()
-        // }
+        if (this.userRole== 'patient' && !this.step5FormData?.intakeFormSubmit) {
+          this.isReadonly = false
+        }else if (this.userRole == 'support_team' && this.step5FormData.intakeFormSubmit) {
+          this.isReadonly = false
+        } else {
+          this.isReadonly = true
+          this.step5Form.disable()
+        }
         this.commonService.hideLoader()
       }
     })
@@ -98,9 +99,10 @@ export class IntakeStep5Component {
   }
 
   async finalSubmit() {
-    if (this.isFormEditable) {
+    if (!this.isReadonly) {
       let formData = this.step5Form.value
       Object.assign(formData, { intakeFormSubmit: true })
+      Object.assign(formData, { status: 'Scheduled' })
       let appointmentUpdateInfo = this.step5FormData.appointmentUpdateInfo;
       appointmentUpdateInfo.push({
         fromPatientId : (this.userRole=='patient') ? this.userId : '',
@@ -115,11 +117,24 @@ export class IntakeStep5Component {
         updateInfo: formData
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-        this.router.navigate([this.activeUserRoute, 'appointment-details', this.appId])
+          this.successModal()
       })
     } else {
-      this.router.navigate([this.activeUserRoute, 'appointment-details', this.appId])
+      this.router.navigate([this.activeUserRoute, 'case-details', this.appId])
     }
   }
 
+  successModal() {
+    const dialogRef = this.dialog.open(SuccessModalComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        successNote: 'Thank you for requesting an appointment. Your recovery is our only priority. We are working diligently on your request and  will respond in 1 business day or less. '
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      //this.router.navigate(["/patient/appointments"])
+      this.router.navigate([this.activeUserRoute, 'case-details', this.appId])
+    });
+  }
 }

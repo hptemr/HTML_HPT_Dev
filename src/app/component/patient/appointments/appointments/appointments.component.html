@@ -35,11 +35,11 @@
                             <select [(ngModel)]="appStatusVal" (change)="filterDropDown($event, 'status')"
                                 class="form-select form-control" aria-label="Default select example">
                                 <option value="" selected>Select Appointment Status</option>
-                                <option value="1"> Accepted</option>
+                                <!-- <option value="1"> Accepted</option>
                                 <option value="2"> Reschedules</option>
                                 <option value="3"> Pending</option>
-                                <option value="4"> Declined</option>
-                                <!-- <option value="{{element}}" *ngFor="let element of appointmentStatus">{{element}} -->
+                                <option value="4"> Declined</option> -->
+                                <option value="{{element}}" *ngFor="let element of appointmentStatus">{{element}}
                              </select>
                         </div>
                     </div>
@@ -110,15 +110,15 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
                             Appointment Date & Time 
                         </th>
-                        <td mat-cell *matCellDef="let element"> {{element.appointmentDate | date:"mediumDate"}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.appointmentDate | date:"MMM d, y h:mm a"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                             Status
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            <!-- <p class="status {{element.statusClass}}">{{element.statusClass}}</p> -->
-                             <p class="clr--292D32 font-14 ">Pending Intake form</p>
+                            <p class="status {{element.statusClass}}">{{element.status}}</p>
+                            <!-- <p class="clr--292D32 font-14 ">Pending Intake form</p> -->
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="action">
@@ -128,7 +128,7 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="w-100 d-flex align-items-center justify-content-end">
                                 <button mat-button class="flex-shrink-0 min-width-unset search--fields mr-1"
-                                    [routerLink]="['/patient/appointment-details/',element.id]">
+                                    [routerLink]="['/patient/case-details/',element.id]">
                                     <mat-icon
                                         class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
                                     </mat-icon>

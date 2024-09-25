@@ -44,18 +44,11 @@ export class AppointmentDetailsComponent {
   practiceLocations: any = practiceLocations
   validationMessages: any = validationMessages
   orderBy: any = { createdAt: -1 }
-
+  isShow:boolean = false;
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, public commonService: CommonService) {
-    //appId
     this.route.params.subscribe((params: Params) => {
       if (params['appId']) this.appId = params['appId'];
     })
-  }
-
-
-  isShow = false;
-  toggleDisplay() {
-    this.isShow = !this.isShow;
   }
 
   ngOnInit() {
@@ -93,7 +86,7 @@ export class AppointmentDetailsComponent {
   async getAppointmentDetails() {
     const req_vars = {
       query: { _id: this.appId },
-      fields: { practiceLocation: 1, caseName:1, appointmentId: 1, appointmentDate: 1,  patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1 },
+      fields: { practiceLocation: 1, caseName:1, appointmentId: 1, appointmentDate: 1,  patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1,intakeFormSubmit:1 },
       patientFields: { _id: 1 },
       therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage:1 }
     }
@@ -134,27 +127,29 @@ export class AppointmentDetailsComponent {
       this.totalCount = response.data.totalCount
       let finalData: any = []
       await response.data.appointmentList.map((element: any) => {
-        let info: any = {
-          fullName: '',
-          profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + 'default.png'
-        }
+        if(this.appId!=element._id){
+            let info: any = {
+              fullName: '',
+              profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + 'default.png'
+            }
 
-        if (element.therapistId) {
-          info.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + element.therapistId.profileImage
-          info.fullName = element.therapistId.firstName + " " + element.therapistId.lastName
-        }
+            if (element.therapistId) {
+              info.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + element.therapistId.profileImage
+              info.fullName = element.therapistId.firstName + " " + element.therapistId.lastName
+            }
 
-        let newColumns = {
-          id: element._id,
-          info: info,
-          appointmentId: element.appointmentId,
-          checkIn: element.checkIn,
-          appointmentDate: element.appointmentDate,
-          status: element.status,
-          statusClass: element.status.toLowerCase(),
-          practiceLocation: element.practiceLocation,
+            let newColumns = {
+              id: element._id,
+              info: info,
+              appointmentId: element.appointmentId,
+              checkIn: element.checkIn,
+              appointmentDate: element.appointmentDate,
+              status: element.status,
+              statusClass: element.status.toLowerCase(),
+              practiceLocation: element.practiceLocation,
+            }
+            finalData.push(newColumns)
         }
-        finalData.push(newColumns)
       })
       if(finalData.length>0)this.isShow = true
       this.appointmentList = new MatTableDataSource(finalData)

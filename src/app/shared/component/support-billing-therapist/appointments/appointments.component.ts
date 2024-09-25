@@ -54,7 +54,7 @@ export class AppointmentsComponent {
   patientQuery: any = {}
   minToDate: Date | null = null;
   maxToDate: Date | null = null;
-
+  userType:String=''
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -70,8 +70,8 @@ export class AppointmentsComponent {
   }
 
   userBasedQueryChanged() {
-    let userType = this.authService.getLoggedInInfo('role')
-    if (userType == 'support_team') {
+    this.userType = this.authService.getLoggedInInfo('role')
+    if (this.userType == 'support_team') {
       //this.whereCond = Object.assign(this.whereCond, { status: { $in: this.fieldValues } })
     } else {
       //this.whereCond = Object.assign(this.whereCond, { status: { $in: this.fieldValues } })

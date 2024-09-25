@@ -79,7 +79,7 @@ export class CommonService {
     } else if (user_type == "billing_team") {
       redirect = 'billing-team/dashboard'
     } else if (user_type == "patient") {
-      redirect = 'patient/dashboard'
+      redirect = 'patient/appointments'
     } else {
       redirect = 'admin/login'
     }

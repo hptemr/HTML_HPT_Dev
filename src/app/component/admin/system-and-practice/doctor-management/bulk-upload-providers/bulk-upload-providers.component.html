@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-12 d-flex align-items-center justify-content-between flex-wrap mb-2">
                     <label class="fw-700 font-16 mb-0"> Upload File</label>
-                    <a class="font-16 fw-600 text-primary cursor-pointer" (click)="downloadSampleFile()">Download Sample CSV File</a>
+                    <a class="font-16 fw-600 text-primary cursor-pointer text-decoration-underline" (click)="downloadSampleFile()">Download Sample CSV File</a>
                 </div>
                 <div class="col-12 mb-2">
                     <div class="upload--files d-flex align-items-center justify-content-center flex-column w-100 text-center">
@@ -135,7 +135,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements" [hidden]="!showTable" ></mat-paginator> -->
-                    <mat-paginator [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" [hidden]="!showTable">
+                    <mat-paginator [length]="errorRecordFound" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" [hidden]="!showTable">
                     </mat-paginator>
                 </div>
 

@@ -180,7 +180,7 @@
                     <div class="col-12 d-flex align-items-center justify-content-between mb-3 mt-3">
                         <h2  class="text-primary clr--31B7B7 font-18 fw-600">Basic Information</h2>
                         <button [routerLink]="['/patient/intake-form/step-1', appId]" mat-raised-button color="primary" class="intake-btn" >
-                            View Intake Form
+                            {{(appInfo?.intakeFormSubmit==true) ? 'View' : 'Add'}} Intake Form                     
                         </button>
                     </div>                 
                    <div class="row exp-class">
@@ -269,7 +269,7 @@
                             </div>  
                             <div class="card-body day--one--wrapper d-flex align-items-center justify-content-center">
                                 <div class="d-flex flex-column align-items-center justify-content-center w-100">
-                                    <img (click) = toggleDisplay()  src="assets/images/ark/calendar-lg.png" alt="" class="img-fluid mb-4" />
+                                    <img  src="assets/images/ark/calendar-lg.png" alt="" class="img-fluid mb-4" />
                                      <p class="fw-700 clr--1F2F3E text-center">Currently there is no Appointment History!</p>                                
                                 </div>
                             </div> 
@@ -308,7 +308,7 @@
                                                 </th>  
                                                 <td mat-cell *matCellDef="let element">  
                                                     <div class="w-100 d-flex align-items-center justify-content-center"> 
-                                                        <mat-checkbox class="" [(ngModel)]="element.checkIn"> </mat-checkbox>
+                                                        <mat-checkbox class="" [(ngModel)]="element.checkIn" [disabled]="true"> </mat-checkbox>
                                                     </div>
                                                 </td>
                                             </ng-container> 

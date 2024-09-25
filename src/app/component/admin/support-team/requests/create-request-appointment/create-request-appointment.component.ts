@@ -60,7 +60,7 @@ export class CreateRequestAppointmentComponent {
     this.appointmentForm = this.fb.group({
       caseName: ['', [Validators.required]],
       caseNameOther: [''],
-      caseType: ['', [Validators.required]],
+      caseType: ['PT', [Validators.required]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required]],
@@ -155,7 +155,7 @@ export class CreateRequestAppointmentComponent {
           this.location = (appointmentData && appointmentData.practiceLocation) ? appointmentData.practiceLocation : this.appointmentRequestData.practiceLocation;
 
           let caseName = (appointmentData && appointmentData.caseName) ? appointmentData.caseName : '';
-          let caseType = (appointmentData && appointmentData.caseType) ? appointmentData.caseType : '';
+          let caseType = (appointmentData && appointmentData.caseType) ? appointmentData.caseType : 'PT';
           let appointmentType = (appointmentData && appointmentData.appointmentType) ? appointmentData.appointmentType : '';
           
           

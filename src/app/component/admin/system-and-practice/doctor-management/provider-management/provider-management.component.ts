@@ -11,6 +11,7 @@ import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
+import { ViewProviderDetailsComponent } from '../view-provider-details/view-provider-details.component';
 
 // export interface PeriodicElement {
 //   docCredentials: string; 
@@ -179,7 +180,7 @@ export class ProviderManagementComponent {
 
   searchControlProviders(){
     this.searchProviders.valueChanges
-    .pipe(debounceTime(300)) // Debounce for 300ms
+    .pipe(debounceTime(500)) // Debounce for 500ms
     .subscribe(value => {
       // Perform search when value changes
       this.searchProvidersByQuery(value);
@@ -213,6 +214,16 @@ export class ProviderManagementComponent {
           err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") :""
         })
         
+      }
+    });
+  }
+
+  viewProviderDetails(providerData:any) {
+    const dialogRef = this.dialog.open(ViewProviderDetailsComponent,{
+      width:'650px',
+      panelClass: [ 'modal--wrapper'],
+      data : {
+        providerDetails: providerData
       }
     });
   }

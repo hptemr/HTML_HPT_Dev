@@ -24,7 +24,8 @@ export class AddEditContactComponent implements OnInit {
   public userRole: string;
   public pageName: string;
   public emergencyContactForm: FormGroup;
-  maxEndDate: any;
+  maxEndDate:any
+  todayDate= new Date();
   emergencyContactData: any = [];
   relationWithPatientList: any = relationWithPatient;
   validationMessages = validationMessages;

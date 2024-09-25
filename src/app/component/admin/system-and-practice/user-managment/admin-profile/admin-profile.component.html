@@ -64,7 +64,7 @@
                                 <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="email" placeholder="Email " formControlName="email" maxlength="35" />
+                                        <input class="form-control form-control-md text-lowercase" type="email" placeholder="Email " formControlName="email" maxlength="35" />
                                         
                                         <div class="text text-danger mt-1" *ngIf="practiceAdminProfileForm.controls['email'].touched && practiceAdminProfileForm.controls['email'].hasError('required')">
                                             {{ validationMessages.required('an email address') }}
@@ -141,7 +141,7 @@
                                 <!-- Therapist Field -->
                                 <div class="col-12 col-lg-6" *ngIf="isTherapist">
                                     <div class="form-group">
-                                        <label class="col-form-label fw-600">Licence Number</label>
+                                        <label class="col-form-label fw-600">Licence Number <span class="clr--DF0404 ms-1"> *</span></label>
                                         <input class="form-control form-control-md" type="text" placeholder="Licence Number " formControlName="licenceNumber" maxlength="15"/>
                                         <div class="text text-danger mt-1" *ngIf="practiceAdminProfileForm.controls['licenceNumber'].touched && practiceAdminProfileForm.controls['licenceNumber'].hasError('required')">
                                             {{ validationMessages.required('a valid Licence number') }}
@@ -153,7 +153,7 @@
                                 <div class="col-12 col-lg-6" >
                                     <div class="form-group">
                                         <label class="col-form-label fw-600"> Credentials</label>
-                                        <input class="form-control form-control-md" type="text" placeholder="Licence Number "  />
+                                        <input class="form-control form-control-md" type="text" placeholder="Credentials"  />
                                         <!-- <div class="text text-danger mt-1"  >
                                            Error
                                         </div> -->

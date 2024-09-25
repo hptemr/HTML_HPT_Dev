@@ -40,6 +40,106 @@ export class SubjectiveComponent implements OnInit {
   appointment: any = null
   submitted:boolean=false;
   subjectiveId: string = '';
+  cancerSelf:string = '';
+  cancerSelfYes:string = '';
+  cancerFamilyYes:string = '';
+  cancerFamily:string = '';
+  diabetesSelf:string = '';
+  diabetesSelfYes:string = '';
+  diabetesFamily:string = '';
+  diabetesFamilyYes:string = '';
+  highBloodPressureSelf:string = '';
+  highBloodPressureSelfYes:string = '';
+  highBloodPressureFamily:string = '';
+  highBloodPressureFamilyYes:string = '';
+  heartDiseaseSelfYes:string = '';
+  heartDiseaseSelf:string = '';
+  heartDiseaseFamily:string = '';
+  heartDiseaseFamilyYes:string = '';
+  anginaChestPainSelf:string = '';
+  anginaChestPainSelfYes:string = '';
+  anginaChestPainFamily:string = '';
+  anginaChestPainFamilyYes:string = '';
+  strokeSelf:string = '';
+  strokeSelfYes:string = '';
+  strokeFamily:string = '';
+  strokeFamilyYes:string = '';
+  osteoporosisSelf:string = '';
+  osteoporosisSelfYes:string = '';
+  osteoporosisFamily:string = '';
+  osteoporosisFamilyYes:string = '';
+  osteoarthritisSelf:string = '';
+  osteoarthritisSelfYes:string = '';
+  osteoarthritisFamily:string = '';
+  osteoarthritisFamilyYes:string = '';
+  rheumatoidArthritisSelf:string = '';
+  rheumatoidArthritisSelfYes:string = '';
+  rheumatoidArthritisFamily:string = '';
+  rheumatoidArthritisFamilyYes:string = '';
+  bleedingDisordersSelf:string = '';
+  bleedingDisordersSelfYes:string = '';
+  bleedingDisordersFamily:string = '';
+  bleedingDisordersFamilyYes:string = '';
+  changeYourHealthSelf:string = '';
+  changeYourHealthSelfYes:string = '';
+  nauseaVomitingSelf:string = '';
+  nauseaVomitingSelfYes:string = '';
+  feverChillsSweatsSelf:string = '';
+  feverChillsSweatsSelfYes:string = '';
+  unexplainedWeightChangeSelf:string = '';
+  unexplainedWeightChangeSelfYes:string = '';
+  numbnessTinglingSelf:string = '';
+  numbnessTinglingSelfYes:string = '';
+  changesAppetiteSelf:string = '';
+  changesAppetiteSelfYes:string = '';
+  difficultySwallowingSelf:string = '';
+  difficultySwallowingSelfYes:string = '';
+  bowelBladderSelf:string = '';
+  bowelBladderSelfYes:string = '';
+  shortnessBreathSelf:string = '';
+  shortnessBreathSelfYes:string = '';
+  dizzinessSelf:string = '';
+  dizzinessSelfYes:string = '';
+  upperRespiratoryInfectionSelf:string = '';
+  upperRespiratoryInfectionSelfYes:string = '';
+  urinaryTractInfectionSelf:string = '';
+  urinaryTractInfectionSelfYes:string = '';
+  allergiesToMedicationsSelf:string = '';
+  allergiesToMedications_AllergyArray:any;
+  allergiesToMedications_SurgeryArray:any;
+  allergiesToMedications_MedicationArray:any;
+  allergiesAsthmaSelf:string = '';
+  allergiesAsthmaSelfYes:string = '';
+  headachesSelf:string = '';
+  headachesSelfYes:string = '';
+  bronchitisSelf:string = '';
+  bronchitisSelfYes:string = '';
+  kidneyDiseaseSelf:string = '';
+  kidneyDiseaseSelfYes:string = '';
+  rheumaticFeverSelf:string = '';
+  rheumaticFeverSelfYes:string = '';
+  ulcersSelf:string = '';
+  ulcersSelfYes:string = '';
+  sexuallyTransmittedDiseaseSelf:string = '';
+  sexuallyTransmittedDiseaseSelfYes:string = '';
+  seizuresSelf:string = '';
+  seizuresSelfYes:string = '';
+  pacemakerSelf:string = '';
+  pacemakerSelfYes:string = '';
+  anyMetalInBodySelf:string = '';
+  anyMetalInBodySelfYes:string = '';
+  areYouPregnantSelf:string = '';
+  areYouPregnantSelfYes:string = '';
+  areYouDepressedSelf:string = '';
+  areYouDepressedSelfYes:string = '';
+  areYouUnderStressSelf:string = '';
+  areYouUnderStressSelfYes:string = '';
+  symptoms:string = '';
+  symptomsSame:string = '';
+  rateYourPain:number = 0;
+  initialName:string = '';
+  selectedPartsFront: string[] = [];
+  selectedPartsBack: string[] = [];
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -109,7 +209,138 @@ export class SubjectiveComponent implements OnInit {
 
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
-      }
+        let medicalHistory = this.appointment_data?.patientMedicalHistory;
+        if(this.appointment_data?.adminPatientMedicalHistory && this.appointment_data?.adminPatientMedicalHistory.fullName){
+          medicalHistory = this.appointment_data?.adminPatientMedicalHistory;
+        }
+        
+        if(this.appointment_data && medicalHistory){
+          this.cancerSelf = medicalHistory?.cancerSelf;//=='Yes' ? true : false;
+          this.cancerSelfYes = medicalHistory?.cancerSelfYes;
+          
+          this.cancerFamily = medicalHistory?.cancerFamily;//=='Yes' ? true : false;
+          this.cancerFamilyYes = medicalHistory?.cancerFamilyYes;
+          
+          this.diabetesSelf = medicalHistory?.diabetesSelf;
+          this.diabetesSelfYes = medicalHistory?.diabetesSelfYes;
+          this.diabetesFamily = medicalHistory?.diabetesFamily;
+          this.diabetesFamilyYes = medicalHistory?.diabetesFamilyYes;
+          this.highBloodPressureSelf = medicalHistory?.highBloodPressureSelf;
+          this.highBloodPressureSelfYes = medicalHistory?.highBloodPressureSelfYes;         
+          this.highBloodPressureFamily= medicalHistory?.highBloodPressureFamily;
+          this.highBloodPressureFamilyYes= medicalHistory?.highBloodPressureFamilyYes;
+          this.heartDiseaseSelf= medicalHistory?.heartDiseaseSelf;
+          this.heartDiseaseSelfYes= medicalHistory?.heartDiseaseSelfYes;
+          this.heartDiseaseFamily= medicalHistory?.heartDiseaseFamily;
+          this.heartDiseaseFamilyYes= medicalHistory?.heartDiseaseFamilyYes;
+          this.anginaChestPainSelf= medicalHistory?.anginaChestPainSelf;
+          this.anginaChestPainSelfYes= medicalHistory?.anginaChestPainSelfYes;
+          this.anginaChestPainFamily= medicalHistory?.anginaChestPainFamily;
+          this.anginaChestPainFamilyYes= medicalHistory?.anginaChestPainFamilyYes;
+          this.strokeSelf= medicalHistory?.strokeSelf;
+          this.strokeSelfYes= medicalHistory?.strokeSelfYes;
+          this.strokeFamily= medicalHistory?.strokeFamily;
+          this.strokeFamilyYes= medicalHistory?.strokeFamilyYes;
+          this.osteoporosisSelf= medicalHistory?.osteoporosisSelf;
+          this.osteoporosisSelfYes= medicalHistory?.osteoporosisSelfYes;
+          this.osteoporosisFamily= medicalHistory?.osteoporosisFamily;
+          this.osteoporosisFamilyYes= medicalHistory?.osteoporosisFamilyYes;
+          this.osteoarthritisSelf= medicalHistory?.osteoarthritisSelf;
+          this.osteoarthritisSelfYes= medicalHistory?.osteoarthritisSelfYes;
+          this.osteoarthritisFamily= medicalHistory?.osteoarthritisFamily;
+          this.osteoarthritisFamilyYes= medicalHistory?.osteoarthritisFamilyYes;
+          this.rheumatoidArthritisSelf= medicalHistory?.rheumatoidArthritisSelf;
+          this.rheumatoidArthritisSelfYes= medicalHistory?.rheumatoidArthritisSelfYes;
+          this.rheumatoidArthritisFamily= medicalHistory?.rheumatoidArthritisFamily;
+          this.rheumatoidArthritisFamilyYes= medicalHistory?.rheumatoidArthritisFamilyYes;
+          this.bleedingDisordersSelf= medicalHistory?.bleedingDisordersSelf;
+          this.bleedingDisordersSelfYes= medicalHistory?.bleedingDisordersSelfYes;
+          this.bleedingDisordersFamily= medicalHistory?.bleedingDisordersFamily;
+          this.bleedingDisordersFamilyYes= medicalHistory?.bleedingDisordersFamilyYes;
+          this.changeYourHealthSelf= medicalHistory?.changeYourHealthSelf;
+          this.changeYourHealthSelfYes= medicalHistory?.changeYourHealthSelfYes;
+          this.nauseaVomitingSelf= medicalHistory?.nauseaVomitingSelf;
+          this.nauseaVomitingSelfYes= medicalHistory?.nauseaVomitingSelfYes;
+          this.feverChillsSweatsSelf= medicalHistory?.feverChillsSweatsSelf;
+          this.feverChillsSweatsSelfYes= medicalHistory?.feverChillsSweatsSelfYes;
+          this.unexplainedWeightChangeSelf= medicalHistory?.unexplainedWeightChangeSelf;
+          this.unexplainedWeightChangeSelfYes= medicalHistory?.unexplainedWeightChangeSelfYes;
+          this.numbnessTinglingSelf= medicalHistory?.numbnessTinglingSelf;
+          this.numbnessTinglingSelfYes= medicalHistory?.numbnessTinglingSelfYes;       
+          this.changesAppetiteSelf= medicalHistory?.changesAppetiteSelf;
+          this.changesAppetiteSelfYes= medicalHistory?.changesAppetiteSelfYes;
+          this.difficultySwallowingSelf= medicalHistory?.difficultySwallowingSelf;
+          this.difficultySwallowingSelfYes= medicalHistory?.difficultySwallowingSelfYes;
+          this.bowelBladderSelf= medicalHistory?.bowelBladderSelf;
+          this.bowelBladderSelfYes= medicalHistory?.bowelBladderSelfYes;       
+          this.shortnessBreathSelf= medicalHistory?.shortnessBreathSelf;
+          this.shortnessBreathSelfYes= medicalHistory?.shortnessBreathSelfYes;
+          this.dizzinessSelf= medicalHistory?.dizzinessSelf;
+          this.dizzinessSelfYes= medicalHistory?.dizzinessSelfYes;
+          this.upperRespiratoryInfectionSelf= medicalHistory?.upperRespiratoryInfectionSelf;       
+          this.upperRespiratoryInfectionSelfYes= medicalHistory?.upperRespiratoryInfectionSelfYes;
+          this.urinaryTractInfectionSelf= medicalHistory?.urinaryTractInfectionSelf;
+          this.urinaryTractInfectionSelfYes= medicalHistory?.urinaryTractInfectionSelfYes;
+          this.allergiesToMedicationsSelf= medicalHistory?.allergiesToMedicationsSelf;
+          this.allergiesToMedications_AllergyArray= medicalHistory?.allergiesToMedications_AllergyArray;        
+          this.allergiesToMedications_SurgeryArray= medicalHistory?.allergiesToMedications_SurgeryArray;
+          this.allergiesToMedications_MedicationArray= medicalHistory?.allergiesToMedications_MedicationArray;
+          this.allergiesAsthmaSelf= medicalHistory?.allergiesAsthmaSelf;
+          this.allergiesAsthmaSelfYes= medicalHistory?.allergiesAsthmaSelfYes;
+          this.headachesSelf= medicalHistory?.headachesSelf;       
+          this.headachesSelfYes= medicalHistory?.headachesSelfYes;
+          this.bronchitisSelf= medicalHistory?.bronchitisSelf;
+          this.bronchitisSelfYes= medicalHistory?.bronchitisSelfYes;
+          this.kidneyDiseaseSelf= medicalHistory?.kidneyDiseaseSelf;
+          this.kidneyDiseaseSelfYes= medicalHistory?.kidneyDiseaseSelfYes;
+          this.rheumaticFeverSelf= medicalHistory?.rheumaticFeverSelf;       
+          this.rheumaticFeverSelfYes= medicalHistory?.rheumaticFeverSelfYes;
+          this.ulcersSelf= medicalHistory?.ulcersSelf;
+          this.ulcersSelfYes= medicalHistory?.ulcersSelfYes;
+          this.sexuallyTransmittedDiseaseSelf= medicalHistory?.sexuallyTransmittedDiseaseSelf;
+          this.sexuallyTransmittedDiseaseSelfYes= medicalHistory?.sexuallyTransmittedDiseaseSelfYes;
+          this.seizuresSelf= medicalHistory?.seizuresSelf;
+          this.seizuresSelfYes= medicalHistory?.seizuresSelfYes;
+          this.pacemakerSelf= medicalHistory?.pacemakerSelf;       
+          this.pacemakerSelfYes= medicalHistory?.pacemakerSelfYes;
+          this.anyMetalInBodySelf= medicalHistory?.anyMetalInBodySelf;
+          this.anyMetalInBodySelfYes= medicalHistory?.anyMetalInBodySelfYes;
+          this.areYouPregnantSelf= medicalHistory?.areYouPregnantSelf;
+          this.areYouPregnantSelfYes= medicalHistory?.areYouPregnantSelfYes;
+          this.areYouDepressedSelf= medicalHistory?.areYouDepressedSelf;
+          this.areYouDepressedSelfYes= medicalHistory?.areYouDepressedSelfYes;
+          this.areYouUnderStressSelf= medicalHistory?.areYouUnderStressSelf;
+          this.areYouUnderStressSelfYes= medicalHistory?.areYouUnderStressSelfYes;
+          if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
+            this.initialName = this.appointment_data?.patientInfo?.firstName.charAt(0)+''+this.appointment_data?.patientInfo?.lastName.charAt(0)
+          }
+                    
+          this.symptoms = medicalHistory?.symptoms;
+          this.symptomsSame = medicalHistory?.symptomsSame;
+          this.rateYourPain = medicalHistory?.rateYourPain ? medicalHistory?.rateYourPain : 0;
+
+
+          if(this.appointment_data.bodyPartFront){          
+            this.appointment_data.bodyPartFront.forEach((element: any) => {
+              if (!this.selectedPartsFront.includes(element.part)) {
+                this.selectedPartsFront.push(element.part);
+              } else {
+                this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
+              }
+            });
+          }
+          if(this.appointment_data.bodyPartBack){          
+            this.appointment_data.bodyPartBack.forEach((element: any) => {
+              if (!this.selectedPartsBack.includes(element.part)) {
+                this.selectedPartsBack.push(element.part);
+              } else {
+                this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
+              }
+            });
+          } 
+        }       
+      }       
+      
     })
   }
 
@@ -205,13 +436,40 @@ export class SubjectiveComponent implements OnInit {
 
   
   ngAfterViewInit() {
-
+    
   }
 
-  bodyClick() {
+  // bodyClick() {
+  //   const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+  //     panelClass: 'custom-alert-container', 
+  //   });  
+  // }
+
+  bodyClick(from:string,partName:string) {   
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 
+      data : {
+        heading: '',
+        partName:partName,
+        appId:this.appointment_data._id,
+        from:from,
+        bodyPartFront:this.appointment_data.bodyPartFront,
+        bodyPartBack:this.appointment_data.bodyPartBack,
+        appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
+        readOnly:true
+      }
     });  
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+          if(from=='bodyPartFront'){
+            this.selectedPartsFront.push(partName);
+          }else if(from=='bodyPartBack'){
+            this.selectedPartsBack.push(partName);
+          }
+      }
+    });
   }
   
 }

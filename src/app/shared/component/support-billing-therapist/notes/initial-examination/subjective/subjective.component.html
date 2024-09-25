@@ -15,7 +15,7 @@
                     <label class="col-form-label fw-600">Date of Service <span class="clr--DF0404 ms-1"> * </span></label>
                     <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="note_date">
                       <option value="" disabled>Select date</option>
-                      <option *ngFor="let d of appointment_dates" [value]="d.appointmentDate">{{d.appointmentDate | date:'MM-dd-YYYY' }}</option>
+                      <option *ngFor="let d of appointment_dates"value="d.appointmentDate">{{d.appointmentDate | date:'MM-dd-YYYY' }}</option>
                     </select>
                     <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['note_date'].touched && subjectiveForm.controls['note_date'].hasError('required')">
                         {{ validationMessages.requiredDropdown('Initial examination date') }}
@@ -157,24 +157,24 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="0" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled" >
+                                                    <mat-radio-button class="me-4" value="Yes" [checked]="cancerSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="cancerSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 0">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="appointment_data && cancerSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{cancerSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="2" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  class="me-4" value="Yes" [checked]="cancerFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="cancerFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 2">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="appointment_data && cancerFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{cancerFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -186,24 +186,24 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="4" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="diabetesSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="diabetesSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 4">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="diabetesSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{diabetesSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="5" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="diabetesFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="diabetesFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 5">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="diabetesFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{diabetesFamilyYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -215,24 +215,24 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="6" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="highBloodPressureSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="highBloodPressureSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 6">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="highBloodPressureSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{highBloodPressureSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="7" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="highBloodPressureFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="highBloodPressureFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 7">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="highBloodPressureFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{highBloodPressureFamilyYes}}"> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -244,24 +244,24 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="8" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="heartDiseaseSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="heartDiseaseSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 8">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="heartDiseaseSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{heartDiseaseSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="9" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="heartDiseaseFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="heartDiseaseFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 9">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="heartDiseaseFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{heartDiseaseFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -273,24 +273,24 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="10" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="anginaChestPainSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="anginaChestPainSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 10">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="anginaChestPainSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{anginaChestPainSelfYes}}"/> 
                                                 </div>
                                             </div> 
-                                        </div>
+                                        </div>                          
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="11" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="anginaChestPainFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="anginaChestPainFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 11">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="anginaChestPainFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{anginaChestPainFamilyYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -302,24 +302,25 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="301" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="strokeSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="strokeSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 301">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="strokeSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{strokeSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
+
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="302" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="strokeFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="strokeFamily=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 302">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="strokeFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{strokeFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -331,12 +332,12 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="303" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="osteoporosisSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="osteoporosisSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 303">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="osteoporosisSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoporosisSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -344,11 +345,11 @@
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                                 <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="304" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="osteoporosisFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="osteoporosisFamily=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="osteoporosisFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoporosisFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -360,28 +361,29 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="305" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="osteoarthritisSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="osteoarthritisSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 304">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="osteoarthritisSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoarthritisSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="306" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="osteoarthritisFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="osteoarthritisFamily=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 306">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="osteoarthritisFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoarthritisFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
                                     </div>
+
                                     <div class="dd--row w-100 d-flex align-items-start">
                                         <div class="disease--box">
                                             <label class="mb-0 font-14 clr--1F2F3E fw-600">Rheumatoid arthritis?</label>  
@@ -389,12 +391,12 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="307" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option"[disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="rheumatoidArthritisSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No"  [checked]="rheumatoidArthritisSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 307">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="rheumatoidArthritisSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{rheumatoidArthritisSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -402,11 +404,11 @@
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                                 <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="308" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="rheumatoidArthritisFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="rheumatoidArthritisFamily=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 308">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="rheumatoidArthritisFamily=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{rheumatoidArthritisFamilyYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -418,24 +420,24 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="310" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="bleedingDisordersSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="bleedingDisordersSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 310">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="bleedingDisordersSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bleedingDisordersSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
                                         <div class="family--box">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="311" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="3" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="bleedingDisordersFamily=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="bleedingDisordersFamily=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 311">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="bleedingDisordersFamily == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bleedingDisordersFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -443,11 +445,10 @@
                                 </div>
                             </div>  
                         </div>
-                    </div>
+                    </div>              
                     <div class="col-12">
                         <div class="divider d-flex w-100"></div>
-                    </div>  
-                    
+                    </div>                     
                     <div class="col-12 col-lg-9">
                         <div class="row">
                             <div class="col-12">
@@ -462,12 +463,12 @@
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100">
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="111" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="changeYourHealthSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="changeYourHealthSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 111">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="changeYourHealthSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description"  value="{{changeYourHealthSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -478,12 +479,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="13" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="nauseaVomitingSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="nauseaVomitingSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 13">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="nauseaVomitingSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{nauseaVomitingSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -494,12 +495,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="16" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="feverChillsSweatsSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="feverChillsSweatsSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 16">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="feverChillsSweatsSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{feverChillsSweatsSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -510,12 +511,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="18" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="unexplainedWeightChangeSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="unexplainedWeightChangeSelf=='Yes'"cked>No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 18">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="unexplainedWeightChangeSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{unexplainedWeightChangeSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -526,12 +527,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="20" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="numbnessTinglingSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="numbnessTinglingSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 20">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="numbnessTinglingSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{numbnessTinglingSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -542,12 +543,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="21" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button  value="Yes" class="me-4" [checked]="changesAppetiteSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="changesAppetiteSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 21">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="changesAppetiteSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{changesAppetiteSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -558,12 +559,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="22" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="difficultySwallowingSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="difficultySwallowingSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 22">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="difficultySwallowingSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{difficultySwallowingSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -574,12 +575,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="23" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="bowelBladderSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="bowelBladderSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 23">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="bowelBladderSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bowelBladderSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -590,12 +591,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="24" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="shortnessBreathSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="shortnessBreathSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 24">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="shortnessBreathSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{shortnessBreathSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -606,28 +607,28 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="25" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="dizzinessSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="dizzinessSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 25">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="dizzinessSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{dizzinessSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
-                                    </div>
+                                    </div>                                    
                                     <div class="dd--row w-100 d-flex align-items-start">
                                         <div class="disease--box">
                                             <label class="mb-0 font-14 clr--1F2F3E fw-600">Upper respiratory infection?</label>
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="26" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="upperRespiratoryInfectionSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="upperRespiratoryInfectionSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 26">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="upperRespiratoryInfectionSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{upperRespiratoryInfectionSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -638,12 +639,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="27" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="urinaryTractInfectionSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="urinaryTractInfectionSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 27">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="urinaryTractInfectionSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{urinaryTractInfectionSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -655,41 +656,28 @@
                     <div class="col-12">
                         <div class="divider d-flex w-100"></div>
                     </div>
-        
+                    
                     <div class="col-12">
                         <div class="row">
                             <div class="col-12 d-flex align-items-center flex-wrap">
                                 <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E me-3">Do you have any allergies to medications?</p> 
-                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                    <mat-radio-button  [value]="012" class="me-3" >Yes</mat-radio-button>
-                                    <mat-radio-button  [value]="02" checked>No</mat-radio-button>
+                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                    <mat-radio-button value="Yes" class="me-3" [checked]="allergiesToMedicationsSelf=='Yes'">Yes</mat-radio-button>
+                                    <mat-radio-button value="No" [checked]="allergiesToMedicationsSelf=='No'">No</mat-radio-button>
                                 </mat-radio-group>
                             </div>
-                            <div class="col-12" *ngIf="selectedValue == 012">
+                            <div class="col-12" *ngIf="allergiesToMedicationsSelf == 'Yes'">
                                 <div class="row">
                                     <div class="col-12 col-lg-7">
-                                        <!-- *ngFor="let allergy of allergies; let i = index" -->
-                                        <div class="d-flex align-items-center w-100" >
+                                        <div class="d-flex align-items-center w-100" *ngFor="let allergy of allergiesToMedications_AllergyArray; let i = index">
                                             <div class="form-group w-100">
                                                 <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
-                                                <input class="form-control" type="text" placeholder="Enter Allergy" />
-                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                                <input class="form-control" type="text" [disabled]="isDisabled" placeholder="Enter Allergy" value="{{allergy['name']}}" />
                                             </div>
-                                            <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn" >
+                                            <!-- <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn" >
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
-                                            </button>
+                                            </button> -->
                                         </div>
-                                        <div class="d-flex align-items-center w-100" >
-                                            <div class="form-group w-100">
-                                                <label class="col-form-label fw-600">Enter Allergy<span class="clr--DF0404 ms-1"> *  </span></label>
-                                                <input class="form-control" type="text" placeholder="Enter Allergy" />
-                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                            </div>
-                                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn" >
-                                                <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
-                                            </button>
-                                        </div>
-                                        
                                     </div>
                                     <div class="col-12 ">
                                         <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
@@ -697,86 +685,42 @@
                                         </p> 
                                     </div>
                                     <div class="col-12">
-                                        <div class="row align-items-center">
+                                        <div class="row align-items-center" *ngFor="let surgery of allergiesToMedications_SurgeryArray; let i = index">
                                             <div class="col-12 col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <label class="col-form-label fw-600">Surgery Details </label>
-                                                    <input class="form-control" type="text" placeholder="Enter Surgery Details" />
-                                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                                    <input class="form-control" type="text" [disabled]="isDisabled" placeholder="Enter Surgery Details" value="{{surgery['details']}}" />
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
                                                 <div class="form-group w-100">
                                                     <label class="col-form-label fw-600">Surgery Date </label>
                                                     <div class="input-group">
-                                                        <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
+                                                        <input class="form-control text-capitalize" placeholder="Select Date" [disabled]="isDisabled" name="dp" ngbDatepicker #d="ngbDatepicker" value="{{surgery['surDate'] | date:'MM-dd-YYYY' }}" />
                                                         <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                                             type="button">
                                                             <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
+                                                <!-- <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> delete </mat-icon>
-                                                </button>
+                                                </button> -->
                                             </div>  
                                         </div>
-                                        <div class="row align-items-center">
-                                            <div class="col-12 col-lg-6 col-md-6">
-                                                <div class="form-group">
-                                                    <label class="col-form-label fw-600">Surgery Details </label>
-                                                    <input class="form-control" type="text" placeholder="Enter Surgery Details" />
-                                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-6 col-md-6 d-flex align-items-center">
-                                                <div class="form-group w-100">
-                                                    <label class="col-form-label fw-600">Surgery Date </label>
-                                                    <div class="input-group">
-                                                        <input class="form-control text-capitalize" placeholder="Select Date" name="dp"
-                                                            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
-                                                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
-                                                            type="button">
-                                                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn"  >
-                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-0"> add_circle </mat-icon>
-                                                </button>
-                                            </div>  
-                                        </div>
-                                       
-                                    </div>
-        
+                                    </div>        
                                     <div class="col-12 ">
                                         <p class="fw-600 font-16 mb-0 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E ">
                                             Medications you are currently using:
                                         </p> 
                                     </div>
                                     <div class="col-12 col-lg-7">
-                                        <div class="d-flex align-items-center w-100">
+                                        <div class="d-flex align-items-center w-100" *ngFor="let medication of allergiesToMedications_MedicationArray; let i = index">
                                             <div class="form-group w-100">
                                                 <label class="col-form-label fw-600">Medication</label>
-                                                <input class="form-control" type="text" placeholder="Enter Medication" />
-                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                            </div>
-                                            <button mat-raised-button color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> delete </mat-icon> 
-                                            </button>
+                                                <input class="form-control" type="text" placeholder="Enter Medication" [disabled]="isDisabled" value="{{medication['name']}}" />
+                                            </div>                                      
                                         </div>
-                                        <div class="d-flex align-items-center w-100">
-                                            <div class="form-group w-100">
-                                                <label class="col-form-label fw-600">Medication</label>
-                                                <input class="form-control" type="text" placeholder="Enter Medication" />
-                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                            </div>
-                                            <button mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
-                                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> add_circle </mat-icon> 
-                                            </button>
-                                        </div>
-                                       
                                     </div>
                                 </div>
                             </div>  
@@ -784,13 +728,14 @@
                     </div> 
                     <div class="col-12">
                         <div class="divider d-flex w-100"></div>
-                    </div>
-        
+                    </div>        
                     <div class="col-12 col-lg-9">
                         <div class="row">
                             <div class="col-12">
                                 <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Do you have a history of:</p> 
                             </div>
+
+
                             <div class="d-flex flex-column w-100 disease--desc--wrapper"> 
                                 <div class="dd--body w-100">
                                     <div class="dd--row w-100 d-flex align-items-start">
@@ -799,12 +744,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="31" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="allergiesAsthmaSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="allergiesAsthmaSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue === 31">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="allergiesAsthmaSelf === 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{allergiesAsthmaSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -815,12 +760,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="32" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="321" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="headachesSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="headachesSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 32">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="headachesSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{headachesSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -831,12 +776,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="33" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="331" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="bronchitisSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="bronchitisSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 33">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="bronchitisSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{bronchitisSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -847,12 +792,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="34" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="kidneyDiseaseSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="kidneyDiseaseSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 34">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="kidneyDiseaseSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{kidneyDiseaseSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -863,12 +808,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="35" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="rheumaticFeverSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="rheumaticFeverSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 35">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="rheumaticFeverSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{rheumaticFeverSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -879,12 +824,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="36" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="ulcersSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="ulcersSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 36">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="ulcersSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{ulcersSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -895,28 +840,28 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="37" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="sexuallyTransmittedDiseaseSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="sexuallyTransmittedDiseaseSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 37">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="sexuallyTransmittedDiseaseSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{sexuallyTransmittedDiseaseSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
-                                    </div>
+                                    </div>              
                                     <div class="dd--row w-100 d-flex align-items-start">
                                         <div class="disease--box">
                                             <label class="mb-0 font-14 clr--1F2F3E fw-600">Seizures?</label>
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="38" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="seizuresSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="seizuresSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 38">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="seizuresSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{seizuresSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -927,12 +872,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="39" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="pacemakerSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="pacemakerSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 39">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="pacemakerSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{pacemakerSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -943,12 +888,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="40" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="341" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="anyMetalInBodySelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="anyMetalInBodySelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 40">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="anyMetalInBodySelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{anyMetalInBodySelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -960,7 +905,6 @@
                     <div class="col-12">
                         <div class="divider d-flex w-100"></div>
                     </div>
-        
                     <div class="col-12 col-lg-9">
                         <div class="row">
                             <div class="col-12">
@@ -974,12 +918,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="51" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="1" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="areYouPregnantSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="areYouPregnantSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue === 51">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="areYouPregnantSelf=='Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouPregnantSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -990,12 +934,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="52" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="321" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="areYouDepressedSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="areYouDepressedSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 52">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="areYouDepressedSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouDepressedSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -1006,12 +950,12 @@
                                         </div>
                                         <div class="self--box ">
                                             <div class="d-flex flex-column w-100"> 
-                                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
-                                                    <mat-radio-button  [value]="53" class="me-4">Yes</mat-radio-button>
-                                                    <mat-radio-button  [value]="331" checked>No</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
+                                                    <mat-radio-button value="Yes" class="me-4" [checked]="areYouUnderStressSelf=='Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="areYouUnderStressSelf=='Yes'">No</mat-radio-button>
                                                 </mat-radio-group>
-                                                <div class="form-group mt-2 w-100" *ngIf="selectedValue == 53">
-                                                     <input class="form-control" type="text" placeholder="Add Description" /> 
+                                                <div class="form-group mt-2 w-100" *ngIf="areYouUnderStressSelf == 'Yes'">
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouUnderStressSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -1023,23 +967,23 @@
                     <div class="col-12">
                         <div class="divider d-flex w-100"></div>
                     </div>
-        
+    
                     <div class="col-12">
                         <div class="row">
                             <div class="col-12">
                                 <p class="fw-600 font-16 mb-2 mt-2 d-flex align-items-center flex-wrap clr--1F2F3E">Are your symptoms: <span class="ms-2 clr--828282 font-14 fw-400">(Select One)  </span></p> 
                             </div> 
                             <mat-radio-group aria-label="Select an option" >
-                                <mat-radio-button [disabled]="isDisabled"  [value]="101" class="me-4" checked>Getting Worse</mat-radio-button>
-                                <mat-radio-button [disabled]="isDisabled"  [value]="102" class="me-4">
+                                <mat-radio-button [disabled]="isDisabled" value="Getting Worse" class="me-4"  [checked]="symptoms=='Getting Worse'">>Getting Worse</mat-radio-button>
+                                <mat-radio-button [disabled]="isDisabled" value="The Same" class="me-4" [checked]="symptoms=='The Same'">
                                     <div class="d-flex align-items-center">
                                         <span class="flex-shrink-0 me-2">The Same </span>
                                         <div class="form-group m-0 w-100">
-                                            <input class="form-control form-control-md" [disabled]="isDisabled" type="text" placeholder="How Long?" /> 
+                                            <input class="form-control form-control-md" [disabled]="isDisabled" type="text" placeholder="How Long?" value="{{symptomsSame}}" /> 
                                         </div>
                                     </div>
                                 </mat-radio-button>
-                                <mat-radio-button [disabled]="isDisabled"  [value]="103" >Improving</mat-radio-button>
+                                <mat-radio-button [disabled]="isDisabled" value="Improving"  [checked]="symptoms=='Improving'">Improving</mat-radio-button>
                             </mat-radio-group>
                         </div> 
                     </div>
@@ -1053,7 +997,7 @@
                             <div class="col-12 select--ans d-flex align-items-center disabled">
                                 <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
                                 <ul class="m-0 p-0 d-flex flex-wrap disabled">
-                                     <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="clickedIndex === i" (click)="clickedIndex = i">
+                                     <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [class.active]="rateYourPain === i">
                                          {{i}}
                                      </li>
                                 </ul>
@@ -1068,185 +1012,184 @@
                                             <div class="row">
                                                 <div class="col-12 col-lg-6 d-flex justify-content-lg-end">
                                                     <div class="human--body--wrapper">
-                                                        <div class="img--outer head--box">
-                                                            <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                        <div class="img--outer head--box" [ngClass]="{'active': selectedPartsFront.includes('upper_head')}">
+                                                            <img id="header" (click)="bodyClick('bodyPartFront','upper_head')" class="body--part default--img"
                                                                 src="/assets/images/human_body/upper_head.png" alt="">
-                                                            <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                            <img id="header" (click)="bodyClick('bodyPartFront','upper_head')" class="body--part hover--img"
                                                                 src="/assets/images/human_body/coloured/upper_head.png" alt="">
                                                         </div>
-                                                        <div class="img--outer ">
-                                                            <img (click)="bodyClick()" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png"
+                                                        <div class="img--outer " [ngClass]="{'active': selectedPartsFront.includes('face')}">
+                                                            <img (click)="bodyClick('bodyPartFront','face')" class="body--part default--img face" src="/assets/images/human_body/face.png" alt="">
+                                                            <img (click)="bodyClick('bodyPartFront','face')" class="body--part hover--img face" src="/assets/images/human_body/coloured/face.png"
                                                                 alt="">
                                                         </div>
-                                                        <div class="img--outer  ">
-                                                            <img (click)="bodyClick()" class="body--part default--img throat" src="/assets/images/human_body/throat.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('throat')}">
+                                                            <img (click)="bodyClick('bodyPartFront','throat')" class="body--part default--img throat" src="/assets/images/human_body/throat.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img throat"
+                                                            <img (click)="bodyClick('bodyPartFront','throat')" class="body--part hover--img throat"
                                                                 src="/assets/images/human_body/coloured/throat.png" alt="">
                                                         </div>
-                                                        <div class="img--outer active">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--shoulder"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_shoulder')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_shoulder')" class="body--part default--img left--shoulder"
                                                                 src="/assets/images/human_body/left_shoulder.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--shoulder"
+                                                            <img (click)="bodyClick('bodyPartFront','left_shoulder')" class="body--part hover--img left--shoulder"
                                                                 src="/assets/images/human_body/coloured/left_shoulder.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer  ">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--shoulder"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_shoulder')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_shoulder')" class="body--part default--img right--shoulder"
                                                                 src="/assets/images/human_body/right_shoulder.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--shoulder"
+                                                            <img (click)="bodyClick('bodyPartFront','right_shoulder')" class="body--part hover--img right--shoulder"
                                                                 src="/assets/images/human_body/coloured/right_shoulder.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer ">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--chest"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_chest')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_chest')" class="body--part default--img left--chest"
                                                                 src="/assets/images/human_body/left_chest.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--chest"
+                                                            <img (click)="bodyClick('bodyPartFront','left_chest')" class="body--part hover--img left--chest"
                                                                 src="/assets/images/human_body/coloured/left_chest.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer ">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--chest"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_chest')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_chest')" class="body--part default--img right--chest"
                                                                 src="/assets/images/human_body/right_chest.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--chest"
+                                                            <img (click)="bodyClick('bodyPartFront','right_chest')" class="body--part hover--img right--chest"
                                                                 src="/assets/images/human_body/coloured/right_chest.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer  ">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--biceps"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_biceps')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_biceps')" class="body--part default--img left--biceps"
                                                                 src="/assets/images/human_body/left_biceps.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--biceps"
+                                                            <img (click)="bodyClick('bodyPartFront','left_biceps')" class="body--part hover--img left--biceps"
                                                                 src="/assets/images/human_body/coloured/left_biceps.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--biceps"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_biceps')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_biceps')" class="body--part default--img right--biceps"
                                                                 src="/assets/images/human_body/right_biceps.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--biceps"
+                                                            <img (click)="bodyClick('bodyPartFront','right_biceps')" class="body--part hover--img right--biceps"
                                                                 src="/assets/images/human_body/coloured/right_biceps.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--hand"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_hand_part_1')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_part_1')" class="body--part default--img left--hand"
                                                                 src="/assets/images/human_body/left_hand_part_1.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--hand"
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_part_1')" class="body--part hover--img left--hand"
                                                                 src="/assets/images/human_body/coloured/left_hand_part_1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--hand"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_hand_part_1')}">
+                                                            <img (click)="bodyClick('bodyPartFront','throat')" class="body--part default--img right--hand"
                                                                 src="/assets/images/human_body/right_hand_part_1.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--hand"
+                                                            <img (click)="bodyClick('bodyPartFront','right_hand_part_1')" class="body--part hover--img right--hand"
                                                                 src="/assets/images/human_body/coloured/right_hand_part_1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--hand--palm"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_hand_palm')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_palm')" class="body--part default--img left--hand--palm"
                                                                 src="/assets/images/human_body/left_hand_palm.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--hand--palm"
+                                                            <img (click)="bodyClick('bodyPartFront','left_hand_palm')" class="body--part hover--img left--hand--palm"
                                                                 src="/assets/images/human_body/coloured/left_hand_palm.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--hand--palm"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_hand_palm')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_hand_palm')" class="body--part default--img right--hand--palm"
                                                                 src="/assets/images/human_body/right_hand_palm.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--hand--palm"
+                                                            <img (click)="bodyClick('bodyPartFront','right_hand_palm')" class="body--part hover--img right--hand--palm"
                                                                 src="/assets/images/human_body/coloured/right_hand_palm.png" alt="">
                                                         </div>
                                                     
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--ribs"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_ribs')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_ribs')" class="body--part default--img left--ribs"
                                                                 src="/assets/images/human_body/left_ribs.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--ribs"
+                                                            <img (click)="bodyClick('bodyPartFront','left_ribs')" class="body--part hover--img left--ribs"
                                                                 src="/assets/images/human_body/coloured/left_ribs.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--ribs"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_ribs')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_ribs')" class="body--part default--img right--ribs"
                                                                 src="/assets/images/human_body/right_ribs.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--ribs"
+                                                            <img (click)="bodyClick('bodyPartFront','right_ribs')" class="body--part hover--img right--ribs"
                                                                 src="/assets/images/human_body/coloured/right_ribs.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img main--belly"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('main_belly')}">
+                                                            <img (click)="bodyClick('bodyPartFront','main_belly')" class="body--part default--img main--belly"
                                                                 src="/assets/images/human_body/main_belly.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img main--belly"
+                                                            <img (click)="bodyClick('bodyPartFront','main_belly')" class="body--part hover--img main--belly"
                                                                 src="/assets/images/human_body/coloured/main_belly.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--belly"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_belly')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_belly')" class="body--part default--img left--belly"
                                                                 src="/assets/images/human_body/left_belly.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--belly"
+                                                            <img (click)="bodyClick('bodyPartFront','left_belly')" class="body--part hover--img left--belly"
                                                                 src="/assets/images/human_body/coloured/left_belly.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--belly"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_belly')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_belly')" class="body--part default--img right--belly"
                                                                 src="/assets/images/human_body/right_belly.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--belly"
+                                                            <img (click)="bodyClick('bodyPartFront','right_belly')" class="body--part hover--img right--belly"
                                                                 src="/assets/images/human_body/coloured/right_belly.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img genitalia"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('genitalia')}">
+                                                            <img (click)="bodyClick('bodyPartFront','genitalia')" class="body--part default--img genitalia"
                                                                 src="/assets/images/human_body/genitalia.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img genitalia"
+                                                            <img (click)="bodyClick('bodyPartFront','genitalia')" class="body--part hover--img genitalia"
                                                                 src="/assets/images/human_body/coloured/genitalia.png" alt="">
-                                                        </div>
+                                                        </div>                                            
                                                     
-                                                    
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--inner--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_inner_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_inner_thigh')" class="body--part default--img left--inner--things"
                                                                 src="/assets/images/human_body/left_inner_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--inner--things"
+                                                            <img (click)="bodyClick('bodyPartFront','left_inner_thigh')" class="body--part hover--img left--inner--things"
                                                                 src="/assets/images/human_body/coloured/left_inner_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--inner--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_inner_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_inner_thigh')" class="body--part default--img right--inner--things"
                                                                 src="/assets/images/human_body/right_inner_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--inner--things"
+                                                            <img (click)="bodyClick('bodyPartFront','right_inner_thigh')" class="body--part hover--img right--inner--things"
                                                                 src="/assets/images/human_body/coloured/right_inner_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_thigh')" class="body--part default--img left--things"
                                                                 src="/assets/images/human_body/left_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--things"
+                                                            <img (click)="bodyClick('bodyPartFront','left_thigh')" class="body--part hover--img left--things"
                                                                 src="/assets/images/human_body/coloured/left_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--things"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_thigh')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_thigh')" class="body--part default--img right--things"
                                                                 src="/assets/images/human_body/right_thigh.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--things"
+                                                            <img (click)="bodyClick('bodyPartFront','right_thigh')" class="body--part hover--img right--things"
                                                                 src="/assets/images/human_body/coloured/right_thigh.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--knee"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_knee')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_knee')" class="body--part default--img left--knee"
                                                                 src="/assets/images/human_body/left_knee.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--knee"
+                                                            <img (click)="bodyClick('bodyPartFront','left_knee')" class="body--part hover--img left--knee"
                                                                 src="/assets/images/human_body/coloured/left_knee.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--knee"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_knee')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_knee')" class="body--part default--img right--knee"
                                                                 src="/assets/images/human_body/right_knee.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--knee"
+                                                            <img (click)="bodyClick('bodyPartFront','right_knee')" class="body--part hover--img right--knee"
                                                                 src="/assets/images/human_body/coloured/right_knee.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--leg"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_leg')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg')" class="body--part default--img left--leg"
                                                                 src="/assets/images/human_body/left_leg.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--leg"
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg')" class="body--part hover--img left--leg"
                                                                 src="/assets/images/human_body/coloured/left_leg.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--leg"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_leg')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg')" class="body--part default--img right--leg"
                                                                 src="/assets/images/human_body/right_leg.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--leg"
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg')" class="body--part hover--img right--leg"
                                                                 src="/assets/images/human_body/coloured/right_leg.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left--leg--botton"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('left_leg_bottom')}">
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg_bottom')" class="body--part default--img left--leg--botton"
                                                                 src="/assets/images/human_body/left_leg_bottom.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left--leg--botton"
+                                                            <img (click)="bodyClick('bodyPartFront','left_leg_bottom')" class="body--part hover--img left--leg--botton"
                                                                 src="/assets/images/human_body/coloured/left_leg_bottom.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right--leg--botton"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsFront.includes('right_leg_bottom')}">
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg_bottom')" class="body--part default--img right--leg--botton"
                                                                 src="/assets/images/human_body/right_leg_bottom.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right--leg--botton"
+                                                            <img (click)="bodyClick('bodyPartFront','right_leg_bottom')" class="body--part hover--img right--leg--botton"
                                                                 src="/assets/images/human_body/coloured/right_leg_bottom.png" alt="">
                                                         </div>
                                                     
@@ -1254,136 +1197,136 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6">
                                                     <div class="human--body--wrapper back--body--wrapper">
-                                                        <div class="img--outer head--box">
-                                                            <img id="header" (click)="bodyClick()" class="body--part default--img"
+                                                        <div class="img--outer head--box" [ngClass]="{'active': selectedPartsBack.includes('head_back')}">
+                                                            <img id="header" (click)="bodyClick('bodyPartBack','head_back')" class="body--part default--img"
                                                                 src="/assets/images/human_body/backbody/head_back.png" alt="">
-                                                            <img id="header" (click)="bodyClick()" class="body--part hover--img"
+                                                            <img id="header" (click)="bodyClick('bodyPartBack','head_back')" class="body--part hover--img"
                                                                 src="/assets/images/human_body/backbody/coloured/head_back.png" alt="">
                                                         </div> 
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img nape" src="/assets/images/human_body/backbody/nape.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('nape')}">
+                                                            <img (click)="bodyClick('bodyPartBack','nape')" class="body--part default--img nape" src="/assets/images/human_body/backbody/nape.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img nape"
+                                                            <img (click)="bodyClick('bodyPartBack','nape')" class="body--part hover--img nape"
                                                                 src="/assets/images/human_body/backbody/coloured/nape.png" alt="">
                                                         </div> 
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img spinal-cord" src="/assets/images/human_body/backbody/column.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('column')}">
+                                                            <img (click)="bodyClick('bodyPartBack','column')" class="body--part default--img spinal-cord" src="/assets/images/human_body/backbody/column.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img spinal-cord"
+                                                            <img (click)="bodyClick('bodyPartBack','column')" class="body--part hover--img spinal-cord"
                                                                 src="/assets/images/human_body/backbody/coloured/column.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img clavicule-left" src="/assets/images/human_body/backbody/clavicule-left.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('clavicule-left')}">
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-left')" class="body--part default--img clavicule-left" src="/assets/images/human_body/backbody/clavicule-left.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img clavicule-left"
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-left')" class="body--part hover--img clavicule-left"
                                                                 src="/assets/images/human_body/backbody/coloured/clavicule-left.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img back-left" src="/assets/images/human_body/backbody/back_left.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('back_left')}">
+                                                            <img (click)="bodyClick('bodyPartBack','back_left')" class="body--part default--img back-left" src="/assets/images/human_body/backbody/back_left.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img back-left"
+                                                            <img (click)="bodyClick('bodyPartBack','back_left')" class="body--part hover--img back-left"
                                                                 src="/assets/images/human_body/backbody/coloured/back_left.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img back-right" src="/assets/images/human_body/backbody/back_right.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('back_right')}">
+                                                            <img (click)="bodyClick('bodyPartBack','back_right')" class="body--part default--img back-right" src="/assets/images/human_body/backbody/back_right.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img back-right"
+                                                            <img (click)="bodyClick('bodyPartBack','back_right')" class="body--part hover--img back-right"
                                                                 src="/assets/images/human_body/backbody/coloured/back_right.png" alt="">
                                                         </div>
-                                                        <!-- <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img armback-left" src="/assets/images/human_body/backbody/armback-left.png"
+                                                        <!-- <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right_leg_bottom')}">
+                                                            <img (click)="bodyClick('bodyPartBack','')" class="body--part default--img armback-left" src="/assets/images/human_body/backbody/armback-left.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img armback-left"
+                                                            <img (click)="bodyClick('bodyPartBack','')" class="body--part hover--img armback-left"
                                                                 src="/assets/images/human_body/backbody/coloured/armback-left.png" alt="">
                                                         </div> -->
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-1" src="/assets/images/human_body/backbody/left-hand-1.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-hand-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-1')" class="body--part default--img left-hand-1" src="/assets/images/human_body/backbody/left-hand-1.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-1"
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-1')" class="body--part hover--img left-hand-1"
                                                                 src="/assets/images/human_body/backbody/coloured/left-hand-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-2" src="/assets/images/human_body/backbody/left-hand-2.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-hand-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-2')" class="body--part default--img left-hand-2" src="/assets/images/human_body/backbody/left-hand-2.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-2"
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-2')" class="body--part hover--img left-hand-2"
                                                                 src="/assets/images/human_body/backbody/coloured/left-hand-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-hand-3" src="/assets/images/human_body/backbody/left-hand-3.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-hand-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-3')" class="body--part default--img left-hand-3" src="/assets/images/human_body/backbody/left-hand-3.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-hand-3"
+                                                            <img (click)="bodyClick('bodyPartBack','left-hand-3')" class="body--part hover--img left-hand-3"
                                                                 src="/assets/images/human_body/backbody/coloured/left-hand-3.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-1" src="/assets/images/human_body/backbody/right-hand-1.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-hand-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-1')" class="body--part default--img right-hand-1" src="/assets/images/human_body/backbody/right-hand-1.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-1"
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-1')" class="body--part hover--img right-hand-1"
                                                                 src="/assets/images/human_body/backbody/coloured/right-hand-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-2" src="/assets/images/human_body/backbody/right-hand-2.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-hand-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-2')" class="body--part default--img right-hand-2" src="/assets/images/human_body/backbody/right-hand-2.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-2"
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-2')" class="body--part hover--img right-hand-2"
                                                                 src="/assets/images/human_body/backbody/coloured/right-hand-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-hand-3" src="/assets/images/human_body/backbody/right-hand-3.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-hand-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-3')" class="body--part default--img right-hand-3" src="/assets/images/human_body/backbody/right-hand-3.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-hand-3"
+                                                            <img (click)="bodyClick('bodyPartBack','right-hand-3')" class="body--part hover--img right-hand-3"
                                                                 src="/assets/images/human_body/backbody/coloured/right-hand-3.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img clavicule-right" src="/assets/images/human_body/backbody/clavicule-right.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('clavicule-right')}">
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-right')" class="body--part default--img clavicule-right" src="/assets/images/human_body/backbody/clavicule-right.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img clavicule-right"
+                                                            <img (click)="bodyClick('bodyPartBack','clavicule-right')" class="body--part hover--img clavicule-right"
                                                                 src="/assets/images/human_body/backbody/coloured/clavicule-right.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img lowerback" src="/assets/images/human_body/backbody/loin(lowerback).png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('loin-lowerback')}">
+                                                            <img (click)="bodyClick('bodyPartBack','loin-lowerback')" class="body--part default--img lowerback" src="/assets/images/human_body/backbody/loin-lowerback.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img lowerback"
-                                                                src="/assets/images/human_body/backbody/coloured/loin(lowerback).png" alt="">
+                                                            <img (click)="bodyClick('bodyPartBack','loin-lowerback')" class="body--part hover--img lowerback"
+                                                                src="/assets/images/human_body/backbody/coloured/loin-lowerback.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img hips" src="/assets/images/human_body/backbody/hips.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('hips')}">
+                                                            <img (click)="bodyClick('bodyPartBack','hips')" class="body--part default--img hips" src="/assets/images/human_body/backbody/hips.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img hips"
+                                                            <img (click)="bodyClick('bodyPartBack','hips')" class="body--part hover--img hips"
                                                                 src="/assets/images/human_body/backbody/coloured/hips.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-1"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-leg-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-1')" class="body--part default--img left-leg-1"
                                                                 src="/assets/images/human_body/backbody/left-leg-1.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-1"
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-1')" class="body--part hover--img left-leg-1"
                                                                 src="/assets/images/human_body/backbody/coloured/left-leg-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-2"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-leg-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-2')" class="body--part default--img left-leg-2"
                                                                 src="/assets/images/human_body/backbody/left-leg-2.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-2"
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-2')" class="body--part hover--img left-leg-2"
                                                                 src="/assets/images/human_body/backbody/coloured/left-leg-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img left-leg-3"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('left-leg-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-3')" class="body--part default--img left-leg-3"
                                                                 src="/assets/images/human_body/backbody/left-leg-3.png" alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img left-leg-3"
+                                                            <img (click)="bodyClick('bodyPartBack','left-leg-3')" class="body--part hover--img left-leg-3"
                                                                 src="/assets/images/human_body/backbody/coloured/left-leg-3.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-1" src="/assets/images/human_body/backbody/right-leg-1.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-leg-1')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-1')" class="body--part default--img right-leg-1" src="/assets/images/human_body/backbody/right-leg-1.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-1"
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-1')" class="body--part hover--img right-leg-1"
                                                                 src="/assets/images/human_body/backbody/coloured/right-leg-1.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-2" src="/assets/images/human_body/backbody/right-leg-2.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-leg-2')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-2')" class="body--part default--img right-leg-2" src="/assets/images/human_body/backbody/right-leg-2.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-2"
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-2')" class="body--part hover--img right-leg-2"
                                                                 src="/assets/images/human_body/backbody/coloured/right-leg-2.png" alt="">
                                                         </div>
-                                                        <div class="img--outer">
-                                                            <img (click)="bodyClick()" class="body--part default--img right-leg-3" src="/assets/images/human_body/backbody/right-leg-3.png"
+                                                        <div class="img--outer" [ngClass]="{'active': selectedPartsBack.includes('right-leg-3')}">
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-3')" class="body--part default--img right-leg-3" src="/assets/images/human_body/backbody/right-leg-3.png"
                                                                 alt="">
-                                                            <img (click)="bodyClick()" class="body--part hover--img right-leg-3"
+                                                            <img (click)="bodyClick('bodyPartBack','right-leg-3')" class="body--part hover--img right-leg-3"
                                                                 src="/assets/images/human_body/backbody/coloured/right-leg-3.png" alt="">
                                                         </div>
                                                     
@@ -1394,10 +1337,10 @@
                                         <div class="col-12 mt-3">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
-                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">05/10/2024</span></p>
+                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">{{appointment_data?.appointmentDate | date:'MM-dd-YYYY' }}</span></p>
                                                 </div>
                                                 <div class="col-12 col-sm-6 d-flex align-items-center justify-content-sm-end justify-content-start">
-                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Patient Initials:<span class="fw-400 ms-2">JD</span></p>
+                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Patient Initials:<span class="fw-400 ms-2">{{initialName}}</span></p>
                                                 </div>
                                             </div>
                                         </div>

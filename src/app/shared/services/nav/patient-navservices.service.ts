@@ -48,7 +48,7 @@ export class PatientNavservicesService {
     //   item: []
     // },
     {
-      id: 2,
+      id: 1,
       activeMenu: 'appointments',
       icon: 'pending_actions',
       mainTitle: 'Appointments',
@@ -58,7 +58,7 @@ export class PatientNavservicesService {
       type: 'link', 
     },
     {
-      id: 3,
+      id: 2,
       activeMenu: 'insurance-listing',
       icon: 'health_and_safety',
       mainTitle: 'Insurance',
@@ -68,7 +68,7 @@ export class PatientNavservicesService {
       type: 'link', 
     },
     {
-      id: 4,
+      id: 3,
       activeMenu: 'home-exercise',
       icon: 'smart_display',
       mainTitle: 'Home Exercise',
@@ -88,7 +88,7 @@ export class PatientNavservicesService {
       type: 'link', 
     },
     {
-      id: 44,
+      id: 5,
       activeMenu: 'notifications',
       icon: 'notifications',
       mainTitle: 'Notifications',

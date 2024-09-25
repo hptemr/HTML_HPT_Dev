@@ -317,7 +317,7 @@ export class BulkUploadProvidersComponent {
 
   saveUploadedData(){
     // let uploadAlertMessage = "Are you sure you want to processs all records?"
-    let uploadAlertMessage = "Are you sure you want to make these updates? It can affect all of the Cases depending on the Referred Doctor selected."
+    let uploadAlertMessage = "Are you sure you want to make these updates? It can affect all of the cases depending on the referred doctor selected."
     if(this.errorRecordFound>0){
       uploadAlertMessage = `${this.errorRecordFound} out of ${this.totalRecordFound} records have an error. Are you sure you want to process ${this.dataWithoutError.length} records?`
     }

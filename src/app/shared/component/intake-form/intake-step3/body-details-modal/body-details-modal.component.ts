@@ -18,6 +18,7 @@ export class BodyDetailsModalComponent {
   validationMessages = validationMessages; 
   partConcernForm: FormGroup;
   submitButton:boolean = false;
+  readOnly:boolean = false;
   bodyPartFront:any = [];
   bodyPartBack:any = [];
   userId = this.authService.getLoggedInInfo('_id')
@@ -36,11 +37,15 @@ export class BodyDetailsModalComponent {
     this.from = data.from != undefined ? data.from : this.from;
     this.bodyPartFront = data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
     this.bodyPartBack = data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
+
+
     this.appointmentUpdateInfo = data.appointmentUpdateInfo != undefined ? data.appointmentUpdateInfo : [];
+    if(data.readOnly){
+      this.readOnly= data.readOnly;
+    }    
   }
 
-
-  ngOnInit() {
+  ngOnInit() {  
     if(this.from=='bodyPartFront'){
       this.bodyPartFront.forEach((element: any) => {
         if(this.partName==element.part){
@@ -58,23 +63,32 @@ export class BodyDetailsModalComponent {
     this.partConcernForm = this.fb.group({
       concern: [this.concernText, [Validators.required,Validators.minLength(1), Validators.maxLength(100)]],
     });
+    if(this.readOnly){
+      this.submitButton = true
+      this.partConcernForm.get('concern')?.disable();
+    }
     
   }
 
   async saveData(data:any) {
     if(this.partConcernForm.valid){
       this.submitButton = true;
-      let params = {};
+      let params = {};    //        adminBodyPartBack
       if(this.from=='bodyPartFront'){
         this.bodyPartFront.push({'part':this.partName,'concern':data.concern});
-        params =  {
-          bodyPartFront: this.bodyPartFront
-        }
+
+        if(this.userRole=='patient'){
+          params = { bodyPartFront: this.bodyPartFront }
+        }else{
+          params = { adminBodyPartFront: this.bodyPartFront }
+        }        
       } else if(this.from=='bodyPartBack'){
         this.bodyPartBack.push({'part':this.partName,'concern':data.concern});
-        params = {
-          bodyPartBack: this.bodyPartBack
-        }
+        if(this.userRole=='patient'){
+          params = { bodyPartBack: this.bodyPartBack }
+        }else{
+          params = { adminBodyPartBack: this.bodyPartBack }
+        } 
       }
       this.appointmentUpdateInfo.push({
         fromPatientId : (this.userRole=='patient') ? this.userId : '',
@@ -95,7 +109,7 @@ export class BodyDetailsModalComponent {
          this.dialogRef.close(response);
         } else {         
           if(response.message){
-            this.commonService.openSnackBar(response.message, "SUCCESS")
+            this.commonService.openSnackBar('Your body chart has been updated successfully!', "SUCCESS")
           }          
           this.dialogRef.close(response);
         }

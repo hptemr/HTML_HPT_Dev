@@ -11,6 +11,7 @@ import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { pageSize, pageSizeOptions } from 'src/app/config';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { ViewInsuDetailsComponent } from '../view-insu-details/view-insu-details.component';
 
 // export interface PeriodicElement {
 //   primaryInsuranceName: string; 
@@ -88,7 +89,7 @@ const INSURANCE_DATA: InsuranceList[] = []
 export class ManageInsuranceComponent {
   // displayedColumns: string[] = ['primaryInsuranceName','insuranceType','createdAt','updatedOn','action'];
   // dataSource = new MatTableDataSource(ELEMENT_DATA);
-  displayedColumns: string[] = ['insuranceName','insuranceType','createdAt','updatedAt','action'];
+  displayedColumns: string[] = ['insuranceName','payerID','insuranceType','createdAt','updatedAt','action'];
   dataSource = new MatTableDataSource(INSURANCE_DATA);
 
   // Provider list variable declaration
@@ -170,7 +171,7 @@ export class ManageInsuranceComponent {
 
   searchControlInsurance(){
     this.searchInsurance.valueChanges
-    .pipe(debounceTime(300)) // Debounce for 300ms
+    .pipe(debounceTime(500)) // Debounce for 500ms
     .subscribe(value => {
       // Perform search when value changes
       this.searchInsuranceByQuery(value);
@@ -218,6 +219,17 @@ export class ManageInsuranceComponent {
       }
     });
   }
+
+  viewInsuranceDetails(insuranceData:any) {
+    const dialogRef = this.dialog.open(ViewInsuDetailsComponent,{
+      width:'650px',
+      panelClass: [ 'modal--wrapper'],
+      data : {
+        insuranceDetails: insuranceData
+      }
+    });
+  }
+
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

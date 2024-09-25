@@ -703,9 +703,9 @@
                                 <mat-radio-button value="No" checked>No</mat-radio-button>
                             </mat-radio-group>
                         </div>
-                        <div class="col-12" *ngIf="form['allergiesToMedicationsSelf'].value == 'Yes'">
+                        <div class="col-12">
                             <div class="row">
-                                <div formArrayName="allergiesToMedications_AllergyArray" class="col-12 col-lg-7">
+                                <div formArrayName="allergiesToMedications_AllergyArray" class="col-12 col-lg-7"  *ngIf="form['allergiesToMedicationsSelf'].value == 'Yes'">
                                     <div *ngFor="let list of getNewAllergy.controls; let i = index" [formGroupName]="i"
                                         class="d-flex align-items-center w-100">
                                         <div class="form-group w-100">
@@ -716,7 +716,7 @@
                                             <input formControlName="name" placeholder="Enter Allergy"
                                                 class="form-control" type="text" />
                                         </div>
-                                        <div *ngIf="isFormEditable">
+                                        <div *ngIf="!isReadonly">
                                             <button *ngIf="i == getNewAllergy.controls.length-1 "
                                                 (click)="addNewAllergy()" mat-raised-button color="primary"
                                                 class="flex-shrink-0 mt-3 ms-3 add--btn">
@@ -761,7 +761,7 @@
                                                     </mat-form-field>
                                                 </div>
                                             </div>
-                                            <div *ngIf="isFormEditable">
+                                            <div *ngIf="!isReadonly">
                                                 <button *ngIf="i == getNewSurgery.controls.length-1" (click)="addNewSurgery()" mat-raised-button color="primary"
                                                     class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
@@ -791,7 +791,7 @@
                                             <label class="col-form-label fw-600">Medication</label>
                                             <input formControlName="name" class="form-control" type="text" placeholder="Enter Medication" />
                                         </div>
-                                        <div *ngIf="isFormEditable">
+                                        <div *ngIf="!isReadonly">
                                             <button *ngIf="i == getNewMedication.controls.length-1" (click)="addNewMedication()" mat-raised-button color="primary" class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
                                                     add_circle
@@ -800,7 +800,7 @@
 
                                             <button (click)="deleteMedication(i)" *ngIf="i != getNewMedication.controls.length-1" mat-raised-button  color="warn" class="flex-shrink-0 mt-3 ms-3 add--btn">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0 me-0">
-                                                    delete
+                                                    delete 
                                                 </mat-icon>
                                             </button>
                                         </div>
@@ -815,7 +815,7 @@
                                 </div>
                                 <div class="col-12 d-flex align-items-center justify-content-end">
                                     <div class="form-group">
-                                        <button [disabled]="uploadedPrescriptionFilesTotal >= 5 || !isFormEditable"
+                                        <button [disabled]="uploadedPrescriptionFilesTotal >= 5 || !isReadonly"
                                             mat-raised-button color="primary"
                                             class="flex-shrink-0 ms-0 ms-sm-auto mt-4 ui--button">
                                             <input #insuranceFileInput accept="image/*, application/pdf,.doc, .docx"
@@ -846,7 +846,7 @@
                                                 <!-- <p class="m-0 font-14">{{fileObj.size}} </p> -->
                                             </div>
                                         </div>
-                                        <div *ngIf="isFormEditable">
+                                        <div *ngIf="!isReadonly">
                                             <button *ngIf="fileObj" (click)="deletePrescription(i)" mat-raised-button
                                                 color="warn" class="flex-shrink-0">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0"> delete
@@ -1553,8 +1553,11 @@
                 [routerLink]="['/',activeUserRoute, 'intake-form','step-2', appId]">
                 Previous
             </button>
-            <button [disabled]="step3Form.invalid" (click)="bookAppointmentStep3()" mat-raised-button color="primary"
-                class="m-1">
+            <!-- [disabled]="step3Form.invalid"  -->
+            <button (click)="bookAppointmentStep3()" mat-raised-button color="primary" class="m-1" *ngIf="!isReadonly">
+                Next
+            </button>
+            <button (click)="nextStep()" mat-raised-button color="primary" class="m-1" *ngIf="isReadonly">
                 Next
             </button>
         </div>
