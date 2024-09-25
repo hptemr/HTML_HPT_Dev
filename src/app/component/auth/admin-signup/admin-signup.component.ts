@@ -79,9 +79,10 @@ export class AdminSignupComponent {
     }
     this.submitButton = false;
     this.adminService.updateUser(params).subscribe({
-      next: (res) => {
+      next: async (res) => {
         if (res && !res.error) {
-          this.createUserInCometChat(res.data) // Create user in comet chat
+          let cometData = await this.createUserInCometChat(res.data).catch((_err)=>false) // Create user in comet chat
+          console.log("cometData>>>",cometData)
           this.commonService.openSnackBar(res.message, "SUCCESS")
           localStorage.setItem('user', JSON.stringify(res.data));
           this.commonService.redirectToHome()
@@ -113,10 +114,18 @@ export class AdminSignupComponent {
   }
 
   createUserInCometChat(user:any){
-    let fullName = `${user.firstName} ${user.lastName}`
-    let roles = ['practice_admin','support_team','therapist','billing_team']
-    if(roles.includes(user.role)){
-      this.userService.createUser(user._id, fullName, user.role)
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        let fullName = `${user.firstName} ${user.lastName}`
+        let roles = ['practice_admin','support_team','therapist','billing_team']
+        if(roles.includes(user.role)){
+          await this.userService.createUser(user._id, fullName, user.role).catch((_err)=>false)
+        }
+        resolve(true)
+      } catch (error) {
+        reject()
+      }
+    })
   }
+
 }
