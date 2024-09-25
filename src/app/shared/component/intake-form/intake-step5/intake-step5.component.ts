@@ -102,6 +102,7 @@ export class IntakeStep5Component {
     if (!this.isReadonly) {
       let formData = this.step5Form.value
       Object.assign(formData, { intakeFormSubmit: true })
+      Object.assign(formData, { status: 'Scheduled' })
       let appointmentUpdateInfo = this.step5FormData.appointmentUpdateInfo;
       appointmentUpdateInfo.push({
         fromPatientId : (this.userRole=='patient') ? this.userId : '',

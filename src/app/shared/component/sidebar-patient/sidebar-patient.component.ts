@@ -31,6 +31,9 @@ export class SidebarPatientComponent {
         if(this.currentMainMenu=='edit-emergency-contact' || this.currentMainMenu=='add-emergency-contact' || this.currentMainMenu=='view-emergency-contact'){
           this.currentMainMenu = 'emergency-contact'
         }
+        if(this.currentMainMenu=='add-insurance' || this.currentMainMenu=='edit-insurance' || this.currentMainMenu=='view-insurance'){
+             this.currentMainMenu = 'insurance-listing'
+        }
       }
     })
   }
