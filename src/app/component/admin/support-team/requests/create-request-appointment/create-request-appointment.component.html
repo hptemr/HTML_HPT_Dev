@@ -119,7 +119,7 @@
                 <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                        <input class="form-control" type="email" formControlName="email" placeholder="Enter Email" readonly="readonlyFlag" />
+                        <input class="form-control text-lowercase" type="email" formControlName="email" placeholder="Enter Email" readonly="readonlyFlag" />
                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['email'].touched && appointmentForm.controls['email'].hasError('required')">
                             {{ validationMessages.required('Email') }}
                         </div>
