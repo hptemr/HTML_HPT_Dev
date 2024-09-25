@@ -7,6 +7,7 @@ import { SupportTeamLayoutComponent } from './shared/component/layout/support-te
 import { PracticeAdminLayoutComponent } from './shared/component/layout/practice-admin-layout/practice-admin-layout.component';
 import { TherapistLayoutComponent } from './shared/component/layout/therapist-layout/therapist-layout.component';
 import { BillingTeamLayoutComponent } from './shared/component/layout/billing-team-layout/billing-team-layout.component';
+import { SchedulerComponent } from './shared/comman/scheduler/scheduler.component';
 
 const routes: Routes = [  
   {
@@ -45,6 +46,11 @@ const routes: Routes = [
     component: BillingTeamLayoutComponent, 
     loadChildren: () => import('./component/billing-team/billing-team.module').then(mod => mod.BillingTeamModule),  
   },
+
+  {
+    path: 'scheduler',
+    component: SchedulerComponent,   
+  }
 
   // {
   //   path: '**',

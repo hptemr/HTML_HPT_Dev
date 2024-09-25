@@ -1,0 +1,53 @@
+<div class="scheduler--wrapper w-100">
+    <div class="sc--header">
+        <div class="row">
+            <div class="col-12 col-lg-2">
+                <div class="form-group mb-0"> 
+                    <select class="form-select form-control form-control-md" aria-label="Default select example">
+                        <option selected>Practice Location</option> 
+                        <option value="1">Hamilton PT at The Canyons</option>
+                        <option value="2">Darby PT</option>
+                        <option value="3">Corvallis PT</option>
+                        <option value="4">Stevi PT</option>
+                        <option value="5">PT Specialists of Florence</option>
+                        <option value="6">Frenchtown PT</option>
+                        <option value="7">HNB</option>
+                    </select>
+                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sc--body d-flex align-items-start">
+        <div class="sc--left--panel">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="font-18 fw-700 clr--1F2F3E">Scheduling</h2>
+                </div>
+                <div class="col-12 my-3">
+                    <button mat-raised-button color="primary" >
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                        Create Appointment  
+                    </button> 
+                </div>
+                <div class="col-12">
+                    <mat-card class="demo-inline-calendar-card">
+                        <mat-calendar [(selected)]="selected"></mat-calendar>
+                      </mat-card>  
+                </div>
+                <div class="col-12">
+                    <div class="search--people--sec">
+                        <div class="row">
+                            <div class="col-12">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sc--right--panel d-flex flex-column w-100">
+            
+        </div>
+    </div>
+</div>

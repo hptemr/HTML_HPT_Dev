@@ -1,0 +1,87 @@
+.scheduler--wrapper{
+    .sc--header{
+        background: #FFF;
+        padding: 20px 16px;
+        box-shadow: 0px 8px 28px 0px rgba(72, 89, 102, 0.10);
+        margin-bottom: 16px;
+    }   
+    .sc--body{ 
+        background-color: #f2f3f48f;
+        .sc--left--panel{
+            width: 300px;
+            margin-right: 20px;
+            height: calc(100vh - 95px);
+            padding: 15px;
+            background: #FFF;
+            overflow: auto;
+            ::ng-deep{
+                .mat-mdc-card{
+                    box-shadow: none;
+                    .mat-calendar{
+                        border-radius: 8px;
+                        border: 1px solid #31B7B7; 
+                        .mat-calendar-header{
+                            .mat-calendar-controls{
+                                margin-top: 0;
+                            }
+                        }
+                        .mat-calendar-content{
+                            .mat-calendar-table{
+                                .mat-calendar-table-header{
+                                    tr{
+                                        th{
+                                            font-weight: bold;
+                                            font-family: "Nunito Sans", sans-serif !important;
+                                            color: #000;
+                                        }
+                                    }
+                                } 
+                                .mat-calendar-body{
+                                    tr{
+                                        td{
+                                            &.mat-calendar-body-label{
+                                                color: #31B7B7;
+                                                font-weight: bold;
+                                                font-family: "Nunito Sans", sans-serif !important;
+                                            }
+                                            .mat-calendar-body-cell{
+                                                .mat-calendar-body-cell-content{
+                                                    color: #31B7B7;
+                                                    font-size: 13px;
+                                                    font-weight: 600;
+                                                    font-family: "Nunito Sans", sans-serif !important;
+                                                } 
+                                                &.mat-calendar-body-active{
+                                                    .mat-calendar-body-today{
+                                                        background-color: #31B7B7;
+                                                        border-color: #31B7B7;
+                                                        color: #fff;
+                                                    }
+                                                    .mat-calendar-body-selected{
+                                                        color: #fff;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .search--people--sec{
+                    border-radius: 8px;
+                    border: 1px solid #31B7B7;
+                    background: #F3FBFB;
+                    padding: 18px;
+                    margin-top: 16px;
+                }
+            }
+        }
+        .sc--right--panel{
+            background-color: #fff;
+            height: calc(100vh - 95px);
+        }
+    }
+}
+
