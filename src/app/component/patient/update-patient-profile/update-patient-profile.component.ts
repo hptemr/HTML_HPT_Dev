@@ -441,9 +441,9 @@ export class UpdatePatientProfileComponent implements OnInit {
       data: data,
       formTitle:title
     }
-    this.commonService.showLoader();       
+    // this.commonService.showLoader();       
     await this.authService.apiRequest('post', 'patients/updateProfile', req_vars).subscribe(async response => {         
-      this.commonService.hideLoader();
+      // this.commonService.hideLoader();
       if (response.error) {
         if(response.message){
           this.commonService.openSnackBar(response.message, "ERROR")   

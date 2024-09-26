@@ -446,17 +446,17 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
-        {
-          id: 5,
-          icon: 'people',
-          activeMenu: 'referrals',
-          mainTitle: 'Referrals',
-          headTitle1: '',
-          path: 'referrals',
-          active: false,
-          type: 'link',
-          item: []
-        },
+        // {
+        //   id: 5,
+        //   icon: 'people',
+        //   activeMenu: 'referrals',
+        //   mainTitle: 'Referrals',
+        //   headTitle1: '',
+        //   path: 'referrals',
+        //   active: false,
+        //   type: 'link',
+        //   item: []
+        // },
         // {
         //   id: 6,
         //   icon: 'chat_bubble_outline',
@@ -467,7 +467,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 6,
+          id: 5,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -477,7 +477,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 7,
+          id: 6,
           activeMenu: 'document-listing',
           icon: 'description',
           mainTitle: 'Documents',  
