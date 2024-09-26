@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -40,6 +40,7 @@ export class SystemDocumentsDetailedComponent {
   userType = ""
   pathValues:any = []
   tempPathValues:any = []
+  @Output() childEvent = new EventEmitter<string>();
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,private route: ActivatedRoute,public commonService: CommonService) {
     this.dirId = this.route.snapshot.paramMap.get('id');
     this.userId = this.authService.getLoggedInInfo("_id")
@@ -223,11 +224,11 @@ export class SystemDocumentsDetailedComponent {
     window.open(`${window.location.origin}`+"/"+`${this.userType}`+"/file-preview/"+fileId, '_blank');
   }
 
-  gotoDirectory(id:any,type:any){
+  gotoDirectory(id:any,type:any,folderName:any){
     this.dirId = id
     if(type=='folder'){
-      this.tempPathValues.push({link:"/document-details/"+id,name:name})
-      localStorage.setItem("pathValues",JSON.stringify(this.tempPathValues))
+      this.pathValues.push({link:"/manage-documents/system-documents/system-documents-detailed/"+id,name:folderName})
+      localStorage.setItem("pathValues",JSON.stringify(this.pathValues))
       window.open(`${window.location.origin}`+"/"+`${this.userType}`+"/manage-documents/system-documents/system-documents-detailed/"+id,"_self");
     }
   }

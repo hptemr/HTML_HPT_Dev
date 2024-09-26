@@ -9,8 +9,9 @@
                 </ul>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 d-flex align-items-center">
-                      <li class="breadcrumb-item fw-500"><a routerLink="/{{userType}}/manage-documents/{{rootDirectoryUrl}}" class="font-12 clr--1F2F3E">{{labelName}}</a></li>
-                      <!-- <li class="breadcrumb-item fw-500  active" aria-current="page"><a routerLink="/{{userType}}/manage-documents/{{rootDirectoryUrl}}" class="font-12 clr--1F2F3E">{{labelName}}</a></li> -->
+                      <li class="breadcrumb-item fw-500" *ngFor="let item of pathValues" style="cursor: pointer;">
+                        <a class="font-12 clr--1F2F3E" (click)="backToDirectory(item)">{{item.name?item.name:""}}</a>
+                    </li>
                     </ol>
                   </nav>
             </div>

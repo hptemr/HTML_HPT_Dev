@@ -6,7 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-
+import {DocumentsComponent} from '../documents/documents/documents.component'
 export interface PeriodicElement {
   directory_name: string;
   actions:string   
@@ -26,9 +26,17 @@ export class SystemDocumentsComponent {
   arrLength = 0
   userType = ""
   pathValues:any = []
-  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,public commonService: CommonService) {
+  tempPathValues = []
+  constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,public commonService: CommonService,private documentsComponent:DocumentsComponent) {
     this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
-    this.pathValues.push({link:'/manage-documents/system-documents',name:'Documents'})
+    var pathValuesData = localStorage.getItem("pathValues")
+    this.tempPathValues = (pathValuesData && pathValuesData!=null)?JSON.parse(pathValuesData):[]
+    this.tempPathValues.forEach((value:any) => {
+      let index = this.pathValues.findIndex((item:any) => item.name === value.name);
+      if (index === -1) {
+        this.pathValues.push(value)
+      }
+    })
     this.getDefaultDirectories()
   }
 
@@ -73,5 +81,6 @@ export class SystemDocumentsComponent {
   gotoDirectory(name:any,id:any){
     this.pathValues.push({link:"/manage-documents/system-documents/system-documents-detailed/"+id,name:name})
     localStorage.setItem("pathValues",JSON.stringify(this.pathValues))
+    this.documentsComponent.ngOnInit()
   }
 }
