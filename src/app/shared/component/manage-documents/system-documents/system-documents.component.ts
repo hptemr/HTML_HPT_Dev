@@ -34,7 +34,7 @@ export class SystemDocumentsComponent {
 
   getDefaultDirectories(){
     this.loading =  true
-    this.commonService.showLoader()
+    // this.commonService.showLoader()
     var userRole = this.authService.getLoggedInInfo('role')
     var searchParams = { searchValue:this.searchDirectory.trim(), userRole:userRole}
     this.authService.apiRequest('post', 'admin/getDefaultDirectories', searchParams).subscribe(async response => {
@@ -43,7 +43,7 @@ export class SystemDocumentsComponent {
       // if(this.userType=='practice-admin'){
       //   directories = directories.filter((el: { directory_name: string; }) => el.directory_name !== "Additional Documents" );
       // }
-      this.commonService.hideLoader()
+      // this.commonService.hideLoader()
       this.arrLength = directories.length
       this.dataSource.data = directories
       this.dataSource.paginator = this.paginator;

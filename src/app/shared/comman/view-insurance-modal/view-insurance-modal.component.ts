@@ -13,16 +13,14 @@ import { tr } from 'date-fns/locale';
 })
 export class ViewInsuranceModalComponent {
   info: any
-  thirdInsurancesFlag = false;
+
   constructor(public dialog: MatDialog, private commonService: CommonService,
     private authService: AuthService, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.info = data.payViaInsuranceInfo;
     console.log('Info >>>>> ',this.info)
   }
 
-  thirdInsurance(){
-    this.thirdInsurancesFlag = true;
-  }
+
 
   selectedValue: number;
   onChange(event: MatRadioChange) {
