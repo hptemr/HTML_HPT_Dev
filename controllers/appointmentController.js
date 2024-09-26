@@ -198,7 +198,7 @@ const createAppointment = async (req, res) => {
                     let newRecord = new Appointment(appointmentData)
                     result = await newRecord.save();                   
                     appId = result._id;
-                    console.log('......appId....: ',appId)
+                    console.log('......appId....>>>>>>',appId)
                     msg = appointmentMessage.created;
                     if(caseId){                 
                         let caseRequest = { $set: {appointments:appId} };
