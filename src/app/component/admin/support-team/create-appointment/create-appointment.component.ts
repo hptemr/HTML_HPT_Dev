@@ -40,7 +40,7 @@ export class CreateAppointmentComponent {
   clickOnRequestAppointment:boolean=false;
   patientId: string;
   therapistList:any=[];
-  orderBy: any = { updatedAt: -1 }
+  orderBy: any = { firstName: 1 }
   invalidEmailErrorMessage: string = '';
   emailError:boolean = false;
   constructor(  public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService) {}
@@ -172,6 +172,7 @@ export class CreateAppointmentComponent {
     let reqVars = {
       query: this.whereCond,
       fields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1 },     
+      order: this.orderBy,
     }
     await this.authService.apiRequest('post', 'patients/searchPatientList', reqVars).subscribe(async response => {
      // this.commonService.hideLoader()

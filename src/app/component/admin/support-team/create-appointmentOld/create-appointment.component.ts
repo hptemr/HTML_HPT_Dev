@@ -42,7 +42,7 @@ export class CreateAppointmentComponent {
   regexPattern = regex
   validationMessages = validationMessages
   practiceLocationData: string[] = practiceLocations
-  orderBy: any = { updatedAt: -1 }
+  orderBy: any = { firstName: 1 }
   options: any[] = [];
   therapistList: any[] = [];
   convertPhoneNumber: string = '';

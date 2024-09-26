@@ -23,7 +23,7 @@ export class CreateRequestAppointmentComponent {
   model: any;//NgbDateStruct;
   selectedValue: any;
   therapistList:any=[];
-  orderBy: any = { updatedAt: -1 }
+  orderBy: any = { firstName: 1 }
   appointmentRequestData:any=[];
   appointmentDate: string = '';
   patientName: string = '';
