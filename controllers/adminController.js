@@ -436,8 +436,8 @@ const getDirectoryItems = async (req, res) => {
         query.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
         fileQuery.file_name = { '$regex': req.body.searchValue, '$options': "i" }
       }
-      let directoryList =  await Directory.find(query);
-      let fileList =  await File.find(fileQuery);
+      let directoryList =  await Directory.find(query).sort({ _id: -1 });
+      let fileList =  await File.find(fileQuery).sort({ _id: -1 });
       commonHelper.sendResponse(res, 'success', { directoryList,fileList }, '');
     }else{
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
