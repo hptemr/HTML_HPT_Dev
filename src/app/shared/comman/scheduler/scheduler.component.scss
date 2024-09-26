@@ -73,8 +73,24 @@
                     border-radius: 8px;
                     border: 1px solid #31B7B7;
                     background: #F3FBFB;
-                    padding: 18px;
+                    padding: 18px 12px;
                     margin-top: 16px;
+                    .search--outer{
+                        background-color: #BCDADA !important;
+                        padding-right: 35px;
+                    }
+                    .search--fields{
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                    }
+                    .mat-mdc-checkbox{
+                        .mdc-form-field{ 
+                            .mdc-checkbox{
+                                padding-right: 7px; 
+                            }
+                        }
+                    }
                 }
             }
         }

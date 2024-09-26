@@ -1,0 +1,28 @@
+.ca--wrapper{
+    .other--booking{
+        width: 29%;
+        margin-left: 18px;
+    } 
+    .w-100p{
+        width: 100px;
+    }
+    .w-130p{
+        width: 130px;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .ca--wrapper{
+        .other--booking{
+            width: 100%;
+            margin-left: 0;
+        } 
+        .w-100p{
+            width: 150px;
+        }
+        .w-130p{
+            width: 150px;
+            margin: 5px 0;
+        }
+    }
+}
