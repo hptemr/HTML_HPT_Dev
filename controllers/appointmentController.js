@@ -136,10 +136,13 @@ const createAppointment = async (req, res) => {
                 let existingAppointmentData = alreadyFound;
                
                 let appointmentId = 1;
-                if(alreadyFound == null){
+                console.log('alreadyFound>>>',alreadyFound)
+                if(alreadyFound && alreadyFound.length>0){
+                    console.log(' <<<<< alreadyFound >>>>')
                     existingAppointmentData = await Appointment.findOne({}, { _id:1,appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
                     appointmentId = existingAppointmentData.appointmentId + 1;
-                }else if(alreadyFound && alreadyFound.appointmentId){
+                }else if(alreadyFound && alreadyFound.length>0 && alreadyFound.appointmentId){
+                    console.log(' ######< alreadyFound ##########')
                     appointmentId = alreadyFound.appointmentId;
                 }
 
@@ -185,16 +188,21 @@ const createAppointment = async (req, res) => {
                 }
 
                 let result = [];let msg = '';let appId = '';
-    
-                if(alreadyFound == null){
+                console.log('......alreadyFound....: ',alreadyFound)
+                if(alreadyFound && alreadyFound.length>0){
+                    msg = appointmentMessage.updated;
+                    appId = alreadyFound._id;
+                    result = await Appointment.findOneAndUpdate({_id:appId},appointmentData);      
+                    console.log(alreadyFound._id,'......@@@@@@appId....: ',appId)              
+                }else{
                     let newRecord = new Appointment(appointmentData)
                     result = await newRecord.save();                   
                     appId = result._id;
+                    console.log('......appId....: ',appId)
                     msg = appointmentMessage.created;
                     if(caseId){                 
                         let caseRequest = { $set: {appointments:appId} };
                         if(caseFound && caseFound.appointments && caseFound.appointments.length>0){
-                            console.log(caseFound.appointments.length,'......here... caseFound: ',caseFound)
                             caseRequest = {$addToSet:{appointments:appId}};
                             // START carry forward intake form data from last appoitment
                             const sortedAppointments = caseFound.appointments.sort((a, b) => b.toString().localeCompare(a.toString()));
@@ -220,20 +228,16 @@ const createAppointment = async (req, res) => {
                        }
                        await Case.findOneAndUpdate({_id:caseId}, caseRequest);
                     }
-                }else{
-                    msg = appointmentMessage.updated;
-                    appId = alreadyFound._id;
-                    result = await Appointment.findOneAndUpdate({_id:alreadyFound._id},appointmentData);                    
-                }                
+                }            
                 const therapistData = await User.findOne({_id:data.therapistId},{firstName:1,lastName:1});                    
                 const patientData = {appointment_date:data.appointmentDate,firstName:data.firstName,lastName:data.lastName,email:data.email,phoneNumber:data.phoneNumber,practice_location:data.practiceLocation,therapistId:data.therapistId,therapist_name:therapistData.firstName+' '+therapistData.lastName,appointment_date:data.appointmentDate,caseId:caseId,appId:appId};
                 if(patientType=='New'){
                     patientAppointmentSignupEmail(patientData)
                 }else if(!requestId && patientType=='Existing'){                  
-                    let link = `${process.env.BASE_URL}/patient/appointment-details/${result._id}/`;
+                    let link = `${process.env.BASE_URL}/patient/appointment-details/${appId}/`;
                     triggerEmail.appointmentCreatedByAdminReplyPatient('appointmentCreatedByAdminReplyPatient',patientData,link);
                 }else if(requestId && patientType=='Existing'){
-                    let link = `${process.env.BASE_URL}/patient/appointment-details/${result._id}/`;
+                    let link = `${process.env.BASE_URL}/patient/appointment-details/${appId}/`;
                     triggerEmail.appointmentRequestReplyFromAdmin('appointmentRequestReplyFromAdmin',patientData,link);
                 }
 
