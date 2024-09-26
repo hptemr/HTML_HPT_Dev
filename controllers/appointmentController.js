@@ -83,7 +83,7 @@ const getAppointmentRequestDetails = async (req, res) => {
         let appointmentRequestData = await AppointmentRequest.findOne(query, fields)
             .populate('patientId', patientFields);
 
-        let appointmentData = await Appointment.findOne({requestId:query._id}, { appointmentId: 1,therapistId:1,patientId:1,caseName:1,appointmentDate:1,practiceLocation:1,status:1 })
+        let appointmentData = await Appointment.findOne({requestId:query._id}, { appointmentId: 1,therapistId:1,patientId:1,caseName:1,appointmentDate:1,practiceLocation:1,status:1,appointmentType:1,appointmentTypeOther:1 })
 
         let output = await Case.find({patientId:appointmentRequestData.patientId._id }, { patientId:1,caseName: 1,_id:1 });
         //let output = await Appointment.find({ caseName: { $ne: '' },patientId:appointmentRequestData.patientId._id }, { patientId:1,caseName: 1 });
