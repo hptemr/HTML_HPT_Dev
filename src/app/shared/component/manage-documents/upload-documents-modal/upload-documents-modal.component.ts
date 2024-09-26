@@ -62,7 +62,7 @@ export class UploadDocumentsModalComponent {
     if(this.uploadedFile==undefined || this.uploadError || this.documentName==''){
       return
     }
-    this.commonService.showLoader()
+    // this.commonService.showLoader()
     const formData:any = new FormData();
     var fileExtension = this.uploadedFile[0].name.split('.').pop()
     formData.append('directory', this.directory);
@@ -71,11 +71,13 @@ export class UploadDocumentsModalComponent {
     formData.append('endUserId',this.userId)
     this.authService.apiRequest("post", "admin/uploadDocumentFile", formData).subscribe(
       async (res) => {
-        await this.commonService.hideLoader()
+        this.commonService.openSnackBar("Created Successfully", "SUCCESS")
+        // await this.commonService.hideLoader()
         this.submitted = false
         this.dialogRef.close(true)
       },(err)=>{
-        this.commonService.hideLoader()
+        this.commonService.openSnackBar(err.error.message, "ERROR")
+        // this.commonService.hideLoader()
         this.uploadErrorMessage = err.error.message
         this.uploadError = true;
       })
