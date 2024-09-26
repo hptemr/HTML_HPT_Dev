@@ -45,8 +45,7 @@
                         </span></label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
-                                <input formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput
-                                    [matDatepicker]="picker" (focus)="picker.open()">
+                                <input formControlName="dob" [max]="todayDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker" (focus)="picker.open()">
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
                         </div>
@@ -54,7 +53,7 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Date  <span class="clr--DF0404 ms-1"> *
+                        <label class="col-form-label fw-600">Appointment Date <span class="clr--DF0404 ms-1"> *
                         </span></label>
                         <div class="input-group">
                             <mat-form-field class="w-100 am--datepicker">
@@ -754,7 +753,7 @@
                                                 <label class="col-form-label fw-600">Surgery Date </label>
                                                 <div class="input-group">
                                                     <mat-form-field class="w-100 am--datepicker">
-                                                        <input formControlName="surDate"  [max]="todayDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
+                                                        <input formControlName="surDate" [max]="todayDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
                                                         <mat-datepicker-toggle matIconSuffix
                                                             [for]="picker3"></mat-datepicker-toggle>
                                                         <mat-datepicker #picker3></mat-datepicker>
