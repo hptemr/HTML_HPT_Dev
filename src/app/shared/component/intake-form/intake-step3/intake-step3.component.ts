@@ -38,25 +38,30 @@ export class IntakeStep3Component {
     })
   }
 
-  ngOnInit() {
-    this.commonService.showLoader()
-    this.getAppointmentDetails()
+  ngOnInit() {   
+    this.getAppointmentDetails('loadForm')
   }
 
-  async getAppointmentDetails() {
+  async getAppointmentDetails(val:string) {
     const req_vars = {
       query: { _id: this.appId },
       fields: { checkIn: 0 },
       patientFields: { _id: 1 },
       therapistFields: { _id: 1 }
     }
+    if(val=='loadForm'){
+      this.commonService.showLoader()
+    }    
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       if (response.error != undefined && response.error == true) {
         this.router.navigate([this.activeUserRoute, 'appointments'])
       } else {
         this.step3FormData = response.data.appointmentData
-        this.loadForm()
-      
+        if(val=='loadForm'){
+          this.loadForm()
+        }
+        this.commonService.hideLoader()
+
         if (this.userRole == 'patient' && !this.step3FormData.intakeFormSubmit) {
           this.isReadonly = false
         }else if (this.userRole == 'support_team' && this.step3FormData.intakeFormSubmit) {
@@ -67,8 +72,6 @@ export class IntakeStep3Component {
         }
       
         this.initialName = this.step3FormData?.patientInfo?.firstName.charAt(0)+''+this.step3FormData?.patientInfo?.lastName.charAt(0)
-        this.commonService.hideLoader()
-
         if (this.step3FormData.patientMedicalHistory && this.step3FormData.patientMedicalHistory.prescriptionFiles && this.step3FormData.patientMedicalHistory.prescriptionFiles.length > 0) {
           let filesArr: any = []
           let prescriptionFiles = this.step3FormData.patientMedicalHistory.prescriptionFiles
@@ -165,7 +168,7 @@ export class IntakeStep3Component {
           }else if(from=='bodyPartBack'){
             this.selectedPartsBack.push(partName);
           }
-          this.getAppointmentDetails()
+          this.getAppointmentDetails('DoNotLoadForm')
       }
     });
   }
