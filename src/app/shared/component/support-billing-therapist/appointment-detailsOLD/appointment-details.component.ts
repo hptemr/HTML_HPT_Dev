@@ -29,7 +29,7 @@ export class AppointmentDetailsComponent {
   assign_therapist: string = '';
   public userId: string;
   public userRole: string;
-  orderBy: any = { updatedAt: -1 }
+  orderBy: any = { firstName: 1 }
   appoitmentForm: FormGroup;
    options: any[] = [];
   validationMessages = validationMessages

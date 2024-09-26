@@ -127,7 +127,7 @@ export class CaseDetailsComponent {
   profileImage: string = '';
   appointment_flag: boolean = false
   casenameList:any = [];
-  orderBy: any = { updatedAt: -1 }
+  orderBy: any = { firstName: 1 }
   therapistList:any=[];
   selectedTherapistId:string =""
 
