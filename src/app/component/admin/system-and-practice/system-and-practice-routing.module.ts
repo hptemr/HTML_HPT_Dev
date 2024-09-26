@@ -56,8 +56,12 @@ const routes: Routes = [
       }
     ]
   },
+  // {
+  //   path: 'appointment-details/:appointmentId',
+  //   component: AppointmentDetailsComponent
+  // },
   {
-    path: 'appointment-details/:appointmentId',
+    path: 'case-details/:appointmentId',
     component: AppointmentDetailsComponent
   },
   {

@@ -255,7 +255,13 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   navigateToappointmentDetails(path: string,id:string) {
-    this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+    let patientId = this.appointmentData?.patientId?._id
+    let adminRole = ['system-admin','practice-admin']
+    if(patientId && adminRole.includes(this.commonService.getLoggedInRoute())){
+      this.router.navigate([this.commonService.getLoggedInRoute()+'/patients/patient-details/'+patientId]);
+    }else{
+      this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+    }
   }
 
 }
