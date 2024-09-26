@@ -13,6 +13,7 @@ import { BodyDetailsModalComponent } from './body-details-modal/body-details-mod
 })
 export class IntakeStep3Component {
   @ViewChild('insuranceFileInput') insuranceFileInput: any
+  todayDate = new Date();
   appId: any
   clickedIndex = 0
   step3Form: FormGroup
@@ -331,10 +332,13 @@ export class IntakeStep3Component {
     this.step3Form.controls['dob'].setValue((this.step3FormData?.patientInfo && this.step3FormData?.patientInfo.dob) ? this.step3FormData?.patientInfo.dob : '')
     this.step3Form.controls['appointmentDate'].setValue(this.step3FormData.appointmentDate)
     this.step3Form.controls['fullName'].setValue((this.step3FormData?.patientInfo && this.step3FormData.patientInfo) ? (this.step3FormData.patientInfo.firstName + " " + this.step3FormData.patientInfo.middleName + " " + this.step3FormData.patientInfo.lastName) : '')
-
     let allergies = this.step3FormData ? step3info?.allergiesToMedications_AllergyArray : []
     if (allergies && allergies.length > 0) {
-      this.getNewAllergy.removeAt(0)
+
+      if (allergies && allergies.length == 1 && allergies.name!=null) {
+        this.getNewAllergy.removeAt(0)
+      }
+    
       for (let i = 0; i < allergies.length; i++) {
         if (allergies[i].name && allergies[i].name.trim() != '') {
           this.getNewAllergy.push(this.fb.group({
@@ -343,10 +347,13 @@ export class IntakeStep3Component {
         }
       }
     }
-
+   
     let surgery = this.step3FormData ? step3info?.allergiesToMedications_SurgeryArray : []
     if (surgery && surgery.length > 0) {
-      this.getNewSurgery.removeAt(0)
+      if (surgery && surgery.length == 1 && surgery.details!=null && surgery.surDate!=null) {
+        this.getNewSurgery.removeAt(0)
+      }
+      //this.getNewSurgery.removeAt(0)
       for (let i = 0; i < surgery.length; i++) {
         if (surgery[i].details && surgery[i].details.trim() != '' || surgery[i].surDate) {
           this.getNewSurgery.push(this.fb.group({
@@ -359,7 +366,10 @@ export class IntakeStep3Component {
 
     let medication = this.step3FormData ? step3info?.allergiesToMedications_MedicationArray : []
     if (medication && medication.length > 0) {
-      this.getNewMedication.removeAt(0)
+      if (medication && medication.length == 1 && medication.name!=null) {
+        this.getNewMedication.removeAt(0)
+      }
+
       for (let i = 0; i < medication.length; i++) {
         if (medication[i].name && medication[i].name.trim() != '') {
           this.getNewMedication.push(this.fb.group({

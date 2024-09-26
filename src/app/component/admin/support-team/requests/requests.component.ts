@@ -174,7 +174,7 @@ export class RequestsComponent {
 
   async getRequestsList(action = "") {
       if (action == "") {
-        this.commonService.showLoader()
+       // this.commonService.showLoader()
       }
       let reqVars = {
         query: this.whereCond,
@@ -186,7 +186,9 @@ export class RequestsComponent {
         offset: (this.pageIndex * this.pageSize)
       }
       await this.authService.apiRequest('post', 'appointment/getAppointmentRequestList', reqVars).subscribe(async response => {
-        this.commonService.hideLoader()
+        if (action == "") {
+        //this.commonService.hideLoader()
+        }
         this.totalCount = response.data.totalCount
         let finalData: any = []
         if (response.data.appointmentRequestList.length > 0) {

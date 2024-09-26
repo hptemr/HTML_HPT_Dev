@@ -754,7 +754,7 @@
                                                 <label class="col-form-label fw-600">Surgery Date </label>
                                                 <div class="input-group">
                                                     <mat-form-field class="w-100 am--datepicker">
-                                                        <input formControlName="surDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
+                                                        <input formControlName="surDate"  [max]="todayDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker3" (focus)="picker3.open()">
                                                         <mat-datepicker-toggle matIconSuffix
                                                             [for]="picker3"></mat-datepicker-toggle>
                                                         <mat-datepicker #picker3></mat-datepicker>

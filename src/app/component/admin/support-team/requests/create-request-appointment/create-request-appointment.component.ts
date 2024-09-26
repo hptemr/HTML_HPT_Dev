@@ -86,7 +86,6 @@ export class CreateRequestAppointmentComponent {
           data: formData,
           patientType:'Existing'
         }
-        this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'appointment/createAppointment',reqVars).subscribe(async response => { 
           this.clickOnRequestAppointment = false
           this.commonService.hideLoader();
