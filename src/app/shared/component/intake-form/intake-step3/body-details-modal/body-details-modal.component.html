@@ -1,6 +1,6 @@
 <div class="p-3">
     <form class="row" [formGroup]="partConcernForm" (ngSubmit)="saveData(partConcernForm.value)">
-        <label class="fw-600 font-16">Enter Concerns  {{readOnly}}:</label>
+        <label class="fw-600 font-16">Enter Concerns :</label>
         <textarea class="form-control " type="text" placeholder="Enter Concerns" rows="4" maxlength="100" formControlName="concern"></textarea>
         <div class="text text-danger mt-1" *ngIf="partConcernForm.controls['concern'].touched && partConcernForm.controls['concern'].hasError('required')">
             {{ validationMessages.required('Enter Concerns') }}
@@ -9,7 +9,7 @@
             <button mat-stroked-button color="primary" class="m-1" [mat-dialog-close]="false">
                 Cancel
             </button>
-            <button mat-raised-button color="primary" class="m-1" type="submit" [disabled]="submitButton">
+            <button mat-raised-button color="primary" class="m-1" type="submit" [disabled]="submitButton" *ngIf="!submitButton">
                 Save
             </button>
         </div>
