@@ -228,11 +228,8 @@ const getPatientList = async (req, res) => {
 
 const searchPatientList = async (req, res) => {
     try {
-        const { query, fields } = req.body;
-            console.log('query >>>< ',query)
-            console.log('fields >>>< ',fields)
-        const result = await Patient.find(query,fields);
-       // console.log('result >>>< ',result)
+        const { query, fields, order } = req.body;
+        const result = await Patient.find(query,fields).sort(order);
 
         const patientList = result;     
         commonHelper.sendResponse(res, 'success', { patientList }, '');

@@ -296,6 +296,7 @@ const checkTokenExpire = (inviteToken) => {
 const getTherapistList = async (req, res) => {
   try {
     const { query, fields, order } = req.body;
+    console.log('order>>>',order)
     let therapist_data = await User.find(query, fields).sort(order);
     let totalCount = await User.find(query).count()
     let therapistData = [];
