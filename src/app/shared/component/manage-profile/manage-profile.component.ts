@@ -11,7 +11,7 @@ import { regex } from '../../../utils/regex-patterns';
 import { UploadImgComponent } from '../upload-img/upload-img.component';
 import { s3Details } from 'src/app/config';
 import { UserService } from '../../../shared/services/comet-chat/user.service';
-
+import { ProfilePicService } from '../../../shared/services/profile-pic.service';
 @Component({
   selector: 'app-manage-profile',
   templateUrl: './manage-profile.component.html',
@@ -34,14 +34,18 @@ export class ManageProfileComponent {
     private commonService: CommonService,
     private authService: AuthService,
     private adminService: AdminService,
-    private userService: UserService
-  ) {
-  }
+    private userService: UserService,
+    private picService: ProfilePicService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userType = this.authService.getLoggedInInfo('role')
     this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
+    this.picService.itemValue.subscribe((nextValue) => {      
+      if(nextValue)
+      this.profileImage =  s3Details.awsS3Url + s3Details.userProfileFolderPath + nextValue;
+    })
     this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
     this.initializeUpdateProfileForm()
     this.getProfile()
@@ -133,23 +137,29 @@ export class ManageProfileComponent {
     dialogRef.afterClosed().subscribe(async result => {
       this.commonService.showLoader()
       if (result !== false && result.image !== null && result.image !== undefined) {
+        let imageName = this.authService.getLoggedInInfo('_id').toString()+'_'+this.commonService.getRandomInteger(1, 900);
+        let imageNameExt =  imageName+ '.png' 
         let reqVars = {
           userId: this.authService.getLoggedInInfo('_id'),
+          imageName:imageName,
           profileImage: result.image.base64
         }
         await this.authService.apiRequest('post', 'admin/changeProfileImage', reqVars).subscribe(async response => {
           this.commonService.hideLoader()
           let userDetails: any
           userDetails = this.authService.getLoggedInInfo()
-          userDetails.profileImage = this.authService.getLoggedInInfo('_id').toString() + '.png'
+          userDetails.profileImage = imageNameExt;
           localStorage.setItem('user', JSON.stringify(userDetails))
+          this.picService.setProfilePic=userDetails.profileImage;    
           
-          // Save profile pic in comet chat user profile
-          this.updateProfilePicInCometChat()
           this.commonService.openSnackBar(response.message, "SUCCESS")
-          setTimeout(function () {
-            location.reload();
-          }, 3000)
+          setTimeout(() => {
+                // Save profile pic in comet chat user profile
+                this.updateProfilePicInCometChat(imageNameExt);
+            }, 3000)
+          // setTimeout(function () {
+          //   location.reload();
+          // }, 3000)
         })
       } else {
         this.commonService.hideLoader()
@@ -157,6 +167,7 @@ export class ManageProfileComponent {
     })
 
   }
+
 
   editProfile() {
     this.editOptions = !this.editOptions;
@@ -224,8 +235,9 @@ export class ManageProfileComponent {
     this.userService.updateUser(user._id, fullName)
   }
 
-  async updateProfilePicInCometChat(){
-    let avatarPic = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('_id').toString() + '.png'
+  async updateProfilePicInCometChat(imageName:string){
+    //let avatarPic = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('_id').toString() + '.png'
+    let avatarPic = s3Details.awsS3Url + s3Details.userProfileFolderPath+imageName;
     await this.userService.updateUserProfilePic(this.userId, avatarPic).catch((_res)=>false)
   }
 

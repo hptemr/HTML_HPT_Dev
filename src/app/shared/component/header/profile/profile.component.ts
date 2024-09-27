@@ -7,28 +7,37 @@ import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { s3Details } from 'src/app/config';
 import { UserService } from '../../../../shared/services/comet-chat/user.service';
+import { ProfilePicService } from '../../../../shared/services/profile-pic.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   fullName: any
   userId: any
   userType: any
   userTypeLable: any = ''
-  profileImage: any
+  profileImage: any = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage');
   constructor(
     public dialog: MatDialog,
     private authService: AuthService,
     public adminService: AdminService,
     public commonService: CommonService,
-    public userService:UserService
+    public userService:UserService,
+    private picService : ProfilePicService
   ) {
   }
 
-  ngOnInit() {
-    this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
+  ngOnInit(): void {
+    // this.picService.itemValue.subscribe((nextValue) => {
+    //   console.log('next value profile component>>>',nextValue)
+    //   if(nextValue)
+    //     this.profileImage =  nextValue
+    // })
+    // this.picService.triggerObservable$.subscribe(() => {
+    //   console.log('......23423 4234 234234234 >>>>')
+    // });
     this.fullName = this.authService.getFullName()
     this.userType = this.authService.getLoggedInInfo('role')
     this.userTypeLable = this.commonService.getUserBaseOnRole(this.userType).userTypeLable

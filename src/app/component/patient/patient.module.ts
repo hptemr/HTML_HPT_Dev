@@ -26,6 +26,7 @@ import { AddInsuranceModalComponent } from './book-appointment/add-insurance-mod
 import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 import { IMaskModule } from 'angular-imask';  
 import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/intake-step3/body-details-modal/body-details-modal.component';
+import { ProfilePicService } from 'src/app/shared/services/profile-pic.service';
 @NgModule({
   declarations: [
     AppointmentsComponent, 
@@ -57,7 +58,10 @@ import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/
     FileUploadModule,
     IMaskModule
   ],
-  providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }],
+  providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },ProfilePicService],
+  exports: [
+    UpdatePatientProfileComponent
+  ]
 })
 
 export class PatientModule { }

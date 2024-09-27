@@ -71,9 +71,9 @@ import { ViewInsuranceModalComponent } from './comman/view-insurance-modal/view-
 
 import { UserListingComponent } from '../component/admin/system-and-practice/user-managment/user-listing/user-listing.component';
 //import { AdminProfileComponent } from '../component/admin/system-and-practice/user-managment/admin-profile/admin-profile.component';
-
 import { DatePipe } from '@angular/common';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { ProfilePicService } from 'src/app/shared/services/profile-pic.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -161,8 +161,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule,
     NgbModule,
     MaterialModule,
-    NgxDocViewerModule
-  ]
+    NgxDocViewerModule,
+    ProfileComponent,
+  ],  
+  providers: [ ProfilePicService]
 })
 
 export class SharedModule { }

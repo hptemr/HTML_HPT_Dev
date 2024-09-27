@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-
+import { ProfilePicService } from '../../services/profile-pic.service';
 @Component({
   selector: 'app-upload-img',
   templateUrl: './upload-img.component.html',

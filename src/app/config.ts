@@ -35,7 +35,7 @@ export const practiceLocations = [
   "Darby PT",
   "Frenchtown PT",
   "Hamilton PT at The Canyons",
-  "HNB",
+  "HNBC",
   "PT Specialists of Florence",
   "Stevi PT",
 ]
