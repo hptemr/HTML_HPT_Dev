@@ -30,14 +30,14 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.picService.itemValue.subscribe((nextValue) => {
-    //   console.log('next value profile component>>>',nextValue)
-    //   if(nextValue)
-    //     this.profileImage =  nextValue
-    // })
-    // this.picService.triggerObservable$.subscribe(() => {
-    //   console.log('......23423 4234 234234234 >>>>')
-    // });
+
+    this.picService.itemValue.subscribe((nextValue) => {
+      console.log('next value profile component>>>',nextValue)
+      if(nextValue)
+        this.profileImage =  nextValue
+    })
+
+  
     this.fullName = this.authService.getFullName()
     this.userType = this.authService.getLoggedInInfo('role')
     this.userTypeLable = this.commonService.getUserBaseOnRole(this.userType).userTypeLable

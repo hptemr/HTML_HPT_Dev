@@ -129,7 +129,7 @@ export class UpdatePatientProfileComponent implements OnInit {
     this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
     this.picService.itemValue.subscribe((nextValue) => {      
       if(nextValue)
-      this.profileImage =  s3Details.awsS3Url + s3Details.userProfileFolderPath + nextValue;
+      this.profileImage = nextValue;
     })
   }
 
@@ -586,8 +586,7 @@ export class UpdatePatientProfileComponent implements OnInit {
           let userDetails: any
           userDetails = this.authService.getLoggedInInfo()
           userDetails.profileImage = imageNameExt;
-          this.picService.setProfilePic=userDetails.profileImage;   
-          this.picService.triggerHeaderUpdate();
+          this.picService.setProfilePic=imageNameExt;
           localStorage.setItem('user', JSON.stringify(userDetails))
 
           this.commonService.openSnackBar(response.message, "SUCCESS")

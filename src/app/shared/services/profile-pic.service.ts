@@ -9,25 +9,28 @@ import { s3Details } from 'src/app/config';
 })
 export class ProfilePicService {
  itemValue = new Subject();
- profileImage:string='';
- private triggerSubject = new Subject<void>();
- triggerObservable$ = this.triggerSubject.asObservable();
+ profileImage:any='';
+//  private triggerSubject = new Subject<void>();
+//  triggerObservable$ = this.triggerSubject.asObservable();
 
  constructor(private authService: AuthService) {}  
 
- set setProfilePic(value:string) {
-   this.itemValue.next(value); // this will make sure to tell every subscriber about the change.  
-   //this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + value
+ set setProfilePic(value:any) {
+  console.log('hi here also',value)
+  console.log('hi here also...........',s3Details.awsS3Url + s3Details.userProfileFolderPath+value)
+   this.itemValue.next(s3Details.awsS3Url + s3Details.userProfileFolderPath+value);
  }
 
- get getProfilePic() {
-  this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
-   return this.profileImage;
- }
 
- triggerHeaderUpdate() {
-  this.triggerSubject.next(); // Emit an profile pic to notify the header component
-}
+//  get getProfilePic() {
+//   this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
+//    return this.profileImage;
+//  }
+
+//  triggerHeaderUpdate(profileImage:any) {
+//   console.log('hi here.........',profileImage)
+//   this.triggerSubject.next(profileImage); // Emit an profile pic to notify the header component
+// }
 
 
 }

@@ -44,7 +44,7 @@ export class ManageProfileComponent {
     this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
     this.picService.itemValue.subscribe((nextValue) => {      
       if(nextValue)
-      this.profileImage =  s3Details.awsS3Url + s3Details.userProfileFolderPath + nextValue;
+      this.profileImage = nextValue;
     })
     this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
     this.initializeUpdateProfileForm()
@@ -149,9 +149,8 @@ export class ManageProfileComponent {
           let userDetails: any
           userDetails = this.authService.getLoggedInInfo()
           userDetails.profileImage = imageNameExt;
+          this.picService.setProfilePic=imageNameExt;     
           localStorage.setItem('user', JSON.stringify(userDetails))
-          this.picService.setProfilePic=userDetails.profileImage;    
-          
           this.commonService.openSnackBar(response.message, "SUCCESS")
           setTimeout(() => {
                 // Save profile pic in comet chat user profile
