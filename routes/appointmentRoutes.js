@@ -11,11 +11,11 @@ router.post('/addAppointment', appointmentController.addAppointment);
 router.post('/rescheduleAppointment', appointmentController.rescheduleAppointment); 
 router.post('/updateAppointment', appointmentController.updateAppointment); 
 router.post('/download', appointmentController.download); 
-
 router.post('/createAppointmentRequest', appointmentController.createAppointmentRequest);
 router.post('/getAppointmentRequestList', appointmentController.getAppointmentRequestList); 
 router.post('/getAppointmentRequestDetails', appointmentController.getAppointmentRequestDetails); 
 router.post('/createAppointment', appointmentController.createAppointment);
 router.post('/resolvedRequest', appointmentController.resolvedRequest);
 router.post('/getPatientCaseList', appointmentController.getPatientCaseList);
+router.post('/getDoctorList', appointmentController.getDoctorList);
 module.exports = router;

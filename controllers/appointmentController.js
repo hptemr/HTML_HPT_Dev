@@ -9,6 +9,7 @@ const emailTemplateModel = require('../models/emailTemplateModel');
 const AppointmentRequest = require('../models/appointmentRequestModel');
 const triggerEmail = require('../helpers/triggerEmail');
 const EmergencyContact = require('../models/emergencyContactModel');
+const Provider = require('../models/providerModel');
 const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 let ObjectId = require('mongoose').Types.ObjectId;
@@ -602,6 +603,16 @@ async function patientAppointmentSignupEmail(patientData) {
     }
 };
 
+const getDoctorList = async (req, res) => {
+    try {
+      const { query, fields, order } = req.body;
+      let doctorList = await Provider.find(query, fields).sort(order);
+      let totalCount = await Provider.find(query).count()
+      commonHelper.sendResponse(res, 'success', { doctorList, totalCount }, '');
+    } catch (error) {
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
 
 module.exports = {
     getAppointmentList,
@@ -618,5 +629,6 @@ module.exports = {
     getAppointmentRequestList,
     getAppointmentRequestDetails,
     createAppointment,
-    getPatientCaseList
+    getPatientCaseList,
+    getDoctorList
 };

@@ -16,7 +16,10 @@ const appointmentSchema = new mongoose.Schema({
         ref: "users"
     },
     appointmentId: Number,
-    doctorId: { type: String, default: "" },
+    doctorId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "providers"
+    },
     appointmentType: { type: String, default: "" },
     appointmentTypeOther: { type: String, default: "" },
     caseName: { type: String, default: "" },
