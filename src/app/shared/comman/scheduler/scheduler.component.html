@@ -29,6 +29,10 @@
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                         Create Appointment  
                     </button> 
+                    <button mat-raised-button color="primary" (click)="editAppointmen()" class="mt-2"> 
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                        Edit Appointment  
+                    </button>
                 </div>
                 <div class="col-12">
                     <mat-card class="demo-inline-calendar-card">
@@ -61,8 +65,12 @@
                 </div>
             </div>
         </div>
+
+        <!-- Calender Start here -->
         <div class="sc--right--panel d-flex flex-column w-100">
             
         </div>
+         <!-- Calender End's here -->
+
     </div>
 </div>

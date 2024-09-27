@@ -36,6 +36,7 @@ import { BillingTeamHeaderComponent } from './component/header-billing-team/head
 import { BillingTeamLayoutComponent } from './component/layout/billing-team-layout/billing-team-layout.component';
 import { SchedulerComponent } from './comman/scheduler/scheduler.component';
 import { CreateAppointmentModalComponent } from './comman/scheduler/create-appointment-modal/create-appointment-modal.component';
+import { EditAppointmentModalComponent } from './comman/scheduler/edit-appointment-modal/edit-appointment-modal.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -76,7 +77,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoaderComponent, 
 
     SchedulerComponent,
-    CreateAppointmentModalComponent
+    CreateAppointmentModalComponent,
+    EditAppointmentModalComponent
     
   ],
   imports: [

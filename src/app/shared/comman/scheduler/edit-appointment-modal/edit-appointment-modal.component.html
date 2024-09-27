@@ -1,0 +1,113 @@
+<div class="modal--wrapper d-flex flex-column w-100 ea--wrapper">
+    <div class="modal--header w-100">
+        <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-2">
+            Edit Appointment Details
+        </h1>  
+    </div>
+    <div class="modal--body w-100 pt-0">
+        <div class="row">  
+            <div class="col-12 mb-2 mt-4">
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group d-flex align-items-center mb-0">
+                            <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Case Name </label>
+                            <select class="form-select form-control form-control-md" aria-label="Default select example">
+                                <option selected> Select </option> 
+                                <option value="1">Case Name</option> 
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-8">
+                        <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
+                            <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
+                            <input class="form-control form-control-md w-130p me-3" disabled type="text"   placeholder="" value="Aug 26, 2024" /> 
+                            <input class="form-control form-control-md w-100p" type="text" disabled  placeholder="" value="10:00 AM" /> 
+                            <label class="col-form-label fw-600 font-16 p-0 mx-3 flex-shrink-0">To </label>
+                            <input class="form-control form-control-md w-100p me-3" type="text" disabled placeholder="" value="10:00 PM" /> 
+                            <div class="form-group d-flex align-items-center mb-0 w-100"> 
+                                <select class="form-select form-control form-control-md" disabled aria-label="Default select example">
+                                    <option selected> Mountain Time </option> 
+                                    <option value="1">Mountain Time 1</option> 
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 ">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">First Name </label>
+                    <input class="form-control " disabled type="text" value="John" placeholder="Enter First Name" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                  </div>
+            </div> 
+            <div class="col-12 col-lg-6 col-md-6 ">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Last Name </label>
+                    <input class="form-control " disabled type="text" value="Walter" placeholder="Enter Last Name" />
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                  </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option selected>Select Practice Location</option> 
+                        <option value="1">Hamilton PT at The Canyons</option>
+                        <option value="2">Darby PT</option>
+                        <option value="3">Corvallis PT</option>
+                        <option value="4">Stevi PT</option>
+                        <option value="5">PT Specialists of Florence</option>
+                        <option value="6">Frenchtown PT</option>
+                        <option value="7">HNB</option>
+                    </select>
+                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Date of Birth</label>
+                    <mat-form-field class="w-100 am--datepicker" appearance="outline" >
+                        <input disabled matInput [matDatepicker]="picker" placeholder="From Date">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Appointment Type <span class="clr--DF0404 ms-1"> * </span></label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option selected>Follow-Up</option>
+                        <option value="1">Follow-Up Canyons</option> 
+                    </select>
+                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6"> 
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Insurance Type</label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option selected>Primary Insurance</option>
+                        <option value="1">Insurance 2</option> 
+                    </select>
+                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                </div>
+            </div> 
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Notes</label>
+                    <textarea class="form-control " type="text" placeholder="Enter here" rows="4"></textarea>
+                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                </div>
+            </div> 
+        </div>
+    </div>
+    <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
+        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
+        <button mat-raised-button color="primary" mat-dialog-close>Save</button>
+    </div>
+</div>
+
