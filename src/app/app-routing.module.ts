@@ -47,10 +47,7 @@ const routes: Routes = [
     loadChildren: () => import('./component/billing-team/billing-team.module').then(mod => mod.BillingTeamModule),  
   },
 
-  {
-    path: 'scheduler',
-    component: SchedulerComponent,   
-  }
+  
 
   // {
   //   path: '**',

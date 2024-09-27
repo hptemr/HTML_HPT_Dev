@@ -34,10 +34,7 @@ import { SidebarTherapistComponent } from './component/sidebar-therapist/sidebar
 import { SidebarBillingTeamComponent } from './component/sidebar-billing-team/sidebar-billing-team.component';
 import { BillingTeamHeaderComponent } from './component/header-billing-team/header-billing-team.component';
 import { BillingTeamLayoutComponent } from './component/layout/billing-team-layout/billing-team-layout.component';
-import { SchedulerComponent } from './comman/scheduler/scheduler.component';
-import { CreateAppointmentModalComponent } from './comman/scheduler/create-appointment-modal/create-appointment-modal.component';
-import { EditAppointmentModalComponent } from './comman/scheduler/edit-appointment-modal/edit-appointment-modal.component';
-
+ 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -76,9 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TapToTopComponent,
     LoaderComponent, 
 
-    SchedulerComponent,
-    CreateAppointmentModalComponent,
-    EditAppointmentModalComponent
+
     
   ],
   imports: [

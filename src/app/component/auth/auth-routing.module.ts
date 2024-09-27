@@ -10,6 +10,7 @@ import { TherapistSignupComponent } from './therapist-signup/therapist-signup.co
 import { BillingTeamSignupComponent } from './billing-team-signup/billing-team-signup.component'; 
 import { TermsOfServicesComponent } from 'src/app/shared/comman/terms-of-services/terms-of-services.component';
 import { PrivacyPolicyComponent } from 'src/app/shared/comman/privacy-policy/privacy-policy.component';
+import { SchedulerComponent } from 'src/app/shared/comman/scheduler/scheduler.component';
 
 const routes: Routes = [ 
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
     path: 'privacy-policy',
     component: PrivacyPolicyComponent
   },
+  {
+    path: 'scheduler',
+    component: SchedulerComponent,   
+  }
   
 ];
 @NgModule({

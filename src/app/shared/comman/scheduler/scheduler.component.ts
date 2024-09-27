@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CreateAppointmentModalComponent } from './create-appointment-modal/create-appointment-modal.component';
 import { EditAppointmentModalComponent } from './edit-appointment-modal/edit-appointment-modal.component';
+import { AppointmentDetailsModalComponent } from './appointment-details-modal/appointment-details-modal.component';
 
 @Component({
   selector: 'app-scheduler', 
@@ -24,5 +25,11 @@ export class SchedulerComponent {
       panelClass: [ 'modal--wrapper'],
     });
   }
-  
+  appointmentDetailsModal(){
+    const dialogRef = this.dialog.open(AppointmentDetailsModalComponent,{
+      width:'633px',
+      panelClass: [ 'modal--wrapper'],
+    });
+  }
+
 }
