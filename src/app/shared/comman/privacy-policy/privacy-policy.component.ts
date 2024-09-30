@@ -1,0 +1,13 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-privacy-policy', 
+  templateUrl: './privacy-policy.component.html',
+  styleUrl: './privacy-policy.component.scss'
+})
+export class PrivacyPolicyComponent {
+  baseUrl : string = ""
+  ngOnInit() {
+    this.baseUrl = `${window.location.protocol}//${window.location.hostname}`;  
+  }
+}

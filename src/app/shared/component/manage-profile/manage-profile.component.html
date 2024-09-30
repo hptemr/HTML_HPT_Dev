@@ -1,9 +1,8 @@
 <div class="col-12 profile--right--wrapper">
     <div class="card">
         <div class="card-header pb-0">
-            <div class="col-12 d-flex align-items-center">
-                <!-- [routerLink]="['/system-admin/user-managment/support-team']" -->
-                <button mat-stroked-button color="primary" class="me-3 back--btn" >
+            <div class="col-12 d-flex align-items-center" [routerLink]="['/support-team/dashboard']"><!-- [routerLink]="['/system-admin/user-managment/support-team']" -->
+                <button mat-stroked-button color="primary" class="me-3 back--btn">
                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
                 </button>
                 <h3 class="mb-0 clr--1F2F3E fw-600">Manage Profile</h3>
@@ -12,13 +11,13 @@
         <div class="card-body d-flex flex-column flex-sm-row mb-5">
             <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
                 <div class="head--sec w-100">
-                    <mat-list *ngIf="editOptions" >
+                    <mat-list *ngIf="editOptions">
                         <mat-list-item (click)="changePhoto()">Change Photo </mat-list-item>
-                        <mat-list-item (click)="removePhoto()" *ngIf="isDefaultImage">Remove Photo </mat-list-item> 
+                        <mat-list-item (click)="removePhoto()" *ngIf="isDefaultImage">Remove Photo </mat-list-item>
                     </mat-list>
-                </div> 
+                </div>
                 <div class="profile--round position-relative">
-                    <img src="{{profileImage}}" alt="" class="img-fluid user--img" />
+                    <img src="{{profileImage}}" alt="Profile Picture" class="img-fluid user--img" />
                     <button (click)="editProfile()" mat-raised-button color="primary" class="edit--btn"> 
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 "> edit </mat-icon> 
                     </button>
@@ -64,7 +63,7 @@
                                 <div class="col-12 {{isTherapist?'col-lg-6':''}}">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="text" placeholder="Email " formControlName="email"/>
+                                        <input class="form-control form-control-md text-lowercase" type="text" placeholder="Email " formControlName="email"/>
                                       </div>
                                 </div>
 
@@ -103,7 +102,7 @@
                                  <!-- Therapist Field -->
                                  <div class="col-12 col-lg-6" *ngIf="isTherapist">
                                     <div class="form-group">
-                                        <label class="col-form-label fw-600">Licence Number</label>
+                                        <label class="col-form-label fw-600">Licence Number <span class="clr--DF0404 ms-1"> *</span></label>
                                         <input class="form-control form-control-md" type="text" placeholder="Licence Number " formControlName="licenceNumber" maxlength="15"/>
                                         <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['licenceNumber'].touched && updateProfileForm.controls['licenceNumber'].hasError('required')">
                                             {{ validationMessages.required('a valid Licence number') }}
@@ -111,7 +110,17 @@
                                     </div>
                                 </div>
                                  
-                                <div class="col-12 my-2 d-flex justify-content-end">
+                                <div class="col-12 my-2 d-flex align-items: center justify-content-between mt-3 ">
+                                    <div class="d-flex align-items-center">
+                                        <div class="signature--box d-flex align-items-center justify-content-center">
+                                            prashantthorat
+                                        </div> 
+                                        <button  mat-raised-button color="primary"
+                                            class="flex-shrink-0 ms-3">
+                                            <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
+                                            Update Signature
+                                        </button>
+                                    </div>
                                     <button mat-raised-button color="primary" (click)="updateProfile()" [disabled]="!updateProfileForm.valid">Save</button>
                                 </div>
                             </form>

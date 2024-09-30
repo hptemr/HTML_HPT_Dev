@@ -1,0 +1,129 @@
+.subjective--wrapepr{ 
+    .divider{
+        border-top: 1px solid #DED2D9;
+        margin: 25px 0;
+    }
+    .search--diagnosis{
+        .form-control{
+            padding: 6px 10px;
+        } 
+        .search--fields{
+            position: absolute;
+            top: 0px;
+            right: 4px;
+            .mat-icon{
+                font-size: 23px;
+                width: 23px;
+                height: 23px;
+                color: #1F2F3E;
+            }
+        }
+    }
+    .normal--table{
+        tbody{
+            tr{
+                td{
+                    &:last-child{
+                        .cancle--btn{
+                            height: auto;
+                            .mat-icon{
+                                font-size: 24px;
+                                width: 24px;
+                                height: 24px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .medical--history--outer{ 
+        opacity: 0.6;
+        pointer-events: none;
+        .disease--desc--wrapper{ 
+            .dd--header{
+                margin-bottom: 20px;
+            } 
+            .disease--box{
+                width: 30%;
+                padding-right: 20px; 
+            }
+            .family--box,
+            .self--box{
+                width: 35%;
+                padding-right: 5%;
+            } 
+            .dd--body{
+                .dd--row{
+                    margin-bottom: 5px;
+                    .disease--box{
+                        label{
+                            margin-top: 11px;
+                        }
+                    }
+                }
+            }
+        } 
+        .add--btn{
+            height: 45px;
+            .mat-icon{
+                font-size: 21px;
+                width: 21px;
+                height: 21px;
+            }
+        }
+        .select--ans{
+            list-style-type: none;
+            li{
+                width: 32px;
+                height: 32px;
+                border-radius: 50px;
+                border: 1px solid #31B7B7;  
+                color: #31B7B7;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                margin-right: 20px;
+                cursor: pointer;
+                font-weight: 700;
+                margin-top: 10px;
+                &.active,
+                &:hover{
+                    color: #fff;
+                    background: #31B7B7;
+                }
+            }
+        }
+    } 
+}
+
+@media only screen and (max-width: 599px) {
+    .medical--history--outer{
+        .dd--header{
+            display: none !important;
+        }
+        .dd--body{
+            .dd--row{
+                flex-direction: column;
+                .self--box,
+                .family--box,
+                .disease--box{
+                    width: 100%;
+                    padding: 0;
+                }
+                .family--box,
+                .self--box{
+                    h1{
+                        display: flex !important;
+                    }
+                }
+            }
+        }
+    }
+    .select--ans{
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+}
+

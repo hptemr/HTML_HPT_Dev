@@ -29,7 +29,7 @@ export class PatientNavservicesService {
   public language: boolean = false;
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
   public horizontal: boolean = window.innerWidth < 991 ? false : true;
-  public isDisplay: boolean;
+  public isDisplay: boolean = window.innerWidth < 1080 ? true : false;
   public pinned: boolean;
   public search: boolean;
   public isShow: boolean = false;
@@ -37,70 +37,66 @@ export class PatientNavservicesService {
   constructor() { }
 
   Nvabarmenu: Menu[] = [
+    // {
+    //   id: 1,
+    //   activeMenu: 'dashboard',
+    //   icon: 'dashboard_outline',
+    //   mainTitle: 'Dashboard',
+    //   headTitle1: 'Dashboard',
+    //   path: '/patient/dashboard',
+    //   active: false,
+    //   item: []
+    // },
     {
       id: 1,
-      activeMenu: 'dashboard',
-      icon: 'dashboard_outline',
-      mainTitle: 'Dashboard',
-      headTitle1: 'Dashboard',
-      path: '/patient/dashboard',
+      activeMenu: 'appointments',
+      icon: 'pending_actions',
+      mainTitle: 'Appointments',
+      headTitle1: '',
+      path: '/patient/appointments',
       active: false,
-      item: []
+      type: 'link', 
     },
-    // {
-    //   id: 2,
-    //   activeMenu: 'appointments',
-    //   icon: 'pending_actions',
-    //   mainTitle: 'Appointments',
-    //   headTitle1: '',
-    //   path: '/patient/appointments',
-    //   active: false,
-    //   type: 'link',
-    //   item: [
-    //     {
-    //       title: 'Appointments',
-    //       icon: 'pending_actions',
-    //       type: 'link',
-    //       active: false,
-    //     },
-    //   ]
-    // },
-    // {
-    //   id: 3,
-    //   activeMenu: 'notifications',
-    //   icon: 'health_and_safety',
-    //   mainTitle: 'Insurance',
-    //   headTitle1: '',
-    //   path: '/patient/appointments',
-    //   active: false,
-    //   type: 'link',
-    //   item: [
-    //     {
-    //       title: 'Insurance',
-    //       icon: 'health_and_safety',
-    //       type: 'link',
-    //       active: false,
-    //     },
-    //   ]
-    // },
-    // {
-    //   id: 4,
-    //   activeMenu: 'notifications',
-    //   icon: 'smart_display',
-    //   mainTitle: 'Home Exercise',
-    //   headTitle1: '',
-    //   path: '/patient/appointments',
-    //   active: false,
-    //   type: 'link',
-    //   item: [
-    //     {
-    //       title: 'Home Exercise',
-    //       icon: 'smart_display',
-    //       type: 'link',
-    //       active: false,
-    //     },
-    //   ]
-    // },
+    {
+      id: 2,
+      activeMenu: 'insurance-listing',
+      icon: 'health_and_safety',
+      mainTitle: 'Insurance',
+      headTitle1: '',
+      path: '/patient/insurance-listing',
+      active: false,
+      type: 'link', 
+    },
+    {
+      id: 3,
+      activeMenu: 'home-exercise',
+      icon: 'smart_display',
+      mainTitle: 'Home Exercise',
+      headTitle1: '',
+      path: '/patient/home-exercise',
+      active: false,
+      type: 'link', 
+    }, 
+    {
+      id: 4,
+      activeMenu: 'emergency-contact',
+      icon: 'perm_phone_msg',
+      mainTitle: 'Emergency Contact',
+      headTitle1: '',
+      path: '/patient/emergency-contact',
+      active: false,
+      type: 'link', 
+    },
+    {
+      id: 5,
+      activeMenu: 'notifications',
+      icon: 'notifications',
+      mainTitle: 'Notifications',
+      headTitle1: '',
+      path: '/patient/notifications',
+      active: false,
+      type: 'link', 
+    },
   ]
   items = new BehaviorSubject<Menu[]>(this.Nvabarmenu);
 

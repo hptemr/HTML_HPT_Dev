@@ -23,6 +23,13 @@ export class SidebarComponent {
       if (event instanceof NavigationEnd) {
         const locationArray = event.url.split('/')
         this.currentMainMenu = locationArray[2]
+
+        if(this.currentMainMenu=='create-request-appointment'){
+          this.currentMainMenu = 'requests'
+        }
+        if(this.currentMainMenu=='case-details' || this.currentMainMenu=='initial-examination' || this.currentMainMenu=='daily-notes' || this.currentMainMenu=='progress-notes' || this.currentMainMenu=='discharge-notes'){
+           this.currentMainMenu = 'cases'
+        }
       }
     })
   }
@@ -33,6 +40,13 @@ export class SidebarComponent {
   }
 
   toggleMenu(item: Menu) {
+    // Reload page if coversation UI Kit Chat Open
+    if(item.mainTitle == 'Conversations'){
+      setTimeout(function () {
+        location.reload();
+      }, 500)
+    }
+
     this.itemsLength = item.item?.length;
     if (!item.active) {
       this.menus.forEach((a: Menu) => {

@@ -66,6 +66,63 @@
             .action--footer{
                 margin-top: 200px;
             }
+            .profile--left{ 
+                margin-right: 40px;
+                .head--sec{ 
+                    .mat-mdc-list {
+                        position: absolute;
+                        right: -127px;
+                        top: 1px;
+                        border-radius: 6px;
+                        border: 1px solid #EEE;
+                        background: #FFF;
+                        box-shadow: 0px 6.879px 14px 0px rgba(18, 18, 18, 0.10);
+                        padding: 0;
+                        z-index: 99;
+                        .mat-mdc-list-item{
+                            border-bottom: 1px solid #eee;
+                            height: auto;
+                            padding: 7px 15px 0px 15px;
+                            cursor: pointer;
+                            &:last-child{
+                                border-bottom: none;
+                            }
+                            .mdc-list-item__content{
+                                .mdc-list-item__primary-text{
+                                    font-family: "Nunito Sans", sans-serif !important;
+                                    font-size: 14px;
+                                    color: #1F2F3E;
+                                }
+                            }
+                        } 
+                    }
+                }
+                .profile--round{
+                    width: 85px;
+                    height: 85px;  
+                    .user--img{
+                        border-radius: 100%;
+                    }
+                    .edit--btn{
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        padding: 0;
+                        min-width: auto;
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 100%;
+                        .mat-icon{
+                            font-size: 15px;
+                            height: 15px;
+                            width: 15px;
+                        }
+                    }
+                }
+                .body--sec{
+                    padding: 0 36px;
+                }
+            }
         }
     }
 }

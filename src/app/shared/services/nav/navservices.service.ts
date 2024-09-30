@@ -29,7 +29,7 @@ export class NavservicesService implements OnInit {
   public language: boolean = false;
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
   public horizontal: boolean = window.innerWidth < 991 ? false : true;
-  public isDisplay: boolean;
+  public isDisplay: boolean = window.innerWidth < 1080 ? true : false;
   public pinned: boolean;
   public search: boolean;
   public isShow: boolean = false;
@@ -44,6 +44,7 @@ export class NavservicesService implements OnInit {
 
   getMenu() {
     let userType = this.authservice.getLoggedInInfo('role')
+
     if (userType == 'practice_admin') {
       this.navigationMenu = [
         {
@@ -56,55 +57,58 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 2,
+          icon: 'person_outline',
+          mainTitle: 'User Management',
+          headTitle1: 'User Management',
+          path: '/practice-admin/user-managment/therapists',
+          active: false,
+          item: [
+            {
+              title: 'Therapists',
+              icon: 'accessibility',
+              type: 'link',
+              active: false,
+              path: '/practice-admin/user-managment/therapists',
+            },
+            {
+              title: 'Support Team',
+              icon: 'help_outline',
+              type: 'link',
+              active: false,
+              path: '/practice-admin/user-managment/support-team',
+            },
+            {
+              title: 'Billing Team',
+              icon: 'receipt',
+              type: 'link',
+              active: false,
+              path: '/practice-admin/user-managment/billing-team',
+            },
+          ]
+        },
+        {
+          id: 3,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/practice-admin/patients',
+          active: false,
+          item: []
+        },
+        {
+          id: 4,
+          icon: 'home',
+          mainTitle: 'Manage Practice',
+          headTitle1: 'Manage Practice',
+          path: '/practice-admin/manage-practice',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 2,
-        //   icon: 'person_outline',
-        //   mainTitle: 'User Management',
-        //   headTitle1: 'User Management',
-        //   path: '/practice-admin/user-managment/therapists',
-        //   active: false,
-        //   item: [
-        //     {
-        //       title: 'Therapists',
-        //       icon: 'accessibility',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/therapists',
-        //     },
-        //     {
-        //       title: 'Support Team',
-        //       icon: 'help_outline',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/support-team',
-        //     },
-        //     {
-        //       title: 'Billing Team',
-        //       icon: 'receipt',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/billing-team',
-        //     },
-        //     {
-        //       title: 'Patients',
-        //       icon: 'group',
-        //       type: 'link',
-        //       active: false,
-        //       path: '/practice-admin/user-managment/patients',
-        //     },
-        //   ]
-        // },
-        // {
-        //   id: 3,
-        //   icon: 'home',
-        //   mainTitle: 'Manage Practice',
-        //   headTitle1: 'Manage Practice',
-        //   path: '/practice-admin/manage-practice',
-        //   active: false,
-        //   item: []
-        // },
-        // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
         //   headTitle1: '',
@@ -112,17 +116,48 @@ export class NavservicesService implements OnInit {
         //   active: false,
         //   item: []
         // },
+        {
+          id: 5,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/practice-admin/conversations-chat',
+          active: false,
+          item: []
+        },
+        {
+          id: 6,
+          activeMenu: 'manage-documents',
+          icon: 'home',
+          mainTitle: 'Manage Documents',
+          headTitle1: 'Manage Documents',
+          path: 'manage-documents/system-documents',
+          active: false,
+          item: []
+        },
+        {
+          id: 7,
+          activeMenu: 'provider-management',
+          icon: 'dashboard',
+          mainTitle: 'Doctors Management',
+          headTitle1: '',
+          path: '/practice-admin/provider-management',
+          active: false,
+          item: []
+        },
+        {
+          id: 8,
+          activeMenu: 'insurance-management',
+          icon: 'dashboard',
+          mainTitle: 'Insurance Management',
+          headTitle1: '',
+          path: '/practice-admin/insurance-management',
+          active: false,
+          item: []
+        }
         // {
-        //   id: 5,
-        //   icon: 'print',
-        //   mainTitle: ' E-Fax',
-        //   headTitle1: '',
-        //   path: '/practice-admin/e-fax',
-        //   active: false,
-        //   item: []
-        // },
-        // {
-        //   id: 6,
+        //   id: 7,
         //   icon: 'people_outline',
         //   mainTitle: 'Manage Profile',
         //   headTitle1: '',
@@ -132,7 +167,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 7,
+        //   id: 8,
         //   icon: 'notifications_none',
         //   mainTitle: 'Notifications',
         //   headTitle1: '',
@@ -154,18 +189,89 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 2,
+          icon: 'accessibility',
+          mainTitle: 'Therapists',
+          headTitle1: 'Therapists',
+          path: '/therapist/user-managment/therapists',
+          active: false,
+          type: 'link',
+          item: []
+        },
         // {
         //   id: 2,
         //   icon: 'pending_actions',
         //   mainTitle: 'Appointments',
-        //   headTitle1: '',
+        //   headTitle1: 'Appointments',
         //   path: '/therapist/appointments',
         //   active: false,
         //   type: 'link',
         //   item: []
         // },
+        {
+          id: 3,
+          activeMenu: 'cases',
+          icon: 'pending_actions',
+          mainTitle: 'Cases',
+          headTitle1: '',
+          path: '/therapist/cases',
+          active: false,
+          type: 'link',
+          item: []
+        },
+        {
+          id: 4,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/therapist/patients',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 3,
+        //   id: 4,
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations',
+        //   headTitle1: '',
+        //   path: '/therapist/conversations',
+        //   active: false,
+        //   item: []
+        // },
+        // {
+        //   id: 4,
+        //   activeMenu: 'conversations-chat',
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations UiKit',
+        //   headTitle1: '',
+        //   path: '/therapist/conversations-chat',
+        //   active: false,
+        //   item: []
+        // },
+        {
+          id: 5,
+          activeMenu: 'document-listing',
+          icon: 'description',
+          mainTitle: 'Documents',  
+          headTitle1: '',
+          path: 'document-listing',
+          active: false, 
+          type: 'link', 
+          item: [ ]
+        },
+        {
+          id: 6,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/therapist/conversations-chat',
+          active: false,
+          item: []
+        },
+        // {
+        //   id: 4,
         //   icon: 'people',
         //   mainTitle: 'Referrals',
         //   headTitle1: '',
@@ -175,7 +281,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
         //   headTitle1: '',
@@ -183,17 +289,7 @@ export class NavservicesService implements OnInit {
         //   active: false,
         //   type: 'link',
         //   item: []
-        // },
-        // {
-        //   id: 5,
-        //   icon: 'person_outline',
-        //   mainTitle: 'Patients',
-        //   headTitle1: '',
-        //   path: ' ',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
+        // }, 
         // {
         //   id: 6,
         //   icon: 'people_outline',
@@ -205,6 +301,11 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
       ]
+    
+      if (userType == 'therapist' && this.authservice.getLoggedInInfo('siteLeaderForPracLocation')!='Site Leader'){
+        this.navigationMenu.splice(1, 1);
+      }
+
     } else if (userType == 'billing_team') {
       this.navigationMenu = [
         {
@@ -221,14 +322,56 @@ export class NavservicesService implements OnInit {
         //   id: 2,
         //   icon: 'pending_actions',
         //   mainTitle: 'Appointments',
-        //   headTitle1: '',
+        //   headTitle1: 'Appointments',
         //   path: '/billing-team/appointments',
         //   active: false,
         //   type: 'link',
         //   item: []
         // },
+        {
+          id: 2,
+          activeMenu: 'cases',
+          icon: 'pending_actions',
+          mainTitle: 'Cases',
+          headTitle1: '',
+          path: '/billing-team/cases',
+          active: false,
+          type: 'link',
+          item: []
+        },
+        {
+          id: 3,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/billing-team/patients',
+          active: false,
+          item: []
+        },
+        {
+          id: 4,
+          activeMenu: 'document-listing',
+          icon: 'description',
+          mainTitle: 'Documents',  
+          headTitle1: '',
+          path: 'document-listing',
+          active: false, 
+          type: 'link', 
+          item: [ ]
+        },
+        {
+          id: 5,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/billing-team/conversations-chat',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 3,
+        //   id: 4,
         //   icon: 'assignment',
         //   mainTitle: 'Reports',
         //   headTitle1: '',
@@ -238,19 +381,9 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         // {
-        //   id: 4,
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
-        //   headTitle1: '',
-        //   path: ' ',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
-        // {
-        //   id: 5,
-        //   icon: 'person_outline',
-        //   mainTitle: 'Patients',
         //   headTitle1: '',
         //   path: ' ',
         //   active: false,
@@ -281,28 +414,81 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 2,
+          activeMenu: 'cases',
+          icon: 'pending_actions',
+          mainTitle: 'Cases',
+          headTitle1: '',
+          path: '/support-team/cases',
+          active: false,
+          type: 'link',
+          item: []
+        },
+        {
+          id: 3,
+          activeMenu: 'requests',
+          icon: 'group',
+          mainTitle: 'Request',
+          headTitle1: '',
+          path: '/support-team/requests',
+          active: false,
+          type: 'link',
+          item: []
+        },
+        {
+          id: 4,
+          activeMenu: 'patients',
+          icon: 'group',
+          mainTitle: 'Patients',
+          headTitle1: '',
+          path: '/support-team/patients',
+          active: false,
+          item: []
+        },
         // {
-        //   id: 2,
-        //   icon: 'pending_actions',
-        //   mainTitle: 'Appointments',
-        //   headTitle1: '',
-        //   path: '/support-team/appointments',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
-        // {
-        //   id: 3,
+        //   id: 5,
         //   icon: 'people',
+        //   activeMenu: 'referrals',
         //   mainTitle: 'Referrals',
         //   headTitle1: '',
-        //   path: ' ',
+        //   path: 'referrals',
         //   active: false,
         //   type: 'link',
         //   item: []
         // },
         // {
-        //   id: 4,
+        //   id: 6,
+        //   icon: 'chat_bubble_outline',
+        //   mainTitle: 'Conversations',
+        //   headTitle1: '',
+        //   path: '/support-team/conversations',
+        //   active: false,
+        //   item: []
+        // },
+        {
+          id: 5,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/support-team/conversations-chat',
+          active: false,
+          item: []
+        },
+        {
+          id: 6,
+          activeMenu: 'document-listing',
+          icon: 'description',
+          mainTitle: 'Documents',  
+          headTitle1: '',
+          path: 'document-listing',
+          active: false, 
+          type: 'link', 
+          item: [ ]
+        },
+        // {
+        //   id: 5,
         //   icon: 'chat_bubble_outline',
         //   mainTitle: 'Conversations',
         //   headTitle1: '',
@@ -310,17 +496,7 @@ export class NavservicesService implements OnInit {
         //   active: false,
         //   type: 'link',
         //   item: []
-        // },
-        // {
-        //   id: 5,
-        //   icon: 'person_outline',
-        //   mainTitle: 'Patients',
-        //   headTitle1: '',
-        //   path: ' ',
-        //   active: false,
-        //   type: 'link',
-        //   item: []
-        // },
+        // }, 
         // {
         //   id: 6,
         //   icon: 'people_outline',
@@ -390,7 +566,7 @@ export class NavservicesService implements OnInit {
           icon: 'group',
           mainTitle: 'Patients',
           headTitle1: '',
-          path: '/system-admin/patients/list',
+          path: '/system-admin/patients',
           active: false,
           item: []
         },
@@ -414,16 +590,26 @@ export class NavservicesService implements OnInit {
         //   active: false,
         //   item: []
         // },
-        // {
-        //   id: 6,
-        //   activeMenu: 'e-fax',
-        //   icon: 'print',
-        //   mainTitle: ' E-Fax',
-        //   headTitle1: '',
-        //   path: '/system-admin/e-fax',
-        //   active: false,
-        //   item: []
-        // },
+        {
+          id: 5,
+          activeMenu: 'conversations-chat',
+          icon: 'chat_bubble_outline',
+          mainTitle: 'Conversations',
+          headTitle1: '',
+          path: '/system-admin/conversations-chat',
+          active: false,
+          item: []
+        },
+        {
+          id: 6,
+          activeMenu: 'manage-documents',
+          icon: 'home',
+          mainTitle: 'Manage Documents ',
+          headTitle1: 'Manage Documents ',
+          path: '/system-admin/manage-documents/system-documents',
+          active: false,
+          item: []
+        },
         // {
         //   id: 7,
         //   activeMenu: 'manage-profile',

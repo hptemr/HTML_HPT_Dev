@@ -4,7 +4,7 @@ import { Validators, FormGroup, FormBuilder, AbstractControl,FormControl, Valida
 import { StepperOrientation,MatStepper } from '@angular/material/stepper';
 //import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbDateStruct,NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute,Params } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { CommonService } from '../../../shared/services/helper/common.service';
@@ -48,11 +48,11 @@ export class SignupPatientComponent implements OnInit {
   step1: FormGroup;
   step2: FormGroup;
   step3: FormGroup;
-  minStartDate: any
   maxEndDate: any
   isRequired: boolean = false;
   emailError = false;
   invalidEmailErrorMessage: string = '';
+  readonlyFlag: boolean = false;
 
   firstFormGroupData: any
   secondFormGroupData: any
@@ -81,20 +81,28 @@ export class SignupPatientComponent implements OnInit {
   documents_type_list:any=[];
   isChecked = false
   submitButton:boolean = true;
+  maxFileSize:any = 0;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe) {
+  signUpToken:any = ""
+  patientGetByToken:any = null
+  public tokenId: any;
+  constructor( private route: ActivatedRoute,private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe,private activateRoute: ActivatedRoute) {
+    this.route.params.subscribe((params: Params) => {
+      this.tokenId = params['tokenId'];
+    })
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+      
+    this.signUpToken = this.activateRoute.snapshot.queryParamMap.get('signUpToken');
   }
   
   ngOnInit() {
-    this.userId = localStorage.getItem("userId");
+     this.userId = localStorage.getItem("userId");
 
-    this.documents_type_list = documents_list;
-
+     this.documents_type_list = documents_list;
      this.firstFormGroupData = localStorage.getItem("firstFormGroupData");
     if(localStorage.getItem("firstFormGroupData")){
       this.firstFormGroupData = JSON.parse(this.firstFormGroupData)
@@ -122,7 +130,6 @@ export class SignupPatientComponent implements OnInit {
     }
 
     this.thiredFormGroupData = localStorage.getItem("thiredFormGroupData");
-    console.log('>>>>',this.thiredFormGroupData)
     if(localStorage.getItem("thiredFormGroupData")){
       this.thiredFormGroupData = JSON.parse(this.thiredFormGroupData)
       if(this.thiredFormGroupData && this.thiredFormGroupData.filename && this.thiredFormGroupData.original_name){
@@ -162,13 +169,17 @@ export class SignupPatientComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({    
-      documents_type: [this.thiredFormGroupData ? this.thiredFormGroupData.documents_type : '', []],
+      documents_type: [this.thiredFormGroupData ? this.thiredFormGroupData.documents_type : '', [Validators.required]],
       documents_temp: ['', []],
       isChecked: [false, [Validators.requiredTrue]]
     } , {
         validator: this.dependentFieldValidator
     }); 
     this.filterStartDate();
+    this.getPatientDataThroughToken()
+    if(this.tokenId){
+      this.getPatientDetailsSignupToken()
+    }
   }
 
   checkSpace(colName: any, event: any) {
@@ -209,7 +220,7 @@ export class SignupPatientComponent implements OnInit {
     this.mainHeadTxt="Create your account";
     if (steps==1 && !this.firstFormGroup.invalid){
 
-      let first_form_data = {
+      let first_form_data:any = {
         "firstName":userData.firstName,
         "middleName": userData.middleName,
         "lastName": userData.lastName,
@@ -221,8 +232,11 @@ export class SignupPatientComponent implements OnInit {
         "password": userData.password,
         "ConfirmPassword":''
       }
-        localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
-        this.signupSubmit(steps,first_form_data)
+      localStorage.setItem("firstFormGroupData", JSON.stringify(first_form_data));
+      if(this.signUpToken && this.patientGetByToken && this.patientGetByToken!=null){
+        first_form_data['patientEmailGetByToken'] = this.patientGetByToken.email ? this.patientGetByToken.email:''
+      }
+      this.signupSubmit(steps,first_form_data)
     }
 
     if (steps==2 && !this.secondFormGroup.invalid){
@@ -269,16 +283,18 @@ export class SignupPatientComponent implements OnInit {
 
   async signupSubmit(steps:any, data:any) {
       var query = {};
+      data.signupToken = this.tokenId
       const req_vars = {
         query: Object.assign({ _id: this.userId }, query),
         step:steps,
-        data: data
+        data: data,
+        patientIdRegisterByRefferal: (this.patientGetByToken && this.patientGetByToken!=null && this.patientGetByToken._id) ? this.patientGetByToken._id:''
       }
       if(steps && steps==3){
         this.submitButton = false;
       }
       this.commonService.showLoader();       
-    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => {         
+    await this.authService.apiRequest('post', 'patients/signup', req_vars).subscribe(async response => { 
       this.commonService.hideLoader();
       if (response.error) {
         if(steps && steps==1){
@@ -308,7 +324,15 @@ export class SignupPatientComponent implements OnInit {
           localStorage.removeItem('userId');
           localStorage.removeItem('firstFormGroupData');
           localStorage.removeItem('secondFormGroupData');
-          localStorage.removeItem('thiredFormGroupData');          
+          localStorage.removeItem('thiredFormGroupData');
+
+          localStorage.removeItem('step1FormData')
+          localStorage.removeItem('step2FormData')
+          localStorage.removeItem('step3FormData')
+          localStorage.removeItem('step4FormData')
+          localStorage.removeItem('step5FormData')
+          localStorage.removeItem('uploadedInsuranceFiles')
+          localStorage.removeItem('uploadedPrescriptionFiles')
           if(response.data.userData){
             this.setLocalStorage(response.data.userData);
           }else{
@@ -348,7 +372,6 @@ export class SignupPatientComponent implements OnInit {
     return { month: minDate.getMonth() + 1, day: minDate.getDate(),year: minDate.getFullYear() };
   }
   
-
   public fileOverBase(e: any): void {
     this.thirdFormDisabled = true
     this.hasBaseDropZoneOver = e;
@@ -368,18 +391,27 @@ export class SignupPatientComponent implements OnInit {
     }else{      
     this.uploader.queue.forEach((fileoOb) => {  
       this.filename = fileoOb.file.name;
+      this.maxFileSize = fileoOb.file.size;
       var extension = this.filename.substring(this.filename.lastIndexOf('.') + 1);
       var fileExts = ["jpg", "jpeg", "png","pdf"];//, "docx", "doc"
       let resp = this.isExtension(extension, fileExts);
+      
       if (!resp) {
         var FileMsg = "This file '" + this.filename + "' is not supported";
         this.uploader.removeFromQueue(fileoOb);
         this.fileErrors = FileMsg;
         setTimeout(() => {
           this.fileErrors = '';
-        }, 5000);
+        }, 8000);
         cnt++;
-      }
+      }else if(this.maxFileSize>25000000){
+        var FileMsg = "File size should be below 25MB";
+        this.uploader.removeFromQueue(fileoOb);
+        this.fileErrors = FileMsg;
+        setTimeout(() => {
+          this.fileErrors = '';
+        }, 8000);        
+      } 
     });
  
     if (this.uploader.getNotUploadedItems().length) {
@@ -559,6 +591,55 @@ export class SignupPatientComponent implements OnInit {
 
   setLocalStorage(res: any) {
     localStorage.setItem('user', JSON.stringify(res));
-    this.router.navigate(["/patient/dashboard"])
+    this.router.navigate(["/patient/appointments"])
+  }
+
+  getPatientDataThroughToken(){
+    if(this.signUpToken){
+      let bodyData = {signUpToken: this.signUpToken}
+      this.authService.apiRequest('post', 'referral/getPatientThroughSignUpToken', bodyData).subscribe(async response => {
+        if(response && !response.error){
+          this.patientGetByToken = response.data
+          if(!localStorage.getItem("firstFormGroupData")){
+            this.firstFormGroup.controls['firstName'].setValue((this.patientGetByToken && this.patientGetByToken.firstName)? this.patientGetByToken.firstName : '');
+            this.firstFormGroup.controls['lastName'].setValue((this.patientGetByToken && this.patientGetByToken.lastName)? this.patientGetByToken.lastName : '');
+            this.firstFormGroup.controls['email'].setValue((this.patientGetByToken && this.patientGetByToken.email)? this.patientGetByToken.email : '');
+          }
+        }
+      }, (err) => {
+        console.error(err)
+      })
+    }
+  }
+
+  getPatientDetailsSignupToken(){
+    if(this.tokenId){
+        let reqVars = {
+          query: {signupToken:this.tokenId},
+          fields: { firstName: 1, lastName: 1, email: 1,phoneNumber:1, status: 1, _id:1 },     
+        }      
+      this.authService.apiRequest('post', 'patients/getPatientSignupToken', reqVars).subscribe(async response => {
+        if(response && response.error){
+          this.commonService.openSnackBar(response.message, "ERROR")
+          localStorage.setItem("firstFormGroupData",'');
+          localStorage.setItem("secondFormGroupData",'');
+           localStorage.setItem('thiredFormGroupData','');
+          localStorage.setItem("userId",'');
+          this.router.navigate(['/signup']);
+        }else if(response.data){
+          // localStorage.setItem("userId", response.data._id);
+          // this.userId = response.data._id;
+          this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
+          this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
+          this.firstFormGroup.controls['email'].setValue(response.data.email);
+          if(response.data.phoneNumber){
+            this.firstFormGroup.controls['phoneNumber'].setValue(response.data.phoneNumber);
+          }          
+          this.readonlyFlag = true
+        }
+      }, (err) => {
+        console.error(err)
+      })
+    }
   }
 }

@@ -1,0 +1,98 @@
+<div class="col-12 emergency--contact--wrapper">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h3 class="mb-0 clr--1F2F3E">Emergency Contact</h3>
+                <button mat-raised-button color="primary" [routerLink]="['/patient/add-emergency-contact']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Add Contact
+                </button>
+            </div> 
+            <div class="col-12 col-lg-6 ">
+                <div class="form-group position-relative">         
+                    <input type="text" [(ngModel)]="seachByName" (keyup)="searchRecords($event)" class="form-control search--outer" placeholder="Search Contacts">
+                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                    </button> 
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body" *ngIf="dayTwo">
+            <div class="col-12 cust--mat--table--wrapper">
+                <table mat-table [dataSource]="emergencyContactList" matSort (matSortChange)="announceSortChange($event)"
+                    class="cust--mat--table box--row--table">  
+                    <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            First Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.firstName}}     
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Last Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.lastName}}     
+                        </td>
+                    </ng-container>   
+                    
+                    <ng-container matColumnDef="relationWithPatient">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Relationship with Patient
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.relationWithPatient}}     
+                        </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="phoneNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Phone Number
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.phoneNumber}}     
+                        </td>
+                    </ng-container>  
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                            Actions
+                        </th>
+                        <td mat-cell *matCellDef="let element">  
+                            <div class="w-100 d-flex align-items-center justify-content-end">
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/view-emergency-contact',element._id]">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                </button>
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/edit-emergency-contact',element._id]">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                </button>
+                                <button mat-button class="flex-shrink-0 min-width-unset" (click)="deleteAccount(element._id)" >
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="no--record--found align-items-center justify-content-center w-100" *ngIf="emergencyContactList && emergencyContactList.filteredData.length == 0">
+                    <div>
+                        <p class="">{{ validationMessages.noRecords }}</p>
+                    </div>
+                </div>
+                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"></mat-paginator>
+            </div>
+        </div>
+
+        <div class="card-body day--one--wrapper d-flex align-items-center justify-content-center" *ngIf="dayOne"> 
+            <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                <img src="assets/images/ark/calendar-lg.png"  alt="" class="img-fluid mb-4" />                    
+                <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="!dayOneFlag">No Records Found!</p>
+                <p class="fw-700 clr--1F2F3E text-center mb-2" *ngIf="dayOneFlag">Currently there are no emergency contact to show!</p>
+                <p class="clr--1F2F3E text-center" *ngIf="dayOneFlag">Kindly click on “Add Contact” to add an emergency contact.</p>
+            </div>
+        </div> 
+    </div>
+</div>

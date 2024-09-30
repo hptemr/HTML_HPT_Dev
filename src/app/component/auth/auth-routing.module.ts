@@ -6,6 +6,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { loginGuard } from '../../shared/services/gaurd/login.guard';
 import { AdminSignupComponent } from './admin-signup/admin-signup.component';
+import { TermsOfServicesComponent } from 'src/app/shared/comman/terms-of-services/terms-of-services.component';
+import { PrivacyPolicyComponent } from 'src/app/shared/comman/privacy-policy/privacy-policy.component';
  
 const routes: Routes = [ 
   {
@@ -40,9 +42,22 @@ const routes: Routes = [
     canActivate:[loginGuard]
   },
   {
+    path: 'signup/:tokenId',
+    component: SignupPatientComponent,
+    canActivate:[loginGuard]
+  },
+  {
     path: 'admin/signup/:userId',
     component: AdminSignupComponent
-  }
+  },
+  {
+    path: 'terms-of-services',
+    component: TermsOfServicesComponent, 
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent, 
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

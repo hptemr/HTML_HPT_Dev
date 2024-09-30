@@ -1,0 +1,92 @@
+<div class="col-12 insurance--table">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h3 class="mb-0 clr--1F2F3E">Insurance</h3>
+                <button mat-raised-button color="primary" [routerLink]="['/patient/add-insurance']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    Add Insurance
+                </button>
+            </div> 
+            <div class="col-12 col-lg-6">
+                <div class="form-group position-relative">
+                    <input type="text" [(ngModel)]="seachByName" (keyup)="searchRecords($event)" class="form-control search--outer" placeholder="Search By Insurance Name">
+                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                    </button> 
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-12 cust--mat--table--wrapper">
+                <table mat-table [dataSource]="insuranceList" matSort (matSortChange)="announceSortChange($event)" class="cust--mat--table box--row--table">
+                    <!-- <ng-container matColumnDef="insuranceName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by insurance name">
+                            Insurance Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.insuranceName}}     
+                        </td>
+                    </ng-container> -->
+                    <ng-container matColumnDef="primaryInsuranceCompany">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by company">
+                            Company Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.primaryInsuranceCompany}}     
+                        </td>
+                    </ng-container>                       
+                    <ng-container matColumnDef="primaryInsuranceIdPolicy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Id policy">
+                            ID/Policy #
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.primaryInsuranceIdPolicy}}     
+                        </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="primaryInsuranceGroup">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by insurance group">
+                            Group #
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{element.primaryInsuranceGroup}}     
+                        </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="validThrough">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            Valid Through
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            N/A     
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Actions
+                        </th>
+                        <td mat-cell *matCellDef="let element">  
+                            <div class="w-100 d-flex align-items-center justify-content-end">
+                                <button mat-button class="flex-shrink-0 min-width-unset me-3" [routerLink]="['/patient/view-insurance/',element.id]">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                </button>
+                                <button mat-button class="flex-shrink-0 min-width-unset" [routerLink]="['/patient/edit-insurance/',element.id]">
+                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="no--record--found align-items-center justify-content-center w-100"
+                    *ngIf="insuranceList && insuranceList.filteredData.length == 0">
+                    <div>
+                        <p class="">{{ validationMessages.noRecords }}</p>
+                    </div>
+                </div>
+                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

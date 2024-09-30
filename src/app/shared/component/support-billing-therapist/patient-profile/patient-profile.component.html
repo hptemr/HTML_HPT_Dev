@@ -1,0 +1,174 @@
+<div class="col-12 profile--right--wrapper">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center">
+                <!-- <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/', activeUserRoute, 'patients' ,'patient-details', patientId]">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                </button> -->
+
+                <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="goBack()">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                </button>
+                
+                <h3 class="mb-0 clr--1F2F3E fw-600">Patient Profile</h3>
+
+            </div>
+        </div>
+        <div class="card-body d-flex flex-column flex-sm-row mb-5">
+            <div class="profile--left d-flex flex-column position-relative flex-shrink-0">
+                <div class="head--sec w-100">
+                </div>
+                <div class="profile--round position-relative">
+                    <div class="user--name d-flex align-items-center justify-content-center">
+                        <span class="text-primary fw-600">
+                            <img src="{{profileImage}}" class="img-fluid user--img">
+                        </span>
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-center justify-content-center w-100 body--sec">
+                    <h3 class="font-18 fw-700">{{patientData.firstName}} {{patientData.lastName}}</h3>
+                    <div class="d-flex align-items-center user--email">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">mail </mat-icon>
+                        <p class="my-2 font-16">{{patientData.email}}</p>
+                    </div>
+                    <h3 class="font-16 fw-700 my-2" *ngIf="patientData.ssn">SSN <span class="fw-500">{{patientData?.ssn
+                            ? patientData.ssn : ''}}</span> </h3>
+                </div>
+            </div>
+            <div class="profile--right d-flex flex-column w-100">
+                <div class="card w-100 mb-0">
+                    <div class="card-header pb-0">
+                        <div class="col-12 d-flex align-items-center">
+                            <h3 class="mb-0 clr--1F2F3E fw-600">Basic Information</h3>
+                        </div>
+                    </div>
+                    <div class="card-body mt-4">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-start mb-4">
+                                                <div
+                                                    class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined text-primary">call</mat-icon>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">Home Phone Number</h3>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{patientData.phoneNumber
+                                                        ? '+1 '+patientData.phoneNumber : 'N/A'}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-start mb-4">
+                                                <div
+                                                    class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined text-primary">smartphone</mat-icon>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">Cell Phone Number</h3>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">
+                                                        {{patientData.cellPhoneNumber ? '+1
+                                                        '+patientData.cellPhoneNumber : 'N/A'}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-start mb-4">
+                                                <div
+                                                    class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined text-primary">call</mat-icon>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">Work Extension Number
+                                                    </h3>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">
+                                                        {{patientData.workExtensionNumber ? '+1
+                                                        '+patientData.workExtensionNumber : 'N/A'}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-start mb-4">
+                                                <div
+                                                    class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined text-primary">transgender</mat-icon>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">Gender</h3>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{patientData.gender}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-start mb-4">
+                                                <div
+                                                    class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined text-primary">cake</mat-icon>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">Date of Birth</h3>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400">{{birthdate |
+                                                        date:'mediumDate'}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-start mb-4">
+                                                <div
+                                                    class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined text-primary">location_on</mat-icon>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Mailing Address</h3>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span
+                                                            class="fw-700">City: </span> {{patientData.city}}</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span
+                                                            class="fw-700">State/province/area: </span>
+                                                        {{patientData.state}}</p>
+                                                    <p class="mb-0 clr--1F2F3E font-16 fw-400"> <span
+                                                            class="fw-700">Postal Code: </span> {{patientData.zipcode}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-start mb-4">
+                                                <div
+                                                    class="indicate--round flex-shrink-0 d-flex align-items-center justify-content-center">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined text-primary">assignment_ind</mat-icon>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">
+                                                        {{patientData.documents_type}}</h3>
+                                                    <div class="document--box"
+                                                        *ngIf="patientData.documents_type && documentsLink">
+                                                        <img src="{{documentsLink}}"
+                                                            alt="{{patientData.documents_type}}" class="img-fluid" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

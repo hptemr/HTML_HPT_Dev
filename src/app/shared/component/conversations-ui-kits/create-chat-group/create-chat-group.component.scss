@@ -1,0 +1,44 @@
+::ng-deep{
+    .inivite--modal{
+        .mat-mdc-dialog-container{
+            width: 423px; 
+            .inivite--wrapper{
+                padding: 15px 24px 20px 24px;
+                .inivite--header{
+                    h1{
+                        color: #1F2F3E;
+                        font-size: 18px;
+                        margin-bottom: 25px;
+                        font-weight: 600;
+                    }
+                }
+                .inivite--footer{
+                    margin-top: 17px;
+                }
+                .cc-add-members{
+                    .list__header{
+                        .list__title{
+                            margin-bottom: 15px;
+                        }
+                    }
+                    .cc-close-button,
+                    .cc-back-button{
+                        top: 5px !important;
+                        display: none !important;
+                    }
+                    .cc-add-members__wrapper{
+                        padding: 0 !important;
+                    }
+                    .cc-users__selection--multiple{
+                        width: 40px;
+                    }
+                    .cc-users{
+                        margin-bottom: 21px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+ 

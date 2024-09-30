@@ -47,7 +47,7 @@ export class ForgotPasswordComponent {
             if(this.userType=='patient'){
               this.router.navigate(["/"]);
             }else{
-              this.router.navigate(["/admin"]);
+              this.router.navigate(["/admin/login"]);
             }            
           }
         },error: (err) => {

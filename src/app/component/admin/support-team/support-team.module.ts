@@ -1,28 +1,36 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';  
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AppointmentsComponent } from './appointments/appointments.component';
 import { SupportTeamRoutingModule } from './support-team-routing.module';
- import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
-import { SystemFollowupModalComponent } from './system-followup-modal/system-followup-modal.component';
-import { PatientProfileComponent } from './patient-profile/patient-profile.component';
-import { AppointmentRequestsComponent } from './appointment-requests/appointment-requests.component';
- 
+import { DatePipe } from '@angular/common';
+import { RequestsComponent } from './requests/requests.component';
+import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
+import { CreateRequestAppointmentComponent } from './requests/create-request-appointment/create-request-appointment.component';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { CaseDetailsComponent } from './case-details/case-details.component';
+import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
 @NgModule({
   declarations: [ 
-    AppointmentsComponent,
-     AppointmentDetailsComponent,
-    SystemFollowupModalComponent,
-    PatientProfileComponent,
-    AppointmentRequestsComponent
+    // AppointmentsComponent,
+    // AppointmentDetailsComponent,
+    // AppointmentRequestsComponent,
+    // SystemFollowupModalComponent,
+    // PatientProfileComponent,
+    RequestsComponent,
+    CreateAppointmentComponent,
+    CreateRequestAppointmentComponent,
+    CaseDetailsComponent,
+    ResolvedRequestsComponent
   ],
   imports: [
     CommonModule,
+    MaterialModule,
     SupportTeamRoutingModule,
     FormsModule,
-    ReactiveFormsModule, 
-    SharedModule,  
+    ReactiveFormsModule,
+    SharedModule,
+    DatePipe
   ]
 })
 export class SupportTeamModule { }

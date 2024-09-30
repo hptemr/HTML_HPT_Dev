@@ -1,0 +1,265 @@
+<div class="container-fluid book--appointment--wrapper read--only--form">
+    <div class="row">
+        <div class="col-12 d-flex align-items-center mt-0 mb-2">
+            <div class="row w-100 align-items-center">
+                <div class="col-12 col-sm-6 col-lg-6 d-flex align-items-center">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/', activeUserRoute, 'case-details', appId]">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+                    </button>
+                    <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                        <span class="me-3">Intake Form</span>
+                        <span>(Step <span class="text-primary"> 1 </span> of 5)</span>
+                    </h3>
+                </div>
+                <!-- <div *ngIf="step1FormData"
+                    class="col-12 col-sm-6 col-lg-6 d-flex justify-content-start justify-content-sm-end ">
+                    <p class="mb-0 clr--1F2F3E fw-700 font-16">
+                        {{step1FormData.patientInfo.firstName}} {{step1FormData.patientInfo.lastName}}
+                        <span class="fw-500">
+                            (Appointment #: {{step1FormData.appointmentId}})
+                        </span>
+                    </p>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <form *ngIf="step1Form" [formGroup]="step1Form">
+        <div class="card m-0">
+            <div class="row justify-content-between align-items-center">
+                <h4 class="text-center clr--212529 font-16 fw-400"><b>*Note</b> If you need immediate assistance please <a class="clr--31B7B7 fw-700">contact</a> our office</h4>
+            </div>
+            <div class="row mt-3">               
+                <div class="col-12 col-lg-6 col-md-6  ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            Practice Location <!-- <span class="clr--DF0404 ms-1">*</span> -->
+                        </label>                    
+                        <select formControlName="practiceLocation" class="form-select form-control" aria-label="Default select example">
+                            <option value="">Practice Location</option>
+                            <option value="{{element}}" *ngFor="let element of practiceLocations;">
+                                {{element}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="text text-danger mt-1"
+                        *ngIf="step1Form.controls['practiceLocation'].touched && step1Form.controls['practiceLocation'].hasError('required')">
+                        {{ validationMessages.requiredDropdown('Practice Location') }}
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            Select Date & Time <!-- <span class="clr--DF0404 ms-1">*</span> -->
+                        </label>
+                        <div class="input-group">
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input (focus)="picker.open()" [min]="todayDate" [max]="maxAppntDate" formControlName="appointmentDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker" (focus)="picker.open()">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="text text-danger mt-1"
+                            *ngIf="step1Form.controls['appointmentDate'].touched && step1Form.controls['appointmentDate'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Appointment Date') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Booking For</label>
+                        <mat-radio-group formControlName="bookingFor" aria-label="Select an option" (change)="onChange($event)" >
+                            <mat-radio-button value="Myself" class="me-3">Myself</mat-radio-button>
+                            <mat-radio-button value="Other">Other</mat-radio-button>
+                        </mat-radio-group>
+                        <div class="form-group other--booking" *ngIf="selectedValue == 'Other'">
+                            <input class="form-control" type="text" placeholder="Enter other booking for" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Relationship with Patient</label>
+                        <select formControlName="relationWithPatient" class="form-select form-control" aria-label="Default select example">
+                            <option value="" selected>Select Relation</option>
+                            <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group" *ngIf="">
+                        <input class="form-control" type="text" placeholder="Enter other relation" />
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            First Name <span class="clr--DF0404 ms-1"> *</span>
+                        </label>
+                        <input (blur)="checkSpace('firstName', $event)" [readonly]="isReadonly"
+                            formControlName="firstName" class="form-control" type="text"
+                            placeholder="Enter First Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step1Form.controls['firstName'].touched && (step1Form.controls['firstName'].hasError('required') || step1Form.controls['firstName'].invalid)">
+                            {{ validationMessages.required('First Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Middle Name  <span class="clr--DF0404 ms-1"> *
+                        </span></label>
+                        <input [readonly]="isReadonly" (blur)="checkSpace('middleName', $event)"
+                            formControlName="middleName" class="form-control" type="text"
+                            placeholder="Enter Middle Name" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
+                            </span></label>
+                        <input (blur)="checkSpace('lastName', $event)" formControlName="lastName"
+                            [readonly]="isReadonly" class="form-control" type="text" placeholder="Enter Last Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step1Form.controls['lastName'].touched && (step1Form.controls['lastName'].hasError('required') || step1Form.controls['lastName'].invalid)">
+                            {{ validationMessages.required('Last Name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">
+                            Date of Birth
+                            <!-- <span class="clr--DF0404 ms-1">*</span> -->
+                        </label>
+                        <div class="input-group">
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input readonly="isReadonly" [max]="todayDate" formControlName="dob"
+                                    placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker2" (focus)="picker2.open()">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="text text-danger mt-1"
+                            *ngIf="step1Form.controls['dob'].touched && (step1Form.controls['dob'].hasError('required') || step1Form.controls['dob'].invalid)">
+                            {{ validationMessages.requiredDropdown('Date of Birth') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Marital Status</label>
+                        <select formControlName="maritalStatus" class="form-select form-control" aria-label="Default select example">
+                            <option value="" selected>Select Marital Status</option>
+                            <option value="{{element}}" *ngFor="let element of maritalStatus;">{{element}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Gender</label>
+                        <mat-radio-group formControlName="gender" aria-label="Select an option">
+                            <mat-radio-button value="Male" class="me-3">Male</mat-radio-button>
+                            <mat-radio-button value="Female">Female</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Email </label>
+                        <input formControlName="email" [readonly]="isReadonly" class="form-control" type="email" placeholder="Enter Email" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step1Form.controls['email'].touched && (step1Form.controls['email'].hasError('required') || step1Form.controls['email'].invalid)">
+                            {{ validationMessages.required('valid Email') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6  ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Phone Number <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="phoneNumber" [readonly]="isReadonly" class="form-control" placeholder="Enter Phone Number" maxlength="14" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step1Form.controls['phoneNumber'].touched && (step1Form.controls['phoneNumber'].hasError('required') || step1Form.controls['phoneNumber'].invalid)">
+                            {{ validationMessages.required('valid Phone Number') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Cell Phone Number </label>
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="cellPhoneNumber" [readonly]="isReadonly" class="form-control" placeholder="Enter Cell Phone Number" maxlength="14" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Work Extension </label>
+                        <input [imask]="{mask: '(000) 000-0000'}" formControlName="workExtensionNumber" [readonly]="isReadonly" class="form-control" placeholder="Enter Work Extension Number" maxlength="14"  />
+                    </div>
+                </div>  
+
+                <div class="col-12">
+                    <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Patient Address </h2>
+                </div>                
+         
+                <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Address  <span class="clr--DF0404 ms-1"> * </span>  </label>
+                        <input class="form-control" type="text" [readonly]="isReadonly"  placeholder="Address" formControlName="address1" />
+                        <div class="text text-danger mt-1" *ngIf="step1Form.controls['address1'].touched && (step1Form.controls['address1'].hasError('required') || step1Form.controls['address1'].invalid)">
+                          {{ validationMessages.required('Address') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6   col-xl-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">City <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" id="city" aria-label="Default select example" [(ngModel)]="selectedCity" formControlName="city">
+                          <option selected value="">Select City</option>
+                          <option *ngFor="let item of cities" value="{{item.city}}" >{{item.city}}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="step1Form.controls['city'].touched && step1Form.controls['city'].hasError('required')">
+                          {{ validationMessages.requiredDropdown('City') }}
+                        </div>
+                    </div>    
+                </div>
+
+                <div class="col-12 col-lg-6 col-md-6   col-xl-6">
+                    <div class="form-group">
+                       <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" id="state" aria-label="Default select example" formControlName="state" (ngModelChange)="onStateChange($event)">
+                            <option selected value="">Select State</option>
+                            <option *ngFor="let item of states" value="{{item.state_code}}" [selected]="">{{item.state}}</option>
+                        </select>                               
+                        <div class="text text-danger mt-1" *ngIf="step1Form.controls['state'].touched && step1Form.controls['state'].hasError('required')">
+                        {{ validationMessages.requiredDropdown('State') }}
+                        </div>
+                     </div>
+                </div>
+
+
+                <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Postal Code <span class="clr--DF0404 ms-1"> * </span>  </label>
+                        <input class="form-control" type="text" [readonly]="isReadonly" placeholder="Enter Postal Code" formControlName="zipcode" maxlength="6"/>
+                        <div class="text text-danger mt-1" *ngIf="step1Form.controls['zipcode'].touched && (step1Form.controls['zipcode'].hasError('required') || step1Form.controls['zipcode'].invalid)">
+                          {{ validationMessages.required('Zipcode') }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-end w-100 footer--btns">
+            <button (click)="bookAppointmentStep1()" mat-raised-button color="primary" class="m-1" *ngIf="!isReadonly">
+                Next
+            </button>
+            <button (click)="nextStep()" mat-raised-button color="primary" class="m-1" *ngIf="isReadonly">
+                Next
+            </button>
+        </div>
+    </form>
+</div>

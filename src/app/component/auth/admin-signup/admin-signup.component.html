@@ -95,8 +95,8 @@
                     <div class="col-12 d-flex mb-4">
                       <mat-checkbox (change)="termsChecked($event)" formControlName="termsConditions" class="">By
                         Clicking on ‘Sign Up’ you agree to the
-                        Privacy Policy and Terms of
-                        Services of the HPT-EHR platform.</mat-checkbox>
+                        <a [routerLink]="['/privacy-policy']" target="_blank">Privacy Policy</a> and <a [routerLink]="['/terms-of-services']" target="_blank"> Terms of
+                        Services</a> of the HPT-EHR platform.</mat-checkbox>
                     </div>
                     <div class="col-12 d-flex mb-4">
                       <button [disabled]="signupForm.invalid || !termsConditionChecked || !pwdMatch || !submitButton" mat-raised-button

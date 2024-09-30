@@ -1,0 +1,29 @@
+<div class="initial--exam--assesment--wrapper container-fluid p-0">
+    <form [formGroup]="assessmentForm" (ngSubmit)="assessmentSubmit(assessmentForm.value)">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Assessment</label>
+                    <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5" formControlName="assessment_text" (blur)="checkSpace('assessment_text', $event)"></textarea> 
+                    <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['assessment_text'].hasError('required') && assessmentForm.controls['assessment_text'].touched">
+                        {{ validationMessages.required('Assessment') }}</div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Supporting Documentation</label>
+                    <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" formControlName="supporting_documentation_text" (blur)="checkSpace('supporting_documentation_text', $event)"></textarea> 
+                    <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['supporting_documentation_text'].hasError('required') && assessmentForm.controls['supporting_documentation_text'].touched">
+                        {{ validationMessages.required('Supporting documentation') }}</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
+            <button mat-raised-button color="primary" type="submit" class="m-1">
+                Save as Draft
+            </button>
+        </div>
+    </form>
+</div>

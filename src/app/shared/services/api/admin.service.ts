@@ -42,8 +42,10 @@ export class AdminService {
     return this.http.post(url, data).pipe();
   }
 
-  getPatientList(data: any): Observable<any> {
-    const url = `${environment.apiUrl}/patients/getPatientList`;
+  cometChatLog(data: any): Observable<any> {
+    const url = `${environment.apiUrl}/admin/cometChatLog`;
     return this.http.post(url, data).pipe();
   }
+ 
+ 
 }

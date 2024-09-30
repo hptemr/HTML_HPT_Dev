@@ -4,5 +4,6 @@ export const regex = {
     usPhoneNumber:/^\(\d{3}\) \d{3}-\d{4}$/,
     alphabetic: /^[a-zA-Z]*$/,
     onlyNumeric: /^[0-9]+$/,
-    numericAndSpecialCharacter: /^[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
+    numericAndSpecialCharacter: /^[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/,
+    alphanumeric: /^[a-zA-Z0-9]*$/,
 };

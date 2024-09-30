@@ -18,6 +18,9 @@ import { FileUploader,FileSelectDirective  } from 'ng2-file-upload';
 import { AlertComponent } from '../../../shared/comman/alert/alert.component';
 import { MatDialog,MatDialogRef } from '@angular/material/dialog';
 import { serverUrl, s3Details,documents_list } from '../../../config';
+import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
+import { UploadImgComponent } from 'src/app/shared/component/upload-img/upload-img.component';
+import { ProfilePicService } from '../../../shared/services/profile-pic.service';
 const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
   state: string;
@@ -34,6 +37,7 @@ interface City {
   providers: [DatePipe]
 })
 export class UpdatePatientProfileComponent implements OnInit {
+  editOptions: boolean=false;
   selectedTab = 0;
   model: NgbDateStruct;
   states: State[] = states_data;
@@ -49,6 +53,9 @@ export class UpdatePatientProfileComponent implements OnInit {
   secondFormGroupData: any
   thiredFormGroupData: any
   readonly DT_FORMAT = 'MM/DD/YYYY';
+  profileImage: any
+  isDefaultImage:boolean = true
+
 
   convertPhoneNumber: string = '';
   convertCellPhoneNumber: string = '';
@@ -72,18 +79,19 @@ export class UpdatePatientProfileComponent implements OnInit {
   currentProgessinPercent: number = 0;
   selectedDocumentsType: string;
   documents_type_list:any=[];
-  user_data:any=[];
+  // user_data:any=[];
+  userType:any;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe) {}
+  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe,private picService: ProfilePicService) {}
   //constructor(private _formBuilder: FormBuilder ) {} 
 
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
-    this.user_data = localStorage.getItem("user");
-    this.documents_type_list = documents_list;
-    //console.log(this.userId,'user_data>>>>',this.user_data,' >>>>>>>>>>>>###>>>>>>>',this.authService.getLoggedInInfo('_id'))
+    // this.user_data = localStorage.getItem("user");
+    this.userType = this.authService.getLoggedInInfo('role')
+    this.documents_type_list = documents_list;    
     this.uploader = new FileUploader({url:`${URL}?userId=${this.userId}&type=Patient`});
     this.firstFormGroup = this.fb.group({
         firstName: ['', [Validators.pattern("^[ A-Za-z0-9.'-]*$"),CustomValidators.noWhitespaceValidator, Validators.required,Validators.minLength(1), Validators.maxLength(35)]],
@@ -115,6 +123,14 @@ export class UpdatePatientProfileComponent implements OnInit {
 
     this.getUserData();
     this.filterStartDate();
+    this.checkSelectedTabInStorage()
+    // Profile Image
+    this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
+    this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
+    this.picService.itemValue.subscribe((nextValue) => {      
+      if(nextValue)
+      this.profileImage = nextValue;
+    })
   }
 
   checkSpace(colName: any, event: any) {
@@ -155,7 +171,6 @@ export class UpdatePatientProfileComponent implements OnInit {
 
   onDateChange(date: NgbDateStruct) {
      this.selectedDate = date;
-     console.log('onDateChange >>> ',date,'>>>>',this.selectedDate)
      return this.formatDate(this.selectedDate);
   }
   
@@ -373,6 +388,7 @@ export class UpdatePatientProfileComponent implements OnInit {
   }
 
   goToNext(steps:any,userData:any) {
+    console.log("goToNext>>>>")
       if (steps==0 && !this.firstFormGroup.invalid){
         let first_form_data = {
           "firstName":userData.firstName,
@@ -430,9 +446,9 @@ export class UpdatePatientProfileComponent implements OnInit {
       data: data,
       formTitle:title
     }
-    this.commonService.showLoader();       
+    // this.commonService.showLoader();       
     await this.authService.apiRequest('post', 'patients/updateProfile', req_vars).subscribe(async response => {         
-      this.commonService.hideLoader();
+      // this.commonService.hideLoader();
       if (response.error) {
         if(response.message){
           this.commonService.openSnackBar(response.message, "ERROR")   
@@ -441,8 +457,12 @@ export class UpdatePatientProfileComponent implements OnInit {
         this.selectedTab = steps+1;
         if(this.selectedTab==3){
           this.commonService.openSnackBar('Profile details are updated successfully.', "SUCCESS")   
-          this.selectedTab = 0;
-        }        
+          // this.selectedTab = 0;
+          this.router.navigate(["/patient/appointments"])
+        } 
+        if(steps==0){
+          this.updatePatientInLocalStorage(data)
+        }       
       }      
     })
   }
@@ -458,14 +478,12 @@ export class UpdatePatientProfileComponent implements OnInit {
           this.commonService.openSnackBar(response.message, "ERROR")   
         }
       } else {
-        //console.log('user data >>>>',response.data.patientData)     
         let user_data = response.data.patientData;
         if(user_data){          
           this.firstFormGroup.controls['firstName'].setValue(user_data.firstName ? user_data.firstName : '');
           this.firstFormGroup.controls['middleName'].setValue(user_data.middleName ? user_data.middleName : '');
           this.firstFormGroup.controls['lastName'].setValue(user_data.lastName ? user_data.lastName : '');
           this.firstFormGroup.controls['email'].setValue(user_data.email ? user_data.email : '');
-          //this.firstFormGroup.controls['dob'].setValue(user_data.dob ? user_data.dob : '');
           this.firstFormGroup.controls['phoneNumber'].setValue(user_data.phoneNumber ? user_data.phoneNumber : '');
           this.firstFormGroup.controls['cellPhoneNumber'].setValue(user_data.cellPhoneNumber ? user_data.cellPhoneNumber : '');
           this.firstFormGroup.controls['workExtensionNumber'].setValue(user_data.workExtensionNumber ? user_data.workExtensionNumber : '');
@@ -505,6 +523,112 @@ export class UpdatePatientProfileComponent implements OnInit {
   backtoTab2(){
     this.selectedTab = 1  
   }
+
+  editProfilePic() { 
+    this.editOptions=!this.editOptions;
+  }
+
+  changePassword() {
+    const dialogRef = this.dialog.open(ChangePasswordModalComponent,{
+      disableClose: true,
+      panelClass: 'change--password--modal',
+      data: {
+        userId: this.userId,
+        userRole: this.userType
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        this.authService.logout(this.userType)
+      }
+    });
+  }
  
+  updatePatientInLocalStorage(updateProfileData: any) {
+    let localSorageUserData: any = this.authService.getLoggedInInfo('all')
+    localSorageUserData.firstName = updateProfileData.firstName;
+    localSorageUserData.lastName = updateProfileData.lastName;
+    localStorage.setItem('user', JSON.stringify(localSorageUserData));
+    localStorage.setItem('selectedTabPatientProfile', JSON.stringify(this.selectedTab));
+    window.location.reload()
+  }
+
+  checkSelectedTabInStorage(){
+    let selectedTabInStorage= localStorage.getItem('selectedTabPatientProfile')
+    if(selectedTabInStorage){
+      let selectedTab=JSON.parse(selectedTabInStorage)
+      this.selectedTab = selectedTab
+      localStorage.removeItem('selectedTabPatientProfile')
+    }
+  }
+
+  async changePhoto() {
+    this.editOptions = false
+    const dialogRef = this.dialog.open(UploadImgComponent, {
+      width: '600px',
+      disableClose: true,
+      data: { cropperFor: 'Profile Picture' }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      this.commonService.showLoader()
+      if (result !== false && result.image !== null && result.image !== undefined) {
+        let imageName = this.authService.getLoggedInInfo('_id').toString()+'_'+this.commonService.getRandomInteger(1, 900);
+        let imageNameExt =  imageName+ '.png' 
+        let reqVars = {
+          userId: this.authService.getLoggedInInfo('_id'),
+          imageName:imageName,
+          profileImage: result.image.base64
+        }
+        await this.authService.apiRequest('post', 'patients/changeProfileImage', reqVars).subscribe(async response => {
+          this.commonService.hideLoader()
+          let userDetails: any
+          userDetails = this.authService.getLoggedInInfo()
+          userDetails.profileImage = imageNameExt;
+          this.picService.setProfilePic=imageNameExt;
+          localStorage.setItem('user', JSON.stringify(userDetails))
+
+          this.commonService.openSnackBar(response.message, "SUCCESS")
+          // setTimeout(function () {
+          //   location.reload();
+          // }, 3000)
+        })
+      } else {
+        this.commonService.hideLoader()
+      }
+    })
+  }
+
+  removePhoto() {
+    this.editOptions = false
+    const dialogRef = this.dialog.open(AlertComponent, {
+      panelClass: 'custom-alert-container',
+      data: {
+        warningNote: 'Do you really want to remove this image?'
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        this.commonService.showLoader()
+        let reqVars = {
+          userId: this.authService.getLoggedInInfo('_id')
+        }
+        await this.authService.apiRequest('post', 'patients/deleteProfileImage', reqVars).subscribe(async response => {
+          this.commonService.hideLoader()
+          let userDetails: any
+          userDetails = this.authService.getLoggedInInfo()
+          userDetails.profileImage = response.data
+          localStorage.setItem('user', JSON.stringify(userDetails))
+          this.commonService.openSnackBar(response.message, "SUCCESS")
+          setTimeout(function () {
+            location.reload();
+          }, 3000);
+        })
+      }
+    })
+  }
+
 
 }

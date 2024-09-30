@@ -1,0 +1,37 @@
+::ng-deep{
+    .preview--modal{
+        max-width: 500px !important;
+        min-width: 500px !important;
+    }
+    .preview--modal--wrapper{
+        .preview--header{
+            .close--btn{
+                padding: 3px !important;
+                min-width: auto;
+                height: auto;
+                position: absolute;
+                right: 16px;
+                top: 11px;
+                border-radius: 100%;
+            }
+        }
+        .preview--body{
+            height: 500px;
+            overflow: auto;
+        }
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    ::ng-deep{
+        .preview--modal{
+            max-width: 320px !important;
+            min-width: 320px !important;
+        }
+    }
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){}
+@media only screen and (min-width: 980px) and (max-width: 1279px){}
+@media only screen and (min-width: 1280px) and (max-width: 1440px){}
+@media only screen and (min-width: 1441px) and (max-width: 1550px){}
+@media screen and (orientation:landscape) and (max-width: 850px){}

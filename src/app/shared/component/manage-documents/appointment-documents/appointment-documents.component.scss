@@ -1,0 +1,45 @@
+.document--wrapper{
+    .card{
+        box-shadow: none !important;
+    }
+    ::ng-deep{
+        table{
+            thead{
+                tr{
+                    th{
+                        font-size: 16px;
+                        font-weight: 700;
+                        color: #1f2f3e;
+                        &:last-child{
+                            width: 10%;
+                        }
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        padding: 12px 10px !important;
+                        .description{color: #31B7B7;}
+                        .pdf{color: #F45454;}
+                        .folder{color: #31B7B7;}
+                        .photo{color: #5CC0F8;}
+                        &:first-child{
+                            .mat-icon{ 
+                                flex-shrink: 0;
+                            } 
+                        }
+                        &:last-child{
+                            .mat-icon{
+                                height: 24px;
+                                width: 24px;
+                                font-size: 24px;
+                                color: #31B7B7;
+                            } 
+                        }
+                    }
+                }
+            }
+        }
+    } 
+}

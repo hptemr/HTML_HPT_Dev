@@ -1,0 +1,102 @@
+<div class="container-fluid book--appointment--wrapper if--step--four st--intake--form">
+    <div class="row">
+        <div class="col-12 d-flex align-items-center mb-4 mt-4">
+            <button mat-stroked-button color="primary" class="me-3 back--btn"
+                [routerLink]="['/',activeUserRoute, 'intake-form','step-4', appId]">
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
+            </button>
+            <h3 class="mb-0 clr--1F2F3E fw-600 d-flex flex-wrap">
+                <span class="me-3">Intake Form</span>
+                <span>(Step <span class="text-primary"> 5 </span> of 5)</span>
+            </h3>
+        </div>
+    </div>
+    <form *ngIf="step5Form" [formGroup]="step5Form">
+        <div class="card m-0">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="fw-700 font-16 mb-2 mt-2 text-uppercase">Consent for Use of Text Message & E-Mail</h2>
+                    <p class="fw-400 font-16 mb-2 lh-24" [ngClass]="{'inlimit': toggle, 'nolimit': !toggle}">In order to
+                        deliver care to you as efficiently as possible, and for your convenience, it is often helpful to
+                        communicate with you over the phone through texting and emailing. Please be advised, however,
+                        that
+                        communicating over texting and email is inherently insecure. We take your privacy very
+                        seriously,
+                        and therefore we may only communicate with you in these ways with your informed consent. Please
+                        indicate below whether and to what extent we can communicate with you utilizing these methods.
+                        In
+                        order to deliver care to you as efficiently as possible, and for your convenience, it is often
+                        helpful to communicate with you over the phone through texting and emailing. Please be advised,
+                        however, that communicating over texting and email is inherently insecure. We take your privacy
+                        very
+                        seriously, and therefore we may only communicate with you in these ways with your informed
+                        consent.
+                        Please indicate below whether and to what extent we can communicate with you utilizing these
+                        methods. </p>
+                    <a class="text-primary fw-700 font-16 cursor-pointer text-decoration-underline"
+                        (click)="change()">{{short_text}}</a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="fw-600 font-16 mb-2 mt-4 d-flex align-items-center flex-wrap clr--1F2F3E">
+                                Mobile Number
+                                <span class="ms-2 clr--828282 font-14 fw-400">
+                                    (Text Message Appointment Reminders)
+                                </span>
+                            </p>
+                            <mat-radio-group (change)="onChange('reminderViaMobile', $event)"
+                                formControlName="reminderViaMobile" aria-label="Select an option">
+                                <mat-radio-button value="Yes" class="me-4">Yes</mat-radio-button>
+                                <mat-radio-button value="No" checked>No</mat-radio-button>
+                            </mat-radio-group>
+                            <div class="form-group" *ngIf="step5Form.controls['reminderViaMobile'].value == 'Yes'">
+                                <label class="col-form-label fw-600">Mobile Number <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
+                                <input [imask]="{mask: '(000) 000-0000'}" maxlength="14"
+                                    formControlName="reminderViaMobileYes" class="form-control" type="text"
+                                    placeholder="Enter Mobile Number" />
+
+                                <div class="text text-danger mt-1"
+                                    *ngIf="step5Form.controls['reminderViaMobileYes'].touched && (step5Form.controls['reminderViaMobileYes'].hasError('required') || step5Form.controls['reminderViaMobileYes'].invalid)">
+                                    {{ validationMessages.required('valid Mobile Number') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="fw-600 font-16 mb-2 mt-4 d-flex align-items-center flex-wrap clr--1F2F3E">
+                                E-Mail Address
+                                <span class="ms-2 clr--828282 font-14 fw-400">(Communication Via Email)</span>
+                            </p>
+                            <mat-radio-group (change)="onChange('reminderViaEmail', $event)"
+                                formControlName="reminderViaEmail" aria-label="Select an option">
+                                <mat-radio-button value="Yes" class="me-4">Yes</mat-radio-button>
+                                <mat-radio-button value="No" checked>No</mat-radio-button>
+                            </mat-radio-group>
+                            <div class="form-group" *ngIf="step5Form.controls['reminderViaEmail'].value == 'Yes'">
+                                <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> *
+                                    </span></label>
+                                <input formControlName="reminderViaEmailYes" class="form-control" type="email"
+                                    placeholder="Enter Email" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="step5Form.controls['reminderViaEmailYes'].touched && (step5Form.controls['reminderViaEmailYes'].hasError('required') || step5Form.controls['reminderViaEmailYes'].invalid)">
+                                    {{ validationMessages.required('valid Email') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
+            <button mat-stroked-button color="primary" class="m-1"
+                [routerLink]="['/',activeUserRoute, 'intake-form','step-4', appId]">
+                Previous
+            </button>
+            <button [disabled]="step5Form.invalid" (click)="finalSubmit()" mat-raised-button color="primary"
+                class="m-1">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>

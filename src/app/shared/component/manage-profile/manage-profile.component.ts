@@ -10,8 +10,8 @@ import { AdminService } from '../../../shared/services/api/admin.service';
 import { regex } from '../../../utils/regex-patterns';
 import { UploadImgComponent } from '../upload-img/upload-img.component';
 import { s3Details } from 'src/app/config';
-
-
+import { UserService } from '../../../shared/services/comet-chat/user.service';
+import { ProfilePicService } from '../../../shared/services/profile-pic.service';
 @Component({
   selector: 'app-manage-profile',
   templateUrl: './manage-profile.component.html',
@@ -33,14 +33,19 @@ export class ManageProfileComponent {
     private fb: FormBuilder,
     private commonService: CommonService,
     private authService: AuthService,
-    private adminService: AdminService
-  ) {
-  }
+    private adminService: AdminService,
+    private userService: UserService,
+    private picService: ProfilePicService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userType = this.authService.getLoggedInInfo('role')
     this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
+    this.picService.itemValue.subscribe((nextValue) => {      
+      if(nextValue)
+      this.profileImage = nextValue;
+    })
     this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
     this.initializeUpdateProfileForm()
     this.getProfile()
@@ -99,7 +104,7 @@ export class ManageProfileComponent {
       this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
         next: (res) => {
           if (res && !res.error) {
-            this.updateProfileSetInLocalStorage(res.data)
+            this.updateAdminInLocalStorage(res.data)
             this.commonService.openSnackBar(res.message, "SUCCESS")
             // this.getProfile()
           }
@@ -110,11 +115,14 @@ export class ManageProfileComponent {
     }
   }
 
-  updateProfileSetInLocalStorage(updateProfileData: any) {
+  async updateAdminInLocalStorage(updateProfileData: any) {
     let localSorageUserData: any = this.authService.getLoggedInInfo('all')
     localSorageUserData.firstName = updateProfileData.firstName;
     localSorageUserData.lastName = updateProfileData.lastName;
     localStorage.setItem('user', JSON.stringify(localSorageUserData));
+    
+    let fullName = `${updateProfileData.firstName} ${updateProfileData.lastName}`
+    await this.userService.updateUser(updateProfileData._id, fullName).catch((_res)=>false) // Update user in comet chat
     window.location.reload()
   }
 
@@ -129,20 +137,28 @@ export class ManageProfileComponent {
     dialogRef.afterClosed().subscribe(async result => {
       this.commonService.showLoader()
       if (result !== false && result.image !== null && result.image !== undefined) {
+        let imageName = this.authService.getLoggedInInfo('_id').toString()+'_'+this.commonService.getRandomInteger(1, 900);
+        let imageNameExt =  imageName+ '.png' 
         let reqVars = {
           userId: this.authService.getLoggedInInfo('_id'),
+          imageName:imageName,
           profileImage: result.image.base64
         }
         await this.authService.apiRequest('post', 'admin/changeProfileImage', reqVars).subscribe(async response => {
           this.commonService.hideLoader()
           let userDetails: any
           userDetails = this.authService.getLoggedInInfo()
-          userDetails.profileImage = this.authService.getLoggedInInfo('_id').toString() + '.png'
+          userDetails.profileImage = imageNameExt;
+          this.picService.setProfilePic=imageNameExt;     
           localStorage.setItem('user', JSON.stringify(userDetails))
           this.commonService.openSnackBar(response.message, "SUCCESS")
-          setTimeout(function () {
-            location.reload();
-          }, 3000)
+          setTimeout(() => {
+                // Save profile pic in comet chat user profile
+                this.updateProfilePicInCometChat(imageNameExt);
+            }, 3000)
+          // setTimeout(function () {
+          //   location.reload();
+          // }, 3000)
         })
       } else {
         this.commonService.hideLoader()
@@ -150,6 +166,7 @@ export class ManageProfileComponent {
     })
 
   }
+
 
   editProfile() {
     this.editOptions = !this.editOptions;
@@ -174,6 +191,8 @@ export class ManageProfileComponent {
           userDetails = this.authService.getLoggedInInfo()
           userDetails.profileImage = response.data
           localStorage.setItem('user', JSON.stringify(userDetails))
+          // Remove profile pic in comet chat user profile
+          this.removeProfilePicInCometChat(response.data)
           this.commonService.openSnackBar(response.message, "SUCCESS")
           setTimeout(function () {
             location.reload();
@@ -208,4 +227,22 @@ export class ManageProfileComponent {
     const inputElement = event.target as HTMLInputElement;
     this.convertPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
   }
+  
+  updateUserInCometChat(user:any){
+    console.log("updateUserInCometChat>>>",user)
+    let fullName = `${user.firstName} ${user.lastName}`
+    this.userService.updateUser(user._id, fullName)
+  }
+
+  async updateProfilePicInCometChat(imageName:string){
+    //let avatarPic = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('_id').toString() + '.png'
+    let avatarPic = s3Details.awsS3Url + s3Details.userProfileFolderPath+imageName;
+    await this.userService.updateUserProfilePic(this.userId, avatarPic).catch((_res)=>false)
+  }
+
+  async removeProfilePicInCometChat(removedPic:any){
+    let avatarPic = s3Details.awsS3Url + s3Details.userProfileFolderPath + removedPic
+    await this.userService.updateUserProfilePic(this.userId, avatarPic).catch((_res)=>false)
+  }
+
 }

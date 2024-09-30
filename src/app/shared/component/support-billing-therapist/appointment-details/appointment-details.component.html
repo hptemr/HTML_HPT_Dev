@@ -1,0 +1,327 @@
+<div class="col-12 app--details--wrapper profile--right--wrapper">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center">
+                <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="navigateToappointmentDetails('/cases','')">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+                </button>
+                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>                
+            </div> 
+        </div>
+        <div class="card-body d-flex flex-column flex-sm-row">
+            <div class="profile--right d-flex flex-column w-100">
+                <div class="w-100 mb-0"> 
+                    <mat-accordion class="appointment-information-header-wrapper">
+                        <mat-expansion-panel class="exp-class" expanded="true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
+                                    Case Information
+                                </mat-panel-title>
+                                <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
+                                    <button mat-raised-button color="primary" [disabled]="!appointmentData?.intakeFormSubmit" class="intake-btn" (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
+                                        View Intake Form 
+                                    </button>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div *ngIf="appointment_flag" class="col-12">
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                                            <div class="w-100 mb-2">
+                                                <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                                    <div class="img--box flex-shrink-0">
+                                                        <img src="{{profileImage}}" alt="profileImage" class="img-fluid" />
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h3 class="mb-1 clr--1F2F3E font-18 fw-700"> {{appointmentData?.patientId.firstName }} {{appointmentData?.patientId.lastName}}</h3>
+                                                        <div class="mb-1 mt-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba"> {{appointmentData?.patientId.email }}</p>
+                                                        </div>
+                                                        <div class="mb-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 {{appointmentData?.patientId.phoneNumber}}</p>
+                                                        </div>
+                                    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">OT $200 Used out of $1000, PT/SLP $350 Used out of
+                                                $1200</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-row flex-wrap align-items-center">
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Case Name</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">{{appointmentData?.caseName}}</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Jacob Jones</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Return to Doctor</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Fri, Nov 16, 2023</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">12/1/24 - 12/10/2024</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Primary Insurance</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Medicare</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <mat-checkbox class="" (change)="patientCheckIn($event, appointmentData)" [(ngModel)]="appointmentData.checkIn">Patient Checked-in</mat-checkbox>
+
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div> 
+        </div>
+
+        <div class="card-body mt-0 mb-0 pb-0">
+            <div class="divider"> </div>
+        </div> 
+        <div class="card-body mt-0">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-3 clr--1F2F3E fw-600 font-22">Notes</h3>
+                </div>
+                <div class="col-12 col-sm-10 col-lg-10 mb-2">
+                    <div class="d-flex flex-row flex-wrap gap-10">
+                      
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Initial Examination 
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/daily-notes/subjective/',appointmentId]">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Daily Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/progress-notes/subjective/',appointmentId]">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Progress Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/discharge-notes/subjective/',appointmentId]">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
+                            Discharge Note
+                        </button>
+                        <button class="flex-shrink-0" mat-stroked-button color="primary" (click)="caseNoteModal()">
+                            <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
+                            Case Note
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-2 col-lg-2 d-flex justify-content-end mb-2">
+                    <button class="flex-shrink-0" mat-stroked-button color="primary">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> print </mat-icon>
+                        E-Fax
+                    </button>
+                </div>
+                <div class="col-12 mb-2">
+                    <div class="d-flex notes--table w-100 mt-2 mb-2">
+                        <div class="row w-100">
+                            <div class="col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div class="form-group position-relative w-100">
+                                            <input type="text" class="form-control search--outer" placeholder="Search ">
+                                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Status</option> 
+                                                <option value="1">Draft</option>
+                                                <option value="2">Finalized</option> 
+                                                <option value="3">Pending</option> 
+                                                <option value="4">Declined</option> 
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()">
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                <input matInput [matDatepicker]="picker1" placeholder="To Date" (focus)="picker1.open()">
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Note Type</option>
+                                                <option value="1">Case Note</option>
+                                                <option value="2">Initial Examination</option>
+                                                <option value="3">Daily Note</option>
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-12 cust--mat--table--wrapper">
+                                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                                    class="cust--mat--table ">  
+                                    <ng-container matColumnDef="note">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                                            Note
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <div class="d-flex align-items-center  "> 
+                                                <div> 
+                                                    <p class="mb-0 font-14 text-primary clr--1F2F3E fw-500">{{element.note}}</p>
+                                               </div>
+                                            </div>     
+                                        </td>
+                                    </ng-container>  
+                                    <ng-container matColumnDef=" dateAddedOn">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Date Added on
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            {{element.dateAddedOn}} 
+                                            <p class="mt-1 "> <span class="fw-700"> Addendum:</span> Fri, Nov 09, 2023 10:00 am</p>
+                                        </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="noteAddedOn">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                                            Note Added By
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">  
+                                            {{element.noteAddedOn}}
+                                            <p class="mt-1 "> Taylor Stafford</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element.status}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Actions
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">  
+                                            <div class="w-100 d-flex align-items-center">
+                                                
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above">
+                                                    <!-- <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">font_download </mat-icon> -->
+                                                    <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" disabled>
+                                                    <!-- <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/delete-icon.svg" alt="" class="img-fluid" />
+                                                    </div> -->
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" (click)="noteModal()">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+                <div class="col-12">
+                    <div class="home--exce d-flex flex-column w-100">
+                        <div class="d-flex align-items-center">
+                            <h2 class="mb-0 clr--1F2F3E fw-600 font-20">Home Excercises </h2>
+                            <button mat-raised-button color="primary" class="add--btn">
+                                <mat-icon class="m-0">add_circle</mat-icon> 
+                            </button>
+                        </div>
+                        <!-- <div class="d-flex align-items-center w-100 v--outer mt-3">
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="v--box flex-shrink-0">
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                        </div> -->
+                    </div> 
+                </div>
+            </div>
+        </div>
+         
+    </div>
+</div> 
+    
+ 

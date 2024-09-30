@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { UserService } from '../../../shared/services/comet-chat/user.service';
 
 @Component({
   selector: 'app-admin-signup',
@@ -24,6 +25,7 @@ export class AdminSignupComponent {
     private adminService: AdminService,
     private commonService: CommonService,
     private route: ActivatedRoute,
+    private userService:UserService
   ) {
 
   }
@@ -49,7 +51,7 @@ export class AdminSignupComponent {
   getUserDetails() {
     let params = {
       query: { _id: this.userId },
-      params: { firstName: 1, lastName: 1, email: 1 },
+      params: { firstName: 1, lastName: 1, email: 1, inviteToken:1 },
       decryptUserId: true
     }
     this.adminService.getUserDetails(params).subscribe({
@@ -57,6 +59,8 @@ export class AdminSignupComponent {
         this.signupForm.controls['firstName'].setValue(res.data.firstName)
         this.signupForm.controls['lastName'].setValue(res.data.lastName)
         this.signupForm.controls['email'].setValue(res.data.email)
+      },error: (err) => {
+        err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
       }
     })
   }
@@ -65,6 +69,7 @@ export class AdminSignupComponent {
     let params = {
       query: { _id: this.userId },
       updateInfo: {
+        inviteToken:'',
         status: 'Active',
         firstName: this.signupForm.value.firstName,
         lastName: this.signupForm.value.lastName,
@@ -74,12 +79,16 @@ export class AdminSignupComponent {
     }
     this.submitButton = false;
     this.adminService.updateUser(params).subscribe({
-      next: (res) => {
+      next: async (res) => {
         if (res && !res.error) {
+          let cometData = await this.createUserInCometChat(res.data).catch((_err)=>false) // Create user in comet chat
+          console.log("cometData>>>",cometData)
           this.commonService.openSnackBar(res.message, "SUCCESS")
           localStorage.setItem('user', JSON.stringify(res.data));
           this.commonService.redirectToHome()
         }
+      },error: (err) => {
+        err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
       }
     })
   }
@@ -103,4 +112,20 @@ export class AdminSignupComponent {
   checkSpace(colName: any, event: any) {
     this.signupForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
+
+  createUserInCometChat(user:any){
+    return new Promise(async (resolve, reject) => {
+      try {
+        let fullName = `${user.firstName} ${user.lastName}`
+        let roles = ['practice_admin','support_team','therapist','billing_team']
+        if(roles.includes(user.role)){
+          await this.userService.createUser(user._id, fullName, user.role).catch((_err)=>false)
+        }
+        resolve(true)
+      } catch (error) {
+        reject()
+      }
+    })
+  }
+
 }

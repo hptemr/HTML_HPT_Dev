@@ -1,0 +1,168 @@
+<div class="container-fluid mp--wrapper">
+    <div class="row">
+        <div class="col-12 my-4">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <h3 class="mb-0 clr--1F2F3E fw-500 me-2">
+                        Practice Admin:
+                        <span class="fw-700">{{practiceAdminList}}</span>
+                    </h3>
+                </div>
+                <div class="col-12 col-lg-6 d-flex align-items-center justify-content-start justify-content-lg-end ">
+                    <h3 class="mb-0 clr--1F2F3E fw-500 me-2">Practice Location:</h3>
+                    <select (change)="searchRecords($event)"
+                        class="form-select form-control form-control-md practice--location"
+                        aria-label="Default select example">
+                        <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="changeUser($event)">
+                    <mat-tab label="Therapists">
+                        <div class="card-body mt-4">
+                            <div class="col-12 cust--mat--table--wrapper">
+                                <table mat-table [dataSource]="userList" matSort
+                                    (matSortChange)="announceSortChange($event)" class="cust--mat--table">
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by name">
+                                            Name
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="email">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by email">
+                                            Email Id
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by symbol">
+                                            Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <p class="status {{element.statusClass}}">{{element.status}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="assignAs">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by name">
+                                            Assign As
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <select (change)="assignAsFun($event, element)"
+                                                class="form-select form-control form-control-md assing--td"
+                                                aria-label="Default select example">
+                                                <option [selected]="element.siteLeaderForPracLocation ==''" value="">
+                                                    Select</option>
+                                                <option [selected]="element.siteLeaderForPracLocation =='Site Leader'"
+                                                    value="Site Leader">
+                                                    Site Leader</option>
+                                                <option [selected]="element.siteLeaderForPracLocation =='None'"
+                                                    value="None">
+                                                    None</option>
+                                            </select>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by symbol">
+                                            Actions
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="w-100 d-flex align-items-center justify-content-end">
+                                                <button (click)="navigateToAdminUserDetails( element.id)"
+                                                    mat-button class="flex-shrink-0 min-width-unset search--fields">
+                                                    <mat-icon
+                                                        class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                <div class="no--record--found align-items-center justify-content-center w-100"
+                                    *ngIf="userList && userList.filteredData.length == 0">
+                                    <div>
+                                        <p class="">{{ validationMessages.noRecords }}</p>
+                                    </div>
+                                </div>
+                                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount"
+                                    [pageSize]="pageSize" [showFirstLastButtons]="true"
+                                    [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
+                                </mat-paginator>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Support Team">
+                        <div class="card-body mt-4">
+                            <div class="col-12 cust--mat--table--wrapper">
+                                <table mat-table [dataSource]="userList" matSort
+                                    (matSortChange)="announceSortChange($event)" class="cust--mat--table">
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by number">
+                                            Name
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="email">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by name">
+                                            Email Id
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by symbol">
+                                            Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <p class="status {{element.statusClass}}">{{element.status}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            sortActionDescription="Sort by symbol">
+                                            Actions
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="w-100 d-flex align-items-center justify-content-end">
+                                                <button mat-button class="flex-shrink-0 min-width-unset search--fields"
+                                                (click)="navigateToAdminUserDetails( element.id)" >
+                                                    <mat-icon
+                                                        class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                                </table>
+                                <div class="no--record--found align-items-center justify-content-center w-100"
+                                    *ngIf="userList && userList.filteredData.length == 0">
+                                    <div>
+                                        <p class="">{{ validationMessages.noRecords }}</p>
+                                    </div>
+                                </div>
+                                <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalCount"
+                                    [pageSize]="pageSize" [showFirstLastButtons]="true"
+                                    [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
+                                </mat-paginator>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>
