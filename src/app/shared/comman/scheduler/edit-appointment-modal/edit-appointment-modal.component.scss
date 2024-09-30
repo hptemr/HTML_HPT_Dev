@@ -27,3 +27,28 @@
         }
     }
 }
+
+@media screen and (orientation:landscape) and (max-width: 850px){
+    .ea--wrapper{  
+        .w-100p{
+            width: 72px;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+        .w-130p{
+            width: 115px;
+        }
+    }
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){
+    .ea--wrapper{  
+        .w-100p{
+            width: 72px;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+        .w-130p{
+            width: 111px;
+        }
+    }
+}
