@@ -153,14 +153,16 @@ const getFile = (path, callback) => {
   return url
 };
 
-//upload file to s3
+//upload file to s3 by manoj
 const uploadFileNew = (params) => {
   return new Promise(function (resolve, reject) {
     var options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
     s3.upload(params, options, async (err, data) => {
       if (err) {
+        console.log("*********uploadFileNew Error********", err)
         resolve(false);
       } else {
+        console.log("*********uploadFileNew Done********")
         resolve(true);
       }
     })
@@ -183,6 +185,101 @@ const deleteObjectNew = (params) => {
   })
 }
 
+//preview file from s3
+const previewDocumentFile = (path) => {
+  return new Promise(async function (resolve, reject) {
+    let url = await s3.getSignedUrl('getObject', {
+      Bucket: constants.s3Details.bucketName,
+      Key: path,
+      Expires: 36660 * 5
+    })
+    resolve(url)
+  })
+}
+
+const checkDirectoryExist = (Id) =>{
+  return new Promise(function (resolve, reject) {
+  var awsParams = {
+    Bucket: constants.s3Details.bucketName,
+    Key: constants.s3Details.documentsFolderPath+Id+'/',
+  };
+  s3.getObject(awsParams, (err, data) => {
+    console.log(data)
+    if(data==null){
+      var params = { 
+        Bucket: constants.s3Details.bucketName, 
+        Key: constants.s3Details.documentsFolderPath+Id+'/'
+      };
+      s3.putObject(params).promise();
+      resolve(true)
+    }else{
+      resolve(true)
+    }
+  });
+  })
+}
+
+const uploadDocumentToS3 = (filename, path) => {
+  return new Promise(function (resolve, reject) {
+    if (fs.existsSync(__dirname + '/../tmp/' + filename)) {
+      fs.readFile(__dirname + '/../tmp/' + filename, (err, data) => {
+        if (err) {
+          reject(err)
+        }
+        const params = {
+          Bucket: constants.s3Details.bucketName,
+          Key: path + filename,
+          Body: data,
+          ACL: 'public-read'
+        }
+        var options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
+        s3.upload(params,options, function (s3Err, data) {
+          if (s3Err) {
+            return s3Err
+          } else {
+            console.log(`File uploaded successfully at ${data.Location}`)
+            fs.unlink(__dirname + '/../tmp/' + filename, (err) => {
+              if (err) {
+                reject(err)
+              }
+              else {
+                console.log("File removed from local")
+              }
+              resolve(data);
+            })
+          }
+        })
+      })
+    } else {
+      reject("Some error occured.")
+    }
+})
+}
+
+const renameFileInS3 = (key, newkey) => {
+  return new Promise(async function (resolve, reject) {
+    try {
+      // Copy object
+      const copyParams = {
+        Bucket: constants.s3Details.bucketName,
+        CopySource: `/${constants.s3Details.bucketName}/${key}`,
+        Key: newkey
+      };
+      const copyResult = await s3.copyObject(copyParams).promise();
+      var options = {
+        Bucket: constants.s3Details.bucketName,
+        Key: key
+      }
+      s3.deleteObject(options, async function (err, data) {
+        resolve(true);
+      })
+    } catch (error) {
+      console.error('Copy Error', error);
+      resolve(false);
+    }
+  })
+}
+
 module.exports = {
   s3,
   uploadFile,
@@ -190,5 +287,9 @@ module.exports = {
   deleteFile,
   deleteFiles,
   uploadFileNew,
-  deleteObjectNew
+  deleteObjectNew,
+  previewDocumentFile,
+  checkDirectoryExist,
+  uploadDocumentToS3,
+  renameFileInS3
 }

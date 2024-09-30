@@ -62,7 +62,38 @@ const checkLoginValidation = async (req, res, next) =>{
     }
  };
 
+ const checkTherapistValidation = async (req, res, next) =>{
+    try {
+        const { userId, clickAction, NPI, phoneNumber, SSN, licenceNumber } = req.body;
+        let userData = await userCommonHelper.userGetById(userId)
+        if(userData!=null && userData.role=='therapist' && clickAction=='update'){
+            // Check NPI Exist 
+            const npiExists = await User.findOne({ NPI, _id: { $ne: userId } });
+            if (npiExists) {
+             return commonHelper.sendResponse(res, 'info', null, userMessage.npiExists);
+            }
+
+            // Check SSN Exist 
+            const ssnExists  = await User.findOne({ SSN, _id: { $ne: userId } });
+            if (ssnExists ) {
+             return commonHelper.sendResponse(res, 'info', null, userMessage.ssnExists);
+            }
+
+            // Check Licence Exist 
+            const licenseExists = await User.findOne({ licenceNumber, _id: { $ne: userId } });
+            if (licenseExists) {
+             return commonHelper.sendResponse(res, 'info', null, userMessage.licenseExists);
+            }
+        }
+        next()
+    } catch (error) {
+        console.log("checkTherapistValidation>>>>",error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+ }
+
  module.exports = {
     checkLoginValidation,
-    checkPatientLoginValidation
+    checkPatientLoginValidation,
+    checkTherapistValidation
 };

@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String }, //['system_admin', 'practice_admin', 'therapist', 'billing_team','support_team'],
   NPI: { type: Number },
   SSN: { type: String },
+  siteLeaderPracticeLocations:{ type: String },
   siteLeaderForPracLocation: { type: String },
   loginCount: { type: Number, default: 0 },
   failedAttempts: { type: Number, default: 0 },
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: { type: String },
   inviteToken: { type: String },
   profileImage: { type: String, default: 'default.png' },
+  therapistCredentials: { type: String },
   invitedBy: { type: Schema.Types.Mixed },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

@@ -8,7 +8,7 @@ var port = normalizePort(process.env.PORT || '443')
 let server = '';
 if (port == 3000 || port == 80) {
   server = http.createServer(app).listen(port, () => {
-    console.log('http server running at ' + port)
+    console.log("****************Http server running at: " + port + "****************")
   })
   server.on('error', onError)
   server.on('listening', onListening)
@@ -18,11 +18,14 @@ if (port == 3000 || port == 80) {
     cert: fs.readFileSync('../../../etc/ssl/nginx-selfsigned.crt')
   }
   server = https.createServer(httpsOptions, app).listen(port, () => {
-    console.log('https server running at ' + port)
+    console.log("****************https server running at: " + port + "****************")
   })
   server.on('error', onError)
   server.on('listening', onListening)
 }
+
+//server.listen(port)
+//server.listen(443) 
 
 function normalizePort(val) {
   var port = parseInt(val, 10)
@@ -52,7 +55,7 @@ function onError(error) {
       process.exit(1)
       break
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use')
+      console.error("****************" + bind + ' is already in used****************')
       process.exit(1)
       break
     default:
@@ -62,11 +65,10 @@ function onError(error) {
 
 // Event listener for HTTP server "listening" event.
 function onListening() {
-
   var addr = server.address()
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port
   debug('Listening on ' + bind)
-  console.log("server started on port" + addr.port)
+  console.log("****************Server Listening on port: " + addr.port + "****************")
 }

@@ -5,9 +5,12 @@ var constants = {
     awsKey:process.env.AWS_KEY,
     awsSecret:process.env.AWS_SECRET,
     serveUrl: process.env.BASE_URL,
+    defaultProfileImageName:"default.png",
     patientDocumentFolderPath: "patient-documents/",
     profileImageFolderPath: "profile-images/",
-    defaultProfileImageName:"default.png",
+    patientInsuranceFolderPath: "patient-insurance/",
+    patientPrescriptionFolderPath: "patient-prescription/",
+    documentsFolderPath: "manage-documents/",
   },
   ses: {
     region: 'us-east-1',
@@ -22,6 +25,9 @@ var constants = {
   },
   clientUrl: process.env.BASE_URL || 'http://staging.hamiltonpt.com',
   mailServerUrl : process.env.mailServerUri || 'http://staging.hamiltonpt.com',
+  inviteTokenExpiry : 1440, // In minute (24 Hrs)
+  cometChatAppId : '26118921798ec2ec',
+  cometChatApikey : '488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d'
 }
 
-module.exports = constants
+module.exports = constants  

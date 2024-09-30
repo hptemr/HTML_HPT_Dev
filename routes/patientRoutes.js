@@ -13,5 +13,9 @@ router.post('/getPreviewDocument',patientController.previewDocument);
 router.post('/deleteDocument',patientController.deleteDocument);
 router.post('/getPatientData',patientController.getPatientData);
 router.post('/updateProfile',patientController.updateProfile);
-
+router.post('/changeProfileImage', patientController.changeProfileImage);
+router.post('/deleteProfileImage', patientController.deleteProfileImage);
+router.post('/changePassword', patientController.changePassword);
+router.post('/searchPatientList',patientController.searchPatientList);
+router.post('/getPatientSignupToken',patientController.getPatientSignupToken);
 module.exports = router;
