@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
-import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
+import { Component,OnInit,AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { validationMessages } from '../../../../../../utils/validation-messages';
+import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { MatRadioChange } from '@angular/material/radio';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PreviewModalComponent } from 'src/app/shared/comman/preview-modal/preview-modal.component';
-
+import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
+import { ProtocolModalComponent } from '../protocol-modal/protocol-modal.component';
 @Component({
   selector: 'app-objective', 
   templateUrl: './objective.component.html',
@@ -47,19 +54,6 @@ export class ObjectiveComponent {
     {number: '7'}, {number: '8'}, {number: '9'},
     {number: '10'}
   ];
-
-  constructor(public dialog: MatDialog) {}
- 
-  addExersiceModal() {
-    const dialogRef = this.dialog.open(AddExerciseComponent, {
-      panelClass:[ 'custom-alert-container','modal--wrapper'],
-    });
-  }
-  previewModal() {
-    const dialogRef = this.dialog.open(PreviewModalComponent, {
-      panelClass:[ 'preview--modal'],
-    });
-  }
   customOptions: OwlOptions = {
     loop: false,
     mouseDrag: false,
@@ -72,7 +66,8 @@ export class ObjectiveComponent {
       "<i class='fa fa-arrow-left'></i>",
       "<i class='fa fa-arrow-right'></i>"
   ],
-    responsive:{
+  
+  responsive:{
       0:{
           items:1,
           autoWidth:true,
@@ -130,4 +125,128 @@ export class ObjectiveComponent {
       time: '800 sec'
     },
   ]
+
+  appointmentId: string;
+  public userId: string = this.authService.getLoggedInInfo('_id');
+  public userRole: string = this.authService.getLoggedInInfo('role');
+  selectedProtocols:any=[]
+  public objectiveForm: FormGroup;
+  validationMessages = validationMessages; 
+  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
+    this.route.params.subscribe((params: Params) => {
+      this.appointmentId = params['appointmentId'];
+    })
+  }
+ 
+  ngOnInit() {
+    this.objectiveForm = this.fb.group({
+      appointmentId:[this.appointmentId],
+      patient_consent: ['', [Validators.required]],
+      chaperone: this.fb.array([this.fb.group({
+        flag: ['',Validators.required],
+        name: ['']
+      })]),
+      observation: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      range_of_motion: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      strength: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      neurological: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      special_test: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      palpation: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      outcome_measures: ['', [Validators.required]],
+      slp: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      ot: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+      treatment_provided: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
+    });
+
+    this.initializeFormValidation();
+  }
+
+  get chaperoneArray(): FormArray {
+    return this.objectiveForm.get('chaperone') as FormArray;
+  }
+
+  initializeFormValidation() {
+    this.chaperoneArray.controls.forEach((group) => {
+      const flagControl = group.get('flag');
+      const nameControl = group.get('name');
+
+      flagControl?.valueChanges.subscribe((flagValue) => {
+        if (flagValue === 'yes') {
+          nameControl?.setValidators([Validators.required]);  // Set 'name' as required if 'flag' is 'yes'
+        } else {
+          nameControl?.clearValidators();  // Remove the required validator otherwise
+        }
+        nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
+      });
+    });
+  }
+
+    // Method to add a new chaperone group to the array
+  addChaperone() {
+    const newChaperone = this.fb.group({
+      flag: ['', Validators.required],
+      name: ['']
+    });
+
+    // Add validation watcher for the new group
+    newChaperone.get('flag')?.valueChanges.subscribe((flagValue) => {
+      const nameControl = newChaperone.get('name');
+      if (flagValue === 'yes') {
+        nameControl?.setValidators([Validators.required]);
+      } else {
+        nameControl?.clearValidators();
+      }
+      nameControl?.updateValueAndValidity();
+    });
+
+    this.chaperoneArray.push(newChaperone);
+  }
+
+  objectiveSubmit(){
+    if (this.objectiveForm.invalid){
+      this.objectiveForm.markAllAsTouched();
+    }else{
+
+
+
+
+    }
+  }
+
+  addProtocolModal() {
+     const dialogRef = this.dialog.open(ProtocolModalComponent,{
+      panelClass: [ 'custom-alert-container','modal--wrapper'],
+      data : {
+       appointmentId:this.appointmentId
+      }
+     });
+
+     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selectedProtocols = result
+      } else {
+        console.log('Modal closed without saving data.');
+      }
+    });
+  }
+  
+  removeProtocols(i:string) {
+    const index = this.selectedProtocols.indexOf(i);
+    if (index !== -1) {
+      this.selectedProtocols.splice(index, 1);
+    }
+  }
+
+  addExersiceModal() {
+    const dialogRef = this.dialog.open(AddExerciseComponent, {
+      panelClass:[ 'custom-alert-container','modal--wrapper'],
+    });
+  }
+  
+  previewModal() {
+    const dialogRef = this.dialog.open(PreviewModalComponent, {
+      panelClass:[ 'preview--modal'],
+    });
+  }
+
 }

@@ -45,6 +45,7 @@ import { PlanComponent } from './component/support-billing-therapist/notes/initi
 import { BillingComponent } from './component/support-billing-therapist/notes/initial-examination/billing/billing.component';
 
 import { AddExerciseComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/add-exercise/add-exercise.component';
+import { ProtocolModalComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/protocol-modal/protocol-modal.component';
 import { CaseNoteModalComponent } from 'src/app/shared/component/support-billing-therapist/notes/case-note-modal/case-note-modal.component';
 import { DailyNotesComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/daily-notes/daily-notes.component';
 import { DnSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-subjective/dn-subjective.component';
@@ -123,6 +124,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PnPlanComponent,
     PnAddExerciseComponent,
     AddExerciseComponent,
+    ProtocolModalComponent,
     AppointmentRequestsComponent,
     PatientDetailsComponent,
     PatientProfileComponent,
