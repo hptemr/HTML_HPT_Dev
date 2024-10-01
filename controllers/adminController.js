@@ -433,6 +433,7 @@ const getDirectoryItems = async (req, res) => {
   try {
     let directoryDetails = await Directory.find({_id: req.body.directory});
     if(directoryDetails.length>0){
+
       let query = {is_deleted:false,parent_directory_id: directoryDetails[0]._id}
       let fileQuery = {is_deleted:false,directory_id: directoryDetails[0]._id}
       if(req.body.searchValue!=""){
@@ -450,6 +451,85 @@ const getDirectoryItems = async (req, res) => {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
+
+const getDefaultDirectoriesAndItems = async (req, res) => {
+  try {
+
+    let queryParams = {is_deleted:false,"selected-directory.role_name":req.body.userRole}
+    if(req.body.searchValue!=""){
+      queryParams.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
+    }
+    let directoryList = await Directory.aggregate([
+      {
+        "$lookup": {
+          "from": "role_map_directories",
+          "let": {
+            id1: "$directory_name"
+          },
+          "pipeline": [
+            {
+              "$match": {
+                $expr: {
+                  $and: [
+                    {
+                      $eq: [
+                        "$$id1",
+                        "$directory_name"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "as": "selected-directory"
+        }
+      },
+      {
+        "$unwind": "$selected-directory"
+      },
+      {
+        $match: queryParams
+      }
+    ])
+   
+    if(req.body.userRole=='therapist'){
+      let userData = await User.find({ _id: req.body.userId });
+      if(userData[0]['siteLeaderForPracLocation'] && userData[0]['siteLeaderForPracLocation']=='Site Leader'){
+        directoryList = directoryList
+      }else{
+        directoryList = directoryList.filter((item) => item.directory_name !== 
+        "Site Leaders");
+      }
+
+      let directoryItmList = '';let fileListItem = ''; let fileList = [];
+      let dir_cnt = directoryList.length;
+        for(i=0;i<dir_cnt;i++){
+          let directoryDetails = await Directory.find({_id: directoryList[i]._id});
+          if(directoryDetails.length>0){
+            let query = {is_deleted:false,parent_directory_id: directoryDetails[0]._id}
+            let fileQuery = {is_deleted:false,directory_id: directoryDetails[0]._id}
+            if(req.body.searchValue!=""){
+              query.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
+              fileQuery.file_name = { '$regex': req.body.searchValue, '$options': "i" }
+            }
+           // directoryItmList =  await Directory.find(query).sort({ _id: -1 });
+           fileListItem =  await File.find(fileQuery).sort({ _id: -1 });  
+           fileList.push(fileListItem);   
+          }
+      }
+      commonHelper.sendResponse(res, 'success', { directoryList,fileList }, '');
+
+    }else{
+      commonHelper.sendResponse(res, 'success', { directoryList,fileList }, '');
+    }
+
+  } catch (error) {
+    console.log('Error >>>>',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 
 const createDirectory = async (req, res) => {
   try {
@@ -1002,6 +1082,7 @@ module.exports = {
   changeProfileImage,
   getDefaultDirectories,
   getDirectoryItems,
+  getDefaultDirectoriesAndItems,
   createDirectory,
   updateDirectory,
   removeDirectoryOrFile,
