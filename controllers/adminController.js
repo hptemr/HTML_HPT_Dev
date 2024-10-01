@@ -338,15 +338,17 @@ const deleteProfileImage = async (req, res) => {
 
 changeProfileImage = async (req, res) => {
   try {
-    const { userId, profileImage } = req.body
+    const { userId, profileImage ,imageName} = req.body
     var profileImagePath = constants.s3Details.profileImageFolderPath;
+    console.log('image Name>>>',imageName)
     var params = {
       ContentEncoding: "base64",
       ACL: "public-read-write",
       Bucket: constants.s3Details.bucketName,
     }
     const ext = 'png'
-    const filename = userId + `.${ext}`;
+    const oldfilename = userId + `.${ext}`;
+    const filename = imageName + `.${ext}`;
     const fileBuffer = new Buffer(profileImage.replace(/^data:image\/\w+;base64,/, ""), "base64");
     Object.assign(params, {
       ContentType: `image/${ext}`,
@@ -356,7 +358,7 @@ changeProfileImage = async (req, res) => {
 
     let deleteParams = {
       bucketName: constants.s3Details.bucketName,
-      filePath: `${profileImagePath}${filename}`
+      filePath: `${profileImagePath}${oldfilename}`
     }
     await s3.deleteObjectNew(deleteParams)
 
