@@ -228,8 +228,7 @@ export class IntakeStep1Component {
 
   async bookAppointmentStep1() {
     //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
-      console.log(this.isReadonly,'step1Form>>>',this.step1Form)
-      if (this.step1Form.invalid){      
+      if (this.step1Form.invalid){
         this.step1Form.markAllAsTouched();
       }else{
         let appointmentUpdateInfo = this.step1FormData.appointmentUpdateInfo;

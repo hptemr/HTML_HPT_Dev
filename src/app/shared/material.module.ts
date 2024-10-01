@@ -46,6 +46,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   exports: [
     MatAutocompleteModule,

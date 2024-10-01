@@ -58,6 +58,7 @@ import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/
     IMaskModule
   ],
   providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }],
+
 })
 
 export class PatientModule { }

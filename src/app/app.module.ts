@@ -14,12 +14,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.component';
 import { JwtInterceptor } from './shared/services/helper/jwt.interceptor';
 import { DatePipe } from '@angular/common';
-
+import { ProfilePicService } from 'src/app/shared/services/profile-pic.service';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
  }
-
-
 @NgModule({
   declarations: [
     AppComponent, 
@@ -46,7 +44,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     DecimalPipe,
-    DatePipe
+    DatePipe,
+    ProfilePicService
   ],
   bootstrap: [AppComponent]
 }

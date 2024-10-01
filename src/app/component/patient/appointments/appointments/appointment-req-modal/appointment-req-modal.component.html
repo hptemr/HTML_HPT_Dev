@@ -17,12 +17,12 @@
 
                     <!-- Added New Date and Time Picker -->
                     <div class="input-group">
-                            <input class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local" [(ngModel)]="fromDate" [min]="minToDate" formControlName="appointmentDate"  [max]="maxFromDate" placeholder="From Date" >
+                            <input (keydown)="false" class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local" [(ngModel)]="fromDate" [min]="minToDate" formControlName="appointmentDate"  [max]="maxFromDate" placeholder="From Date" >
                             <!-- onfocus="this.showPicker()" -->
                     </div>
                 </div>
                 <div class="text text-danger mt-1" *ngIf="requestAppointmentForm.controls['appointmentDate'].touched && requestAppointmentForm.controls['appointmentDate'].hasError('required')">
-                    {{ validationMessages.requiredDropdown('Appointment Date') }}
+                    {{ validationMessages.requiredDropdown('preferred date & time') }}
                 </div>
             </div>
             <div class="col-12 ">

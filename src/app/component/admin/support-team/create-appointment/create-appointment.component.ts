@@ -12,6 +12,9 @@ import { validationMessages } from '../../../../utils/validation-messages';
 export class lists {
   constructor(public id: string, public firstName: string,public lastName: string,public status: string,public patientName: string, public patientEmail: string,public profileImage: string) {}
 }
+export class doctorlists {
+  constructor(public id: string, public name: string,public npi: string) {}
+}
 export class caselist {
   constructor(public caseName: string, public caseType: string) {}
 }
@@ -27,10 +30,13 @@ export class CreateAppointmentComponent {
   selectedAppTypeValue: string;
   casenameList:caselist[] = [];
   whereCond: any = {}
+  whereDocCond: any = {stauts:"Active"}
   public userId: string = this.authService.getLoggedInInfo('_id');
   userRole = this.authService.getLoggedInInfo('role')
   seachByPname: any = ''
   public patientList:lists[] = []
+  public doctorList:doctorlists[] = []
+  doctorId:string='';
   appointmentForm: FormGroup;
   caseNameFlag:boolean=false;
   caseNameOtherFlag:boolean=true;
@@ -63,7 +69,7 @@ export class CreateAppointmentComponent {
       practiceLocation: ['',[Validators.required]],
       therapistId: ['',[Validators.required]],    
       phoneNumber: ['', []],
-      doctorId: ['',[]],    
+      seachByDoctor: ['',[Validators.required]],    
       appointmentType: [''],
       appointmentTypeOther: [''],      
     });
@@ -107,8 +113,10 @@ export class CreateAppointmentComponent {
         if(formData.patientType=='Existing'){
           Object.assign(formData, {patientId: this.patientId})
         }
-  
+        Object.assign(formData, {doctorId: this.doctorId})
+
         delete formData.seachByPname;
+        delete formData.seachByDoctor;
 
         let reqVars = {
           requestId:'',
@@ -195,8 +203,58 @@ export class CreateAppointmentComponent {
     })
   }
 
-  selectPatient(id: string): any {
-    
+  searchDoctorRecords(event: any) {
+    let searchStr = event.target.value.trim()
+    if (searchStr != '') {      
+      searchStr = searchStr.replace("+", "\\+");
+      let number = this.isOnlyNumbers(searchStr)
+      searchStr = { $regex: searchStr, $options: 'i' }   
+        if (number) {
+          this.whereDocCond = {
+            status: "Active",
+            $or: [{ npi: searchStr }]
+          }
+        }else{
+          this.whereDocCond = {
+            status: "Active",
+            $or: [{ name: searchStr }]
+          }
+        }
+      this.getDoctorsList()
+    } else {
+      this.whereDocCond = {status: "Active"};
+    }
+  }
+
+  isOnlyNumbers(input:string) {
+    const regex = /^\d+$/;
+    return regex.test(input);
+  }
+
+  async getDoctorsList(){
+     let reqVars = {
+       query: this.whereDocCond,
+       fields: {_id:1, name: 1, credentials: 1, npi: 1 },     
+       order: {name:1}
+     }
+     await this.authService.apiRequest('post', 'appointment/getDoctorList', reqVars).subscribe(async response => {
+       let finalData: any = []
+       if (response.data && response.data.doctorList && response.data.doctorList.length > 0) {
+         await response.data.doctorList.map((element: any) => {
+           let newColumns = {
+            id: element._id,
+            name: element.name,
+            credentials: element.credentials,
+            npi: element.npi,
+           }
+           finalData.push(newColumns)
+         })
+       }
+       this.doctorList = finalData;    
+     })
+   }
+
+  selectPatient(id: string): any {    
     if(this.patientList.length>0) {
       let selected = this.patientList.find(item => typeof item === 'object' && item.id === id) || null;
       if(selected) {
@@ -204,18 +262,26 @@ export class CreateAppointmentComponent {
         this.appointmentForm.controls['lastName'].setValue(selected.lastName);
         this.appointmentForm.controls['email'].setValue(selected.patientEmail);
         this.appointmentForm.controls['caseNameOther'].setValidators([]);
-
         this.appointmentForm.controls['firstName'].disable()
         this.appointmentForm.controls['lastName'].disable()
         this.appointmentForm.controls['email'].disable()
-
         this.patientId = id;
         //this.appointmentForm.controls['caseType'].reset();
         this.appointmentForm.controls['caseName'].reset('');
-        this.appointmentForm.controls['caseNameOther'].reset('');
-        
-
+        this.appointmentForm.controls['caseNameOther'].reset('');        
         this.getCaseList(id)
+      }    
+    }
+  }
+
+  
+  selectDoctor(id: string): any {
+    
+    if(this.patientList.length>0) {
+      let selected = this.doctorList.find(item => typeof item === 'object' && item.id === id) || null;
+      console.log('... selected >>>',selected)
+      if(selected) {
+        this.doctorId = id;        
       }    
     }
   }

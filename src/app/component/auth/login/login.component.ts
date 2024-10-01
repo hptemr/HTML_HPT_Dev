@@ -6,6 +6,7 @@ import { CommonService } from '../../../shared/services/helper/common.service';
 import { validationMessages } from '../../../utils/validation-messages'
 import { UserService } from '../../../shared/services/comet-chat/user.service';
 import { cometChatCredentials } from 'src/app/config';
+import { ProfilePicService } from '../../../shared/services/profile-pic.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     public router: Router,
     private authService: AuthService,
     private commonService: CommonService,
-    private userService:UserService
+    private userService:UserService,
+    private picService: ProfilePicService
   ) {
     let rememberMeData: any = localStorage.getItem('rememberMe');
     if (rememberMeData != null) { this.rememberMeObj = JSON.parse(rememberMeData) }
@@ -84,6 +86,8 @@ export class LoginComponent implements OnInit {
 
   setLocalStorage(res: any, loginValues: any) {
     localStorage.setItem('user', JSON.stringify(res.data));
+    if(res.data.profileImage)
+    this.picService.setProfilePic = res.data.profileImage;
     if (this.loginForm.controls['rememberMe'].value) {
       localStorage.setItem('rememberMe', JSON.stringify(loginValues));
     } else {

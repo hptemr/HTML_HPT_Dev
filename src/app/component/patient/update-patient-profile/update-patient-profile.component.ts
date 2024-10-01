@@ -20,6 +20,7 @@ import { MatDialog,MatDialogRef } from '@angular/material/dialog';
 import { serverUrl, s3Details,documents_list } from '../../../config';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
 import { UploadImgComponent } from 'src/app/shared/component/upload-img/upload-img.component';
+import { ProfilePicService } from '../../../shared/services/profile-pic.service';
 const URL = serverUrl + '/api/patients/patientDocument';
 interface State {
   state: string;
@@ -83,7 +84,7 @@ export class UpdatePatientProfileComponent implements OnInit {
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
-  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe) {}
+  constructor(private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe,private picService: ProfilePicService) {}
   //constructor(private _formBuilder: FormBuilder ) {} 
 
   ngOnInit() {
@@ -126,6 +127,10 @@ export class UpdatePatientProfileComponent implements OnInit {
     // Profile Image
     this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.authService.getLoggedInInfo('profileImage')
     this.isDefaultImage =  this.authService.getLoggedInInfo('profileImage')== 'default.png'?false:true
+    this.picService.itemValue.subscribe((nextValue) => {      
+      if(nextValue)
+      this.profileImage = nextValue;
+    })
   }
 
   checkSpace(colName: any, event: any) {
@@ -569,20 +574,25 @@ export class UpdatePatientProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       this.commonService.showLoader()
       if (result !== false && result.image !== null && result.image !== undefined) {
+        let imageName = this.authService.getLoggedInInfo('_id').toString()+'_'+this.commonService.getRandomInteger(1, 900);
+        let imageNameExt =  imageName+ '.png' 
         let reqVars = {
           userId: this.authService.getLoggedInInfo('_id'),
+          imageName:imageName,
           profileImage: result.image.base64
         }
         await this.authService.apiRequest('post', 'patients/changeProfileImage', reqVars).subscribe(async response => {
           this.commonService.hideLoader()
           let userDetails: any
           userDetails = this.authService.getLoggedInInfo()
-          userDetails.profileImage = this.authService.getLoggedInInfo('_id').toString() + '.png'
+          userDetails.profileImage = imageNameExt;
+          this.picService.setProfilePic=imageNameExt;
           localStorage.setItem('user', JSON.stringify(userDetails))
+
           this.commonService.openSnackBar(response.message, "SUCCESS")
-          setTimeout(function () {
-            location.reload();
-          }, 3000)
+          // setTimeout(function () {
+          //   location.reload();
+          // }, 3000)
         })
       } else {
         this.commonService.hideLoader()
