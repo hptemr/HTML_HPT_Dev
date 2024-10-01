@@ -105,8 +105,8 @@ export class ViewEditInsuranceComponent {
   }
 
   loadForm() {
-    this.insuranceForm = this.fb.group({      
-      insuranceName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+    this.insuranceForm = this.fb.group({
+      insuranceName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberMiddleName: [''],
       subscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
