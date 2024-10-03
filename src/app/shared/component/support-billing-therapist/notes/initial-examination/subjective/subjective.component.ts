@@ -375,8 +375,7 @@ export class SubjectiveComponent implements OnInit {
           userId: this.userId,
           data: formData,
           subjectiveId:this.subjectiveId
-        }  
-       
+        }        
         this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
           if (response.error) {
             if (response.message) {

@@ -25,7 +25,7 @@ export class AssessmentComponent {
   assessmentForm: FormGroup;
   patient_name: string = ''
   assessment_text: string = "Thank you for referring *patient name* to our practice, *patient name* received  an initial evaluation and treatment today *todays date*. As per your referral, we will see *patient name* ___ times per week for ___ weeks with a focus on *first 3 treatments to be added*. I will update you on *patient name* progress as appropriate, thank you for the opportunity to assist with their rehabilitation.";
-  supporting_documentation_text: string = "Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities. Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's. Patient is unable to complete physical therapy on land. Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation. DME was issued today with instructions on wear, care, and use required for full rehabilitation potential. ";
+  supporting_documentation_text: string = "1. Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities. =Neuromuscular Re-Education, 97112 \n 2.Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's= Therapeutic Activity, 97530 \n 3. Patient is unable to complete physical therapy on land. = Aquatic Exercise, 97113 \n 4. Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation and / or used as contrast or thermotherapy to improve circulation, modulate pain, and improve functional range of motion = Vasopneumatic Device 97016 \n 5. If any item from the DME section is selected then the following data is shown in the Supporting Documentation Page with a space between any content present above, if it is present.Text to be added: DME was issued today with instructions on wear, care, and use required for full rehabilitation potential";
   validationMessages = validationMessages;
   appointment: any = null
   assessmentData: any = []
@@ -34,9 +34,8 @@ export class AssessmentComponent {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
-  }
-
-
+  } 
+  
   ngOnInit() {
     this.commonService.showLoader()
     this.userId = this.authService.getLoggedInInfo('_id')
@@ -91,7 +90,7 @@ export class AssessmentComponent {
               long_term_goal: ['', Validators.required]
             })
           ]),
-          supporting_documentation_text: [that.supporting_documentation_text, [Validators.required, Validators.minLength(1), Validators.maxLength(1000)]],
+          supporting_documentation_text: [that.supporting_documentation_text, [Validators.required, Validators.minLength(1)]],
         });
 
         const ctrls = that.assessmentForm.get('assessment_icd') as FormArray;
@@ -106,6 +105,7 @@ export class AssessmentComponent {
 
   //Add/Update the Assessment data for initial exam
   assessmentSubmit(formData: any) {
+    console.log("assessmentForm:",  this.assessmentForm)
     if (this.assessmentForm.invalid) {
       this.assessmentForm.markAllAsTouched();
     } else {
@@ -150,11 +150,6 @@ export class AssessmentComponent {
       problem: [assessment_icd.problem, Validators.required],
       long_term_goal: [assessment_icd.long_term_goal, Validators.required]
     });
-
-    // return this.fb.group({
-    //   problem: [assessment_icd.name + ' limiting function', Validators.required],
-    //   long_term_goal: ['Improve ' + assessment_icd.name, Validators.required]
-    // });
   }
 
   checkGroupSpace(colName: any, event: any) {
