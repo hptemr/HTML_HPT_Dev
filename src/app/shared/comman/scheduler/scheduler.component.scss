@@ -157,6 +157,23 @@
                     left: 0;
                     top: 0;
                 }
+                .cal-month-view .cal-events{
+                    display: none;
+                }
+                .cal-month-view .cal-open-day-events{
+                    background-color: #b1ebeb;
+                    box-shadow: inset 0 0 15px 0 #88cccc;
+                }
+                .cal-month-view .cal-event-title{
+                    color: #000;
+                }
+                .cal-month-view .cal-open-day-events .cal-event {
+                    position: relative;
+                    top: 0px;
+                    background-color: #000 !important;
+                    width: 5px;
+                    height: 5px;
+                }
             }
         }
     }
