@@ -1,16 +1,11 @@
 <div class="initial--exam--assesment--wrapper container-fluid p-0">
-    <form [formGroup]="assessmentForm" (ngSubmit)="assessmentSubmit(assessmentForm.value)">
+    <form *ngIf="assessmentForm" [formGroup]="assessmentForm" (ngSubmit)="assessmentSubmit(assessmentForm.value)">
         <div class="row">
 
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Assessment</label>
-                    <!-- <textarea [disabled]="isDisabled" formControlName="assessment_text" class="form-control text-left" type="text" rows="5" [(ngModel)]="assessment_text">Thank you for referring *patient name* to our practice, *patient name* received  an initial evaluation and treatment today *today's date*.
-    As per your referral, we will see *patient name*     __  times per week for _____ weeks with a focus on *first 3 treatments to be added*.
-    I will update you on *patient name* progress as appropriate, thank you for the opportunity to assist with their rehabilitation.
-                    </textarea>  -->
-                    <textarea [disabled]="isDisabled" formControlName="assessment_text" class="form-control text-left" type="text" rows="5" maxlength="500" (blur)="checkSpace('assessment_text', $event)"></textarea>
-                    <!-- (keypress)="updateText();"  (keyup)="updateText();"  [(ngModel)]="assessment_text" -->
+                   <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5" maxlength="500" formControlName="assessment_text"  (blur)="checkSpace('assessment_text', $event)"></textarea>
                     <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['assessment_text'].touched && assessmentForm.controls['assessment_text'].hasError('required')">
                         {{ validationMessages.required('Assessment') }}
                       </div>
