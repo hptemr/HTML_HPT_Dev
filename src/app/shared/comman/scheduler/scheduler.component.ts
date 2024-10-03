@@ -12,6 +12,9 @@ import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent,CalendarEventAction,CalendarEventTimesChangedEvent,CalendarView,} from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
+import { UpcomingAppModalComponent } from './upcoming-app-modal/upcoming-app-modal.component';
+import { CollectPaymentModalComponent } from './collect-payment-modal/collect-payment-modal.component';
+import { AlertComponent } from '../alert/alert.component';
 
 @Component({
   selector: 'app-scheduler', 
@@ -41,7 +44,7 @@ export class SchedulerComponent {
       panelClass: [ 'modal--wrapper'],
     });
   }
-  editAppointmen(){
+  editAppointment(){
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
       width:'1260px',
       panelClass: [ 'modal--wrapper'],
@@ -51,6 +54,26 @@ export class SchedulerComponent {
     const dialogRef = this.dialog.open(AppointmentDetailsModalComponent,{
       width:'633px',
       panelClass: [ 'modal--wrapper'],
+    });
+  }
+  upcomingAppointmentModal(){
+    const dialogRef = this.dialog.open(UpcomingAppModalComponent,{
+      width:'310px',
+      panelClass: [ 'modal--wrapper'],
+    });
+  }
+  collectPaymentModal(){
+    const dialogRef = this.dialog.open(CollectPaymentModalComponent,{
+      width:'310px',
+      panelClass: [ 'modal--wrapper'],
+    });
+  }
+  deleteAppointment() {
+    const dialogRef = this.dialog.open(AlertComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        warningNote: 'Do you really want to delete this appointment?'
+      }
     });
   }
  

@@ -161,59 +161,67 @@
         }
     }
 }
+ 
 
 
-.ea--wrapper{
-    .other--booking{
-        width: 29%;
-        margin-left: 18px;
+.app--details--modal--wrapper{
+    .modal--header{
+        h1{
+            &.font-22{
+                font-size: 22px;
+            }
+        }
+        .more--opt{
+            color: #31B7B7 !important;
+        }
     } 
-    .w-100p{
-        width: 100px;
-    }
-    .w-130p{
-        width: 130px;
+    .modal--body{
+        .profile--round{
+            width: 48px;
+            height: 48px;
+            border-radius: 100px;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+        .phone{
+            .mat-icon{
+                font-size: 18px;
+                height: 18px;
+                width: 18px;
+            }
+        }
     }
 }
-
+::ng-deep{ 
+    .mat-mdc-menu-item{
+        min-height: 40px !important;
+        border-bottom: 1px solid #ddd !important;
+        .mat-mdc-menu-item-text{
+            color: #1F2F3E !important;
+            font-weight: 600 !important;
+        }
+        &:hover{
+            .mat-mdc-menu-item-text{
+                color: #31B7B7 !important;
+                font-weight: 600 !important;
+            }
+        }
+    }
+    .cdk-overlay-container { 
+        z-index: 99999 !important;
+    }
+}
 @media only screen and (max-width: 599px) {
-    .ea--wrapper{
-        .other--booking{
-            width: 100%;
-            margin-left: 0;
-        } 
-        .w-100p{
-            width: 150px;
-            margin-bottom: 5px;
+    .sm-w-100{
+        width: 100% !important;
+    }  
+    .app--details--modal--wrapper{
+        .modal--header{
+            h1{
+                &.font-22{
+                    font-size: 16px;
+                }
+            }
         }
-        .w-130p{
-            width: 150px;
-            margin: 5px 0;
-        }
-    }
-}
-
-@media screen and (orientation:landscape) and (max-width: 850px){
-    .ea--wrapper{  
-        .w-100p{
-            width: 72px;
-            padding-left: 2px;
-            padding-right: 2px;
-        }
-        .w-130p{
-            width: 115px;
-        }
-    }
-}
-@media only screen and (min-width: 600px) and (max-width: 979px){
-    .ea--wrapper{  
-        .w-100p{
-            width: 72px;
-            padding-left: 2px;
-            padding-right: 2px;
-        }
-        .w-130p{
-            width: 111px;
-        }
-    }
+    } 
 }

@@ -3,6 +3,7 @@ import { UpcomingAppModalComponent } from '../upcoming-app-modal/upcoming-app-mo
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CollectPaymentModalComponent } from '../collect-payment-modal/collect-payment-modal.component';
+import { EditAppointmentModalComponent } from '../edit-appointment-modal/edit-appointment-modal.component';
 
 @Component({
   selector: 'app-appointment-details-modal', 
@@ -21,6 +22,12 @@ export class AppointmentDetailsModalComponent {
   collectPaymentModal(){
     const dialogRef = this.dialog.open(CollectPaymentModalComponent,{
       width:'310px',
+      panelClass: [ 'modal--wrapper'],
+    });
+  }
+  editAppointment(){
+    const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
+      width:'1260px',
       panelClass: [ 'modal--wrapper'],
     });
   }
