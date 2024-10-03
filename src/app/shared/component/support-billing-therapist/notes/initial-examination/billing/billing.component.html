@@ -80,7 +80,7 @@
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
                                             || (event.keyCode>34 && event.keyCode<40) 
-                                            || (event.keyCode==46) )">
+                                            || (event.keyCode==46) )" [disabled]="ptcode.units==''">
                             </div>
                         </div>
                         <div class="col-8 col-lg-10" *ngIf="ptcode.isError" >
@@ -114,13 +114,13 @@
                         <div class="col-2 col-lg-1">
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="otcode.minutes"
-                                    (keyup)="onKey($event,i,'otCode','directCode','minutes')"
+                                    (keyup)="onKey($event,i,'otCode','directCode','minutes');validateMinute($event,i,'otCode','directCode')"
                                     class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
                                             || (event.keyCode>34 && event.keyCode<40) 
-                                            || (event.keyCode==46) )">
+                                            || (event.keyCode==46) )" [disabled]="otcode.units==''">
                             </div>
                         </div>
                         <div class="col-8 col-lg-10" *ngIf="otcode.isError" >
@@ -155,13 +155,13 @@
                         <div class="col-2 col-lg-1">
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="slpcode.minutes"
-                                    (keyup)="onKey($event,i,'slpCode','directCode','minutes')"
+                                    (keyup)="onKey($event,i,'slpCode','directCode','minutes');validateMinute($event,i,'slpCode','directCode')"
                                     class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
                                             || (event.keyCode>34 && event.keyCode<40) 
-                                            || (event.keyCode==46) )">
+                                            || (event.keyCode==46) )" [disabled]="slpcode.units==''">
                             </div>
                         </div>
                         <div class="col-8 col-lg-10" *ngIf="slpcode.isError" >
@@ -219,7 +219,7 @@
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
                                                 || (event.keyCode>34 && event.keyCode<40) 
-                                                || (event.keyCode==46) )" [disabled]="i<4">
+                                                || (event.keyCode==46) )" [disabled]="true">
                                             </div>
                                         </div>
                                         <div class="col-2 col-lg-1" *ngIf="billingType=='CMS'">
@@ -231,7 +231,7 @@
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
                                                 || (event.keyCode>34 && event.keyCode<40) 
-                                                || (event.keyCode==46) )" [disabled]="i<4">
+                                                || (event.keyCode==46) )" [disabled]="i<4 || !ptcode.selected">
                                             </div>
                                         </div>
                                         <div class="col-8 col-lg-10" *ngIf="billingType=='CMS' && ptcode.isError" >
@@ -284,7 +284,7 @@
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
                                                 || (event.keyCode>34 && event.keyCode<40) 
-                                                || (event.keyCode==46) )" [disabled]="i<4">
+                                                || (event.keyCode==46) )" [disabled]="true">
                                             </div>
                                         </div>
                                         <div class="col-2 col-lg-1" *ngIf="billingType=='CMS'">
@@ -296,7 +296,7 @@
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
                                                 || (event.keyCode>34 && event.keyCode<40) 
-                                                || (event.keyCode==46) )" [disabled]="i<4">
+                                                || (event.keyCode==46) )" [disabled]="i<4 || !otcode.selected">
                                             </div>
                                         </div>
                                         <div class="col-8 col-lg-10" *ngIf="billingType=='CMS' && otcode.isError">
@@ -347,7 +347,7 @@
                                         || (95<event.keyCode && event.keyCode<106)
                                         || (event.keyCode==8) || (event.keyCode==9) 
                                         || (event.keyCode>34 && event.keyCode<40) 
-                                        || (event.keyCode==46) )">
+                                        || (event.keyCode==46) )" [disabled]="true">
                                     </div>
                                 </div>
                                 <div class="col-2 col-lg-1" *ngIf="billingType=='CMS'">
@@ -359,7 +359,7 @@
                                         || (95<event.keyCode && event.keyCode<106)
                                         || (event.keyCode==8) || (event.keyCode==9) 
                                         || (event.keyCode>34 && event.keyCode<40) 
-                                        || (event.keyCode==46) )">
+                                        || (event.keyCode==46) )" [disabled]="!slpcode.selected">
                                     </div>
                                 </div>
                                 <div class="col-8 col-lg-10" *ngIf="billingType=='CMS'">

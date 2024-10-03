@@ -17,10 +17,10 @@ export class BillingComponent {
   userId =""
   actionType = ""
   unitedPtList = [
-    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
-    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",minutes:"",units:"",selected:true,isError:false,errorMsg:""},
-    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
-    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
     {name:"Paraffin Bath",value:"paraffin_bath",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
     {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
     {name:"Mechanical traction",value:"mechanical_traction",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
@@ -106,19 +106,6 @@ export class BillingComponent {
       if(response.message.caseType!=''){
         this.caseType = response.message.caseType
       }
-      if(this.billingType=='CMS') {
-        if(this.caseType=='PT'){
-          this.unitedPtList[0].minutes = '20'
-          this.unitedPtList[1].minutes = '30'
-          this.unitedPtList[2].minutes = '45'
-          this.unitedPtList[3].minutes = '20'
-        }else if(this.caseType=='OT'){
-          this.unitedOtList[0].minutes = '20'
-          this.unitedOtList[1].minutes = '30'
-          this.unitedOtList[2].minutes = '45'
-          this.unitedOtList[3].minutes = '20'
-        }
-      } 
       if(response.data && response.data.appointmentId){
         this.actionType = "update"
         this.totalTreatmentMinutes = result.total_treatment_minutes
@@ -174,10 +161,43 @@ export class BillingComponent {
     if(sourceType=='unitedCode'){
       if(type=='ptCode'){
         this.unitedPtList[index].selected = event.checked
+        this.unitedPtList[index].units = "1"
+        if(index==0){
+          this.unitedPtList[index].minutes = '20'
+        }else if(index==1){
+          this.unitedPtList[index].minutes = '30'
+        }else if(index==2){
+          this.unitedPtList[index].minutes = '45'
+        }else if(index==3){
+          this.unitedPtList[index].minutes = '20'
+        }
+        if(!event.checked){
+          this.unitedPtList[index].minutes = ''
+          this.unitedPtList[index].units = ''
+        }
       }else if(type=='otCode'){
         this.unitedOtList[index].selected = event.checked
+        this.unitedOtList[index].units = "1"
+        if(index==0){
+          this.unitedOtList[index].minutes = '20'
+        }else if(index==1){
+          this.unitedOtList[index].minutes = '30'
+        }else if(index==2){
+          this.unitedOtList[index].minutes = '45'
+        }else if(index==3){
+          this.unitedOtList[index].minutes = '20'
+        }
+        if(!event.checked){
+          this.unitedOtList[index].minutes = ''
+          this.unitedOtList[index].units = ''
+        }
       }else if(type=='slpCode'){
         this.unitedSlpList[index].selected = event.checked
+        this.unitedSlpList[index].units = "1"
+        if(!event.checked){
+          this.unitedSlpList[index].minutes = ''
+          this.unitedSlpList[index].units = ''
+        }
       }
       this.calclulateTotal('units')
       this.calclulateTotal('minutes')
@@ -245,6 +265,28 @@ export class BillingComponent {
         }else{
           this.directPtList[index].isError = true 
           this.directPtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
+        }
+      }else if(caseType=='otCode'){
+        let units = this.directOtList[index].units //first box value
+        let finalRange = (parseInt(units) * addMinutes) + 7
+        let initialRange = ((parseInt(units) -1) * addMinutes) + 8
+        if(event.target.value>=initialRange && event.target.value<=finalRange){
+          this.directOtList[index].isError = false 
+          this.directOtList[index].errorMsg = "" 
+        }else{
+          this.directOtList[index].isError = true 
+          this.directOtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
+        }
+      }else if(caseType=='slpCode'){
+        let units = this.directSlpList[index].units //first box value
+        let finalRange = (parseInt(units) * addMinutes) + 7
+        let initialRange = ((parseInt(units) -1) * addMinutes) + 8
+        if(event.target.value>=initialRange && event.target.value<=finalRange){
+          this.directSlpList[index].isError = false 
+          this.directSlpList[index].errorMsg = "" 
+        }else{
+          this.directSlpList[index].isError = true 
+          this.directSlpList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
         }
       }
     }
