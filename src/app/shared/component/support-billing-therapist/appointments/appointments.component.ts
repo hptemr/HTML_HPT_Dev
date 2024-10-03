@@ -222,23 +222,25 @@ export class AppointmentsComponent {
   }
 
   announceSortChange(sortState: Sort) {
-    let order
-    if (sortState.direction == 'desc') {
-      order = -1
-    } else {
-      order = 1
-    }
-    if (sortState.active == 'name') {
-      this.orderBy = {
-        // appointmentId: order
-        caseName: order
+    if(sortState.active != 'action'){
+      let order
+      if (sortState.direction == 'desc') {
+        order = -1
+      } else {
+        order = 1
       }
-    } else {
-      this.orderBy = {
-        [sortState.active]: order
+      if (sortState.active == 'name') {
+        this.orderBy = {
+          // appointmentId: order
+          caseName: order
+        }
+      } else {
+        this.orderBy = {
+          [sortState.active]: order
+        }
       }
+      this.getAppointmentList()
     }
-    this.getAppointmentList()
   }
 
   async patientCheckIn(event: any, obj: any) {
