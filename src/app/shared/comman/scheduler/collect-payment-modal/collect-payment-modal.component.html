@@ -4,27 +4,34 @@
             Collect Payment
         </h1>  
     </div>
-    <div class="modal--body w-100  ">
+    <div class="modal--body py-2 w-100">
          <div class="row">
             <div class="col-12">
                 <div class="form-group position-relative">
-                    <label class="col-form-label ">Co-pay Amount Collected</label>
+                    <label class="col-form-label ">Co-pay Amount to be Collected</label>
                     <span matPrefix class="prefix">$</span>
-                    <input class="form-control " type="number"    />
+                    <input class="form-control " type="number" placeholder="25"     />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
                 <div class="form-group position-relative"> 
-                    <label class="col-form-label ">High Deductible Amount Collected</label>
+                    <label class="col-form-label ">High Deductible Amount to be Collected</label> 
                     <span matPrefix class="prefix">$</span>
-                    <input class="form-control " type="number"  />
+                    <input class="form-control " type="number" placeholder="160"    />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+                <div class="form-group  ">
+                    <label class="col-form-label">Payment Method </label>
+                    <select class="form-select form-control  ps-3" aria-label="Default select example">
+                        <option selected>Cash</option> 
+                        <option value="1">Card</option> 
+                        <option value="2">Cheque</option>  
+                    </select>
                 </div>
             </div>
          </div> 
     </div>
-    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0">
-        <button mat-stroked-button color="primary" class="me-2 px-3" mat-dialog-close>Close</button> 
-        <button mat-raised-button color="primary" mat-dialog-close>Save</button>
+    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0"> 
+        <button mat-raised-button color="primary" mat-dialog-close>Mark as Collected</button>
     </div> 
 </div>
 

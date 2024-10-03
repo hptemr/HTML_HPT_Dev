@@ -64,7 +64,7 @@ export class SchedulerComponent {
   }
   collectPaymentModal(){
     const dialogRef = this.dialog.open(CollectPaymentModalComponent,{
-      width:'310px',
+      width:'400px',
       panelClass: [ 'modal--wrapper'],
     });
   }

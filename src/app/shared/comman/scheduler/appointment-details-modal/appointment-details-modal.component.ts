@@ -21,7 +21,7 @@ export class AppointmentDetailsModalComponent {
   }
   collectPaymentModal(){
     const dialogRef = this.dialog.open(CollectPaymentModalComponent,{
-      width:'310px',
+      width:'400px',
       panelClass: [ 'modal--wrapper'],
     });
   }
