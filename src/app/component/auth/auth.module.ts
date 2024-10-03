@@ -19,6 +19,9 @@ import { AppointmentDetailsModalComponent } from 'src/app/shared/comman/schedule
 import { UpcomingAppModalComponent } from 'src/app/shared/comman/scheduler/upcoming-app-modal/upcoming-app-modal.component';
 import { CollectPaymentModalComponent } from 'src/app/shared/comman/scheduler/collect-payment-modal/collect-payment-modal.component';
  
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+ 
 
 @NgModule({
   declarations: [ 
@@ -45,7 +48,11 @@ import { CollectPaymentModalComponent } from 'src/app/shared/comman/scheduler/co
     SharedModule, 
     AuthRoutingModule, 
     MatStepperModule,
-    NgOptimizedImage
+    NgOptimizedImage, 
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
 })
 export class AuthModule {}

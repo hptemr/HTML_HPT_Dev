@@ -1,20 +1,49 @@
 <div class="scheduler--wrapper w-100">
-    <div class="sc--header">
-        <div class="row">
-            <div class="col-12 col-lg-2">
-                <div class="form-group mb-0"> 
-                    <select class="form-select form-control form-control-md" aria-label="Default select example">
-                        <option selected>Practice Location</option> 
-                        <option value="1">Hamilton PT at The Canyons</option>
-                        <option value="2">Darby PT</option>
-                        <option value="3">Corvallis PT</option>
-                        <option value="4">Stevi PT</option>
-                        <option value="5">PT Specialists of Florence</option>
-                        <option value="6">Frenchtown PT</option>
-                        <option value="7">HNB</option>
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+    <div class="sc--header d-flex align-items-center">
+        <div class="form-group mb-0 flex-shrink-0 pl--field">
+            <select class="form-select form-control form-control-md" aria-label="Default select example">
+                <option selected>Practice Location</option>
+                <option value="1">Hamilton PT at The Canyons</option>
+                <option value="2">Darby PT</option>
+                <option value="3">Corvallis PT</option>
+                <option value="4">Stevi PT</option>
+                <option value="5">PT Specialists of Florence</option>
+                <option value="6">Frenchtown PT</option>
+                <option value="7">HNB</option>
+            </select>
+            <!-- <div class="text text-danger mt-1">Error here</div> -->
+        </div>
+        <div class="d-flex align-items-center justify-content-between w-100">
+            <div class="btn-group today--btns">
+                <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    <mat-icon>chevron_left</mat-icon>
                 </div>
+                <div class="btn" mwlCalendarToday [(viewDate)]="viewDate">
+                    Today
+                </div>
+                <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    <mat-icon>chevron_right</mat-icon>
+                </div>
+            </div>
+            <div class="btn-group day--to--month">
+                <div class="btn" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+                    Day
+                </div>
+                <div class="btn" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+                    Week
+                </div>
+                <div class="btn " (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+                    Month
+                </div> 
+            </div>
+            <div class="form-group position-relative mb-0 head--search">
+                <input type="text" class="form-control form-control-md search--outer"
+                    placeholder="Search ">
+                <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                </button>
             </div>
         </div>
     </div>
@@ -27,28 +56,32 @@
                 <div class="col-12 my-3">
                     <button mat-raised-button color="primary" (click)="createAppointmen()">
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                        Create Appointment  
-                    </button> 
-                    <button mat-raised-button color="primary" (click)="editAppointmen()" class="mt-2"> 
+                        Create Appointment
+                    </button>
+                    <!-- <button mat-raised-button color="primary" (click)="editAppointmen()" class="mt-2"> 
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                         Edit Appointment  
-                    </button>
-                    <button mat-raised-button color="primary" (click)="appointmentDetailsModal()" class="mt-2"> 
+                    </button> -->
+                    <button mat-raised-button color="primary" (click)="appointmentDetailsModal()" class="mt-2">
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                         Appointment Details
                     </button>
                 </div>
                 <div class="col-12">
+                    <h3 class="text-primary">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+                </div>
+                <div class="col-12">
                     <mat-card class="demo-inline-calendar-card">
                         <mat-calendar [(selected)]="selected"></mat-calendar>
-                      </mat-card>  
+                    </mat-card>
                 </div>
                 <div class="col-12">
                     <div class="search--people--sec">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group position-relative w-100">
-                                    <input type="text" class="form-control form-control-md search--outer" placeholder="Search ">
+                                    <input type="text" class="form-control form-control-md search--outer"
+                                        placeholder="Search ">
                                     <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                     </button>
@@ -72,9 +105,196 @@
 
         <!-- Calender Start here -->
         <div class="sc--right--panel d-flex flex-column w-100">
-            
+            <div class="row w-100  ">
+
+                <div class="col-12">
+                    <div [ngSwitch]="view">
+                        <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
+                            [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+                            (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-month-view>
+                        <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate"
+                            [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-week-view>
+                        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+                            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-day-view>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+
+            <!-- <h3>
+                Edit events
+                <button class="btn btn-primary float-end" (click)="addEvent()">
+                  Add new
+                </button>
+                <div class="clearfix"></div>
+              </h3>  -->
+
+            <ng-template #modalContent let-close="close">
+                <!-- <div class="modal-header">
+                  <h5 class="modal-title">Event action occurred</h5>
+                  <button type="button" class="close" (click)="close()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    Action:
+                    <pre>{{ modalData?.action }}</pre>
+                  </div>
+                  <div>
+                    Event:
+                    <pre>{{ modalData?.event | json }}</pre>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                    OK
+                  </button>
+                </div> -->
+
+
+                <div class="modal--wrapper d-flex flex-column w-100 ea--wrapper">
+                    <div class="modal--header w-100">
+                        <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-2">
+                            Edit Appointment Details
+                        </h1>
+                    </div>
+                    <div class="modal--body w-100 pt-0">
+                        <div class="row">
+                            <div class="col-12 mb-2 mt-4">
+                                <div class="row">
+                                    <div class="col-12 col-lg-4">
+                                        <div class="form-group d-flex align-items-center mb-0">
+                                            <label
+                                                class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0 mb-2">Case
+                                                Name </label>
+                                            <select class="form-select form-control form-control-md mb-2"
+                                                aria-label="Default select example">
+                                                <option selected> Select </option>
+                                                <option value="1">Case Name</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-8">
+                                        <div
+                                            class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start">
+                                            <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date &
+                                                Time <span class="clr--DF0404 ms-1"> * </span> </label>
+                                            <input class="form-control form-control-md w-130p me-3" disabled type="text"
+                                                placeholder="" value="Aug 26, 2024" />
+                                            <input class="form-control form-control-md w-100p" type="text" disabled
+                                                placeholder="" value="10:00 AM" />
+                                            <label class="col-form-label fw-600 font-16 p-0 mx-3 flex-shrink-0">To
+                                            </label>
+                                            <input class="form-control form-control-md w-100p me-3" type="text" disabled
+                                                placeholder="" value="10:00 PM" />
+                                            <div class="form-group d-flex align-items-center mb-0 w-100">
+                                                <select class="form-select form-control form-control-md" disabled
+                                                    aria-label="Default select example">
+                                                    <option selected> Mountain Time </option>
+                                                    <option value="1">Mountain Time 1</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 ">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">First Name </label>
+                                    <input class="form-control " disabled type="text" value="John"
+                                        placeholder="Enter First Name" />
+                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 ">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Last Name </label>
+                                    <input class="form-control " disabled type="text" value="Walter"
+                                        placeholder="Enter Last Name" />
+                                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Practice Location <span
+                                            class="clr--DF0404 ms-1"> * </span></label>
+                                    <select class="form-select form-control" aria-label="Default select example">
+                                        <option selected>Select Practice Location</option>
+                                        <option value="1">Hamilton PT at The Canyons</option>
+                                        <option value="2">Darby PT</option>
+                                        <option value="3">Corvallis PT</option>
+                                        <option value="4">Stevi PT</option>
+                                        <option value="5">PT Specialists of Florence</option>
+                                        <option value="6">Frenchtown PT</option>
+                                        <option value="7">HNB</option>
+                                    </select>
+                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Date of Birth</label>
+                                    <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                        <input disabled matInput [matDatepicker]="picker" placeholder="From Date">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Appointment Type <span
+                                            class="clr--DF0404 ms-1"> * </span></label>
+                                    <select class="form-select form-control" aria-label="Default select example">
+                                        <option selected>Follow-Up</option>
+                                        <option value="1">Follow-Up Canyons</option>
+                                    </select>
+                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Insurance Type</label>
+                                    <select class="form-select form-control" aria-label="Default select example">
+                                        <option selected>Primary Insurance</option>
+                                        <option value="1">Insurance 2</option>
+                                    </select>
+                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Notes</label>
+                                    <textarea class="form-control " type="text" placeholder="Enter here"
+                                        rows="4"></textarea>
+                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
+                        <button mat-stroked-button color="primary" class="me-2" (click)="close()">Cancel</button>
+                        <button mat-raised-button color="primary" (click)="close()">Save</button>
+                    </div>
+                </div>
+
+
+
+            </ng-template>
+
         </div>
-         <!-- Calender End's here -->
+        <!-- Calender End's here -->
 
     </div>
 </div>
