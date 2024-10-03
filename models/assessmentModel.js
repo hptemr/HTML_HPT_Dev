@@ -4,13 +4,13 @@ const assessmentSchema = new mongoose.Schema({
     appointmentId: {
         type: mongoose.Schema.ObjectId,
         ref: "appointments"
-      },
-    assessment_note: { type: String, default: "" },
-    problems:[{
+    },
+    assessment_text: { type: String, default: "" },
+    assessment_icd:[{
         problem: String,
         long_term_goal: String
     }],
-    support_document_note: { type: String, default: "" },
+    supporting_documentation_text: { type: String, default: "" },
     status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
     createdBy: {
         type: mongoose.Schema.ObjectId,

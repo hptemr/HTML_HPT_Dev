@@ -14,4 +14,7 @@ router.post('/updateBillingNote', soapController.updateBillingNote);
 router.post('/finalizeNote', soapController.finalizeNote);
 router.post('/submitSubjective', soapController.submitSubjective);
 router.post('/getSubjectiveData', soapController.getSubjectiveData);
+router.post('/submitAssessment', soapController.submitAssessment);
+router.post('/getAssessment', soapController.getAssessment);
+
 module.exports = router;    
