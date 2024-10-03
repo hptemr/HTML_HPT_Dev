@@ -71,7 +71,10 @@ const messages = {
     documentMessage: {
         exist: ' already exists',
         directoryUpdated: 'Directory has been updated successfully',
-    }
+    },
+    soapMessage: {
+        assessment: 'Assessment has been updated successfully'
+    },
 };
 
 module.exports = messages;
