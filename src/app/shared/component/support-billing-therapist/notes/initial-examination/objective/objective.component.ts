@@ -132,6 +132,7 @@ export class ObjectiveComponent {
   selectedProtocols:any=[]
   public objectiveForm: FormGroup;
   validationMessages = validationMessages; 
+  chaperoneFlag:boolean=false;
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -142,75 +143,127 @@ export class ObjectiveComponent {
     this.objectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
       patient_consent: ['', [Validators.required]],
-      chaperone: this.fb.array([this.fb.group({
-        flag: ['',Validators.required],
-        name: ['']
-      })]),
-      observation: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      range_of_motion: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      strength: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      neurological: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      special_test: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      palpation: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      outcome_measures: ['', [Validators.required]],
-      slp: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      ot: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-      treatment_provided: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
-    });
+      chaperone : this.fb.group({
+        flag: ['No', [Validators.required]],  // Default value for the flag
+        name: ['']  // Initially no validation on 'name'
+      }),
+      observation: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      range_of_motion: ['', [ Validators.minLength(1), Validators.maxLength(2500)]],
+      strength: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      neurological: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      special_test: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      palpation: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      slp: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      ot: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+     
+      outcome_measures : this.fb.group({
+        name: ['',[Validators.required]],
+        rateYourPain: [''],
+        pain_intensity: [''],
+        personal_care: [''],
+        lifting: [''],
+        headache: [''],
+        recreation: [''],
+        reading: [''],
+        work: [''],
+        sleeping: [''],
+        concentration: [''],
+        driving: [''],
+        score: [''],     
+        quick_dash_question1: [''], 
+        quick_dash_question2: [''], 
+        quick_dash_question3: [''], 
+        quick_dash_question4: [''], 
+        quick_dash_question5: [''], 
+        quick_dash_question6: [''], 
+        quick_dash_question7: [''], 
+        quick_dash_question8: [''], 
+        quick_dash_question9: [''], 
+        quick_dash_question10: [''], 
+        quick_dash_question11: [''], 
+        quick_dash_score: [''], 
+        oswestry_pain_intensity: [''], 
+        oswestry_standing: [''], 
+        oswestry_personal_care: [''], 
+        oswestry_sleeping: [''], 
+        oswestry_lifting: [''], 
+        oswestry_social_life: [''], 
+        oswestry_walking: [''], 
+        oswestry_traveling: [''], 
+        oswestry_sitting: [''], 
+        oswestry_employment_homemaking: [''],
 
-    this.initializeFormValidation();
+        lefs_question1: [''],
+        lefs_question2: [''],
+        lefs_question3: [''],
+        lefs_question4: [''],
+        lefs_question5: [''],
+        lefs_question6: [''],
+        lefs_question7: [''],
+        lefs_question8: [''],
+        lefs_question9: [''],
+        lefs_question10: [''],
+
+
+      }),
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+    });
+    //this.initializeFormValidation();
+    this.onFlagChange();
   }
 
-  get chaperoneArray(): FormArray {
-    return this.objectiveForm.get('chaperone') as FormArray;
+  painRate(i: any) {
+    this.clickedIndex = i
+    //this.objectiveForm.controls['rateYourPain'].setValue(i)
   }
 
-  initializeFormValidation() {
-    this.chaperoneArray.controls.forEach((group) => {
-      const flagControl = group.get('flag');
-      const nameControl = group.get('name');
 
-      flagControl?.valueChanges.subscribe((flagValue) => {
-        if (flagValue === 'yes') {
-          nameControl?.setValidators([Validators.required]);  // Set 'name' as required if 'flag' is 'yes'
-        } else {
-          nameControl?.clearValidators();  // Remove the required validator otherwise
-        }
-        nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
-      });
-    });
-  }
+  onFlagChange() {
+    const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
+    const flagControl = chaperoneGroup.get('flag');
+    const nameControl = chaperoneGroup.get('name');
 
-    // Method to add a new chaperone group to the array
-  addChaperone() {
-    const newChaperone = this.fb.group({
-      flag: ['', Validators.required],
-      name: ['']
-    });
-
-    // Add validation watcher for the new group
-    newChaperone.get('flag')?.valueChanges.subscribe((flagValue) => {
-      const nameControl = newChaperone.get('name');
-      if (flagValue === 'yes') {
-        nameControl?.setValidators([Validators.required]);
+    flagControl?.valueChanges.subscribe((flagValue: string) => {
+      if (flagValue === 'Yes') {
+        nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
       } else {
-        nameControl?.clearValidators();
+        nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
       }
-      nameControl?.updateValueAndValidity();
+      nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
     });
-
-    this.chaperoneArray.push(newChaperone);
   }
 
   objectiveSubmit(){
+    console.log('this.objectiveForm>>>>',this.objectiveForm)
     if (this.objectiveForm.invalid){
       this.objectiveForm.markAllAsTouched();
     }else{
 
 
-
-
     }
+  }
+
+  chaperoneRadio(event: any) {
+    const flagControl = this.objectiveForm.get('chaperone.flag');
+    this.chaperoneFlag = false;
+    if (flagControl?.value === 'Yes') {
+        this.chaperoneFlag = true;
+    }
+    this.onFlagChange();
   }
 
   addProtocolModal() {
@@ -220,7 +273,6 @@ export class ObjectiveComponent {
        appointmentId:this.appointmentId
       }
      });
-
      dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.selectedProtocols = result
