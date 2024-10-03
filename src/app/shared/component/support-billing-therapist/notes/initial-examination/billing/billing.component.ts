@@ -17,56 +17,56 @@ export class BillingComponent {
   userId =""
   actionType = ""
   unitedPtList = [
-    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:false},
-    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",minutes:"",units:"",selected:false},
-    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:false},
-    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:false},
-    {name:"Paraffin Bath",value:"paraffin_bath",units:"",minutes:"",selected:false},
-    {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",minutes:"",selected:false},
-    {name:"Mechanical traction",value:"mechanical_traction",units:"",minutes:"",selected:false},
-    {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",minutes:"",selected:false}
+    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Paraffin Bath",value:"paraffin_bath",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Mechanical traction",value:"mechanical_traction",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",minutes:"",selected:false,isError:false,errorMsg:""}
   ]
   unitedOtList = [
-    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",selected:false},
-    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",selected:false},
-    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",selected:false},
-    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",selected:false},
-    {name:"Paraffin Bath",value:"paraffin_bath",units:"",selected:false},
-    {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",selected:false},
-    {name:"Mechanical traction",value:"mechanical_traction",units:"",selected:false},
-    {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",selected:false}
+    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"Paraffin Bath",value:"paraffin_bath",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Mechanical traction",value:"mechanical_traction",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",minutes:"",selected:false,isError:false,errorMsg:""}
   ]
   unitedSlpList = [
-    {name:"Evaluation of speech sound production",value:"evaluation_of_speech",units:"",selected:false},
-    {name:"Evaluation of speech sound production including language comprehension & expression",value:"evaluation_of_speech_language",units:"",selected:false},
-    {name:"Behavioral and qualitative analysis of voice and resonance",value:"voice_and_resonance",units:"",selected:false},
-    {name:"Evaluation of oral and pharyngeal swallowing function",value:"evaluation_of_oral",units:"",selected:false},
-    {name:"Use of speech device service",value:"use_of_speech_device",units:"",selected:false},
-    {name:"SLP Treatment; individual",value:"slp_treatment",units:"",selected:false},
-    {name:"Treatment of swallowing dysfunction and/or oral function for feeding",value:"treatment_of_swallowing_dysfunction",units:"",selected:false},
-    {name:"Assessment of aphasia",value:"assessment_of_aphasia",units:"",selected:false},
-    {name:"Standardized cognitive performance testing, per hour",value:"standardized_cognitive_performance",units:"",selected:false},
-    {name:"Therapeutic interventions that focus on cognitive function e.g., attention, memory, reasoning, executive function, problem solving and/or pragmatic functioning) and compensatory strategies to manage the performance of an activity (e.g., managing time or schedules, initiating, organizing and sequencing tasks)",value:"therapeutic_interventions",units:"",selected:false}
+    {name:"Evaluation of speech sound production",value:"evaluation_of_speech",units:"",minutes:"",selected:false},
+    {name:"Evaluation of speech sound production including language comprehension & expression",value:"evaluation_of_speech_language",units:"",minutes:"",selected:false},
+    {name:"Behavioral and qualitative analysis of voice and resonance",value:"voice_and_resonance",units:"",minutes:"",selected:false},
+    {name:"Evaluation of oral and pharyngeal swallowing function",value:"evaluation_of_oral",units:"",minutes:"",selected:false},
+    {name:"Use of speech device service",value:"use_of_speech_device",units:"",minutes:"",selected:false},
+    {name:"SLP Treatment; individual",value:"slp_treatment",units:"",minutes:"",selected:false},
+    {name:"Treatment of swallowing dysfunction and/or oral function for feeding",value:"treatment_of_swallowing_dysfunction",units:"",minutes:"",selected:false},
+    {name:"Assessment of aphasia",value:"assessment_of_aphasia",units:"",minutes:"",selected:false},
+    {name:"Standardized cognitive performance testing, per hour",value:"standardized_cognitive_performance",units:"",minutes:"",selected:false},
+    {name:"Therapeutic interventions that focus on cognitive function e.g., attention, memory, reasoning, executive function, problem solving and/or pragmatic functioning) and compensatory strategies to manage the performance of an activity (e.g., managing time or schedules, initiating, organizing and sequencing tasks)",value:"therapeutic_interventions",units:"",minutes:"",selected:false}
   ]
 
   directPtList = [
-    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:""},
-    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:""},
-    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:""},
-    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:""},
-    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:""}
+    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"}
   ]
   directOtList = [
-    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:""},
-    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:""},
-    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:""},
-    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:""},
-    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:""},
-    {name:"Therapeutic interventions that focus on cognitive function (eg, attention, memory, executive function) and compensatory strategies to manage the performance of an activity (eg, managing time), direct (one-to-one) patinet contact; initial 15 minutes",value:"therapeutic_interventions",units:"",minutes:""}
+    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"Therapeutic interventions that focus on cognitive function (eg, attention, memory, executive function) and compensatory strategies to manage the performance of an activity (eg, managing time), direct (one-to-one) patinet contact; initial 15 minutes",value:"therapeutic_interventions",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"}
   ]
   directSlpList = [
-    {name:"Gait Training",value:"gait_train",units:"",minutes:""},
-    {name:"FCE/Performance Test",value:"performance_test",units:"",minutes:""}
+    {name:"Gait Training",value:"gait_train",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
+    {name:"FCE/Performance Test",value:"performance_test",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"}
   ]
   dmeCptList = [
     {name:"Half Foam Roll 12\"",value:"half_foam_roll_12",quantity:""},
@@ -97,7 +97,7 @@ export class BillingComponent {
     this.userId = this.authService.getLoggedInInfo('_id')
   }
 
-  ngOnInit() {   
+  ngOnInit() { 
     var params = {
       appointmentId:this.appointmentId
     }
@@ -116,14 +116,18 @@ export class BillingComponent {
         this.unitedPtList.forEach((code:any,index:any) => {
           this.unitedPtList[index].selected =  result.united_pt_codes[this.unitedPtList[index].value]['selected']
           this.unitedPtList[index].units =  result.united_pt_codes[this.unitedPtList[index].value]['units']
+          this.unitedPtList[index].minutes =  result.united_pt_codes[this.unitedPtList[index].value]['minutes']
         })
         this.unitedOtList.forEach((code:any,index:any) => {
           this.unitedOtList[index].selected =  result.united_ot_codes[this.unitedOtList[index].value]['selected']
           this.unitedOtList[index].units =  result.united_ot_codes[this.unitedOtList[index].value]['units']
+          this.unitedOtList[index].minutes =  result.united_ot_codes[this.unitedPtList[index].value]['minutes']
+
         })
         this.unitedSlpList.forEach((code:any,index:any) => {
           this.unitedSlpList[index].selected =  result.united_slp_codes[this.unitedSlpList[index].value]['selected']
           this.unitedSlpList[index].units =  result.united_slp_codes[this.unitedSlpList[index].value]['units']
+          this.unitedSlpList[index].minutes =  result.united_slp_codes[this.unitedSlpList[index].value]['minutes']
         })
         //direct codes prefil
         this.directPtList.forEach((code:any,index:any) => {
@@ -155,63 +159,91 @@ export class BillingComponent {
 
   showOptions(event:any,index:any,type:any,sourceType:any){
     if(sourceType=='unitedCode'){
-      let tempArr:any = []
       if(type=='ptCode'){
         this.unitedPtList[index].selected = event.checked
-        tempArr = this.unitedPtList
+        this.unitedPtList[index].units = "1"
+        if(index==0){
+          this.unitedPtList[index].minutes = '20'
+        }else if(index==1){
+          this.unitedPtList[index].minutes = '30'
+        }else if(index==2){
+          this.unitedPtList[index].minutes = '45'
+        }else if(index==3){
+          this.unitedPtList[index].minutes = '20'
+        }
+        if(!event.checked){
+          this.unitedPtList[index].minutes = ''
+          this.unitedPtList[index].units = ''
+        }
       }else if(type=='otCode'){
         this.unitedOtList[index].selected = event.checked
-        tempArr = this.unitedOtList
+        this.unitedOtList[index].units = "1"
+        if(index==0){
+          this.unitedOtList[index].minutes = '20'
+        }else if(index==1){
+          this.unitedOtList[index].minutes = '30'
+        }else if(index==2){
+          this.unitedOtList[index].minutes = '45'
+        }else if(index==3){
+          this.unitedOtList[index].minutes = '20'
+        }
+        if(!event.checked){
+          this.unitedOtList[index].minutes = ''
+          this.unitedOtList[index].units = ''
+        }
       }else if(type=='slpCode'){
         this.unitedSlpList[index].selected = event.checked
-        tempArr = this.unitedSlpList
+        this.unitedSlpList[index].units = "1"
+        if(!event.checked){
+          this.unitedSlpList[index].minutes = ''
+          this.unitedSlpList[index].units = ''
+        }
       }
-      this.calclulateTotal('units',tempArr,sourceType)
+      this.calclulateTotal('units')
+      this.calclulateTotal('minutes')
     }
   }
 
   onKey(event:any,index:any,type:any,sourceType:any,fieldType:any){
     if(fieldType=='units'){
-      let tempArr:any = []
       if(sourceType=='unitedCode'){
         if(type=='ptCode'){
           this.unitedPtList[index].units = event.target.value
-          tempArr = this.unitedPtList
         }else if(type=='otCode'){
           this.unitedOtList[index].units = event.target.value
-          tempArr = this.unitedOtList
         }else if(type=='slpCode'){
           this.unitedSlpList[index].units = event.target.value
-          tempArr = this.unitedSlpList
         }
       }else if(sourceType=='directCode'){
           if(type=='ptCode'){
             this.directPtList[index].units = event.target.value
-            tempArr = this.directPtList
           }else if(type=='otCode'){
             this.directOtList[index].units = event.target.value
-            tempArr = this.directOtList
           }else if(type=='slpCode'){
             this.directSlpList[index].units = event.target.value
-            tempArr = this.directSlpList
           }
-
       } 
-      this.calclulateTotal('units',tempArr,sourceType)
+      this.calclulateTotal('units')
     }else if(fieldType=='minutes'){
-      let tempArr:any = []
       if(sourceType=='directCode'){
         if(type=='ptCode'){
           this.directPtList[index].minutes = event.target.value
-          tempArr = this.directPtList
         }else if(type=='otCode'){
           this.directOtList[index].minutes = event.target.value
-          tempArr = this.directOtList
         }else if(type=='slpCode'){
           this.directSlpList[index].minutes = event.target.value
-          tempArr = this.directSlpList
         }
-        this.calclulateTotal('minutes',tempArr,sourceType)
+        this.calclulateTotal('minutes')
+      }
+      if(sourceType=='unitedCode'){
+        if(type=='ptCode'){
+          this.unitedPtList[index].minutes = event.target.value
+        }else if(type=='otCode'){
+          this.unitedOtList[index].minutes = event.target.value
+        }else if(type=='slpCode'){
+          this.unitedSlpList[index].minutes = event.target.value
+        }
+        this.calclulateTotal('minutes')
       }
     }else if(fieldType=='quantity'){
       if(sourceType=='dmeCode'){
@@ -220,7 +252,47 @@ export class BillingComponent {
     }
   }
 
-  calclulateTotal(type:any,tempArr:any,sourceType:any){
+  validateMinute(event:any,index:any,caseType:any,sourceType:any){
+    let addMinutes = 15
+    if(sourceType=='directCode'){
+      if(caseType=='ptCode'){
+        let units = this.directPtList[index].units //first box value
+        let finalRange = (parseInt(units) * addMinutes) + 7
+        let initialRange = ((parseInt(units) -1) * addMinutes) + 8
+        if(event.target.value>=initialRange && event.target.value<=finalRange){
+          this.directPtList[index].isError = false 
+          this.directPtList[index].errorMsg = "" 
+        }else{
+          this.directPtList[index].isError = true 
+          this.directPtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
+        }
+      }else if(caseType=='otCode'){
+        let units = this.directOtList[index].units //first box value
+        let finalRange = (parseInt(units) * addMinutes) + 7
+        let initialRange = ((parseInt(units) -1) * addMinutes) + 8
+        if(event.target.value>=initialRange && event.target.value<=finalRange){
+          this.directOtList[index].isError = false 
+          this.directOtList[index].errorMsg = "" 
+        }else{
+          this.directOtList[index].isError = true 
+          this.directOtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
+        }
+      }else if(caseType=='slpCode'){
+        let units = this.directSlpList[index].units //first box value
+        let finalRange = (parseInt(units) * addMinutes) + 7
+        let initialRange = ((parseInt(units) -1) * addMinutes) + 8
+        if(event.target.value>=initialRange && event.target.value<=finalRange){
+          this.directSlpList[index].isError = false 
+          this.directSlpList[index].errorMsg = "" 
+        }else{
+          this.directSlpList[index].isError = true 
+          this.directSlpList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
+        }
+      }
+    }
+  }
+
+  calclulateTotal(type:any){
     if(type=='units'){
       this.totalUnites = 0
       this.unitedPtList.forEach((code:any) => {
@@ -243,8 +315,29 @@ export class BillingComponent {
       })
     }else if(type=='minutes'){
       this.totalDirectMinutes = 0
-      tempArr.forEach((code:any) => {
+      // tempArr.forEach((code:any) => {
+      //   if(code.minutes!=""){ this.totalDirectMinutes += parseInt(code.minutes) }
+      // })
+
+      this.directPtList.forEach((code:any) => {
         if(code.minutes!=""){ this.totalDirectMinutes += parseInt(code.minutes) }
+      })
+      this.directOtList.forEach((code:any) => {
+        if(code.minutes!=""){ this.totalDirectMinutes += parseInt(code.minutes) }
+      })
+      this.directSlpList.forEach((code:any) => {
+        if(code.minutes!=""){ this.totalDirectMinutes += parseInt(code.minutes) }
+      })
+
+      this.totalTreatmentMinutes = this.totalDirectMinutes
+      this.unitedPtList.forEach((code:any) => {
+        if(code.minutes!="" && code.selected){ this.totalTreatmentMinutes += parseInt(code.minutes) }
+      })
+      this.unitedOtList.forEach((code:any) => {
+        if(code.minutes!="" && code.selected){ this.totalTreatmentMinutes += parseInt(code.minutes) }
+      })
+      this.unitedSlpList.forEach((code:any) => {
+        if(code.minutes!="" && code.selected){ this.totalTreatmentMinutes += parseInt(code.minutes) }
       })
     }
   }
@@ -268,13 +361,13 @@ export class BillingComponent {
       var tempDmeCptList:any = {}
 
       this.unitedPtList.forEach((code) => {  
-        tempUnitedPtList[code.value] = { selected: code.selected, units:code.units} 
+        tempUnitedPtList[code.value] = { selected: code.selected, units:code.units,minutes: code.minutes} 
       })
       this.unitedOtList.forEach((code) => {  
-        tempUnitedOtList[code.value] = { selected: code.selected, units:code.units} 
+        tempUnitedOtList[code.value] = { selected: code.selected, units:code.units,minutes: code.minutes} 
       })
       this.unitedSlpList.forEach((code) => {  
-        tempUnitedSlpList[code.value] = { selected: code.selected, units:code.units} 
+        tempUnitedSlpList[code.value] = { selected: code.selected, units:code.units,minutes: code.minutes} 
       })
 
       this.directPtList.forEach((code) => {  

@@ -93,10 +93,14 @@
                 [routerLink]="['/',activeUserRoute, 'intake-form','step-4', appId]">
                 Previous
             </button>
-            <button [disabled]="step5Form.invalid" (click)="finalSubmit()" mat-raised-button color="primary"
+            <button *ngIf="isReadonly" mat-stroked-button color="primary" class="m-1"
+                [routerLink]="['/', activeUserRoute, 'case-details', appId]">
+                Back
+            </button>
+            <button *ngIf="!isReadonly" [disabled]="step5Form.invalid" (click)="finalSubmit()" mat-raised-button color="primary"
                 class="m-1">
                 Submit
-            </button>
+            </button> 
         </div>
     </form>
 </div>

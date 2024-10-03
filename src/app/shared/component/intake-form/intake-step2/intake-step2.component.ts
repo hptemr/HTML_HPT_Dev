@@ -24,7 +24,7 @@ export class IntakeStep2Component {
   @ViewChild('insuranceFileInput') insuranceFileInput: any
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   appId: any
-  payViaSelected: any = 'Selfpay'
+  payViaSelected: any = 'Insurance'
   injurySelected: any
   workerCompensation:boolean=false
   maxDate: any
@@ -231,6 +231,7 @@ export class IntakeStep2Component {
       employerPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
       employerAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerAddress : '', []],
       isPatientMinor: [payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor : '', []],
+      consentCheck: [payViaInsuranceInfo ? payViaInsuranceInfo?.consentCheck : '', [Validators.required]],
       attorney: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorney : '', []],
       attorneyName: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.maxLength(35)]],
       attorneyPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
@@ -296,6 +297,7 @@ export class IntakeStep2Component {
     let subscriberDob
     let subscriberRelationWithPatient = ''
     let subscriberOtherRelation = ''
+    let subscriberGender = ''
     let primaryInsuranceCompany = ''
     let primaryInsuranceIdPolicy = ''
     let primaryInsuranceGroup = ''
@@ -347,6 +349,8 @@ export class IntakeStep2Component {
     let thirdInsuranceFromDate = ''
     let thirdInsuranceToDate = ''    
     let isPatientMinor = false
+    let consentCheck = false
+
     if (currentIndex != '') {
       let info = this.insuranceList.filter((item: any) => item.insuranceName === currentIndex)[0]
       insuranceName = info.insuranceName
@@ -355,7 +359,9 @@ export class IntakeStep2Component {
       subscriberLastName = info.subscriberLastName
       subscriberDob = info.subscriberDob
       subscriberRelationWithPatient = info.subscriberRelationWithPatient
-      subscriberOtherRelation = info.subscriberOtherRelation      
+      subscriberOtherRelation = info.subscriberOtherRelation
+      subscriberGender = info.subscriberGender
+       
       primaryInsuranceCompany = info.primaryInsuranceCompany
       primaryInsuranceIdPolicy = info.primaryInsuranceIdPolicy
       primaryInsuranceGroup = info.primaryInsuranceGroup
@@ -408,7 +414,7 @@ export class IntakeStep2Component {
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
-     
+     consentCheck = info.consentCheck ? info.consentCheck : false
     }
     
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
@@ -416,6 +422,7 @@ export class IntakeStep2Component {
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
     this.step2Form.controls['subscriberLastName'].setValue(subscriberLastName)
     this.step2Form.controls['subscriberDob'].setValue(subscriberDob)
+    this.step2Form.controls['subscriberGender'].setValue(subscriberGender) 
     this.step2Form.controls['subscriberOtherRelation'].setValue(subscriberOtherRelation)
     this.step2Form.controls['subscriberRelationWithPatient'].setValue(subscriberRelationWithPatient)
 
@@ -467,6 +474,7 @@ export class IntakeStep2Component {
     this.step2Form.controls['employerAddress'].setValue(employerAddress)
 
     this.step2Form.controls['isPatientMinor'].setValue(isPatientMinor)
+    this.step2Form.controls['consentCheck'].setValue(consentCheck)
     this.step2Form.controls['attorney'].setValue(attorney)
     this.step2Form.controls['attorneyName'].setValue(attorneyName)
     this.step2Form.controls['attorneyPhone'].setValue(attorneyPhone)
@@ -615,8 +623,7 @@ export class IntakeStep2Component {
 
   async bookAppointmentStep2() {
     //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
-      console.log(this.step2Form.invalid,' >>>>>step2Form>>>',this.step2Form)
-      if (this.step2Form.invalid){
+      if (this.step2Form.invalid || !this.step2Form.controls['consentCheck'].value){
         this.step2Form.markAllAsTouched();
       }else{
         if (!this.isReadonly) {
