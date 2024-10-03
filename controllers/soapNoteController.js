@@ -167,8 +167,10 @@ const submitSubjective = async (req, res) => {
       await subjectiveTemp.findOneAndUpdate({ _id: subjectiveId }, data, optionsUpdatePlan);
     } else {
       await subjectiveTemp.create(data)
-    }
 
+      //Code to save data in assessment table based on codes
+      await setAssessment(req, res)
+    }
     commonHelper.sendResponse(res, 'success', {}, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -189,9 +191,7 @@ const getSubjectiveData = async (req, res) => {
 }
 
 async function appointmentsList(casename, patientId) {
-
   let data = await Appointment.find({ patientId: patientId, caseName: casename }, { _id: 1, appointmentDate: 1 }).sort({ createdAt: -1 });
-
   let appointmentDateList = [];
   if (data.length > 0) {
     appointmentDateList = data.filter((obj) => {
@@ -226,6 +226,31 @@ const getAssessment = async (req, res) => {
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
+}
+
+async function setAssessment(req, res) {
+  const { data } = req.body;
+  let assessmentData = await AssessmentModel.findOne({ appointmentId: data.appointmentId });
+  if (!assessmentData && data.diagnosis_code && data.diagnosis_code.length > 0) {
+    let appointmentData = await Appointment.findOne({ _id: data.appointmentId }, { patientId: 1, appointmentDate: 1 }).populate('patientId', { firstName: 1, lastName: 1 })
+    let assessment_icd = []
+    let patientName = appointmentData.patientId.firstName + " " + appointmentData.patientId.lastName
+    let todayDate = new Date(appointmentData.appointmentDate).toLocaleString(); 
+    data.diagnosis_code.forEach(element => {
+      assessment_icd.push({
+        problem: element.name + " limiting function",
+        long_term_goal: "Improve " + element.name + " to restore function"
+      })
+    });
+
+    let assessmentInsert = {
+      appointmentId: data.appointmentId,
+      assessment_icd: assessment_icd,
+      assessment_text: "Thank you for referring " + patientName + " to our practice, " + patientName + " received  an initial evaluation and treatment today " + todayDate + ". As per your referral, we will see " + patientName + " ___ times per week for ___ weeks with a focus on *first 3 treatments to be added*. I will update you on " + patientName + " progress as appropriate, thank you for the opportunity to assist with their rehabilitation.",
+      supporting_documentation_text: "1. Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities. =Neuromuscular Re-Education, 97112 \n 2.Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's= Therapeutic Activity, 97530 \n 3. Patient is unable to complete physical therapy on land. = Aquatic Exercise, 97113 \n 4. Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation and / or used as contrast or thermotherapy to improve circulation, modulate pain, and improve functional range of motion = Vasopneumatic Device 97016 \n 5. If any item from the DME section is selected then the following data is shown in the Supporting Documentation Page with a space between any content present above, if it is present.Text to be added: DME was issued today with instructions on wear, care, and use required for full rehabilitation potential",
+    }
+    await AssessmentModel.create(assessmentInsert)
+  } 
 }
 
 module.exports = {
