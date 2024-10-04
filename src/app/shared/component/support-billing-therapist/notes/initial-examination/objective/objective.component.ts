@@ -283,7 +283,6 @@ export class ObjectiveComponent {
     if (this.objectiveForm.invalid){
       this.objectiveForm.markAllAsTouched();
     }else{
-      console.log('<<<<< add exercise form  >>>>')
       if (this.objectiveForm.invalid){
         this.objectiveForm.markAllAsTouched();
       }else{
