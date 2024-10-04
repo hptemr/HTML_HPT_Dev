@@ -501,6 +501,7 @@
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                             <div class="form-group d-flex align-items-center">
                                 <!-- <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label> -->
+                                <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"><span class="clr--DF0404 ms-1"> *</span></label>
                                 <mat-radio-group aria-label="Select an option" formControlName="SI_hardSoftCap">
                                     <mat-radio-button value="1" class="me-3" checked>Hard Cap</mat-radio-button>
                                     <mat-radio-button value="2">Soft Cap</mat-radio-button>
@@ -514,9 +515,17 @@
                             <input type="text" class="form-control form-control-md" placeholder="lorem ipsum dollor" formControlName="SI_hardSoftCapText">
                         </div>
                     </div>
+
+                    <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-start justify-content-sm-between">
+                        <div>&nbsp;</div> 
+                        <button mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addThirdInsurance(mat_icon)"><mat-icon class="material-symbols-outlined flex-shrink-0"> {{mat_icon}} </mat-icon>
+                            Add Third Insurance
+                        </button>
+                    </div>
+
                     
                     <!-- Third Insurance -->
-                    <div class="row">
+                    <div class="row" *ngIf="mat_icon=='remove_circle_outline'">
                         <div class="col-12 d-flex flex-wrap align-items-center">
                             <h2 class="mb-3 mt-2  clr--1F2F3E fw-700 d-flex flex-wrap font-16">Third Insurance</h2>
                         </div>
@@ -686,19 +695,20 @@
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Relationship with Patient</label>
-                                <select class="form-select form-control" aria-label="Default select example">
-                                    <option selected>Select</option>
-                                    <option value="1">Other</option>
-                                    <option value="2">Brother</option>
-                                    <option value="3">Sister</option>
+                                <select class="form-select form-control" aria-label="Default select example" formControlName="RP_relationWithPatient">
+                                    <option value="" selected>Select</option>
+                                    <option value="Self">Self</option>
+                                    <option value="Spouse">Spouse</option>
+                                    <option value="Child">Child</option>
+                                    <option value="Other">Other</option>
                                 </select>
                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="billingDetailsForm.value.RP_relationWithPatient == 'Other'">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Other Relation</label>
-                                <input class="form-control" type="text" placeholder="Enter Other Relation" />
+                                <input class="form-control" type="text" placeholder="Enter Other Relation" formControlName="RP_otherRelation"/>
                                 <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                             </div>
                         </div>
@@ -706,184 +716,242 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">First Name<span class="clr--DF0404 ms-1"> *
                                 </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter First Name" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <input class="form-control" type="text" placeholder="Enter First Name" formControlName="RP_firstName"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_firstName'].touched && billingDetailsForm.controls['RP_firstName'].hasError('required')">
+                                    {{ validationMessages.required('First Name') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_firstName'].touched && billingDetailsForm.controls['RP_firstName'].hasError('pattern')">
+                                    {{ validationMessages.alphabeticChar('First Name') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Middle Name </label>
-                                <input class="form-control" type="text" placeholder="Enter Middle Name" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <input class="form-control" type="text" placeholder="Enter Middle Name" formControlName="RP_middleName"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_middleName'].touched && billingDetailsForm.controls['RP_middleName'].hasError('pattern')">
+                                    {{ validationMessages.alphabeticChar('Middle Name') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Last Name<span class="clr--DF0404 ms-1"> *
                                 </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter Last Name" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <input class="form-control" type="text" placeholder="Enter Last Name" formControlName="RP_lastName"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_lastName'].touched && billingDetailsForm.controls['RP_lastName'].hasError('required')">
+                                    {{ validationMessages.required('Last Name') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_lastName'].touched && billingDetailsForm.controls['RP_lastName'].hasError('pattern')">
+                                    {{ validationMessages.alphabeticChar('Last Name') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Date of Birth </label>
+                                <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> *
+                                </span> </label>
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="Select Date" name="dp"
+                                    <!-- <input class="form-control" placeholder="Select Date" name="dp"
                                         [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" />
                                     <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="d.toggle()"
                                         type="button">
                                         <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button>
+                                    </button> -->
+                                    <mat-form-field class="w-100 am--datepicker">
+                                        <input formControlName="RP_dob" [max]="todayDate" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="RPDobDatepicker" (focus)="RPDobDatepicker.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="RPDobDatepicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #RPDobDatepicker></mat-datepicker>
+                                    </mat-form-field>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_dob'].touched && billingDetailsForm.controls['RP_dob'].hasError('required')">
+                                        {{ validationMessages.required('Date of Birth') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Marital Status</label>
-                                <select class="form-select form-control" aria-label="Default select example">
-                                    <option selected>Select</option>
-                                    <option value="1">Married</option>
-                                    <option value="2">Single</option>
+                                <select class="form-select form-control" aria-label="Default select example" formControlName="RP_maritalStatus">
+                                    <option value="" selected>Select</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Unmarried">Unmarried</option>
                                 </select>
-                                <!-- <div class="text text-danger mt-1">Error here</div> -->
                             </div>
-                            <div class="form-group" *ngIf="">
+                            <!-- <div class="form-group" *ngIf="">
                                 <input class="form-control" type="text" placeholder="Enter other relation" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col-12 col-sm-6 col-lg-6 col-xl-12 d-flex align-items-center">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Gender</label>
-                                <mat-radio-group aria-label="Select an option" [disabled]="false">
-                                    <mat-radio-button value="1" class="me-3" checked>Male</mat-radio-button>
-                                    <mat-radio-button value="2">Female</mat-radio-button>
+                                <label class="col-form-label fw-600">Gender <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                                <mat-radio-group aria-label="Select an option" formControlName="RP_gender">
+                                    <mat-radio-button value="Male" class="me-3" checked>Male</mat-radio-button>
+                                    <mat-radio-button value="Female">Female</mat-radio-button>
                                 </mat-radio-group>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_gender'].touched && billingDetailsForm.controls['RP_gender'].hasError('required')">
+                                    {{ validationMessages.required('Gender') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Email<span class="clr--DF0404 ms-1"> *
                                 </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter Email Address" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <input class="form-control" type="text" placeholder="Enter Email Address" formControlName="RP_email"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_email'].touched && billingDetailsForm.controls['RP_email'].hasError('required')">
+                                    {{ validationMessages.required('Email') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_email'].touched && billingDetailsForm.controls['RP_email'].hasError('email')">
+                                    {{ validationMessages.validEmail }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> *
                                 </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter Phone Number" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Cell Phone Number<span class="clr--DF0404 ms-1"> *
-                                </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter Cell Phone Number" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Work Extension<span class="clr--DF0404 ms-1"> *
-                                </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter Work Extension" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Is your injury related to</label>
-                                <mat-radio-group aria-label="Select an option">
-                                    <mat-radio-button value="1" class="me-3">Worker's Compensation
-                                        (WCOMP)</mat-radio-button>
-                                    <mat-radio-button value="2" class="me-3">Motor Vehicle Accident (MVA)</mat-radio-button>
-                                    <div class="d-inline-flex flex-column">
-                                        <mat-radio-button value="2">Other Personal Injury</mat-radio-button>
-                                        <div class="form-group" *ngIf="">
-                                            <input class="form-control" type="text" placeholder="Enter Other Injury" />
-                                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                                        </div>
-                                    </div>
-                                </mat-radio-group>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Carrier Name <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <select class="form-select form-control" aria-label="Default select example">
-                                    <option selected>Select</option>
-                                    <option value="1">Carrier 1</option>
-                                    <option value="2">Carrier 2</option>
-                                    <option value="3">Carrier 3</option>
-                                </select>
-                                <!-- <div class="text text-danger mt-1">Error here</div> -->
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> *
-                                    </span> </label>
-                                <div class="input-group">
-                                    <input class="form-control  " placeholder="Select Date" name="dp" [(ngModel)]="model"
-                                        ngbDatepicker #de="ngbDatepicker" />
-                                    <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="de.toggle()"
-                                        type="button">
-                                        <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                    </button>
+                                <input class="form-control" type="text" placeholder="Enter Phone Number" formControlName="RP_phoneNo" (input)="RPPhoneNumberInputChange($event)" [value]="RPPhoneNumber" maxlength="15"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_phoneNo'].touched && billingDetailsForm.controls['RP_phoneNo'].hasError('required')">
+                                    {{ validationMessages.required('Phone Number') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_phoneNo'].touched && billingDetailsForm.controls['RP_phoneNo'].hasError('pattern')">
+                                    {{ validationMessages.invalidPhoneNumber }}
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
-                                <select class="form-select form-control" aria-label="Default select example">
-                                    <option selected>Select State</option>
-                                    <option value="1">State 1</option>
-                                    <option value="2">State 2</option>
-                                    <option value="3">State 3</option>
-                                </select>
-                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                <label class="col-form-label fw-600">Cell Phone Number</label>
+                                <input class="form-control" type="text" placeholder="Enter Cell Phone Number" formControlName="RP_cellPhoneNo" (input)="RPCellPhoneNumberInputChange($event)" [value]="RPCellPhoneNumber" maxlength="15"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_cellPhoneNo'].touched && billingDetailsForm.controls['RP_cellPhoneNo'].hasError('pattern')">
+                                    {{ validationMessages.invalidPhoneNumber }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Claim # <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Claim #" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <label class="col-form-label fw-600">Work Extension</label>
+                                <input class="form-control" type="text" placeholder="Enter Work Extension" formControlName="RP_workExtension" (input)="RPWorkExtensionInputChange($event)" [value]="RPWorkExtension" maxlength="15"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_workExtension'].touched && billingDetailsForm.controls['RP_workExtension'].hasError('pattern')">
+                                    {{ validationMessages.invalidPhoneNumber }}
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                        <div class="col-12">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Adjuster Name # <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Adjuster Name" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <label class="col-form-label fw-600">Is your injury related to</label>
+                                <mat-radio-group aria-label="Select an option" formControlName="RP_injuryRelatedTo" (change)="onChangeInjuryRelated($event)">
+                                    <mat-radio-button value="Worker's Compensation (WCOMP)" class="me-3">Worker's Compensation (WCOMP)</mat-radio-button>
+                                    <mat-radio-button value="Motar Vehicle Accident (MVA)" class="me-3">Motor Vehicle Accident (MVA)</mat-radio-button>
+                                    <div class="d-inline-flex flex-column">
+                                        <mat-radio-button value="Other Personal Injury">Other Personal Injury</mat-radio-button>
+                                        <!-- <div class="form-group" *ngIf="">
+                                            <input class="form-control" type="text" placeholder="Enter Other Injury" />
+                                        </div> -->
+                                    </div>
+                                </mat-radio-group>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Adjuster Phone # <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Adjuster Phone" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                        <ng-container *ngIf="isWorkerCompensationInjury">
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Carrier Name <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <select class="form-select form-control" aria-label="Default select example" formControlName="RP_carrierName">
+                                        <option value="" selected>Select</option>
+                                        <option value="{{element}}" *ngFor="let element of carrierNameList;">{{element}}
+                                        </option>
+                                    </select>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_carrierName'].touched && billingDetailsForm.controls['RP_carrierName'].hasError('required')">
+                                        {{ validationMessages.required('Carrier Name') }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Date of Injury <span class="clr--DF0404 ms-1"> *
+                                        </span> </label>
+                                    <div class="input-group">
+                                        <!-- <input class="form-control  " placeholder="Select Date" name="dp" [(ngModel)]="model"
+                                            ngbDatepicker #de="ngbDatepicker" />
+                                        <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="de.toggle()"
+                                            type="button">
+                                            <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                        </button> -->
+                                        <mat-form-field class="w-100 am--datepicker">
+                                            <input formControlName="RP_dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="RPDateOfInjuryPicker" (focus)="RPDateOfInjuryPicker.open()">
+                                            <mat-datepicker-toggle matIconSuffix [for]="RPDateOfInjuryPicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #RPDateOfInjuryPicker></mat-datepicker>
+                                        </mat-form-field>
+                                        <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_dateOfInjury'].touched && billingDetailsForm.controls['RP_dateOfInjury'].hasError('required')">
+                                            {{ validationMessages.required('Date of Injury') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> * </span></label>
+                                    <select class="form-select form-control" aria-label="Default select example" formControlName="RP_state">
+                                        <option value="" selected>Select State</option>
+                                        <option *ngFor="let item of states" value="{{item.state}}">
+                                            {{item.state}}
+                                        </option>
+                                    </select>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_state'].touched && billingDetailsForm.controls['RP_state'].hasError('required')">
+                                        {{ validationMessages.required('State') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Claim # <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input class="form-control" type="text" placeholder="Enter Claim #" formControlName="RP_claim"/>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_claim'].touched && billingDetailsForm.controls['RP_claim'].hasError('required')">
+                                        {{ validationMessages.required('Claim') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Adjuster Name # <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input class="form-control" type="text" placeholder="Enter Adjuster Name" formControlName="RP_adjusterName"/>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_adjusterName'].touched && billingDetailsForm.controls['RP_adjusterName'].hasError('required')">
+                                        {{ validationMessages.required('Adjuster Name') }}
+                                    </div>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_adjusterName'].touched && billingDetailsForm.controls['RP_adjusterName'].hasError('pattern')">
+                                        {{ validationMessages.alphabeticChar('Adjuster Name') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Adjuster Phone # <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input class="form-control" type="text" placeholder="Enter Adjuster Phone" formControlName="RP_adjusterPhone" (input)="RPAdjusterPhoneInputChange($event)" [value]="RPAdjusterPhone" maxlength="15"/>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_adjusterPhone'].touched && billingDetailsForm.controls['RP_adjusterPhone'].hasError('required')">
+                                        {{ validationMessages.required('Adjuster Phone') }}
+                                    </div>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_adjusterPhone'].touched && billingDetailsForm.controls['RP_adjusterPhone'].hasError('pattern')">
+                                        {{ validationMessages.invalidPhoneNumber }}
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
                     </div>
 
                     <!-- Employers Information -->
-                    <div class="row">
+                    <div class="row" *ngIf="isWorkerCompensationInjury">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Was this reported to your employer?</label>
-                                <mat-radio-group aria-label="Select an option">
-                                    <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
-                                    <mat-radio-button value="2">No</mat-radio-button>
+                                <mat-radio-group aria-label="Select an option" formControlName="RP_reportedToEmployer">
+                                    <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
+                                    <mat-radio-button value="No">No</mat-radio-button>
                                 </mat-radio-group>
                             </div>
                         </div>
@@ -894,24 +962,36 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Employer Name <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Employer Name" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <input class="form-control" type="text" placeholder="Enter Employer Name" formControlName="EI_employerName"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerName'].touched && billingDetailsForm.controls['EI_employerName'].hasError('required')">
+                                    {{ validationMessages.required('Employer Name') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerName'].touched && billingDetailsForm.controls['EI_employerName'].hasError('pattern')">
+                                    {{ validationMessages.alphabeticChar('Employer Name') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Employer Phone <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Employer Phone" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <input class="form-control" type="text" placeholder="Enter Employer Phone" formControlName="EI_employerPhone" (input)="EIEmployerPhoneInputChange($event)" [value]="EIEmployerPhone" maxlength="15"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerPhone'].touched && billingDetailsForm.controls['EI_employerPhone'].hasError('required')">
+                                    {{ validationMessages.required('Employer Phone') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerPhone'].touched && billingDetailsForm.controls['EI_employerPhone'].hasError('pattern')">
+                                    {{ validationMessages.invalidPhoneNumber }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Employer Address <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <textarea class="form-control " type="text" placeholder="Enetr Address" rows="4"></textarea>
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <textarea class="form-control " type="text" placeholder="Enetr Address" rows="4" formControlName="EI_employerAddress"></textarea>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerAddress'].touched && billingDetailsForm.controls['EI_employerAddress'].hasError('required')">
+                                    {{ validationMessages.required('Employer Address') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -923,32 +1003,51 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Attorney Name </label>
-                                <input class="form-control" type="text" placeholder="Enter Attorney Name" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <label class="col-form-label fw-600">Attorney Name <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                                <input class="form-control" type="text" placeholder="Enter Attorney Name" formControlName="AI_attorneyName"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['AI_attorneyName'].touched && billingDetailsForm.controls['AI_attorneyName'].hasError('required')">
+                                    {{ validationMessages.required('Attorney Name') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['AI_attorneyName'].touched && billingDetailsForm.controls['AI_attorneyName'].hasError('pattern')">
+                                    {{ validationMessages.alphabeticChar('Attorney Name') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Attorney Phone  </label>
-                                <input class="form-control" type="text" placeholder="Enter Attorney Phone" />
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <label class="col-form-label fw-600">Attorney Phone  <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                                <input class="form-control" type="text" placeholder="Enter Attorney Phone" formControlName="AI_attorneyPhone" (input)="AIAttorneyPhoneInputChange($event)" [value]="AIAttorneyPhone" maxlength="15"/>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['AI_attorneyPhone'].touched && billingDetailsForm.controls['AI_attorneyPhone'].hasError('required')">
+                                    {{ validationMessages.required('Attorney Phone') }}
+                                </div>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['AI_attorneyPhone'].touched && billingDetailsForm.controls['AI_attorneyPhone'].hasError('pattern')">
+                                    {{ validationMessages.invalidPhoneNumber }}
+                                </div>
                             </div>
                         </div> 
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Attorney Address  </label>
-                                <textarea class="form-control " type="text" placeholder="Enter Address" rows="4"></textarea>
-                                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                <label class="col-form-label fw-600">Attorney Address  <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                                <textarea class="form-control " type="text" placeholder="Enter Address" rows="4" formControlName="AI_attorneyAddress"></textarea>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['AI_attorneyAddress'].touched && billingDetailsForm.controls['AI_attorneyAddress'].hasError('required')">
+                                    {{ validationMessages.required('Attorney Address') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-5 col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">In Collection</label>
-                                <mat-radio-group aria-label="Select an option">
-                                    <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
-                                    <mat-radio-button value="2">No</mat-radio-button>
+                                <label class="col-form-label fw-600">In Collection <span class="clr--DF0404 ms-1"> *
+                                </span></label>
+                                <mat-radio-group aria-label="Select an option" formControlName="inCollection">
+                                    <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
+                                    <mat-radio-button value="No">No</mat-radio-button>
                                 </mat-radio-group>
+                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['inCollection'].touched && billingDetailsForm.controls['inCollection'].hasError('required')">
+                                    {{ validationMessages.required('In Collection') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-7 col-xl-6">

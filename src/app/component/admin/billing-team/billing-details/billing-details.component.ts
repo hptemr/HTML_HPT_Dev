@@ -9,7 +9,13 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from '../../../../utils/validation-messages';
 import { regex } from '../../../../utils/regex-patterns';
+import { carrierNameList, maritalStatus, practiceLocations, relationWithPatient } from 'src/app/config';
+import { states_data } from 'src/app/state';
 
+interface State {
+  state: string;
+  state_code: string;
+}
 @Component({
   selector: 'app-billing-details',
   templateUrl: './billing-details.component.html',
@@ -29,6 +35,17 @@ export class BillingDetailsComponent {
   SICustServPhoneNumber: string = '';
   SIAuthFromDate: any = ''
   SIEffectiveSelectedDate: any = ''
+  todayDate = new Date()
+  RPPhoneNumber: string = '';
+  RPCellPhoneNumber: string = '';
+  RPWorkExtension: string = '';
+  isWorkerCompensationInjury: boolean=false
+  carrierNameList = carrierNameList
+  states: State[] = states_data
+  RPAdjusterPhone: string = '';
+  EIEmployerPhone: string = '';
+  AIAttorneyPhone: string = '';
+  mat_icon:string='add_circle'
 
   constructor(
     public dialog: MatDialog,
@@ -83,34 +100,24 @@ export class BillingDetailsComponent {
       SI_hardSoftCap: ['',[Validators.required]],
       SI_hardSoftCapText: [''],
 
-      // RP_relationWithPatient: ['', []],
-      // RP_otherRelation: ['', []],
-      // RP_firstName: ['', []],
-      // RP_middleName: ['', []],
-      // RP_lastName: ['', []],
-      // RP_dob: ['', []],
-      // RP_maritalStatus: ['', []],
-      // RP_gender: ['', []],
-      // RP_email: ['', []],
-      // RP_phoneNo: ['', []],
-      // RP_cellPhoneNo: ['', []],
-      // RP_workExtension: ['', []],
-      // RP_injuryRelatedTo: ['', []],
-      // RP_carrierName: ['', []],
-      // RP_dateOfInjury: ['', []],
-      // RP_state: ['', []],
-      // RP_claim: ['', []],
-      // RP_adjusterName: ['', []],
-      // RP_reportedToEmployer: ['', []],
+      RP_relationWithPatient: ['', []],
+      RP_otherRelation: ['', []],
+      RP_firstName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
+      RP_middleName: ['', [Validators.pattern(regex.alphabetic)]],
+      RP_lastName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
+      RP_dob: ['', [Validators.required]],
+      RP_maritalStatus: ['', []],
+      RP_gender: ['', [Validators.required]],
+      RP_email: ['', [Validators.required,Validators.email]],
+      RP_phoneNo: ['', [Validators.required,Validators.pattern(regex.usPhoneNumber)]],
+      RP_cellPhoneNo: ['', [Validators.pattern(regex.usPhoneNumber)]],
+      RP_workExtension: ['', [Validators.pattern(regex.usPhoneNumber)]],
+      RP_injuryRelatedTo: ['', []],
 
-      // EI_employerName: ['', []],
-      // EI_employerPhone: ['', []],
-      // EI_employerAddress: ['', []],
-
-      // AI_attorneyName: ['', []],
-      // AI_attorneyPhone: ['', []],
-      // AI_attorneyAddress: ['', []],
-      // inCollection:['', []]
+      AI_attorneyName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
+      AI_attorneyPhone: ['', [Validators.required,Validators.pattern(regex.usPhoneNumber)]],
+      AI_attorneyAddress: ['', [Validators.required]],
+      inCollection:['No', [Validators.required]]
     });
   }
 
@@ -200,5 +207,81 @@ export class BillingDetailsComponent {
   SICustServPhoneInputChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     this.SICustServPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  RPPhoneNumberInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.RPPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  RPCellPhoneNumberInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.RPCellPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  RPWorkExtensionInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.RPWorkExtension = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  RPAdjusterPhoneInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.RPAdjusterPhone = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  EIEmployerPhoneInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.EIEmployerPhone = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  AIAttorneyPhoneInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.AIAttorneyPhone = this.commonService.formatPhoneNumber(inputElement.value);
+  }
+
+  onChangeInjuryRelated(event: any){
+    console.log("onChangeInjuryRelated>>>",event.value)
+    this.isWorkerCompensationInjury = false
+    if(event.value=="Worker's Compensation (WCOMP)"){
+      this.isWorkerCompensationInjury = true
+      this.addWorkerCompensationInjuryFieldsControls()
+    }else{
+      this.removeWorkerCompensationInjuryFieldsControls()
+    }
+  }
+
+  addWorkerCompensationInjuryFieldsControls() {
+    this.billingDetailsForm.addControl('RP_carrierName', this.fb.control('', [Validators.required]));
+    this.billingDetailsForm.addControl('RP_dateOfInjury', this.fb.control('', [Validators.required]));
+    this.billingDetailsForm.addControl('RP_state', this.fb.control('', [Validators.required]));
+    this.billingDetailsForm.addControl('RP_claim', this.fb.control('', [Validators.required]));
+    this.billingDetailsForm.addControl('RP_adjusterName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabetic)]));
+    this.billingDetailsForm.addControl('RP_adjusterPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
+    this.billingDetailsForm.addControl('RP_reportedToEmployer', this.fb.control('', []));
+    this.billingDetailsForm.addControl('EI_employerName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabetic)]));
+    this.billingDetailsForm.addControl('EI_employerPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
+    this.billingDetailsForm.addControl('EI_employerAddress', this.fb.control('', [Validators.required]));
+  }
+
+  removeWorkerCompensationInjuryFieldsControls(){
+    this.billingDetailsForm.removeControl('RP_carrierName');
+    this.billingDetailsForm.removeControl('RP_dateOfInjury');
+    this.billingDetailsForm.removeControl('RP_state');
+    this.billingDetailsForm.removeControl('RP_claim');
+    this.billingDetailsForm.removeControl('RP_adjusterName');
+    this.billingDetailsForm.removeControl('RP_adjusterPhone');
+    this.billingDetailsForm.removeControl('RP_reportedToEmployer');
+    this.billingDetailsForm.removeControl('EI_employerName');
+    this.billingDetailsForm.removeControl('EI_employerPhone');
+    this.billingDetailsForm.removeControl('EI_employerAddress');
+  }
+
+  addThirdInsurance(action:any){
+    console.log("action>>>",action)
+    if(action=='add_circle'){
+      this.mat_icon = 'remove_circle_outline'
+    }else{
+      this.mat_icon = 'add_circle'
+    }
   }
 }
