@@ -271,25 +271,34 @@ export class ObjectiveComponent {
         nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
       } else {
         nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
+        nameControl?.setValue('');
+        nameControl?.markAsUntouched();
       }
       nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
     });
   }
 
   async objectiveSubmit(formData: any){
-    console.log('this.objectiveForm>>>>',this.objectiveForm)
+    console.log('<<<<<  objective form >>>>',this.objectiveForm)
     if (this.objectiveForm.invalid){
       this.objectiveForm.markAllAsTouched();
     }else{
-      console.log('Add Exercise Form  >>>>',this.objectiveForm)
+      console.log('<<<<< add exercise form  >>>>')
       if (this.objectiveForm.invalid){
         this.objectiveForm.markAllAsTouched();
       }else{
         this.isSubmit = true
+        Object.assign(formData, {
+          soap_note_type:"initial_examination",
+          createdBy: this.userId,
+        })
         let reqVars = {
           query: {
             appointmentId: this.appointmentId
-          }
+          },
+          type:'objective',
+          userId: this.userId,
+          data: formData,
         }
         await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
           let assessmentData = response.data

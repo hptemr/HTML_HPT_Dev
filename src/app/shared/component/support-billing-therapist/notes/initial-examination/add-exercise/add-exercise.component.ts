@@ -44,11 +44,18 @@ export class AddExerciseComponent {
     if (this.addExerciseForm.invalid){
       this.addExerciseForm.markAllAsTouched();
     }else{
+      Object.assign(formData, {
+        soap_note_type:"initial_examination",
+        createdBy: this.userId,
+      })
       this.isSubmit = true
       let reqVars = {
+        query: {
+          appointmentId: this.appointmentId
+        },
         userId: this.userId,
-        data: formData,
-        appointmentId: this.appointmentId
+        type:'exercise',
+        data: formData
       }
       await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
         let assessmentData = response.data
