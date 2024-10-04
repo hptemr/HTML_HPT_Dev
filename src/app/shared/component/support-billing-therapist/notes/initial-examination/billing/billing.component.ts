@@ -50,23 +50,23 @@ export class BillingComponent {
   ]
 
   directPtList = [
-    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"}
+    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:"",isError:false,errorMsg:""}
   ]
   directOtList = [
-    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"Therapeutic interventions that focus on cognitive function (eg, attention, memory, executive function) and compensatory strategies to manage the performance of an activity (eg, managing time), direct (one-to-one) patinet contact; initial 15 minutes",value:"therapeutic_interventions",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"}
+    {name:"Therapeutic Activity",value:"therapeutic_activity",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Neuro Muscular Re-Education",value:"neuro_muscular_re_education",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Aquatic Exercise",value:"aquatic_exercise",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Therapeutic Exercise",value:"therapeutic_exercise",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Manual Therapy",value:"manual_therapy",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"Therapeutic interventions that focus on cognitive function (eg, attention, memory, executive function) and compensatory strategies to manage the performance of an activity (eg, managing time), direct (one-to-one) patinet contact; initial 15 minutes",value:"therapeutic_interventions",units:"",minutes:"",isError:false,errorMsg:""}
   ]
   directSlpList = [
-    {name:"Gait Training",value:"gait_train",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"},
-    {name:"FCE/Performance Test",value:"performance_test",units:"",minutes:"",isError:false,errorMsg:"For 1 Unit the minutes need to be between 8 and 22"}
+    {name:"Gait Training",value:"gait_train",units:"",minutes:"",isError:false,errorMsg:""},
+    {name:"FCE/Performance Test",value:"performance_test",units:"",minutes:"",isError:false,errorMsg:""}
   ]
   dmeCptList = [
     {name:"Half Foam Roll 12\"",value:"half_foam_roll_12",quantity:""},
@@ -90,7 +90,7 @@ export class BillingComponent {
   cptCode = ""
   quantity = ""
   additionalCodes:any = []
-  caseType = "PT"
+  caseType = ""
   billingType = "CMS"
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
@@ -222,6 +222,7 @@ export class BillingComponent {
           }else if(type=='slpCode'){
             this.directSlpList[index].units = event.target.value
           }
+        this.validateMinute(event,index,type,sourceType)
       } 
       this.calclulateTotal('units')
     }else if(fieldType=='minutes'){
@@ -233,7 +234,7 @@ export class BillingComponent {
         }else if(type=='slpCode'){
           this.directSlpList[index].minutes = event.target.value
         }
-        this.calclulateTotal('minutes')
+        
       }
       if(sourceType=='unitedCode'){
         if(type=='ptCode'){
@@ -259,20 +260,24 @@ export class BillingComponent {
         let units = this.directPtList[index].units //first box value
         let finalRange = (parseInt(units) * addMinutes) + 7
         let initialRange = ((parseInt(units) -1) * addMinutes) + 8
-        if(event.target.value>=initialRange && event.target.value<=finalRange){
+        if((event.target.value>=initialRange && event.target.value<=finalRange) || units==""){
           this.directPtList[index].isError = false 
           this.directPtList[index].errorMsg = "" 
+          // this.directPtList[index].minutes = "" 
+          this.calclulateTotal('minutes')
         }else{
-          this.directPtList[index].isError = true 
-          this.directPtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
+            this.directPtList[index].isError = true 
+            this.directPtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+""
         }
       }else if(caseType=='otCode'){
         let units = this.directOtList[index].units //first box value
         let finalRange = (parseInt(units) * addMinutes) + 7
         let initialRange = ((parseInt(units) -1) * addMinutes) + 8
-        if(event.target.value>=initialRange && event.target.value<=finalRange){
+        if((event.target.value>=initialRange && event.target.value<=finalRange) || units==""){
           this.directOtList[index].isError = false 
           this.directOtList[index].errorMsg = "" 
+          // this.directOtList[index].minutes = ""
+          this.calclulateTotal('minutes')
         }else{
           this.directOtList[index].isError = true 
           this.directOtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
@@ -281,9 +286,11 @@ export class BillingComponent {
         let units = this.directSlpList[index].units //first box value
         let finalRange = (parseInt(units) * addMinutes) + 7
         let initialRange = ((parseInt(units) -1) * addMinutes) + 8
-        if(event.target.value>=initialRange && event.target.value<=finalRange){
+        if((event.target.value>=initialRange && event.target.value<=finalRange) || units==""){
           this.directSlpList[index].isError = false 
           this.directSlpList[index].errorMsg = "" 
+          // this.directSlpList[index].minutes = ""
+          this.calclulateTotal('minutes')
         }else{
           this.directSlpList[index].isError = true 
           this.directSlpList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+"" 
@@ -343,11 +350,13 @@ export class BillingComponent {
   }
   
   addNewCode(){
-    this.dmeCptList.push({name:this.cptDesc,value:"",quantity:this.quantity})
-    this.additionalCodes.push({cptDesc:this.cptDesc,cptCode:this.cptCode,quantity:this.quantity})
-    this.cptCode = ""
-    this.cptDesc = ""
-    this.quantity = ""
+    if(this.quantity!="" && this.cptCode!="" && this.cptDesc!=""){
+      this.dmeCptList.push({name:this.cptDesc,value:"",quantity:this.quantity})
+      this.additionalCodes.push({cptDesc:this.cptDesc,cptCode:this.cptCode,quantity:this.quantity})
+      this.cptCode = ""
+      this.cptDesc = ""
+      this.quantity = ""
+    }
   }
 
   submit(submitType:any){
