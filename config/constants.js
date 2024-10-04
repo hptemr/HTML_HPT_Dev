@@ -23,8 +23,8 @@ var constants = {
     secret: process.env.EMAIL_SECRET,
     fromEmail: process.env.FROM_EMAIL,
   },
-  clientUrl: process.env.BASE_URL || 'http://dev.hamiltonpt.com',
-  mailServerUrl : process.env.mailServerUri || 'http://dev.hamiltonpt.com',
+  clientUrl: process.env.BASE_URL || 'http://staging.hamiltonpt.com',
+  mailServerUrl : process.env.mailServerUri || 'http://staging.hamiltonpt.com',
   inviteTokenExpiry : 1440, // In minute (24 Hrs)
   // cometChatAppId : '26118921798ec2ec',
   // cometChatApikey : '488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d'

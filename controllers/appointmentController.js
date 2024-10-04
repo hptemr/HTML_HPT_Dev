@@ -176,10 +176,10 @@ const createAppointment = async (req, res) => {
                 appointmentTypeOther: data.appointmentTypeOther,
                 appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
                 practiceLocation: data.practiceLocation,
-                therapistId: data.therapistId ? data.therapistId : '',
+                therapistId: data.therapistId ? data.therapistId : null,
                 patientId: data.patientId,
-                doctorId: data.doctorId ? data.doctorId : '',
-                requestId: requestId ? requestId : '',
+                doctorId: data.doctorId ? data.doctorId : null,
+                requestId: requestId ? requestId : null,
                 acceptInfo: { fromAdminId: userId },
                 status: appointment_status
             }

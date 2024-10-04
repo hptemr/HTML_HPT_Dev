@@ -42,7 +42,7 @@ const appointmentSchema = new mongoose.Schema({
     payVia: {
         type: String,
         enum: ['Selfpay', 'Insurance'],
-        default: 'Selfpay'
+        default: 'Insurance'
     },
     payViaInsuranceInfo: {
         type: Object,
