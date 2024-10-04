@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
  import { AppointmentsComponent } from 'src/app/shared/component/support-billing-therapist/appointments/appointments.component';
-import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
+// import { AppointmentDetailsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/appointment-details.component';
 import { AppointmentRequestsComponent } from 'src/app/shared/component/support-billing-therapist/appointment-requests/appointment-requests.component';
 import { ManageProfileComponent } from 'src/app/shared/component/manage-profile/manage-profile.component';
 import { PatientsComponent } from 'src/app/shared/component/support-billing-therapist/patients/patients.component';
@@ -11,6 +11,9 @@ import { DocumentListingComponent } from 'src/app/shared/component/support-billi
 import { DocumentDetailingComponent } from 'src/app/shared/component/support-billing-therapist/document/document-detailing/document-detailing.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
 import { ConversationsChatComponent } from '../../../shared/component/conversations-ui-kits/conversations-chat/conversations-chat.component';
+import { AppointmentDetailsComponent } from './appointment-details/appointment-details.component';
+import { ViewInsuranceComponent } from './view-insurance/view-insurance.component';
+import { BillingDetailsComponent } from './billing-details/billing-details.component';
 
 import { IntakeStep1Component } from 'src/app/shared/component/intake-form/intake-step1/intake-step1.component';
 import { IntakeStep2Component } from 'src/app/shared/component/intake-form/intake-step2/intake-step2.component';
@@ -95,6 +98,14 @@ const routes: Routes = [
   {
     path: 'conversations-chat',
     component: ConversationsChatComponent,
+  },
+  {
+    path: 'case-details/view-insurance/:appointmentId',
+    component:ViewInsuranceComponent   
+  },
+  {
+    path: 'case-details/billing-details/:appointmentId',
+    component:BillingDetailsComponent   
   }
 ];
 

@@ -1,0 +1,184 @@
+<div class="modal--wrapper mam--modal  d-flex flex-column w-100">
+    <div class="modal--header w-100">
+        <h1 class="fw-700 border-0 pb-0">Authorization Management</h1>
+    </div>
+    <div class="modal--body w-100 pt-3">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4  ">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Required</label>
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
+                        <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Date To</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Date From</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker2">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600"># Visit Authorized </label>
+                    <input class="form-control text-lowercase" type="text" placeholder="" />
+                    <!-- <div class="text text-danger mt-1">error</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Number </label>
+                    <input class="form-control text-lowercase" type="text" placeholder="" />
+                    <!-- <div class="text text-danger mt-1">error</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">&nbsp; </label>
+                    <button class="flex-shrink-0 update--btn" mat-raised-button color="primary">
+                        Update
+                    </button>
+                </div>
+
+            </div> 
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <hr>
+            </div>
+            <div class="col-12">
+                <div class="modal--header pt-0 ps-0 w-100">
+                    <h1 class="fw-700 border-0 pb-0">Authorization History</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4 d-flex align-items-center">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Required</label>
+                    <mat-radio-group aria-label="Select an option" disabled>
+                        <mat-radio-button value="1" class="me-3" checked>Yes</mat-radio-button>
+                        <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Date To</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker4" value="02/11/2025" disabled>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                        <mat-datepicker #picker4></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Date From</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker21" value="21/12/2021" disabled>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker21"></mat-datepicker-toggle>
+                        <mat-datepicker #picker21></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600"># Visit Authorized </label>
+                    <input class="form-control text-lowercase" type="text" value="259746" disabled />
+                    <!-- <div class="text text-danger mt-1">error</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Number </label>
+                    <input class="form-control text-lowercase" type="text" value="123456" disabled />
+                    <!-- <div class="text text-danger mt-1">error</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Updated On </label>
+                    <p class="mb-0 mt-2"> <strong>10/08/2024</strong> </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4 d-flex align-items-center">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Required</label>
+                    <mat-radio-group aria-label="Select an option" disabled>
+                        <mat-radio-button value="1" class="me-3" checked>Yes</mat-radio-button>
+                        <mat-radio-button value="2" class="me-3">No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Date To</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker4" value="02/11/2025" disabled>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                        <mat-datepicker #picker4></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Date From</label>
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker21" value="21/12/2021" disabled>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker21"></mat-datepicker-toggle>
+                        <mat-datepicker #picker21></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600"># Visit Authorized </label>
+                    <input class="form-control text-lowercase" type="text" value="259746" disabled />
+                    <!-- <div class="text text-danger mt-1">error</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Authorization Number </label>
+                    <input class="form-control text-lowercase" type="text" value="123456" disabled />
+                    <!-- <div class="text text-danger mt-1">error</div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label class="col-form-label fw-600">Updated On </label>
+                    <p class="mb-0 mt-2"> <strong>10/08/2024</strong> </p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0">
+        <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Close</button>
+    </div>
+</div>

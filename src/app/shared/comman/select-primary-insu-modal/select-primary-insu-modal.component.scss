@@ -1,0 +1,53 @@
+.spi--modal{
+    ::ng-deep{
+        .modal--body{
+            .cust--mat--table--wrapper{
+                .cust--mat--table{
+                    &.mat-mdc-table{
+                        thead{
+                            tr{
+                                th{
+                                    &:first-child{
+                                        padding-left: 10px;
+                                    }
+                                }
+                            }
+                        }
+                        tbody{
+                            tr{
+                                td{
+                                    font-size: 14px;
+                                    padding: 17px 10px;
+                                    &:first-child{
+                                        width: 150px;
+                                    }
+                                    &:nth-child(2){
+                                        width: 120px;
+                                        word-break: break-all;
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 
+
+@media only screen and (max-width: 599px) {
+    .spi--modal{
+        ::ng-deep{
+            .modal--body{
+                .cust--mat--table--wrapper{
+                    .cust--mat--table{
+                        &.mat-mdc-table{
+                             width: 500px;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+} 
+@media screen and (orientation:landscape) and (max-width: 850px){}

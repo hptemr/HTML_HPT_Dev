@@ -74,7 +74,21 @@
                                             </div>
                                         </div>
                                     </div>
-    
+                                    
+                                    <div class="row w-100 gx-0">
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{appointmentData?.payVia}}</p>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-5 col-xl-5 mb-1">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">OT $200 Used out of $1000,
+                                                PT/SLP $350 Used out of $1200</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-lg-3 col-xl-2 mb-2">
+                                            <mat-checkbox class=" ">Patient Checked-in</mat-checkbox>
+                                        </div>
+                                    </div>
                                 
                                     <div class="col-12 mt-2">
                                         <div class="d-flex flex-row flex-wrap">
@@ -93,7 +107,7 @@
                                             <div class="col-12 col-sm-12 col-lg-4 col-xl-5 mb-2">
                                                 <div class="form-group d-flex align-items-center">
                                                     <label class="col-form-label fw-700 font-16 p-0 me-3 label--width flex-shrink-0">Hard Cap/ Soft Cap</label>
-                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder=" " />
+                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder=" " disabled/>
                                                 </div>
                                             </div>
                                         </div>
@@ -126,7 +140,7 @@
                                                 <div class="doctor-filed">
                                                     <label class="col-form-label fw-600">Return to Doctor </label>                                                   
                                                     <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                                                        <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()">
+                                                        <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()" [min]="appointmentData?.appointmentDate">
                                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
@@ -142,7 +156,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text" id="basic-addon1">$</span>
                                                         </div>
-                                                        <input type="number" class="form-control form-control-md" value="{{appointmentData?.coPayAmount}}"  >
+                                                        <input type="number" class="form-control form-control-md" value="{{appointmentData?.coPayAmount}}"  disabled>
                                                     </div>  
                                                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                                                 </div>
@@ -156,13 +170,13 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text" id="basic-addon1">$</span>
                                                         </div>
-                                                        <input type="number" class="form-control form-control-md" value="{{appointmentData?.highDeductibles}}"  >
+                                                        <input type="number" class="form-control form-control-md" value="{{appointmentData?.highDeductibles}}"  disabled>
                                                     </div>  
                                                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                                                 </div> 
                                             </div>
 
-                                            <div class="col mb-2 form-group">
+                                            <!-- <div class="col mb-2 form-group">
                                                 <div   class="select-info">
                                                     <label class="col-form-label fw-600">Insurance Type</label>
                                                     <select class="form-select form-control" aria-label="Default select example">
@@ -170,29 +184,42 @@
                                                         <option value="1">Medical</option>
                                                         <option value="2">Health</option>  
                                                     </select>
-                                                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                                                 </div>
                                             </div>
-
 
                                             <div class="col mb-2 form-group">
                                                 <button mat-stroked-button color="primary" class="mt-6">
                                                     Update
                                                 </button> 
+                                            </div> -->
+
+                                            <div class="cust--col  primary--insu">
+                                                <div class="form-group select-info">
+                                                    <label class="col-form-label fw-600">Primary Insurance</label>
+                                                     <div class="d-flex w-100 position-relative">
+                                                        <input class="form-control form-control-md cust--w" type="text" placeholder="Primary Insurance"  />
+                                                        <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal()">
+                                                            Update
+                                                        </button>
+                                                     </div>
+                                                </div>
                                             </div>
+                                            <button mat-stroked-button color="primary" class="mt-3 mb-3 ms-auto update--btn">
+                                                Save
+                                            </button>
 
 
                                         </div>
                                     </div>
  
 
-                                    <div class="col-12 mt-1 mb-3">
+                                    <!-- <div class="col-12 mt-1 mb-3">
                                         <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
                                            <button mat-raised-button color="primary" >
                                                 Save
                                             </button> 
                                         </div>
-                                    </div>
+                                    </div> -->
     
                                 </div>
                             </mat-expansion-panel>
