@@ -23,7 +23,7 @@
                                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem(pointIndex)">cancel</mat-icon>
                             </div>
                             <div class="text text-danger mt-1" *ngIf="assessment_icd_info.at(pointIndex).get('problem')?.touched && assessment_icd_info.at(pointIndex).get('problem')?.hasError('required')">                   
-                                {{ validationMessages.required('Problem') }}
+                                {{ validationMessages.required('problem') }}
                             </div>  
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                             <label class="col-form-label fw-600">{{pointIndex+1}}.Long term goal </label>
                             <input [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" formControlName="long_term_goal" (blur)="checkGroupSpace(assessment_icd_info.at(pointIndex).get('long_term_goal'), $event)"/>
                             <div class="text text-danger mt-1" *ngIf="assessment_icd_info.at(pointIndex).get('long_term_goal')?.touched && assessment_icd_info.at(pointIndex).get('long_term_goal')?.hasError('required')">                   
-                                {{ validationMessages.required('Long term goal') }}
+                                {{ validationMessages.required('long term goal') }}
                             </div>  
                         </div>
                     </div>
