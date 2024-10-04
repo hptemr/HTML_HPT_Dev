@@ -96,8 +96,28 @@ export const carrierNameList = [
   'Carrier 2',
   'Carrier 3',
 ]
-export const cometChatCredentials = {
-  authKey: 'f81c1fd5635b9c277f63c56dfd1bcb95a12fcdd3', // Free Account(ashishb@arkenea.com)
+
+// ==== Comet Chat Settings  ====
+// Free Account(ashishb@arkenea.com) App Name : HPT
+let cometChatCredential = {
+  authKey: 'f81c1fd5635b9c277f63c56dfd1bcb95a12fcdd3',
   appId: '26118921798ec2ec',
   region: 'us',
 }
+
+if (window.location.hostname.indexOf("dev.hamiltonpt.com") > -1) {
+  // Free Account(ashishb@arkenea.com) App Name : HPT
+  cometChatCredential = {
+    authKey: 'f81c1fd5635b9c277f63c56dfd1bcb95a12fcdd3', 
+    appId: '26118921798ec2ec',
+    region: 'us',
+  }
+} else if (window.location.hostname.indexOf("staging.hamiltonpt.com") > -1) {
+  // Free Account(ashishb@arkenea.com) App Name : HPT Staging
+  cometChatCredential = {
+    authKey: 'ebf7ce6ad79f4cb25edb508095a7db4fe3572659', 
+    appId: '26516651acb282a6',
+    region: 'us',
+  }
+}
+export const cometChatCredentials = cometChatCredential;
