@@ -262,6 +262,7 @@ module.exports = {
   updateBillingNote,
   finalizeNote,
   submitSubjective,
+  submitExercise,
   getSubjectiveData,
   submitAssessment,
   getAssessment,
