@@ -114,7 +114,7 @@ export class AppointmentsComponent {
 
   selectRecords(colName: string, event: any) {
     if (event && event != '') {
-      Object.assign(this.whereCond, { [colName]: { $in: event } })
+      Object.assign(this.whereCond, { [colName]: { $in: [event] } })
     } else {
       delete this.whereCond[colName];
     }
@@ -184,7 +184,7 @@ export class AppointmentsComponent {
       limit: this.pageSize,
       offset: (this.pageIndex * this.pageSize)
     }
-    await this.authService.apiRequest('post', 'appointment/getAppointmentList', reqVars).subscribe(async response => {
+    await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
       this.totalCount = response.data.totalCount
       let finalData: any = []
@@ -200,14 +200,13 @@ export class AppointmentsComponent {
             status: element.status,
             caseName: element.caseName,
             statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
-            patientName: element.patientId?.firstName + " " + element.patientId?.lastName,
-            profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientId?.profileImage,
-            therapistName: element.therapistId?.firstName + " " + element.therapistId?.lastName,
+            patientName: element.patientObj[0]?.firstName + " " + element.patientObj[0]?.lastName,
+            profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientObj[0]?.profileImage,
+            //therapistName: element.therapistId?.firstName + " " + element.therapistId?.lastName,
           }
           finalData.push(newColumns)
         })
       }
-
       if (this.totalCount > 0) {
         this.dayTwo = true;
         this.dayOne = false;
@@ -223,23 +222,25 @@ export class AppointmentsComponent {
   }
 
   announceSortChange(sortState: Sort) {
-    let order
-    if (sortState.direction == 'desc') {
-      order = -1
-    } else {
-      order = 1
-    }
-    if (sortState.active == 'name') {
-      this.orderBy = {
-        // appointmentId: order
-        caseName: order
+    if(sortState.active != 'action'){
+      let order
+      if (sortState.direction == 'desc') {
+        order = -1
+      } else {
+        order = 1
       }
-    } else {
-      this.orderBy = {
-        [sortState.active]: order
+      if (sortState.active == 'name') {
+        this.orderBy = {
+          // appointmentId: order
+          caseName: order
+        }
+      } else {
+        this.orderBy = {
+          [sortState.active]: order
+        }
       }
+      this.getAppointmentList()
     }
-    this.getAppointmentList()
   }
 
   async patientCheckIn(event: any, obj: any) {

@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
-import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
+import { Component,OnInit,AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { CommonService } from 'src/app/shared/services/helper/common.service';
+import { validationMessages } from '../../../../../../utils/validation-messages';
+import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { MatRadioChange } from '@angular/material/radio';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PreviewModalComponent } from 'src/app/shared/comman/preview-modal/preview-modal.component';
-
+import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
+import { ProtocolModalComponent } from '../protocol-modal/protocol-modal.component';
 @Component({
   selector: 'app-objective', 
   templateUrl: './objective.component.html',
@@ -47,19 +54,6 @@ export class ObjectiveComponent {
     {number: '7'}, {number: '8'}, {number: '9'},
     {number: '10'}
   ];
-
-  constructor(public dialog: MatDialog) {}
- 
-  addExersiceModal() {
-    const dialogRef = this.dialog.open(AddExerciseComponent, {
-      panelClass:[ 'custom-alert-container','modal--wrapper'],
-    });
-  }
-  previewModal() {
-    const dialogRef = this.dialog.open(PreviewModalComponent, {
-      panelClass:[ 'preview--modal'],
-    });
-  }
   customOptions: OwlOptions = {
     loop: false,
     mouseDrag: false,
@@ -72,7 +66,8 @@ export class ObjectiveComponent {
       "<i class='fa fa-arrow-left'></i>",
       "<i class='fa fa-arrow-right'></i>"
   ],
-    responsive:{
+  
+  responsive:{
       0:{
           items:1,
           autoWidth:true,
@@ -130,4 +125,180 @@ export class ObjectiveComponent {
       time: '800 sec'
     },
   ]
+
+  appointmentId: string;
+  public userId: string = this.authService.getLoggedInInfo('_id');
+  public userRole: string = this.authService.getLoggedInInfo('role');
+  selectedProtocols:any=[]
+  public objectiveForm: FormGroup;
+  validationMessages = validationMessages; 
+  chaperoneFlag:boolean=false;
+  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
+    this.route.params.subscribe((params: Params) => {
+      this.appointmentId = params['appointmentId'];
+    })
+  }
+ 
+  ngOnInit() {
+    this.objectiveForm = this.fb.group({
+      appointmentId:[this.appointmentId],
+      patient_consent: ['', [Validators.required]],
+      chaperone : this.fb.group({
+        flag: ['No', [Validators.required]],  // Default value for the flag
+        name: ['']  // Initially no validation on 'name'
+      }),
+      observation: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      range_of_motion: ['', [ Validators.minLength(1), Validators.maxLength(2500)]],
+      strength: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      neurological: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      special_test: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      palpation: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      slp: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      ot: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+      treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
+     
+      outcome_measures : this.fb.group({
+        name: ['',[Validators.required]],
+        rateYourPain: [''],
+        pain_intensity: [''],
+        personal_care: [''],
+        lifting: [''],
+        headache: [''],
+        recreation: [''],
+        reading: [''],
+        work: [''],
+        sleeping: [''],
+        concentration: [''],
+        driving: [''],
+        score: [''],     
+        quick_dash_question1: [''], 
+        quick_dash_question2: [''], 
+        quick_dash_question3: [''], 
+        quick_dash_question4: [''], 
+        quick_dash_question5: [''], 
+        quick_dash_question6: [''], 
+        quick_dash_question7: [''], 
+        quick_dash_question8: [''], 
+        quick_dash_question9: [''], 
+        quick_dash_question10: [''], 
+        quick_dash_question11: [''], 
+        quick_dash_score: [''], 
+        oswestry_pain_intensity: [''], 
+        oswestry_standing: [''], 
+        oswestry_personal_care: [''], 
+        oswestry_sleeping: [''], 
+        oswestry_lifting: [''], 
+        oswestry_social_life: [''], 
+        oswestry_walking: [''], 
+        oswestry_traveling: [''], 
+        oswestry_sitting: [''], 
+        oswestry_employment_homemaking: [''],
+
+        lefs_question1: [''],
+        lefs_question2: [''],
+        lefs_question3: [''],
+        lefs_question4: [''],
+        lefs_question5: [''],
+        lefs_question6: [''],
+        lefs_question7: [''],
+        lefs_question8: [''],
+        lefs_question9: [''],
+        lefs_question10: [''],
+
+
+      }),
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+    });
+    //this.initializeFormValidation();
+    this.onFlagChange();
+  }
+
+  painRate(i: any) {
+    this.clickedIndex = i
+    //this.objectiveForm.controls['rateYourPain'].setValue(i)
+  }
+
+
+  onFlagChange() {
+    const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
+    const flagControl = chaperoneGroup.get('flag');
+    const nameControl = chaperoneGroup.get('name');
+
+    flagControl?.valueChanges.subscribe((flagValue: string) => {
+      if (flagValue === 'Yes') {
+        nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
+      } else {
+        nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
+      }
+      nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
+    });
+  }
+
+  objectiveSubmit(){
+    console.log('this.objectiveForm>>>>',this.objectiveForm)
+    if (this.objectiveForm.invalid){
+      this.objectiveForm.markAllAsTouched();
+    }else{
+
+
+    }
+  }
+
+  chaperoneRadio(event: any) {
+    const flagControl = this.objectiveForm.get('chaperone.flag');
+    this.chaperoneFlag = false;
+    if (flagControl?.value === 'Yes') {
+        this.chaperoneFlag = true;
+    }
+    this.onFlagChange();
+  }
+
+  addProtocolModal() {
+     const dialogRef = this.dialog.open(ProtocolModalComponent,{
+      panelClass: [ 'custom-alert-container','modal--wrapper'],
+      data : {
+       appointmentId:this.appointmentId
+      }
+     });
+     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selectedProtocols = result
+      } else {
+        console.log('Modal closed without saving data.');
+      }
+    });
+  }
+  
+  removeProtocols(i:string) {
+    const index = this.selectedProtocols.indexOf(i);
+    if (index !== -1) {
+      this.selectedProtocols.splice(index, 1);
+    }
+  }
+
+  addExersiceModal() {
+    const dialogRef = this.dialog.open(AddExerciseComponent, {
+      panelClass:[ 'custom-alert-container','modal--wrapper'],
+    });
+  }
+  
+  previewModal() {
+    const dialogRef = this.dialog.open(PreviewModalComponent, {
+      panelClass:[ 'preview--modal'],
+    });
+  }
+
 }

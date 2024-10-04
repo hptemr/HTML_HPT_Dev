@@ -494,8 +494,7 @@
                                     <option value="{{element}}" *ngFor="let element of carrierNameList;">{{element}}
                                     </option>
                                 </select>
-                                <div class="text text-danger mt-1"
-                                    *ngIf="step2Form.controls['carrierName'].touched && (step2Form.controls['carrierName'].hasError('required') || step2Form.controls['carrierName'].invalid)">
+                                <div class="text text-danger mt-1" *ngIf="step2Form.controls['carrierName'].touched && (step2Form.controls['carrierName'].hasError('required') || step2Form.controls['carrierName'].invalid)">
                                     {{ validationMessages.requiredDropdown('Carrier Name') }}
                                 </div>
                             </div>
