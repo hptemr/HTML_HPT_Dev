@@ -63,7 +63,7 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="ptcode.units"
                                     (keyup)="onKey($event,i,'ptCode','directCode','units')"
-                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                    class="form-control width-50" maxlength="2" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
@@ -75,7 +75,7 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="ptcode.minutes"
                                     (keyup)="onKey($event,i,'ptCode','directCode','minutes');validateMinute($event,i,'ptCode','directCode')"
-                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                    class="form-control width-50" maxlength="4" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
@@ -103,7 +103,7 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="otcode.units"
                                     (keyup)="onKey($event,i,'otCode','directCode','units')"
-                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                    class="form-control width-50" maxlength="2" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
@@ -115,7 +115,7 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="otcode.minutes"
                                     (keyup)="onKey($event,i,'otCode','directCode','minutes');validateMinute($event,i,'otCode','directCode')"
-                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                    class="form-control width-50" maxlength="4" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
@@ -144,7 +144,7 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="slpcode.units"
                                     (keyup)="onKey($event,i,'slpCode','directCode','units')"
-                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                    class="form-control width-50" maxlength="2" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
@@ -156,7 +156,7 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="slpcode.minutes"
                                     (keyup)="onKey($event,i,'slpCode','directCode','minutes');validateMinute($event,i,'slpCode','directCode')"
-                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                    class="form-control width-50" maxlength="4" onkeydown="return ( event.ctrlKey || event.altKey 
                                             || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                             || (95<event.keyCode && event.keyCode<106)
                                             || (event.keyCode==8) || (event.keyCode==9) 
@@ -214,7 +214,7 @@
                                             <div class="form-group d-flex align-items-center justify-content-center">
                                                 <input type="text" [value]="ptcode.units"
                                                     (keyup)="onKey($event,i,'ptCode','unitedCode','units')"
-                                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                                    class="form-control width-50" maxlength="2" onkeydown="return ( event.ctrlKey || event.altKey 
                                                 || (47<event.keyCode && event.keyCode<57 && event.shiftKey==false) 
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
@@ -226,7 +226,7 @@
                                             <div class="form-group d-flex align-items-center justify-content-center">
                                                 <input type="text" [value]="ptcode.minutes"
                                                     (keyup)="onKey($event,i,'ptCode','unitedCode','minutes')"
-                                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                                    class="form-control width-50" maxlength="4" onkeydown="return ( event.ctrlKey || event.altKey 
                                                 || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
@@ -279,7 +279,7 @@
                                             <div class="form-group d-flex align-items-center justify-content-center">
                                                 <input type="text" [value]="otcode.units"
                                                     (keyup)="onKey($event,i,'otCode','unitedCode','units')"
-                                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                                    class="form-control width-50" maxlength="2" onkeydown="return ( event.ctrlKey || event.altKey 
                                                 || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
@@ -291,7 +291,7 @@
                                             <div class="form-group d-flex align-items-center justify-content-center">
                                                 <input type="text" [value]="otcode.units"
                                                     (keyup)="onKey($event,i,'otCode','unitedCode','minutes')"
-                                                    class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                                    class="form-control width-50" maxlength="4" onkeydown="return ( event.ctrlKey || event.altKey 
                                                 || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                                 || (95<event.keyCode && event.keyCode<106)
                                                 || (event.keyCode==8) || (event.keyCode==9) 
@@ -342,7 +342,7 @@
                                     <div class="form-group d-flex align-items-center justify-content-center">
                                         <input type="text" [value]="slpcode.units"
                                             (keyup)="onKey($event,i,'slpCode','unitedCode','units')"
-                                            class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                            class="form-control width-50" maxlength="2" onkeydown="return ( event.ctrlKey || event.altKey 
                                         || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                         || (95<event.keyCode && event.keyCode<106)
                                         || (event.keyCode==8) || (event.keyCode==9) 
@@ -354,7 +354,7 @@
                                     <div class="form-group d-flex align-items-center justify-content-center">
                                         <input type="text" [value]="slpcode.units"
                                             (keyup)="onKey($event,i,'slpCode','unitedCode','minutes')"
-                                            class="form-control width-50" maxlength="3" onkeydown="return ( event.ctrlKey || event.altKey 
+                                            class="form-control width-50" maxlength="4" onkeydown="return ( event.ctrlKey || event.altKey 
                                         || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
                                         || (95<event.keyCode && event.keyCode<106)
                                         || (event.keyCode==8) || (event.keyCode==9) 

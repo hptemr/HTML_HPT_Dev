@@ -17,4 +17,5 @@ export const validationMessages = {
   requiredProofDocument: 'Document uploaded, Please select ID Proof document type',
   requiredDocument: 'ID Proof document type is slected, Please upload document',
   isUnique: (fieldName: string) => `${fieldName} should be unique`,
+  validInput: (fieldName: string) => `Please enter a valid ${fieldName}`,
 };

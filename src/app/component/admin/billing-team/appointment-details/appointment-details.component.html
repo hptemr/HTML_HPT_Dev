@@ -1,0 +1,313 @@
+<div class="col-12 app--details--wrapper profile--right--wrapper">
+    <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-12 d-flex align-items-center">
+                <button mat-stroked-button color="primary" class="me-3 back--btn" [routerLink]="['/billing-team/appointments']">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+                </button>
+                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>
+                
+            </div> 
+        </div>
+        <div class="card-body d-flex flex-column flex-sm-row  ">
+            <div class="profile--right d-flex flex-column w-100">
+                <div class="w-100 mb-0"> 
+                    <mat-accordion class="appointment-information-header-wrapper">
+                        <mat-expansion-panel class="exp-class" expanded="true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
+                                    Basic Information <span class="font-14 fw-600 ms-auto">This Case is in Collections</span>
+                                </mat-panel-title>
+                                <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
+                                    <button mat-stroked-button color="primary" [routerLink]="['/billing-team/patient-profile']" >View Patient Profile</button>
+                                    <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/case-details/billing-details',appointmentId]">Billing Details</button>
+                                    <button mat-raised-button color="primary" class="intake-btn"  [routerLink]="['/billing-team/appointment-details']">
+                                        View Intake Form
+                                    </button>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="col-12">
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                                            <div class="w-100 mb-2">
+                                                <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                                    <div class="img--box flex-shrink-0">
+                                                        <img src="assets/images/ark/user.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h3 class="mb-1 clr--1F2F3E font-18 fw-700">John Walter</h3>
+                                                        <div class="mb-1 mt-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">johnwalter1991&#64;gmail.com</p>
+                                                        </div>
+                                                        <div class="mb-1 d-flex align-items-center">
+                                                            <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 1234-567-8902-4862</p>
+                                                        </div>
+                                    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Poc Dates</h3>
+                                            <p class="mb-1 text-danger font-16 fw-600 ">12/1/24 - 12-10-24</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
+                                            <p class="mb-1 text-danger font-16 fw-600 ">1 of 12 visits, expires 12/1/24</p>
+                                        </div>
+                                        <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 ">OT $200 Used out of $1000, PT/SLP $350 Used out of
+                                                $1200</p>
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-3">
+                                    <div class="d-flex flex-row flex-wrap">
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Primary Insurance</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Maxlife</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Secondary Insurance</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Starhealth</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/billing-team/case-details/view-insurance',appointmentId]"> 
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 ms-1"> visibility </mat-icon> 
+                                                View Insurance
+                                            </button>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-3 mb-2">
+                                            <div class="form-group d-flex align-items-center">
+                                                <!-- <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label> -->
+                                                <mat-radio-group aria-label="Select an option" [disabled]="true">
+                                                    <mat-radio-button value="1" class="me-3" checked>Hard Cap</mat-radio-button>
+                                                    <mat-radio-button value="2">Soft Cap</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-3 mb-2">
+                                            <input type="text" class="form-control form-control-md max-width" placeholder="lorem ipsum dollor">
+                                        </div>      
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-row flex-wrap">
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Jacob Jones</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Corvallis PT</p>
+                                        </div>
+                                        <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">3</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-4 col-xl-5 mb-2">
+                                            <div class="form-group d-flex align-items-center">
+                                                <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0">Rx required</label>
+                                                <mat-radio-group aria-label="Select an option" [disabled]="true">
+                                                    <mat-radio-button value="1" class="me-3" checked>Yes</mat-radio-button>
+                                                    <mat-radio-button value="2">No</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <div class="d-flex flex-row flex-wrap">
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">Assign Therapist <span class="clr--DF0404 ms-1"> * </span></label>
+                                                <input class="form-control form-control-md max-width-box" type="text" placeholder="Enter Assign Therapist" value="Elizabeth" [disabled]="true"/>
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">Case Name</label>
+                                                <input class="form-control form-control-md max-width-box" type="text" placeholder="Search Case Name" value="Neck Pain" [disabled]="true"/>
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">Copay Amount</label>
+                                                <div class="input-group prefix--field max-width-box-c">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                                    </div>
+                                                    <input type="number" class="form-control form-control-md" value="12" [disabled]="true">
+                                                </div>  
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">High Deductibles</label>
+                                                <div class="input-group prefix--field max-width-box-c">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                                    </div>
+                                                    <input type="number" class="form-control form-control-md" value="10" [disabled]="true">
+                                                </div>  
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+        <div class="card-body mt-2">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-2 clr--1F2F3E fw-600 font-22">Notes</h3>
+                </div>
+                <div class="col-12 mb-2">
+                    <div class="d-flex notes--table w-100 mt-2 mb-2">
+                        <div class="row w-100">
+                            <div class="col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div class="form-group position-relative w-100">
+                                            <input type="text" class="form-control search--outer" placeholder="Search ">
+                                            <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Status</option> 
+                                                <option value="1">Draft</option>
+                                                <option value="2">Finalized</option> 
+                                                <option value="3">Pending</option> 
+                                                <option value="4">Declined</option> 
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                <input matInput [matDatepicker]="picker" placeholder="From Date">
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                                        <div class="form-group">
+                                            <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                <input matInput [matDatepicker]="picker1" placeholder="To Date">
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select class="form-select form-control" aria-label="Default select example">
+                                                <option selected>Filter by Note Type</option>
+                                                <option value="1">Case Note</option>
+                                                <option value="2">Initial Examination</option>
+                                                <option value="3">Daily Note</option>
+                                            </select>
+                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-12 cust--mat--table--wrapper">
+                                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                                    class="cust--mat--table ">  
+                                    <ng-container matColumnDef="note">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                                            Note
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <div class="d-flex align-items-center  "> 
+                                                <div> 
+                                                    <p class="mb-0 font-14 text-primary clr--1F2F3E fw-500">{{element.note}}</p>
+                                               </div>
+                                            </div>     
+                                        </td>
+                                    </ng-container>  
+                                    <ng-container matColumnDef=" dateAddedOn">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Date Added on
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            {{element.dateAddedOn}} 
+                                            <p class="mt-1 "> <span class="fw-700"> Addendum:</span> Fri, Nov 09, 2023 10:00 am</p>
+                                        </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="noteAddedOn">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                                            Note Added By
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">  
+                                            {{element.noteAddedOn}}
+                                            <p class="mt-1 "> Taylor Stafford</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element.status}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Actions
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">  
+                                            <div class="w-100 d-flex align-items-center">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                                </button>  
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="d-flex align-items-center justify-content-center w-100 footer--btns"> 
+            <button mat-raised-button color="primary" class="m-1"> 
+                Mark as Paid
+            </button>
+        </div> -->
+    </div>
+</div> 
+    
