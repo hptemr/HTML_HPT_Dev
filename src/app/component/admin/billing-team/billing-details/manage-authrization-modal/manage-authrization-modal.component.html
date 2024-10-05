@@ -3,60 +3,81 @@
         <h1 class="fw-700 border-0 pb-0">Authorization Management</h1>
     </div>
     <div class="modal--body w-100 pt-3">
-        <div class="row">
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4  ">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Required</label>
-                    <mat-radio-group aria-label="Select an option">
-                        <mat-radio-button value="1" class="me-3">Yes</mat-radio-button>
-                        <mat-radio-button value="2" class="me-3">No</mat-radio-button>
-                    </mat-radio-group>
+        <form class="row" [formGroup]="authorizationManagement">   
+            <div class="row">
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4  ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Authorization Required</label>
+                        <mat-radio-group aria-label="Select an option" formControlName="authorizationRequired">
+                            <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
+                            <mat-radio-button value="No" class="me-3">No</mat-radio-button>
+                        </mat-radio-group>
+                        <div class="text text-danger mt-1" *ngIf="authorizationManagement.controls['authorizationRequired'].touched && authorizationManagement.controls['authorizationRequired'].hasError('required')">
+                            {{ validationMessages.required('Authorization') }}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Date To</label>
-                    <mat-form-field class="w-100 am--datepicker">
-                        <input matInput [matDatepicker]="picker">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Authorization Date From</label>
+                        <mat-form-field class="w-100 am--datepicker">
+                            <input matInput [matDatepicker]="picker2" formControlName="authorizationFromDate" (dateChange)="onAuthorizationFromDateChange($event)">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        <div class="text text-danger mt-1" *ngIf="authorizationManagement.controls['authorizationFromDate'].touched && authorizationManagement.controls['authorizationFromDate'].hasError('required')">
+                            {{ validationMessages.required('Authorization from date') }}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Date From</label>
-                    <mat-form-field class="w-100 am--datepicker">
-                        <input matInput [matDatepicker]="picker2">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                        <mat-datepicker #picker2></mat-datepicker>
-                    </mat-form-field>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Authorization Date To</label>
+                        <mat-form-field class="w-100 am--datepicker">
+                            <input matInput [matDatepicker]="picker" formControlName="authorizationToDate" [min]="authorizationFromDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <div class="text text-danger mt-1" *ngIf="authorizationManagement.controls['authorizationToDate'].touched && authorizationManagement.controls['authorizationToDate'].hasError('required')">
+                            {{ validationMessages.required('Authorization to date') }}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600"># Visit Authorized </label>
-                    <input class="form-control text-lowercase" type="text" placeholder="" />
-                    <!-- <div class="text text-danger mt-1">error</div> -->
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600"># Visit Authorized </label>
+                        <input class="form-control text-lowercase" type="text" placeholder="" formControlName="authorizationVisit"/>
+                        <div class="text text-danger mt-1" *ngIf="authorizationManagement.controls['authorizationVisit'].touched && authorizationManagement.controls['authorizationVisit'].hasError('required')">
+                            {{ validationMessages.required('Visit Authorized') }}
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="authorizationManagement.controls['authorizationVisit'].touched && authorizationManagement.controls['authorizationVisit'].hasError('pattern')">
+                            {{ validationMessages.validInput('Visit Authorized') }}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Number </label>
-                    <input class="form-control text-lowercase" type="text" placeholder="" />
-                    <!-- <div class="text text-danger mt-1">error</div> -->
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Authorization Number </label>
+                        <input class="form-control text-lowercase" type="text" placeholder="" formControlName="authorizationNumber"/>
+                        <div class="text text-danger mt-1" *ngIf="authorizationManagement.controls['authorizationNumber'].touched && authorizationManagement.controls['authorizationNumber'].hasError('required')">
+                            {{ validationMessages.required('Authorization Number') }}
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="authorizationManagement.controls['authorizationNumber'].touched && authorizationManagement.controls['authorizationNumber'].hasError('pattern')">
+                            {{ validationMessages.validInput('Authorization Number') }}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">&nbsp; </label>
-                    <button class="flex-shrink-0 update--btn" mat-raised-button color="primary">
-                        Update
-                    </button>
-                </div>
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">&nbsp; </label>
+                        <button class="flex-shrink-0 update--btn" mat-raised-button color="primary" [disabled]="!authorizationManagement.valid" (click)="saveAuthorizationManagement()">
+                            Update
+                        </button>
+                    </div>
 
-            </div> 
-        </div>
+                </div> 
+            </div>
+        </form>
 
         <div class="row">
             <div class="col-12">
