@@ -18,7 +18,7 @@
             <div class="col-12">
                 <div class="form-group"> 
                     <mat-form-field class="w-100 am--datepicker">
-                        <input matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()" formControlName="exercise_date">
+                        <input matInput [matDatepicker]="picker" placeholder="Select Date" [max]="todayDate" (focus)="picker.open()" formControlName="exercise_date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>

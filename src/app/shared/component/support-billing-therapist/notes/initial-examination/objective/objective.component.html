@@ -19,14 +19,7 @@
             <div class="col-12 mt-2">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Precautions</label>
-                    <textarea class="form-control text-left" type="text" placeholder="Enter Precautions" rows="7">
-                        Date of Surgery: June 1 
-                        2 week: June 14
-                        4 week: June 28
-                        6 week: July 12
-                        8 week: July 26
-                        10 week: August 9
-                        12 week: August 23</textarea>
+                    <textarea class="form-control text-left" type="text" placeholder="Enter Precautions" rows="7" formControlName="precautions"></textarea>
                 </div>
             </div>
             <div class="col-12">
@@ -35,10 +28,10 @@
                     <mat-radio-group aria-label="Select an option" formControlName="patient_consent">
                         <mat-radio-button value="No" class="me-3">No</mat-radio-button>
                         <mat-radio-button value="Yes" checked>Yes</mat-radio-button>
-                    </mat-radio-group>
-                    <div class="text text-danger mt-1" *ngIf="objectiveForm.controls['patient_consent'].touched && objectiveForm.controls['patient_consent'].hasError('required')">
-                        {{ validationMessages.required('Patient Consent') }}
-                      </div>
+                    </mat-radio-group>                 
+                </div>
+                <div class="text text-danger mt-1" *ngIf="objectiveForm.controls['patient_consent'].touched && objectiveForm.controls['patient_consent'].hasError('required')">
+                     {{ validationMessages.required('Patient Consent') }}
                 </div>
             </div>
             <div class="col-12">
@@ -50,10 +43,9 @@
                             <mat-radio-button value="Yes">Yes</mat-radio-button>
                         </mat-radio-group>
                         <input type="text" class="form-control max-width" placeholder="Chaperone Name" formControlName="name" *ngIf="chaperoneFlag">
-
-                          <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('required') && objectiveForm.get('chaperone.name')?.touched">
-                            Name is required when chaperone flag is set to 'Yes'.
-                          </div>
+                    </div>
+                    <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('required') && objectiveForm.get('chaperone.name')?.touched">
+                         Name is required when chaperone flag is set to 'Yes'.
                     </div>
                 </div>
             </div>
@@ -62,8 +54,8 @@
                     <label class="col-form-label fw-700 font-16 text-uppercase">Observation</label>
                     <input class="form-control" type="text" placeholder="Observation" formControlName="observation"/>
                     <div class="text text-danger mt-1" *ngIf="objectiveForm.controls['observation'].touched && objectiveForm.controls['observation'].hasError('required')">
-                        {{ validationMessages.required('Patient Consent') }}
-                      </div>
+                       {{ validationMessages.required('Patient Consent') }}
+                    </div>
                 </div>
             </div>
             <div class="col-12">
@@ -277,7 +269,7 @@
                                         <label class="col-form-label fw-700 p-0 font-16 mb-2">8. Sleeping </label>
                                         <mat-radio-group aria-label="Select an option" class="d-flex flex-column" formControlName="sleeping">
                                             <mat-radio-button value="0" class="w-100">(0) Pain does not prevent me from sleeping well.</mat-radio-button>
-                                            <mat-radio-button value="1" class="w-100">(1) My sleep is slightly disturbed (<1 hr sleep loss).</mat-radio-button>
+                                            <mat-radio-button value="1" class="w-100">(1) My sleep is slightly disturbed (&lt;1 hr sleep loss).</mat-radio-button>
                                             <mat-radio-button value="2" class="w-100">(2) My sleep is mildly disturbed (1-2 hr sleep loss).</mat-radio-button>
                                             <mat-radio-button value="3" class="w-100">(3) My sleep is moderately disturbed (2-3 hr sleep loss).</mat-radio-button>
                                             <mat-radio-button value="4" class="w-100">(4) My sleep is greatly disturbed (3-4 hr sleep loss).</mat-radio-button>

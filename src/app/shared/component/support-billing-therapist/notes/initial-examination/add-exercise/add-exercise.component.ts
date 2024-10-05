@@ -20,6 +20,7 @@ export class AddExerciseComponent {
   public userId: string = this.authService.getLoggedInInfo('_id');
   public userRole: string = this.authService.getLoggedInInfo('role');
   isSubmit:boolean=false;
+  todayDate = new Date()
   constructor( private router: Router,public dialog: MatDialog,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private _liveAnnouncer: LiveAnnouncer, public dialogRef: MatDialogRef<AddExerciseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
@@ -29,7 +30,7 @@ export class AddExerciseComponent {
       this.addExerciseForm = this.fb.group({
         appointmentId:[this.appointmentId],
         exercises: [""],
-        exercise_date: [""],
+        exercise_date: [this.todayDate],
         sets: [""],
         reps: [""],
         weight_resistance: [""],
@@ -44,11 +45,18 @@ export class AddExerciseComponent {
     if (this.addExerciseForm.invalid){
       this.addExerciseForm.markAllAsTouched();
     }else{
+      Object.assign(formData, {
+        soap_note_type:"initial_examination",
+        createdBy: this.userId,
+      })
       this.isSubmit = true
       let reqVars = {
+        query: {
+          appointmentId: this.appointmentId
+        },
         userId: this.userId,
-        data: formData,
-        appointmentId: this.appointmentId
+        type:'exercise',
+        data: formData
       }
       await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
         let assessmentData = response.data

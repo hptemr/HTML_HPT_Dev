@@ -11,10 +11,12 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PreviewModalComponent } from 'src/app/shared/comman/preview-modal/preview-modal.component';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
 import { ProtocolModalComponent } from '../protocol-modal/protocol-modal.component';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-objective', 
   templateUrl: './objective.component.html',
-  styleUrl: './objective.component.scss'
+  styleUrl: './objective.component.scss',
+  providers: [DatePipe]
 })
 export class ObjectiveComponent {
   isDisabled = true;
@@ -131,7 +133,15 @@ export class ObjectiveComponent {
   validationMessages = validationMessages; 
   chaperoneFlag:boolean=false;
   isSubmit:boolean=false;
-  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
+  appointment_dates:any=[];
+  appointment_data:any=[];
+  objectiveId:string='';
+  surgery_date:any=''
+  surgery_type:string=''
+
+  // searchDirectory:string=''
+  // directoryItmList:any =[];
+  constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -140,6 +150,8 @@ export class ObjectiveComponent {
   ngOnInit() {
     this.objectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
+      protocols:[''],
+      precautions:['Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23',[Validators.required]],
       patient_consent: ['', [Validators.required]],
       chaperone : this.fb.group({
         flag: ['No', [Validators.required]],  // Default value for the flag
@@ -246,18 +258,49 @@ export class ObjectiveComponent {
         sts_score: [''],
 
       }),
-
-
-
     });
     //this.initializeFormValidation();
     this.onFlagChange();
+    this.getObjectiveRecord();
+  }
+  
+  getObjectiveRecord(){
+    let reqVars = {
+      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
+    }
+    this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
+      if(response.data && response.data.objectiveData){
+        let objectiveData = response.data.objectiveData;
+        this.objectiveId = objectiveData._id;
+        // this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+        // this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
+        // this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
+        // this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
+        // this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note);
+      }
+   
+      if(response.data && response.data.subjectiveData){
+        let subjectiveData = response.data.subjectiveData;
+        this.surgery_type = subjectiveData.surgery_type;
+        this.surgery_date = this.datePipe.transform(subjectiveData.surgery_date, 'MMMM d');
+        this.objectiveForm.controls['precautions'].setValue('Date of Surgery: '+this.surgery_date+'  ('+this.surgery_type+')');
+      }
+
+      if(response.data && response.data.appointmentDatesList){
+        this.appointment_dates = response.data.appointmentDatesList       
+      }
+
+      if(response.data && response.data.appointmentData){
+        this.appointment_data = response.data.appointmentData    
+      }       
+      
+    })
   }
 
   painRate(id:string,i: any) {
     this.clickedIndex = i;
-
-    //this.objectiveForm.controls['rateYourPain'].setValue(i)
+    console.log('id >>> ',id,' ......i>>>>',i)
+    this.objectiveForm.controls[id].setValue(i)
   }
 
 
@@ -271,25 +314,33 @@ export class ObjectiveComponent {
         nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
       } else {
         nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
+        nameControl?.setValue('');
+        nameControl?.markAsUntouched();
       }
       nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
     });
   }
 
   async objectiveSubmit(formData: any){
-    console.log('this.objectiveForm>>>>',this.objectiveForm)
+    console.log('<<<<<  objective form >>>>',this.objectiveForm)
     if (this.objectiveForm.invalid){
       this.objectiveForm.markAllAsTouched();
     }else{
-      console.log('Add Exercise Form  >>>>',this.objectiveForm)
       if (this.objectiveForm.invalid){
         this.objectiveForm.markAllAsTouched();
       }else{
         this.isSubmit = true
+        Object.assign(formData, {
+          soap_note_type:"initial_examination",
+          createdBy: this.userId,
+        })
         let reqVars = {
           query: {
             appointmentId: this.appointmentId
-          }
+          },
+          type:'objective',
+          userId: this.userId,
+          data: formData,
         }
         await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
           let assessmentData = response.data
@@ -315,6 +366,9 @@ export class ObjectiveComponent {
     this.onFlagChange();
   }
 
+
+
+
   addProtocolModal() {
      const dialogRef = this.dialog.open(ProtocolModalComponent,{
       panelClass: [ 'custom-alert-container','modal--wrapper'],
@@ -323,8 +377,13 @@ export class ObjectiveComponent {
       }
      });
      dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.selectedProtocols = result
+      if (result && result.length>0) {
+        let file_names:any = [];
+        result.forEach((element:any) => {
+          file_names.push(element.file_name);
+        });
+        this.selectedProtocols = file_names
+        this.objectiveForm.controls['protocols'].setValue(result)
       } else {
         console.log('Modal closed without saving data.');
       }
