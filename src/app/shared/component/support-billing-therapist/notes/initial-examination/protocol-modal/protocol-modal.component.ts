@@ -25,11 +25,12 @@ export class ProtocolModalComponent {
   searchDirectory:string=''
   displayedColumns: string[] = ['file_name', 'actions'];
   directoryItmList:any =[];
+  data_not_found:boolean=false;
   //dataSource = new MatTableDataSource(ELEMENT_DATA);
   //directoryItmList =  new MatTableDataSource(ELEMENT_DATA);//new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   public userId: string = this.authService.getLoggedInInfo('_id');
   public userRole: string = this.authService.getLoggedInInfo('role');
-  data_not_found:boolean=false;
+  
   constructor( private router: Router,public dialog: MatDialog,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private _liveAnnouncer: LiveAnnouncer, public dialogRef: MatDialogRef<ProtocolModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
@@ -66,9 +67,9 @@ export class ProtocolModalComponent {
 
   submit() {
     const selectedCheckboxes = this.protocolForm.value.selectedElements
-      .map((checked:any, index:any) => (checked.check ? this.directoryItmList.data[index].file_name : null))
+      .map((checked:any, index:any) => (checked.check ? this.directoryItmList.data[index] : null))
       .filter((value: null) => value !== null);    
-      console.log(selectedCheckboxes); 
+ 
       this.dialogRef.close(selectedCheckboxes); 
   }
   
@@ -109,7 +110,6 @@ export class ProtocolModalComponent {
             finalData.push(newColumns)
           })
           this.directoryItmList = new MatTableDataSource(finalData)
-          console.log('directoryItmList >>>',this.directoryItmList)
           this.lodForm();
         }
         // this.arrLength = directories.length
