@@ -11,6 +11,7 @@ const objectiveSchema = new mongoose.Schema({
         default: 'initial_examination'
     },
     protocols:[],
+    precautions: { type: String, default: ""},
     patient_consent: { type: String, default: ""},
     chaperone: [{
         flag: String,

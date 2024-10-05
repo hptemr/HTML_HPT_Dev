@@ -178,6 +178,21 @@ const submitSubjective = async (req, res) => {
   }
 }
 
+const getObjectiveData = async (req, res) => {
+  try {
+    const { query } = req.body;
+    let objectiveData = await ObjectiveModel.findOne(query);
+    let subjectiveData = await subjectiveTemp.findOne(query);
+    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
+    let appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    
+    let returnData = { objectiveData: objectiveData,subjectiveData:subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
+    commonHelper.sendResponse(res, 'success', returnData);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 const submitObjective = async (req, res) => {
   try {
     const { data, query, userId, type } = req.body;
@@ -295,6 +310,7 @@ module.exports = {
   updateBillingNote,
   finalizeNote,
   submitSubjective,
+  getObjectiveData,
   submitObjective,
   getSubjectiveData,
   submitAssessment,
