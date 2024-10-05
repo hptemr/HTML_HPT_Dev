@@ -47,6 +47,7 @@ const messages = {
         wentWrong: 'Something went wrong',
         profileUpdate: 'Profile update successfully',
         profileDelete: 'Profile delete successfully',
+        getDataMessage:"Getting data successfully"
     },
     appointmentMessage: {
         accepted: 'Appointment has been accepted successfully',
@@ -75,6 +76,9 @@ const messages = {
     soapMessage: {
         assessment: 'Assessment has been updated successfully'
     },
+    billingMessage:{
+        addDetails:"Billing details added successfully"
+    }
 };
 
 module.exports = messages;
