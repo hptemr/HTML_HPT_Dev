@@ -299,8 +299,8 @@ export class ObjectiveComponent {
 
   painRate(id:string,i: any) {
     this.clickedIndex = i;
-
-    //this.objectiveForm.controls['rateYourPain'].setValue(i)
+    console.log('id >>> ',id,' ......i>>>>',i)
+    this.objectiveForm.controls[id].setValue(i)
   }
 
 
