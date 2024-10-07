@@ -4,11 +4,11 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
-  selector: 'app-billing', 
+  selector: 'app-billing-daily-note', 
   templateUrl: './billing.component.html',
   styleUrl: './billing.component.scss'
 })
-export class BillingComponent {
+export class DailyNoteBillingComponent {
   isDisabled: boolean = false;
   totalTreatmentMinutes = 0
   totalDirectMinutes = 0
@@ -439,7 +439,7 @@ export class BillingComponent {
           directSlpList:tempDirectSlpList,
           dmeCptList:tempDmeCptList,
           appointmentId : this.appointmentId,
-          soapNoteType : "initial_examination",
+          soapNoteType : "daily_note",
           additionalCodes:this.additionalCodes
   
         }

@@ -43,6 +43,7 @@ import { ObjectiveComponent } from './component/support-billing-therapist/notes/
 import { AssessmentComponent } from './component/support-billing-therapist/notes/initial-examination/assessment/assessment.component';
 import { PlanComponent } from './component/support-billing-therapist/notes/initial-examination/plan/plan.component';
 import { BillingComponent } from './component/support-billing-therapist/notes/initial-examination/billing/billing.component';
+import { DailyNoteBillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/billing/billing.component';
 
 import { AddExerciseComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/add-exercise/add-exercise.component';
 import { ProtocolModalComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/protocol-modal/protocol-modal.component';
@@ -132,6 +133,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DocumentListingComponent,
     DocumentDetailingComponent,
     UserListingComponent,
+    DailyNoteBillingComponent
    // AdminProfileComponent
   ],
   imports: [
