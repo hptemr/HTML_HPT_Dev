@@ -99,7 +99,8 @@ export class BillingComponent {
 
   ngOnInit() { 
     var params = {
-      appointmentId:this.appointmentId
+      appointmentId:this.appointmentId,
+      noteType:"initial_examination"
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
@@ -376,15 +377,38 @@ export class BillingComponent {
   }
 
   submit(submitType:any){
+    let errorInCode = false
+    var tempUnitedPtList:any = {}
+    var tempUnitedOtList:any = {}
+    var tempUnitedSlpList:any = {}
+    var tempDirectPtList:any = {}
+    var tempDirectOtList:any = {}
+    var tempDirectSlpList:any = {}
+    var tempDmeCptList:any = {}
+    this.directPtList.forEach((code) => {  
+      if(!code.isError){
+        tempDirectPtList[code.value] = { minutes: code.minutes, units:code.units} 
+      }else{
+        errorInCode = true
+      }
+    })
+
+    this.directOtList.forEach((code) => {  
+      if(!code.isError){
+        tempDirectOtList[code.value] = { minutes: code.minutes, units:code.units} 
+      }else{
+        errorInCode = true
+      }
+    })
+
+    this.directSlpList.forEach((code) => { 
+      if(!code.isError){ 
+        tempDirectSlpList[code.value] = { minutes: code.minutes, units:code.units} 
+      }else{
+        errorInCode = true
+      }
+    })
     if(submitType=='draft'){
-      var tempUnitedPtList:any = {}
-      var tempUnitedOtList:any = {}
-      var tempUnitedSlpList:any = {}
-      var tempDirectPtList:any = {}
-      var tempDirectOtList:any = {}
-      var tempDirectSlpList:any = {}
-      var tempDmeCptList:any = {}
-      let errorInCode = false
       this.unitedPtList.forEach((code) => {  
         tempUnitedPtList[code.value] = { selected: code.selected, units:code.units,minutes: code.minutes} 
       })
@@ -394,31 +418,6 @@ export class BillingComponent {
       this.unitedSlpList.forEach((code) => {  
         tempUnitedSlpList[code.value] = { selected: code.selected, units:code.units,minutes: code.minutes} 
       })
-
-      this.directPtList.forEach((code) => {  
-        if(!code.isError){
-          tempDirectPtList[code.value] = { minutes: code.minutes, units:code.units} 
-        }else{
-          errorInCode = true
-        }
-      })
-
-      this.directOtList.forEach((code) => {  
-        if(!code.isError){
-          tempDirectOtList[code.value] = { minutes: code.minutes, units:code.units} 
-        }else{
-          errorInCode = true
-        }
-      })
-
-      this.directSlpList.forEach((code) => { 
-        if(!code.isError){ 
-          tempDirectSlpList[code.value] = { minutes: code.minutes, units:code.units} 
-        }else{
-          errorInCode = true
-        }
-      })
-
       this.dmeCptList.forEach((code) => {  
         if(code.value!=""){
           tempDmeCptList[code.value] = { quantity:code.quantity}
@@ -441,7 +440,6 @@ export class BillingComponent {
           appointmentId : this.appointmentId,
           soapNoteType : "initial_examination",
           additionalCodes:this.additionalCodes
-  
         }
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
@@ -456,12 +454,14 @@ export class BillingComponent {
         }
       }
     }else{
-      let inputParams = {
-        appointmentId : this.appointmentId
+      if(!errorInCode){
+        let inputParams = {
+          appointmentId : this.appointmentId
+        }
+        this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
+          this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
+        })
       }
-      this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
-        this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
-      })
     }
   }
 

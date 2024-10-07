@@ -9,6 +9,9 @@ import { AssessmentComponent } from 'src/app/shared/component/support-billing-th
 import { PlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/plan/plan.component';
 import { BillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/initial-examination/billing/billing.component';
 import { DailyNoteBillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/billing/billing.component';
+import { ProgressNoteBillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/billing/billing.component';
+import { DischargeNoteBillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/discharge-note/billing/billing.component';
+
 
 import { DailyNotesComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/daily-notes/daily-notes.component';
 import { DnSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-subjective/dn-subjective.component';
@@ -168,7 +171,7 @@ const routes: Routes = [
       },
       {
         path: 'billing/:appointmentId',
-        component: BillingComponent, 
+        component: DischargeNoteBillingComponent, 
       },
     ]
   },
@@ -194,7 +197,7 @@ const routes: Routes = [
       },
       {
         path: 'billing/:appointmentId',
-        component: BillingComponent, 
+        component: ProgressNoteBillingComponent, 
       },
     ]
   },

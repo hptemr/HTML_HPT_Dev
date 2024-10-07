@@ -8,7 +8,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
   templateUrl: './billing.component.html',
   styleUrl: './billing.component.scss'
 })
-export class DailyNoteBillingComponent {
+export class ProgressNoteBillingComponent {
   isDisabled: boolean = false;
   totalTreatmentMinutes = 0
   totalDirectMinutes = 0
@@ -100,7 +100,7 @@ export class DailyNoteBillingComponent {
   ngOnInit() { 
     var params = {
       appointmentId:this.appointmentId,
-      noteType:"daily_note"
+      noteType:"progress_note"
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
@@ -203,8 +203,6 @@ export class DailyNoteBillingComponent {
           this.unitedSlpList[index].units = ''
         }
       }
-      this.calclulateTotal('units')
-      this.calclulateTotal('minutes')
       
     }
   }
@@ -420,7 +418,6 @@ export class DailyNoteBillingComponent {
       this.unitedSlpList.forEach((code) => {  
         tempUnitedSlpList[code.value] = { selected: code.selected, units:code.units,minutes: code.minutes} 
       })
-
       this.dmeCptList.forEach((code) => {  
         if(code.value!=""){
           tempDmeCptList[code.value] = { quantity:code.quantity}
@@ -441,19 +438,18 @@ export class DailyNoteBillingComponent {
           directSlpList:tempDirectSlpList,
           dmeCptList:tempDmeCptList,
           appointmentId : this.appointmentId,
-          soapNoteType : "daily_note",
+          soapNoteType : "progress_note",
           additionalCodes:this.additionalCodes
-  
         }
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar("Created Successfully", "SUCCESS")
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
           })
         }else{
           this.authService.apiRequest('post', 'soapNote/updateBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar("Updated Successfully", "SUCCESS")
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
           })
         }
       }
