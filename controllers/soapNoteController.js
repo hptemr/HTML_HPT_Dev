@@ -199,13 +199,12 @@ const submitObjective = async (req, res) => {
   try {
     const { data, query, userId, type } = req.body;
 
-    let objective_data = await ObjectiveModel.findOne({ appointmentId: query.appointmentId });
+    let objective_data = await ObjectiveModel.findOne(query);
    
     console.log(type,'objective_data>>>>',objective_data)
     let message = '';
     if (objective_data) {
-      console.log('##################')
-      await ObjectiveModel.findOneAndUpdate({ _id: query.appointmentId }, data);
+      await ObjectiveModel.findOneAndUpdate(query, data);
       if(type=='objective'){
         message = soapMessage.updateObjective;
       }else{
