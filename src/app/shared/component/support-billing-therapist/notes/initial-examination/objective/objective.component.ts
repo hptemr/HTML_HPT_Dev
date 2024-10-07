@@ -11,16 +11,19 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PreviewModalComponent } from 'src/app/shared/comman/preview-modal/preview-modal.component';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
 import { ProtocolModalComponent } from '../protocol-modal/protocol-modal.component';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-objective', 
   templateUrl: './objective.component.html',
-  styleUrl: './objective.component.scss'
+  styleUrl: './objective.component.scss',
+  providers: [DatePipe]
 })
 export class ObjectiveComponent {
   isDisabled = true;
-  selectedValue = '0';
-  
+  selectedValue = '0';  
   clickedIndex = 0; 
+  clickedIndexLefs = 0;
+  clickedIndex1 = 0; 
   clickedIndex2 = 0;
   clickedIndex3 = 0;
   clickedIndex4 = 0;
@@ -65,8 +68,7 @@ export class ObjectiveComponent {
     navText: [
       "<i class='fa fa-arrow-left'></i>",
       "<i class='fa fa-arrow-right'></i>"
-  ],
-  
+  ],  
   responsive:{
       0:{
           items:1,
@@ -84,10 +86,8 @@ export class ObjectiveComponent {
         items:4,
         slideBy: 4
     }
+  }    
   }
-    
-  }
-
   edatatable = [
     {
       set:'1',
@@ -125,7 +125,6 @@ export class ObjectiveComponent {
       time: '800 sec'
     },
   ]
-
   appointmentId: string;
   public userId: string = this.authService.getLoggedInInfo('_id');
   public userRole: string = this.authService.getLoggedInInfo('role');
@@ -133,7 +132,16 @@ export class ObjectiveComponent {
   public objectiveForm: FormGroup;
   validationMessages = validationMessages; 
   chaperoneFlag:boolean=false;
-  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
+  isSubmit:boolean=false;
+  appointment_dates:any=[];
+  appointment_data:any=[];
+  objectiveId:string='';
+  surgery_date:any=''
+  surgery_type:string=''
+
+  // searchDirectory:string=''
+  // directoryItmList:any =[];
+  constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -142,6 +150,8 @@ export class ObjectiveComponent {
   ngOnInit() {
     this.objectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
+      protocols:[''],
+      precautions:['Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23',[Validators.required]],
       patient_consent: ['', [Validators.required]],
       chaperone : this.fb.group({
         flag: ['No', [Validators.required]],  // Default value for the flag
@@ -159,7 +169,7 @@ export class ObjectiveComponent {
      
       outcome_measures : this.fb.group({
         name: ['',[Validators.required]],
-        rateYourPain: [''],
+        neck_rate_your_pain: [''],
         pain_intensity: [''],
         personal_care: [''],
         lifting: [''],
@@ -193,7 +203,6 @@ export class ObjectiveComponent {
         oswestry_traveling: [''], 
         oswestry_sitting: [''], 
         oswestry_employment_homemaking: [''],
-
         lefs_question1: [''],
         lefs_question2: [''],
         lefs_question3: [''],
@@ -204,31 +213,94 @@ export class ObjectiveComponent {
         lefs_question8: [''],
         lefs_question9: [''],
         lefs_question10: [''],
-
+        lefs_question11: [''],
+        lefs_question12: [''],
+        lefs_question13: [''],
+        lefs_question14: [''],
+        lefs_question15: [''],
+        lefs_question16: [''],
+        lefs_question17: [''],
+        lefs_question18: [''],
+        lefs_question19: [''],
+        lefs_question20: [''],
+        lefs_score: [''],
+        fabq_1_rate_your_pain: [''],
+        fabq_2_rate_your_pain: [''],
+        fabq_3_rate_your_pain: [''],
+        fabq_4_rate_your_pain: [''],
+        fabq_5_rate_your_pain: [''],
+        fabq_6_rate_your_pain: [''],
+        fabq_7_rate_your_pain: [''],
+        fabq_8_rate_your_pain: [''],
+        fabq_9_rate_your_pain: [''],
+        fabq_10_rate_your_pain: [''],
+        fabq_11_rate_your_pain: [''],
+        fabq_12_rate_your_pain: [''],
+        fabq_13_rate_your_pain: [''],
+        fabq_14_rate_your_pain: [''],
+        fabq_15_rate_your_pain: [''],
+        fabq_16_rate_your_pain: [''],
+        fabq_score: [''],
+        mctsib_conditio1_1: [''],
+        mctsib_conditio1_2: [''],
+        mctsib_conditio1_3: [''],
+        mctsib_conditio2_1: [''],
+        mctsib_conditio2_2: [''],
+        mctsib_conditio2_3: [''],
+        mctsib_conditio3_1: [''],
+        mctsib_conditio3_2: [''],
+        mctsib_conditio3_3: [''],
+        mctsib_conditio4_1: [''],
+        mctsib_conditio4_2: [''],
+        mctsib_conditio4_3: [''],
+        mctsib_total: [''],
+        sts_number: [''],
+        sts_score: [''],
 
       }),
-
-
-     
-
-
-
-
-
-
-
-
-
-
-
     });
     //this.initializeFormValidation();
     this.onFlagChange();
+    this.getObjectiveRecord();
+  }
+  
+  getObjectiveRecord(){
+    let reqVars = {
+      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
+    }
+    this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
+      if(response.data && response.data.objectiveData){
+        let objectiveData = response.data.objectiveData;
+        this.objectiveId = objectiveData._id;
+        // this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+        // this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
+        // this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
+        // this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
+        // this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note);
+      }
+   
+      if(response.data && response.data.subjectiveData){
+        let subjectiveData = response.data.subjectiveData;
+        this.surgery_type = subjectiveData.surgery_type;
+        this.surgery_date = this.datePipe.transform(subjectiveData.surgery_date, 'MMMM d');
+        this.objectiveForm.controls['precautions'].setValue('Date of Surgery: '+this.surgery_date+'  ('+this.surgery_type+')');
+      }
+
+      if(response.data && response.data.appointmentDatesList){
+        this.appointment_dates = response.data.appointmentDatesList       
+      }
+
+      if(response.data && response.data.appointmentData){
+        this.appointment_data = response.data.appointmentData    
+      }       
+      
+    })
   }
 
-  painRate(i: any) {
-    this.clickedIndex = i
-    //this.objectiveForm.controls['rateYourPain'].setValue(i)
+  painRate(id:string,i: any) {
+    this.clickedIndex = i;
+    console.log('id >>> ',id,' ......i>>>>',i)
+    this.objectiveForm.controls[id].setValue(i)
   }
 
 
@@ -242,18 +314,46 @@ export class ObjectiveComponent {
         nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
       } else {
         nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
+        nameControl?.setValue('');
+        nameControl?.markAsUntouched();
       }
       nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
     });
   }
 
-  objectiveSubmit(){
-    console.log('this.objectiveForm>>>>',this.objectiveForm)
+  async objectiveSubmit(formData: any){
+    console.log('<<<<<  objective form >>>>',this.objectiveForm)
     if (this.objectiveForm.invalid){
       this.objectiveForm.markAllAsTouched();
     }else{
-
-
+      if (this.objectiveForm.invalid){
+        this.objectiveForm.markAllAsTouched();
+      }else{
+        this.isSubmit = true
+        Object.assign(formData, {
+          soap_note_type:"initial_examination",
+          createdBy: this.userId,
+        })
+        let reqVars = {
+          query: {
+            appointmentId: this.appointmentId
+          },
+          type:'objective',
+          userId: this.userId,
+          data: formData,
+        }
+        await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
+          let assessmentData = response.data
+          if (response.error) {
+            if (response.message) {
+              this.commonService.openSnackBar(response.message, "ERROR");
+            }           
+          } else {
+            this.isSubmit = false;
+            this.commonService.openSnackBar(response.message,"SUCCESS");
+          }        
+        })
+      }
     }
   }
 
@@ -266,6 +366,9 @@ export class ObjectiveComponent {
     this.onFlagChange();
   }
 
+
+
+
   addProtocolModal() {
      const dialogRef = this.dialog.open(ProtocolModalComponent,{
       panelClass: [ 'custom-alert-container','modal--wrapper'],
@@ -274,8 +377,13 @@ export class ObjectiveComponent {
       }
      });
      dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.selectedProtocols = result
+      if (result && result.length>0) {
+        let file_names:any = [];
+        result.forEach((element:any) => {
+          file_names.push(element.file_name);
+        });
+        this.selectedProtocols = file_names
+        this.objectiveForm.controls['protocols'].setValue(result)
       } else {
         console.log('Modal closed without saving data.');
       }
@@ -289,9 +397,21 @@ export class ObjectiveComponent {
     }
   }
 
-  addExersiceModal() {
+  addExersiceModal(type:string) {
     const dialogRef = this.dialog.open(AddExerciseComponent, {
+      disableClose: true,
       panelClass:[ 'custom-alert-container','modal--wrapper'],
+      data : {
+        appointmentId:this.appointmentId,
+        type:type
+       }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selectedProtocols = result
+      } else {
+        console.log('Modal closed without saving data.');
+      }
     });
   }
   

@@ -1,0 +1,70 @@
+<div class="modal--wrapper spi--modal  d-flex flex-column w-100">
+    <div class="modal--header w-100">
+        <h1 class="fw-700 border-0 pb-0">Select {{popupData.title}}</h1>
+    </div>
+    <div class="modal--body w-100 pt-3">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <p>Selected Insurance : <br> <span class="fw-700">ABCD</span></p>
+            </div>
+            <div class="col-12 col-lg-6"> 
+                <p>Entered by Patient : <br> <span class="fw-700">{{insuranceInfo.primaryInsuranceCompany}}</span></p>
+            </div>
+        </div> 
+        <div class="col-12 d-flex align-items-center">
+            <div class="form-group w-100 me-2"> 
+                <input class="form-control form-control-md" type="text" placeholder="Search by Insurance Name or Payer ID" [formControl]="searchInsurance"/>
+                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            </div>
+            <div class="form-group flex-shrink-0">
+                <button mat-raised-button color="primary">Search</button>
+            </div>
+        </div>
+        <div class="col-12 cust--mat--table--wrapper">
+            <table mat-table [dataSource]="dataSource" class="cust--mat--table"> 
+              
+                <!-- insuranceName Column -->
+                <ng-container matColumnDef="insuranceName">
+                  <th mat-header-cell *matHeaderCellDef> Insurance Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.insuranceName}} </td>
+                </ng-container>
+              
+                <!-- payerId Column -->
+                <ng-container matColumnDef="payerID">
+                  <th mat-header-cell *matHeaderCellDef> Payer ID </th>
+                  <td mat-cell *matCellDef="let element"> {{element.payerID}} </td>
+                </ng-container>
+              
+                <!-- address Column -->
+                <ng-container matColumnDef="insuranceAddress">
+                  <th mat-header-cell *matHeaderCellDef> Address </th>
+                  <td mat-cell *matCellDef="let element"> {{element.insuranceAddress}} </td>
+                </ng-container>
+              
+                <!-- Action Column -->
+                <ng-container matColumnDef="symbol">
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <mat-radio-button [value]="element" class=" " (change)="onSelectionChange($event)"></mat-radio-button>
+                    </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+            <div class="no--record--found align-items-center justify-content-center w-100 mt-4" *ngIf="!isInsuranceList">
+                <div class="d-flex flex-column align-items-center w-100">
+                    <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                    <p class="">No Records Found</p>
+                </div>
+            </div> 
+              
+              
+        </div> 
+    </div>
+    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0">
+        <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" (click)="selectInsurance()">Ok</button>
+    </div>
+</div>
