@@ -107,7 +107,7 @@ const createBillingNote = async (req, res) => {
 
 const getBillingNote = async (req, res) => {
   try {
-    let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId });
+    let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId,soap_note_type: req.body.noteType});
     // let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1 })
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1,billingType:1, caseName: 1})
     commonHelper.sendResponse(res, 'success', billingData, caseData);
