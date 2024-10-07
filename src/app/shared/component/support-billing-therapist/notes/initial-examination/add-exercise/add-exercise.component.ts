@@ -8,7 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { exercisesOptionsList } from 'src/app/config';
 @Component({
   selector: 'app-add-exercise', 
   templateUrl: './add-exercise.component.html',
@@ -17,23 +18,26 @@ import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 export class AddExerciseComponent {
   addExerciseForm: FormGroup;
   appointmentId:string;
+  exerciseType:string;
   public userId: string = this.authService.getLoggedInInfo('_id');
   public userRole: string = this.authService.getLoggedInInfo('role');
   isSubmit:boolean=false;
+  exercisesOptions:any = exercisesOptionsList
   todayDate = new Date()
   constructor( private router: Router,public dialog: MatDialog,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private _liveAnnouncer: LiveAnnouncer, public dialogRef: MatDialogRef<AddExerciseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
+    this.exerciseType = data.type;
   } 
 
   ngOnInit() {
       this.addExerciseForm = this.fb.group({
-        appointmentId:[this.appointmentId],
-        exercises: [""],
+        exercises: ["",[Validators.required]],
         exercise_date: [this.todayDate],
         sets: [""],
         reps: [""],
         weight_resistance: [""],
+        weight_resistance_unit: [""],
         distance: [""],
         exercise_time: [""],
         exercise_time_mints: [""],
@@ -46,19 +50,19 @@ export class AddExerciseComponent {
       this.addExerciseForm.markAllAsTouched();
     }else{
       Object.assign(formData, {
-        soap_note_type:"initial_examination",
         createdBy: this.userId,
       })
       this.isSubmit = true
       let reqVars = {
         query: {
-          appointmentId: this.appointmentId
+          appointmentId: this.appointmentId,soap_note_type:"initial_examination"
         },
-        userId: this.userId,
-        type:'exercise',
+        userId:this.userId,
+        type:'exercise',        
+        exerciseType:this.exerciseType,
         data: formData
       }
-      await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
+      await this.authService.apiRequest('post', 'soapNote/submitObjectiveExercise', reqVars).subscribe(async (response) => {
         let assessmentData = response.data
         if (response.error) {
           if (response.message) {
@@ -67,7 +71,8 @@ export class AddExerciseComponent {
         } else {
           this.isSubmit = false;
           this.commonService.openSnackBar(response.message,"SUCCESS");
-        }        
+        }     
+        this.dialogRef.close();    
       })
     }
   }

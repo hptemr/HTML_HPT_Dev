@@ -97,6 +97,13 @@ export const carrierNameList = [
   'Carrier 2',
   'Carrier 3',
 ]
+export const exercisesOptionsList = [
+  'SLR',
+  'Squats',
+  'Exercise 1',
+  'Exercise 2',
+  'Tandem Walking',
+]
 
 // ==== Comet Chat Settings  ====
 // Free Account(ashishb@arkenea.com) App Name : HPT

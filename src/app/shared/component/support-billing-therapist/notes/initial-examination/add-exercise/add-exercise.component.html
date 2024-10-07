@@ -6,11 +6,11 @@
         <div class="modal--body w-100">
             <div class="col-12">
                 <div class="form-group"> 
-                    <select class="form-select form-control" aria-label="outcome measure dd" formControlName="exercises">
+                    <!-- (ngModelChange)="selectRecords('practiceLocation',$event)"  [(ngModel)]="practiceLocationsVal" -->
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="exercises">
                         <option selected>Select or enter exercises</option>
-                        <option value="Neck Disability Index">Neck Disability Index</option>
-                        <option value="QuickDASH">QuickDASH</option>
-                        <option value="Oswestry LBP">Oswestry LBP</option> 
+                        <option *ngFor="let element of exercisesOptions" value="{{element}}">{{element}}
+                        </option>
                     </select>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
@@ -43,7 +43,7 @@
                     <label class="col-form-label fw-700 font-16 text-uppercase">Weight/Resistance</label>
                     <div class="w-100 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
                         <input class="form-control me-3" type="number" placeholder="Enter Weight/Resistance" formControlName="weight_resistance"/>
-                        <mat-radio-group aria-label="Select an option" class="flex-shrink-0">
+                        <mat-radio-group aria-label="Select an option" class="flex-shrink-0" formControlName="weight_resistance_unit">
                             <mat-radio-button value="lbs" class="me-3" >lbs</mat-radio-button>
                             <mat-radio-button value="kg" checked>kg</mat-radio-button>
                         </mat-radio-group> 

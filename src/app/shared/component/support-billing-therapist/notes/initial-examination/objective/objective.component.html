@@ -1,5 +1,5 @@
 <div class="container-fluid objective--wrapepr p-0">
-    <form [formGroup]="objectiveForm" (ngSubmit)="objectiveSubmit(objectiveForm.value)">
+    <form [formGroup]="objectiveForm">
         <div class="row">
             <div class="col-12 d-flex align-items-center flex-wrap">
                 <button mat-raised-button color="primary" class="me-3" (click)="addProtocolModal()">
@@ -2086,7 +2086,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let item of land_exercises_names">
+                                    <td> <p class="m-0 exe--txt"  matTooltip="{{item.exercises}} Info about the action">{{item.exercises}}</p> </td>
+                                </tr>
+                                <!-- <tr>
                                     <td> <p class="m-0 exe--txt"  matTooltip="SLR Info about the action">SLR</p> </td>
                                 </tr>
                                 <tr>
@@ -2100,292 +2103,56 @@
                                 </tr>
                                 <tr>
                                     <td><p class="m-0 exe--txt" matTooltip="Tandem Walking Info about the action">Tandem Walking</p></td> 
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
                     <div class="exercise--data--table">
                         <owl-carousel-o [options]="customOptions">
-                            <ng-template carouselSlide>
+                            <ng-template carouselSlide *ngFor="let element of land_exercise_grouped_list">
                                 <div>
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th colspan="5" class="text-center"> <b>01 table</b> </th>
+                                                <th colspan="5" class="text-center"> <b>{{element[0]}}</b> </th>
                                             </tr>
                                             <tr>
                                                 <th>Set</th>
                                                 <th>Reps</th>
                                                 <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
+                                                <th>Distance (feet)</th>
                                                 <th>Time</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
+                                            <tr *ngFor="let edata of element[1]; let i=index">
+                                                <td>
+                                                    <p class="m-0">{{edata.sets}}</p>
+                                                </td>
+                                                <td>
+                                                    <p class="m-0"> {{edata.reps}} </p>
+                                                </td>                                               
+                                                <td>
+                                                    <p class="m-0 setdata" matTooltip="weight {{ edata.weight_resistance === 'N/A' ? edata.weight_resistance : edata.weight_resistance + ' ' + edata.weight_resistance_unit }}">
+                                                    {{ edata.weight_resistance === 'N/A' ? edata.weight_resistance : edata.weight_resistance + ' ' + edata.weight_resistance_unit }}
+                                                    </p>                                             
+                                                </td>                                                
+                                                <td>
+                                                    <p class="m-0"> {{edata.distance}} </p>                                                   
+                                                </td>                                                
+                                                <td>
+   
+                                                    <p class="m-0 setdata" matTooltip="weight {{ edata.exercise_time === 'N/A' ? edata.exercise_time : edata.exercise_time + ' ' + edata.exercise_time_mints }}">
+                                                        {{ edata.weight_resistance === 'N/A' ? edata.weight_resistance : edata.weight_resistance + ' ' + edata.weight_resistance_unit }}
+                                                        </p>   
+                                                </td>
                                             </tr>
+
+                                            <!-- <tr *ngIf="element[1].length!=land_exercises_names.length" > -->
                                         </tbody>
                                     </table>
                                 </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>02 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>03 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>04 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>05 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>06 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>07 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>08 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>09 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>10 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
+                            </ng-template>                           
                         </owl-carousel-o>
                     </div>
                 </div>
@@ -2409,314 +2176,65 @@
                                     <th>Exercise</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td> <p class="m-0 exe--txt"  matTooltip="SLR Info about the action">SLR</p> </td>
-                                </tr>
-                                <tr>
-                                    <td><p class="m-0 exe--txt" matTooltip="Squats Info about the action">Squats</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p class="m-0 exe--txt" matTooltip="Exercise 1 Info about the action">Exercise 1</p></td> 
-                                </tr>
-                                <tr>
-                                    <td><p class="m-0 exe--txt" matTooltip="Exercise 2 Info about the action">Exercise 2</p></td> 
-                                </tr>
-                                <tr>
-                                    <td><p class="m-0 exe--txt" matTooltip="Tandem Walking Info about the action">Tandem Walking</p></td> 
-                                </tr>
+                            <tbody>        
+                                <tr *ngFor="let item of aquatic_exercise_list">
+                                    <td> <p class="m-0 exe--txt"  matTooltip="{{item.exercises}} Info about the action">{{item.exercises}}</p> </td>
+                                </tr> 
                             </tbody>
                         </table>
                     </div>
                     <div class="exercise--data--table">
                         <owl-carousel-o [options]="customOptions">
-                            <ng-template carouselSlide>
+                            <ng-template carouselSlide *ngFor="let element of aquatic_exercise_grouped_list">
                                 <div>
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th colspan="5" class="text-center"> <b>01 table</b> </th>
+                                                <th colspan="5" class="text-center"> <b>{{element[0]}}</b> </th>
                                             </tr>
                                             <tr>
                                                 <th>Set</th>
                                                 <th>Reps</th>
                                                 <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
+                                                <th>Distance (feet)</th>
                                                 <th>Time</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
+                                            <tr *ngFor="let edata of element[1]; let i=index">
+                                                <td>
+                                                    <p class="m-0">{{edata.sets}}</p>
+                                                </td>
+                                                <td>
+                                                    <p class="m-0"> {{edata.reps}} </p>
+                                                </td>                                               
+                                                <td>
+                                                    <p class="m-0 setdata" matTooltip="weight {{ edata.weight_resistance === 'N/A' ? edata.weight_resistance : edata.weight_resistance + ' ' + edata.weight_resistance_unit }}">
+                                                    {{ edata.weight_resistance === 'N/A' ? edata.weight_resistance : edata.weight_resistance + ' ' + edata.weight_resistance_unit }}
+                                                    </p>                                             
+                                                </td>                                                
+                                                <td>
+                                                    <p class="m-0"> {{edata.distance}} </p>                                                   
+                                                </td>                                                
+                                                <td>
+                                                    <p class="m-0 setdata" matTooltip="weight {{ edata.exercise_time === 'N/A' ? edata.exercise_time : edata.exercise_time + ' ' + edata.exercise_time_mints }}">
+                                                        {{ edata.weight_resistance === 'N/A' ? edata.weight_resistance : edata.weight_resistance + ' ' + edata.weight_resistance_unit }}
+                                                    </p>   
+                                                </td>
                                             </tr>
+
+                                            <!-- <tr *ngIf="element[1].length!=land_exercises_names.length" > -->
                                         </tbody>
                                     </table>
                                 </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>02 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>03 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>04 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>05 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>06 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>07 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>08 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>09 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
-                            <ng-template carouselSlide>
-                                <div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center"> <b>10 table</b> </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Reps</th>
-                                                <th>Weight</th>
-                                                <th>Distance <br>
-                                                    (feet)</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let edata of edatatable">
-                                                <td><p class="m-0"> {{edata.set}} </p> </td>
-                                                <td><p class="m-0"> {{edata.reps}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="weight 100 kg" > {{edata.weight}} </p></td>
-                                                <td><p class="m-0"> {{edata.distance}} </p></td>
-                                                <td><p class="m-0 setdata" matTooltip="time 800 sec"> {{edata.time}} </p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </ng-template>
+                            </ng-template>  
                         </owl-carousel-o>
                     </div>
                 </div>
             </div>
         </div>
         <div class="d-flex align-items-center justify-content-end  notes--footer--btns">
-            <button mat-raised-button color="primary" class="m-1" type="submit">
+            <button mat-raised-button color="primary" class="m-1"  (click)="objectiveSubmit(objectiveForm.value)">
                 Save as Draft
             </button>
         </div>

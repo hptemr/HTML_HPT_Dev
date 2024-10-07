@@ -12,6 +12,17 @@ import { PreviewModalComponent } from 'src/app/shared/comman/preview-modal/previ
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
 import { ProtocolModalComponent } from '../protocol-modal/protocol-modal.component';
 import { DatePipe } from '@angular/common';
+type Exercise = {
+  exercises: string;
+  sets: string;
+  reps: string;
+  weight_resistance: number | string;
+  weight_resistance_unit: string;
+  distance: number | string;
+  exercise_time: number | string;
+  exercise_time_mints: string;
+  createdBy: string;
+};
 @Component({
   selector: 'app-objective', 
   templateUrl: './objective.component.html',
@@ -19,38 +30,19 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class ObjectiveComponent {
+
+
   isDisabled = true;
   selectedValue = '0';  
   clickedIndex = 0; 
   clickedIndexLefs = 0;
-  clickedIndex1 = 0; 
-  clickedIndex2 = 0;
-  clickedIndex3 = 0;
-  clickedIndex4 = 0;
-  clickedIndex5 = 0;
-  clickedIndex6 = 0;
-  clickedIndex7 = 0;
-  clickedIndex8 = 0;
-  clickedIndex9 = 0;
-  clickedIndex10 = 0; 
-  clickedIndex11 =0;
-  clickedIndex12 = 0;
-  clickedIndex13 = 0;
-  clickedIndex14 = 0;
-  clickedIndex15 = 0;
-  clickedIndex16 = 0;
-  clickedIndex17 = 0;
-  clickedIndex18 = 0;
-  clickedIndex19 = 0; 
-  clickedIndex20 = 0;
-  clickedIndex21 = 0;
-  clickedIndex22 = 0;
-  clickedIndex23 = 0;
-  clickedIndex24 = 0;
-  clickedIndex25 = 0;
-  clickedIndex26 = 0;
-  clickedIndex27 = 0;
-  clickedIndex28 = 0;
+  clickedIndexs:any =[]
+  land_exercise_list:any =[]
+  land_exercise_grouped_list:any =[]
+  land_exercises_names:any =[]
+  aquatic_exercises_names:any =[]
+  aquatic_exercise_list:any =[]
+  aquatic_exercise_grouped_list:any =[]
   tabs = [
     {number: '1'}, {number: '2'}, {number: '3'},
     {number: '4'}, {number: '5'}, {number: '6'},
@@ -278,7 +270,8 @@ export class ObjectiveComponent {
     this.onFlagChange();
     this.getObjectiveRecord();
   }
-  
+
+
   getObjectiveRecord(){
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
@@ -288,8 +281,124 @@ export class ObjectiveComponent {
       if(response.data && response.data.objectiveData){
         objectiveData = response.data.objectiveData;
         this.objectiveId = objectiveData._id;
+        this.land_exercise_list = objectiveData.land_exercise;
+        this.aquatic_exercise_list = objectiveData.aquatic_exercise;
+        
+        const groupedExercisesNames:any = [];
+        this.land_exercise_list.forEach((element:any,index:number) => {
+          if(element.exercise_date){
+            const exists = groupedExercisesNames.some((e: any) => e.exercises === element.exercises);
+            if (!exists) {
+              groupedExercisesNames.push({exercises: element.exercises});
+            }
+          }
+        });
+        this.land_exercises_names = groupedExercisesNames;
 
+        const groupedExercises:any = {};
+        this.land_exercise_list.forEach((element:any,index:number) => {
+            if(element.exercise_date) {
+              const excersize_date = this.formatDate(element.exercise_date);
+                    if(!groupedExercises[excersize_date]){
+                        groupedExercises[excersize_date] = [];
+                    }
+                    groupedExercises[excersize_date].push({
+                      exercises: element.exercises,
+                      sets: element.sets,
+                      reps: element.reps,
+                      weight_resistance: element.weight_resistance,
+                      weight_resistance_unit: element.weight_resistance_unit,
+                      distance: element.distance,
+                      exercise_time: element.exercise_time,
+                      exercise_time_mints: element.exercise_time_mints,
+                      createdBy: element.createdBy
+                    });                     
+            }          
+        });        
+       
+         //let land_exercise_grouped_list = Object.entries(groupedExercises); 
+      
+          Object.keys(groupedExercises).forEach(date => {
+              groupedExercisesNames.forEach((item: { exercises: string; }) => {
+                  if (!this.exerciseExists(item.exercises, groupedExercises[date])) {
+                      groupedExercises[date].push({
+                          exercises: item.exercises,
+                          sets: "N/A",
+                          reps: "N/A",
+                          weight_resistance: "N/A",
+                          weight_resistance_unit: "N/A",
+                          distance: "N/A",
+                          exercise_time: "N/A",
+                          exercise_time_mints: "N/A",
+                          createdBy: "N/A"
+                      });
+                  }
+              });
+          });
+
+          const reorderedArray = this.reorderExercises(groupedExercises, groupedExercisesNames);
+          this.land_exercise_grouped_list = Object.entries(reorderedArray); 
+          console.log('groupedExercises 111 >>>>',this.land_exercise_grouped_list)
+
+
+
+
+          const groupedAquaticExercisesNames:any = [];
+          this.aquatic_exercise_list.forEach((element:any,index:number) => {
+            if(element.exercise_date){
+              const exists = groupedAquaticExercisesNames.some((e: any) => e.exercises === element.exercises);
+              if (!exists) {
+                groupedAquaticExercisesNames.push({exercises: element.exercises});
+              }
+            }
+          });
+  
+          this.aquatic_exercises_names = groupedAquaticExercisesNames;
+      
+          const aquaticGroupedExercises:any = {};
+          this.aquatic_exercise_list.forEach((element:any,index:number) => {
+              if(element.exercise_date) {
+                const excersize_date = this.formatDate(element.exercise_date);
+                      if(!aquaticGroupedExercises[excersize_date]){
+                        aquaticGroupedExercises[excersize_date] = [];
+                      }
+                      aquaticGroupedExercises[excersize_date].push({
+                        exercises: element.exercises,
+                        sets: element.sets,
+                        reps: element.reps,
+                        weight_resistance: element.weight_resistance,
+                        weight_resistance_unit: element.weight_resistance_unit,
+                        distance: element.distance,
+                        exercise_time: element.exercise_time,
+                        exercise_time_mints: element.exercise_time_mints,
+                        createdBy: element.createdBy
+                      });                     
+              }          
+          }); 
+
+          Object.keys(aquaticGroupedExercises).forEach(date => {
+            groupedAquaticExercisesNames.forEach((item: { exercises: string; }) => {
+                if (!this.exerciseExists(item.exercises, aquaticGroupedExercises[date])) {
+                  aquaticGroupedExercises[date].push({
+                        exercises: item.exercises,
+                        sets: "N/A",
+                        reps: "N/A",
+                        weight_resistance: "N/A",
+                        weight_resistance_unit: "N/A",
+                        distance: "N/A",
+                        exercise_time: "N/A",
+                        exercise_time_mints: "N/A",
+                        createdBy: "N/A"
+                    });
+                }
+            });
+        });
+
+        const aquaticReorderedArray = this.reorderExercises(aquaticGroupedExercises, groupedAquaticExercisesNames);
+        this.aquatic_exercise_grouped_list = Object.entries(aquaticReorderedArray); 
+        //console.log('aquatic grouped Exercises 222 >>>>',this.aquatic_exercise_grouped_list)
       }
+
       if(response.data && response.data.appointmentDatesList){
         this.appointment_dates = response.data.appointmentDatesList       
       }
@@ -302,6 +411,31 @@ export class ObjectiveComponent {
       
     })
   }
+  
+   reorderExercises(data: any, order: any) {
+    const orderedData: any = {};
+
+    for (const date in data) {
+        orderedData[date] = order.map((nameObj: { exercises: string }) => {
+            return data[date].find((exercise: { exercises: string }) => exercise.exercises === nameObj.exercises) || null;
+        }).filter((exercise: null) => exercise !== null); 
+    }
+
+    return orderedData;
+};
+
+
+   exerciseExists(exercise:string, array:any) {
+    return array.some((item: { exercises: string; }) => item.exercises === exercise);
+  }
+
+   formatDate(dateString:any) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed in JS
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+}
 
   loadForm(objectiveData:any,subjectiveData:any,appointment_data:any){
       this.objectiveForm.controls['patient_consent'].setValue(objectiveData?.patient_consent);
@@ -474,7 +608,7 @@ export class ObjectiveComponent {
       const mockEvent = { target: { value: objectiveData.outcome_measures?.name ? objectiveData.outcome_measures?.name : '' } }; 
       this.outcomeMeasuresChange(mockEvent)
   }
-  clickedIndexs:any =[]
+
   painRate(id:string,val:number,i: any) {
     //this.clickedIndex = i;
     //this.clickedIndex1
@@ -487,9 +621,9 @@ export class ObjectiveComponent {
 
   outcomeMeasuresChange(e:any) {
     const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
-    console.log('Name value >>>>',outcome_measures_group.get('name')?.value)
+    //console.log('Name value >>>>',outcome_measures_group.get('name')?.value)
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
-      console.log('HERE 1 Neck Disability Index');
+      //console.log('HERE 1 Neck Disability Index');
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
       outcome_measures_group.get('pain_intensity')?.setValue(null)
       outcome_measures_group.get('personal_care')?.setValue(null)
@@ -505,7 +639,7 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='QuickDASH'){
-      console.log('HERE 2 QuickDASH');
+      //console.log('HERE 2 QuickDASH');
       outcome_measures_group.get('quick_dash_question1')?.setValue(null)
       outcome_measures_group.get('quick_dash_question2')?.setValue(null)
       outcome_measures_group.get('quick_dash_question3')?.setValue(null)
@@ -521,7 +655,7 @@ export class ObjectiveComponent {
     }
     
     if(outcome_measures_group.get('name')?.value!='Oswestry LBP'){
-      console.log('HERE 3 Oswestry ');
+      //console.log('HERE 3 Oswestry ');
       outcome_measures_group.get('oswestry_pain_intensity')?.setValue(null) 
       outcome_measures_group.get('oswestry_standing')?.setValue(null) 
       outcome_measures_group.get('oswestry_personal_care')?.setValue(null) 
@@ -535,7 +669,7 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='Lower Extremity Functional Scales (LEFS)'){
-      console.log('HERE 3 Lower Extremity Functional Scales (LEFS) ');
+      //console.log('HERE 3 Lower Extremity Functional Scales (LEFS) ');
       outcome_measures_group.get('lefs_question1')?.setValue(null) 
       outcome_measures_group.get('lefs_question2')?.setValue(null) 
       outcome_measures_group.get('lefs_question3')?.setValue(null) 
@@ -560,7 +694,7 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='FABQ'){
-      console.log('HERE 4 FABQ');
+      //console.log('HERE 4 FABQ');
       outcome_measures_group.get('fabq_1_rate_your_pain')?.setValue(null) 
       outcome_measures_group.get('fabq_2_rate_your_pain')?.setValue(null) 
       outcome_measures_group.get('fabq_3_rate_your_pain')?.setValue(null)
@@ -581,7 +715,7 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='EAT-10'){
-      console.log('HERE 5 EAT-10');
+      //console.log('HERE 5 EAT-10');
       outcome_measures_group.get('eat_1_rate_your_pain')?.setValue(null) 
       outcome_measures_group.get('eat_2_rate_your_pain')?.setValue(null) 
       outcome_measures_group.get('eat_3_rate_your_pain')?.setValue(null)
@@ -596,7 +730,7 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='mCTSIB'){
-      console.log('HERE 6 mCTSIB');
+      //console.log('HERE 6 mCTSIB');
       outcome_measures_group.get('mctsib_condition1_1')?.setValue(null) 
       outcome_measures_group.get('mctsib_condition1_2')?.setValue(null) 
       outcome_measures_group.get('mctsib_condition1_3')?.setValue(null)
@@ -613,7 +747,7 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='30 sec STS'){
-      console.log('HERE 7 30 sec STS');
+     // console.log('HERE 7 30 sec STS');
       outcome_measures_group.get('sts_number')?.setValue(null)
       outcome_measures_group.get('sts_score')?.setValue(null) 
     }       
@@ -683,9 +817,6 @@ export class ObjectiveComponent {
     this.onFlagChange();
   }
 
-
-
-
   addProtocolModal() {
      const dialogRef = this.dialog.open(ProtocolModalComponent,{
       panelClass: [ 'custom-alert-container','modal--wrapper'],
@@ -724,8 +855,9 @@ export class ObjectiveComponent {
        }
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log('result>>>',result)
       if (result) {
-        this.selectedProtocols = result
+        this.getObjectiveRecord();
       } else {
         console.log('Modal closed without saving data.');
       }
