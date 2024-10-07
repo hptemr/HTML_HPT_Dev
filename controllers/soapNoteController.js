@@ -200,23 +200,51 @@ const submitObjective = async (req, res) => {
 
     let objective_data = await ObjectiveModel.findOne(query);
    
-    console.log(type,'objective_data>>>>',objective_data)
     let message = '';
     if (objective_data) {
       await ObjectiveModel.findOneAndUpdate(query, data);
-      if(type=='objective'){
-        message = soapMessage.updateObjective;
-      }else{
-        message = soapMessage.upadteExercise;
-      }            
+      message = soapMessage.updateObjective;
     } else {
-      console.log(' ***************** ',data)
       await ObjectiveModel.create(data)
-      if(type=='objective'){
-        message = soapMessage.addObjective;
-      }else{
-        message = soapMessage.addExercise;
-      }      
+      message = soapMessage.addObjective;
+    }
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log(' ***************** ',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const submitObjectiveExercise = async (req, res) => {
+  try {
+    const { data, query, exerciseType, userId, type } = req.body;
+    let objective_exercise_data = await ObjectiveModel.findOne(query);
+
+    let message = '';
+    if(objective_exercise_data){
+      if(exerciseType=='Land Flowsheet'){
+        objective_exercise_data.land_exercise.push(data);
+      }else if(exerciseType=='Aquatic Flowsheet'){      
+        objective_exercise_data.aquatic_exercise.push(data);
+      }
+      await ObjectiveModel.findOneAndUpdate(query, objective_exercise_data);
+      message = soapMessage.upadteExercise;
+    } else {
+      let insert_data = {
+        appointmentId:query.appointmentId,
+        soap_note_type:data.soap_note_type,
+        createdBy:data.createdBy,
+      }
+
+      if(exerciseType=='Land Flowsheet'){
+        Object.assign(insert_data, { land_exercise: data })
+      }else if(exerciseType=='Aquatic Flowsheet'){      
+        Object.assign(insert_data, { aquatic_exercise: data })
+      }
+
+      //console.log(' ***************** ',insert_data)
+      await ObjectiveModel.create(insert_data)
+      message = soapMessage.addExercise;
     }
     commonHelper.sendResponse(res, 'success', {}, message);
   } catch (error) {
@@ -317,6 +345,7 @@ module.exports = {
   submitSubjective,
   getObjectiveData,
   submitObjective,
+  submitObjectiveExercise,
   getSubjectiveData,
   submitAssessment,
   getAssessment,
