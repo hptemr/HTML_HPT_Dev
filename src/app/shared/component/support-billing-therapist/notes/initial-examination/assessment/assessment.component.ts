@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
+import { defaultAssessmentText, defaultSupportDocText } from 'src/app/config';
 
 @Component({
   selector: 'app-assessment',
@@ -24,8 +25,8 @@ export class AssessmentComponent {
   public userRole: string;
   assessmentForm: FormGroup;
   patient_name: string = ''
-  assessment_text: string = "Thank you for referring *patient name* to our practice, *patient name* received  an initial evaluation and treatment today *todays date*. As per your referral, we will see *patient name* ___ times per week for ___ weeks with a focus on *first 3 treatments to be added*. I will update you on *patient name* progress as appropriate, thank you for the opportunity to assist with their rehabilitation.";
-  supporting_documentation_text: string = "1. Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities. =Neuromuscular Re-Education, 97112 \n 2.Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's= Therapeutic Activity, 97530 \n 3. Patient is unable to complete physical therapy on land. = Aquatic Exercise, 97113 \n 4. Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation and / or used as contrast or thermotherapy to improve circulation, modulate pain, and improve functional range of motion = Vasopneumatic Device 97016 \n 5. If any item from the DME section is selected then the following data is shown in the Supporting Documentation Page with a space between any content present above, if it is present.Text to be added: DME was issued today with instructions on wear, care, and use required for full rehabilitation potential";
+  assessment_text: string = defaultAssessmentText
+  supporting_documentation_text: string = defaultSupportDocText
   validationMessages = validationMessages;
   appointment: any = null
   assessmentData: any = []
@@ -34,8 +35,8 @@ export class AssessmentComponent {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
-  } 
-  
+  }
+
   ngOnInit() {
     this.commonService.showLoader()
     this.userId = this.authService.getLoggedInInfo('_id')
@@ -46,7 +47,8 @@ export class AssessmentComponent {
   async getAssessment() {
     let reqVars = {
       query: {
-        appointmentId: this.appointmentId
+        appointmentId: this.appointmentId,
+        soap_note_type: "initial_examination",
       },
       fields: {
         updatedAt: 0
@@ -66,10 +68,10 @@ export class AssessmentComponent {
           this.patient_name = appmtData.patientId.firstName + " " + appmtData.patientId.lastName
           this.assessment_icd = [];
           const todaydate = this.datePipe.transform(new Date(appmtData.appointmentDate), 'MM/dd/yyyy')!;
-          let assessment_text = this.assessment_text.replace('*patient name*', this.patient_name);
-          assessment_text = assessment_text.replace('*patient name*', this.patient_name);
-          assessment_text = assessment_text.replace('*patient name*', this.patient_name);
-          assessment_text = assessment_text.replace('*patient name*', this.patient_name);
+          let assessment_text = this.assessment_text.replace('PATIENT_NAME', this.patient_name);
+          assessment_text = assessment_text.replace('PATIENT_NAME', this.patient_name);
+          assessment_text = assessment_text.replace('PATIENT_NAME', this.patient_name);
+          assessment_text = assessment_text.replace('PATIENT_NAME', this.patient_name);
           this.assessment_text = assessment_text = assessment_text.replace('*todays date*', todaydate);
         })
       } else {
@@ -105,16 +107,19 @@ export class AssessmentComponent {
 
   //Add/Update the Assessment data for initial exam
   assessmentSubmit(formData: any) {
-    console.log("assessmentForm:",  this.assessmentForm)
     if (this.assessmentForm.invalid) {
       this.assessmentForm.markAllAsTouched();
     } else {
       this.commonService.showLoader();
+      Object.assign(formData, { soap_note_type: "initial_examination" });
       let reqVars = {
         isUpdate: this.isUpdate,
         userId: this.userId,
         data: formData,
-        appointmentId: this.appointmentId
+        query: {
+          soap_note_type: "initial_examination",
+          appointmentId: this.appointmentId
+        }
       }
       this.authService.apiRequest('post', 'soapNote/submitAssessment', reqVars).subscribe(async (response) => {
         this.commonService.hideLoader();
@@ -128,7 +133,6 @@ export class AssessmentComponent {
     }
   }
 
-
   updateText(): void {
     //this.assessment_text = this.assessment_text.split(this.placeholder).join(this.replacement);
   }
@@ -139,6 +143,7 @@ export class AssessmentComponent {
       problem: ['', Validators.required],
       long_term_goal: ['', Validators.required],
     }));
+    this.assessmentForm.controls['assessment_icd_info'].markAsUntouched();
   }
 
   get assessment_icd_info() {

@@ -36,6 +36,9 @@ export class PnSubjectiveComponent implements OnInit {
   validationMessages = validationMessages; 
   todayDate = new Date();
   appointment: any = null
+  submitted:boolean=false;
+  subjectiveId: string = '';
+
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -45,9 +48,6 @@ export class PnSubjectiveComponent implements OnInit {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
-    //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
-    //const getAppointment = this.appointmentService.getAppointment(this.appointmentId)
-    //console.log('getAppointment >>>',getAppointment)
     this.subjectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
       examin_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -70,10 +70,46 @@ export class PnSubjectiveComponent implements OnInit {
     if (this.subjectiveForm.invalid){
       this.subjectiveForm.markAllAsTouched();
     }else{
+        this.submitted = true
+        this.commonService.showLoader();       
+        let updateInfo = [];
+        updateInfo.push({
+          fromAdminId:this.userId,
+          userRole:this.userRole,
+          updatedAt:new Date()
+        });
 
+        if(this.subjectiveId){
+          Object.assign(formData, {updateInfo:updateInfo})
+        }else{
+          Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,soap_note_type:'progress_note',status:'Draft',createdBy:this.userId})
+        }
+        
+        let reqVars = {
+          userId: this.userId,
+          data: formData,
+          subjectiveId:this.subjectiveId
+        }        
+        this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
+          if (response.error) {
+            if (response.message) {
+              this.commonService.openSnackBar(response.message, "ERROR");
+            }           
+          } else {         
+            if (response.message) {
+              //this.successModal(response.message);
+              this.commonService.openSnackBar(response.message, "SUCCESS");
+            }
+          }
+          this.commonService.hideLoader();
+          setTimeout(() => {
+            this.submitted = false
+          }, 3000)
+          
+        })
     }
-    console.log('formData>>>>',formData)
   }
+
 
   onChange(event: MatRadioChange) {
     //console.log(this.selectedValue = event.value)
