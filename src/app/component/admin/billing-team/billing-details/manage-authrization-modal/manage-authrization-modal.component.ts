@@ -15,6 +15,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { regex } from '../../../../../utils/regex-patterns';
 
+export interface Authorization {
+  authorizationRequired: string;
+  authorizationToDate: string;
+  authorizationFromDate: string;
+  authorizationVisit: string;
+  authorizationNumber: string;
+  _id: string;
+  createdAt: string;
+}
 @Component({
   selector: 'app-manage-authrization-modal',
   standalone: true,
@@ -28,6 +37,8 @@ export class ManageAuthrizationModalComponent {
   caseName:any;
   authorizationManagement: FormGroup;
   authorizationFromDate:any=''
+  authManagementHistory: Authorization[] =[]
+  isAuthManagmentHistory: boolean = false
 
   constructor( 
     private commonService: CommonService,
@@ -43,11 +54,12 @@ export class ManageAuthrizationModalComponent {
     this.patientId = this.data.patientId
     this.caseName = this.data.caseName
     this.initializeAuthorizationManagementForm()
+    this.getAuthManagementHistory()
   }
 
   initializeAuthorizationManagementForm(){
     this.authorizationManagement = this.fb.group({
-      authorizationRequired: ['', [Validators.required]],
+      authorizationRequired: ['Yes', [Validators.required]],
       authorizationToDate: ['', [Validators.required]],
       authorizationFromDate: ['', [Validators.required]],
       authorizationVisit: ['', [Validators.required,Validators.pattern(regex.onlyNumeric)]],
@@ -70,14 +82,36 @@ export class ManageAuthrizationModalComponent {
         caseName : this.caseName
       }
 
-      // this.authService.apiRequest('post', 'appointment/addAuthorizationManagement', authManagementObj).subscribe(async response => {  
-      //   this.commonService.openSnackBar(response.message, "SUCCESS")
-      //   this.commonService.hideLoader(); 
-      // },(err) => {
-      //   this.commonService.hideLoader();
-      //   err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
-      // })
+      this.authService.apiRequest('post', 'appointment/addAuthorizationManagement', authManagementObj).subscribe(async response => {  
+        this.commonService.openSnackBar(response.message, "SUCCESS")
+        this.commonService.hideLoader(); 
+        this.dialogRef.close(response);
+      },(err) => {
+        this.commonService.hideLoader();
+        err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+        this.dialogRef.close();
+      })
     }
+  }
+
+  getAuthManagementHistory(){
+      this.isAuthManagmentHistory = false
+      this.commonService.showLoader();
+      let queryObj:any = {
+        patientId : this.patientId,
+        caseName : this.caseName
+      }
+
+      this.authService.apiRequest('post', 'appointment/getAuthorizationManagementDetails', queryObj).subscribe(async response => { 
+        if(response?.data && response?.data.authManagement.length){
+          this.isAuthManagmentHistory = true
+          this.authManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        }
+        this.commonService.hideLoader(); 
+      },(err) => {
+        this.commonService.hideLoader();
+        err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+      })
   }
 
 }

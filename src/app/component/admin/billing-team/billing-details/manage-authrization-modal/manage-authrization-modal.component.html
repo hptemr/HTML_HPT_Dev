@@ -79,17 +79,75 @@
             </div>
         </form>
 
-        <div class="row">
-            <div class="col-12">
-                <hr>
-            </div>
-            <div class="col-12">
-                <div class="modal--header pt-0 ps-0 w-100">
-                    <h1 class="fw-700 border-0 pb-0">Authorization History</h1>
+        <ng-container *ngIf="isAuthManagmentHistory">
+            <div class="row">
+                <div class="col-12">
+                    <hr>
+                </div>
+                <div class="col-12">
+                    <div class="modal--header pt-0 ps-0 w-100">
+                        <h1 class="fw-700 border-0 pb-0">Authorization History</h1>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
+            <div *ngFor="let auth of authManagementHistory">
+                <div class="row">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4 d-flex align-items-center">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Required</label>
+                            <mat-radio-group aria-label="Select an option" disabled>
+                                <mat-radio-button value="Yes" class="me-3" [checked]="auth.authorizationRequired=='Yes'?'true':'false'">Yes</mat-radio-button>
+                                <mat-radio-button value="No" class="me-3" [checked]="auth.authorizationRequired=='No'?'true':'false'">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Date From</label>
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input matInput [matDatepicker]="picker21" value="{{auth.authorizationFromDate}}" disabled>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker21"></mat-datepicker-toggle>
+                                <mat-datepicker #picker21></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Date To</label>
+                            <mat-form-field class="w-100 am--datepicker">
+                                <input matInput [matDatepicker]="picker4" value="{{auth.authorizationToDate}}" disabled>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                                <mat-datepicker #picker4></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600"># Visit Authorized </label>
+                            <input class="form-control text-lowercase" type="text" value="{{auth.authorizationVisit}}" disabled />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Authorization Number </label>
+                            <input class="form-control text-lowercase" type="text" value="{{auth.authorizationNumber}}" disabled />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Updated On </label>
+                            <p class="mb-0 mt-2"> <strong>{{auth.createdAt | date: 'MM/dd/yyyy'}}</strong> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <!-- <div class="row">
             <div class="col-12 col-lg-6 col-md-6 col-xl-4 d-flex align-items-center">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Authorization Required</label>
@@ -123,14 +181,12 @@
                 <div class="form-group">
                     <label class="col-form-label fw-600"># Visit Authorized </label>
                     <input class="form-control text-lowercase" type="text" value="259746" disabled />
-                    <!-- <div class="text text-danger mt-1">error</div> -->
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Authorization Number </label>
                     <input class="form-control text-lowercase" type="text" value="123456" disabled />
-                    <!-- <div class="text text-danger mt-1">error</div> -->
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 col-xl-4">
@@ -139,63 +195,7 @@
                     <p class="mb-0 mt-2"> <strong>10/08/2024</strong> </p>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <hr>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4 d-flex align-items-center">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Required</label>
-                    <mat-radio-group aria-label="Select an option" disabled>
-                        <mat-radio-button value="1" class="me-3" checked>Yes</mat-radio-button>
-                        <mat-radio-button value="2" class="me-3">No</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Date To</label>
-                    <mat-form-field class="w-100 am--datepicker">
-                        <input matInput [matDatepicker]="picker4" value="02/11/2025" disabled>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
-                        <mat-datepicker #picker4></mat-datepicker>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Date From</label>
-                    <mat-form-field class="w-100 am--datepicker">
-                        <input matInput [matDatepicker]="picker21" value="21/12/2021" disabled>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker21"></mat-datepicker-toggle>
-                        <mat-datepicker #picker21></mat-datepicker>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600"># Visit Authorized </label>
-                    <input class="form-control text-lowercase" type="text" value="259746" disabled />
-                    <!-- <div class="text text-danger mt-1">error</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Authorization Number </label>
-                    <input class="form-control text-lowercase" type="text" value="123456" disabled />
-                    <!-- <div class="text text-danger mt-1">error</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 col-xl-4">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Updated On </label>
-                    <p class="mb-0 mt-2"> <strong>10/08/2024</strong> </p>
-                </div>
-            </div>
-        </div>
+        </div> -->
 
 
     </div>

@@ -60,6 +60,7 @@ export class BillingDetailsComponent {
     private commonService:CommonService,
     private authService:AuthService,
     private fb: FormBuilder, 
+    private router:Router
   ) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -149,7 +150,6 @@ export class BillingDetailsComponent {
   }
 
   saveBillingDetails(){
-    console.log("billingDetailsForm>>>",this.billingDetailsForm.value)
     this.commonService.showLoader();
     let billingDetailsObj:any = {
       billingDetails : this.billingDetailsForm.value,
@@ -160,6 +160,7 @@ export class BillingDetailsComponent {
     this.authService.apiRequest('post', 'appointment/addBillingDetails', billingDetailsObj).subscribe(async response => {  
       this.commonService.openSnackBar(response.message, "SUCCESS")
       this.commonService.hideLoader(); 
+      this.router.navigate(['/support-team/case-details',this.appointmentId])
     },(err) => {
       this.commonService.hideLoader();
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
@@ -302,6 +303,8 @@ export class BillingDetailsComponent {
         caseName : this.caseName
       }
     });
+
+    // dialogRef.afterClosed().subscribe(async result => {});
   }
 
   // ==== Other supported functions =====
