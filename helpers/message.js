@@ -81,7 +81,8 @@ const messages = {
         upadteExercise: 'Exercise has been updated successfully',
     },
     billingMessage:{
-        addDetails:"Billing details added successfully"
+        addDetails:"Billing details added successfully",
+        authManagement:"Authorization Management details added successfully"
     }
 };
 

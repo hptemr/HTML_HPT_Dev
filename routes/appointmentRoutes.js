@@ -21,4 +21,7 @@ router.post('/getDoctorList', appointmentController.getDoctorList);
 router.post('/getCaseList', appointmentController.getCaseList);
 router.post('/addBillingDetails', appointmentController.addBillingDetails);
 router.post('/getBillingDetails', appointmentController.getBillingDetails);
+router.post('/addAuthorizationManagement', appointmentController.addAuthorizationManagement);
+router.post('/getAuthorizationManagementDetails', appointmentController.getAuthorizationManagementDetails);
+
 module.exports = router;
