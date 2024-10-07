@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from '../../../../../../utils/validation-messages';
 import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PreviewModalComponent } from 'src/app/shared/comman/preview-modal/preview-modal.component';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
@@ -138,7 +138,8 @@ export class ObjectiveComponent {
   objectiveId:string='';
   surgery_date:any=''
   surgery_type:string=''
-
+  @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
+  //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
   // searchDirectory:string=''
   // directoryItmList:any =[];
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
@@ -151,7 +152,7 @@ export class ObjectiveComponent {
     this.objectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
       protocols:[''],
-      precautions:['Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23',[Validators.required]],
+      precautions:['',[Validators.required]],
       patient_consent: ['', [Validators.required]],
       chaperone : this.fb.group({
         flag: ['No', [Validators.required]],  // Default value for the flag
@@ -203,6 +204,7 @@ export class ObjectiveComponent {
         oswestry_traveling: [''], 
         oswestry_sitting: [''], 
         oswestry_employment_homemaking: [''],
+        lefs_rate_your_pain: [''],
         lefs_question1: [''],
         lefs_question2: [''],
         lefs_question3: [''],
@@ -269,23 +271,12 @@ export class ObjectiveComponent {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
     }
     this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
+      let subjectiveData: never[] = []; let objectiveData = [];
       if(response.data && response.data.objectiveData){
-        let objectiveData = response.data.objectiveData;
+        objectiveData = response.data.objectiveData;
         this.objectiveId = objectiveData._id;
-        // this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
-        // this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
-        // this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
-        // this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
-        // this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note);
-      }
-   
-      if(response.data && response.data.subjectiveData){
-        let subjectiveData = response.data.subjectiveData;
-        this.surgery_type = subjectiveData.surgery_type;
-        this.surgery_date = this.datePipe.transform(subjectiveData.surgery_date, 'MMMM d');
-        this.objectiveForm.controls['precautions'].setValue('Date of Surgery: '+this.surgery_date+'  ('+this.surgery_type+')');
-      }
 
+      }
       if(response.data && response.data.appointmentDatesList){
         this.appointment_dates = response.data.appointmentDatesList       
       }
@@ -293,16 +284,213 @@ export class ObjectiveComponent {
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData    
       }       
+
+      this.loadForm(objectiveData,subjectiveData,this.appointment_data);
       
     })
   }
 
-  painRate(id:string,i: any) {
-    this.clickedIndex = i;
-    console.log('id >>> ',id,' ......i>>>>',i)
-    this.objectiveForm.controls[id].setValue(i)
+  loadForm(objectiveData:any,subjectiveData:any,appointment_data:any){
+      this.objectiveForm.controls['patient_consent'].setValue(objectiveData?.patient_consent);
+      this.objectiveForm.controls['precautions'].setValue(objectiveData?.precautions);
+      if((!objectiveData.precautions || objectiveData.precautions=='') && subjectiveData && subjectiveData.length>0){
+        this.surgery_type = subjectiveData.surgery_type;
+        this.surgery_date = this.datePipe.transform(subjectiveData.surgery_date, 'MMMM d');
+        this.objectiveForm.controls['precautions'].setValue('Date of Surgery: '+this.surgery_date+'  ('+this.surgery_type+')');
+      }
+      if(objectiveData.chaperone && objectiveData.chaperone[0].flag){
+        const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
+        const flagControl = chaperoneGroup.get('flag');
+        const nameControl = chaperoneGroup.get('name');
+        nameControl?.setValue(objectiveData.chaperone[0].name);
+        flagControl?.setValue(objectiveData.chaperone[0].flag);
+        const mockEvent6: MatRadioChange = { value: objectiveData.chaperone[0].flag, source: this.radioButton! }; 
+        this.chaperoneRadio(mockEvent6);
+      }      
+      this.objectiveForm.controls['observation'].setValue(objectiveData.observation);
+      this.objectiveForm.controls['range_of_motion'].setValue(objectiveData.range_of_motion);
+      this.objectiveForm.controls['strength'].setValue(objectiveData.strength);
+      this.objectiveForm.controls['neurological'].setValue(objectiveData.neurological);
+      this.objectiveForm.controls['special_test'].setValue(objectiveData.special_test);
+      this.objectiveForm.controls['palpation'].setValue(objectiveData.palpation);
+      this.objectiveForm.controls['slp'].setValue(objectiveData.slp);
+      this.objectiveForm.controls['ot'].setValue(objectiveData.ot);
+      this.objectiveForm.controls['treatment_provided'].setValue(objectiveData.treatment_provided);  
+
+      const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+      outcome_measures_group.get('name')?.setValue(objectiveData.outcome_measures?.name ? objectiveData.outcome_measures?.name : '')
+      outcome_measures_group.get('neck_rate_your_pain')?.setValue(objectiveData.outcome_measures?.neck_rate_your_pain ? objectiveData.outcome_measures.neck_rate_your_pain : null)
+      if(objectiveData.outcome_measures && objectiveData.outcome_measures.neck_rate_your_pain){
+        this.painRate('neck_rate_your_pain',0,objectiveData.outcome_measures.neck_rate_your_pain)
+        this.clickedIndex = objectiveData.outcome_measures.neck_rate_your_pain;
+      }
+      outcome_measures_group.get('pain_intensity')?.setValue(objectiveData.outcome_measures?.pain_intensity ? objectiveData.outcome_measures.pain_intensity : null)
+      outcome_measures_group.get('personal_care')?.setValue(objectiveData.outcome_measures?.personal_care)
+      outcome_measures_group.get('lifting')?.setValue(objectiveData.outcome_measures?.lifting)
+      outcome_measures_group.get('headache')?.setValue(objectiveData.outcome_measures?.headache)
+      outcome_measures_group.get('recreation')?.setValue(objectiveData.outcome_measures?.recreation)
+      outcome_measures_group.get('reading')?.setValue(objectiveData.outcome_measures?.reading)
+      outcome_measures_group.get('work')?.setValue(objectiveData.outcome_measures?.work)
+      outcome_measures_group.get('sleeping')?.setValue(objectiveData.outcome_measures?.sleeping)
+      outcome_measures_group.get('concentration')?.setValue(objectiveData.outcome_measures?.concentration)
+      outcome_measures_group.get('driving')?.setValue(objectiveData.outcome_measures?.driving)
+      outcome_measures_group.get('score')?.setValue(objectiveData.outcome_measures?.score)
+
+      outcome_measures_group.get('quick_dash_question1')?.setValue(objectiveData.outcome_measures?.quick_dash_question1)
+      outcome_measures_group.get('quick_dash_question2')?.setValue(objectiveData.outcome_measures?.quick_dash_question2)
+      outcome_measures_group.get('quick_dash_question3')?.setValue(objectiveData.outcome_measures?.quick_dash_question3)
+      outcome_measures_group.get('quick_dash_question4')?.setValue(objectiveData.outcome_measures?.quick_dash_question4)
+      outcome_measures_group.get('quick_dash_question5')?.setValue(objectiveData.outcome_measures?.quick_dash_question5)
+      outcome_measures_group.get('quick_dash_question6')?.setValue(objectiveData.outcome_measures?.quick_dash_question6)
+      outcome_measures_group.get('quick_dash_question7')?.setValue(objectiveData.outcome_measures?.quick_dash_question7)
+      outcome_measures_group.get('quick_dash_question8')?.setValue(objectiveData.outcome_measures?.quick_dash_question8)
+      outcome_measures_group.get('quick_dash_question9')?.setValue(objectiveData.outcome_measures?.quick_dash_question9)
+      outcome_measures_group.get('quick_dash_question10')?.setValue(objectiveData.outcome_measures?.quick_dash_question10)
+      outcome_measures_group.get('quick_dash_question11')?.setValue(objectiveData.outcome_measures?.quick_dash_question11)
+      outcome_measures_group.get('quick_dash_score')?.setValue(objectiveData.outcome_measures?.quick_dash_score)
+
+      outcome_measures_group.get('oswestry_pain_intensity')?.setValue(objectiveData.outcome_measures?.oswestry_pain_intensity) 
+      outcome_measures_group.get('oswestry_standing')?.setValue(objectiveData.outcome_measures?.oswestry_standing) 
+      outcome_measures_group.get('oswestry_personal_care')?.setValue(objectiveData.outcome_measures?.oswestry_personal_care) 
+      outcome_measures_group.get('oswestry_sleeping')?.setValue(objectiveData.outcome_measures?.oswestry_sleeping) 
+      outcome_measures_group.get('oswestry_lifting')?.setValue(objectiveData.outcome_measures?.oswestry_lifting) 
+      outcome_measures_group.get('oswestry_social_life')?.setValue(objectiveData.outcome_measures?.oswestry_social_life) 
+      outcome_measures_group.get('oswestry_walking')?.setValue(objectiveData.outcome_measures?.oswestry_walking) 
+      outcome_measures_group.get('oswestry_traveling')?.setValue(objectiveData.outcome_measures?.oswestry_traveling) 
+      outcome_measures_group.get('oswestry_sitting')?.setValue(objectiveData.outcome_measures?.oswestry_sitting) 
+      outcome_measures_group.get('oswestry_employment_homemaking')?.setValue(objectiveData.outcome_measures?.oswestry_employment_homemaking)
+
+      outcome_measures_group.get('lefs_rate_your_pain')?.setValue(objectiveData.outcome_measures?.lefs_rate_your_pain ? objectiveData.outcome_measures.lefs_rate_your_pain : null)
+      outcome_measures_group.get('lefs_question1')?.setValue(objectiveData.outcome_measures?.lefs_question1) 
+      outcome_measures_group.get('lefs_question2')?.setValue(objectiveData.outcome_measures?.lefs_question2) 
+      outcome_measures_group.get('lefs_question3')?.setValue(objectiveData.outcome_measures?.lefs_question3) 
+      outcome_measures_group.get('lefs_question4')?.setValue(objectiveData.outcome_measures?.lefs_question4) 
+      outcome_measures_group.get('lefs_question5')?.setValue(objectiveData.outcome_measures?.lefs_question5) 
+      outcome_measures_group.get('lefs_question6')?.setValue(objectiveData.outcome_measures?.lefs_question6) 
+      outcome_measures_group.get('lefs_question7')?.setValue(objectiveData.outcome_measures?.lefs_question7) 
+      outcome_measures_group.get('lefs_question8')?.setValue(objectiveData.outcome_measures?.lefs_question8) 
+      outcome_measures_group.get('lefs_question9')?.setValue(objectiveData.outcome_measures?.lefs_question9) 
+      outcome_measures_group.get('lefs_question10')?.setValue(objectiveData.outcome_measures?.lefs_question10)
+      outcome_measures_group.get('lefs_question11')?.setValue(objectiveData.outcome_measures?.lefs_question11) 
+      outcome_measures_group.get('lefs_question12')?.setValue(objectiveData.outcome_measures?.lefs_question12) 
+      outcome_measures_group.get('lefs_question13')?.setValue(objectiveData.outcome_measures?.lefs_question13) 
+      outcome_measures_group.get('lefs_question14')?.setValue(objectiveData.outcome_measures?.lefs_question14) 
+      outcome_measures_group.get('lefs_question15')?.setValue(objectiveData.outcome_measures?.lefs_question15) 
+      outcome_measures_group.get('lefs_question16')?.setValue(objectiveData.outcome_measures?.lefs_question16) 
+      outcome_measures_group.get('lefs_question17')?.setValue(objectiveData.outcome_measures?.lefs_question17) 
+      outcome_measures_group.get('lefs_question18')?.setValue(objectiveData.outcome_measures?.lefs_question18) 
+      outcome_measures_group.get('lefs_question19')?.setValue(objectiveData.outcome_measures?.lefs_question19) 
+      outcome_measures_group.get('lefs_question20')?.setValue(objectiveData.outcome_measures?.lefs_question20)
+      outcome_measures_group.get('lefs_score')?.setValue(objectiveData.outcome_measures?.lefs_score)
+
+      outcome_measures_group.get('fabq_1_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_1_rate_your_pain) 
+      outcome_measures_group.get('fabq_2_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_2_rate_your_pain) 
+      outcome_measures_group.get('fabq_3_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_3_rate_your_pain) 
+      outcome_measures_group.get('fabq_4_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_4_rate_your_pain) 
+      outcome_measures_group.get('fabq_5_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_5_rate_your_pain) 
+      outcome_measures_group.get('fabq_6_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_6_rate_your_pain) 
+      outcome_measures_group.get('fabq_7_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_7_rate_your_pain) 
+      outcome_measures_group.get('fabq_8_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_8_rate_your_pain) 
+      outcome_measures_group.get('fabq_9_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_9_rate_your_pain) 
+      outcome_measures_group.get('fabq_10_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_10_rate_your_pain)
+      outcome_measures_group.get('fabq_11_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_11_rate_your_pain) 
+      outcome_measures_group.get('fabq_12_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_12_rate_your_pain) 
+      outcome_measures_group.get('fabq_13_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_13_rate_your_pain) 
+      outcome_measures_group.get('fabq_14_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_14_rate_your_pain) 
+      outcome_measures_group.get('fabq_15_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_15_rate_your_pain) 
+      outcome_measures_group.get('fabq_16_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_16_rate_your_pain) 
+      outcome_measures_group.get('fabq_score')?.setValue(objectiveData.outcome_measures?.fabq_score);
+
+      const mockEvent = { target: { value: objectiveData.outcome_measures?.name ? objectiveData.outcome_measures?.name : '' } }; 
+      this.outcomeMeasuresChange(mockEvent)
+  }
+  clickedIndexs:any =[]
+  painRate(id:string,val:number,i: any) {
+    //this.clickedIndex = i;
+    //this.clickedIndex1
+    this.clickedIndexs[val] = i;
+    const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+    //console.log('id >>> ',id,' ......i>>>>',i)
+    outcome_measures_group.get(id)?.setValue(i)
+    //this.objectiveForm.controls[id].setValue(i)
   }
 
+  outcomeMeasuresChange(e:any) {
+    const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+    console.log('Name value >>>>',outcome_measures_group.get('name')?.value)
+    if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
+      console.log('HERE 1 Neck Disability Index');
+      outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
+      outcome_measures_group.get('pain_intensity')?.setValue(null)
+      outcome_measures_group.get('personal_care')?.setValue(null)
+      outcome_measures_group.get('lifting')?.setValue(null)
+      outcome_measures_group.get('headache')?.setValue(null)
+      outcome_measures_group.get('recreation')?.setValue(null)
+      outcome_measures_group.get('reading')?.setValue(null)
+      outcome_measures_group.get('work')?.setValue(null)
+      outcome_measures_group.get('sleeping')?.setValue(null)
+      outcome_measures_group.get('concentration')?.setValue(null)
+      outcome_measures_group.get('driving')?.setValue(null)
+      outcome_measures_group.get('score')?.setValue(null)
+    }
+
+    if(outcome_measures_group.get('name')?.value!='QuickDASH'){
+      console.log('HERE 2 QuickDASH');
+      outcome_measures_group.get('quick_dash_question1')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question2')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question3')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question4')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question5')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question6')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question7')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question8')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question9')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question10')?.setValue(null)
+      outcome_measures_group.get('quick_dash_question11')?.setValue(null)
+      outcome_measures_group.get('quick_dash_score')?.setValue(null)
+    }
+
+    
+    if(outcome_measures_group.get('name')?.value!='Oswestry LBP'){
+      console.log('HERE 3 Oswestry ');
+      outcome_measures_group.get('oswestry_pain_intensity')?.setValue(null) 
+      outcome_measures_group.get('oswestry_standing')?.setValue(null) 
+      outcome_measures_group.get('oswestry_personal_care')?.setValue(null) 
+      outcome_measures_group.get('oswestry_sleeping')?.setValue(null) 
+      outcome_measures_group.get('oswestry_lifting')?.setValue(null) 
+      outcome_measures_group.get('oswestry_social_life')?.setValue(null) 
+      outcome_measures_group.get('oswestry_walking')?.setValue(null) 
+      outcome_measures_group.get('oswestry_traveling')?.setValue(null) 
+      outcome_measures_group.get('oswestry_sitting')?.setValue(null) 
+      outcome_measures_group.get('oswestry_employment_homemaking')?.setValue(null)
+    }
+
+    if(outcome_measures_group.get('name')?.value!='Lower Extremity Functional Scales (LEFS)'){
+      console.log('HERE 3 Lower Extremity Functional Scales (LEFS) ');
+      outcome_measures_group.get('lefs_question1')?.setValue(null) 
+      outcome_measures_group.get('lefs_question2')?.setValue(null) 
+      outcome_measures_group.get('lefs_question3')?.setValue(null) 
+      outcome_measures_group.get('lefs_question4')?.setValue(null) 
+      outcome_measures_group.get('lefs_question5')?.setValue(null) 
+      outcome_measures_group.get('lefs_question6')?.setValue(null) 
+      outcome_measures_group.get('lefs_question7')?.setValue(null) 
+      outcome_measures_group.get('lefs_question8')?.setValue(null) 
+      outcome_measures_group.get('lefs_question9')?.setValue(null) 
+      outcome_measures_group.get('lefs_question10')?.setValue(null)
+      outcome_measures_group.get('lefs_question11')?.setValue(null) 
+      outcome_measures_group.get('lefs_question12')?.setValue(null) 
+      outcome_measures_group.get('lefs_question13')?.setValue(null) 
+      outcome_measures_group.get('lefs_question14')?.setValue(null) 
+      outcome_measures_group.get('lefs_question15')?.setValue(null) 
+      outcome_measures_group.get('lefs_question16')?.setValue(null) 
+      outcome_measures_group.get('lefs_question17')?.setValue(null) 
+      outcome_measures_group.get('lefs_question18')?.setValue(null) 
+      outcome_measures_group.get('lefs_question19')?.setValue(null) 
+      outcome_measures_group.get('lefs_question20')?.setValue(null)
+      outcome_measures_group.get('lefs_score')?.setValue(null)
+
+    }
+  }
 
   onFlagChange() {
     const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
