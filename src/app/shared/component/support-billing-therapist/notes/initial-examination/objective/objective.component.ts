@@ -243,18 +243,31 @@ export class ObjectiveComponent {
         fabq_15_rate_your_pain: [''],
         fabq_16_rate_your_pain: [''],
         fabq_score: [''],
-        mctsib_conditio1_1: [''],
-        mctsib_conditio1_2: [''],
-        mctsib_conditio1_3: [''],
-        mctsib_conditio2_1: [''],
-        mctsib_conditio2_2: [''],
-        mctsib_conditio2_3: [''],
-        mctsib_conditio3_1: [''],
-        mctsib_conditio3_2: [''],
-        mctsib_conditio3_3: [''],
-        mctsib_conditio4_1: [''],
-        mctsib_conditio4_2: [''],
-        mctsib_conditio4_3: [''],
+
+        eat_1_rate_your_pain: [''],
+        eat_2_rate_your_pain: [''],
+        eat_3_rate_your_pain: [''],
+        eat_4_rate_your_pain: [''],
+        eat_5_rate_your_pain: [''],
+        eat_6_rate_your_pain: [''],
+        eat_7_rate_your_pain: [''],
+        eat_8_rate_your_pain: [''],
+        eat_9_rate_your_pain: [''],
+        eat_10_rate_your_pain: [''],        
+        eat_total: [''],
+                
+        mctsib_condition1_1: [''],
+        mctsib_condition1_2: [''],
+        mctsib_condition1_3: [''],
+        mctsib_condition2_1: [''],
+        mctsib_condition2_2: [''],
+        mctsib_condition2_3: [''],
+        mctsib_condition3_1: [''],
+        mctsib_condition3_2: [''],
+        mctsib_condition3_3: [''],
+        mctsib_condition4_1: [''],
+        mctsib_condition4_2: [''],
+        mctsib_condition4_3: [''],
         mctsib_total: [''],
         sts_number: [''],
         sts_score: [''],
@@ -383,8 +396,27 @@ export class ObjectiveComponent {
       outcome_measures_group.get('lefs_question20')?.setValue(objectiveData.outcome_measures?.lefs_question20)
       outcome_measures_group.get('lefs_score')?.setValue(objectiveData.outcome_measures?.lefs_score)
 
-      outcome_measures_group.get('fabq_1_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_1_rate_your_pain) 
+      outcome_measures_group.get('fabq_1_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_1_rate_your_pain)
+       
       outcome_measures_group.get('fabq_2_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_2_rate_your_pain) 
+
+      this.clickedIndexs[1]=objectiveData.outcome_measures?.fabq_1_rate_your_pain;
+      this.clickedIndexs[2]=objectiveData.outcome_measures?.fabq_2_rate_your_pain;
+      this.clickedIndexs[3]=objectiveData.outcome_measures?.fabq_3_rate_your_pain;
+      this.clickedIndexs[4]=objectiveData.outcome_measures?.fabq_4_rate_your_pain;
+      this.clickedIndexs[5]=objectiveData.outcome_measures?.fabq_5_rate_your_pain;
+      this.clickedIndexs[6]=objectiveData.outcome_measures?.fabq_6_rate_your_pain;
+      this.clickedIndexs[7]=objectiveData.outcome_measures?.fabq_7_rate_your_pain;
+      this.clickedIndexs[8]=objectiveData.outcome_measures?.fabq_8_rate_your_pain;
+      this.clickedIndexs[9]=objectiveData.outcome_measures?.fabq_9_rate_your_pain;
+      this.clickedIndexs[10]=objectiveData.outcome_measures?.fabq_10_rate_your_pain;
+      this.clickedIndexs[11]=objectiveData.outcome_measures?.fabq_11_rate_your_pain;
+      this.clickedIndexs[12]=objectiveData.outcome_measures?.fabq_12_rate_your_pain;
+      this.clickedIndexs[13]=objectiveData.outcome_measures?.fabq_13_rate_your_pain;
+      this.clickedIndexs[14]=objectiveData.outcome_measures?.fabq_14_rate_your_pain;
+      this.clickedIndexs[15]=objectiveData.outcome_measures?.fabq_15_rate_your_pain;
+      this.clickedIndexs[16]=objectiveData.outcome_measures?.fabq_16_rate_your_pain;
+
       outcome_measures_group.get('fabq_3_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_3_rate_your_pain) 
       outcome_measures_group.get('fabq_4_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_4_rate_your_pain) 
       outcome_measures_group.get('fabq_5_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_5_rate_your_pain) 
@@ -400,6 +432,44 @@ export class ObjectiveComponent {
       outcome_measures_group.get('fabq_15_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_15_rate_your_pain) 
       outcome_measures_group.get('fabq_16_rate_your_pain')?.setValue(objectiveData.outcome_measures?.fabq_16_rate_your_pain) 
       outcome_measures_group.get('fabq_score')?.setValue(objectiveData.outcome_measures?.fabq_score);
+
+      
+      outcome_measures_group.get('eat_1_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_1_rate_your_pain) 
+      outcome_measures_group.get('eat_2_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_2_rate_your_pain) 
+      outcome_measures_group.get('eat_3_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_2_rate_your_pain) 
+      outcome_measures_group.get('eat_4_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_4_rate_your_pain) 
+      outcome_measures_group.get('eat_5_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_5_rate_your_pain) 
+      outcome_measures_group.get('eat_6_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_6_rate_your_pain) 
+      outcome_measures_group.get('eat_7_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_7_rate_your_pain) 
+      outcome_measures_group.get('eat_8_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_8_rate_your_pain) 
+      outcome_measures_group.get('eat_9_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_9_rate_your_pain) 
+      outcome_measures_group.get('eat_10_rate_your_pain')?.setValue(objectiveData.outcome_measures?.eat_10_rate_your_pain)
+      this.clickedIndexs[17]=objectiveData.outcome_measures?.eat_1_rate_your_pain;
+      this.clickedIndexs[18]=objectiveData.outcome_measures?.eat_2_rate_your_pain;
+      this.clickedIndexs[19]=objectiveData.outcome_measures?.eat_3_rate_your_pain;
+      this.clickedIndexs[20]=objectiveData.outcome_measures?.eat_4_rate_your_pain;
+      this.clickedIndexs[21]=objectiveData.outcome_measures?.eat_5_rate_your_pain;
+      this.clickedIndexs[22]=objectiveData.outcome_measures?.eat_6_rate_your_pain;
+      this.clickedIndexs[23]=objectiveData.outcome_measures?.eat_7_rate_your_pain;
+      this.clickedIndexs[24]=objectiveData.outcome_measures?.eat_8_rate_your_pain;
+      this.clickedIndexs[25]=objectiveData.outcome_measures?.eat_9_rate_your_pain;
+      this.clickedIndexs[26]=objectiveData.outcome_measures?.eat_10_rate_your_pain;
+      outcome_measures_group.get('eat_total')?.setValue(objectiveData.outcome_measures?.eat_total);
+
+      outcome_measures_group.get('mctsib_condition1_1')?.setValue(objectiveData.outcome_measures?.mctsib_condition1_1) 
+      outcome_measures_group.get('mctsib_condition1_2')?.setValue(objectiveData.outcome_measures?.mctsib_condition1_2) 
+      outcome_measures_group.get('mctsib_condition1_3')?.setValue(objectiveData.outcome_measures?.mctsib_condition1_3) 
+      outcome_measures_group.get('mctsib_condition2_1')?.setValue(objectiveData.outcome_measures?.mctsib_condition2_1) 
+      outcome_measures_group.get('mctsib_condition2_2')?.setValue(objectiveData.outcome_measures?.mctsib_condition2_2) 
+      outcome_measures_group.get('mctsib_condition2_3')?.setValue(objectiveData.outcome_measures?.mctsib_condition2_3) 
+      outcome_measures_group.get('mctsib_condition3_1')?.setValue(objectiveData.outcome_measures?.mctsib_condition3_1) 
+      outcome_measures_group.get('mctsib_condition3_2')?.setValue(objectiveData.outcome_measures?.mctsib_condition3_2) 
+      outcome_measures_group.get('mctsib_condition3_3')?.setValue(objectiveData.outcome_measures?.mctsib_condition3_3) 
+      outcome_measures_group.get('mctsib_condition4_1')?.setValue(objectiveData.outcome_measures?.mctsib_condition4_1) 
+      outcome_measures_group.get('mctsib_condition4_2')?.setValue(objectiveData.outcome_measures?.mctsib_condition4_2) 
+      outcome_measures_group.get('mctsib_condition4_3')?.setValue(objectiveData.outcome_measures?.mctsib_condition4_3) 
+      outcome_measures_group.get('mctsib_total')?.setValue(objectiveData.outcome_measures?.mctsib_total) 
+
 
       const mockEvent = { target: { value: objectiveData.outcome_measures?.name ? objectiveData.outcome_measures?.name : '' } }; 
       this.outcomeMeasuresChange(mockEvent)
@@ -449,7 +519,6 @@ export class ObjectiveComponent {
       outcome_measures_group.get('quick_dash_question11')?.setValue(null)
       outcome_measures_group.get('quick_dash_score')?.setValue(null)
     }
-
     
     if(outcome_measures_group.get('name')?.value!='Oswestry LBP'){
       console.log('HERE 3 Oswestry ');
@@ -488,9 +557,69 @@ export class ObjectiveComponent {
       outcome_measures_group.get('lefs_question19')?.setValue(null) 
       outcome_measures_group.get('lefs_question20')?.setValue(null)
       outcome_measures_group.get('lefs_score')?.setValue(null)
-
     }
+
+    if(outcome_measures_group.get('name')?.value!='FABQ'){
+      console.log('HERE 4 FABQ');
+      outcome_measures_group.get('fabq_1_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_2_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_3_rate_your_pain')?.setValue(null)
+      outcome_measures_group.get('fabq_4_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_5_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_6_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_7_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_8_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_9_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_10_rate_your_pain')?.setValue(null)
+      outcome_measures_group.get('fabq_11_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_12_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_13_rate_your_pain')?.setValue(null)
+      outcome_measures_group.get('fabq_14_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_15_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_16_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('fabq_score')?.setValue(null) 
+    }
+
+    if(outcome_measures_group.get('name')?.value!='EAT-10'){
+      console.log('HERE 5 EAT-10');
+      outcome_measures_group.get('eat_1_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_2_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_3_rate_your_pain')?.setValue(null)
+      outcome_measures_group.get('eat_4_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_5_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_6_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_7_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_8_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_9_rate_your_pain')?.setValue(null) 
+      outcome_measures_group.get('eat_10_rate_your_pain')?.setValue(null)
+      outcome_measures_group.get('eat_total')?.setValue(null) 
+    }
+
+    if(outcome_measures_group.get('name')?.value!='mCTSIB'){
+      console.log('HERE 6 mCTSIB');
+      outcome_measures_group.get('mctsib_condition1_1')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition1_2')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition1_3')?.setValue(null)
+      outcome_measures_group.get('mctsib_condition2_1')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition2_2')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition2_3')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition3_1')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition3_2')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition3_3')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition4_1')?.setValue(null)
+      outcome_measures_group.get('mctsib_condition4_2')?.setValue(null) 
+      outcome_measures_group.get('mctsib_condition4_3')?.setValue(null)
+      outcome_measures_group.get('mctsib_total')?.setValue(null) 
+    }
+
+    if(outcome_measures_group.get('name')?.value!='30 sec STS'){
+      console.log('HERE 7 30 sec STS');
+      outcome_measures_group.get('sts_number')?.setValue(null)
+      outcome_measures_group.get('sts_score')?.setValue(null) 
+    }       
+
   }
+
 
   onFlagChange() {
     const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
