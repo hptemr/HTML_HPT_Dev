@@ -2,75 +2,77 @@
     <div class="modal--header w-100">
         <h1 class="fw-700">Add Exercise</h1>
     </div>
-    <div class="modal--body w-100">
-        <div class="col-12">
-            <div class="form-group"> 
-                <select class="form-select form-control" aria-label="outcome measure dd">
-                    <option selected>Select or enter exercises</option>
-                    <option value="1">Neck Disability Index</option>
-                    <option value="2">QuickDASH</option>
-                    <option value="3">Oswestry LBP</option> 
-                </select>
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+    <form [formGroup]="addExerciseForm" (ngSubmit)="addExerciseFormSubmit(addExerciseForm.value)">
+        <div class="modal--body w-100">
+            <div class="col-12">
+                <div class="form-group"> 
+                    <select class="form-select form-control" aria-label="outcome measure dd" formControlName="exercises">
+                        <option selected>Select or enter exercises</option>
+                        <option value="Neck Disability Index">Neck Disability Index</option>
+                        <option value="QuickDASH">QuickDASH</option>
+                        <option value="Oswestry LBP">Oswestry LBP</option> 
+                    </select>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group"> 
-                <mat-form-field class="w-100 am--datepicker">
-                    <input matInput [matDatepicker]="picker" placeholder="Select Date" (focus)="picker.open()">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
+            <div class="col-12">
+                <div class="form-group"> 
+                    <mat-form-field class="w-100 am--datepicker">
+                        <input matInput [matDatepicker]="picker" placeholder="Select Date" [max]="todayDate" (focus)="picker.open()" formControlName="exercise_date">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 text-uppercase">Sets</label>
-                <input class="form-control" type="text" placeholder="Enter Sets" value=""/>
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-700 font-16 text-uppercase">Sets</label>
+                    <input class="form-control" type="text" placeholder="Enter Sets" formControlName="sets"/>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 text-uppercase">Reps</label>
-                <input class="form-control" type="text" placeholder="Enter Reps" value=""/>
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-700 font-16 text-uppercase">Reps</label>
+                    <input class="form-control" type="text" placeholder="Enter Reps" formControlName="reps"/>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 text-uppercase">Weight/Resistance</label>
-                <div class="w-100 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
-                    <input class="form-control me-3" type="number" placeholder="Enter Weight/Resistance" value=""/>
-                    <mat-radio-group aria-label="Select an option" class="flex-shrink-0">
-                        <mat-radio-button value="1" class="me-3" >lbs</mat-radio-button>
-                        <mat-radio-button value="2" checked>kg</mat-radio-button>
-                    </mat-radio-group> 
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-700 font-16 text-uppercase">Weight/Resistance</label>
+                    <div class="w-100 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
+                        <input class="form-control me-3" type="number" placeholder="Enter Weight/Resistance" formControlName="weight_resistance"/>
+                        <mat-radio-group aria-label="Select an option" class="flex-shrink-0">
+                            <mat-radio-button value="lbs" class="me-3" >lbs</mat-radio-button>
+                            <mat-radio-button value="kg" checked>kg</mat-radio-button>
+                        </mat-radio-group> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-700 font-16 text-uppercase">Distance (feet)</label>
+                    <input class="form-control" type="number" placeholder="Enter Distance" formControlName="distance"/>
+                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-700 font-16 text-uppercase">Time</label>
+                    <div class="w-100 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
+                        <input class="form-control me-3" type="number" placeholder="Enter Time" formControlName="exercise_time"/>
+                        <mat-radio-group aria-label="Select an option" class="flex-shrink-0" formControlName="exercise_time_mints">
+                            <mat-radio-button value="Min" class="me-3">Min</mat-radio-button>
+                            <mat-radio-button value="Seconds">Seconds</mat-radio-button>
+                        </mat-radio-group> 
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 text-uppercase">Distance (feet)</label>
-                <input class="form-control" type="number" placeholder="Enter Distance" value=""/>
-                <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-            </div>
+        <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
+            <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Cancel</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="isSubmit">Save</button>
         </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="col-form-label fw-700 font-16 text-uppercase">Time</label>
-                <div class="w-100 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
-                    <input class="form-control me-3" type="number" placeholder="Enter Time" value=""/>
-                    <mat-radio-group aria-label="Select an option" class="flex-shrink-0">
-                        <mat-radio-button value="1" class="me-3" >Min</mat-radio-button>
-                        <mat-radio-button value="2" checked>Seconds</mat-radio-button>
-                    </mat-radio-group> 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
-        <button mat-stroked-button color="primary" class="me-3" mat-dialog-close>Cancel</button>
-        <button mat-raised-button color="primary" mat-dialog-close>Save</button>
-    </div>
+    </form>
 </div>

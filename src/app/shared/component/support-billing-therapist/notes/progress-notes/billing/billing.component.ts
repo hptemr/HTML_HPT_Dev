@@ -4,11 +4,11 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
 @Component({
-  selector: 'app-billing', 
+  selector: 'app-billing-daily-note', 
   templateUrl: './billing.component.html',
   styleUrl: './billing.component.scss'
 })
-export class BillingComponent {
+export class ProgressNoteBillingComponent {
   isDisabled: boolean = false;
   totalTreatmentMinutes = 0
   totalDirectMinutes = 0
@@ -100,7 +100,7 @@ export class BillingComponent {
   ngOnInit() { 
     var params = {
       appointmentId:this.appointmentId,
-      noteType:"initial_examination"
+      noteType:"progress_note"
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
@@ -438,18 +438,18 @@ export class BillingComponent {
           directSlpList:tempDirectSlpList,
           dmeCptList:tempDmeCptList,
           appointmentId : this.appointmentId,
-          soapNoteType : "initial_examination",
+          soapNoteType : "progress_note",
           additionalCodes:this.additionalCodes
         }
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar("Created Successfully", "SUCCESS")
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
           })
         }else{
           this.authService.apiRequest('post', 'soapNote/updateBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar("Updated Successfully", "SUCCESS")
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
           })
         }
       }
