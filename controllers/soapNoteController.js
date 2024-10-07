@@ -5,6 +5,7 @@ const BillingTemp = require('../models/billingModel');
 const subjectiveTemp = require('../models/subjectiveModel');
 const Appointment = require('../models/appointmentModel');
 const AssessmentModel = require('../models/assessmentModel');
+const Case = require('../models/casesModel');
 require('dotenv').config();
 let ObjectId = require('mongoose').Types.ObjectId;
 const _ = require('lodash');
@@ -106,8 +107,9 @@ const createBillingNote = async (req, res) => {
 const getBillingNote = async (req, res) => {
   try {
     let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId });
-    let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1 })
-    commonHelper.sendResponse(res, 'success', billingData, appointmentData);
+    // let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1 })
+    let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1,billingType:1, caseName: 1})
+    commonHelper.sendResponse(res, 'success', billingData, caseData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
