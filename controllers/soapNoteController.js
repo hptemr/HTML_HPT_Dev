@@ -6,6 +6,7 @@ const subjectiveTemp = require('../models/subjectiveModel');
 const Appointment = require('../models/appointmentModel');
 const AssessmentModel = require('../models/assessmentModel');
 const Case = require('../models/casesModel');
+const ObjectiveModel = require('../models/objectiveModel');
 require('dotenv').config();
 let ObjectId = require('mongoose').Types.ObjectId;
 const _ = require('lodash');
@@ -179,6 +180,53 @@ const submitSubjective = async (req, res) => {
   }
 }
 
+const getObjectiveData = async (req, res) => {
+  try {
+    const { query } = req.body;
+    let objectiveData = await ObjectiveModel.findOne(query);
+    let subjectiveData = await subjectiveTemp.findOne(query);
+    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
+    let appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    
+    let returnData = { objectiveData: objectiveData,subjectiveData:subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
+    commonHelper.sendResponse(res, 'success', returnData);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const submitObjective = async (req, res) => {
+  try {
+    const { data, query, userId, type } = req.body;
+
+    let objective_data = await ObjectiveModel.findOne({ appointmentId: query.appointmentId });
+   
+    console.log(type,'objective_data>>>>',objective_data)
+    let message = '';
+    if (objective_data) {
+      console.log('##################')
+      await ObjectiveModel.findOneAndUpdate({ _id: query.appointmentId }, data);
+      if(type=='objective'){
+        message = soapMessage.updateObjective;
+      }else{
+        message = soapMessage.upadteExercise;
+      }            
+    } else {
+      console.log(' ***************** ',data)
+      await ObjectiveModel.create(data)
+      if(type=='objective'){
+        message = soapMessage.addObjective;
+      }else{
+        message = soapMessage.addExercise;
+      }      
+    }
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log(' ***************** ',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 const getSubjectiveData = async (req, res) => {
   try {
     const { query } = req.body;
@@ -264,6 +312,8 @@ module.exports = {
   updateBillingNote,
   finalizeNote,
   submitSubjective,
+  getObjectiveData,
+  submitObjective,
   getSubjectiveData,
   submitAssessment,
   getAssessment,

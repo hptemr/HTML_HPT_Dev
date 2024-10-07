@@ -6,7 +6,7 @@ const subjectiveSchema = new mongoose.Schema({
         ref: "appointments"
       },
     note_date:  { type: Date },
-    soap_note_type: { type: String, default: "" },//['initial examination','daily note','progress note','discharge note','case note']
+    soap_note_type: { type: String, default: "" },//['initial_examination','daily_note','progress_note','discharge_note','case_note']
     diagnosis_code: [{
         code: String,
         name: String
