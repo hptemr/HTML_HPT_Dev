@@ -1,4 +1,4 @@
-const { commonMessage, userMessage, appointmentMessage } = require('../helpers/message');
+const { commonMessage, userMessage, appointmentMessage, billingMessage } = require('../helpers/message');
 const commonHelper = require('../helpers/common');
 const Appointment = require('../models/appointmentModel');
 const User = require('../models/userModel');
@@ -15,6 +15,8 @@ var constants = require('./../config/constants')
 let ObjectId = require('mongoose').Types.ObjectId;
 const s3Details = constants.s3Details;
 const crypto = require('crypto');
+const BillingDetailsModel = require('../models/btBillingDetailsModel');
+const AthorizationManagementModel = require('../models/btAthorizationManagementModel');
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -701,6 +703,60 @@ const getCaseList = async (req, res) => {
     }
 }
 
+
+const addBillingDetails = async (req, res) => {
+    try {
+      const { billingDetails, patientId, caseName } = req.body
+  
+      const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
+      const update = { $set: billingDetails }; // The data to update
+      const options = { upsert: true }; // Create a new document if no match is found
+      const result = await BillingDetailsModel.updateOne(filter, update, options);
+      commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
+    } catch (error) {
+      console.log("addBillingDetails Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  const getBillingDetails = async (req, res) => {
+    try {
+      const { patientId, caseName } = req.body
+      const query = { patientId: patientId, caseName: caseName };
+      const billingDetails = await BillingDetailsModel.findOne(query).lean();
+      commonHelper.sendResponse(res, 'success', billingDetails, commonMessage.getDataMessage);
+    } catch (error) {
+      console.log("getBillingDetails Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  const addAuthorizationManagement = async (req, res) => {
+    try {
+      const { authorizationManagementData, patientId, caseName } = req.body
+      const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
+      const update = { $push: { authManagement: authorizationManagementData } }; // The data to update
+      const options = { upsert: true }; // Create a new document if no match is found
+      const result = await AthorizationManagementModel.updateOne(filter, update, options);
+      commonHelper.sendResponse(res, 'success', null, billingMessage.authManagement);
+    } catch (error) {
+      console.log("addAuthorizationManagement Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  const getAuthorizationManagementDetails = async (req, res) => {
+    try {
+      const { patientId, caseName } = req.body
+      const query = { patientId: patientId, caseName: caseName };
+      const authManagementData = await AthorizationManagementModel.findOne(query).lean();
+      commonHelper.sendResponse(res, 'success', authManagementData, commonMessage.getDataMessage);
+    } catch (error) {
+      console.log("getAuthorizationManagementDetails Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
@@ -718,5 +774,9 @@ module.exports = {
     createAppointment,
     getPatientCaseList,
     getDoctorList,
-    getCaseList
+    getCaseList,
+    addBillingDetails,
+    getBillingDetails,
+    addAuthorizationManagement,
+    getAuthorizationManagementDetails
 };
