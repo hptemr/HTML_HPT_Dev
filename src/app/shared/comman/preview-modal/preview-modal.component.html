@@ -3,6 +3,14 @@
         <button mat-stroked-button color="primary" mat-dialog-close class="close--btn"> <mat-icon class="m-0">close</mat-icon> </button>
     </div>
     <div class="preview--body d-flex align-items-center justify-content-center">
-        <img src="assets/images/ark/ark_license_lg.png" alt="" class="img-fluid">
+        <!-- <ngx-doc-viewer *ngIf="previewUrl!='' && fileType=='doc'" url="previewUrl" viewer="google" style="width:100%;height:90vh;"></ngx-doc-viewer> -->
+
+        <audio *ngIf="fileType=='audio'" controls class="w-100" controlsList="nodownload">
+            <source [src]="previewUrl" type="audio/ogg"><source [src]="previewUrl" type="audio/mpeg">
+        </audio>
+
+        <img *ngIf="fileType=='image'" [src]="previewUrl" class="img-fluid" alt="{{fileName}}">
+
+        <video *ngIf="fileType=='video'" [src]="previewUrl" width="300" height="200" controls controlsList="nodownload" style="height: auto;width: 100%;"></video>
     </div>
 </div>

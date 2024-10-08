@@ -23,6 +23,12 @@ type Exercise = {
   exercise_time_mints: string;
   createdBy: string;
 };
+interface FileItem {
+  id: string;
+  file_name: string;
+  icon: string;
+  color: string;
+}
 @Component({
   selector: 'app-objective', 
   templateUrl: './objective.component.html',
@@ -80,46 +86,10 @@ export class ObjectiveComponent {
     }
   }    
   }
-  edatatable = [
-    {
-      set:'1',
-      reps:'10',
-      weight:'50 lbs',
-      distance: '1',
-      time: 'NA'
-    },
-    {
-      set:'2',
-      reps:'20',
-      weight:'20 kg',
-      distance: '1.5',
-      time: '5 min'
-    },
-    {
-      set:'3',
-      reps:'30',
-      weight:'100 kg',
-      distance: '2',
-      time: '10 min'
-    },
-    {
-      set:'4',
-      reps:'40',
-      weight:'80 lbs',
-      distance: '2.5',
-      time: '300 sec'
-    },
-    {
-      set:'5',
-      reps:'50',
-      weight:'40 lbs',
-      distance: '3',
-      time: '800 sec'
-    },
-  ]
   appointmentId: string;
   public userId: string = this.authService.getLoggedInInfo('_id');
   public userRole: string = this.authService.getLoggedInInfo('role');
+  userType = this.authService.getLoggedInInfo('role').replace('_','-')
   selectedProtocols:any=[]
   public objectiveForm: FormGroup;
   validationMessages = validationMessages; 
@@ -132,8 +102,7 @@ export class ObjectiveComponent {
   surgery_type:string=''
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
-  // searchDirectory:string=''
-  // directoryItmList:any =[];
+
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -147,8 +116,8 @@ export class ObjectiveComponent {
       precautions:['',[Validators.required]],
       patient_consent: ['', [Validators.required]],
       chaperone : this.fb.group({
-        flag: ['No', [Validators.required]],  // Default value for the flag
-        name: ['']  // Initially no validation on 'name'
+        flag: ['No', [Validators.required]], 
+        name: [''] 
       }),
       observation: ['', [Validators.minLength(1), Validators.maxLength(2500)]],
       range_of_motion: ['', [ Validators.minLength(1), Validators.maxLength(2500)]],
@@ -338,10 +307,6 @@ export class ObjectiveComponent {
 
           const reorderedArray = this.reorderExercises(groupedExercises, groupedExercisesNames);
           this.land_exercise_grouped_list = Object.entries(reorderedArray); 
-          console.log('groupedExercises 111 >>>>',this.land_exercise_grouped_list)
-
-
-
 
           const groupedAquaticExercisesNames:any = [];
           this.aquatic_exercise_list.forEach((element:any,index:number) => {
@@ -396,7 +361,6 @@ export class ObjectiveComponent {
 
         const aquaticReorderedArray = this.reorderExercises(aquaticGroupedExercises, groupedAquaticExercisesNames);
         this.aquatic_exercise_grouped_list = Object.entries(aquaticReorderedArray); 
-        //console.log('aquatic grouped Exercises 222 >>>>',this.aquatic_exercise_grouped_list)
       }
 
       if(response.data && response.data.appointmentDatesList){
@@ -438,6 +402,10 @@ export class ObjectiveComponent {
 }
 
   loadForm(objectiveData:any,subjectiveData:any,appointment_data:any){
+      if(objectiveData?.protocols){
+        this.selectedProtocols = objectiveData?.protocols;
+      }
+      this.objectiveForm.controls['protocols'].setValue(objectiveData?.protocols);
       this.objectiveForm.controls['patient_consent'].setValue(objectiveData?.patient_consent);
       this.objectiveForm.controls['precautions'].setValue(objectiveData?.precautions);
       if((!objectiveData.precautions || objectiveData.precautions=='') && subjectiveData && subjectiveData.length>0){
@@ -826,11 +794,8 @@ export class ObjectiveComponent {
      });
      dialogRef.afterClosed().subscribe(result => {
       if (result && result.length>0) {
-        let file_names:any = [];
-        result.forEach((element:any) => {
-          file_names.push(element.file_name);
-        });
-        this.selectedProtocols = file_names
+
+        this.selectedProtocols = result
         this.objectiveForm.controls['protocols'].setValue(result)
       } else {
         console.log('Modal closed without saving data.');
@@ -838,11 +803,10 @@ export class ObjectiveComponent {
     });
   }
   
-  removeProtocols(i:string) {
-    const index = this.selectedProtocols.indexOf(i);
-    if (index !== -1) {
-      this.selectedProtocols.splice(index, 1);
-    }
+  removeProtocols(id:string) {
+    let newArray: FileItem[] = this.selectedProtocols.filter((item: FileItem) => item.id !== id);
+    this.selectedProtocols = newArray;
+    this.objectiveForm.controls['protocols'].setValue(this.selectedProtocols);
   }
 
   addExersiceModal(type:string) {
@@ -864,10 +828,14 @@ export class ObjectiveComponent {
     });
   }
   
-  previewModal() {
-    const dialogRef = this.dialog.open(PreviewModalComponent, {
-      panelClass:[ 'preview--modal'],
-    });
+  previewModal(fileId:string) {
+    window.open(`${window.location.origin}`+"/"+`${this.userType}`+"/file-preview/"+fileId, '_blank');
+    // const dialogRef = this.dialog.open(PreviewModalComponent, {
+    //   panelClass:[ 'preview--modal'],
+    //   data : {
+    //     fileId:id
+    //    }
+    // });
   }
 
 }

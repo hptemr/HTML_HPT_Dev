@@ -8,8 +8,8 @@
                 </button>
                 <div  class="d-flex align-items-center me-3 my-2" *ngIf="selectedProtocols.length>0">
                     <div *ngFor="let item of selectedProtocols; let i = index">
-                        <a class="font-16 clr--1F2F3E text-decoration-underline cursor-pointer" (click)="previewModal()">{{item}} </a>
-                        <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeProtocols(item)">
+                        <a class="font-16 clr--1F2F3E text-decoration-underline cursor-pointer" (click)="previewModal(item.id)">{{item.file_name}} </a>
+                        <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeProtocols(item.id)">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel</mat-icon>
                         </button>
                     </div>
