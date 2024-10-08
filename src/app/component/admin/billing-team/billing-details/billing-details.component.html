@@ -1126,7 +1126,7 @@
                                 <p class="mb-0 text-primary font-14 fw-600 ms-3">{{file}}</p>
                             </div>
                         </div>
-                        <div class="col-12 mt-3">
+                        <div class="col-12 mt-3" *ngIf="userType=='billing_team'">
                             <div class="d-flex flex-row justify-content-end">
                                 <button class="flex-shrink-0" mat-raised-button color="primary" [disabled]="!billingDetailsForm.valid" (click)="saveBillingDetails()">
                                     Save

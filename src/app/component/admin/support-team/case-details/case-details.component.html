@@ -23,8 +23,8 @@
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                         <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile/',appointmentData?.patientId._id)">View Patient Profile</button>
-                                        <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button>
-                                        <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/billing-details']">View Billing Details</button>
+                                        <!-- <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button> -->
+                                        <button  mat-raised-button color="primary" class="intake-btn" [disabled]="!isBillingDetailsData" [routerLink]="['/support-team/case-details/billing-details',appointmentId]">View Billing Details</button>
                                         <button mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
                                             View Intake Form
                                         </button>
@@ -61,7 +61,7 @@
                                             </div>
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
-                                                <p class="mb-1 clr--1F2F3E  font-16 fw-400">-</p>
+                                                <p class="mb-1 clr--1F2F3E  font-16 fw-400"> NA </p>
                                             </div>
                                             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
@@ -80,11 +80,11 @@
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
                                             <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{appointmentData?.payVia}}</p>
                                         </div>
-                                        <div class="col-12 col-sm-6 col-lg-5 col-xl-5 mb-1">
+                                        <!-- <div class="col-12 col-sm-6 col-lg-5 col-xl-5 mb-1">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
                                             <p class="mb-0 clr--1F2F3E font-16 fw-400 ">OT $200 Used out of $1000,
                                                 PT/SLP $350 Used out of $1200</p>
-                                        </div>
+                                        </div> -->
                                         <div class="col-12 col-sm-12 col-lg-3 col-xl-2 mb-2">
                                             <mat-checkbox class=" ">Patient Checked-in</mat-checkbox>
                                         </div>
@@ -94,44 +94,49 @@
                                         <div class="d-flex flex-row flex-wrap">
                                             <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Jacob Jones</p>
+                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{ appointmentData && appointmentData?.doctorId ? appointmentData?.doctorId?.name : 'NA'}}</p>
                                             </div>
                                             <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">12/1/24 - 12/10/2024</p>
+                                                <!-- <p class="mb-0 clr--1F2F3E font-16 fw-400 ">12/1/24 - 12/10/2024</p> -->
+                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">NA</p>
                                             </div>
                                             <div class="col-12 col-sm-12 col-lg-4 col-xl-3 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">1 of 12 visits, expires 12/1/24</p>
+                                                <!-- <p class="mb-0 clr--1F2F3E font-16 fw-400 ">1 of 12 visits, expires 12/1/24</p> -->
+                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{isBillingDetailsData?'0 of '+ billingDetailsData.PI_numberOfVisit+' visits, expires '+authExpireDate :'NA'}}</p>
                                             </div>
                                             <div class="col-12 col-sm-12 col-lg-4 col-xl-5 mb-2">
                                                 <div class="form-group d-flex align-items-center">
                                                     <label class="col-form-label fw-700 font-16 p-0 me-3 label--width flex-shrink-0">Hard Cap/ Soft Cap</label>
-                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder=" " disabled/>
+                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder="" value="{{billingDetailsData?.PI_hardSoftCapText}}" disabled/>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
     
-                                   
+                                <form class="row" [formGroup]="stCaseDetailsForm">  
                                     <div class="col-12 mt-2">
                                         <div class="d-flex flex-row flex-wrap last--col">
                                             <div class="col mb-2 form-group"> 
                                                 <div class="select-info">
                                                     <label class="col-form-label fw-600">Assign Therapist <span class="clr--DF0404 ms-1"> * </span></label>
-                                                    <select class="form-select form-control" aria-label="Default select example" [(ngModel)]="selectedTherapistId">
+                                                    <select class="form-select form-control" aria-label="Default select example" [(ngModel)]="selectedTherapistId" formControlName="therapistId">
                                                         <!-- <option selected>Select Therapist</option> 
                                                         <option value="1">Elizabeth</option>
                                                         <option value="2">Elizabeth 2</option>  -->
                                                         <option value="" selected>Select Therapist</option>
                                                         <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
                                                     </select>
+                                                    <div class="text text-danger mt-1" *ngIf="stCaseDetailsForm.controls['therapistId'].touched && stCaseDetailsForm.controls['therapistId'].hasError('required')">
+                                                        {{ validationMessages.required('Therapist') }}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col  mb-2  ">
                                                 <div class="form-group">
-                                                    <label class="col-form-label fw-600">Case Name <span class="clr--DF0404 ms-1"> * </span></label>
-                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder="Search Case Name" value="{{appointmentData?.caseName}}"  />
+                                                    <label class="col-form-label fw-600">Case Name</label>
+                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder="Search Case Name" value="{{appointmentData?.caseName}}"  disabled/>
                                                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                                                 </div>
                                             </div>
@@ -140,7 +145,7 @@
                                                 <div class="doctor-filed">
                                                     <label class="col-form-label fw-600">Return to Doctor </label>                                                   
                                                     <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                                                        <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()" [min]="appointmentData?.appointmentDate">
+                                                        <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()" [min]="appointmentData?.appointmentDate" formControlName="returnToDoctor">
                                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
@@ -156,7 +161,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text" id="basic-addon1">$</span>
                                                         </div>
-                                                        <input type="number" class="form-control form-control-md" value="{{appointmentData?.coPayAmount}}"  disabled>
+                                                        <input type="text" class="form-control form-control-md"value="{{isBillingDetailsData && billingDetailsData?.PI_copayAmt? billingDetailsData?.PI_copayAmt:'NA'}}"  disabled>
                                                     </div>  
                                                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                                                 </div>
@@ -170,7 +175,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text" id="basic-addon1">$</span>
                                                         </div>
-                                                        <input type="number" class="form-control form-control-md" value="{{appointmentData?.highDeductibles}}"  disabled>
+                                                        <input type="text" class="form-control form-control-md" value="{{isBillingDetailsData && billingDetailsData?.PI_highDeductible ? billingDetailsData?.PI_highDeductible :'NA'}}" disabled>
                                                     </div>  
                                                     <!-- <div class="text text-danger mt-1">Error here</div> -->
                                                 </div> 
@@ -197,21 +202,21 @@
                                                 <div class="form-group select-info">
                                                     <label class="col-form-label fw-600">Primary Insurance</label>
                                                      <div class="d-flex w-100 position-relative">
-                                                        <input class="form-control form-control-md cust--w" type="text" placeholder="Primary Insurance"  />
+                                                        <input class="form-control form-control-md cust--w" type="text" placeholder="Primary Insurance"  formControlName="primaryInsurance"/>
                                                         <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal()">
                                                             Update
                                                         </button>
                                                      </div>
                                                 </div>
                                             </div>
-                                            <button mat-stroked-button color="primary" class="mt-3 mb-3 ms-auto update--btn">
+                                            <button mat-stroked-button color="primary" class="mt-3 mb-3 ms-auto update--btn" [disabled]="!stCaseDetailsForm.valid" (click)="saveStCaseDetails()">
                                                 Save
                                             </button>
 
 
                                         </div>
                                     </div>
- 
+                                 </form>   
 
                                     <!-- <div class="col-12 mt-1 mb-3">
                                         <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
