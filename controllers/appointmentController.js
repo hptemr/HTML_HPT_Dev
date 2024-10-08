@@ -17,6 +17,7 @@ const s3Details = constants.s3Details;
 const crypto = require('crypto');
 const BillingDetailsModel = require('../models/btBillingDetailsModel');
 const AthorizationManagementModel = require('../models/btAthorizationManagementModel');
+const STCaseDetailsModel = require('../models/stCaseDetailsModel');
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -254,10 +255,11 @@ const createAppointment = async (req, res) => {
 
 const getAppointmentDetails = async (req, res) => {
     try {
-        const { query, fields, patientFields, therapistFields } = req.body;
+        const { query, fields, patientFields, therapistFields, doctorFields} = req.body;
         let appointmentData = await Appointment.findOne(query, fields)
             .populate('patientId', patientFields)
-            .populate('therapistId', therapistFields);
+            .populate('therapistId', therapistFields)
+            .populate('doctorId', doctorFields);
         commonHelper.sendResponse(res, 'success', { appointmentData }, '');
     } catch (error) {
         console.log("********Appointment***error***", error)
@@ -757,6 +759,33 @@ const addBillingDetails = async (req, res) => {
     }
   }
 
+  const addStCaseDetails = async (req, res) => {
+    try {
+        const { caseDetails, patientId, caseName } = req.body
+    
+        const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
+        const update = { $set: caseDetails }; // The data to update
+        const options = { upsert: true }; // Create a new document if no match is found
+        const result = await STCaseDetailsModel.updateOne(filter, update, options);
+        commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
+      } catch (error) {
+        console.log("addStCaseDetails Error>>>",error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  const getStCaseDetails = async (req, res) => {
+    try {
+      const { patientId, caseName } = req.body
+      const query = { patientId: patientId, caseName: caseName };
+      const stCaseDetails = await STCaseDetailsModel.findOne(query).lean();
+      commonHelper.sendResponse(res, 'success', stCaseDetails, commonMessage.getDataMessage);
+    } catch (error) {
+      console.log("getStCaseDetails Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
@@ -778,5 +807,7 @@ module.exports = {
     addBillingDetails,
     getBillingDetails,
     addAuthorizationManagement,
-    getAuthorizationManagementDetails
+    getAuthorizationManagementDetails,
+    addStCaseDetails,
+    getStCaseDetails
 };
