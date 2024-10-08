@@ -2008,24 +2008,42 @@
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial One</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition1_1">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition1_1">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
                                     </div>
+                                    <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition1_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition1_1')?.touched">
+                                        {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                    </div>  
+                                    <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition1_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition1_1')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition1_1')?.touched">
+                                        {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                    </div>  
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Two</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3"  placeholder="Time" formControlName="mctsib_condition1_2">
-                                        <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <input type="text" class="form-control form-control-md score mx-3"  placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition1_2">
+                                        <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label> 
                                     </div>
+                                    <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition1_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition1_2')?.touched">
+                                        {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                    </div>
+                                    <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition1_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition1_2')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition1_2')?.touched">
+                                        {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                    </div> 
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Three</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3"  placeholder="Time" formControlName="mctsib_condition1_3">
+                                        <input type="text" class="form-control form-control-md score mx-3"  placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition1_3">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition1_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition1_3')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div>   
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition1_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition1_3')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition1_3')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -2040,24 +2058,42 @@
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial One</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition2_1">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition2_1">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition2_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition2_1')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div>   
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition2_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition2_1')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition2_1')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Two</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition2_2">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition2_2">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition2_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition2_2')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div>   
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition2_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition2_2')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition2_2')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Three</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition2_3">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition2_3">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition2_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition2_3')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div>   
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition2_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition2_3')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition2_3')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -2072,24 +2108,42 @@
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial One</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition3_1">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition3_1">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition3_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition3_1')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div>   
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition3_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition3_1')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition3_1')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Two</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition3_2">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition3_2">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition3_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition3_2')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div>   
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition3_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition3_2')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition3_2')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Three</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition3_3">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition3_3">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition3_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition3_3')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div>  
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition3_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition3_3')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition3_3')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -2104,32 +2158,53 @@
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial One</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition4_1">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition4_1">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition4_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition4_1')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div> 
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition4_1')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition4_1')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition4_1')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Two</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition4_2">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)"  formControlName="mctsib_condition4_2">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition4_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition4_2')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div> 
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition4_2')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition4_2')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition4_2')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">Trial Three</label>
                                     <div class="d-flex align-items-center">
                                         <label class="mb-0 font-14 clr--1F2F3E">Total Time: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_condition4_3">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" (keydown)="allowOnlyNumbers($event)" formControlName="mctsib_condition4_3">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 30sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_condition4_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition4_3')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div> 
+                                        <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.mctsib_condition4_3')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_condition4_3')?.hasError('max') && objectiveForm.get('outcome_measures.mctsib_condition4_3')?.touched">
+                                            {{ validationMessages.openValidation('mCTSIB Maximum value is 30') }}
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row mb-3">
                                     <label class="font-14 clr--1F2F3E mb-0 trial--count">&nbsp;</label>
                                     <div class="d-flex align-items-center total--foot">
                                         <label class="mb-0 font-14 clr--1F2F3E fw-700 text-uppercase totaltxt">Total: </label>
-                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" formControlName="mctsib_total">
+                                        <input type="text" class="form-control form-control-md score mx-3" placeholder="Time" readonly formControlName="mctsib_total">
                                         <label class="mb-0 font-14 clr--1F2F3E">/ 120sec</label>
+                                        <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.mctsib_total')?.hasError('required') && objectiveForm.get('outcome_measures.mctsib_total')?.touched">
+                                            {{ validationMessages.openValidation('You have missing fields in mCTSIB') }}
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -2231,14 +2306,27 @@
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group d-flex align-items-center mb-4">
                                                     <label class="col-form-label fw-700 font-16 me-3">Number</label>
-                                                    <input type="text" class="form-control form-control-md score" placeholder="Number" formControlName="sts_number">
+                                                    <input type="text" class="form-control form-control-md score" placeholder="Number" (keydown)="allowOnlyNumbers($event)" formControlName="sts_number">
                                                 </div>
+                                                <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.sts_number')?.hasError('required') && objectiveForm.get('outcome_measures.sts_number')?.touched">
+                                                    {{ validationMessages.openValidation('You have missing fields in 30 sec STS') }}
+                                                </div> 
+
+                                                <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.sts_number')?.hasError('required') && objectiveForm.get('outcome_measures.sts_number')?.hasError('max') && objectiveForm.get('outcome_measures.sts_number')?.touched">
+                                                    {{ validationMessages.openValidation('STS max value 200') }}
+                                                </div> 
                                             </div>
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group d-flex align-items-center mb-4">
                                                     <label class="col-form-label fw-700 font-16 me-3">Score</label>
-                                                    <input type="text" class="form-control form-control-md score" placeholder="Score" formControlName="sts_score">
+                                                    <input type="text" class="form-control form-control-md score" placeholder="Score" (keydown)="allowOnlyNumbers($event)" formControlName="sts_score">
                                                 </div>
+                                                <div class="text text-danger m-10" *ngIf="objectiveForm.get('outcome_measures.sts_score')?.hasError('required') && objectiveForm.get('outcome_measures.sts_score')?.touched">
+                                                    {{ validationMessages.openValidation('You have missing fields in 30 sec STS') }}
+                                                </div> 
+                                                <div class="text text-danger m-10" *ngIf="!objectiveForm.get('outcome_measures.sts_score')?.hasError('required') && objectiveForm.get('outcome_measures.sts_score')?.hasError('max') && objectiveForm.get('outcome_measures.sts_score')?.touched">
+                                                    {{ validationMessages.openValidation('Score max value 200') }}
+                                                </div> 
                                             </div>
                                         </div>
                                     </div>

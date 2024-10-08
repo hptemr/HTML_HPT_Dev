@@ -98,6 +98,7 @@ export class ObjectiveComponent {
   objectiveId:string='';
   surgery_date:any=''
   surgery_type:string=''
+  mctsib_total: number = 0;
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
 
@@ -234,7 +235,8 @@ export class ObjectiveComponent {
     });
     //this.initializeFormValidation();
     this.onFlagChange();
-    this.getObjectiveRecord();
+    this.getObjectiveRecord();  
+    this.onMctsibChange()    
   }
 
 
@@ -1019,32 +1021,147 @@ export class ObjectiveComponent {
       outcome_measures_group.get('mctsib_total')?.setValue(null) 
     }
 
+    if(outcome_measures_group.get('name')?.value=='mCTSIB'){
+      outcome_measures_group.get('mctsib_condition1_1')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition1_1')?.updateValueAndValidity();     
+      outcome_measures_group.get('mctsib_condition1_2')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition1_2')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition1_3')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition1_3')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition2_1')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition2_1')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition2_2')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition2_2')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition2_3')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition2_3')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition3_1')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition3_1')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition3_2')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition3_2')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition3_3')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition3_3')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition4_1')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition4_1')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition4_2')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition4_2')?.updateValueAndValidity(); 
+      outcome_measures_group.get('mctsib_condition4_3')?.setValidators([Validators.required, Validators.min(0), Validators.max(30)])      
+      outcome_measures_group.get('mctsib_condition4_3')?.updateValueAndValidity(); 
+    }
     if(outcome_measures_group.get('name')?.value!='30 sec STS'){
-     // console.log('HERE 7 30 sec STS');
       outcome_measures_group.get('sts_number')?.setValue(null)
       outcome_measures_group.get('sts_score')?.setValue(null) 
-    }       
-
+    }   
+    
+    if(outcome_measures_group.get('name')?.value=='30 sec STS'){      
+      outcome_measures_group.get('sts_number')?.setValidators([Validators.required, Validators.min(0), Validators.max(200)])      
+      outcome_measures_group.get('sts_number')?.updateValueAndValidity(); 
+      outcome_measures_group.get('sts_score')?.setValidators([Validators.required, Validators.min(0), Validators.max(200)])      
+      outcome_measures_group.get('sts_score')?.updateValueAndValidity(); 
+    }
   }
 
+    onFlagChange() {
+      const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
+      const flagControl = chaperoneGroup.get('flag');
+      const nameControl = chaperoneGroup.get('name');
 
-  onFlagChange() {
-    const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
-    const flagControl = chaperoneGroup.get('flag');
-    const nameControl = chaperoneGroup.get('name');
+      flagControl?.valueChanges.subscribe((flagValue: string) => {
+        console.log('flag Value >>>>',flagValue)
+        if (flagValue === 'Yes') {
+          nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
+        } else {
+          nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
+          nameControl?.setValue('');
+          nameControl?.markAsUntouched();
+        }
+        nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
+      });
+    }
+ 
+    // Function to allow only numeric input
+    allowOnlyNumbers(event: KeyboardEvent): void {
+      const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'];
+      const isNumber = (event.key >= '0' && event.key <= '9');  
+      if (!isNumber && !allowedKeys.includes(event.key)) {
+        event.preventDefault(); // Prevent any non-numeric input
+      }  
+    }
+    
+    onMctsibChange() {
+        const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+        outcome_measures_group.get('mctsib_condition1_1')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
 
-    flagControl?.valueChanges.subscribe((flagValue: string) => {
-      console.log('flag Value >>>>',flagValue)
-      if (flagValue === 'Yes') {
-        nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
-      } else {
-        nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
-        nameControl?.setValue('');
-        nameControl?.markAsUntouched();
-      }
-      nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
-    });
-  }
+        outcome_measures_group.get('mctsib_condition1_2')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition1_3')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition2_1')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition2_2')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+        
+        outcome_measures_group.get('mctsib_condition2_3')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition3_1')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition3_2')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition3_3')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition4_1')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition4_2')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+
+        outcome_measures_group.get('mctsib_condition4_3')?.valueChanges.subscribe(() => {
+          this.calculateTotal();
+        });
+    }
+    
+    calculateTotal(): void {
+      const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+
+      const field1 = parseInt(outcome_measures_group.get('mctsib_condition1_1')?.value || '0', 10);
+      const field2 = parseInt(outcome_measures_group.get('mctsib_condition1_2')?.value || '0', 10);
+      const field3 = parseInt(outcome_measures_group.get('mctsib_condition1_3')?.value || '0', 10);
+  
+
+      const field4 = parseInt(outcome_measures_group.get('mctsib_condition2_1')?.value || '0', 10);
+      const field5 = parseInt(outcome_measures_group.get('mctsib_condition2_2')?.value || '0', 10);
+      const field6 = parseInt(outcome_measures_group.get('mctsib_condition2_3')?.value || '0', 10);
+
+      const field7 = parseInt(outcome_measures_group.get('mctsib_condition3_1')?.value || '0', 10);
+      const field8 = parseInt(outcome_measures_group.get('mctsib_condition3_2')?.value || '0', 10);
+      const field9 = parseInt(outcome_measures_group.get('mctsib_condition3_3')?.value || '0', 10);
+
+      const field10 = parseInt(outcome_measures_group.get('mctsib_condition4_1')?.value || '0', 10);
+      const field11 = parseInt(outcome_measures_group.get('mctsib_condition4_2')?.value || '0', 10);
+      const field12 = parseInt(outcome_measures_group.get('mctsib_condition4_3')?.value || '0', 10);
+      this.mctsib_total = field1 + field2 + field3 + field4 + field5 + field6 + field7 + field8 + field9 + field10 + field11 + field12;
+      console.log('mctsib_total>>>',this.mctsib_total)
+      outcome_measures_group.get('mctsib_total')?.setValue(this.mctsib_total) 
+      
+    }
 
   async objectiveSubmit(formData: any){
     console.log('<<<<<  objective form >>>>',this.objectiveForm)
