@@ -15,6 +15,7 @@ router.post('/finalizeNote', soapController.finalizeNote);
 router.post('/submitSubjective', soapController.submitSubjective);
 router.post('/getObjectiveData', soapController.getObjectiveData);
 router.post('/submitObjective', soapController.submitObjective);
+router.post('/submitObjectiveExercise', soapController.submitObjectiveExercise);
 router.post('/getSubjectiveData', soapController.getSubjectiveData);
 router.post('/submitAssessment', soapController.submitAssessment);
 router.post('/getAssessment', soapController.getAssessment);

@@ -107,9 +107,9 @@ const createBillingNote = async (req, res) => {
 
 const getBillingNote = async (req, res) => {
   try {
-    let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId,soap_note_type: req.body.noteType});
+    let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType });
     // let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1 })
-    let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1,billingType:1, caseName: 1})
+    let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
     commonHelper.sendResponse(res, 'success', billingData, caseData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -170,9 +170,11 @@ const submitSubjective = async (req, res) => {
       await subjectiveTemp.findOneAndUpdate({ _id: subjectiveId }, data, optionsUpdatePlan);
     } else {
       await subjectiveTemp.create(data)
-      await setAssessment(req)
+      if (data.soap_note_type && data.soap_note_type != 'daily_note') {
+        await setAssessment(req)
+      }
     }
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.subjective);
   } catch (error) {
     console.log("*****************error", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -186,8 +188,8 @@ const getObjectiveData = async (req, res) => {
     let subjectiveData = await subjectiveTemp.findOne(query);
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
     let appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
-    
-    let returnData = { objectiveData: objectiveData,subjectiveData:subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
+
+    let returnData = { objectiveData: objectiveData, subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -199,28 +201,56 @@ const submitObjective = async (req, res) => {
     const { data, query, userId, type } = req.body;
 
     let objective_data = await ObjectiveModel.findOne(query);
-   
-    console.log(type,'objective_data>>>>',objective_data)
+
     let message = '';
     if (objective_data) {
       await ObjectiveModel.findOneAndUpdate(query, data);
-      if(type=='objective'){
-        message = soapMessage.updateObjective;
-      }else{
-        message = soapMessage.upadteExercise;
-      }            
+      message = soapMessage.updateObjective;
     } else {
-      console.log(' ***************** ',data)
       await ObjectiveModel.create(data)
-      if(type=='objective'){
-        message = soapMessage.addObjective;
-      }else{
-        message = soapMessage.addExercise;
-      }      
+      message = soapMessage.addObjective;
     }
     commonHelper.sendResponse(res, 'success', {}, message);
   } catch (error) {
-    console.log(' ***************** ',error)
+    console.log(' ***************** ', error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const submitObjectiveExercise = async (req, res) => {
+  try {
+    const { data, query, exerciseType, userId, type } = req.body;
+    let objective_exercise_data = await ObjectiveModel.findOne(query);
+
+    let message = '';
+    if (objective_exercise_data) {
+      if (exerciseType == 'Land Flowsheet') {
+        objective_exercise_data.land_exercise.push(data);
+      } else if (exerciseType == 'Aquatic Flowsheet') {
+        objective_exercise_data.aquatic_exercise.push(data);
+      }
+      await ObjectiveModel.findOneAndUpdate(query, objective_exercise_data);
+      message = soapMessage.upadteExercise;
+    } else {
+      let insert_data = {
+        appointmentId: query.appointmentId,
+        soap_note_type: data.soap_note_type,
+        createdBy: data.createdBy,
+      }
+
+      if (exerciseType == 'Land Flowsheet') {
+        Object.assign(insert_data, { land_exercise: data })
+      } else if (exerciseType == 'Aquatic Flowsheet') {
+        Object.assign(insert_data, { aquatic_exercise: data })
+      }
+
+      //console.log(' ***************** ',insert_data)
+      await ObjectiveModel.create(insert_data)
+      message = soapMessage.addExercise;
+    }
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log(' ***************** ', error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -317,6 +347,7 @@ module.exports = {
   submitSubjective,
   getObjectiveData,
   submitObjective,
+  submitObjectiveExercise,
   getSubjectiveData,
   submitAssessment,
   getAssessment,
