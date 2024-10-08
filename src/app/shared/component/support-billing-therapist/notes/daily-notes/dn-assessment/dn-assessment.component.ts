@@ -31,6 +31,7 @@ export class DnAssessmentComponent {
   }
 
   ngOnInit() {
+    this.commonService.showLoader()
     this.getAssessment()
     this.assessmentForm = this.fb.group({
       appointmentId: [this.appointmentId],
@@ -50,6 +51,7 @@ export class DnAssessmentComponent {
       }
     }
     await this.authService.apiRequest('post', 'soapNote/getAssessment', reqVars).subscribe(async (response) => {
+      this.commonService.hideLoader()
       if (response.data) {
         this.isUpdate = true
         this.assessmentForm.controls['assessment_text'].setValue(response.data.assessment_text)
