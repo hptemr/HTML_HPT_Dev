@@ -79,6 +79,7 @@ const messages = {
         updateObjective: 'Objective has been updated successfully',
         addExercise: 'Exercise has been added successfully',
         upadteExercise: 'Exercise has been updated successfully',
+        subjective: 'Subjective has been updated successfully',
     },
     billingMessage:{
         addDetails:"Billing details added successfully",
