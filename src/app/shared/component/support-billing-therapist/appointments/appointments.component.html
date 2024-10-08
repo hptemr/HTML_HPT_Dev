@@ -146,9 +146,9 @@
                                 <p class="status {{element.statusFlag}}">{{element.status}}</p>
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="patientcheckstatus">
+                        <ng-container matColumnDef="checkIn">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                sortActionDescription="Sort by patientcheckstatus">
+                                sortActionDescription="Sort by checkIn">
                                 Patient Check in Status
                             </th>
                             <td mat-cell *matCellDef="let element">
@@ -157,9 +157,8 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                sortActionDescription="Sort by action">
-                                Actions
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Action
                             </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="w-100 d-flex align-items-center justify-content-end">

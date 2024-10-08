@@ -64,7 +64,7 @@ export const documents_list = [
 export const appointmentStatus = [
   "Pending Intake Form",
   "Scheduled",
-  // "Not Scheduled",
+  "Not Scheduled",
 ]
 export const bookingStatus = [
   'Approved',
@@ -96,6 +96,13 @@ export const carrierNameList = [
   'Carrier 1',
   'Carrier 2',
   'Carrier 3',
+]
+export const exercisesOptionsList = [
+  'SLR',
+  'Squats',
+  'Exercise 1',
+  'Exercise 2',
+  'Tandem Walking',
 ]
 
 // ==== Comet Chat Settings  ====

@@ -6,11 +6,11 @@
         <div class="modal--body w-100">
             <div class="col-12">
                 <div class="form-group"> 
-                    <select class="form-select form-control" aria-label="outcome measure dd" formControlName="exercises">
+                    <!-- (ngModelChange)="selectRecords('practiceLocation',$event)"  [(ngModel)]="practiceLocationsVal" -->
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="exercises">
                         <option selected>Select or enter exercises</option>
-                        <option value="Neck Disability Index">Neck Disability Index</option>
-                        <option value="QuickDASH">QuickDASH</option>
-                        <option value="Oswestry LBP">Oswestry LBP</option> 
+                        <option *ngFor="let element of exercisesOptions" value="{{element}}">{{element}}
+                        </option>
                     </select>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                 </div>
@@ -28,14 +28,18 @@
                 <div class="form-group">
                     <label class="col-form-label fw-700 font-16 text-uppercase">Sets</label>
                     <input class="form-control" type="text" placeholder="Enter Sets" formControlName="sets"/>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                    <div class="text text-danger mt-1" *ngIf="addExerciseForm.controls['sets'].touched && addExerciseForm.controls['sets'].hasError('maxlength')">
+                        {{ validationMessages.required('Sets cannot exceed 50 characters.') }}
+                    </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-700 font-16 text-uppercase">Reps</label>
                     <input class="form-control" type="text" placeholder="Enter Reps" formControlName="reps"/>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                    <div class="text text-danger mt-1" *ngIf="addExerciseForm.controls['reps'].touched && addExerciseForm.controls['reps'].hasError('maxlength')">
+                        {{ validationMessages.required('Reps cannot exceed 50 characters.') }}
+                    </div>
                 </div>
             </div>
             <div class="col-12">
@@ -43,10 +47,13 @@
                     <label class="col-form-label fw-700 font-16 text-uppercase">Weight/Resistance</label>
                     <div class="w-100 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
                         <input class="form-control me-3" type="number" placeholder="Enter Weight/Resistance" formControlName="weight_resistance"/>
-                        <mat-radio-group aria-label="Select an option" class="flex-shrink-0">
+                        <mat-radio-group aria-label="Select an option" class="flex-shrink-0" formControlName="weight_resistance_unit">
                             <mat-radio-button value="lbs" class="me-3" >lbs</mat-radio-button>
                             <mat-radio-button value="kg" checked>kg</mat-radio-button>
                         </mat-radio-group> 
+                    </div>
+                    <div class="text text-danger mt-1" *ngIf="addExerciseForm.controls['weight_resistance'].touched && addExerciseForm.controls['weight_resistance'].hasError('maxlength')">
+                        {{ validationMessages.required('Weight/Resistance cannot exceed 50 characters.') }}
                     </div>
                 </div>
             </div>
@@ -54,7 +61,9 @@
                 <div class="form-group">
                     <label class="col-form-label fw-700 font-16 text-uppercase">Distance (feet)</label>
                     <input class="form-control" type="number" placeholder="Enter Distance" formControlName="distance"/>
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                    <div class="text text-danger mt-1" *ngIf="addExerciseForm.controls['distance'].touched && addExerciseForm.controls['distance'].hasError('maxlength')">
+                        {{ validationMessages.required('Distance cannot exceed 50 characters.') }}
+                    </div>
                 </div>
             </div>
             <div class="col-12">
@@ -66,6 +75,9 @@
                             <mat-radio-button value="Min" class="me-3">Min</mat-radio-button>
                             <mat-radio-button value="Seconds">Seconds</mat-radio-button>
                         </mat-radio-group> 
+                    </div>
+                    <div class="text text-danger mt-1" *ngIf="addExerciseForm.controls['exercise_time'].touched && addExerciseForm.controls['exercise_time'].hasError('maxlength')">
+                        {{ validationMessages.required('Time cannot exceed 50 characters.') }}
                     </div>
                 </div>
             </div>

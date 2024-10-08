@@ -14,7 +14,7 @@ export interface PeriodicElement {
   appointmentDate: string;
   action: string;
   status: string;
-  patientcheckstatus: string;
+  checkIn: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [];
 
@@ -24,7 +24,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   styleUrl: './appointments.component.scss'
 })
 export class AppointmentsComponent {
-  displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'patientcheckstatus', 'action'];
+  displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'checkIn', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   orderBy: any = { updatedAt: -1 }
   whereCond: any = {}
