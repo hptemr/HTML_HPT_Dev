@@ -21,7 +21,6 @@ export class PreviewComponent {
     }
     this.authService.apiRequest('post', 'admin/previewDocumentFile', searchParams).subscribe(async response => {
     var extension = response.data.fileName.substring(response.data.fileName.lastIndexOf('.') + 1);
-    console.log("prev doc",extension)
     if(extension=='png' || extension=='jpg' || extension=='jpeg'){
       this.fileType = "image"
     }else if(extension=='mp4' || extension=='webm'){
