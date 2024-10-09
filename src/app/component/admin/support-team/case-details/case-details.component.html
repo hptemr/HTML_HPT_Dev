@@ -18,7 +18,9 @@
                                 <mat-expansion-panel-header>
                                     <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
                                         Basic Information 
-                                        <span class="font-14 fw-400 ml-3 badge">This Case is in collections</span>
+                                        <span class="font-14 fw-400 ml-3 badge" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">
+                                            This Case is in collections
+                                        </span>
                                        
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">

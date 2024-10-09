@@ -205,7 +205,6 @@ export class AppointmentDetailsComponent {
   getAuthManagementHistory(patientId:any, caseName:string){
     this.isAuthManagmentHistory = false
     this.authExpireDate = 'NA'
-    this.commonService.showLoader();
     let queryObj:any = {
       patientId : patientId,
       caseName : caseName
@@ -217,10 +216,8 @@ export class AppointmentDetailsComponent {
         let allAuthManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         this.authManagementHistory = allAuthManagementHistory[0]
         this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
-      }
-      this.commonService.hideLoader(); 
+      } 
     },(err) => {
-      this.commonService.hideLoader();
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })
   }

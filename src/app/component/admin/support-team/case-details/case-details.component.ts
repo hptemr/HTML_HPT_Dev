@@ -283,7 +283,8 @@ export class CaseDetailsComponent {
         page:'ST-CaseDetails',
         title: 'Primary Insurance',
         insuranceType: 'primary',
-        insuranceInfo: this.insuranceInfo
+        insuranceInfo: this.insuranceInfo,
+        selectedInsurance :this.stCaseDetailsForm.get('primaryInsurance')?.value
       }
     });
 
@@ -343,7 +344,6 @@ export class CaseDetailsComponent {
   getAuthManagementHistory(patientId:any, caseName:string){
     this.isAuthManagmentHistory = false
     this.authExpireDate = 'NA'
-    this.commonService.showLoader();
     let queryObj:any = {
       patientId : patientId,
       caseName : caseName
@@ -356,9 +356,7 @@ export class CaseDetailsComponent {
         this.authManagementHistory = allAuthManagementHistory[0]
         this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
       }
-      this.commonService.hideLoader(); 
     },(err) => {
-      this.commonService.hideLoader();
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })
   }

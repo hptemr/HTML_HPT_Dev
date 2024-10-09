@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Customer Service Ph # <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Customer Service Ph #" formControlName="PI_customerServicePhNo" (input)="PICustServPhoneInputChange($event)" [value]="PICustServPhoneNumber" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Customer Service Ph #" formControlName="PI_customerServicePhNo" (input)="PICustServPhoneInputChange($event)" [value]="PICustServPhoneNumber" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['PI_customerServicePhNo'].touched && billingDetailsForm.controls['PI_customerServicePhNo'].hasError('required')">
                                     {{ validationMessages.required('Customer Service Phone No') }}
                                 </div>
@@ -333,7 +333,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Customer Service Ph # <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Customer Service Ph #" formControlName="SI_customerServicePhNo"  (input)="SICustServPhoneInputChange($event)" [value]="SICustServPhoneNumber" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Customer Service Ph #" formControlName="SI_customerServicePhNo"  (input)="SICustServPhoneInputChange($event)" [value]="SICustServPhoneNumber" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['SI_customerServicePhNo'].touched && billingDetailsForm.controls['SI_customerServicePhNo'].hasError('required')">
                                     {{ validationMessages.required('Customer Service Phone No') }}
                                 </div>
@@ -568,7 +568,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Customer Service Ph # <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Customer Service Ph #" formControlName="TI_customerServicePhNo"  (input)="TICustServPhoneInputChange($event)" [value]="TICustServPhoneNumber" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Customer Service Ph #" formControlName="TI_customerServicePhNo"  (input)="TICustServPhoneInputChange($event)" [value]="TICustServPhoneNumber" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['TI_customerServicePhNo'].touched && billingDetailsForm.controls['TI_customerServicePhNo'].hasError('required')">
                                     {{ validationMessages.required('Customer Service Phone No') }}
                                 </div>
@@ -878,7 +878,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Phone Number<span class="clr--DF0404 ms-1"> *
                                 </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter Phone Number" formControlName="RP_phoneNo" (input)="RPPhoneNumberInputChange($event)" [value]="RPPhoneNumber" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Phone Number" formControlName="RP_phoneNo" (input)="RPPhoneNumberInputChange($event)" [value]="RPPhoneNumber" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_phoneNo'].touched && billingDetailsForm.controls['RP_phoneNo'].hasError('required')">
                                     {{ validationMessages.required('Phone Number') }}
                                 </div>
@@ -890,7 +890,7 @@
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Cell Phone Number</label>
-                                <input class="form-control" type="text" placeholder="Enter Cell Phone Number" formControlName="RP_cellPhoneNo" (input)="RPCellPhoneNumberInputChange($event)" [value]="RPCellPhoneNumber" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Cell Phone Number" formControlName="RP_cellPhoneNo" (input)="RPCellPhoneNumberInputChange($event)" [value]="RPCellPhoneNumber" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_cellPhoneNo'].touched && billingDetailsForm.controls['RP_cellPhoneNo'].hasError('pattern')">
                                     {{ validationMessages.invalidPhoneNumber }}
                                 </div>
@@ -899,7 +899,7 @@
                         <div class="col-12 col-lg-6 col-md-6 col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Work Extension</label>
-                                <input class="form-control" type="text" placeholder="Enter Work Extension" formControlName="RP_workExtension" (input)="RPWorkExtensionInputChange($event)" [value]="RPWorkExtension" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Work Extension" formControlName="RP_workExtension" (input)="RPWorkExtensionInputChange($event)" [value]="RPWorkExtension" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_workExtension'].touched && billingDetailsForm.controls['RP_workExtension'].hasError('pattern')">
                                     {{ validationMessages.invalidPhoneNumber }}
                                 </div>
@@ -998,7 +998,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Adjuster Phone # <span class="clr--DF0404 ms-1"> *
                                         </span></label>
-                                    <input class="form-control" type="text" placeholder="Enter Adjuster Phone" formControlName="RP_adjusterPhone" (input)="RPAdjusterPhoneInputChange($event)" [value]="RPAdjusterPhone" maxlength="15"/>
+                                    <input class="form-control" type="text" placeholder="Enter Adjuster Phone" formControlName="RP_adjusterPhone" (input)="RPAdjusterPhoneInputChange($event)" [value]="RPAdjusterPhone" maxlength="14"/>
                                     <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_adjusterPhone'].touched && billingDetailsForm.controls['RP_adjusterPhone'].hasError('required')">
                                         {{ validationMessages.required('Adjuster Phone') }}
                                     </div>
@@ -1041,7 +1041,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Employer Phone <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Employer Phone" formControlName="EI_employerPhone" (input)="EIEmployerPhoneInputChange($event)" [value]="EIEmployerPhone" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Employer Phone" formControlName="EI_employerPhone" (input)="EIEmployerPhoneInputChange($event)" [value]="EIEmployerPhone" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerPhone'].touched && billingDetailsForm.controls['EI_employerPhone'].hasError('required')">
                                     {{ validationMessages.required('Employer Phone') }}
                                 </div>
@@ -1084,7 +1084,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Attorney Phone  <span class="clr--DF0404 ms-1"> *
                                 </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Attorney Phone" formControlName="AI_attorneyPhone" (input)="AIAttorneyPhoneInputChange($event)" [value]="AIAttorneyPhone" maxlength="15"/>
+                                <input class="form-control" type="text" placeholder="Enter Attorney Phone" formControlName="AI_attorneyPhone" (input)="AIAttorneyPhoneInputChange($event)" [value]="AIAttorneyPhone" maxlength="14"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['AI_attorneyPhone'].touched && billingDetailsForm.controls['AI_attorneyPhone'].hasError('required')">
                                     {{ validationMessages.required('Attorney Phone') }}
                                 </div>
