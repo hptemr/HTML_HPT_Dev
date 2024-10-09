@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder,FormArray, FormControl, ValidationErrors } from '@angular/forms';
 export interface PeriodicElement {
   file_name: string;
   actions: string;
@@ -26,6 +26,7 @@ export class ProtocolModalComponent {
   displayedColumns: string[] = ['file_name', 'actions'];
   directoryItmList:any =[];
   data_not_found:boolean=false;
+  validationMessages = validationMessages; 
   //dataSource = new MatTableDataSource(ELEMENT_DATA);
   //directoryItmList =  new MatTableDataSource(ELEMENT_DATA);//new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   public userId: string = this.authService.getLoggedInInfo('_id');
@@ -43,7 +44,7 @@ export class ProtocolModalComponent {
   lodForm(){
     this.protocolForm = new FormGroup({
         selectedElements: this.fb.array([this.fb.group({
-         check: [""]
+         check: ["",[Validators.required]]
         })
       ])
     });
@@ -65,28 +66,43 @@ export class ProtocolModalComponent {
     return this.protocolForm.get('selectedElements') as FormArray;
   }
 
-  submit() {
-    const selectedCheckboxes = this.protocolForm.value.selectedElements
-      .map((checked:any, index:any) => (checked.check ? this.directoryItmList.data[index] : null))
-      .filter((value: null) => value !== null);    
- 
-      this.dialogRef.close(selectedCheckboxes); 
+   // Check if any checkbox is checked
+   isAtLeastOneChecked(): boolean {
+    return this.selectedElements.controls.some(control => control.get('check')?.value === true);
   }
-  
-  // async caseNoteSubmit(formData:any,from:string){
-  //   if (this.caseNoteForm.invalid){
-  //     this.caseNoteForm.markAllAsTouched();
-  //   }else{
-  //     if (this.appointmentId) {
-  //       this.dialogRef.close();        
-  //     }
-  //   }
-  // }
+
+  submit() {
+    console.log('<<<<<  protocolForm form >>>>',this.protocolForm)
+
+    if (this.protocolForm.valid && this.isAtLeastOneChecked()) {
+      console.log('Form Submitted', this.protocolForm.value);
+      const selectedCheckboxes = this.protocolForm.value.selectedElements
+      .map((checked:any, index:any) => (checked.check ? this.directoryItmList.data[index] : null))
+      .filter((value: null) => value !== null);     
+      this.dialogRef.close(selectedCheckboxes); 
+    } else {
+      console.log('Form Invalid');
+      this.protocolForm.markAllAsTouched();
+    }
+
+
+    // if (this.protocolForm.invalid){
+    //   this.protocolForm.markAllAsTouched();
+    // }else{
+    //   const selectedCheckboxes = this.protocolForm.value.selectedElements
+    //   .map((checked:any, index:any) => (checked.check ? this.directoryItmList.data[index] : null))
+    //   .filter((value: null) => value !== null);     
+    //   this.dialogRef.close(selectedCheckboxes); 
+    // }
+
+  }
  
   async getProtocolDetails() {  
+    this.commonService.showLoader()
     if (this.appointmentId) {
       var searchParams = { searchValue:this.searchDirectory.trim(), userRole:this.userRole, userId:this.userId}
-      await this.authService.apiRequest('post', 'admin/getDefaultDirectoriesAndItems', searchParams).subscribe(async response => {        
+      await this.authService.apiRequest('post', 'admin/getDefaultDirectoriesAndItems', searchParams).subscribe(async response => {    
+        this.commonService.hideLoader()    
         let finalData: any = []
         if(response.data.fileList && response.data.fileList[0]){
           this.data_not_found = true;
