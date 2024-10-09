@@ -46,6 +46,14 @@ input, p,
 .cursor-pointer{ cursor: pointer !important; }
 .disabled {pointer-events: none;}
 
+.back--btn{
+    min-width: 42px !important;
+    .material-symbols-outlined{
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 24px !important; 
+    }
+}
 .am--datepicker{
     .mat-mdc-form-field-subscript-wrapper{
         display: none;

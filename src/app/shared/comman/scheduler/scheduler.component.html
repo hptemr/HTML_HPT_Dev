@@ -1,5 +1,5 @@
 <div class="scheduler--wrapper w-100">
-    <div class="sc--header d-flex align-items-center">
+    <div class="sc--header d-flex align-items-center" *ngIf="calenderView">
         <div class="form-group mb-0 flex-shrink-0 pl--field">
             <select class="form-select form-control form-control-md" aria-label="Default select example">
                 <option selected>Practice Location</option>
@@ -44,7 +44,7 @@
                     Month
                 </div> 
             </div>
-            <div class="form-group position-relative mb-0 head--search">
+            <div class="form-group position-relative mb-0 head--search" (click)="search()" >
                 <input type="text" class="form-control form-control-md search--outer"
                     placeholder="Search ">
                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
@@ -54,9 +54,47 @@
         </div>
     </div>
 
-    <!-- <div class="sc--header search--filter--header d-flex align-items-center">
-
-    </div> -->
+    <div class="sc--header search--filter--header d-flex align-items-center" *ngIf="searchView">
+        <div class="d-flex align-items-center flex-shrink-0">
+            <button mat-stroked-button color="primary" class="m-1 back--btn" (click)="backToCalender()" >
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+            </button>
+            <div class="form-group position-relative head--search m-1">
+                <input type="text" class="form-control form-control-md search--outer"
+                    placeholder="Search ">
+                <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
+            <input class="form-control form-control-md w-130p m-1 flex-shrink-0" type="text"   placeholder="" value="Aug 26, 2024" /> 
+            <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text"  placeholder="" value="10:00 AM" /> 
+            <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
+            <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text" placeholder="" value="10:00 PM" /> 
+        </div>
+        <div class="d-flex align-items-sm-center flex-column flex-sm-row align-items-start w-100">
+            <select class="form-select form-control form-control-md  m-1 " aria-label="Default select example">
+                <option selected>Patient Name </option> 
+                <option value="1">Patient 1 </option> 
+                <option value="2">Patient 2 </option> 
+                <option value="3">Patient 3 </option> 
+            </select>
+            <select class="form-select form-control form-control-md m-1" aria-label="Default select example">
+                <option selected>Case Name  </option> 
+                <option value="1">Case 1 </option> 
+                <option value="2">Case 2 </option> 
+                <option value="3">Case 3 </option> 
+            </select>
+            <select class="form-select form-control form-control-md m-1" aria-label="Default select example"> 
+                <option selected>Insurance </option> 
+                <option value="1">Insurance 1 </option> 
+                <option value="2">Insurance 2 </option> 
+                <option value="3">Insurance 3 </option> 
+            </select>
+        </div>
+        <button mat-raised-button class="flex-shrink-0 m-1" color="primary">Reset</button>
+    </div>
 
     <div class="sc--body d-flex align-items-start">
         <div class="sc--left--panel">
@@ -107,8 +145,9 @@
 
         <!-- Calender Start here -->
         <div class="sc--right--panel d-flex flex-column w-100">
-            <div class="row w-100  ">
 
+            <!-- Calendar view (Start here) -->
+            <div class="row w-100" *ngIf="calenderView"> 
                 <div class="col-12">
                     <div [ngSwitch]="view">
                         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
@@ -126,43 +165,9 @@
                         </mwl-calendar-day-view>
                     </div>
                 </div>
-            </div>
+            </div>  
 
-
-            <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-
-            <!-- <h3>
-                Edit events
-                <button class="btn btn-primary float-end" (click)="addEvent()">
-                  Add new
-                </button>
-                <div class="clearfix"></div>
-              </h3>  -->
-
-            <ng-template #modalContent let-close="close">
-                <!-- <div class="modal-header">
-                  <h5 class="modal-title">Event action occurred</h5>
-                  <button type="button" class="close" (click)="close()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div>
-                    Action:
-                    <pre>{{ modalData?.action }}</pre>
-                  </div>
-                  <div>
-                    Event:
-                    <pre>{{ modalData?.event | json }}</pre>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-secondary" (click)="close()">
-                    OK
-                  </button>
-                </div> -->
-
-
+            <ng-template #modalContent let-close="close"> 
                 <div class="modal--wrapper d-flex flex-column w-100 app--details--modal--wrapper">
                     <div class="modal--header w-100 d-flex justify-content-between align-items-center">
                         <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-0">
@@ -253,11 +258,116 @@
                         </div>
                     </div>
                      
-                </div>
-
-
-
+                </div> 
             </ng-template>
+            <!-- Calendar view (End here) --> 
+
+
+            <!-- Search view (Start here) --> 
+             <div class="row w-100" *ngIf="searchView">
+                <div class="col-12">
+                    <div class="search--results--wrapper d-flex   flex-column flex-sm-row align-items-start w-100">
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">22 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 orange"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">John Doe, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 orange"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">John Doe, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search--results--wrapper d-flex   flex-column flex-sm-row align-items-start w-100"> 
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">23 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 red"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">Maria Jones, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                    <div class="search--results--wrapper d-flex   flex-column flex-sm-row align-items-start w-100"> 
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">24 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 blue"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">Lisa Mathew, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                    <div class="search--results--wrapper d-flex   flex-column flex-sm-row align-items-start w-100"> 
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">25 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 green"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">Lisa Mathew, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                </div>
+             </div>
+            <!-- Search view (End here) --> 
 
         </div>
         <!-- Calender End's here -->

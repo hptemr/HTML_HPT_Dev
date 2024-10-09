@@ -60,8 +60,16 @@
         }
 
         // Search Filter Header
-        .search--filter--header{
-
+        &.search--filter--header{
+            .w-100p{
+                width: 100px;
+            }
+            .w-130p{
+                width: 130px;
+            } 
+            .form-control{
+                background-color: #F4F4F5 !important;
+            }
         }
     }   
     .sc--body{ 
@@ -189,6 +197,52 @@
                     background-color: #000 !important;
                     width: 5px;
                     height: 5px;
+                }
+            }
+
+            .search--results--wrapper{ 
+                border-bottom: 1px solid #E0E0E0;
+                padding: 20px 20px 0 20px;
+                &:first-child{
+                    padding-top: 0;
+                }
+                .date{
+                    margin-right: 10px;
+                    width: 150px;
+                    p{
+                        font-size: 22px;
+                        line-height: 34px;
+                        span{
+                            font-size: 12px;
+                        }
+                    }
+                }
+                .user--time{
+                    margin-bottom: 20px;
+                    .point{
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 20px;
+                        margin-right: 10px;
+                        &.orange{
+                            background-color: #F59E0B;
+                        }
+                        &.red{
+                            background-color: #BE123C;
+                        }
+                        &.blue{
+                            background-color: #6D28D9;
+                        }
+                        &.green{
+                            background-color: #0369A1;
+                        }
+                    }
+                    .pro--circle{
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 100px;
+                        overflow: hidden; 
+                    }
                 }
             }
         }

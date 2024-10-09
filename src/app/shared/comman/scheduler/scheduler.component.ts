@@ -15,6 +15,7 @@ import { EventColor } from 'calendar-utils';
 import { UpcomingAppModalComponent } from './upcoming-app-modal/upcoming-app-modal.component';
 import { CollectPaymentModalComponent } from './collect-payment-modal/collect-payment-modal.component';
 import { AlertComponent } from '../alert/alert.component';
+import { tr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-scheduler', 
@@ -36,7 +37,21 @@ import { AlertComponent } from '../alert/alert.component';
 })
 
 export class SchedulerComponent {
+  calenderView = true;
+  searchView = false;
+
   constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal) { }
+
+
+  search() {
+    this.calenderView = false;
+    this.searchView = true;
+  }
+  backToCalender(){
+    this.calenderView = true;
+    this.searchView = false;
+  }
+
   selected: Date | null;
   createAppointmen(){
     const dialogRef = this.dialog.open(CreateAppointmentModalComponent,{
