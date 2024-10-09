@@ -148,6 +148,7 @@ export class CaseDetailsComponent {
   authExpireDate: string = 'NA'
   stCaseDetails:any
   isStCaseDetails:boolean=false
+  authVisits: string = 'NA'
 
   constructor(
     public dialog: MatDialog,
@@ -325,7 +326,7 @@ export class CaseDetailsComponent {
   saveStCaseDetails(){
     this.commonService.showLoader();
     let caseDetailsFormObj:any =this.stCaseDetailsForm.value
-    caseDetailsFormObj['payerID']= this.selectedPrimaryInsuranceData.payerID
+    caseDetailsFormObj['payerID']= this.selectedPrimaryInsuranceData?.payerID ? this.selectedPrimaryInsuranceData?.payerID :''
     let caseDetailsObj:any = {
       caseDetails : this.stCaseDetailsForm.value,
       patientId : this.patientId,
@@ -344,6 +345,7 @@ export class CaseDetailsComponent {
   getAuthManagementHistory(patientId:any, caseName:string){
     this.isAuthManagmentHistory = false
     this.authExpireDate = 'NA'
+    this.authVisits = 'NA'
     let queryObj:any = {
       patientId : patientId,
       caseName : caseName
@@ -355,6 +357,7 @@ export class CaseDetailsComponent {
         let allAuthManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         this.authManagementHistory = allAuthManagementHistory[0]
         this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
+        this.authVisits = this.authManagementHistory?.authorizationVisit
       }
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
@@ -380,6 +383,9 @@ export class CaseDetailsComponent {
   }
 
   addStCaseDetailsValue() {
+    if(this.stCaseDetails?.primaryInsurance){
+      this.selectedPrimaryInsuranceData =  this.stCaseDetails 
+    }
     this.stCaseDetailsForm.controls['therapistId'].setValue(this.isStCaseDetails ? this.stCaseDetails?.therapistId : this.selectedTherapistId);
     this.stCaseDetailsForm.controls['returnToDoctor'].setValue(this.isStCaseDetails ? this.stCaseDetails?.returnToDoctor : "");
     this.stCaseDetailsForm.controls['primaryInsurance'].setValue(this.isStCaseDetails ? this.stCaseDetails?.primaryInsurance : this.insuranceInfo?.primaryInsuranceCompany);

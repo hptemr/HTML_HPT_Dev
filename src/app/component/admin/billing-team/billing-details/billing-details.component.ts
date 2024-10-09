@@ -55,6 +55,8 @@ export class BillingDetailsComponent {
   isBillingDetailsData:boolean= false
   adminPayViaInsuranceInfo:any
   userType: string=''
+  isSupportTeamUser:boolean= false
+  urlSegment:any
 
   constructor(
     public dialog: MatDialog,
@@ -73,9 +75,16 @@ export class BillingDetailsComponent {
     this.initializeBillingDetailsForm()
     this.getAppointmentDetails()
     this.userType = this.authService.getLoggedInInfo('role')
-    
+    this.urlSegment = (this.userType=='support_team')?'support-team':
+    (this.userType=='billing_team')?'billing-team':''
+
     if(this.userType=='support_team'){
-      this.billingDetailsForm.disable()
+      this.isSupportTeamUser = true
+      let that = this
+      setTimeout(function () {
+        that.billingDetailsForm.disable()
+      }, 2000)
+      // this.billingDetailsForm.disable()
     }
   }
 

@@ -27,6 +27,8 @@ export class ViewInsuranceComponent {
   carrierNameList = carrierNameList
   states: State[] = states_data
   fullNameForSign: string = '';
+  isInjuryRelatedToWorkers:boolean=false
+  isOtherPersonalInjury:boolean=false
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +44,7 @@ export class ViewInsuranceComponent {
   ngOnInit() {
     this.getAppointmentDetails()
     this.loadInsuranceForm()
+    this.insuranceForm.disable()
   }
 
   async getAppointmentDetails() {
@@ -94,6 +97,10 @@ export class ViewInsuranceComponent {
       reportedEmployer: [''],
       employerName: [''],
       employerPhone: [''],
+      employerAddress: [''],
+      attorneyName: [''],
+      attorneyPhone: [''],
+      otherPersonalInjury:['']
     });
   }
 
@@ -120,16 +127,29 @@ export class ViewInsuranceComponent {
     this.insuranceForm.controls['secondaryInsuranceToDate'].setValue(insuranceInfo ? insuranceInfo?.secondaryInsuranceToDate : '');
 
     this.insuranceForm.controls['injuryRelelatedTo'].setValue(insuranceInfo ? insuranceInfo?.injuryRelelatedTo : '');
-    this.insuranceForm.controls['carrierName'].setValue(insuranceInfo ? insuranceInfo?.carrierName : '');
-    this.insuranceForm.controls['dateOfInjury'].setValue(insuranceInfo ? insuranceInfo?.dateOfInjury : '');
-    this.insuranceForm.controls['insuranceState'].setValue(insuranceInfo ? insuranceInfo?.insuranceState : '');
-    this.insuranceForm.controls['claim'].setValue(insuranceInfo ? insuranceInfo?.claim : '');
-    this.insuranceForm.controls['adjusterName'].setValue(insuranceInfo ? insuranceInfo?.adjusterName : '');
-    this.insuranceForm.controls['adjusterPhone'].setValue(insuranceInfo ? insuranceInfo?.adjusterPhone : '');
-    this.insuranceForm.controls['reportedEmployer'].setValue(insuranceInfo ? insuranceInfo?.reportedEmployer : '');
 
-    this.insuranceForm.controls['employerName'].setValue(insuranceInfo ? insuranceInfo?.employerName : '');
-    this.insuranceForm.controls['employerPhone'].setValue(insuranceInfo ? insuranceInfo?.employerPhone : '');
+    if(insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
+      this.isInjuryRelatedToWorkers = true
+      this.insuranceForm.controls['carrierName'].setValue(insuranceInfo ? insuranceInfo?.carrierName : '');
+      this.insuranceForm.controls['dateOfInjury'].setValue(insuranceInfo ? insuranceInfo?.dateOfInjury : '');
+      this.insuranceForm.controls['insuranceState'].setValue(insuranceInfo ? insuranceInfo?.insuranceState : '');
+      this.insuranceForm.controls['claim'].setValue(insuranceInfo ? insuranceInfo?.claim : '');
+      this.insuranceForm.controls['adjusterName'].setValue(insuranceInfo ? insuranceInfo?.adjusterName : '');
+      this.insuranceForm.controls['adjusterPhone'].setValue(insuranceInfo ? insuranceInfo?.adjusterPhone : '');
+      this.insuranceForm.controls['reportedEmployer'].setValue(insuranceInfo ? insuranceInfo?.reportedEmployer : '');
+      this.insuranceForm.controls['employerName'].setValue(insuranceInfo ? insuranceInfo?.employerName : '');
+      this.insuranceForm.controls['employerPhone'].setValue(insuranceInfo ? insuranceInfo?.employerPhone : '');
+      this.insuranceForm.controls['employerAddress'].setValue(insuranceInfo ? insuranceInfo?.employerAddress : '');
+    }
+
+    if(insuranceInfo?.injuryRelelatedTo=="Other Personal Injury"){
+      this.isOtherPersonalInjury = true
+      this.insuranceForm.controls['otherPersonalInjury'].setValue(insuranceInfo ? insuranceInfo?.otherPersonalInjury : '');
+    }
+
+    this.insuranceForm.controls['attorneyName'].setValue(insuranceInfo ? insuranceInfo?.attorneyName : '');
+    this.insuranceForm.controls['attorneyPhone'].setValue(insuranceInfo ? insuranceInfo?.attorneyPhone : '');
+    
   }
 
 

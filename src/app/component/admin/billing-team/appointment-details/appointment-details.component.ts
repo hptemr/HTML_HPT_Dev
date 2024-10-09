@@ -128,6 +128,7 @@ export class AppointmentDetailsComponent {
   isAuthManagmentHistory:boolean=false
   authManagementHistory :any
   authExpireDate: string = 'NA'
+  authVisits: string = 'NA'
 
   displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -205,6 +206,7 @@ export class AppointmentDetailsComponent {
   getAuthManagementHistory(patientId:any, caseName:string){
     this.isAuthManagmentHistory = false
     this.authExpireDate = 'NA'
+    this.authVisits = 'NA'
     let queryObj:any = {
       patientId : patientId,
       caseName : caseName
@@ -216,6 +218,7 @@ export class AppointmentDetailsComponent {
         let allAuthManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         this.authManagementHistory = allAuthManagementHistory[0]
         this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
+        this.authVisits = this.authManagementHistory?.authorizationVisit
       } 
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
