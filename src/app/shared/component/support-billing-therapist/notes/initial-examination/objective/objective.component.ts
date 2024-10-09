@@ -433,7 +433,7 @@ export class ObjectiveComponent {
       this.objectiveForm.controls['patient_consent'].setValue(objectiveData?.patient_consent);
       this.objectiveForm.controls['precautions'].setValue(objectiveData?.precautions);
 
-      if(objectiveData === null){
+      if(objectiveData === null || (objectiveData?.precautions === null || objectiveData?.precautions=='')){
         if(subjectiveData && subjectiveData?.surgery_type){
           this.surgery_type = subjectiveData?.surgery_type;
           const precautions_list = this.calculatePrecautions(subjectiveData.surgery_date)
