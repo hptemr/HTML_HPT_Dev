@@ -19,28 +19,31 @@ export class AddExerciseComponent {
   addExerciseForm: FormGroup;
   appointmentId:string;
   exerciseType:string;
+  soap_note_type:string;
   public userId: string = this.authService.getLoggedInInfo('_id');
   public userRole: string = this.authService.getLoggedInInfo('role');
   isSubmit:boolean=false;
+  validationMessages = validationMessages;
   exercisesOptions:any = exercisesOptionsList
   todayDate = new Date()
   constructor( private router: Router,public dialog: MatDialog,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private _liveAnnouncer: LiveAnnouncer, public dialogRef: MatDialogRef<AddExerciseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
     this.exerciseType = data.type;
+    this.soap_note_type = data.soap_note_type;    
   } 
-
+  
   ngOnInit() {
       this.addExerciseForm = this.fb.group({
         exercises: ["",[Validators.required]],
         exercise_date: [this.todayDate],
-        sets: [""],
-        reps: [""],
-        weight_resistance: [""],
-        weight_resistance_unit: [""],
-        distance: [""],
-        exercise_time: [""],
-        exercise_time_mints: [""],
+        sets: ['', [Validators.minLength(1), Validators.maxLength(50)]],
+        reps: ["", [Validators.minLength(1), Validators.maxLength(50)]],
+        weight_resistance: ["", [Validators.minLength(1), Validators.maxLength(50)]],
+        weight_resistance_unit: ["lbs"],
+        distance: ["", [Validators.minLength(1), Validators.maxLength(50)]],
+        exercise_time: ["", [Validators.minLength(1), Validators.maxLength(50)]],
+        exercise_time_mints: ["Min"],
     });
   }
 
@@ -55,7 +58,7 @@ export class AddExerciseComponent {
       this.isSubmit = true
       let reqVars = {
         query: {
-          appointmentId: this.appointmentId,soap_note_type:"initial_examination"
+          appointmentId: this.appointmentId,soap_note_type:this.soap_note_type
         },
         userId:this.userId,
         type:'exercise',        
@@ -63,16 +66,18 @@ export class AddExerciseComponent {
         data: formData
       }
       await this.authService.apiRequest('post', 'soapNote/submitObjectiveExercise', reqVars).subscribe(async (response) => {
-        let assessmentData = response.data
+        //let assessmentData = response.data
+        let responseFlag = false;
         if (response.error) {
           if (response.message) {
             this.commonService.openSnackBar(response.message, "ERROR");
           }           
         } else {
+          responseFlag = true;
           this.isSubmit = false;
           this.commonService.openSnackBar(response.message,"SUCCESS");
         }     
-        this.dialogRef.close();    
+        this.dialogRef.close(responseFlag);    
       })
     }
   }

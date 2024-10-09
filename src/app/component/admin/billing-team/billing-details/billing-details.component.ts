@@ -11,7 +11,7 @@ import { validationMessages } from '../../../../utils/validation-messages';
 import { regex } from '../../../../utils/regex-patterns';
 import { carrierNameList, maritalStatus, practiceLocations, relationWithPatient } from 'src/app/config';
 import { states_data } from 'src/app/state';
-
+import { s3Details } from 'src/app/config';
 interface State {
   state: string;
   state_code: string;
@@ -53,6 +53,8 @@ export class BillingDetailsComponent {
   patientId:string =''
   billingDetailsData : any;
   isBillingDetailsData:boolean= false
+  adminPayViaInsuranceInfo:any
+  userType: string=''
 
   constructor(
     public dialog: MatDialog,
@@ -70,6 +72,11 @@ export class BillingDetailsComponent {
   ngOnInit() {
     this.initializeBillingDetailsForm()
     this.getAppointmentDetails()
+    this.userType = this.authService.getLoggedInInfo('role')
+    
+    if(this.userType=='support_team'){
+      this.billingDetailsForm.disable()
+    }
   }
 
   initializeBillingDetailsForm(){
@@ -134,13 +141,14 @@ export class BillingDetailsComponent {
       this.commonService.showLoader();
       let reqVars = {
         query: { _id: this.appointmentId },
-        fields: { payViaInsuranceInfo: 1, caseName: 1 }
+        fields: { payViaInsuranceInfo: 1, adminPayViaInsuranceInfo:1, caseName: 1 }
       }
 
       await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
         this.commonService.hideLoader();
         if (response.data && response.data.appointmentData) {
           this.insuranceInfo = response.data.appointmentData?.payViaInsuranceInfo
+          this.adminPayViaInsuranceInfo = response.data.appointmentData?.adminPayViaInsuranceInfo
           this.patientId = response.data.appointmentData?.patientId._id
           this.caseName = response.data.appointmentData?.caseName
           this.getBillingDetails(this.patientId,this.caseName)
@@ -174,7 +182,6 @@ export class BillingDetailsComponent {
       caseName : caseName
     }
     this.authService.apiRequest('post', 'appointment/getBillingDetails', billingDetailsQuery).subscribe(async response => {  
-      console.log("getBillingDetails>>>",response)
       let { error, data } = response
       if(data && data!=null ){
         this.isBillingDetailsData = true
@@ -193,15 +200,13 @@ export class BillingDetailsComponent {
     // if(this.isBillingDetailsData){
     //   filledBillingDetailsData = this.billingDetailsData
     // }
-
-    console.log("this.isBillingDetailsData>>>",this.isBillingDetailsData)
-    this.billingDetailsForm.controls['primaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.primaryInsurance : this.insuranceInfo?.primaryInsuranceCompany);
-    this.billingDetailsForm.controls['PI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_idPolicy : this.insuranceInfo?.primaryInsuranceIdPolicy);
+    this.billingDetailsForm.controls['primaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.primaryInsurance : this.adminPayViaInsuranceInfo?.primaryInsuranceCompany);
+    this.billingDetailsForm.controls['PI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_idPolicy : this.adminPayViaInsuranceInfo?.primaryInsuranceIdPolicy);
     this.billingDetailsForm.controls['PI_numberOfVisit'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_numberOfVisit : '');
-    this.billingDetailsForm.controls['PI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_group : this.insuranceInfo?.primaryInsuranceGroup);
-    this.billingDetailsForm.controls['PI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_customerServicePhNo : this.insuranceInfo?.primaryInsuranceCustomerServicePh);
-    this.billingDetailsForm.controls['PI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_effectiveDate : this.insuranceInfo?.primaryInsuranceFromDate);
-    this.billingDetailsForm.controls['PI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_endDate : this.insuranceInfo?.primaryInsuranceToDate);
+    this.billingDetailsForm.controls['PI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_group : this.adminPayViaInsuranceInfo?.primaryInsuranceGroup);
+    this.billingDetailsForm.controls['PI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_customerServicePhNo : this.adminPayViaInsuranceInfo?.primaryInsuranceCustomerServicePh);
+    this.billingDetailsForm.controls['PI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_effectiveDate : this.adminPayViaInsuranceInfo?.primaryInsuranceFromDate);
+    this.billingDetailsForm.controls['PI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_endDate : this.adminPayViaInsuranceInfo?.primaryInsuranceToDate);
     this.billingDetailsForm.controls['PI_rxRequired'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_rxRequired : '');
     this.billingDetailsForm.controls['PI_copayAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_copayAmt : '');
     this.billingDetailsForm.controls['PI_highDeductible'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_highDeductible : '');
@@ -213,15 +218,15 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['PI_passportApprovalFrom'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_passportApprovalFrom : '');
     this.billingDetailsForm.controls['PI_passportProvider'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_passportProvider : '');
 
-    this.billingDetailsForm.controls['secondaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.secondaryInsurance : this.insuranceInfo?.secondaryInsuranceCompany);
-    this.billingDetailsForm.controls['SI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_idPolicy : this.insuranceInfo?.secondaryInsuranceIdPolicy);
-    this.billingDetailsForm.controls['SI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_group : this.insuranceInfo?.secondaryInsuranceGroup);
-    this.billingDetailsForm.controls['SI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_customerServicePhNo : this.insuranceInfo?.secondaryInsuranceCustomerServicePh);
+    this.billingDetailsForm.controls['secondaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.secondaryInsurance : this.adminPayViaInsuranceInfo?.secondaryInsuranceCompany);
+    this.billingDetailsForm.controls['SI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_idPolicy : this.adminPayViaInsuranceInfo?.secondaryInsuranceIdPolicy);
+    this.billingDetailsForm.controls['SI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_group : this.adminPayViaInsuranceInfo?.secondaryInsuranceGroup);
+    this.billingDetailsForm.controls['SI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_customerServicePhNo : this.adminPayViaInsuranceInfo?.secondaryInsuranceCustomerServicePh);
     this.billingDetailsForm.controls['SI_authorization'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorization : "");
     this.billingDetailsForm.controls['SI_authorizationFromDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorizationFromDate : "");
     this.billingDetailsForm.controls['SI_authorizationToDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorizationToDate : "");
-    this.billingDetailsForm.controls['SI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_effectiveDate : this.insuranceInfo?.secondaryInsuranceFromDate);
-    this.billingDetailsForm.controls['SI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_endDate : this.insuranceInfo?.secondaryInsuranceToDate);
+    this.billingDetailsForm.controls['SI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_effectiveDate : this.adminPayViaInsuranceInfo?.secondaryInsuranceFromDate);
+    this.billingDetailsForm.controls['SI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_endDate : this.adminPayViaInsuranceInfo?.secondaryInsuranceToDate);
     this.billingDetailsForm.controls['SI_rxRequired'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_rxRequired : "");
     this.billingDetailsForm.controls['SI_copayAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_copayAmt : "");
     this.billingDetailsForm.controls['SI_highDeductible'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_highDeductible : "");
@@ -243,10 +248,10 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['RP_workExtension'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_workExtension : "");
     this.billingDetailsForm.controls['RP_injuryRelatedTo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_injuryRelatedTo : "");
 
-    this.billingDetailsForm.controls['AI_attorneyName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyName : this.insuranceInfo?.attorneyName);
-    this.billingDetailsForm.controls['AI_attorneyPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyPhone : this.insuranceInfo?.attorneyPhone);
+    this.billingDetailsForm.controls['AI_attorneyName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyName : this.adminPayViaInsuranceInfo?.attorneyName);
+    this.billingDetailsForm.controls['AI_attorneyPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyPhone : this.adminPayViaInsuranceInfo?.attorneyPhone);
     this.billingDetailsForm.controls['AI_attorneyAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyAddress : "");
-    this.billingDetailsForm.controls['inCollection'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.inCollection : "");
+    this.billingDetailsForm.controls['inCollection'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.inCollection : "No");
 
     if(this.isBillingDetailsData && this.billingDetailsData?.thirdInsurance){
       this.addThirdInsurance('add_circle')
@@ -260,7 +265,11 @@ export class BillingDetailsComponent {
   selectInsuranceModal(insuranceType:string) {
     let insuranceTitle = (insuranceType=='primary') ?'Primary Insurance' : 
     (insuranceType=='secondary')? 'Secondary Insurance':
-    (insuranceType=='third')? 'Third Insurance':''
+    (insuranceType=='third')? 'Third Insurance':'NA'
+
+    let selectedInsurance = (insuranceType=='primary') ? this.billingDetailsForm.get('primaryInsurance')?.value : 
+    (insuranceType=='secondary' && this.billingDetailsForm.get('secondaryInsurance')?.value )? this.billingDetailsForm.get('secondaryInsurance')?.value :
+    (insuranceType=='third' && this.billingDetailsForm.get('thirdInsurance')?.value )? this.billingDetailsForm.get('thirdInsurance')?.value :'NA'
 
     const dialogRef = this.dialog.open(SelectPrimaryInsuModalComponent,{
       disableClose: true,
@@ -270,13 +279,13 @@ export class BillingDetailsComponent {
         page:'BT-BillingDetails',
         title: insuranceTitle,
         insuranceType: insuranceType,
-        insuranceInfo: this.insuranceInfo
+        insuranceInfo: this.insuranceInfo,
+        selectedInsurance :selectedInsurance
       }
     });
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        console.log("selectInsuranceModal1>>>>>",result)
         if(insuranceType=='primary'){ 
           this.selectedPrimaryInsuranceData = result 
           this.billingDetailsForm.controls['primaryInsurance'].setValue(result?.insuranceName)
@@ -311,17 +320,31 @@ export class BillingDetailsComponent {
   onEffectiveDateChange(event: any) {
     let selectedDate = new Date(event.value);
     this.effectiveSelectedDate = selectedDate;
+
+    const PIEndDate = new Date(this.billingDetailsForm.get('PI_endDate')?.value);
+    if (PIEndDate && selectedDate > PIEndDate) {
+      this.billingDetailsForm.get('PI_endDate')?.setValue(null);
+    }
   }
 
   onSIAuthFromDateChange(event: any) {
     let selectedDate = new Date(event.value);
-    console.log("onSIAuthFromDateChange>>>",selectedDate )
     this.SIAuthFromDate = selectedDate;
+
+    const SIAuthorizationToDate = new Date(this.billingDetailsForm.get('SI_authorizationToDate')?.value);
+    if (SIAuthorizationToDate && selectedDate > SIAuthorizationToDate) {
+      this.billingDetailsForm.get('SI_authorizationToDate')?.setValue(null);
+    }
   }
 
   onSIEffectiveDateChange(event: any) {
     let selectedDate = new Date(event.value);
     this.SIEffectiveSelectedDate = selectedDate;
+
+    const SIEndDate = new Date(this.billingDetailsForm.get('SI_endDate')?.value);
+    if (SIEndDate && selectedDate > SIEndDate) {
+      this.billingDetailsForm.get('SI_endDate')?.setValue(null);
+    }
   }
 
   PICustServPhoneInputChange(event: Event): void {
@@ -371,17 +394,25 @@ export class BillingDetailsComponent {
 
   onTIAuthFromDateChange(event: any) {
     let selectedDate = new Date(event.value);
-    console.log("onTIAuthFromDateChange>>>",selectedDate )
     this.TIAuthFromDate = selectedDate;
+
+    const TIAuthorizationToDate = new Date(this.billingDetailsForm.get('TI_authorizationToDate')?.value);
+    if (TIAuthorizationToDate && selectedDate > TIAuthorizationToDate) {
+      this.billingDetailsForm.get('TI_authorizationToDate')?.setValue(null);
+    }
   }
 
   onTIEffectiveDateChange(event: any) {
     let selectedDate = new Date(event.value);
     this.TIEffectiveSelectedDate = selectedDate;
+
+    const TIEndDate = new Date(this.billingDetailsForm.get('TI_endDate')?.value);
+    if (TIEndDate && selectedDate > TIEndDate) {
+      this.billingDetailsForm.get('TI_endDate')?.setValue(null);
+    }
   }
 
   onChangeInjuryRelated(event: any){
-    console.log("onChangeInjuryRelated>>>",event.value)
     this.isWorkerCompensationInjury = false
     if(event.value=="Worker's Compensation (WCOMP)"){
       this.isWorkerCompensationInjury = true
@@ -422,7 +453,6 @@ export class BillingDetailsComponent {
   }
 
   addThirdInsurance(action:any){
-    console.log("action>>>",action)
     if(action=='add_circle'){
       this.mat_icon = 'remove_circle_outline'
       this.thirdInsuranceFieldsControls()

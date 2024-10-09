@@ -16,14 +16,17 @@
                         <mat-expansion-panel class="exp-class" expanded="true">
                             <mat-expansion-panel-header>
                                 <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
-                                    Basic Information <span class="font-14 fw-600 ms-auto">This Case is in Collections</span>
+                                    Basic Information <span class="font-14 fw-600 ms-auto" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">This Case is in Collections</span>
                                 </mat-panel-title>
                                 <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
-                                    <button mat-stroked-button color="primary" [routerLink]="['/billing-team/patients/patient-profile/',appointmentData?.patientId._id]" >View Patient Profile</button>
-                                    <button mat-stroked-button color="primary" class="" [routerLink]="['/billing-team/case-details/billing-details',appointmentId]">Billing Details</button>
+                                    <button mat-stroked-button color="primary" [routerLink]="['/billing-team/patients/patient-profile/',patientId]" >View Patient Profile</button>
+                                    <button  mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" [routerLink]="['/billing-team/case-details/billing-details',appointmentId]">
+                                        Billing Details
+                                    </button>
                                     <button mat-raised-button color="primary" class="intake-btn"  [disabled]="!appointmentData?.intakeFormSubmit" [routerLink]="['/billing-team/intake-form/step-1/',appointmentId]">
                                         View Intake Form
                                     </button>
+                                    
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <div class="col-12">
@@ -34,17 +37,17 @@
                                             <div class="w-100 mb-2">
                                                 <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
                                                     <div class="img--box flex-shrink-0">
-                                                        <img src="assets/images/ark/user.png" alt="" class="img-fluid" />
+                                                        <img src="{{profileImage}}" alt="" class="img-fluid" />
                                                     </div>
                                                     <div class="d-flex flex-column">
-                                                        <h3 class="mb-1 clr--1F2F3E font-18 fw-700">John Walter</h3>
+                                                        <h3 class="mb-1 clr--1F2F3E font-18 fw-700">{{appointmentData?.patientId?.firstName }} {{appointmentData?.patientId?.lastName}}</h3>
                                                         <div class="mb-1 mt-1 d-flex align-items-center">
                                                             <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
-                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">johnwalter1991&#64;gmail.com</p>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">{{appointmentData?.patientId?.email }}</p>
                                                         </div>
                                                         <div class="mb-1 d-flex align-items-center">
                                                             <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
-                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 1234-567-8902-4862</p>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 {{appointmentData?.patientId?.phoneNumber}}</p>
                                                         </div>
                                     
                                                     </div>
@@ -53,11 +56,13 @@
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Poc Dates</h3>
-                                            <p class="mb-1 text-danger font-16 fw-600 ">12/1/24 - 12-10-24</p>
+                                            <!-- <p class="mb-1 text-danger font-16 fw-600 ">12/1/24 - 12-10-24</p> -->
+                                            <p class="mb-1 font-16 fw-600 ">NA</p>
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
-                                            <p class="mb-1 text-danger font-16 fw-600 ">1 of 12 visits, expires 12/1/24</p>
+                                            <!-- <p class="mb-1 text-danger font-16 fw-600 ">1 of 12 visits, expires 12/1/24</p> -->
+                                            <p class="mb-1 font-16 fw-600 ">{{isBillingDetailsData?'0 of '+ billingDetailsData.PI_numberOfVisit+' visits, expires '+authExpireDate :'NA'}}</p>
                                         </div>
                                         <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
@@ -71,11 +76,11 @@
                                     <div class="d-flex flex-row flex-wrap">
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Primary Insurance</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Maxlife</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{ isBillingDetailsData && billingDetailsData?.primaryInsurance ? billingDetailsData.primaryInsurance:'NA'}}</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Secondary Insurance</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Starhealth</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{isBillingDetailsData && billingDetailsData?.secondaryInsurance ? billingDetailsData.secondaryInsurance:'NA'}}</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/billing-team/case-details/view-insurance',appointmentId]"> 
@@ -87,13 +92,13 @@
                                             <div class="form-group d-flex align-items-center">
                                                 <!-- <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label> -->
                                                 <mat-radio-group aria-label="Select an option" [disabled]="true">
-                                                    <mat-radio-button value="1" class="me-3" checked>Hard Cap</mat-radio-button>
-                                                    <mat-radio-button value="2">Soft Cap</mat-radio-button>
+                                                    <mat-radio-button value="Hard Cap" class="me-3" [checked]="billingDetailsData?.PI_hardSoftCap == 'Hard Cap'">Hard Cap</mat-radio-button>
+                                                    <mat-radio-button value="Soft Cap" [checked]="billingDetailsData?.PI_hardSoftCap == 'Soft Cap'">Soft Cap</mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-3 mb-2">
-                                            <input type="text" class="form-control form-control-md max-width" placeholder="lorem ipsum dollor">
+                                            <input type="text" class="form-control form-control-md max-width" placeholder="" [disabled]="true" value="{{billingDetailsData?.PI_hardSoftCapText}}">
                                         </div>      
                                     </div>
                                 </div>
@@ -102,22 +107,22 @@
                                     <div class="d-flex flex-row flex-wrap">
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Jacob Jones</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{appointmentData?.doctorId?.name ? appointmentData?.doctorId?.name:'NA'}}</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">Corvallis PT</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{appointmentData?.practiceLocation}}</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">3</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">NA</p>
                                         </div>
                                         <div class="col-12 col-sm-5 col-lg-4 col-xl-5 mb-2">
                                             <div class="form-group d-flex align-items-center">
                                                 <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0">Rx required</label>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="true">
-                                                    <mat-radio-button value="1" class="me-3" checked>Yes</mat-radio-button>
-                                                    <mat-radio-button value="2">No</mat-radio-button>
+                                                    <mat-radio-button value="Yes" class="me-3" [checked]="billingDetailsData?.PI_rxRequired == 'Yes'">Yes</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="billingDetailsData?.PI_rxRequired == 'No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
                                         </div>
@@ -136,7 +141,7 @@
                                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                                             <div class="form-group">
                                                 <label class="col-form-label fw-600">Case Name</label>
-                                                <input class="form-control form-control-md max-width-box" type="text" placeholder="Search Case Name" value="Neck Pain" [disabled]="true"/>
+                                                <input class="form-control form-control-md max-width-box" type="text" placeholder="Search Case Name" value="{{appointmentData?.caseName}}" [disabled]="true"/>
                                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div>
                                         </div>
@@ -147,7 +152,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1">$</span>
                                                     </div>
-                                                    <input type="number" class="form-control form-control-md" value="12" [disabled]="true">
+                                                    <input type="text" class="form-control form-control-md" value="{{isBillingDetailsData? billingDetailsData?.PI_copayAmt:'NA'}}" [disabled]="true">
                                                 </div>  
                                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div>
@@ -159,7 +164,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1">$</span>
                                                     </div>
-                                                    <input type="number" class="form-control form-control-md" value="10" [disabled]="true">
+                                                    <input type="text" class="form-control form-control-md" value="{{isBillingDetailsData? billingDetailsData?.PI_highDeductible :'NA'}}" [disabled]="true">
                                                 </div>  
                                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div> 

@@ -16,6 +16,9 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { s3Details } from 'src/app/config';
 import { SelectPrimaryInsuModalComponent } from 'src/app/shared/comman/select-primary-insu-modal/select-primary-insu-modal.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { validationMessages } from '../../../../utils/validation-messages';
+import { DatePipe } from '@angular/common';
 
 export interface PeriodicElement {
   note: string;  
@@ -114,7 +117,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-case-details', 
   templateUrl: './case-details.component.html',
-  styleUrl: './case-details.component.scss'
+  styleUrl: './case-details.component.scss',
+  providers: [DatePipe]
 })
 export class CaseDetailsComponent {
   showShare= false;
@@ -131,6 +135,19 @@ export class CaseDetailsComponent {
   orderBy: any = { firstName: 1 }
   therapistList:any=[];
   selectedTherapistId:string =""
+  isBillingDetailsData:boolean=false
+  billingDetailsData:any
+  insuranceInfo:any;
+  stCaseDetailsForm: FormGroup;
+  selectedPrimaryInsuranceData:any;
+  validationMessages = validationMessages
+  caseName:string =''
+  patientId:string =''
+  isAuthManagmentHistory:boolean=false
+  authManagementHistory :any
+  authExpireDate: string = 'NA'
+  stCaseDetails:any
+  isStCaseDetails:boolean=false
 
   constructor(
     public dialog: MatDialog,
@@ -138,7 +155,9 @@ export class CaseDetailsComponent {
     private route: ActivatedRoute,
     private router: Router,
     public commonService: CommonService,
-    public authService:AuthService
+    public authService:AuthService,
+    private fb: FormBuilder, 
+    private datePipe: DatePipe
   ) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -146,6 +165,7 @@ export class CaseDetailsComponent {
   }
 
   ngOnInit() {
+    this.initializeStCaseDetailsForm()
     this.getAppointmentDetails()
     this.getTherapistList()
   }
@@ -157,7 +177,8 @@ export class CaseDetailsComponent {
         query: { _id: this.appointmentId },
         fields: {},
         patientFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1,email:1,phoneNumber:1 },
-        therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1 }
+        therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1 },
+        doctorFields: { _id: 1, npi: 1, name: 1}
       }
 
       await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
@@ -169,7 +190,14 @@ export class CaseDetailsComponent {
           this.appointment_flag = true;
           this.selectedTherapistId = this.appointmentData?.therapistId?._id
           // this.app_data[this.appointmentId] = this.appointmentData;
-          // this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)        
+          // this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)  
+          this.patientId = response.data.appointmentData?.patientId._id
+          this.caseName = response.data.appointmentData?.caseName
+          this.insuranceInfo = response.data.appointmentData?.payViaInsuranceInfo    
+          this.getBillingDetails(this.patientId, this.caseName)  
+          this.getAuthManagementHistory(this.patientId, this.caseName)  
+          this.getStCaseDetails(this.patientId, this.caseName)
+          
         }
       })
     }
@@ -248,8 +276,114 @@ export class CaseDetailsComponent {
 
   selectInsuranceModal() {
     const dialogRef = this.dialog.open(SelectPrimaryInsuModalComponent,{
+      disableClose: true,
       width:'650px',
       panelClass: [ 'modal--wrapper'],
+      data: {
+        page:'ST-CaseDetails',
+        title: 'Primary Insurance',
+        insuranceType: 'primary',
+        insuranceInfo: this.insuranceInfo,
+        selectedInsurance :this.stCaseDetailsForm.get('primaryInsurance')?.value
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        this.selectedPrimaryInsuranceData = result 
+        this.stCaseDetailsForm.controls['primaryInsurance'].setValue(result?.insuranceName)
+      }
+    });
+    
+  }
+
+  getBillingDetails(patientId:any, caseName:string){
+    this.isBillingDetailsData = false
+    let billingDetailsQuery:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+    this.authService.apiRequest('post', 'appointment/getBillingDetails', billingDetailsQuery).subscribe(async response => {  
+      let { error, data } = response
+      if(data && data!=null ){
+        this.isBillingDetailsData = true
+        this.billingDetailsData = data
+      }
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  initializeStCaseDetailsForm(){
+    this.stCaseDetailsForm = this.fb.group({
+      therapistId: ['', [Validators.required]],
+      returnToDoctor: ['', []],
+      primaryInsurance: ['',[]]
     });
   }
+
+  saveStCaseDetails(){
+    this.commonService.showLoader();
+    let caseDetailsFormObj:any =this.stCaseDetailsForm.value
+    caseDetailsFormObj['payerID']= this.selectedPrimaryInsuranceData.payerID
+    let caseDetailsObj:any = {
+      caseDetails : this.stCaseDetailsForm.value,
+      patientId : this.patientId,
+      caseName : this.caseName
+    }
+
+    this.authService.apiRequest('post', 'appointment/addStCaseDetails', caseDetailsObj).subscribe(async response => {  
+      this.commonService.openSnackBar(response.message, "SUCCESS")
+      this.commonService.hideLoader(); 
+    },(err) => {
+      this.commonService.hideLoader();
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getAuthManagementHistory(patientId:any, caseName:string){
+    this.isAuthManagmentHistory = false
+    this.authExpireDate = 'NA'
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+
+    this.authService.apiRequest('post', 'appointment/getAuthorizationManagementDetails', queryObj).subscribe(async response => { 
+      if(response?.data && response?.data.authManagement.length){
+        this.isAuthManagmentHistory = true
+        let allAuthManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.authManagementHistory = allAuthManagementHistory[0]
+        this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
+      }
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getStCaseDetails(patientId:any, caseName:string){
+    this.isStCaseDetails = false
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+
+    this.authService.apiRequest('post', 'appointment/getStCaseDetails', queryObj).subscribe(async response => { 
+      if(response?.data){
+        this.isStCaseDetails = true
+        this.stCaseDetails = response?.data
+      }
+      this.addStCaseDetailsValue()
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  addStCaseDetailsValue() {
+    this.stCaseDetailsForm.controls['therapistId'].setValue(this.isStCaseDetails ? this.stCaseDetails?.therapistId : this.selectedTherapistId);
+    this.stCaseDetailsForm.controls['returnToDoctor'].setValue(this.isStCaseDetails ? this.stCaseDetails?.returnToDoctor : "");
+    this.stCaseDetailsForm.controls['primaryInsurance'].setValue(this.isStCaseDetails ? this.stCaseDetails?.primaryInsurance : this.insuranceInfo?.primaryInsuranceCompany);
+  }
+
+
 }

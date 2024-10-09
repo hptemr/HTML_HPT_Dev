@@ -5,10 +5,20 @@
     <div class="modal--body w-100 pt-3">
         <div class="row">
             <div class="col-12 col-lg-6">
-                <p>Selected Insurance : <br> <span class="fw-700">ABCD</span></p>
+                <p>Selected Insurance : <br> <span class="fw-700">{{popupData?.selectedInsurance}}</span></p>
             </div>
             <div class="col-12 col-lg-6"> 
-                <p>Entered by Patient : <br> <span class="fw-700">{{insuranceInfo.primaryInsuranceCompany}}</span></p>
+                <p>Entered by Patient : <br> 
+                    <span class="fw-700" *ngIf="popupData.insuranceType=='primary'">
+                        {{insuranceInfo.primaryInsuranceCompany}}
+                    </span>
+                    <span class="fw-700" *ngIf="popupData.insuranceType=='secondary'">
+                        {{insuranceInfo.secondaryInsuranceCompany?insuranceInfo.secondaryInsuranceCompany:'NA'}}
+                    </span>
+                    <span class="fw-700" *ngIf="popupData.insuranceType=='third'">
+                        {{insuranceInfo.thirdInsuranceCompany?insuranceInfo.thirdInsuranceCompany:'NA'}}
+                    </span>
+                </p>
             </div>
         </div> 
         <div class="col-12 d-flex align-items-center">
