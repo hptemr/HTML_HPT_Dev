@@ -128,7 +128,7 @@ export class ObjectiveComponent {
       ot: ['', [Validators.minLength(1), Validators.maxLength(500)]],
       treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(500)]],     
       outcome_measures : this.fb.group({
-        name: ['',[Validators.required]],
+        name: ['',],
         neck_rate_your_pain: [''],
         pain_intensity: [''],
         personal_care: [''],
@@ -699,8 +699,6 @@ export class ObjectiveComponent {
     outcome_measures_group.get('eat_total')?.setValue(score)
   }
 
-
-
   outcomeMeasuresChange(e:any) {
     const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
 
@@ -1060,108 +1058,108 @@ export class ObjectiveComponent {
     }
   }
 
-    onFlagChange() {
-      const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
-      const flagControl = chaperoneGroup.get('flag');
-      const nameControl = chaperoneGroup.get('name');
+  onFlagChange() {
+    const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
+    const flagControl = chaperoneGroup.get('flag');
+    const nameControl = chaperoneGroup.get('name');
 
-      flagControl?.valueChanges.subscribe((flagValue: string) => {
-        console.log('flag Value >>>>',flagValue)
-        if (flagValue === 'Yes') {
-          nameControl?.setValidators([Validators.required]);  // If flag is true, 'name' is required
-        } else {
-          nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
-          nameControl?.setValue('');
-          nameControl?.markAsUntouched();
-        }
-        nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
-      });
-    }
+    flagControl?.valueChanges.subscribe((flagValue: string) => {
+      console.log('flag Value >>>>',flagValue)
+      if (flagValue === 'Yes') {
+        nameControl?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(50)]);  // If flag is true, 'name' is required
+      } else {
+        nameControl?.clearValidators();  // If flag is false, clear validators on 'name'
+        nameControl?.setValue('');
+        nameControl?.markAsUntouched();
+      }
+      nameControl?.updateValueAndValidity();  // Recalculate the validity of the control
+    });
+  }
  
-    // Function to allow only numeric input
-    allowOnlyNumbers(event: KeyboardEvent): void {
-      const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'];
-      const isNumber = (event.key >= '0' && event.key <= '9');  
-      if (!isNumber && !allowedKeys.includes(event.key)) {
-        event.preventDefault(); // Prevent any non-numeric input
-      }  
-    }
+  // Function to allow only numeric input
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'];
+    const isNumber = (event.key >= '0' && event.key <= '9');  
+    if (!isNumber && !allowedKeys.includes(event.key)) {
+      event.preventDefault(); // Prevent any non-numeric input
+    }  
+  }
     
-    onMctsibChange() {
-        const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
-        outcome_measures_group.get('mctsib_condition1_1')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition1_2')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition1_3')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition2_1')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition2_2')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-        
-        outcome_measures_group.get('mctsib_condition2_3')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition3_1')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition3_2')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition3_3')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition4_1')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition4_2')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-
-        outcome_measures_group.get('mctsib_condition4_3')?.valueChanges.subscribe(() => {
-          this.calculateTotal();
-        });
-    }
-    
-    calculateTotal(): void {
+  onMctsibChange() {
       const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+      outcome_measures_group.get('mctsib_condition1_1')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
 
-      const field1 = parseInt(outcome_measures_group.get('mctsib_condition1_1')?.value || '0', 10);
-      const field2 = parseInt(outcome_measures_group.get('mctsib_condition1_2')?.value || '0', 10);
-      const field3 = parseInt(outcome_measures_group.get('mctsib_condition1_3')?.value || '0', 10);
-  
+      outcome_measures_group.get('mctsib_condition1_2')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
 
-      const field4 = parseInt(outcome_measures_group.get('mctsib_condition2_1')?.value || '0', 10);
-      const field5 = parseInt(outcome_measures_group.get('mctsib_condition2_2')?.value || '0', 10);
-      const field6 = parseInt(outcome_measures_group.get('mctsib_condition2_3')?.value || '0', 10);
+      outcome_measures_group.get('mctsib_condition1_3')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
 
-      const field7 = parseInt(outcome_measures_group.get('mctsib_condition3_1')?.value || '0', 10);
-      const field8 = parseInt(outcome_measures_group.get('mctsib_condition3_2')?.value || '0', 10);
-      const field9 = parseInt(outcome_measures_group.get('mctsib_condition3_3')?.value || '0', 10);
+      outcome_measures_group.get('mctsib_condition2_1')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
 
-      const field10 = parseInt(outcome_measures_group.get('mctsib_condition4_1')?.value || '0', 10);
-      const field11 = parseInt(outcome_measures_group.get('mctsib_condition4_2')?.value || '0', 10);
-      const field12 = parseInt(outcome_measures_group.get('mctsib_condition4_3')?.value || '0', 10);
-      this.mctsib_total = field1 + field2 + field3 + field4 + field5 + field6 + field7 + field8 + field9 + field10 + field11 + field12;
-      console.log('mctsib_total>>>',this.mctsib_total)
-      outcome_measures_group.get('mctsib_total')?.setValue(this.mctsib_total) 
+      outcome_measures_group.get('mctsib_condition2_2')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
       
-    }
+      outcome_measures_group.get('mctsib_condition2_3')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
+
+      outcome_measures_group.get('mctsib_condition3_1')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
+
+      outcome_measures_group.get('mctsib_condition3_2')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
+
+      outcome_measures_group.get('mctsib_condition3_3')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
+
+      outcome_measures_group.get('mctsib_condition4_1')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
+
+      outcome_measures_group.get('mctsib_condition4_2')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
+
+      outcome_measures_group.get('mctsib_condition4_3')?.valueChanges.subscribe(() => {
+        this.calculateTotal();
+      });
+  }
+    
+  calculateTotal(): void {
+    const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+
+    const field1 = parseInt(outcome_measures_group.get('mctsib_condition1_1')?.value || '0', 10);
+    const field2 = parseInt(outcome_measures_group.get('mctsib_condition1_2')?.value || '0', 10);
+    const field3 = parseInt(outcome_measures_group.get('mctsib_condition1_3')?.value || '0', 10);
+
+
+    const field4 = parseInt(outcome_measures_group.get('mctsib_condition2_1')?.value || '0', 10);
+    const field5 = parseInt(outcome_measures_group.get('mctsib_condition2_2')?.value || '0', 10);
+    const field6 = parseInt(outcome_measures_group.get('mctsib_condition2_3')?.value || '0', 10);
+
+    const field7 = parseInt(outcome_measures_group.get('mctsib_condition3_1')?.value || '0', 10);
+    const field8 = parseInt(outcome_measures_group.get('mctsib_condition3_2')?.value || '0', 10);
+    const field9 = parseInt(outcome_measures_group.get('mctsib_condition3_3')?.value || '0', 10);
+
+    const field10 = parseInt(outcome_measures_group.get('mctsib_condition4_1')?.value || '0', 10);
+    const field11 = parseInt(outcome_measures_group.get('mctsib_condition4_2')?.value || '0', 10);
+    const field12 = parseInt(outcome_measures_group.get('mctsib_condition4_3')?.value || '0', 10);
+    this.mctsib_total = field1 + field2 + field3 + field4 + field5 + field6 + field7 + field8 + field9 + field10 + field11 + field12;
+    console.log('mctsib_total>>>',this.mctsib_total)
+    outcome_measures_group.get('mctsib_total')?.setValue(this.mctsib_total) 
+    
+  }
 
   async objectiveSubmit(formData: any){
     console.log('<<<<<  objective form >>>>',this.objectiveForm)

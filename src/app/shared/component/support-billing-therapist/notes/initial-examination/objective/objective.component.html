@@ -6,7 +6,7 @@
                     <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                     Add Protocol
                 </button>
-                <div  class="d-flex align-items-center me-3 my-2" *ngIf="selectedProtocols.length>0">
+                <div class="d-flex align-items-center me-3 my-2" *ngIf="selectedProtocols.length>0">
                     <div *ngFor="let item of selectedProtocols; let i = index">
                         <a class="font-16 clr--1F2F3E text-decoration-underline cursor-pointer" (click)="previewModal(item.id)">{{item.file_name}} </a>
                         <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeProtocols(item.id)">
@@ -50,7 +50,7 @@
                          Name is required when chaperone flag is set to 'Yes'.
                     </div>
                     <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('maxlength') && objectiveForm.get('chaperone.name')?.touched">
-                        {{ validationMessages.required(' Name is cannot exceed 2500 characters.') }}
+                        {{ validationMessages.required('Name is cannot exceed 50 characters.') }}
                      </div>
                     <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.flag')?.hasError('required') && objectiveForm.get('chaperone.flag')?.touched">
                         {{ validationMessages.required('Chaperone') }}
