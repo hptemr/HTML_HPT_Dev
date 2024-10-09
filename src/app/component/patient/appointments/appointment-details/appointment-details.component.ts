@@ -106,13 +106,13 @@ export class AppointmentDetailsComponent {
   }
 
 
-  async getAppointmentList(action = '') {
-    if (action == '') {
-     // this.commonService.showLoader()
-    }
-
+  async getAppointmentList(action = '') { 
     let reqVars = {
-      query: { patientId: this.authService.getLoggedInInfo('_id'),caseName:this.appInfo?.caseName },
+      query: {
+        patientId: this.authService.getLoggedInInfo('_id'),
+        caseName:this.appInfo?.caseName,
+        appointmentDate : { $lt: new Date() }
+      },
       userQuery: {},
       fields: { caseName:1, practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1,checkIn:1 },
       patientFields: { firstName: 1 },
@@ -123,7 +123,6 @@ export class AppointmentDetailsComponent {
     }
 
     await this.authService.apiRequest('post', 'appointment/getAppointmentList', reqVars).subscribe(async response => {
-      //this.commonService.hideLoader()
       this.totalCount = response.data.totalCount
       let finalData: any = []
       await response.data.appointmentList.map((element: any) => {

@@ -224,9 +224,11 @@ export class ViewEditInsuranceComponent {
       this.insuranceForm.controls['employerName'].disable();
       this.insuranceForm.controls['employerPhone'].disable();
       this.insuranceForm.controls['employerAddress'].disable();
+      this.insuranceForm.controls['attorney'].disable();
       this.insuranceForm.controls['attorneyName'].disable();
       this.insuranceForm.controls['attorneyPhone'].disable();
       this.insuranceForm.controls['isPatientMinor'].disable();
+      this.insuranceForm.controls['adultConsent'].disable();  
     }    
   }
   
@@ -640,7 +642,7 @@ export class ViewEditInsuranceComponent {
   } 
 
   openCMSmodal(event:any,from:string) {  
-    if (event.checked === true) {
+    if (event.checked === true && !this.isReadOnly) {
       const dialogRef = this.dialog.open(CmsModalComponent,{
         panelClass: 'cms--container', 
       });

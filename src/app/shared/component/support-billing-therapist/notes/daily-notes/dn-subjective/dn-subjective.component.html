@@ -26,7 +26,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="col-form-label fw-600">Subjective<span class="clr--DF0404 ms-1"> * </span></label>
-                <textarea placeholder="Please enter subjective" [disabled]="isDisabled" class="form-control text-left" type="text" formControlName="subjective_note" rows="5" (blur)="checkSpace('subjective_note', $event)"></textarea>
+                <textarea placeholder="Please enter subjective" [disabled]="isDisabled" class="form-control text-left" type="text" formControlName="subjective_note" rows="5" maxlength="2500" (blur)="checkSpace('subjective_note', $event)"></textarea>
                 <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['subjective_note'].hasError('required') && subjectiveForm.controls['subjective_note'].touched">
                     {{ validationMessages.required('Subjective note') }}</div>
             </div>
