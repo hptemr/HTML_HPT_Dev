@@ -17,10 +17,11 @@
             </div>
             <div class="col-12 mt-2">
                 <div class="form-group">
-                    <label class="col-form-label fw-700 font-16 text-uppercase">treatment provided</label>
-                    <input [disabled]="isDisabled"  class="form-control" type="text" placeholder="" disabled
-                        value="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes," />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                    <label class="col-form-label fw-700 font-16 text-uppercase">Treatment provided</label>
+                    <input class="form-control" type="text" placeholder="Treatment provided" formControlName="treatment_provided"/>
+                    <div class="text text-danger mt-1" *ngIf="objectiveForm.controls['treatment_provided'].touched && objectiveForm.controls['treatment_provided'].hasError('maxlength')">
+                        {{ validationMessages.required('Treatment provided cannot exceed 500 characters.') }}
+                    </div>
                 </div>
             </div>
             <div class="col-12 mt-2">
@@ -33,15 +34,15 @@
                         </mat-radio-group>
                         <input type="text" class="form-control max-width" placeholder="Chaperone Name" formControlName="name" *ngIf="chaperoneFlag">
                     </div>
-                    <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('required') && objectiveForm.get('chaperone.name')?.touched">
-                        Name is required when chaperone flag is set to 'Yes'.
-                    </div>
-                    <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('maxlength') && objectiveForm.get('chaperone.name')?.touched">
-                        {{ validationMessages.required('Name is cannot exceed 50 characters.') }}
-                    </div>
-                    <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.flag')?.hasError('required') && objectiveForm.get('chaperone.flag')?.touched">
-                        {{ validationMessages.required('Chaperone') }}
                 </div>
+                <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('required') && objectiveForm.get('chaperone.name')?.touched">
+                    Name is required when chaperone flag is set to 'Yes'.
+                </div>
+                <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('maxlength') && objectiveForm.get('chaperone.name')?.touched">
+                    {{ validationMessages.required('Name is cannot exceed 50 characters.') }}
+                </div>
+                <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.flag')?.hasError('required') && objectiveForm.get('chaperone.flag')?.touched">
+                    {{ validationMessages.required('Chaperone') }}
                 </div>
             </div>
 

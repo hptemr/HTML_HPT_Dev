@@ -90,6 +90,7 @@ export class DnObjectiveComponent {
   aquatic_exercises_names:any =[]
   aquatic_exercise_list:any =[]
   aquatic_exercise_grouped_list:any =[]
+  @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -109,7 +110,7 @@ export class DnObjectiveComponent {
     });
 
     this.onFlagChange();
-    //this.getObjectiveRecord();  
+    this.getObjectiveRecord();  
   }
 
 
@@ -119,7 +120,6 @@ export class DnObjectiveComponent {
     const nameControl = chaperoneGroup.get('name');
 
     flagControl?.valueChanges.subscribe((flagValue: string) => {
-      console.log('flag Value >>>>',flagValue)
       if (flagValue === 'Yes') {
         nameControl?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(50)]);  // If flag is true, 'name' is required
       } else {
@@ -139,10 +139,6 @@ export class DnObjectiveComponent {
       let subjectiveData: never[] = []; let objectiveData = [];
       if(response.data){
         objectiveData = response.data.objectiveData;
-        subjectiveData = response.data.subjectiveData;
-        console.log('subjectiveData>>>',subjectiveData)
-
-        //this.objectiveId = objectiveData?._id;
         this.land_exercise_list = objectiveData?.land_exercise;
         this.aquatic_exercise_list = objectiveData?.aquatic_exercise;
         
@@ -158,7 +154,6 @@ export class DnObjectiveComponent {
             });
             this.land_exercises_names = groupedExercisesNames;
         
-          
             this.land_exercise_list.forEach((element:any,index:number) => {
                 if(element.exercise_date) {
                   const excersize_date = this.formatDate(element.exercise_date);
@@ -255,9 +250,26 @@ export class DnObjectiveComponent {
             const aquaticReorderedArray = this.reorderExercises(aquaticGroupedExercises, groupedAquaticExercisesNames);
             this.aquatic_exercise_grouped_list = Object.entries(aquaticReorderedArray); 
           }
-         // this.loadForm(objectiveData,subjectiveData,this.appointment_data);
+          this.loadForm(objectiveData);
       }
     })
+  }
+
+  loadForm(objectiveData:any){
+    if(objectiveData?.protocols){
+      this.selectedProtocols = objectiveData?.protocols;
+    }
+    this.objectiveForm.controls['protocols'].setValue(objectiveData?.protocols);
+    this.objectiveForm.controls['treatment_provided'].setValue(objectiveData?.treatment_provided);  
+    if(objectiveData?.chaperone && objectiveData?.chaperone.length>0 && objectiveData?.chaperone[0].flag){
+      const chaperoneGroup = this.objectiveForm.get('chaperone') as FormGroup;
+      const flagControl = chaperoneGroup.get('flag');
+      const nameControl = chaperoneGroup.get('name');
+      nameControl?.setValue(objectiveData.chaperone[0].name);
+      flagControl?.setValue(objectiveData.chaperone[0].flag);
+      const mockEvent6: MatRadioChange = { value: objectiveData.chaperone[0].flag, source: this.radioButton! }; 
+      this.chaperoneRadio(mockEvent6);
+    } 
   }
   
   reorderExercises(data: any, order: any) {
@@ -301,7 +313,7 @@ export class DnObjectiveComponent {
       }else{
         this.isSubmit = true
         Object.assign(formData, {
-          soap_note_type:"initial_examination",
+          soap_note_type:"daily_note",
           createdBy: this.userId,
         })
         let reqVars = {
@@ -357,10 +369,12 @@ export class DnObjectiveComponent {
       panelClass:[ 'custom-alert-container','modal--wrapper'],
       data : {
         appointmentId:this.appointmentId,
-        type:type
+        type:type,
+        soap_note_type:"daily_note",
        }
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log(' >> Result **** >>>>',result)
       if (result) {
         this.getObjectiveRecord();
       } else {
