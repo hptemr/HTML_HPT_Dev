@@ -194,7 +194,7 @@
                                                     <mat-radio-button value="No" [checked]="diabetesSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="diabetesSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{diabetesSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{diabetesSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -206,7 +206,7 @@
                                                     <mat-radio-button value="No" [checked]="diabetesFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="diabetesFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{diabetesFamilyYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{diabetesFamilyYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -223,7 +223,7 @@
                                                     <mat-radio-button value="No" [checked]="highBloodPressureSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="highBloodPressureSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{highBloodPressureSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{highBloodPressureSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -235,7 +235,7 @@
                                                     <mat-radio-button value="No" [checked]="highBloodPressureFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="highBloodPressureFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{highBloodPressureFamilyYes}}"> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{highBloodPressureFamilyYes}}"> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -252,7 +252,7 @@
                                                     <mat-radio-button value="No" [checked]="heartDiseaseSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="heartDiseaseSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{heartDiseaseSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{heartDiseaseSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -264,7 +264,7 @@
                                                     <mat-radio-button value="No"  [checked]="heartDiseaseFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="heartDiseaseFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{heartDiseaseFamilyYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{heartDiseaseFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -281,7 +281,7 @@
                                                     <mat-radio-button value="No" [checked]="anginaChestPainSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="anginaChestPainSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{anginaChestPainSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{anginaChestPainSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>                          
@@ -293,7 +293,7 @@
                                                     <mat-radio-button value="No" [checked]="anginaChestPainFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="anginaChestPainFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{anginaChestPainFamilyYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{anginaChestPainFamilyYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -307,10 +307,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="strokeSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No" [checked]="strokeSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="strokeSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="strokeSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{strokeSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{strokeSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -320,10 +320,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="strokeFamily=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No" [checked]="strokeFamily=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="strokeFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="strokeFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{strokeFamilyYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{strokeFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -337,10 +337,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="osteoporosisSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No" [checked]="osteoporosisSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="osteoporosisSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="osteoporosisSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoporosisSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{osteoporosisSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -349,10 +349,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                                 <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="osteoporosisFamily=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No" [checked]="osteoporosisFamily=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="osteoporosisFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="osteoporosisFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoporosisFamilyYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{osteoporosisFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -369,7 +369,7 @@
                                                     <mat-radio-button  value="No" [checked]="osteoarthritisSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="osteoarthritisSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoarthritisSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{osteoarthritisSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -378,10 +378,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="osteoarthritisFamily=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No" [checked]="osteoarthritisFamily=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="osteoarthritisFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="osteoarthritisFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{osteoarthritisFamilyYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{osteoarthritisFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -396,10 +396,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                                 <mat-radio-group aria-label="Select an option"[disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="rheumatoidArthritisSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No"  [checked]="rheumatoidArthritisSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="rheumatoidArthritisSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="rheumatoidArthritisSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{rheumatoidArthritisSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{rheumatoidArthritisSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -408,10 +408,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                                 <mat-radio-group aria-label="Select an option" (change)="onChange($event)" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="rheumatoidArthritisFamily=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No"  [checked]="rheumatoidArthritisFamily=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="rheumatoidArthritisFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="rheumatoidArthritisFamily=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{rheumatoidArthritisFamilyYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{rheumatoidArthritisFamilyYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -425,10 +425,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="bleedingDisordersSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No"  [checked]="bleedingDisordersSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="bleedingDisordersSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="bleedingDisordersSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bleedingDisordersSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{bleedingDisordersSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -437,10 +437,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">Family</h1>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="bleedingDisordersFamily=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No" [checked]="bleedingDisordersFamily=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="bleedingDisordersFamily=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="bleedingDisordersFamily == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bleedingDisordersFamilyYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{bleedingDisordersFamilyYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div>
@@ -468,10 +468,10 @@
                                                 <h1 class=" font-12 mt-2 clr--1F2F3E text-uppercase d-none">SELF</h1>
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="changeYourHealthSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No" [checked]="changeYourHealthSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="changeYourHealthSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="changeYourHealthSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description"  value="{{changeYourHealthSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{changeYourHealthSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -484,10 +484,10 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="nauseaVomitingSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No" [checked]="nauseaVomitingSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="nauseaVomitingSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="nauseaVomitingSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{nauseaVomitingSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{nauseaVomitingSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -500,10 +500,10 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="feverChillsSweatsSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No" [checked]="feverChillsSweatsSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="feverChillsSweatsSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="feverChillsSweatsSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{feverChillsSweatsSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{feverChillsSweatsSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -516,10 +516,10 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="unexplainedWeightChangeSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No" [checked]="unexplainedWeightChangeSelf=='Yes'"cked>No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="unexplainedWeightChangeSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="unexplainedWeightChangeSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{unexplainedWeightChangeSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{unexplainedWeightChangeSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -532,10 +532,10 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="numbnessTinglingSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No" [checked]="numbnessTinglingSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="numbnessTinglingSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="numbnessTinglingSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{numbnessTinglingSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{numbnessTinglingSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -548,10 +548,10 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button  value="Yes" class="me-4" [checked]="changesAppetiteSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button  value="No" [checked]="changesAppetiteSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button  value="No" [checked]="changesAppetiteSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="changesAppetiteSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{changesAppetiteSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{changesAppetiteSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -564,10 +564,10 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="difficultySwallowingSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No" [checked]="difficultySwallowingSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="difficultySwallowingSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="difficultySwallowingSelf=='Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{difficultySwallowingSelfYes}}"/> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{difficultySwallowingSelfYes}}"/> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -583,7 +583,7 @@
                                                     <mat-radio-button value="No" [checked]="bowelBladderSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="bowelBladderSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{bowelBladderSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{bowelBladderSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -599,7 +599,7 @@
                                                     <mat-radio-button value="No" [checked]="shortnessBreathSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="shortnessBreathSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{shortnessBreathSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{shortnessBreathSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -615,7 +615,7 @@
                                                     <mat-radio-button value="No" [checked]="dizzinessSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="dizzinessSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{dizzinessSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{dizzinessSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -631,7 +631,7 @@
                                                     <mat-radio-button value="No" [checked]="upperRespiratoryInfectionSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="upperRespiratoryInfectionSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{upperRespiratoryInfectionSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{upperRespiratoryInfectionSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -647,7 +647,7 @@
                                                     <mat-radio-button value="No" [checked]="urinaryTractInfectionSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="urinaryTractInfectionSelf == 'Yes'">
-                                                     <input class="form-control" type="text" placeholder="Add Description" value="{{urinaryTractInfectionSelfYes}}" /> 
+                                                     <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{urinaryTractInfectionSelfYes}}" /> 
                                                 </div>
                                             </div> 
                                         </div> 
@@ -845,7 +845,7 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="sexuallyTransmittedDiseaseSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No"  [checked]="sexuallyTransmittedDiseaseSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No"  [checked]="sexuallyTransmittedDiseaseSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="sexuallyTransmittedDiseaseSelf == 'Yes'">
                                                      <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{sexuallyTransmittedDiseaseSelfYes}}" /> 
@@ -955,7 +955,7 @@
                                             <div class="d-flex flex-column w-100"> 
                                                 <mat-radio-group aria-label="Select an option" [disabled]="isDisabled">
                                                     <mat-radio-button value="Yes" class="me-4" [checked]="areYouUnderStressSelf=='Yes'">Yes</mat-radio-button>
-                                                    <mat-radio-button value="No" [checked]="areYouUnderStressSelf=='Yes'">No</mat-radio-button>
+                                                    <mat-radio-button value="No" [checked]="areYouUnderStressSelf=='No'">No</mat-radio-button>
                                                 </mat-radio-group>
                                                 <div class="form-group mt-2 w-100" *ngIf="areYouUnderStressSelf == 'Yes'">
                                                      <input class="form-control" type="text" placeholder="Add Description" [disabled]="isDisabled" value="{{areYouUnderStressSelfYes}}" /> 

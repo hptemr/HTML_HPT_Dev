@@ -47,9 +47,8 @@
                         <div class="col-12 col-lg-6 col-md-6 ">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Relationship with Patient</label>
-                                <select formControlName="relationWithPatient" class="form-select form-control"
-                                    aria-label="Default select example" (change)="relationShipPatient($event)">
-                                    <option value="">Select Relation</option>
+                                <select formControlName="relationWithPatient" class="form-select form-control" aria-label="Default select example" (change)="relationShipPatient($event)">
+                                    <option value="" >Select Relation</option>
                                     <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}
                                     </option>
                                 </select>
@@ -946,8 +945,8 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Have you consulted an attorney for your current problem?</label>
                                     <mat-radio-group (change)="attorneyChange($event)" formControlName="attorney" aria-label="Select an option">
-                                        <mat-radio-button value="yes" class="me-3">Yes</mat-radio-button>
-                                        <mat-radio-button value="no">No</mat-radio-button>
+                                        <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
+                                        <mat-radio-button value="No">No</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>

@@ -169,11 +169,6 @@ export class SubjectiveComponent implements OnInit {
   }
 
   getSubjectiveRecord(){
-
-    // var reqVars = {
-    //   appointmentId:this.appointmentId,
-    //   soap_note_type:'initial_examination'
-    // }
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
     }
