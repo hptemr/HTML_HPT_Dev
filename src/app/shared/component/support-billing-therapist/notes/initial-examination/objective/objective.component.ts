@@ -245,16 +245,15 @@ export class ObjectiveComponent {
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
     }
+    this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
       let subjectiveData: never[] = []; let objectiveData = [];
       if(response.data){
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;
-
         this.objectiveId = objectiveData?._id;
         this.land_exercise_list = objectiveData?.land_exercise;
-        this.aquatic_exercise_list = objectiveData?.aquatic_exercise;
-        
+        this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};
          if(this.land_exercise_list && this.land_exercise_list.length>0){
             this.land_exercise_list.forEach((element:any,index:number) => {
@@ -376,6 +375,7 @@ export class ObjectiveComponent {
     
           this.loadForm(objectiveData,subjectiveData,this.appointment_data);
       }
+          this.commonService.hideLoader();
     })
   }
 
@@ -652,23 +652,19 @@ export class ObjectiveComponent {
     score += quick9 = outcome_measures_group.get('quick_dash_question9')?.value
     score += quick10 = outcome_measures_group.get('quick_dash_question10')?.value
     score += quick11 = outcome_measures_group.get('quick_dash_question11')?.value
-    let quickn:number = 0;
-    if(quick1>0){  quickn ++; }
-    if(quick2>0){  quickn ++; }
-    if(quick3>0){  quickn ++; }
-    if(quick4>0){  quickn ++; }
-    if(quick5>0){  quickn ++; }
-    if(quick6>0){  quickn ++; }
-    if(quick7>0){  quickn ++; }
-    if(quick8>0){  quickn ++; }
-    if(quick9>0){  quickn ++; }
-    if(quick10>0){ quickn ++; }
-    if(quick11>0){ quickn ++; }
-
-   // console.log('score >>>',score,'    quickn >>>',quickn)
-   // console.log('divide >>>',score/quickn)
-    //console.log('divide minus 1  >>>',(score/quickn)-1)
-    const score_quick: number =((score/quickn)-1)*25
+    // let quickn:number = 0;
+    // if(quick1>0){  quickn ++; }
+    // if(quick2>0){  quickn ++; }
+    // if(quick3>0){  quickn ++; }
+    // if(quick4>0){  quickn ++; }
+    // if(quick5>0){  quickn ++; }
+    // if(quick6>0){  quickn ++; }
+    // if(quick7>0){  quickn ++; }
+    // if(quick8>0){  quickn ++; }
+    // if(quick9>0){  quickn ++; }
+    // if(quick10>0){ quickn ++; }
+    // if(quick11>0){ quickn ++; }
+    const score_quick: number =((score/11)-1)*25
     //const score_quick: number = Math.ceil(((score/quickn)-1)*25);
     const score_quick_avg = Math.ceil(score_quick * 100) / 100
     //console.log('divide minus 1 * 25  >>>',((score/quickn)-1)*25)
@@ -1175,7 +1171,6 @@ export class ObjectiveComponent {
   }
     
   calculateTotal(): void {
-
     const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
     const field1: number = parseInt(outcome_measures_group.get('mctsib_condition1_1')?.value || '0', 10);
     const field2: number = parseInt(outcome_measures_group.get('mctsib_condition1_2')?.value || '0', 10);
@@ -1203,7 +1198,7 @@ export class ObjectiveComponent {
     const field4_total: number = (field10 + field11 + field12)/3;
     //console.log('field4_total >>>>',field4_total)
 
-    const fields_total = (field1_total + field2_total + field3_total + field4_total)/120;
+    const fields_total = (field1_total + field2_total + field3_total + field4_total);  //  /120
     //console.log(' >>> fields_total >>>>',fields_total)
 
     const fields_total_round = Math.ceil(fields_total * 100) / 100
