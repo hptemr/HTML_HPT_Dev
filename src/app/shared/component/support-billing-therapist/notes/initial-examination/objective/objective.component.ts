@@ -99,6 +99,7 @@ export class ObjectiveComponent {
   surgery_date:any=''
   surgery_type:string=''
   mctsib_total: number = 0;
+  todayDate = new Date()
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
 
@@ -244,16 +245,15 @@ export class ObjectiveComponent {
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
     }
+    this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
       let subjectiveData: never[] = []; let objectiveData = [];
       if(response.data){
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;
-
         this.objectiveId = objectiveData?._id;
         this.land_exercise_list = objectiveData?.land_exercise;
-        this.aquatic_exercise_list = objectiveData?.aquatic_exercise;
-        
+        this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};
          if(this.land_exercise_list && this.land_exercise_list.length>0){
             this.land_exercise_list.forEach((element:any,index:number) => {
@@ -366,7 +366,7 @@ export class ObjectiveComponent {
           }
 
           if(response.data && response.data.appointmentDatesList){
-            this.appointment_dates = response.data.appointmentDatesList       
+            this.appointment_dates = response.data.appointmentDatesList            
           }
     
           if(response.data && response.data.appointmentData){
@@ -375,10 +375,11 @@ export class ObjectiveComponent {
     
           this.loadForm(objectiveData,subjectiveData,this.appointment_data);
       }
+          this.commonService.hideLoader();
     })
   }
-  
-   reorderExercises(data: any, order: any) {
+
+  reorderExercises(data: any, order: any) {
     const orderedData: any = {};
     for (const date in data) {
         orderedData[date] = order.map((nameObj: { exercises: string }) => {
@@ -398,7 +399,31 @@ export class ObjectiveComponent {
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed in JS
     const year = date.getFullYear();
     return `${month}-${day}-${year}`;
-}
+  }
+  
+  calculatePrecautions(surgery_date:any) {
+      let scope_dates = [];
+      this.surgery_date = this.datePipe.transform(surgery_date, 'MM-dd-yyyy', 'UTC');
+      let nextDate = new Date(this.surgery_date); 
+      let weeks = 0;
+      while (nextDate <= this.todayDate) {
+        weeks += 2;
+        scope_dates.push({
+          weeks: weeks,
+          date: nextDate.toDateString() 
+        });        
+        nextDate.setDate(nextDate.getDate() + 14); 
+      }
+      let precautions_list = '';let no = 1;
+      scope_dates.forEach((element:any,index:number) => { no = index+1
+        if(index==0){
+          precautions_list = precautions_list+' Date of Surgery: '+this.datePipe.transform(element.date, 'MMMM d')+'\n';
+        }else{
+          precautions_list = precautions_list+' '+no+' week: '+this.datePipe.transform(element.date, 'MMMM d')+'\n';
+        }        
+      });    
+    return precautions_list;
+  }
 
   loadForm(objectiveData:any,subjectiveData:any,appointment_data:any){
       if(objectiveData?.protocols){
@@ -408,11 +433,11 @@ export class ObjectiveComponent {
       this.objectiveForm.controls['patient_consent'].setValue(objectiveData?.patient_consent);
       this.objectiveForm.controls['precautions'].setValue(objectiveData?.precautions);
 
-      if(objectiveData === null){
+      if(objectiveData === null || (objectiveData?.precautions === null || objectiveData?.precautions=='')){
         if(subjectiveData && subjectiveData?.surgery_type){
           this.surgery_type = subjectiveData?.surgery_type;
-          this.surgery_date = this.datePipe.transform(subjectiveData.surgery_date, 'MMMM d');
-          this.objectiveForm.controls['precautions'].setValue('Date of Surgery: '+this.surgery_date+'  ('+this.surgery_type+')');
+          const precautions_list = this.calculatePrecautions(subjectiveData.surgery_date)
+          this.objectiveForm.controls['precautions'].setValue(precautions_list);
         }
       }
 
@@ -612,23 +637,39 @@ export class ObjectiveComponent {
     outcome_measures_group.get('score')?.setValue(score)
   }
 
-
   QuickDashMeasuresChange(event: MatRadioChange): void {
-    let score:number=0;
+    let score:number=0; let quick1:number=0;let quick2:number=0;let quick3:number=0;let quick4:number=0;let quick5:number=0;let quick6:number=0;let quick7:number=0;
+    let quick8:number=0;let quick9:number=0;let quick10:number=0;let quick11:number=0;
     const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
-    score += outcome_measures_group.get('quick_dash_question1')?.value
-    score += outcome_measures_group.get('quick_dash_question2')?.value
-    score += outcome_measures_group.get('quick_dash_question3')?.value
-    score += outcome_measures_group.get('quick_dash_question4')?.value
-    score += outcome_measures_group.get('quick_dash_question5')?.value
-    score += outcome_measures_group.get('quick_dash_question6')?.value
-    score += outcome_measures_group.get('quick_dash_question7')?.value
-    score += outcome_measures_group.get('quick_dash_question8')?.value
-    score += outcome_measures_group.get('quick_dash_question9')?.value
-    score += outcome_measures_group.get('quick_dash_question10')?.value
-    score += outcome_measures_group.get('quick_dash_question11')?.value
-  
-    outcome_measures_group.get('quick_dash_score')?.setValue(score)
+    score += quick1 = outcome_measures_group.get('quick_dash_question1')?.value
+    score += quick2 = outcome_measures_group.get('quick_dash_question2')?.value
+    score += quick3 = outcome_measures_group.get('quick_dash_question3')?.value
+    score += quick4 = outcome_measures_group.get('quick_dash_question4')?.value
+    score += quick5 = outcome_measures_group.get('quick_dash_question5')?.value
+    score += quick6 = outcome_measures_group.get('quick_dash_question6')?.value
+    score += quick7 = outcome_measures_group.get('quick_dash_question7')?.value
+    score += quick8 = outcome_measures_group.get('quick_dash_question8')?.value
+    score += quick9 = outcome_measures_group.get('quick_dash_question9')?.value
+    score += quick10 = outcome_measures_group.get('quick_dash_question10')?.value
+    score += quick11 = outcome_measures_group.get('quick_dash_question11')?.value
+    // let quickn:number = 0;
+    // if(quick1>0){  quickn ++; }
+    // if(quick2>0){  quickn ++; }
+    // if(quick3>0){  quickn ++; }
+    // if(quick4>0){  quickn ++; }
+    // if(quick5>0){  quickn ++; }
+    // if(quick6>0){  quickn ++; }
+    // if(quick7>0){  quickn ++; }
+    // if(quick8>0){  quickn ++; }
+    // if(quick9>0){  quickn ++; }
+    // if(quick10>0){ quickn ++; }
+    // if(quick11>0){ quickn ++; }
+    const score_quick: number =((score/11)-1)*25
+    //const score_quick: number = Math.ceil(((score/quickn)-1)*25);
+    const score_quick_avg = Math.ceil(score_quick * 100) / 100
+    //console.log('divide minus 1 * 25  >>>',((score/quickn)-1)*25)
+    //console.log('score_quick: ',score_quick,' =  score: ',score,' / quickn: ',quickn,' >>> score_quick_avg : ',score_quick_avg)
+    outcome_measures_group.get('quick_dash_score')?.setValue(score_quick_avg)
   }
 
   LefsMeasuresChange(event: MatRadioChange): void {
@@ -700,7 +741,6 @@ export class ObjectiveComponent {
 
   outcomeMeasuresChange(e:any) {
     const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
-
     Object.keys(outcome_measures_group.controls).forEach(key => {
       const control = outcome_measures_group.get(key);
       //control?.reset();
@@ -708,10 +748,8 @@ export class ObjectiveComponent {
       control?.clearValidators();
       control?.updateValueAndValidity();
     });
-
-    //console.log('Name value >>>>',outcome_measures_group.get('name')?.value)
+   
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
-      //console.log('HERE 1 Neck Disability Index');
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
       outcome_measures_group.get('pain_intensity')?.setValue(null)
       outcome_measures_group.get('personal_care')?.setValue(null)
@@ -754,7 +792,6 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='QuickDASH'){
-      //console.log('HERE 2 QuickDASH');
       outcome_measures_group.get('quick_dash_question1')?.setValue(null)
       outcome_measures_group.get('quick_dash_question2')?.setValue(null)
       outcome_measures_group.get('quick_dash_question3')?.setValue(null)
@@ -1002,7 +1039,6 @@ export class ObjectiveComponent {
     }
 
     if(outcome_measures_group.get('name')?.value!='mCTSIB'){
-      //console.log('HERE 6 mCTSIB');
       outcome_measures_group.get('mctsib_condition1_1')?.setValue(null) 
       outcome_measures_group.get('mctsib_condition1_2')?.setValue(null) 
       outcome_measures_group.get('mctsib_condition1_3')?.setValue(null)
@@ -1063,7 +1099,6 @@ export class ObjectiveComponent {
     const nameControl = chaperoneGroup.get('name');
 
     flagControl?.valueChanges.subscribe((flagValue: string) => {
-      console.log('flag Value >>>>',flagValue)
       if (flagValue === 'Yes') {
         nameControl?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(50)]);  // If flag is true, 'name' is required
       } else {
@@ -1136,39 +1171,38 @@ export class ObjectiveComponent {
   }
     
   calculateTotal(): void {
-
     const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
     const field1: number = parseInt(outcome_measures_group.get('mctsib_condition1_1')?.value || '0', 10);
     const field2: number = parseInt(outcome_measures_group.get('mctsib_condition1_2')?.value || '0', 10);
     const field3: number = parseInt(outcome_measures_group.get('mctsib_condition1_3')?.value || '0', 10);
     const field1_total: number = (field1 + field2 + field3)/3;
-    console.log('field1_total >>>>',field1_total)
+    //console.log('field1_total >>>>',field1_total)
 
     const field4: number = parseInt(outcome_measures_group.get('mctsib_condition2_1')?.value || '0', 10);
     const field5: number = parseInt(outcome_measures_group.get('mctsib_condition2_2')?.value || '0', 10);
     const field6: number = parseInt(outcome_measures_group.get('mctsib_condition2_3')?.value || '0', 10);
     const field2_total: number = (field4 + field5 + field6)/3;
-    console.log('field2_total >>>>',field2_total)
+    //console.log('field2_total >>>>',field2_total)
 
     const field7: number = parseInt(outcome_measures_group.get('mctsib_condition3_1')?.value || '0', 10);
     const field8: number = parseInt(outcome_measures_group.get('mctsib_condition3_2')?.value || '0', 10);
     const field9: number = parseInt(outcome_measures_group.get('mctsib_condition3_3')?.value || '0', 10);
     const field3_total: number = (field7 + field8 + field9)/3;
-    console.log('field3_total >>>>',field3_total)
+    //console.log('field3_total >>>>',field3_total)
 
     const field10: number = parseInt(outcome_measures_group.get('mctsib_condition4_1')?.value || '0', 10);
     const field11: number = parseInt(outcome_measures_group.get('mctsib_condition4_2')?.value || '0', 10);
     const field12: number = parseInt(outcome_measures_group.get('mctsib_condition4_3')?.value || '0', 10);
-    console.log('field10 >>>>',field10,'  field11 >>>',field11,'  field12 >>>',field12)
+    //console.log('field10 >>>>',field10,'  field11 >>>',field11,'  field12 >>>',field12)
 
     const field4_total: number = (field10 + field11 + field12)/3;
-    console.log('field4_total >>>>',field4_total)
+    //console.log('field4_total >>>>',field4_total)
 
-    const fields_total = (field1_total + field2_total + field3_total + field4_total)/120;
-    console.log(' >>> fields_total >>>>',fields_total)
+    const fields_total = (field1_total + field2_total + field3_total + field4_total);  //  /120
+    //console.log(' >>> fields_total >>>>',fields_total)
 
     const fields_total_round = Math.ceil(fields_total * 100) / 100
-    console.log(' >>> fields_total_round >>>>',fields_total_round)
+    //console.log(' >>> fields_total_round >>>>',fields_total_round)
     
     //this.mctsib_total = field1 + field2 + field3 + field4 + field5 + field6 + field7 + field8 + field9 + field10 + field11 + field12;
     outcome_measures_group.get('mctsib_total')?.setValue(fields_total_round);

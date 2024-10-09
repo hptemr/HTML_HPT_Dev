@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <label class="col-form-label fw-600">Supporting Documentation<span class="clr--DF0404 ms-1"> * </span></label>
                     <textarea placeholder="Please enter supporting documentation" [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text"
-                        rows="7" formControlName="supporting_documentation_text"
+                        rows="7" maxlength="2500" formControlName="supporting_documentation_text"
                         (blur)="checkSpace('supporting_documentation_text', $event)"></textarea>
                     <div class="text text-danger mt-1"
                         *ngIf="assessmentForm.controls['supporting_documentation_text'].touched && assessmentForm.controls['supporting_documentation_text'].hasError('required')">

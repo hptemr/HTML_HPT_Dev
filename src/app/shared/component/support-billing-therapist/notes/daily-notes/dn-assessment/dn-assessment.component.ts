@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppointmentService } from 'src/app/shared/services/appointment.service';
+import { defaultSupportDocText } from 'src/app/config';
 
 @Component({
   selector: 'app-dn-assessment',
@@ -31,13 +32,13 @@ export class DnAssessmentComponent {
   }
 
   ngOnInit() {
-    this.commonService.showLoader()
-    this.getAssessment()
+    this.commonService.showLoader() 
     this.assessmentForm = this.fb.group({
       appointmentId: [this.appointmentId],
       assessment_text: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
-      supporting_documentation_text: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(10000)]],
+      supporting_documentation_text: [defaultSupportDocText, [Validators.required, Validators.minLength(1), Validators.maxLength(10000)]],
     });
+    this.getAssessment()
   }
 
   async getAssessment() {
