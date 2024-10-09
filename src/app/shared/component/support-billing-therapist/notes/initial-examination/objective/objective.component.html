@@ -45,17 +45,17 @@
                             <mat-radio-button value="Yes">Yes</mat-radio-button>
                         </mat-radio-group>
                         <input type="text" class="form-control max-width" placeholder="Chaperone Name" formControlName="name" *ngIf="chaperoneFlag">
-                    </div>
-                    <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('required') && objectiveForm.get('chaperone.name')?.touched">
-                         Name is required when chaperone flag is set to 'Yes'.
-                    </div>
-                    <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('maxlength') && objectiveForm.get('chaperone.name')?.touched">
-                        {{ validationMessages.required('Name is cannot exceed 50 characters.') }}
-                     </div>
-                    <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.flag')?.hasError('required') && objectiveForm.get('chaperone.flag')?.touched">
-                        {{ validationMessages.required('Chaperone') }}
-                   </div>
+                    </div>                    
                 </div>
+                <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('required') && objectiveForm.get('chaperone.name')?.touched">
+                    Name is required when chaperone flag is set to 'Yes'.
+               </div>
+               <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.name')?.hasError('maxlength') && objectiveForm.get('chaperone.name')?.touched">
+                   {{ validationMessages.required('Name is cannot exceed 50 characters.') }}
+                </div>
+               <div class="text text-danger mt-1" *ngIf="objectiveForm.get('chaperone.flag')?.hasError('required') && objectiveForm.get('chaperone.flag')?.touched">
+                   {{ validationMessages.required('Chaperone') }}
+              </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
