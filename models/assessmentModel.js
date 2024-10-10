@@ -5,32 +5,32 @@ const assessmentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "appointments"
     },
-    assessment_text: { 
-        type: String, 
-        default: "" 
+    assessment_text: {
+        type: String,
+        default: ""
     },
     assessment_icd: [{
         problem: {
-            type: String, 
+            type: String,
             default: ""
         },
         long_term_goal: {
-            type: String, 
+            type: String,
             default: ""
         }
     }],
-    supporting_documentation_text: { 
-        type: String, 
-        default: "" 
+    supporting_documentation_text: {
+        type: String,
+        default: ""
     },
-    status: { 
-        type: String, 
-        enum: ['Draft', 'Finalize'], 
-        default: 'Draft' 
+    status: {
+        type: String,
+        enum: ['Draft', 'Finalize'],
+        default: 'Draft'
     },
     soap_note_type: {
         type: String,
-        enum: ['initial_examination','daily_note','progress_note','discharge_note'],
+        enum: ['initial_examination', 'daily_note', 'progress_note', 'discharge_note'],
         default: 'initial_examination'
     },
     is_deleted:{ type: Boolean,default:false },

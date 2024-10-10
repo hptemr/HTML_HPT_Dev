@@ -17,6 +17,7 @@ const s3Details = constants.s3Details;
 const crypto = require('crypto');
 const BillingDetailsModel = require('../models/btBillingDetailsModel');
 const AthorizationManagementModel = require('../models/btAthorizationManagementModel');
+const STCaseDetailsModel = require('../models/stCaseDetailsModel');
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -107,10 +108,9 @@ const getAppointmentRequestDetails = async (req, res) => {
 
 const createAppointment = async (req, res) => {
     try {
-        const { data, userId, requestId, patientType } = req.body;
-        //data.appointmentDate = new Date(data.appointmentDate)        
+        const { data, userId, requestId, patientType } = req.body; 
         let alreadyFound = []; let proceed = true;
-
+        //8 console.log(patientType,' >>>>> data >>>> ',data)
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
             if (alreadyPatient) {
@@ -139,13 +139,10 @@ const createAppointment = async (req, res) => {
             let existingAppointmentData = alreadyFound;
 
             let appointmentId = 1;
-            console.log('alreadyFound>>>', alreadyFound)
-            if (alreadyFound && alreadyFound.length > 0) {
-                console.log(' <<<<< alreadyFound >>>>')
-                existingAppointmentData = await Appointment.findOne({}, { _id: 1, appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
-                appointmentId = existingAppointmentData.appointmentId + 1;
-            } else if (alreadyFound && alreadyFound.length > 0 && alreadyFound.appointmentId) {
-                console.log(' ######< alreadyFound ##########')
+            existingAppointmentData = await Appointment.findOne({}, { _id: 1, appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
+            appointmentId = existingAppointmentData.appointmentId + 1;
+            
+            if (alreadyFound && alreadyFound.length > 0 && alreadyFound.appointmentId) {
                 appointmentId = alreadyFound.appointmentId;
             }
 
@@ -191,17 +188,14 @@ const createAppointment = async (req, res) => {
             }
 
             let result = []; let msg = ''; let appId = '';
-            console.log('......alreadyFound....: ', alreadyFound)
             if (alreadyFound && alreadyFound.length > 0) {
                 msg = appointmentMessage.updated;
                 appId = alreadyFound._id;
                 result = await Appointment.findOneAndUpdate({ _id: appId }, appointmentData);
-                console.log(alreadyFound._id, '......@@@@@@appId....: ', appId)
             } else {
                 let newRecord = new Appointment(appointmentData)
                 result = await newRecord.save();
                 appId = result._id;
-                console.log('......appId....>>>>>>', appId)
                 msg = appointmentMessage.created;
                 if (caseId) {
                     let caseRequest = { $set: { appointments: appId } };
@@ -232,8 +226,13 @@ const createAppointment = async (req, res) => {
                     await Case.findOneAndUpdate({ _id: caseId }, caseRequest);
                 }
             }
+
+            let appointment_date = commonHelper.dateModify(data.appointmentDate);
+
             const therapistData = await User.findOne({ _id: data.therapistId }, { firstName: 1, lastName: 1 });
-            const patientData = { appointment_date: data.appointmentDate, firstName: data.firstName, lastName: data.lastName, email: data.email, phoneNumber: data.phoneNumber, practice_location: data.practiceLocation, therapistId: data.therapistId, therapist_name: therapistData.firstName + ' ' + therapistData.lastName, appointment_date: data.appointmentDate, caseId: caseId, appId: appId };
+            const patientData = { appointment_date: appointment_date, firstName: data.firstName, lastName: data.lastName, email: data.email, phoneNumber: data.phoneNumber, practice_location: data.practiceLocation, therapistId: data.therapistId, therapist_name: therapistData.firstName + ' ' + therapistData.lastName, caseId: caseId, appId: appId };
+            console.log('patient Data>>>>',patientData)
+
             if (patientType == 'New') {
                 patientAppointmentSignupEmail(patientData)
             } else if (!requestId && patientType == 'Existing') {
@@ -254,10 +253,11 @@ const createAppointment = async (req, res) => {
 
 const getAppointmentDetails = async (req, res) => {
     try {
-        const { query, fields, patientFields, therapistFields } = req.body;
+        const { query, fields, patientFields, therapistFields, doctorFields} = req.body;
         let appointmentData = await Appointment.findOne(query, fields)
             .populate('patientId', patientFields)
-            .populate('therapistId', therapistFields);
+            .populate('therapistId', therapistFields)
+            .populate('doctorId', doctorFields);
         commonHelper.sendResponse(res, 'success', { appointmentData }, '');
     } catch (error) {
         console.log("********Appointment***error***", error)
@@ -757,6 +757,33 @@ const addBillingDetails = async (req, res) => {
     }
   }
 
+  const addStCaseDetails = async (req, res) => {
+    try {
+        const { caseDetails, patientId, caseName } = req.body
+    
+        const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
+        const update = { $set: caseDetails }; // The data to update
+        const options = { upsert: true }; // Create a new document if no match is found
+        const result = await STCaseDetailsModel.updateOne(filter, update, options);
+        commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
+      } catch (error) {
+        console.log("addStCaseDetails Error>>>",error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
+  const getStCaseDetails = async (req, res) => {
+    try {
+      const { patientId, caseName } = req.body
+      const query = { patientId: patientId, caseName: caseName };
+      const stCaseDetails = await STCaseDetailsModel.findOne(query).lean();
+      commonHelper.sendResponse(res, 'success', stCaseDetails, commonMessage.getDataMessage);
+    } catch (error) {
+      console.log("getStCaseDetails Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }
+
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
@@ -778,5 +805,7 @@ module.exports = {
     addBillingDetails,
     getBillingDetails,
     addAuthorizationManagement,
-    getAuthorizationManagementDetails
+    getAuthorizationManagementDetails,
+    addStCaseDetails,
+    getStCaseDetails
 };

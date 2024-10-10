@@ -125,16 +125,62 @@ const objectiveSchema = new mongoose.Schema({
         sts_number:{ type: Number, default:null},
         sts_score:{ type: Number, default:null},
     },
-    add_exercise:{
-        exercises:{ type: String, default:""},
-        exercise_date:{ type: Date},
-        sets:{ type: String, default:""},
-        reps:{ type: String, default:""},
-        weight_resistance:{ type: String, default:""},
-        distance:{ type: String, default:""},
-        exercise_time:{ type: String, default:""},
-        exercise_time_mints:{ type: String, default:""},
-    },
+    land_exercise: { type: Array, default: [],
+        exercises: {
+            type: String, default: ""
+        },
+        exercise_date: { type: Date },
+        sets: {
+            type: String,default: ""
+        },
+        reps: {
+            type: String, default: ""
+        },
+        weight_resistance: {
+            type: String, default: ""
+        },
+        distance: {
+            type: String,default: ""
+        },
+        exercise_time: {
+            type: String,default: ""
+        },
+        exercise_time_mints: {
+            type: String,default: ""
+        },
+        createdBy: {
+            type: mongoose.Schema.ObjectId,
+            ref: "users"
+        },
+     },
+     aquatic_exercise: { type: Array, default: [],
+        exercises: {
+            type: String, default: ""
+        },
+        exercise_date: { type: Date },
+        sets: {
+            type: String,default: ""
+        },
+        reps: {
+            type: String, default: ""
+        },
+        weight_resistance: {
+            type: String, default: ""
+        },
+        distance: {
+            type: String,default: ""
+        },
+        exercise_time: {
+            type: String,default: ""
+        },
+        exercise_time_mints: {
+            type: String,default: ""
+        },
+        createdBy: {
+            type: mongoose.Schema.ObjectId,
+            ref: "users"
+        },
+     },
     slp: { type: String, default: ""},
     ot: { type: String, default: ""},
     treatment_provided: { type: String, default: ""},
