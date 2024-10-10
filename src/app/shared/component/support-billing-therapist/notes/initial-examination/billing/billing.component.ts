@@ -37,16 +37,16 @@ export class BillingComponent {
     {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",minutes:"",selected:false,isError:false,errorMsg:""}
   ]
   unitedSlpList = [
-    {name:"Evaluation of speech sound production",value:"evaluation_of_speech",units:"",minutes:"",selected:false},
-    {name:"Evaluation of speech sound production including language comprehension & expression",value:"evaluation_of_speech_language",units:"",minutes:"",selected:false},
-    {name:"Behavioral and qualitative analysis of voice and resonance",value:"voice_and_resonance",units:"",minutes:"",selected:false},
-    {name:"Evaluation of oral and pharyngeal swallowing function",value:"evaluation_of_oral",units:"",minutes:"",selected:false},
-    {name:"Use of speech device service",value:"use_of_speech_device",units:"",minutes:"",selected:false},
-    {name:"SLP Treatment; individual",value:"slp_treatment",units:"",minutes:"",selected:false},
-    {name:"Treatment of swallowing dysfunction and/or oral function for feeding",value:"treatment_of_swallowing_dysfunction",units:"",minutes:"",selected:false},
-    {name:"Assessment of aphasia",value:"assessment_of_aphasia",units:"",minutes:"",selected:false},
-    {name:"Standardized cognitive performance testing, per hour",value:"standardized_cognitive_performance",units:"",minutes:"",selected:false},
-    {name:"Therapeutic interventions that focus on cognitive function e.g., attention, memory, reasoning, executive function, problem solving and/or pragmatic functioning) and compensatory strategies to manage the performance of an activity (e.g., managing time or schedules, initiating, organizing and sequencing tasks)",value:"therapeutic_interventions",units:"",minutes:"",selected:false}
+    {name:"Evaluation of speech sound production",value:"evaluation_of_speech",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Evaluation of speech sound production including language comprehension & expression",value:"evaluation_of_speech_language",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Behavioral and qualitative analysis of voice and resonance",value:"voice_and_resonance",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Evaluation of oral and pharyngeal swallowing function",value:"evaluation_of_oral",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Use of speech device service",value:"use_of_speech_device",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"SLP Treatment; individual",value:"slp_treatment",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Treatment of swallowing dysfunction and/or oral function for feeding",value:"treatment_of_swallowing_dysfunction",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Assessment of aphasia",value:"assessment_of_aphasia",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Standardized cognitive performance testing, per hour",value:"standardized_cognitive_performance",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
+    {name:"Therapeutic interventions that focus on cognitive function e.g., attention, memory, reasoning, executive function, problem solving and/or pragmatic functioning) and compensatory strategies to manage the performance of an activity (e.g., managing time or schedules, initiating, organizing and sequencing tasks)",value:"therapeutic_interventions",units:"",minutes:"",selected:false,isError:false,errorMsg:""}
   ]
 
   directPtList = [
@@ -203,7 +203,8 @@ export class BillingComponent {
           this.unitedSlpList[index].units = ''
         }
       }
-      
+      this.calclulateTotal('minutes')
+      this.calclulateTotal('units')
     }
   }
 
@@ -220,11 +221,21 @@ export class BillingComponent {
       }else if(sourceType=='directCode'){
           if(type=='ptCode'){
             this.directPtList[index].units = event.target.value
+            if(this.directPtList[index].units==""){
+              this.directPtList[index].minutes=""
+            }
           }else if(type=='otCode'){
             this.directOtList[index].units = event.target.value
+            if(this.directOtList[index].units==""){
+              this.directOtList[index].minutes=""
+            }
           }else if(type=='slpCode'){
             this.directSlpList[index].units = event.target.value
+            if(this.directSlpList[index].units==""){
+              this.directSlpList[index].minutes=""
+            }
           }
+
         this.validateMinute(event,index,type,sourceType)
       } 
       this.calclulateTotal('units')
@@ -274,7 +285,7 @@ export class BillingComponent {
         }else{
           this.directPtList[index].isError = true 
           if(this.directPtList[index].minutes==''){
-            this.directPtList[index].errorMsg = "Please enter Minutes value"
+            this.directPtList[index].errorMsg = "Please Enter Minutes Value"
           }else{
             this.directPtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+""
             this.calclulateTotal('minutes')
@@ -293,7 +304,7 @@ export class BillingComponent {
         }else{
           this.directOtList[index].isError = true 
           if(this.directOtList[index].minutes==''){
-            this.directOtList[index].errorMsg = "Please enter Minutes value"
+            this.directOtList[index].errorMsg = "Please Enter Minutes Value"
           }else{
             this.directOtList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+""
           }
@@ -310,7 +321,7 @@ export class BillingComponent {
         }else{
           this.directSlpList[index].isError = true 
           if(this.directSlpList[index].minutes==''){
-            this.directSlpList[index].errorMsg = "Please enter Minutes value"
+            this.directSlpList[index].errorMsg = "Please Enter Minutes Value"
           }else{
             this.directSlpList[index].errorMsg = "Oops! It looks like you miscalculated: For "+units+" Unit the minutes need to be between "+initialRange+" and "+finalRange+""
           }

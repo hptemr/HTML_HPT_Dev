@@ -302,9 +302,9 @@
                                             class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="!slpcode.selected">
                                     </div>
                                 </div>
-                                <div class="col-8 col-lg-10" *ngIf="billingType=='CMS'">
+                                <div class="col-8 col-lg-10" *ngIf="billingType=='CMS' && slpcode.isError">
                                     <p class="error m-0"> <strong class="clr--DF0404">Error : </strong>
-                                        For 1 Unit the minutes need to be between 8 and 22
+                                        {{slpcode.errorMsg}}
                                     </p>
                                 </div>
                             </div>

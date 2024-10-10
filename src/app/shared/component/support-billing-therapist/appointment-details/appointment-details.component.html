@@ -5,7 +5,7 @@
                 <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="navigateToappointmentDetails('/cases','')">
                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
                 </button>
-                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details 01</h3>                
+                <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>                
             </div> 
         </div>
         <div class="card-body d-flex flex-column flex-sm-row">
@@ -29,7 +29,7 @@
                                     <div class="d-flex flex-wrap justify-content-between align-items-baseline">
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
                                             <div class="w-100 mb-2">
-                                                <div class="d-flex flex-row flex-wrap align-items-center profile--img--box">
+                                                <div class="d-flex flex-row   align-items-center profile--img--box">
                                                     <div class="img--box flex-shrink-0">
                                                         <img src="{{profileImage}}" alt="profileImage" class="img-fluid" />
                                                     </div>
@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">12/1/24 - 12/10/2024</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h me-2">12/1/24 - 12/10/2024</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Primary Insurance</h3>
@@ -141,7 +141,7 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                                         <div class="form-group position-relative w-100">
-                                            <input type="text" class="form-control search--outer" placeholder="Search ">
+                                            <input type="text" class="form-control search--outer" placeholder="Search " (keyup)="searchRecords()" [(ngModel)]="searchValue">
                                             <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                                 <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                             </button>
@@ -149,20 +149,19 @@
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
-                                            <select class="form-select form-control" aria-label="Default select example">
-                                                <option selected>Filter by Status</option> 
-                                                <option value="1">Draft</option>
-                                                <option value="2">Finalized</option> 
-                                                <option value="3">Pending</option> 
-                                                <option value="4">Declined</option> 
+                                            <select class="form-select form-control" aria-label="select status" (change)="searchRecords()" [(ngModel)]="status">
+                                                <option value = "">Filter by Status</option> 
+                                                <option value="Draft">Draft</option>
+                                                <option value="Finalized">Finalized</option> 
+                                                <option value="Pending">Pending</option> 
+                                                <option value="Declined">Declined</option> 
                                             </select>
-                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
                                             <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                                                <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()">
+                                                <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()" [(ngModel)]="fromDate" (dateChange)="onDateChange()">
                                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                             </mat-form-field>
@@ -172,7 +171,7 @@
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
                                             <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                                                <input matInput [matDatepicker]="picker1" placeholder="To Date" (focus)="picker1.open()">
+                                                <input matInput [matDatepicker]="picker1" placeholder="To Date" (focus)="picker1.open()" [(ngModel)]="toDate" (dateChange)="onDateChange()">
                                                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker1></mat-datepicker>
                                             </mat-form-field>
@@ -181,13 +180,13 @@
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <select class="form-select form-control" aria-label="Default select example">
-                                                <option selected>Filter by Note Type</option>
-                                                <option value="1">Case Note</option>
-                                                <option value="2">Initial Examination</option>
-                                                <option value="3">Daily Note</option>
+                                            <select class="form-select form-control" aria-placeholder="select Case" aria-label="select Case" (change)="searchRecords()" [(ngModel)]="caseType">
+                                                <option value = "">Filter by Note Type</option>
+                                                <option value="initial_examination">Initial Examination</option>
+                                                <option value="daily_note">Daily Note</option>
+                                                <option value="progress_note">Progress Note</option>
+                                                <option value="discharge_note">Discharge Note</option>
                                             </select>
-                                            <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
                                         </div>
                                     </div>
                                     
@@ -196,34 +195,34 @@
                             <div class="col-12 cust--mat--table--wrapper">
                                 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
                                     class="cust--mat--table ">  
-                                    <ng-container matColumnDef="note">
+                                    <ng-container matColumnDef="soap_note_type">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
                                             Note
                                         </th>
                                         <td mat-cell *matCellDef="let element"> 
                                             <div class="d-flex align-items-center  "> 
                                                 <div> 
-                                                    <p class="mb-0 font-14 text-primary clr--1F2F3E fw-500">{{element.note}}</p>
+                                                    <p class="mb-0 font-14 text-primary clr--1F2F3E fw-500">{{element.soap_note_type}}</p>
                                                </div>
                                             </div>     
                                         </td>
                                     </ng-container>  
-                                    <ng-container matColumnDef=" dateAddedOn">
+                                    <ng-container matColumnDef=" note_date">
                                         <th mat-header-cell *matHeaderCellDef>
-                                            Date Added on
+                                            Date of Service
                                         </th>
                                         <td mat-cell *matCellDef="let element"> 
-                                            {{element.dateAddedOn}} 
-                                            <p class="mt-1 "> <span class="fw-700"> Addendum:</span> Fri, Nov 09, 2023 10:00 am</p>
+                                            {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} 
+                                            <!-- <p class="mt-1 "> <span class="fw-700"> Addendum:</span> {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} </p> -->
                                         </td>
                                     </ng-container> 
-                                    <ng-container matColumnDef="noteAddedOn">
+                                    <ng-container matColumnDef="createdBy">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
                                             Note Added By
                                         </th>
                                         <td mat-cell *matCellDef="let element">  
-                                            {{element.noteAddedOn}}
-                                            <p class="mt-1 "> Taylor Stafford</p>
+                                            {{element.userObj[0].firstName}} {{element.userObj[0].lastName}}
+                                            <!-- <p class="mt-1 "> {{element.userObj[0].firstName}} {{element.userObj[0].lastName}}</p> -->
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="status">
@@ -240,38 +239,58 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element">  
                                             <div class="w-100 d-flex align-items-center">
-                                                
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="element.status=='Finalized'" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above">
-                                                    <!-- <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">font_download </mat-icon> -->
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="element.status!='Finalized'" (click)="createAddendum(appointmentId,element.soap_note_type)">
                                                     <div class="icon-img flex-shrink-0">
                                                         <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
                                                     </div>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" disabled>
-                                                    <!-- <div class="icon-img flex-shrink-0">
-                                                        <img src="assets/images/ark/delete-icon.svg" alt="" class="img-fluid" />
-                                                    </div> -->
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" [disabled]="element.status=='Finalized'" (click)="deleteNote(appointmentId,element.soap_note_type)">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" (click)="noteModal()" [disabled]="element.status!='Finalized'">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
+                                                </button>
+                                            </div>
+                                            <!-- <div class="w-100 d-flex align-items-center">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="element.status=='Finalized'" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="element.status!='Finalized'">
+                                                    <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" [disabled]="element.status=='Finalized'" (click)="deleteNote(appointmentId,element.soap_note_type)">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
                                                 </button>
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" (click)="noteModal()">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
                                                 </button>
-                                            </div>
+                                            </div> -->
                                         </td>
                                     </ng-container>
                 
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                 </table>
-                                
+                                <div *ngIf="noteList.length==0 && !dataLoading" class="no--record--found d-flex align-items-center justify-content-center w-100" >
+                                    <div class="d-flex flex-column align-items-center w-100">
+                                        <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                                        <p class="">No Records found</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
                     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
                     </mat-paginator>
@@ -284,38 +303,7 @@
                                 <mat-icon class="m-0">add_circle</mat-icon> 
                             </button>
                         </div>
-                        <!-- <div class="d-flex align-items-center w-100 v--outer mt-3">
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <div class="v--box flex-shrink-0">
-                                <iframe width="300" height="200" src="https://www.youtube.com/embed/CmzKQ3PSrow?si=NqmvzScRVRCJeEli" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                        </div> -->
+                        
                     </div> 
                 </div>
             </div>

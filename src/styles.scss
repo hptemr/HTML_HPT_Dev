@@ -7,7 +7,7 @@ input, p,
 .col-form-label,
 .dropdown-menu,
 .mat-mdc-menu-item-text,
-.font-nunito {
+.font-nunito, .mat-label {
     font-family: "Nunito Sans", sans-serif !important;
     
 } 
@@ -45,7 +45,19 @@ input, p,
 .lh-20 {line-height: 20px !important;}
 .cursor-pointer{ cursor: pointer !important; }
 .disabled {pointer-events: none;}
+.text-trans--none{text-transform: none !important;}
 
+// To hide by defalult password icon on Edge
+input::-ms-reveal { display: none; }
+
+.back--btn{
+    min-width: 42px !important;
+    .material-symbols-outlined{
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 24px !important; 
+    }
+}
 .am--datepicker{
     .mat-mdc-form-field-subscript-wrapper{
         display: none;
@@ -100,6 +112,28 @@ input, p,
 }
 .breadcrumb-item.active{
     text-transform: lowercase;
+}
+.ng-dropdown-panel{
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0;
+    border-radius: 0 0 5px 5px;
+    left: 0;
+    top: 32px;
+    .ng-option{
+        padding: 10px;
+    }
+}
+div.mat-mdc-autocomplete-panel{
+    border: 1px solid #ddd; 
+    .mat-mdc-option{
+        min-height: unset;
+        padding: 6px 15px;
+        .mdc-list-item__primary-text{
+            font-family: "Nunito Sans", sans-serif !important;
+            font-size: 14px;
+        }
+    }
 }
 
 .no--record--found{
@@ -496,6 +530,8 @@ a{
                 tr{
                     th{
                         border-bottom-color:#EEE;
+                        font-family: "Nunito Sans", sans-serif !important;
+                        font-weight: 700;
                         &:first-child{
                             padding-left: 0;
                         } 
@@ -938,6 +974,13 @@ ngb-datepicker{
 }
 .mat-mdc-radio-button .mdc-radio{
     padding-left: 0 !important;
+}
+.mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full, 
+.mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full{
+    background: #31B7B7 !important;
+}
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text{
+    color: #31B7B7 !important;
 }
 
 .doc--pic{
