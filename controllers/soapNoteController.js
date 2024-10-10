@@ -156,6 +156,9 @@ const finalizeNote = async (req, res) => {
     let optionsUpdatePlan = { returnOriginal: false };
     await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
     await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    await subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
     commonHelper.sendResponse(res, 'success', {}, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -302,6 +305,81 @@ async function setAssessment(req, res) {
   } 
 }
 
+const getAppointmentNoteList = async (req, res) => {
+  try {
+    let query = {appointmentId: new ObjectId(req.body.appointmentId)}
+    if(req.body.searchValue!=""){
+      query.soap_note_type = { '$regex': req.body.searchValue, '$options': "i" }
+    }
+    if(req.body.status){
+      query.status = req.body.status
+    }
+    if(req.body.caseType){
+      query.soap_note_type = req.body.caseType
+    }
+    if (req.body.fromDate && req.body.toDate) {
+        query.createdAt = {
+            $gte: new Date(req.body.fromDate),
+            $lte: new Date(req.body.toDate)
+        }
+    } else {
+        if (req.body.fromDate) {
+            query.createdAt = { $gte: new Date(req.body.fromDate) }
+        }
+        if (req.body.toDate) {
+            query.createdAt = { $lte: new Date(req.body.toDate) }
+        }
+    }
+    let aggrQuery = [
+     {
+          "$lookup": {
+              from: "users",
+              localField: "createdBy",
+              foreignField: "_id",
+              as: "userObj"
+          }
+      },
+      {
+          "$match": query
+      },
+      {
+          $project: {
+              '_id': 1, 'note_date': 1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
+          }
+      },
+      { "$sort": { "createdAt": -1 } }
+  ]
+  let subjectiveData = await subjectiveTemp.aggregate(aggrQuery)
+    commonHelper.sendResponse(res, 'success', subjectiveData);
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const deleteSoapNote = async (req, res) => {
+  try {
+    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType };
+    const updatePlan = { $set: { is_deleted: true } };
+    let optionsUpdatePlan = { returnOriginal: false };
+    subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    commonHelper.sendResponse(res, 'success', 'Deleted successfully');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const createAddendum = async (req, res) => {
+  try {
+    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType };
+    const updatePlan = { $set: { is_deleted: true } };
+    let optionsUpdatePlan = { returnOriginal: false };
+    result = await subjectiveTemp.findOne(filterPlan, updatePlan, optionsUpdatePlan);
+    commonHelper.sendResponse(res, 'success', 'Deleted successfully');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   createPlanNote,
   getPlanNote,
@@ -316,4 +394,7 @@ module.exports = {
   getSubjectiveData,
   submitAssessment,
   getAssessment,
+  getAppointmentNoteList,
+  deleteSoapNote,
+  createAddendum
 };

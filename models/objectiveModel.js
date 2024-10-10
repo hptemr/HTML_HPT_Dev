@@ -139,6 +139,7 @@ const objectiveSchema = new mongoose.Schema({
     ot: { type: String, default: ""},
     treatment_provided: { type: String, default: ""},
     status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+    is_deleted:{ type: Boolean,default:false },
     createdBy: {
         type: mongoose.Schema.ObjectId,
         ref: "users"

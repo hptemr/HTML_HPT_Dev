@@ -18,5 +18,8 @@ router.post('/submitObjective', soapController.submitObjective);
 router.post('/getSubjectiveData', soapController.getSubjectiveData);
 router.post('/submitAssessment', soapController.submitAssessment);
 router.post('/getAssessment', soapController.getAssessment);
+router.post('/getAppointmentNoteList', soapController.getAppointmentNoteList);
+router.post('/deleteSoapNote', soapController.deleteSoapNote);
+router.post('/createAddendum', soapController.createAddendum);
 
 module.exports = router;    

@@ -33,6 +33,7 @@ const assessmentSchema = new mongoose.Schema({
         enum: ['initial_examination','daily_note','progress_note','discharge_note'],
         default: 'initial_examination'
     },
+    is_deleted:{ type: Boolean,default:false },
     createdBy: {
         type: mongoose.Schema.ObjectId,
         ref: "users"
