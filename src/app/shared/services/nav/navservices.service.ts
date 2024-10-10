@@ -132,7 +132,7 @@ export class NavservicesService implements OnInit {
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
-          path: 'manage-documents/system-documents',
+          path: 'manage-documents/appointment-documents',
           active: false,
           item: []
         },
@@ -606,7 +606,7 @@ export class NavservicesService implements OnInit {
           icon: 'home',
           mainTitle: 'Manage Documents ',
           headTitle1: 'Manage Documents ',
-          path: '/system-admin/manage-documents/system-documents',
+          path: '/system-admin/manage-documents/appointment-documents',
           active: false,
           item: []
         },

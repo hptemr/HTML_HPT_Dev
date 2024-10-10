@@ -7,18 +7,18 @@
             </div>
         </div>
         <div class="col-5 d-flex justify-content-end">
-            <button mat-raised-button color="primary" class="ml-auto">Download/ Print Note</button>
+            <!-- <button mat-raised-button color="primary" class="ml-auto">Download/ Print Note</button> -->
         </div>
     </div>
     <div class="modal--body w-100 mt-2 mb-2">
         <div class="col-12">
             <div class="d-flex flex-column">
-                <p class="font-16 fw-600 mb-1">Thank you for referring ________________ to our practice.</p>
-                <p class="font-16 fw-600 mb-0">________________ received an initial evaluation and treatment today ____________.</p><br>
-                <p class="font-16 fw-600 mb-1">Following the evaluation, we will see ___________________, _______</p>
+                <p class="font-16 fw-600 mb-1">Thank you for referring {{patientName}} to our practice.</p>
+                <p class="font-16 fw-600 mb-0">{{patientName}} received an initial evaluation and treatment today {{appointmentDate}}.</p><br>
+                <p class="font-16 fw-600 mb-1">Following the evaluation, we will see {{patientName}}, _______</p>
                 <p class="font-16 fw-600 mb-0">times per week for _______ weeks with a focus on __________, _____________, etc. (based on therapies selected to be completed).</p><br>
-                <p class="font-16 fw-600 mb-0">I will update you on ____________ progress as appropriate.</p><br>
-                <p class="font-16 fw-600 mb-0">Thank you for the opportunity to assist _________________ with their rehabilitation.</p>
+                <p class="font-16 fw-600 mb-0">I will update you on {{patientName}} progress as appropriate.</p><br>
+                <p class="font-16 fw-600 mb-0">Thank you for the opportunity to assist with their rehabilitation.</p>
             </div>
         </div> 
     </div>

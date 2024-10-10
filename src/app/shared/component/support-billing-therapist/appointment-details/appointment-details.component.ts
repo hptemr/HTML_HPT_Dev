@@ -15,99 +15,16 @@ import { s3Details } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 //import { AppointmentService } from 'src/app/shared/services/appointment.service';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
+
 export interface PeriodicElement {
-  note: string;  
-  dateAddedOn: string;   
-  noteAddedOn: string;
+  soap_note_type: string;  
+  note_date: string;   
+  createdBy: string;
   status: string;
   action: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Finalized',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  },
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  },
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Finalized',
-    action : ''
-  },
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Finalized',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Finalized',
-    action : ''
-  },
-];
+const ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
   selector: 'app-appointment-details', 
@@ -128,16 +45,24 @@ export class AppointmentDetailsComponent implements OnInit {
   appointment: any = null
   activeUserRoute = this.commonService.getLoggedInRoute()
 
-  displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
+  displayedColumns: string[] = ['soap_note_type', ' note_date', 'createdBy', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchValue = ""
+  status = ""
+  caseType = ""
+  noteList = []
+  dataLoading = false
+  fromDate: any = ''
+  toDate: any = ''
   constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     //,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
+
   }
   
   ngOnInit() {
@@ -153,6 +78,24 @@ export class AppointmentDetailsComponent implements OnInit {
     // }
      this.getAppointmentDetails()
     // this.getTherapistList()
+    this.getAppointmentNotes()
+  }
+
+  getAppointmentNotes(){
+    let reqVars = {
+      appointmentId:this.appointmentId,
+      caseType:this.caseType,
+      searchValue:this.searchValue,
+      status:this.status,
+      fromDate:this.fromDate,
+      toDate:this.toDate
+    }
+    this.dataLoading = true
+    this.authService.apiRequest('post', 'soapNote/getAppointmentNoteList', reqVars).subscribe(async response => {
+      this.dataLoading = false
+      this.dataSource.data = response.data
+      this.noteList = response.data
+    })
   }
 
   ngAfterViewInit() {
@@ -225,9 +168,13 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   noteModal() {
+    let patientName = this.appointmentData.patientInfo.firstName+" "+ this.appointmentData.patientInfo.lastName
     const dialogRef = this.dialog.open(OnePageNoteModalComponent,{
       width:"960px",
-      // panelClass: [ 'custom-alert-container','modal--wrapper'],
+      data : {
+        patientName:patientName,
+        appointmentDate:this.appointmentData.appointmentDate
+      }
     });
   } 
 
@@ -264,4 +211,44 @@ export class AppointmentDetailsComponent implements OnInit {
     }
   }
 
+  searchRecords(){
+    this.getAppointmentNotes()
+  }
+
+  onDateChange() {
+    this.getAppointmentNotes()
+  }
+
+  deleteNote(appointmentId:any,noteType:any){
+    const dialogRef = this.dialog.open(AlertComponent, {
+      panelClass: 'custom-alert-container',
+      data: {
+        warningNote: 'Are you sure you want to delete this note?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && !result.error){
+        let reqVars = {
+          appointmentId:appointmentId,
+          noteType:noteType,
+        }
+        this.authService.apiRequest('post', 'soapNote/deleteSoapNote', reqVars).subscribe(async response => {
+          this.commonService.openSnackBar("Note Deleted Successfully", "SUCCESS")
+          this.getAppointmentNotes()
+        })
+      }
+    })
+  }
+
+  createAddendum(appointmentId:any,noteType:any){
+    let reqVars = {
+      appointmentId:appointmentId,
+      noteType:noteType,
+    }
+    // this.authService.apiRequest('post', 'soapNote/createAddendum', reqVars).subscribe(async response => {
+    //   this.commonService.openSnackBar("Note Deleted Successfully", "SUCCESS")
+    //   this.getAppointmentNotes()
+    // })
+  }
 }
