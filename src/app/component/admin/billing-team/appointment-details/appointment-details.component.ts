@@ -9,6 +9,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { s3Details } from 'src/app/config';
+import { DatePipe } from '@angular/common';
 
 export interface PeriodicElement {
   note: string;  
@@ -107,7 +108,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-appointment-details', 
   templateUrl: './appointment-details.component.html',
-  styleUrl: './appointment-details.component.scss'
+  styleUrl: './appointment-details.component.scss',
+  providers: [DatePipe]
 })
 export class AppointmentDetailsComponent {
   appointmentId: string='';
@@ -118,6 +120,15 @@ export class AppointmentDetailsComponent {
   appointmentData: any = [];
   appointment_flag: boolean = false
   profileImage: string = '';
+  caseName:string =''
+  patientId:string =''
+  isBillingDetailsData:boolean=false
+  billingDetailsData:any
+  insuranceInfo:any;
+  isAuthManagmentHistory:boolean=false
+  authManagementHistory :any
+  authExpireDate: string = 'NA'
+  authVisits: string = 'NA'
 
   displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -131,7 +142,8 @@ export class AppointmentDetailsComponent {
     private router: Router, 
     private route: ActivatedRoute, 
     public authService: AuthService, 
-    public commonService: CommonService
+    public commonService: CommonService,
+    private datePipe: DatePipe
   ) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -151,7 +163,8 @@ export class AppointmentDetailsComponent {
         query: { _id: this.appointmentId },
         fields: {},
         patientFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1,email:1,phoneNumber:1 },
-        therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1 }
+        therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1 },
+        doctorFields: { _id: 1, npi: 1, name: 1}
       }
 
       await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
@@ -162,9 +175,54 @@ export class AppointmentDetailsComponent {
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;
           this.app_data[this.appointmentId] = this.appointmentData;
+
+          this.insuranceInfo = response.data.appointmentData?.payViaInsuranceInfo   
+          this.patientId = response.data.appointmentData?.patientId._id
+          this.caseName = response.data.appointmentData?.caseName
+          this.getBillingDetails(this.patientId, this.caseName)  
+          this.getAuthManagementHistory(this.patientId, this.caseName)
         }
       })
     }
+  }
+
+  getBillingDetails(patientId:any, caseName:string){
+    this.isBillingDetailsData = false
+    let billingDetailsQuery:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+    this.authService.apiRequest('post', 'appointment/getBillingDetails', billingDetailsQuery).subscribe(async response => { 
+      let { error, data } = response
+      if(data && data!=null ){
+        this.isBillingDetailsData = true
+        this.billingDetailsData = data
+      }
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getAuthManagementHistory(patientId:any, caseName:string){
+    this.isAuthManagmentHistory = false
+    this.authExpireDate = 'NA'
+    this.authVisits = 'NA'
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+
+    this.authService.apiRequest('post', 'appointment/getAuthorizationManagementDetails', queryObj).subscribe(async response => { 
+      if(response?.data && response?.data.authManagement.length){
+        this.isAuthManagmentHistory = true
+        let allAuthManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.authManagementHistory = allAuthManagementHistory[0]
+        this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
+        this.authVisits = this.authManagementHistory?.authorizationVisit
+      } 
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
   }
 
 

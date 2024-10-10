@@ -5,7 +5,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { BodyDetailsModalComponent } from './body-details-modal/body-details-modal.component';
-
 @Component({
   selector: 'app-intake-step3',
   templateUrl: './intake-step3.component.html',
@@ -336,9 +335,10 @@ export class IntakeStep3Component {
     this.step3Form.controls['appointmentDate'].setValue(this.step3FormData.appointmentDate)
     this.step3Form.controls['fullName'].setValue((this.step3FormData?.patientInfo && this.step3FormData.patientInfo) ? (this.step3FormData.patientInfo.firstName + " " + this.step3FormData.patientInfo.middleName + " " + this.step3FormData.patientInfo.lastName) : '')
     let allergies = this.step3FormData ? step3info?.allergiesToMedications_AllergyArray : []
+
     if (allergies && allergies.length > 0) {
 
-      if (allergies && allergies.length == 1 && allergies.name!=null) {
+      if (allergies && allergies.length > 1 && allergies[0].name!=null) {
         this.getNewAllergy.removeAt(0)
       }
     
@@ -353,10 +353,9 @@ export class IntakeStep3Component {
    
     let surgery = this.step3FormData ? step3info?.allergiesToMedications_SurgeryArray : []
     if (surgery && surgery.length > 0) {
-      if (surgery && surgery.length == 1 && surgery.details!=null && surgery.surDate!=null) {
+      if (surgery && surgery.length > 1 && surgery[0].details!=null && surgery[0].surDate!=null) {
         this.getNewSurgery.removeAt(0)
       }
-      //this.getNewSurgery.removeAt(0)
       for (let i = 0; i < surgery.length; i++) {
         if (surgery[i].details && surgery[i].details.trim() != '' || surgery[i].surDate) {
           this.getNewSurgery.push(this.fb.group({
@@ -369,10 +368,9 @@ export class IntakeStep3Component {
 
     let medication = this.step3FormData ? step3info?.allergiesToMedications_MedicationArray : []
     if (medication && medication.length > 0) {
-      if (medication && medication.length == 1 && medication.name!=null) {
+      if (medication && medication.length > 1 && medication[0].name!=null) {
         this.getNewMedication.removeAt(0)
       }
-
       for (let i = 0; i < medication.length; i++) {
         if (medication[i].name && medication[i].name.trim() != '') {
           this.getNewMedication.push(this.fb.group({

@@ -60,6 +60,7 @@ export class NavservicesService implements OnInit {
         {
           id: 2,
           icon: 'person_outline',
+          activeMenu: 'user-managment',
           mainTitle: 'User Management',
           headTitle1: 'User Management',
           path: '/practice-admin/user-managment/therapists',
@@ -101,6 +102,7 @@ export class NavservicesService implements OnInit {
         {
           id: 4,
           icon: 'home',
+          activeMenu: 'manage-practice',
           mainTitle: 'Manage Practice',
           headTitle1: 'Manage Practice',
           path: '/practice-admin/manage-practice',
@@ -128,7 +130,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 6,
-          activeMenu: 'manage-documents',
+          activeMenu: 'system-documents',
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
@@ -192,6 +194,7 @@ export class NavservicesService implements OnInit {
         {
           id: 2,
           icon: 'accessibility',
+          activeMenu: 'user-managment',
           mainTitle: 'Therapists',
           headTitle1: 'Therapists',
           path: '/therapist/user-managment/therapists',

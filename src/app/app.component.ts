@@ -1,5 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { AuthService } from './shared/services/api/auth.service';
+import { AdminService } from './shared/services/api/admin.service';
 
 const MINUTES_UNITL_AUTO_LOGOUT = 180 //in Minutes => 3Hours
 const CHECK_INTERVALL = 60000 // in ms => 1 minute
@@ -15,11 +16,33 @@ export class AppComponent {
   timediff = 0
   isPopUpShow = true
   checkUserActivity: any
-  constructor(private ngZone: NgZone, private authService: AuthService) {
+  constructor(private ngZone: NgZone, private authService: AuthService,   private adminService: AdminService) {
   }
 
   ngOnInit() {
     this.checkIdleUser()
+    if(this.authService.getLoggedInInfo("role") =='therapist'){
+      this.checkUpdatedUserInfo()
+    }
+  }
+
+  //function to get updated information from database and update the session data.i.e. localstorage
+  async checkUpdatedUserInfo(){
+    let params = {
+      query: { _id: this.authService.getLoggedInInfo("_id") },
+      params: { siteLeaderForPracLocation: 1}
+    }
+    await this.adminService.getUserDetails(params).subscribe({
+      next: (res:any) => {
+        if(res.data.siteLeaderForPracLocation != this.authService.getLoggedInInfo("siteLeaderForPracLocation")){
+          let userDetails: any
+          userDetails = this.authService.getLoggedInInfo()
+          userDetails.siteLeaderForPracLocation = res.data.siteLeaderForPracLocation
+          localStorage.setItem('user', JSON.stringify(userDetails))
+          window.location.reload(); //reload the page.. else session data will not reflect.
+        }
+      }
+    })
   }
 
   /****

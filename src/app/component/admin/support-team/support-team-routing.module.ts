@@ -22,6 +22,7 @@ import { PreviewComponent } from 'src/app/shared/component/manage-documents/file
 import { CreateRequestAppointmentComponent } from './requests/create-request-appointment/create-request-appointment.component';
 import { CaseDetailsComponent } from './case-details/case-details.component';
 import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
+import { BillingDetailsComponent } from '../billing-team/billing-details/billing-details.component';
 
 const routes: Routes = [
   {
@@ -138,6 +139,10 @@ const routes: Routes = [
   {
     path: 'file-preview/:file',
     component: PreviewComponent, 
+  },
+  {
+    path: 'case-details/billing-details/:appointmentId',
+    component:BillingDetailsComponent   
   }
 ];
 

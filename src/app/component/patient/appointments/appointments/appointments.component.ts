@@ -171,14 +171,12 @@ export class AppointmentsComponent {
     let searchStr = event.target.value.trim()
     if (searchStr != '') {
       searchStr = searchStr.replace("+", "\\+");
-      let finalStr = { $regex: searchStr, $options: 'i' }
-      this.userQuery = {
-        status: "Active",
-        role: "therapist",
-        $or: [{ firstName: finalStr }, { lastName: finalStr }, { email: finalStr }]
+      let finalStr = { $regex: searchStr, $options: 'i' } 
+      this.whereCond = {
+         caseName: finalStr 
       }
     } else {
-      this.userQuery = {}
+      delete this.whereCond['caseName'];
     }
     this.getAppointmentList('search')
   }

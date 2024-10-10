@@ -6,8 +6,9 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from '../../../../../../utils/validation-messages';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 @Component({
-  selector: 'app-dn-subjective', 
+  selector: 'app-dn-subjective',
   templateUrl: './dn-subjective.component.html',
   styleUrl: './dn-subjective.component.scss'
 })
@@ -17,45 +18,96 @@ export class DnSubjectiveComponent {
   model: NgbDateStruct;
   selectedValue: number;
   tabs = [
-    {number: '1'}, {number: '2'}, {number: '3'},
-    {number: '4'}, {number: '5'}, {number: '6'},
-    {number: '7'}, {number: '8'}, {number: '9'},
-    {number: '10'}
+    { number: '1' }, { number: '2' }, { number: '3' },
+    { number: '4' }, { number: '5' }, { number: '6' },
+    { number: '7' }, { number: '8' }, { number: '9' },
+    { number: '10' }
   ];
-  appointment_dates:any=["07/12/2024","05/14/2024","04/10/2024"];
+  appointment_dates: any = ["07/12/2024", "05/14/2024", "04/10/2024"];
   appointmentId: string;
   public userId: string;
   public userRole: string;
-  selectedCode:any;
-  icdCodeList:any = [];
+  selectedCode: any;
+  icdCodeList: any = [];
   public subjectiveForm: FormGroup;
-  validationMessages = validationMessages; 
+  validationMessages = validationMessages;
   todayDate = new Date();
   appointment: any = null
-  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
+  submitted: boolean = false;
+  subjectiveId: string = '';
+
+  constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, public datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
   }
 
   ngOnInit() {
+    this.commonService.showLoader()
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
-    
+    this.getSubjective();
     this.subjectiveForm = this.fb.group({
-      appointmentId:[this.appointmentId],
-      daily_note_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      appointmentId: [this.appointmentId],
+      note_date: ['', [Validators.required]],
       subjective_note: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
     });
   }
 
-  subjectiveSubmit(formData:any){
-    if (this.subjectiveForm.invalid){
-      this.subjectiveForm.markAllAsTouched();
-    }else{
-
+  async getSubjective() {
+    let reqVars = {
+      query: {
+        appointmentId: this.appointmentId,
+        soap_note_type: 'daily_note'
+      }
     }
-    console.log('formData>>>>',formData)
+    this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
+      this.commonService.hideLoader()
+      if (response.data && response.data.subjectiveData) {
+        let subjectiveData = response.data.subjectiveData;
+        this.subjectiveId = subjectiveData._id
+        this.subjectiveForm.controls['note_date'].setValue(this.datePipe.transform(subjectiveData.note_date, 'MM/dd/yyyy'))
+        this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
+      }
+    })
+  }
+
+  subjectiveSubmit(formData: any) {
+    if (this.subjectiveForm.invalid) {
+      this.subjectiveForm.markAllAsTouched();
+    } else {
+      this.submitted = true
+      this.commonService.showLoader();
+      let updateInfo = [];
+      updateInfo.push({
+        fromAdminId: this.userId,
+        userRole: this.userRole,
+        updatedAt: new Date()
+      });
+
+      if (this.subjectiveId) {
+        Object.assign(formData, { updateInfo: updateInfo })
+      } else {
+        Object.assign(formData, { updateInfo: updateInfo, appointmentId: this.appointmentId, soap_note_type: 'daily_note', status: 'Draft', createdBy: this.userId })
+      }
+
+      let reqVars = {
+        userId: this.userId,
+        data: formData,
+        subjectiveId: this.subjectiveId
+      }
+      this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {
+        let status = 'SUCCESS'
+        if (response.error) {
+          status = "ERROR"
+        }
+        this.commonService.openSnackBar(response.message, status);
+        this.commonService.hideLoader();
+        setTimeout(() => {
+          this.submitted = false
+        }, 3000)
+      })
+    }
   }
 
   checkSpace(colName: any, event: any) {

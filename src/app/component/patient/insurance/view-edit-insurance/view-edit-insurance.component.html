@@ -381,8 +381,8 @@
                     
                     <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-start justify-content-sm-between">
                         <div>&nbsp;</div> 
-                        <button mat-raised-button color="primary" type="button" class="flex-shrink-0 mt-2" (click)="thirdInsurance()"><mat-icon class="material-symbols-outlined flex-shrink-0"> {{mat_icon}} </mat-icon>
-                                Add Insurance  
+                        <button disabled="{{isReadOnly}}" mat-raised-button color="primary" type="button" class="flex-shrink-0 mt-2" (click)="thirdInsurance()"><mat-icon class="material-symbols-outlined flex-shrink-0"> {{mat_icon}} </mat-icon>
+                                Add Insurance
                         </button>
                     </div>
 
@@ -755,7 +755,7 @@
                             <div class="d-flex align-items-center justify-content-end w-100">
                                 <label class="fw-700 font-16 clr--1F2F3E me-3 mb-0">Upload Insurance Card</label>  
                                 <div class="form-group mb-0">
-                                    <button [disabled]="uploadedInsuranceFilesTotal >= 5" mat-raised-button color="primary"
+                                    <button [disabled]="uploadedInsuranceFilesTotal >= 5 || isReadOnly" mat-raised-button color="primary"
                                         class="flex-shrink-0 ms-0 ms-sm-auto   ui--button">
                                         <input #insuranceFileInput accept="image/*, application/pdf,.doc, .docx"
                                             (change)="uploadInsurance($event)" type="file">

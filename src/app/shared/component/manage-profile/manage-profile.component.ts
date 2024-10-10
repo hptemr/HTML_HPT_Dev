@@ -12,6 +12,7 @@ import { UploadImgComponent } from '../upload-img/upload-img.component';
 import { s3Details } from 'src/app/config';
 import { UserService } from '../../../shared/services/comet-chat/user.service';
 import { ProfilePicService } from '../../../shared/services/profile-pic.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-manage-profile',
   templateUrl: './manage-profile.component.html',
@@ -27,10 +28,12 @@ export class ManageProfileComponent {
   convertPhoneNumber: string = '';
   userId:any
   isDefaultImage:boolean = true
+  activeUserRoute = this.commonService.getLoggedInRoute()
 
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
+    private router: Router,
     private commonService: CommonService,
     private authService: AuthService,
     private adminService: AdminService,
@@ -99,15 +102,13 @@ export class ManageProfileComponent {
 
   updateProfile() {
     if (this.updateProfileForm.valid) {
+      this.commonService.showLoader()
       this.updateProfileForm.value['userId'] = this.userId
       this.updateProfileForm.value['clickAction'] = 'update'
       this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
-        next: (res) => {
-          if (res && !res.error) {
-            this.updateAdminInLocalStorage(res.data)
-            this.commonService.openSnackBar(res.message, "SUCCESS")
-            // this.getProfile()
-          }
+        next: (res) => { 
+          this.commonService.openSnackBar(res.message, "SUCCESS")
+          this.updateAdminInLocalStorage(res.data)
         }, error: (err) => {
           err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
         }
@@ -119,11 +120,12 @@ export class ManageProfileComponent {
     let localSorageUserData: any = this.authService.getLoggedInInfo('all')
     localSorageUserData.firstName = updateProfileData.firstName;
     localSorageUserData.lastName = updateProfileData.lastName;
-    localStorage.setItem('user', JSON.stringify(localSorageUserData));
-    
+    localStorage.setItem('user', JSON.stringify(localSorageUserData)); 
     let fullName = `${updateProfileData.firstName} ${updateProfileData.lastName}`
     await this.userService.updateUser(updateProfileData._id, fullName).catch((_res)=>false) // Update user in comet chat
-    window.location.reload()
+    this.router.navigate([this.activeUserRoute, 'dashboard']).then(() => {
+      window.location.reload();
+    })
   }
 
   async changePhoto() {

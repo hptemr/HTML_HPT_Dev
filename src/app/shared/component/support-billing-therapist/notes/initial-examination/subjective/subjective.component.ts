@@ -140,6 +140,8 @@ export class SubjectiveComponent implements OnInit {
   initialName:string = '';
   selectedPartsFront: string[] = [];
   selectedPartsBack: string[] = [];
+  diagnosisClicked = false
+
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -167,27 +169,19 @@ export class SubjectiveComponent implements OnInit {
   }
 
   getSubjectiveRecord(){
-
-    // var reqVars = {
-    //   appointmentId:this.appointmentId,
-    //   soap_note_type:'initial_examination'
-    // }
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
     
       if(response.data && response.data.subjectiveData){
-        let subjectiveData = response.data.subjectiveData;
-
-   
+        let subjectiveData = response.data.subjectiveData; 
         this.subjectiveId = subjectiveData._id;
         this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
         this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
-        this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note);
-
+        this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note); 
         subjectiveData.diagnosis_code.forEach((element: any,index:number) => {
           let item = {'code':element.code,'name':element.name};      
           if(this.icdCodeList.length==0){
@@ -353,6 +347,7 @@ export class SubjectiveComponent implements OnInit {
 
 
   subjectiveSubmit(formData:any){
+    this.diagnosisClicked = true
     if (this.subjectiveForm.invalid){
       this.subjectiveForm.markAllAsTouched();
     }else{
@@ -432,18 +427,7 @@ export class SubjectiveComponent implements OnInit {
   checkSpace(colName: any, event: any) {
     this.subjectiveForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
-
-  
-  ngAfterViewInit() {
-    
-  }
-
-  // bodyClick() {
-  //   const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
-  //     panelClass: 'custom-alert-container', 
-  //   });  
-  // }
-
+ 
   bodyClick(from:string,partName:string) {   
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 

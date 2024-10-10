@@ -12,12 +12,12 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field> -->
-                <label class="col-form-label fw-600">Date of Service <span class="clr--DF0404 ms-1"> * </span></label>
-                <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="daily_note_date">
+                <label class="col-form-label fw-600">Date of Service<span class="clr--DF0404 ms-1"> * </span></label>
+                <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="note_date">
                   <option value="" disabled>Select date</option>
                   <option *ngFor="let d of appointment_dates" [value]="d">{{d}}</option>
                 </select>
-                <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['daily_note_date'].touched && subjectiveForm.controls['daily_note_date'].hasError('required')">
+                <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['note_date'].touched && subjectiveForm.controls['note_date'].hasError('required')">
                     {{ validationMessages.requiredDropdown('Daily note date') }}
                 </div>             
             </div>
@@ -25,8 +25,8 @@
 
         <div class="col-12">
             <div class="form-group">
-                <label class="col-form-label fw-600">Subjective</label>
-                <textarea [disabled]="isDisabled" class="form-control text-left" type="text" formControlName="subjective_note" rows="5" (blur)="checkSpace('subjective_note', $event)"></textarea>
+                <label class="col-form-label fw-600">Subjective<span class="clr--DF0404 ms-1"> * </span></label>
+                <textarea placeholder="Please enter subjective" [disabled]="isDisabled" class="form-control text-left" type="text" formControlName="subjective_note" rows="5" maxlength="2500" (blur)="checkSpace('subjective_note', $event)"></textarea>
                 <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['subjective_note'].hasError('required') && subjectiveForm.controls['subjective_note'].touched">
                     {{ validationMessages.required('Subjective note') }}</div>
             </div>

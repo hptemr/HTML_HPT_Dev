@@ -4,10 +4,10 @@
 
             <div class="col-12">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Assessment</label>
-                   <textarea [disabled]="isDisabled" class="form-control text-left" type="text" rows="5" maxlength="500" formControlName="assessment_text"  (blur)="checkSpace('assessment_text', $event)"></textarea>
+                    <label class="col-form-label fw-600">Assessment<span class="clr--DF0404 ms-1"> * </span></label>
+                   <textarea placeholder="Please enter assessment" [disabled]="isDisabled" class="form-control text-left" type="text" rows="5" maxlength="500" formControlName="assessment_text"  (blur)="checkSpace('assessment_text', $event)"></textarea>
                     <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['assessment_text'].touched && assessmentForm.controls['assessment_text'].hasError('required')">
-                        {{ validationMessages.required('Assessment') }}
+                        {{ validationMessages.required('assessment') }}
                       </div>
                 </div>
             </div>
@@ -17,7 +17,7 @@
                 <div class="mb-1 {{pointIndex ? '' : 'border-bottom-popup'}}" *ngFor="let item of assessment_icd_info.controls; let pointIndex = index" [formGroupName]="pointIndex">
                     <div class="col-12 col-lg-12 col-md-12">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">{{pointIndex+1}}.Problem </label>
+                            <label class="col-form-label fw-600">{{pointIndex+1}}.Problem <span class="clr--DF0404 ms-1"> * </span></label>
                             <div class="d-flex flex-row align-items-center">
                                 <input [disabled]="isDisabled" class="form-control me-2" type="text" placeholder="Enter Your Problem" formControlName="problem" (blur)="checkGroupSpace(assessment_icd_info.at(pointIndex).get('problem'), $event)"/>
                                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem(pointIndex)">cancel</mat-icon>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-12 col-lg-12 col-md-12">
                         <div class="form-group">
-                            <label class="col-form-label fw-600">{{pointIndex+1}}.Long term goal </label>
+                            <label class="col-form-label fw-600">{{pointIndex+1}}.Long term goal <span class="clr--DF0404 ms-1"> * </span></label>
                             <input [disabled]="isDisabled" class="form-control" type="text" placeholder="Enter Your Long Term Goal" formControlName="long_term_goal" (blur)="checkGroupSpace(assessment_icd_info.at(pointIndex).get('long_term_goal'), $event)"/>
                             <div class="text text-danger mt-1" *ngIf="assessment_icd_info.at(pointIndex).get('long_term_goal')?.touched && assessment_icd_info.at(pointIndex).get('long_term_goal')?.hasError('required')">                   
                                 {{ validationMessages.required('long term goal') }}
@@ -48,10 +48,10 @@
 
             <div class="col-12">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Supporting Documentation</label>
-                    <textarea [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" formControlName="supporting_documentation_text" (blur)="checkSpace('supporting_documentation_text', $event)"></textarea> 
+                    <label class="col-form-label fw-600">Supporting Documentation<span class="clr--DF0404 ms-1"> * </span></label>
+                    <textarea placeholder="Please enter supporting documentation" [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" maxlength="2500" formControlName="supporting_documentation_text" (blur)="checkSpace('supporting_documentation_text', $event)"></textarea> 
                     <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['supporting_documentation_text'].touched && assessmentForm.controls['supporting_documentation_text'].hasError('required')">
-                        {{ validationMessages.required('Supporting Documentation') }}
+                        {{ validationMessages.required('supporting documentation') }}
                       </div>
                 </div>
             </div>

@@ -113,7 +113,13 @@ export class CreateAppointmentComponent {
         if(formData.patientType=='Existing'){
           Object.assign(formData, {patientId: this.patientId})
         }
-        Object.assign(formData, {doctorId: this.doctorId})
+        Object.assign(formData, {doctorId: this.doctorId});
+
+        if (this.appointmentForm.controls['firstName'].disabled) {
+          Object.assign(formData, {firstName: this.appointmentForm.controls['firstName'].value});
+          Object.assign(formData, {lastName: this.appointmentForm.controls['lastName'].value});
+          Object.assign(formData, {email: this.appointmentForm.controls['email'].value});
+        }
 
         delete formData.seachByPname;
         delete formData.seachByDoctor;
@@ -275,11 +281,9 @@ export class CreateAppointmentComponent {
   }
 
   
-  selectDoctor(id: string): any {
-    
+  selectDoctor(id: string): any {    
     if(this.patientList.length>0) {
       let selected = this.doctorList.find(item => typeof item === 'object' && item.id === id) || null;
-      console.log('... selected >>>',selected)
       if(selected) {
         this.doctorId = id;        
       }    
@@ -299,7 +303,6 @@ export class CreateAppointmentComponent {
       })
     }
    }
-
 
    async getTherapistList() {
     const reqVars = {

@@ -70,7 +70,7 @@
                                 <div class="col-12 col-lg-6" *ngIf="isTherapist">
                                     <div class="form-group">
                                         <label class="col-form-label fw-600">Phone <span class="clr--DF0404 ms-1"> * </span></label>
-                                        <input class="form-control form-control-md" type="text" placeholder="Phone " formControlName="phoneNumber" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="15"/>
+                                        <input class="form-control form-control-md" type="text" placeholder="Phone " formControlName="phoneNumber" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="14"/>
                                         <div class="text text-danger mt-1" *ngIf="updateProfileForm.controls['phoneNumber'].touched && updateProfileForm.controls['phoneNumber'].hasError('required')">
                                             {{ validationMessages.required('a valid phone number') }}
                                         </div>

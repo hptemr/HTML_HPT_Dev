@@ -157,24 +157,22 @@ export class IntakeStep2Component {
     if(payViaInsuranceInfo.payVia){
       this.payViaSelected = payViaInsuranceInfo.payVia
     }
-  
+
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
-      relationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.relationWithPatient : ''],
-      otherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.otherRelation : ''],
-      firstName: [payViaInsuranceInfo ? payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      relationWithPatient: [typeof payViaInsuranceInfo?.relationWithPatient !== 'undefined' ? payViaInsuranceInfo?.relationWithPatient : ''],
+      otherRelation: [typeof payViaInsuranceInfo?.otherRelation !== 'undefined' ? payViaInsuranceInfo?.otherRelation : ''],
+      firstName: [typeof payViaInsuranceInfo?.firstName !== 'undefined' ? payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       middleName: [payViaInsuranceInfo ? payViaInsuranceInfo?.middleName : ''],
       lastName: [payViaInsuranceInfo ? payViaInsuranceInfo?.lastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      dob: [payViaInsuranceInfo ? payViaInsuranceInfo?.dob : ''],
-      maritalStatus: [payViaInsuranceInfo ? payViaInsuranceInfo?.maritalStatus : ''],
-      gender: [payViaInsuranceInfo ? payViaInsuranceInfo?.gender : ''],
+      dob: [typeof payViaInsuranceInfo?.dob !== 'undefined' ? payViaInsuranceInfo?.dob : ''],
+      maritalStatus: [typeof payViaInsuranceInfo?.maritalStatus !== 'undefined' ? payViaInsuranceInfo?.maritalStatus : ''],
+      gender: [typeof payViaInsuranceInfo?.gender !== 'undefined' ? payViaInsuranceInfo?.gender : ''],
       email: [payViaInsuranceInfo ? payViaInsuranceInfo?.email : '', [Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
       phoneNumber: [payViaInsuranceInfo ? payViaInsuranceInfo?.phoneNumber : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       cellPhoneNumber: [payViaInsuranceInfo ? payViaInsuranceInfo?.cellPhoneNumber : ''],
       workExtensionNumber: [payViaInsuranceInfo ? payViaInsuranceInfo?.workExtensionNumber : ''],
-
-      insuranceName: [payViaInsuranceInfo ? payViaInsuranceInfo?.insuranceName : ''],
-
+      insuranceName: [typeof payViaInsuranceInfo?.insuranceName !== 'undefined' ? payViaInsuranceInfo?.insuranceName : ''],
       subscriberFirstName: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberMiddleName: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberMiddleName : ''],
       subscriberLastName: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -187,15 +185,15 @@ export class IntakeStep2Component {
       primaryInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceGroup : '', [Validators.required]],
       primaryInsuranceCustomerServicePh: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       primaryInsuranceFromDate: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceFromDate : ''],
-      primaryInsuranceToDate: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceToDate : ''],
-    
+      primaryInsuranceToDate: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceToDate : ''],          
+
       secondarySubscriberFirstName: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondarySubscriberMiddleName: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberMiddleName : ''],
       secondarySubscriberLastName: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      secondarySubscriberDob: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberDob : ''],
-      secondarySubscriberRelationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberRelationWithPatient : '', [Validators.required]],
-      secondarySubscriberOtherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberOtherRelation : [Validators.required]],
-      secondarySubscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondarySubscriberGender : '', [Validators.required]],
+      secondarySubscriberDob: [typeof payViaInsuranceInfo?.secondarySubscriberDob !== 'undefined' ? payViaInsuranceInfo?.secondarySubscriberDob : ''],
+      secondarySubscriberRelationWithPatient: [typeof payViaInsuranceInfo?.secondarySubscriberRelationWithPatient !== 'undefined' ? payViaInsuranceInfo?.secondarySubscriberRelationWithPatient : '', [Validators.required]],
+      secondarySubscriberOtherRelation: [typeof payViaInsuranceInfo?.secondarySubscriberOtherRelation !== 'undefined' ? payViaInsuranceInfo?.secondarySubscriberOtherRelation : [Validators.required]],
+      secondarySubscriberGender: [typeof payViaInsuranceInfo?.secondarySubscriberGender !== 'undefined' ? payViaInsuranceInfo?.secondarySubscriberGender : '', [Validators.required]],
       secondaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondaryInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceIdPolicy : '', [Validators.required]],
       secondaryInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceGroup : '', [Validators.required]],
@@ -206,39 +204,38 @@ export class IntakeStep2Component {
       thirdSubscriberFirstName: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
       thirdSubscriberMiddleName: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberMiddleName : ''],
       thirdSubscriberLastName: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
-      thirdSubscriberDob: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberDob : ''],
-      thirdSubscriberRelationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberRelationWithPatient : '', []],
-      thirdSubscriberOtherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberOtherRelation : []],
-      thirdSubscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberGender : '', []],
+      thirdSubscriberDob: [typeof payViaInsuranceInfo?.thirdSubscriberDob !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberDob : ''],
+      thirdSubscriberRelationWithPatient: [typeof payViaInsuranceInfo?.thirdSubscriberRelationWithPatient !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberRelationWithPatient : '', []],
+      thirdSubscriberOtherRelation: [typeof payViaInsuranceInfo?.thirdSubscriberOtherRelation !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberOtherRelation : []],
+      thirdSubscriberGender: [typeof payViaInsuranceInfo?.thirdSubscriberGender !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberGender : '', []],
 
-      thirdInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceCompany : '', [Validators.minLength(1), Validators.maxLength(35)]],
-      thirdInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceIdPolicy : '', []],
-      thirdInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceGroup : '', []],
-      thirdInsuranceCustomerServicePh: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceCustomerServicePh : '', [Validators.minLength(14), Validators.maxLength(14)]],
-      thirdInsuranceFromDate: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceFromDate : ''],
-      thirdInsuranceToDate: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdInsuranceToDate : ''],
+      thirdInsuranceCompany: [typeof payViaInsuranceInfo?.thirdInsuranceCompany !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceCompany : '', [Validators.minLength(1), Validators.maxLength(35)]],
+      thirdInsuranceIdPolicy: [typeof payViaInsuranceInfo?.thirdInsuranceIdPolicy !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceIdPolicy : '', []],
+      thirdInsuranceGroup: [typeof payViaInsuranceInfo?.thirdInsuranceGroup !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceGroup : '', []],
+      thirdInsuranceCustomerServicePh: [typeof payViaInsuranceInfo?.thirdInsuranceCustomerServicePh !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceCustomerServicePh : '', [Validators.minLength(14), Validators.maxLength(14)]],
+      thirdInsuranceFromDate: [typeof payViaInsuranceInfo?.thirdInsuranceFromDate !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceFromDate : ''],
+      thirdInsuranceToDate: [typeof payViaInsuranceInfo?.thirdInsuranceToDate !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceToDate : ''],
 
-      injuryRelelatedTo: [payViaInsuranceInfo ? payViaInsuranceInfo?.injuryRelelatedTo : ''],      
-      otherPersonalInjury: [payViaInsuranceInfo ? payViaInsuranceInfo?.otherPersonalInjury : ''],   
+      injuryRelelatedTo: [typeof payViaInsuranceInfo?.injuryRelelatedTo !== 'undefined' ? payViaInsuranceInfo?.injuryRelelatedTo : ''],      
+      otherPersonalInjury: [typeof payViaInsuranceInfo?.otherPersonalInjury !== 'undefined' ? payViaInsuranceInfo?.otherPersonalInjury : ''],   
       carrierName: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.carrierName ? this.step2FormData.payViaInsuranceInfo?.carrierName : '', []],
-      dateOfInjury: [payViaInsuranceInfo ? payViaInsuranceInfo?.dateOfInjury : '', []],
+      dateOfInjury: [typeof payViaInsuranceInfo?.dateOfInjury !== 'undefined' ? payViaInsuranceInfo?.dateOfInjury : '', []],
       insuranceState: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.insuranceState ? this.step2FormData.payViaInsuranceInfo?.insuranceState : '', []],
-      claim: [payViaInsuranceInfo ? payViaInsuranceInfo?.claim : '', []],
-      adjusterName: [payViaInsuranceInfo ? payViaInsuranceInfo?.adjusterName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
-      adjusterPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.adjusterPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
-      reportedEmployer: [payViaInsuranceInfo ? payViaInsuranceInfo?.reportedEmployer : ''],
-      employerName: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.minLength(1), Validators.maxLength(35)]],
-      employerPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
-      employerAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.employerAddress : '', []],
+      claim: [typeof payViaInsuranceInfo?.claim !== 'undefined' ? payViaInsuranceInfo?.claim : '', []],
+      adjusterName: [typeof payViaInsuranceInfo?.adjusterName !== 'undefined' ? payViaInsuranceInfo?.adjusterName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
+      adjusterPhone: [typeof payViaInsuranceInfo?.adjusterPhone !== 'undefined' ? payViaInsuranceInfo?.adjusterPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
+      reportedEmployer: [typeof payViaInsuranceInfo?.reportedEmployer !== 'undefined' ? payViaInsuranceInfo?.reportedEmployer : ''],
+      employerName: [typeof payViaInsuranceInfo?.employerName !== 'undefined' ? payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.minLength(1), Validators.maxLength(35)]],
+      employerPhone: [typeof payViaInsuranceInfo?.employerPhone !== 'undefined' ? payViaInsuranceInfo?.employerPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
+      employerAddress: [typeof payViaInsuranceInfo?.employerAddress !== 'undefined' ? payViaInsuranceInfo?.employerAddress : '', []],
       isPatientMinor: [payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor : '', []],
       consentCheck: [payViaInsuranceInfo ? payViaInsuranceInfo?.consentCheck : '', [Validators.required]],
-      attorney: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorney : '', []],
-      attorneyName: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.maxLength(35)]],
-      attorneyPhone: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
+      attorney: [typeof payViaInsuranceInfo?.attorney !== 'undefined' ? payViaInsuranceInfo?.attorney : '', []],
+      attorneyName: [typeof payViaInsuranceInfo?.attorneyName !== 'undefined' ? payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.maxLength(35)]],
+      attorneyPhone: [typeof payViaInsuranceInfo?.attorneyPhone !== 'undefined' ? payViaInsuranceInfo?.attorneyPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
       //attorneyAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
     this.isMinorFlag = payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor=='yes' ? true : false : false    
-
 
     if(payViaInsuranceInfo?.thirdInsuranceCompany){
       //this.thirdInsurancesFlag = true;  
@@ -270,6 +267,13 @@ export class IntakeStep2Component {
       const mockEvent5: MatRadioChange = { value: "Worker's Compensation (WCOMP)", source: this.radioButton! }; 
       this.onInjuryChange(mockEvent5)
     }
+
+    let reportedEmployer = typeof payViaInsuranceInfo?.reportedEmployer !== 'undefined' ? payViaInsuranceInfo?.reportedEmployer : '';
+    if(reportedEmployer){
+      const mockEvent7: MatRadioChange = { value: "Yes", source: this.radioButton! }; 
+      this.onEmployerChange(mockEvent7)
+    }
+    
      
     if(payViaInsuranceInfo && payViaInsuranceInfo?.thirdInsuranceCompany){
       this.thirdInsurancesFlag = true
@@ -382,7 +386,7 @@ export class IntakeStep2Component {
       secondaryInsuranceGroup = info.secondaryInsuranceGroup
       secondaryInsuranceCustomerServicePh = info.secondaryInsuranceCustomerServicePh
       secondaryInsuranceFromDate = info.secondaryInsuranceFromDate
-      secondaryInsuranceFromDate = info.secondaryInsuranceFromDate    
+      secondaryInsuranceToDate = info.secondaryInsuranceToDate    
 
       thirdSubscriberFirstName = info.thirdSubscriberFirstName    
       thirdSubscriberMiddleName = info.thirdSubscriberMiddleName    
@@ -415,6 +419,20 @@ export class IntakeStep2Component {
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
      consentCheck = info.consentCheck ? info.consentCheck : false
+    }
+
+    if(reportedEmployer){
+      const mockEvent9: MatRadioChange = { value: reportedEmployer, source: this.radioButton! }; 
+      this.onEmployerChange(mockEvent9)
+    }
+    if(attorney){
+      const mockEvent9: MatRadioChange = { value: attorney, source: this.radioButton! }; 
+      this.attorneyChange(mockEvent9)
+    }
+
+    
+    if(thirdSubscriberFirstName && thirdInsuranceCompany){
+      this.thirdInsurance()
     }
     
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
@@ -516,6 +534,7 @@ export class IntakeStep2Component {
       this.step2Form.controls['employerPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
       this.step2Form.controls['employerAddress'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1000)])
     }
+    console.log('Employer Selected >>>',this.employerSelected)
   }
 
   attorneyChange(event: MatRadioChange) {
