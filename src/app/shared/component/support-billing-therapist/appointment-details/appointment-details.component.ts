@@ -16,6 +16,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 //import { AppointmentService } from 'src/app/shared/services/appointment.service';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
+import { DatePipe } from '@angular/common';
 
 export interface PeriodicElement {
   soap_note_type: string;  
@@ -29,7 +30,8 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 @Component({
   selector: 'app-appointment-details', 
   templateUrl: './appointment-details.component.html',
-  styleUrl: './appointment-details.component.scss'
+  styleUrl: './appointment-details.component.scss',
+  providers: [DatePipe]
 })
 export class AppointmentDetailsComponent implements OnInit {
   appointmentId: string;
@@ -47,6 +49,17 @@ export class AppointmentDetailsComponent implements OnInit {
 
   displayedColumns: string[] = ['soap_note_type', ' note_date', 'createdBy', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+
+  caseName:string =''
+  patientId:string =''
+  isBillingDetailsData:boolean=false
+  billingDetailsData:any
+  isAuthManagmentHistory:boolean=false
+  authManagementHistory :any
+  authExpireDate: string = 'NA'
+  stCaseDetails:any
+  isStCaseDetails:boolean=false
+  authVisits: string = 'NA'
   
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -57,7 +70,7 @@ export class AppointmentDetailsComponent implements OnInit {
   dataLoading = false
   fromDate: any = ''
   toDate: any = ''
-  constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, private datePipe: DatePipe) {
     //,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -134,6 +147,11 @@ export class AppointmentDetailsComponent implements OnInit {
           
           //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
           
+          this.patientId = response.data.appointmentData?.patientId._id
+          this.caseName = response.data.appointmentData?.caseName 
+          this.getBillingDetails(this.patientId, this.caseName)  
+          this.getAuthManagementHistory(this.patientId, this.caseName)  
+          this.getStCaseDetails(this.patientId, this.caseName)
         }
       })
     }
@@ -251,4 +269,61 @@ export class AppointmentDetailsComponent implements OnInit {
     //   this.getAppointmentNotes()
     // })
   }
+
+  getBillingDetails(patientId:any, caseName:string){
+    this.isBillingDetailsData = false
+    let billingDetailsQuery:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+    this.authService.apiRequest('post', 'appointment/getBillingDetails', billingDetailsQuery).subscribe(async response => {  
+      let { error, data } = response
+      if(data && data!=null ){
+        this.isBillingDetailsData = true
+        this.billingDetailsData = data
+      }
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getAuthManagementHistory(patientId:any, caseName:string){
+    this.isAuthManagmentHistory = false
+    this.authExpireDate = 'NA'
+    this.authVisits = 'NA'
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+
+    this.authService.apiRequest('post', 'appointment/getAuthorizationManagementDetails', queryObj).subscribe(async response => { 
+      if(response?.data && response?.data.authManagement.length){
+        this.isAuthManagmentHistory = true
+        let allAuthManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.authManagementHistory = allAuthManagementHistory[0]
+        this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
+        this.authVisits = this.authManagementHistory?.authorizationVisit
+      }
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getStCaseDetails(patientId:any, caseName:string){
+    this.isStCaseDetails = false
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+
+    this.authService.apiRequest('post', 'appointment/getStCaseDetails', queryObj).subscribe(async response => { 
+      if(response?.data){
+        this.isStCaseDetails = true
+        this.stCaseDetails = response?.data
+      }
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
 }
