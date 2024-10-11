@@ -141,11 +141,16 @@ export class SubjectiveComponent implements OnInit {
   selectedPartsFront: string[] = [];
   selectedPartsBack: string[] = [];
   diagnosisClicked = false
-
+  readOnly = false
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'subjective-view'){
+        this.readOnly = true
+      }
     })
+
   }
 
   ngOnInit() {
@@ -164,7 +169,10 @@ export class SubjectiveComponent implements OnInit {
       surgery_type: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
       subjective_note: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
     });
-
+    if(this.readOnly){
+        this.subjectiveForm.disable()
+        this.icd_data = []
+    }
     this.getSubjectiveRecord()
   }
 

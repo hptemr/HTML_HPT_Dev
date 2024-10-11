@@ -106,7 +106,15 @@ const routes: Routes = [
         component: SubjectiveComponent, 
       }, 
       {
+        path: 'subjective-view/:appointmentId',
+        component: SubjectiveComponent, 
+      },
+      {
         path: 'objective/:appointmentId',
+        component: ObjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId',
         component: ObjectiveComponent, 
       },
       {
@@ -114,11 +122,23 @@ const routes: Routes = [
         component: AssessmentComponent, 
       },
       {
+        path: 'assessment-view/:appointmentId',
+        component: AssessmentComponent, 
+      },
+      {
         path: 'plan/:appointmentId',
         component: PlanComponent, 
       },
       {
+        path: 'plan-view/:appointmentId',
+        component: PlanComponent, 
+      },
+      {
         path: 'billing/:appointmentId',
+        component: BillingComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId',
         component: BillingComponent, 
       },
     ]
@@ -132,7 +152,15 @@ const routes: Routes = [
         component: DnSubjectiveComponent, 
       }, 
       {
+        path: 'subjective-view/:appointmentId',
+        component: DnSubjectiveComponent, 
+      }, 
+      {
         path: 'objective/:appointmentId',
+        component: DnObjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId',
         component: DnObjectiveComponent, 
       },
       {
@@ -140,11 +168,23 @@ const routes: Routes = [
         component: DnAssessmentComponent, 
       },
       {
+        path: 'assessment-view/:appointmentId',
+        component: DnAssessmentComponent, 
+      },
+      {
         path: 'plan/:appointmentId',
         component: DnPlanComponent, 
       },
       {
+        path: 'plan-view/:appointmentId',
+        component: DnPlanComponent, 
+      },
+      {
         path: 'billing/:appointmentId',
+        component: DailyNoteBillingComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId',
         component: DailyNoteBillingComponent, 
       },
     ]
