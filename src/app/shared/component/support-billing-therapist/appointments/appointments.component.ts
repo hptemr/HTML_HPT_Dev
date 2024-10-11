@@ -55,6 +55,7 @@ export class AppointmentsComponent {
   minToDate: Date | null = null;
   maxToDate: Date | null = null;
   userType:String=''
+  patientCheckInDisable:boolean = false
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -65,12 +66,17 @@ export class AppointmentsComponent {
   ) { }
 
   ngOnInit() {
+    this.userType = this.authService.getLoggedInInfo('role')
+    let userTypes:any = ['therapist','billing_team']
+    if(userTypes.includes(this.userType)){
+      this.patientCheckInDisable = true
+    }
+    
     this.userBasedQueryChanged() // add condition based on logged in admin user
     this.getAppointmentList('')
   }
 
   userBasedQueryChanged() {
-    this.userType = this.authService.getLoggedInInfo('role')
     if (this.userType == 'support_team') {
       //this.whereCond = Object.assign(this.whereCond, { status: { $in: this.fieldValues } })
     } else {
@@ -252,6 +258,7 @@ export class AppointmentsComponent {
         }
       }
       await this.authService.apiRequest('post', 'appointment/updatePatientCheckIn', reqVars).subscribe(async response => {
+        this.commonService.openSnackBar(response.message, "SUCCESS")
       })
     }
   }

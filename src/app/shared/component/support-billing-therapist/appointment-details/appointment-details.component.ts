@@ -60,6 +60,7 @@ export class AppointmentDetailsComponent implements OnInit {
   stCaseDetails:any
   isStCaseDetails:boolean=false
   authVisits: string = 'NA'
+  patientCheckInCount:number = 0
   
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -152,6 +153,7 @@ export class AppointmentDetailsComponent implements OnInit {
           this.getBillingDetails(this.patientId, this.caseName)  
           this.getAuthManagementHistory(this.patientId, this.caseName)  
           this.getStCaseDetails(this.patientId, this.caseName)
+          this.getPatientCheckInCount(this.patientId, this.caseName)
         }
       })
     }
@@ -321,6 +323,18 @@ export class AppointmentDetailsComponent implements OnInit {
         this.isStCaseDetails = true
         this.stCaseDetails = response?.data
       }
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getPatientCheckInCount(patientId:any,caseName:string){
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+    this.authService.apiRequest('post', 'appointment/getPatientCheckInCount', queryObj).subscribe(async response => { 
+      this.patientCheckInCount = response?.data
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })

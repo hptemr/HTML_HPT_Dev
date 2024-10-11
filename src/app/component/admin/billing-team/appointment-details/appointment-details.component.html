@@ -17,10 +17,11 @@
                             <mat-expansion-panel-header>
                                 <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
                                     Basic Information <span class="font-14 fw-600 ms-auto" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">This Case is in Collections</span>
+                                    <span class="font-14 fw-600 ms-auto" *ngIf="isSelfPay">User Selected the Self Pay Option</span>
                                 </mat-panel-title>
                                 <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                     <button mat-stroked-button color="primary" [routerLink]="['/billing-team/patients/patient-profile/',patientId]" >View Patient Profile</button>
-                                    <button  mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" [routerLink]="['/billing-team/case-details/billing-details',appointmentId]">
+                                    <button  mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit || isSelfPay" [routerLink]="['/billing-team/case-details/billing-details',appointmentId]">
                                         Billing Details
                                     </button>
                                     <button mat-raised-button color="primary" class="intake-btn"  [disabled]="!appointmentData?.intakeFormSubmit" [routerLink]="['/billing-team/intake-form/step-1/',appointmentId]">
@@ -62,7 +63,7 @@
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
                                             <!-- <p class="mb-1 text-danger font-16 fw-600 ">1 of 12 visits, expires 12/1/24</p> -->
-                                            <p class="mb-1 font-16 fw-600 ">{{isBillingDetailsData?'0 of '+ authVisits +' visits, expires '+authExpireDate :'NA'}}</p>
+                                            <p class="mb-1 font-16 fw-600 ">{{isBillingDetailsData? +patientCheckInCount+' of '+ authVisits +' visits, expires '+authExpireDate :'NA'}}</p>
                                         </div>
                                         <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
@@ -115,7 +116,7 @@
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">NA</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{patientCheckInCount}}</p>
                                         </div>
                                         <div class="col-12 col-sm-5 col-lg-4 col-xl-5 mb-2">
                                             <div class="form-group d-flex align-items-center">
@@ -134,7 +135,7 @@
                                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                                             <div class="form-group">
                                                 <label class="col-form-label fw-600">Assign Therapist <span class="clr--DF0404 ms-1"> * </span></label>
-                                                <input class="form-control form-control-md max-width-box" type="text" placeholder="Enter Assign Therapist" value="Elizabeth" [disabled]="true"/>
+                                                <input class="form-control form-control-md max-width-box" type="text" placeholder="Enter Assign Therapist" value="{{appointmentData?.therapistId?.firstName +' '+appointmentData?.therapistId?.lastName}}" [disabled]="true"/>
                                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div>
                                         </div>

@@ -129,6 +129,8 @@ export class AppointmentDetailsComponent {
   authManagementHistory :any
   authExpireDate: string = 'NA'
   authVisits: string = 'NA'
+  isSelfPay: boolean=false
+  patientCheckInCount:number = 0
 
   displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -176,11 +178,13 @@ export class AppointmentDetailsComponent {
           this.appointment_flag = true;
           this.app_data[this.appointmentId] = this.appointmentData;
 
+          this.isSelfPay = (this.appointmentData?.payVia == 'Selfpay')? true :false
           this.insuranceInfo = response.data.appointmentData?.payViaInsuranceInfo   
           this.patientId = response.data.appointmentData?.patientId._id
           this.caseName = response.data.appointmentData?.caseName
           this.getBillingDetails(this.patientId, this.caseName)  
           this.getAuthManagementHistory(this.patientId, this.caseName)
+          this.getPatientCheckInCount(this.patientId, this.caseName)
         }
       })
     }
@@ -220,6 +224,18 @@ export class AppointmentDetailsComponent {
         this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
         this.authVisits = this.authManagementHistory?.authorizationVisit
       } 
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getPatientCheckInCount(patientId:any,caseName:string){
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+    this.authService.apiRequest('post', 'appointment/getPatientCheckInCount', queryObj).subscribe(async response => { 
+      this.patientCheckInCount = response?.data
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })

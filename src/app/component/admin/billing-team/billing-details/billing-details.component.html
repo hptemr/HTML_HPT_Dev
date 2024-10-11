@@ -1011,55 +1011,57 @@
                     </div>
 
                     <!-- Employers Information -->
-                    <div class="row" *ngIf="isWorkerCompensationInjury">
+                    <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Was this reported to your employer?</label>
-                                <mat-radio-group aria-label="Select an option" formControlName="RP_reportedToEmployer">
+                                <mat-radio-group aria-label="Select an option" formControlName="RP_reportedToEmployer" (change)="onChangeReportedToEmployer($event)">
                                     <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
                                     <mat-radio-button value="No">No</mat-radio-button>
                                 </mat-radio-group>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <h2 class="mb-2 mt-1 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Employers Information </h2>
-                        </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Employer Name <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Employer Name" formControlName="EI_employerName"/>
-                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerName'].touched && billingDetailsForm.controls['EI_employerName'].hasError('required')">
-                                    {{ validationMessages.required('Employer Name') }}
-                                </div>
-                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerName'].touched && billingDetailsForm.controls['EI_employerName'].hasError('pattern')">
-                                    {{ validationMessages.alphabeticChar('Employer Name') }}
+                        <ng-container *ngIf="isReportedToEmployer">
+                            <div class="col-12">
+                                <h2 class="mb-2 mt-1 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Employers Information </h2>
+                            </div>
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Employer Name <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input class="form-control" type="text" placeholder="Enter Employer Name" formControlName="EI_employerName"/>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerName'].touched && billingDetailsForm.controls['EI_employerName'].hasError('required')">
+                                        {{ validationMessages.required('Employer Name') }}
+                                    </div>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerName'].touched && billingDetailsForm.controls['EI_employerName'].hasError('pattern')">
+                                        {{ validationMessages.alphabeticChar('Employer Name') }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Employer Phone <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <input class="form-control" type="text" placeholder="Enter Employer Phone" formControlName="EI_employerPhone" (input)="EIEmployerPhoneInputChange($event)" [value]="EIEmployerPhone" maxlength="14"/>
-                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerPhone'].touched && billingDetailsForm.controls['EI_employerPhone'].hasError('required')">
-                                    {{ validationMessages.required('Employer Phone') }}
-                                </div>
-                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerPhone'].touched && billingDetailsForm.controls['EI_employerPhone'].hasError('pattern')">
-                                    {{ validationMessages.invalidPhoneNumber }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="col-form-label fw-600">Employer Address <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
-                                <textarea class="form-control " type="text" placeholder="Enetr Address" rows="4" formControlName="EI_employerAddress"></textarea>
-                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerAddress'].touched && billingDetailsForm.controls['EI_employerAddress'].hasError('required')">
-                                    {{ validationMessages.required('Employer Address') }}
+                            <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Employer Phone <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <input class="form-control" type="text" placeholder="Enter Employer Phone" formControlName="EI_employerPhone" (input)="EIEmployerPhoneInputChange($event)" [value]="EIEmployerPhone" maxlength="14"/>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerPhone'].touched && billingDetailsForm.controls['EI_employerPhone'].hasError('required')">
+                                        {{ validationMessages.required('Employer Phone') }}
+                                    </div>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerPhone'].touched && billingDetailsForm.controls['EI_employerPhone'].hasError('pattern')">
+                                        {{ validationMessages.invalidPhoneNumber }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-600">Employer Address <span class="clr--DF0404 ms-1"> *
+                                        </span></label>
+                                    <textarea class="form-control " type="text" placeholder="Enetr Address" rows="4" formControlName="EI_employerAddress"></textarea>
+                                    <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['EI_employerAddress'].touched && billingDetailsForm.controls['EI_employerAddress'].hasError('required')">
+                                        {{ validationMessages.required('Employer Address') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
                     </div>
 
                     <!-- Attorney Information -->

@@ -19,6 +19,7 @@ import { SelectPrimaryInsuModalComponent } from 'src/app/shared/comman/select-pr
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from '../../../../utils/validation-messages';
 import { DatePipe } from '@angular/common';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 export interface PeriodicElement {
   note: string;  
@@ -149,6 +150,9 @@ export class CaseDetailsComponent {
   stCaseDetails:any
   isStCaseDetails:boolean=false
   authVisits: string = 'NA'
+  isSelfPay:boolean=false
+  isPatientCheckedIn:boolean=false
+  patientCheckInCount:number = 0
 
   constructor(
     public dialog: MatDialog,
@@ -191,14 +195,16 @@ export class CaseDetailsComponent {
           this.appointment_flag = true;
           this.selectedTherapistId = this.appointmentData?.therapistId?._id
           // this.app_data[this.appointmentId] = this.appointmentData;
-          // this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)  
+          // this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)
+          this.isPatientCheckedIn = this.appointmentData?.checkIn
+          this.isSelfPay = (this.appointmentData?.payVia == 'Selfpay')? true :false 
           this.patientId = response.data.appointmentData?.patientId._id
           this.caseName = response.data.appointmentData?.caseName
           this.insuranceInfo = response.data.appointmentData?.payViaInsuranceInfo    
           this.getBillingDetails(this.patientId, this.caseName)  
           this.getAuthManagementHistory(this.patientId, this.caseName)  
           this.getStCaseDetails(this.patientId, this.caseName)
-          
+          this.getPatientCheckInCount(this.patientId, this.caseName)
         }
       })
     }
@@ -330,7 +336,8 @@ export class CaseDetailsComponent {
     let caseDetailsObj:any = {
       caseDetails : this.stCaseDetailsForm.value,
       patientId : this.patientId,
-      caseName : this.caseName
+      caseName : this.caseName,
+      appointmentId : this.appointmentId 
     }
 
     this.authService.apiRequest('post', 'appointment/addStCaseDetails', caseDetailsObj).subscribe(async response => {  
@@ -391,5 +398,32 @@ export class CaseDetailsComponent {
     this.stCaseDetailsForm.controls['primaryInsurance'].setValue(this.isStCaseDetails ? this.stCaseDetails?.primaryInsurance : this.insuranceInfo?.primaryInsuranceCompany);
   }
 
+  patientCheckIn(event:MatCheckboxChange){
+    let reqVars = {
+      query: { _id: this.appointmentId },
+      updateInfo: {
+        checkIn: event.checked,
+      }
+    }
+
+    this.authService.apiRequest('post', 'appointment/updatePatientCheckIn', reqVars).subscribe(async response => { 
+      this.getPatientCheckInCount(this.patientId,this.caseName)
+      this.commonService.openSnackBar(response.message, "SUCCESS")
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getPatientCheckInCount(patientId:any,caseName:string){
+    let queryObj:any = {
+      patientId : patientId,
+      caseName : caseName
+    }
+    this.authService.apiRequest('post', 'appointment/getPatientCheckInCount', queryObj).subscribe(async response => { 
+      this.patientCheckInCount = response?.data
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
 
 }

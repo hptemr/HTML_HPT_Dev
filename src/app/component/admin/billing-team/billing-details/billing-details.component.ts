@@ -57,6 +57,7 @@ export class BillingDetailsComponent {
   userType: string=''
   isSupportTeamUser:boolean= false
   urlSegment:any
+  isReportedToEmployer: boolean=false
 
   constructor(
     public dialog: MatDialog,
@@ -137,6 +138,7 @@ export class BillingDetailsComponent {
       RP_cellPhoneNo: ['', [Validators.pattern(regex.usPhoneNumber)]],
       RP_workExtension: ['', [Validators.pattern(regex.usPhoneNumber)]],
       RP_injuryRelatedTo: ['', []],
+      RP_reportedToEmployer: ['', []],
 
       AI_attorneyName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
       AI_attorneyPhone: ['', [Validators.required,Validators.pattern(regex.usPhoneNumber)]],
@@ -177,7 +179,7 @@ export class BillingDetailsComponent {
     this.authService.apiRequest('post', 'appointment/addBillingDetails', billingDetailsObj).subscribe(async response => {  
       this.commonService.openSnackBar(response.message, "SUCCESS")
       this.commonService.hideLoader(); 
-      this.router.navigate(['/support-team/case-details',this.appointmentId])
+      this.router.navigate(['/billing-team/case-details',this.appointmentId])
     },(err) => {
       this.commonService.hideLoader();
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
@@ -256,6 +258,7 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['RP_cellPhoneNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_cellPhoneNo : "");
     this.billingDetailsForm.controls['RP_workExtension'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_workExtension : "");
     this.billingDetailsForm.controls['RP_injuryRelatedTo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_injuryRelatedTo : "");
+    this.billingDetailsForm.controls['RP_reportedToEmployer'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_reportedToEmployer : "");
 
     this.billingDetailsForm.controls['AI_attorneyName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyName : this.adminPayViaInsuranceInfo?.attorneyName);
     this.billingDetailsForm.controls['AI_attorneyPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyPhone : this.adminPayViaInsuranceInfo?.attorneyPhone);
@@ -268,6 +271,10 @@ export class BillingDetailsComponent {
 
     if(this.isBillingDetailsData && this.billingDetailsData?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)"){
       this.onChangeInjuryRelated({value:"Worker's Compensation (WCOMP)"})
+    }
+
+    if(this.isBillingDetailsData && this.billingDetailsData?.RP_reportedToEmployer=="Yes"){
+      this.onChangeReportedToEmployer({value:"Yes"})
     }
   }
 
@@ -431,6 +438,32 @@ export class BillingDetailsComponent {
     }
   }
 
+  onChangeReportedToEmployer(event: any){
+    this.isReportedToEmployer= false
+    if(event.value=="Yes"){
+      this.isReportedToEmployer = true
+      this.addReportedToEmployerFieldsControls()
+    }else{
+      this.removeReportedToEmployerFieldsControls()
+    }
+  }
+
+  addReportedToEmployerFieldsControls() {
+    this.billingDetailsForm.addControl('EI_employerName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabetic)]));
+    this.billingDetailsForm.addControl('EI_employerPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
+    this.billingDetailsForm.addControl('EI_employerAddress', this.fb.control('', [Validators.required]));
+
+    if(this.isBillingDetailsData && this.billingDetailsData?.RP_reportedToEmployer=="Yes"){
+      this.setReportedToEmployerData()
+    }
+  }
+
+  removeReportedToEmployerFieldsControls(){
+    this.billingDetailsForm.removeControl('EI_employerName');
+    this.billingDetailsForm.removeControl('EI_employerPhone');
+    this.billingDetailsForm.removeControl('EI_employerAddress');
+  }
+
   addWorkerCompensationInjuryFieldsControls() {
     this.billingDetailsForm.addControl('RP_carrierName', this.fb.control('', [Validators.required]));
     this.billingDetailsForm.addControl('RP_dateOfInjury', this.fb.control('', [Validators.required]));
@@ -438,10 +471,7 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.addControl('RP_claim', this.fb.control('', [Validators.required]));
     this.billingDetailsForm.addControl('RP_adjusterName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabetic)]));
     this.billingDetailsForm.addControl('RP_adjusterPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
-    this.billingDetailsForm.addControl('RP_reportedToEmployer', this.fb.control('', []));
-    this.billingDetailsForm.addControl('EI_employerName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabetic)]));
-    this.billingDetailsForm.addControl('EI_employerPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
-    this.billingDetailsForm.addControl('EI_employerAddress', this.fb.control('', [Validators.required]));
+    
 
     if(this.isBillingDetailsData && this.billingDetailsData?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)"){
       this.setWorkerCompensationInjuryData()
@@ -455,10 +485,6 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.removeControl('RP_claim');
     this.billingDetailsForm.removeControl('RP_adjusterName');
     this.billingDetailsForm.removeControl('RP_adjusterPhone');
-    this.billingDetailsForm.removeControl('RP_reportedToEmployer');
-    this.billingDetailsForm.removeControl('EI_employerName');
-    this.billingDetailsForm.removeControl('EI_employerPhone');
-    this.billingDetailsForm.removeControl('EI_employerAddress');
   }
 
   addThirdInsurance(action:any){
@@ -538,7 +564,9 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['RP_claim'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_claim : "");
     this.billingDetailsForm.controls['RP_adjusterName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterName : "");
     this.billingDetailsForm.controls['RP_adjusterPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterPhone : "");
-    this.billingDetailsForm.controls['RP_reportedToEmployer'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_reportedToEmployer : "");
+  }
+
+  setReportedToEmployerData(){
     this.billingDetailsForm.controls['EI_employerName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerName : "");
     this.billingDetailsForm.controls['EI_employerPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerPhone : "");
     this.billingDetailsForm.controls['EI_employerAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerAddress : "");
