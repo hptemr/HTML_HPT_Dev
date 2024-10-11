@@ -158,6 +158,10 @@ export class IntakeStep2Component {
       this.payViaSelected = payViaInsuranceInfo.payVia
     }
 
+    let attorne = typeof payViaInsuranceInfo?.attorney !== 'undefined' ? payViaInsuranceInfo?.attorney : '';
+    if(payViaInsuranceInfo?.attorney && payViaInsuranceInfo?.attorney!=undefined && payViaInsuranceInfo?.attorney=='yes'){
+      attorne = 'Yes';
+    }
     this.step2Form = this.fb.group({
       payVia: [this.payViaSelected],
       relationWithPatient: [typeof payViaInsuranceInfo?.relationWithPatient !== 'undefined' ? payViaInsuranceInfo?.relationWithPatient : ''],
@@ -201,9 +205,9 @@ export class IntakeStep2Component {
       secondaryInsuranceFromDate: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceFromDate : ''],
       secondaryInsuranceToDate: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceToDate : ''],
       
-      thirdSubscriberFirstName: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
-      thirdSubscriberMiddleName: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberMiddleName : ''],
-      thirdSubscriberLastName: [payViaInsuranceInfo ? payViaInsuranceInfo?.thirdSubscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
+      thirdSubscriberFirstName: [typeof payViaInsuranceInfo?.thirdSubscriberFirstName !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberFirstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
+      thirdSubscriberMiddleName: [typeof payViaInsuranceInfo?.thirdSubscriberMiddleName !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberMiddleName : ''],
+      thirdSubscriberLastName: [typeof payViaInsuranceInfo?.thirdSubscriberLastName !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberLastName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
       thirdSubscriberDob: [typeof payViaInsuranceInfo?.thirdSubscriberDob !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberDob : ''],
       thirdSubscriberRelationWithPatient: [typeof payViaInsuranceInfo?.thirdSubscriberRelationWithPatient !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberRelationWithPatient : '', []],
       thirdSubscriberOtherRelation: [typeof payViaInsuranceInfo?.thirdSubscriberOtherRelation !== 'undefined' ? payViaInsuranceInfo?.thirdSubscriberOtherRelation : []],
@@ -218,9 +222,10 @@ export class IntakeStep2Component {
 
       injuryRelelatedTo: [typeof payViaInsuranceInfo?.injuryRelelatedTo !== 'undefined' ? payViaInsuranceInfo?.injuryRelelatedTo : ''],      
       otherPersonalInjury: [typeof payViaInsuranceInfo?.otherPersonalInjury !== 'undefined' ? payViaInsuranceInfo?.otherPersonalInjury : ''],   
-      carrierName: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.carrierName ? this.step2FormData.payViaInsuranceInfo?.carrierName : '', []],
+      carrierName: [typeof payViaInsuranceInfo?.carrierName !== 'undefined' ? payViaInsuranceInfo?.carrierName : '', []],
+      
       dateOfInjury: [typeof payViaInsuranceInfo?.dateOfInjury !== 'undefined' ? payViaInsuranceInfo?.dateOfInjury : '', []],
-      insuranceState: [this.step2FormData && this.step2FormData.payViaInsuranceInfo?.insuranceState ? this.step2FormData.payViaInsuranceInfo?.insuranceState : '', []],
+      insuranceState: [typeof payViaInsuranceInfo?.insuranceState !== 'undefined' ? payViaInsuranceInfo?.insuranceState : '', []],
       claim: [typeof payViaInsuranceInfo?.claim !== 'undefined' ? payViaInsuranceInfo?.claim : '', []],
       adjusterName: [typeof payViaInsuranceInfo?.adjusterName !== 'undefined' ? payViaInsuranceInfo?.adjusterName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
       adjusterPhone: [typeof payViaInsuranceInfo?.adjusterPhone !== 'undefined' ? payViaInsuranceInfo?.adjusterPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
@@ -228,18 +233,19 @@ export class IntakeStep2Component {
       employerName: [typeof payViaInsuranceInfo?.employerName !== 'undefined' ? payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.minLength(1), Validators.maxLength(35)]],
       employerPhone: [typeof payViaInsuranceInfo?.employerPhone !== 'undefined' ? payViaInsuranceInfo?.employerPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
       employerAddress: [typeof payViaInsuranceInfo?.employerAddress !== 'undefined' ? payViaInsuranceInfo?.employerAddress : '', []],
-      isPatientMinor: [payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor : '', []],
-      consentCheck: [payViaInsuranceInfo ? payViaInsuranceInfo?.consentCheck : '', [Validators.required]],
-      attorney: [typeof payViaInsuranceInfo?.attorney !== 'undefined' ? payViaInsuranceInfo?.attorney : '', []],
+      isPatientMinor: [typeof payViaInsuranceInfo?.isPatientMinor !== 'undefined' ? payViaInsuranceInfo?.isPatientMinor : '', []],
+      consentCheck: [typeof payViaInsuranceInfo?.consentCheck !== 'undefined' ? payViaInsuranceInfo?.consentCheck : '', [Validators.required]],
+      attorney: [attorne, []],
       attorneyName: [typeof payViaInsuranceInfo?.attorneyName !== 'undefined' ? payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.maxLength(35)]],
       attorneyPhone: [typeof payViaInsuranceInfo?.attorneyPhone !== 'undefined' ? payViaInsuranceInfo?.attorneyPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
       //attorneyAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
     this.isMinorFlag = payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor=='yes' ? true : false : false    
 
-    if(payViaInsuranceInfo?.thirdInsuranceCompany){
-      //this.thirdInsurancesFlag = true;  
-      this.thirdInsurance()
+    let thirdInsuranceCompany = typeof payViaInsuranceInfo?.thirdInsuranceCompany !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceCompany : ''
+    if(thirdInsuranceCompany){
+    //  this.thirdInsurancesFlag = true
+      this.thirdInsurance(2)
     }
     
     if(payViaInsuranceInfo && payViaInsuranceInfo?.relationWithPatient=='Other'){ 
@@ -261,7 +267,6 @@ export class IntakeStep2Component {
       const mockEvent4 = { target: { value: 'Other' } }; 
       this.thirdSubscriberRelationShipPatient(mockEvent4)
     }
- 
 
     if(payViaInsuranceInfo?.injuryRelelatedTo && payViaInsuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
       const mockEvent5: MatRadioChange = { value: "Worker's Compensation (WCOMP)", source: this.radioButton! }; 
@@ -270,13 +275,15 @@ export class IntakeStep2Component {
 
     let reportedEmployer = typeof payViaInsuranceInfo?.reportedEmployer !== 'undefined' ? payViaInsuranceInfo?.reportedEmployer : '';
     if(reportedEmployer){
-      const mockEvent7: MatRadioChange = { value: "Yes", source: this.radioButton! }; 
+      const mockEvent7: MatRadioChange = { value: reportedEmployer, source: this.radioButton! }; 
       this.onEmployerChange(mockEvent7)
     }
-    
-     
-    if(payViaInsuranceInfo && payViaInsuranceInfo?.thirdInsuranceCompany){
-      this.thirdInsurancesFlag = true
+
+    let attorney = typeof payViaInsuranceInfo?.attorney !== 'undefined' ? payViaInsuranceInfo?.attorney : '';
+    if(attorney){
+      if(attorney=='yes'){ attorney='Yes';} if(attorney=='no'){ attorney='No';}
+      const mockEvent11: MatRadioChange = { value: attorney, source: this.radioButton! }; 
+      this.attorneyChange(mockEvent11)
     }
 
     if(this.payViaSelected=='Selfpay'){
@@ -288,8 +295,6 @@ export class IntakeStep2Component {
 
     const mockEvent6: MatRadioChange = { value: this.payViaSelected, source: this.radioButton! }; 
     this.onChange(mockEvent6)
-
-
   }
 
   getInsuranceDetails(event: any) {
@@ -418,23 +423,24 @@ export class IntakeStep2Component {
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
-     consentCheck = info.consentCheck ? info.consentCheck : false
+      consentCheck = info.consentCheck ? info.consentCheck : false  
     }
 
     if(reportedEmployer){
       const mockEvent9: MatRadioChange = { value: reportedEmployer, source: this.radioButton! }; 
       this.onEmployerChange(mockEvent9)
     }
+
     if(attorney){
+      if(attorney=='yes'){ attorney='Yes';} if(attorney=='no'){ attorney='No';}
       const mockEvent9: MatRadioChange = { value: attorney, source: this.radioButton! }; 
       this.attorneyChange(mockEvent9)
     }
 
-    
-    if(thirdSubscriberFirstName && thirdInsuranceCompany){
-      this.thirdInsurance()
+    if(thirdSubscriberFirstName && thirdInsuranceCompany){      
+        this.thirdInsurance(3)
     }
-    
+
     this.step2Form.controls['insuranceName'].setValue(insuranceName)
     this.step2Form.controls['subscriberFirstName'].setValue(subscriberFirstName)
     this.step2Form.controls['subscriberMiddleName'].setValue(subscriberMiddleName)
@@ -534,12 +540,11 @@ export class IntakeStep2Component {
       this.step2Form.controls['employerPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
       this.step2Form.controls['employerAddress'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1000)])
     }
-    console.log('Employer Selected >>>',this.employerSelected)
   }
 
   attorneyChange(event: MatRadioChange) {
     this.attorneyFlag = false
-    if(event.value=='yes'){
+    if(event.value=='Yes'){
       this.attorneyFlag = true
     }else{
       this.step2Form.controls['attorneyName'].setValue('')
@@ -565,7 +570,7 @@ export class IntakeStep2Component {
     }
   }
 
-  thirdInsurance(){
+  thirdInsurance(id:any){
     if(this.thirdInsurancesFlag){     
       this.step2Form.controls['thirdInsuranceCompany'].setValidators([]);
       this.step2Form.controls['thirdInsuranceIdPolicy'].setValidators([]);
@@ -612,7 +617,7 @@ export class IntakeStep2Component {
       this.step2Form.controls['thirdSubscriberLastName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
       this.step2Form.controls['thirdSubscriberDob'].setValidators([])
       this.step2Form.controls['thirdSubscriberRelationWithPatient'].setValidators([Validators.required])
-      this.step2Form.controls['thirdSubscriberOtherRelation'].setValidators([Validators.required])
+      this.step2Form.controls['thirdSubscriberOtherRelation'].setValidators([])
       this.step2Form.controls['thirdSubscriberGender'].setValidators([Validators.required])
 
       this.step2Form.controls['thirdInsuranceCompany'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]);
@@ -621,6 +626,11 @@ export class IntakeStep2Component {
       this.step2Form.controls['thirdInsuranceCustomerServicePh'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
       this.mat_icon = 'remove_circle_outline'
       this.thirdInsurancesFlag = true;  
+
+      // if(payViaInsuranceInfo){
+      //   const mockEvent4 = { target: { value: payViaInsuranceInfo?.thirdSubscriberRelationWithPatient } }; 
+      //   this.thirdSubscriberRelationShipPatient(mockEvent4)
+      // }
     }    
   } 
 
@@ -643,7 +653,14 @@ export class IntakeStep2Component {
   async bookAppointmentStep2() {
     //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
       if (this.step2Form.invalid || !this.step2Form.controls['consentCheck'].value){
+        console.log(this.isReadonly,' #### step2 Form>>>>>>',this.step2Form)
         this.step2Form.markAllAsTouched();
+        Object.keys(this.step2Form.controls).forEach(field => {
+          const control = this.step2Form.get(field);
+          if (control && control.errors) {
+            console.log(`Errors in ${field}:`, control.errors);
+          }
+        });
       }else{
         if (!this.isReadonly) {
               let appointmentUpdateInfo = this.step2FormData.appointmentUpdateInfo;

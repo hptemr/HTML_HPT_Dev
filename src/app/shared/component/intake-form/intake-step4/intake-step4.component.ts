@@ -190,8 +190,8 @@ export class IntakeStep4Component {
   }
 
   async bookAppointmentStep4() {
-    console.log(this.isReadonly,' #### step4 Form>>>>>>',this.step4Form)
     if (this.step4Form.invalid){
+      console.log(this.isReadonly,' #### step4 Form>>>>>>',this.step4Form)
       this.step4Form.markAllAsTouched();
     }else{
       if (!this.isReadonly) {

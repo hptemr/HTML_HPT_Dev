@@ -231,8 +231,8 @@ export class IntakeStep1Component {
 
   async bookAppointmentStep1() {
     //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
-    console.log(this.isReadonly,' >>> isReadonly>>>>',this.step1Form);
     if (this.step1Form.invalid){
+      console.log(this.isReadonly,' >>> isReadonly>>>>',this.step1Form);
         this.step1Form.markAllAsTouched();
       }else{
         let appointmentUpdateInfo = this.step1FormData.appointmentUpdateInfo;
@@ -283,9 +283,7 @@ export class IntakeStep1Component {
     //  }
   }
 
-
   async nextStep() {
-    console.log(this.isReadonly,' App Id >>>>',this.appId)
     this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
   }
 
