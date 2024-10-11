@@ -11,7 +11,6 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AdminService } from 'src/app/shared/services/api/admin.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { s3Details, pageSize, pageSizeOptions } from 'src/app/config';
-
 export interface PeriodicElement {
   //name: string;   
   idpolicy: string;   
@@ -19,31 +18,6 @@ export interface PeriodicElement {
   validThrough: string;   
   action: string;
 }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   { 
-//     name: 'United Healthcare',   
-//     idpolicy: '115423658500',
-//     group: '154236',
-//     validThrough: '02/11/2027',
-//     action : ''
-//   },  
-//   { 
-//     name: 'Sigma ',   
-//     idpolicy: '115423658500',
-//     group: '154236',
-//     validThrough: '02/11/2027',
-//     action : ''
-//   }, 
-//   { 
-//     name: 'Health-choice Healthcare',   
-//     idpolicy: '115423658500',
-//     group: '154236',
-//     validThrough: '02/11/2027',
-//     action : ''
-//   },  
-// ];
-
 const ELEMENT_DATA: PeriodicElement[] = [];
 @Component({
   selector: 'app-insurance-listing', 
@@ -143,7 +117,7 @@ export class InsuranceListingComponent {
     if (searchStr != '') {
       searchStr = searchStr.replace("+", "\\+");
       finalStr = { $regex: searchStr, $options: 'i' }
-      this.whereCond = Object.assign(this.whereCond, { insuranceName: finalStr })      
+      this.whereCond = Object.assign(this.whereCond, { primaryInsuranceCompany: finalStr })      
     } else{
       this.whereCond = Object.assign({ patientId: this.userId });
     }
