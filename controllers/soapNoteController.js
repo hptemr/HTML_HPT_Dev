@@ -7,6 +7,7 @@ const Appointment = require('../models/appointmentModel');
 const AssessmentModel = require('../models/assessmentModel');
 const Case = require('../models/casesModel');
 const ObjectiveModel = require('../models/objectiveModel');
+const moment = require('moment');
 require('dotenv').config();
 let ObjectId = require('mongoose').Types.ObjectId;
 const _ = require('lodash');
@@ -23,25 +24,44 @@ const createPlanNote = async (req, res) => {
     }
     if (req.body.soapNoteType == 'initial_examination' || req.body.soapNoteType == 'progress_note') {
       createParams.plan_note_type = req.body.planType,
-        createParams.freequency_per_week = req.body.frequencyPerWeek,
-        createParams.duration_per_week = req.body.durationPerWeek,
-        createParams.pt_treatment_provided = req.body.ptList,
-        createParams.ot_treatment_provided = req.body.otList,
-        createParams.slp_treatment_provided = req.body.slpList
+      createParams.freequency_per_week = req.body.frequencyPerWeek,
+      createParams.duration_per_week = req.body.durationPerWeek,
+      createParams.pt_treatment_provided = req.body.ptList,
+      createParams.ot_treatment_provided = req.body.otList,
+      createParams.slp_treatment_provided = req.body.slpList
     } else if (req.body.soapNoteType == 'daily_note') {
       createParams.process_patient = req.body.processPatient,
-        createParams.anticipat_DC = req.body.anticipatDC
+      createParams.anticipat_DC = req.body.anticipatDC
     }
     await PlanTemp.create(createParams)
+    if(req.body.soapNoteType == 'initial_examination'){
+      createParams.soap_note_type = 'progress_note'
+      await setPlan(createParams)
+    }
     commonHelper.sendResponse(res, 'success', {}, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
 
+async function setPlan(req) {
+  let planData = await PlanTemp.findOne({ appointmentId: req.appointmentId, soap_note_type: req.soap_note_type });
+  console.log(planData)
+  if (!planData) {
+    await PlanTemp.create(req)
+  }
+}
+
 const getPlanNote = async (req, res) => {
   try {
-    planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.soapNoteType });
+    let planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.soapNoteType });
+    if(!planData){
+      let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, appointments: 1, caseName: 1 })
+      if(caseData){
+        let recentAppointmentId = caseData.appointments[caseData.appointments.length-2]
+        planData = await PlanTemp.findOne({ appointmentId: recentAppointmentId, soap_note_type: req.body.soapNoteType });
+      }
+    }
     commonHelper.sendResponse(res, 'success', planData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -184,17 +204,56 @@ const submitSubjective = async (req, res) => {
   }
 }
 
+async function getPreviousObjectiveData(queryMatch) {
+  return new Promise(async (resolve, reject) => {
+    try {
+       let objectiveData = await ObjectiveModel.aggregate([
+        {
+          "$lookup": {
+            from: "appointments",
+            localField: "appointmentId",
+            foreignField: "_id",
+            as: "appointment"
+          }
+        },          
+        {
+          $match: queryMatch
+        },
+        {
+          $project: {
+            '__v': 0
+          }
+        }]).sort({ _id: -1 }).skip(0).limit(1);
+
+        resolve(objectiveData);       
+
+    } catch (error) {
+      console.log('error>>>',error)
+      reject(true)
+    }
+  })
+}
+
 const getObjectiveData = async (req, res) => {
   try {
     const { query } = req.body;
-    let objectiveData = await ObjectiveModel.findOne(query);
-    let subjectiveData = await subjectiveTemp.findOne(query);
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
+    let objectiveData = await ObjectiveModel.findOne(query);
+    if(!objectiveData){
+      let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
+      objectiveData = await getPreviousObjectiveData(app_query);
+    }
+    let subjectiveData = await subjectiveTemp.findOne(query);
+    if(!subjectiveData){      
+      let app_subjective_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
+      subjectiveData = await getPreviousSubjectiveData(app_subjective_query,query.soap_note_type);
+    }
+    console.log('objectiveData',objectiveData)
     let appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
-
     let returnData = { objectiveData: objectiveData, subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
+    console.log('objectiveData >>> ',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -258,15 +317,51 @@ const submitObjectiveExercise = async (req, res) => {
   }
 }
 
+async function getPreviousSubjectiveData(queryMatch) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      //const pre_app_data = await Appointment.find(app_query).sort({ _id: -1 });//.skip(1).limit(1);  
+      let subjectiveData = await subjectiveTemp.aggregate([
+        {
+          "$lookup": {
+            from: "appointments",
+            localField: "appointmentId",
+            foreignField: "_id",
+            as: "appointment"
+          }
+        },          
+        {
+          $match: queryMatch
+        },
+        {
+          $project: {
+            '__v': 0
+          }
+        }]).sort({ _id: -1 }).skip(0).limit(1);
+
+        resolve(subjectiveData);       
+    } catch (error) {
+      console.log('error>>>',error)
+      reject(true)
+    }
+  })
+}
+
 const getSubjectiveData = async (req, res) => {
   try {
     const { query } = req.body;
-    let subjectiveData = await subjectiveTemp.findOne(query);
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
+    let subjectiveData = await subjectiveTemp.findOne(query);
+    if(!subjectiveData){
+      let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
+      const getData = await getPreviousSubjectiveData(app_query);
+      if(getData && getData[0])subjectiveData = getData[0];
+    }
     let appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
     let returnData = { subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
+    console.log('get subjective data error >>>>',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -276,7 +371,7 @@ async function appointmentsList(casename, patientId) {
   let appointmentDateList = [];
   if (data.length > 0) {
     appointmentDateList = data.filter((obj) => {
-      return (obj.appointmentDate);
+      return moment(obj.appointmentDate).utc().format();
     });
   }
   return appointmentDateList;
