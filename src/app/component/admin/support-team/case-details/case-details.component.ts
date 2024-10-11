@@ -21,98 +21,13 @@ import { validationMessages } from '../../../../utils/validation-messages';
 import { DatePipe } from '@angular/common';
 
 export interface PeriodicElement {
-  note: string;  
-  dateAddedOn: string;   
-  noteAddedOn: string;
+  soap_note_type: string;  
+  note_date: string;   
+  createdBy: string;
   status: string;
   action: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Finalized',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  },
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  },
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Finalized',
-    action : ''
-  },
-  { 
-    note: 'Case Note',   
-    dateAddedOn: 'Sat, Nov 10, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Finalized',
-    action : ''
-  }, 
-  { 
-    note: 'Initial Examination',   
-    dateAddedOn: 'Fri, Nov 09, 2023 10:00 am', 
-    noteAddedOn: 'Mark Swift',
-    status: 'Draft',
-    action : ''
-  }, 
-  { 
-    note: 'Daily Note',   
-    dateAddedOn: 'Thu, Nov 08, 2023 10:00 am', 
-    noteAddedOn: 'Taylor Stafford',
-    status: 'Finalized',
-    action : ''
-  },
-];
+const ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
   selector: 'app-case-details', 
@@ -122,7 +37,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class CaseDetailsComponent {
   showShare= false;
-  displayedColumns: string[] = ['note', ' dateAddedOn', 'noteAddedOn', 'status' ,'action'];
+  displayedColumns: string[] = ['soap_note_type', ' note_date', 'createdBy', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -149,7 +64,13 @@ export class CaseDetailsComponent {
   stCaseDetails:any
   isStCaseDetails:boolean=false
   authVisits: string = 'NA'
-
+  searchValue = ""
+  status = ""
+  caseType = ""
+  noteList = []
+  dataLoading = false
+  fromDate: any = ''
+  toDate: any = ''
   constructor(
     public dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer,
@@ -169,6 +90,24 @@ export class CaseDetailsComponent {
     this.initializeStCaseDetailsForm()
     this.getAppointmentDetails()
     this.getTherapistList()
+    this.getAppointmentNotes()
+  }
+
+  getAppointmentNotes(){
+    let reqVars = {
+      appointmentId:this.appointmentId,
+      caseType:this.caseType,
+      searchValue:this.searchValue,
+      status:this.status,
+      fromDate:this.fromDate,
+      toDate:this.toDate
+    }
+    this.dataLoading = true
+    this.authService.apiRequest('post', 'soapNote/getAppointmentNoteList', reqVars).subscribe(async response => {
+      this.dataLoading = false
+      this.dataSource.data = response.data
+      this.noteList = response.data
+    })
   }
 
   async getAppointmentDetails() {
@@ -389,6 +328,14 @@ export class CaseDetailsComponent {
     this.stCaseDetailsForm.controls['therapistId'].setValue(this.isStCaseDetails ? this.stCaseDetails?.therapistId : this.selectedTherapistId);
     this.stCaseDetailsForm.controls['returnToDoctor'].setValue(this.isStCaseDetails ? this.stCaseDetails?.returnToDoctor : "");
     this.stCaseDetailsForm.controls['primaryInsurance'].setValue(this.isStCaseDetails ? this.stCaseDetails?.primaryInsurance : this.insuranceInfo?.primaryInsuranceCompany);
+  }
+
+  searchRecords(){
+    this.getAppointmentNotes()
+  }
+
+  onDateChange() {
+    this.getAppointmentNotes()
   }
 
 

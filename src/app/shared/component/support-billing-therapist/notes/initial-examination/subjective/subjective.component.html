@@ -32,9 +32,9 @@
                                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                 </button> -->
-                                <ng-select  class="form-control" [items]="icd_data" bindLabel="name" bindValue="code"
-                                [searchable]="true" placeholder="Select a code" [clearable]="true" (change)="onCodeChange($event)">
-                                        <ng-template ng-option-tmp let-item="item">
+                                <ng-select [attr.disabled]="readOnly" class="form-control" [items]="icd_data" bindLabel="name" bindValue="code"
+                                [searchable]="true" placeholder="Select a code" [clearable]="true" (change)="onCodeChange($event)" >
+                                        <ng-template ng-option-tmp let-item="item" *ngIf="!readOnly">
                                             <div>{{ item.code }} ({{ item.name }})</div>
                                         </ng-template>
                                         <!-- <ng-template ng-select-tmp let-item="item">
@@ -64,7 +64,7 @@
                                 <td>{{item.name}}</td>
                                 <td>{{item.code}}</td>
                                 <td>
-                                    <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeIcd(i)">
+                                    <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeIcd(i)" [disabled]="readOnly">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel
                                         </mat-icon>
                                     </button>
@@ -1366,7 +1366,7 @@
             </div>
         </div>
         <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
-            <button mat-raised-button color="primary" type="submit" class="m-1" [disabled]="submitted">
+            <button mat-raised-button color="primary" type="submit" class="m-1" [disabled]="submitted || readOnly">
                 Save as Draft
             </button>
         </div>

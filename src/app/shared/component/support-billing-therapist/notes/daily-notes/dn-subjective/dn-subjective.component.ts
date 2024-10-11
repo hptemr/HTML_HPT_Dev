@@ -35,10 +35,14 @@ export class DnSubjectiveComponent {
   appointment: any = null
   submitted: boolean = false;
   subjectiveId: string = '';
-
+  readOnly = false
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, public datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'subjective-view'){
+        this.readOnly = true
+      }
     })
   }
 
@@ -52,6 +56,9 @@ export class DnSubjectiveComponent {
       note_date: ['', [Validators.required]],
       subjective_note: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
     });
+    if(this.readOnly){
+      this.subjectiveForm.disable()
+  }
   }
 
   async getSubjective() {
