@@ -338,7 +338,7 @@ export class IntakeStep3Component {
 
     if (allergies && allergies.length > 0) {
 
-      if (allergies && allergies.length > 1 && allergies[0].name!=null) {
+      if (allergies && allergies.length > 0 && allergies[0].name!=null) {
         this.getNewAllergy.removeAt(0)
       }
     
@@ -353,7 +353,7 @@ export class IntakeStep3Component {
    
     let surgery = this.step3FormData ? step3info?.allergiesToMedications_SurgeryArray : []
     if (surgery && surgery.length > 0) {
-      if (surgery && surgery.length > 1 && surgery[0].details!=null && surgery[0].surDate!=null) {
+      if (surgery && surgery.length > 0 && surgery[0].details!=null && surgery[0].surDate!=null) {
         this.getNewSurgery.removeAt(0)
       }
       for (let i = 0; i < surgery.length; i++) {
@@ -368,7 +368,7 @@ export class IntakeStep3Component {
 
     let medication = this.step3FormData ? step3info?.allergiesToMedications_MedicationArray : []
     if (medication && medication.length > 0) {
-      if (medication && medication.length > 1 && medication[0].name!=null) {
+      if (medication && medication.length > 0 && medication[0].name!=null) {
         this.getNewMedication.removeAt(0)
       }
       for (let i = 0; i < medication.length; i++) {

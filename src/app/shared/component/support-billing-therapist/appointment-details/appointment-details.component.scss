@@ -62,6 +62,15 @@
                                 background-color: #FFF !important;
                             }
                         }
+                        .badge{
+                            background-color: #F2F2F2; 
+                            padding: 4px 8px;
+                            text-align: center;
+                            border-radius: 5px;
+                            color: #DF0404; 
+                            border-radius: 0px;
+                            font-family: "Nunito Sans", sans-serif !important;
+                        }
                     .exp-class{
                         ::ng-deep{ 
                             .mat-expansion-panel-body{

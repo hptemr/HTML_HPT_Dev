@@ -321,9 +321,17 @@ export class SubjectiveComponent implements OnInit {
           this.symptomsSame = medicalHistory?.symptomsSame;
           this.rateYourPain = medicalHistory?.rateYourPain ? medicalHistory?.rateYourPain : 0;
 
+          let bodyPartFront = this.appointment_data?.bodyPartFront;
+          if(this.appointment_data?.adminBodyPartFront){
+            bodyPartFront = this.appointment_data?.adminBodyPartFront;
+          }
+          let bodyPartBack = this.appointment_data?.bodyPartBack;
+          if(this.appointment_data?.adminBodyPartBack){
+            bodyPartBack = this.appointment_data?.adminBodyPartBack;
+          }
 
-          if(this.appointment_data.bodyPartFront){          
-            this.appointment_data.bodyPartFront.forEach((element: any) => {
+          if(bodyPartFront){          
+            bodyPartFront.forEach((element: any) => {
               if (!this.selectedPartsFront.includes(element.part)) {
                 this.selectedPartsFront.push(element.part);
               } else {
@@ -331,8 +339,8 @@ export class SubjectiveComponent implements OnInit {
               }
             });
           }
-          if(this.appointment_data.bodyPartBack){          
-            this.appointment_data.bodyPartBack.forEach((element: any) => {
+          if(bodyPartBack){          
+            bodyPartBack.forEach((element: any) => {
               if (!this.selectedPartsBack.includes(element.part)) {
                 this.selectedPartsBack.push(element.part);
               } else {

@@ -23,7 +23,7 @@ export class DnSubjectiveComponent {
     { number: '7' }, { number: '8' }, { number: '9' },
     { number: '10' }
   ];
-  appointment_dates: any = ["07/12/2024", "05/14/2024", "04/10/2024"];
+  appointment_dates: any = [];
   appointmentId: string;
   public userId: string;
   public userRole: string;
@@ -75,6 +75,9 @@ export class DnSubjectiveComponent {
         this.subjectiveId = subjectiveData._id
         this.subjectiveForm.controls['note_date'].setValue(this.datePipe.transform(subjectiveData.note_date, 'MM/dd/yyyy'))
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
+        if(response.data && response.data.appointmentDatesList){
+          this.appointment_dates = response.data.appointmentDatesList       
+        }
       }
     })
   }

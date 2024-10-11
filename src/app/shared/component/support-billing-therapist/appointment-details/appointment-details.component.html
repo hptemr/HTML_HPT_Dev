@@ -16,6 +16,9 @@
                             <mat-expansion-panel-header>
                                 <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
                                     Case Information
+                                    <span class="font-14 fw-400 ml-3 badge" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">
+                                        This Case is in collections
+                                    </span>
                                 </mat-panel-title>
                                 <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                     <button mat-raised-button color="primary" [disabled]="!appointmentData?.intakeFormSubmit" class="intake-btn" (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
@@ -50,12 +53,11 @@
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">1 of 12 visits, expires 12/1/24</p>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">{{isBillingDetailsData?'0 of '+ authVisits+' visits, expires '+authExpireDate :'NA'}}</p>
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
-                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">OT $200 Used out of $1000, PT/SLP $350 Used out of
-                                                $1200</p>
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Billing Type</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">NA</p>
                                         </div>
                                     </div>
                                 </div>
@@ -68,22 +70,25 @@
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Jacob Jones</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">{{ appointmentData && appointmentData?.doctorId ? appointmentData?.doctorId?.name : 'NA'}}</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Return to Doctor</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Fri, Nov 16, 2023</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h" *ngIf="isStCaseDetails && stCaseDetails?.returnToDoctor">
+                                                 {{stCaseDetails.returnToDoctor | date: 'EEE, MM/dd/yyyy'}}
+                                            </p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h" *ngIf="!isStCaseDetails && !stCaseDetails?.returnToDoctor"> NA </p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h me-2">12/1/24 - 12/10/2024</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h me-2">NA</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Primary Insurance</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">Medicare</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h">{{ isBillingDetailsData && billingDetailsData?.primaryInsurance ? billingDetailsData.primaryInsurance:'NA'}}</p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
-                                            <mat-checkbox class="" (change)="patientCheckIn($event, appointmentData)" [(ngModel)]="appointmentData.checkIn">Patient Checked-in</mat-checkbox>
+                                            <mat-checkbox  disabled="true" class="" (change)="patientCheckIn($event, appointmentData)" [(ngModel)]="appointmentData.checkIn">Patient Checked-in</mat-checkbox>
 
                                         </div>  
                                     </div>
