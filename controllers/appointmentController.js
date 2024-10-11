@@ -759,12 +759,19 @@ const addBillingDetails = async (req, res) => {
 
   const addStCaseDetails = async (req, res) => {
     try {
-        const { caseDetails, patientId, caseName } = req.body
+        const { caseDetails, patientId, caseName, appointmentId } = req.body
     
         const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
         const update = { $set: caseDetails }; // The data to update
         const options = { upsert: true }; // Create a new document if no match is found
         const result = await STCaseDetailsModel.updateOne(filter, update, options);
+
+        // Update therapist in Appointment collection also
+        const { therapistId } = caseDetails
+        const appFilter = { _id: appointmentId}
+        const appUpdate = { $set: {therapistId : therapistId} };
+        await Appointment.updateOne(appFilter, appUpdate);
+
         commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
       } catch (error) {
         console.log("addStCaseDetails Error>>>",error)
@@ -783,6 +790,18 @@ const addBillingDetails = async (req, res) => {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
   }
+
+  const getPatientCheckInCount = async (req, res) => {
+    try {
+      const { patientId, caseName } = req.body
+      const query = { patientId: patientId, caseName: caseName, checkIn:true };
+      const checkInCount = await Appointment.countDocuments(query).lean();
+      commonHelper.sendResponse(res, 'success', checkInCount, "Success");
+    } catch (error) {
+      console.log("getPatientCheckInCount Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }   
 
 module.exports = {
     getAppointmentList,
@@ -807,5 +826,6 @@ module.exports = {
     addAuthorizationManagement,
     getAuthorizationManagementDetails,
     addStCaseDetails,
-    getStCaseDetails
+    getStCaseDetails,
+    getPatientCheckInCount
 };

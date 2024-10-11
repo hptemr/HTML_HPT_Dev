@@ -25,5 +25,6 @@ router.post('/addAuthorizationManagement', appointmentController.addAuthorizatio
 router.post('/getAuthorizationManagementDetails', appointmentController.getAuthorizationManagementDetails);
 router.post('/addStCaseDetails', appointmentController.addStCaseDetails);
 router.post('/getStCaseDetails', appointmentController.getStCaseDetails);
+router.post('/getPatientCheckInCount', appointmentController.getPatientCheckInCount);
 
 module.exports = router;
