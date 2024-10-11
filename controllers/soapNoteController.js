@@ -23,25 +23,44 @@ const createPlanNote = async (req, res) => {
     }
     if (req.body.soapNoteType == 'initial_examination' || req.body.soapNoteType == 'progress_note') {
       createParams.plan_note_type = req.body.planType,
-        createParams.freequency_per_week = req.body.frequencyPerWeek,
-        createParams.duration_per_week = req.body.durationPerWeek,
-        createParams.pt_treatment_provided = req.body.ptList,
-        createParams.ot_treatment_provided = req.body.otList,
-        createParams.slp_treatment_provided = req.body.slpList
+      createParams.freequency_per_week = req.body.frequencyPerWeek,
+      createParams.duration_per_week = req.body.durationPerWeek,
+      createParams.pt_treatment_provided = req.body.ptList,
+      createParams.ot_treatment_provided = req.body.otList,
+      createParams.slp_treatment_provided = req.body.slpList
     } else if (req.body.soapNoteType == 'daily_note') {
       createParams.process_patient = req.body.processPatient,
-        createParams.anticipat_DC = req.body.anticipatDC
+      createParams.anticipat_DC = req.body.anticipatDC
     }
     await PlanTemp.create(createParams)
+    if(req.body.soapNoteType == 'initial_examination'){
+      createParams.soap_note_type = 'progress_note'
+      await setPlan(createParams)
+    }
     commonHelper.sendResponse(res, 'success', {}, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
 
+async function setPlan(req) {
+  let planData = await PlanTemp.findOne({ appointmentId: req.appointmentId, soap_note_type: req.soap_note_type });
+  console.log(planData)
+  if (!planData) {
+    await PlanTemp.create(req)
+  }
+}
+
 const getPlanNote = async (req, res) => {
   try {
-    planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.soapNoteType });
+    let planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.soapNoteType });
+    if(!planData){
+      let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, appointments: 1, caseName: 1 })
+      if(caseData){
+        let recentAppointmentId = caseData.appointments[caseData.appointments.length-2]
+        planData = await PlanTemp.findOne({ appointmentId: recentAppointmentId, soap_note_type: req.body.soapNoteType });
+      }
+    }
     commonHelper.sendResponse(res, 'success', planData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
