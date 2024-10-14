@@ -31,6 +31,7 @@ export class AddEditContactComponent implements OnInit {
   validationMessages = validationMessages;
   convertPhoneNumber: string = '';
   isReadOnly:boolean=false
+  relationOtherFlag:boolean=false
   pageTitle:string='Add Contact'
   successMsg:string='Contact Added Successfully'
   constructor(public dialog: MatDialog,private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
@@ -64,8 +65,8 @@ export class AddEditContactComponent implements OnInit {
         firstName: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
         lastName: ['', Validators.compose([ Validators.required, Validators.minLength(1), Validators.maxLength(35)])],
         dob: ['',[Validators.required]],
-        relationWithPatient: ['',[Validators.required]],
-        otherRelation: ['', Validators.compose([ Validators.maxLength(35)])],
+        relationWithPatient: ['',[]],
+        otherRelation: ['',[]],
         phoneNumber:['',[Validators.required,Validators.pattern(regex.usPhoneNumber), Validators.maxLength(14)]],
         myTreatmentCheckbox: [false, []],
         myAccountCheckbox:  [false, []]
@@ -136,6 +137,12 @@ export class AddEditContactComponent implements OnInit {
   async formSubmit(formData:any=null){
     if (this.emergencyContactForm.invalid) {
         this.emergencyContactForm.markAllAsTouched();
+        // Object.keys(this.emergencyContactForm.controls).forEach(field => {
+        //   const control = this.emergencyContactForm.get(field);
+        //   if (control && control.errors) {
+        //     console.log(`Errors in ${field}:`, control.errors);
+        //   }
+        // });
         return;
     }else{
         var query = {};
@@ -175,19 +182,14 @@ export class AddEditContactComponent implements OnInit {
     this.convertPhoneNumber = this.commonService.formatPhoneNumber(inputElement.value);
   }
 
-//   onDateChange(dateObj: NgbDateStruct) {
-//     if(typeof dateObj=='object'){
-//       if(dateObj.day && dateObj.month && dateObj.year){
-//           this.selected_date = this.commonService.formattedDate(dateObj);
-//       }
-//     }
-//  }
- 
-//  getMinDate(): NgbDateStruct {
-//     const today = new Date();
-//     const minDate = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
-//     return { month: minDate.getMonth() + 1, day: minDate.getDate(),year: minDate.getFullYear() };
-//   }
+  onRelationSelected(value: any) {
+    this.relationOtherFlag = false
+    this.emergencyContactForm.controls['otherRelation'].setValidators([]);
+    if(value=='Other'){
+      this.relationOtherFlag = true
+      this.emergencyContactForm.controls['otherRelation'].setValidators([Validators.required,Validators.maxLength(35)]); 
+    }   
+   }
 
   filterStartDate() {
     const today = new Date();

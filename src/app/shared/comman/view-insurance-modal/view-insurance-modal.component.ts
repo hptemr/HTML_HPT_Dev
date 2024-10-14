@@ -13,16 +13,29 @@ import { tr } from 'date-fns/locale';
 })
 export class ViewInsuranceModalComponent {
   info: any
+  workerCompensation:boolean=false
+  isPatientMinor:boolean=false
+  isPatientMinorVal:string = 'no'
+  selectedValue: number;
 
   constructor(public dialog: MatDialog, private commonService: CommonService,
     private authService: AuthService, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.info = data.payViaInsuranceInfo;
-    console.log('Info >>>>> ',this.info)
+    if(this.info?.injuryRelelatedTo && this.info?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
+      this.workerCompensation = true
+    }    
+      
+    if(this.info?.isPatientMinor=='yes'){
+      this.isPatientMinor = true;
+      this.isPatientMinorVal = 'yes'
+    }   
+        
+    if((this.info?.isPatientMinor!='yes' || this.info?.isPatientMinor!='no') && this.info?.isPatientMinor){
+      this.isPatientMinor = true;
+      this.isPatientMinorVal = 'yes'
+    }
   }
 
-
-
-  selectedValue: number;
   onChange(event: MatRadioChange) {
     console.log(this.selectedValue = event.value)
   }
@@ -32,6 +45,7 @@ export class ViewInsuranceModalComponent {
       panelClass: 'cms--container',
     });
   }
+
   openCMSmodal(event:any) {  
     if (event.checked === true) {
       const dialogRef = this.dialog.open(CmsModalComponent,{
@@ -39,7 +53,7 @@ export class ViewInsuranceModalComponent {
       });
     } else{ 
     }
-}
+  }
 
   getIcon(row: any) {
     let fileType = row.split(/[#?]/)[0].split('.').pop().trim();

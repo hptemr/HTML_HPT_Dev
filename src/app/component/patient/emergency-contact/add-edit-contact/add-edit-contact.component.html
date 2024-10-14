@@ -47,16 +47,22 @@
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Relationship with Patient</label>
-                        <select class="form-select form-control" aria-label="Default select example" formControlName="relationWithPatient">
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="relationWithPatient" #mySelect2 (change)="onRelationSelected(mySelect2.value)">
                             <option selected value="">Select Relation</option>
                             <option *ngFor="let element of relationWithPatientList" value="{{element}}">{{element}}</option>
                         </select> 
                     </div> 
                 </div> 
-                <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="relationOtherFlag">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Other Relation</label>
+                        <label class="col-form-label fw-600">Other Relation <span class="clr--DF0404 ms-1"> * </span></label>
                         <input class="form-control" type="text" placeholder="Enter Other Relation" formControlName="otherRelation" maxlength="55"/>
+                        <div class="text text-danger mt-1" *ngIf="emergencyContactForm.controls['otherRelation'].touched && emergencyContactForm.controls['otherRelation'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Other Relation') }}
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="emergencyContactForm.controls['otherRelation'].touched && emergencyContactForm.controls['otherRelation'].hasError('maxlength')">
+                            {{ validationMessages.required('Other Relation cannot exceed 35 characters.') }}
+                        </div>
                     </div>
                 </div>  
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">

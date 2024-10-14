@@ -16,7 +16,7 @@
                     <input cdkFocusInitial value="{{info.relationWithPatient}}" class="form-control" type="text" disabled />
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-6 ">
+            <div class="col-12 col-lg-6 col-md-6 " *ngIf="info?.relationWithPatient && info.relationWithPatient=='Other'">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Other Relation </label>
                     <input class="form-control" type="text" value="{{info.otherRelation}}" disabled placeholder="Specify Relation" />
@@ -61,8 +61,9 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Gender</label>
-                    <mat-radio-group aria-label="Select an option" disabled>
-                        <mat-radio-button value="1" class="me-3" checked>{{info.gender}}</mat-radio-button>
+                    <mat-radio-group aria-label="Select an option"  [value]="info.gender" disabled>
+                        <mat-radio-button value="Male" class="me-3" >Male</mat-radio-button>
+                        <mat-radio-button value="Female" class="me-3" >Female</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
@@ -140,8 +141,7 @@
                         <div class="form-group">
                             <label class="col-form-label fw-600">Date of Birth </label>
                             <mat-form-field class="w-100 am--datepicker">
-                                <input value="{{info.subscriberDob}}" matInput [matDatepicker]="picker2"
-                                    placeholder="MM/DD/YY" disabled  (focus)="picker2.open()">
+                                <input value="{{info.subscriberDob}}" matInput [matDatepicker]="picker2" placeholder="MM/DD/YY" disabled  (focus)="picker2.open()">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
                             </mat-form-field>
@@ -161,8 +161,9 @@
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Subscriber Gender</label>
-                            <mat-radio-group aria-label="Select an option" disabled>
-                                <mat-radio-button value="1" class="me-3" checked>{{info.subscriberGender}}</mat-radio-button>
+                            <mat-radio-group aria-label="Select an option"  [value]="info.subscriberGender" disabled>
+                                <mat-radio-button value="Male" class="me-3" >Male</mat-radio-button>
+                                <mat-radio-button value="Female" class="me-3" >Female</mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>
@@ -217,8 +218,7 @@
                             <label class="col-form-label fw-600">End Date</label>
                             <div class="input-group">
                                 <mat-form-field class="w-100 am--datepicker" >
-                                    <input disabled value="{{info.primaryInsuranceToDate}}" placeholder="MM-DD-YYYY"
-                                        matInput [matDatepicker]="picker4" (focus)="picker4.open()">
+                                    <input disabled value="{{info.primaryInsuranceToDate}}" placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker4" (focus)="picker4.open()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                                     <mat-datepicker #picker4></mat-datepicker>
                                 </mat-form-field>
@@ -256,10 +256,9 @@
                         <div class="form-group">
                             <label class="col-form-label fw-600">Date of Birth </label>
                             <mat-form-field class="w-100 am--datepicker">
-                                <input value="{{info.secondarySubscriberDob}}" matInput [matDatepicker]="picker2"
-                                    placeholder="MM/DD/YY" disabled  (focus)="picker2.open()">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                                <mat-datepicker #picker2></mat-datepicker>
+                                <input value="{{info.secondarySubscriberDob}}" matInput [matDatepicker]="picker44" placeholder="MM/DD/YY" disabled (focus)="picker44.open()">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker44"></mat-datepicker-toggle>
+                                <mat-datepicker #picker44></mat-datepicker>
                             </mat-form-field>
                         </div>
                     </div>
@@ -277,8 +276,9 @@
                     <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Subscriber Gender</label>
-                            <mat-radio-group aria-label="Select an option" disabled>
-                                <mat-radio-button value="1" class="me-3" checked>{{info.secondarySubscriberGender}}</mat-radio-button>
+                            <mat-radio-group aria-label="Select an option"  [value]="info.secondarySubscriberGender" disabled>
+                                <mat-radio-button value="Male" class="me-3" >Male</mat-radio-button>
+                                <mat-radio-button value="Female" class="me-3" >Female</mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>
@@ -372,10 +372,10 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Date of Birth </label>
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input value="{{info.thirdSubscriberDob}}" matInput [matDatepicker]="picker2"
-                                            placeholder="MM/DD/YY" disabled  (focus)="picker2.open()">
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker2></mat-datepicker>
+                                        <input value="{{info.thirdSubscriberDob}}" matInput [matDatepicker]="picker3"
+                                            placeholder="MM/DD/YY" disabled  (focus)="picker3.open()">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -393,8 +393,9 @@
                             <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">Subscriber Gender</label>
-                                    <mat-radio-group aria-label="Select an option" disabled>
-                                        <mat-radio-button value="1" class="me-3" checked>{{info.thirdSubscriberGender}}</mat-radio-button>
+                                    <mat-radio-group aria-label="Select an option" [value]="info.thirdSubscriberGender" disabled>
+                                        <mat-radio-button value="Male" class="me-3" >Male</mat-radio-button>
+                                        <mat-radio-button value="Female" class="me-3" >Female</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
@@ -457,9 +458,9 @@
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
                                             <input  value="{{info.thirdInsuranceToDate}}" disabled placeholder="MM-DD-YYYY"
-                                                matInput [matDatepicker]="picker6" (focus)="picker6.open()">
-                                            <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker6></mat-datepicker>
+                                                matInput [matDatepicker]="picker66" (focus)="picker66.open()">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker66"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker66></mat-datepicker>
                                         </mat-form-field>
                                     </div> 
                                 </div>
@@ -474,20 +475,24 @@
                         <div class="form-group">
                             <label class="col-form-label fw-600">Is your injury related to <span class="clr--DF0404 ms-1"> *
                             </span></label>
-                            <mat-radio-group aria-label="Select an option" disabled>
-                                <mat-radio-button checked class="me-3">Worker's Compensation (WCOMP)  </mat-radio-button>
-                                <mat-radio-button value="1" class="me-3"> Motar Vehicle Accident (MVA) </mat-radio-button>
-                                <mat-radio-button value="2" class="me-3"> Other Personal Injury</mat-radio-button>
-                                <div class="d-inline-flex flex-column" *ngIf=""> 
+                            <mat-radio-group aria-label="Select an option" disabled [value]="info?.injuryRelelatedTo">
+                                <mat-radio-button value="Worker's Compensation (WCOMP)" class="me-3">
+                                    Worker's Compensation (WCOMP)</mat-radio-button>
+                                <mat-radio-button value="Motar Vehicle Accident (MVA)" class="me-3">
+                                    Motar Vehicle Accident (MVA)</mat-radio-button>
+                                    <mat-radio-button value="Other Personal Injury">
+                                        Other Personal Injury
+                                    </mat-radio-button>
+                                    
+                                <div class="d-inline-flex flex-column" *ngIf="info?.injuryRelelatedTo=='Other Personal Injury'"> 
                                     <div class="form-group">
-                                        <input value="" class="form-control" type="text"
-                                            placeholder="Enter Other Injury" /> 
+                                        <input value="{{info?.otherPersonalInjury}}" class="form-control" type="text" placeholder="Enter Other Injury" /> 
                                     </div>
                                 </div>
                             </mat-radio-group>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="workerCompensation">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Carrier Name </label>
                             <select class="form-select form-control" aria-label="Default select example" disabled>
@@ -495,7 +500,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="workerCompensation">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Date of Injury </label>
                             <mat-form-field class="w-100 am--datepicker">
@@ -506,7 +511,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="workerCompensation">
                         <div class="form-group">
                             <label class="col-form-label fw-600">State </label>
                             <select class="form-select form-control" aria-label="Default select example" disabled>
@@ -515,21 +520,21 @@
 
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="workerCompensation">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Claim # </label>
                             <input value="{{info.claim}}" class="form-control" type="text" disabled
                                 placeholder="Enter Claim" />
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="workerCompensation">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Adjuster Name # </label>
                             <input value="{{info.adjusterName}}" class="form-control" type="text" disabled
                                 placeholder="Enter Adjuster Name" />
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-4">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-4" *ngIf="workerCompensation">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Adjuster Phone # </label>
                             <input value="{{info.adjusterPhone}}" class="form-control" type="text" disabled
@@ -542,30 +547,30 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Was this reported to your employer?</label>
-                            <mat-radio-group aria-label="Select an option" disabled>
-                                <mat-radio-button value="1" class="me-3"
-                                    checked>{{info.reportedEmployer}}</mat-radio-button>
+                            <mat-radio-group aria-label="Select an option" [value]="info?.reportedEmployer" disabled>
+                                    <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
+                                    <mat-radio-button value="No">No</mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>
                     <div class="col-12">
                         <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Employers Information </h2>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="info?.reportedEmployer=='Yes'">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Employer Name </label>
                             <input value="{{info.employerName}}" class="form-control" type="text" disabled
                                 placeholder="Enter Employer Name" />
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="info?.reportedEmployer=='Yes'">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Employer Phone </label>
                             <input value="{{info.employerPhone}}" class="form-control" type="text" disabled
                                 placeholder="Enter Employer Phone" />
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12" *ngIf="info?.reportedEmployer=='Yes'">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Employer Address </label>
                             <textarea class="form-control " type="text" disabled placeholder="Enetr Address"
@@ -576,63 +581,45 @@
 
                 <div class="row">
                     <div class="col-12 d-flex 
-                                        flex-column flex-sm-row 
-                                        align-items-start align-items-sm-center 
-                                        justify-content-start justify-content-sm-between">
-                                <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Attorney Information
-                                </h2>
-                                <!-- <div class="d-flex align-items-center">
-                                    <label class="fw-700 font-16 clr--1F2F3E me-3 mb-0">Upload Insurance Card</label> 
-                                    <button  mat-raised-button color="primary"
-                                        class="flex-shrink-0">
-                                        <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
-                                        Upload  
-                                     </button>
-                                </div> -->
-                            </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                flex-column flex-sm-row 
+                                align-items-start align-items-sm-center 
+                                justify-content-start justify-content-sm-between">
+                        <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Attorney Information</h2>                  
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label fw-600">Have you consulted an attorney for your current problem?</label>
+                            <mat-radio-group aria-label="Select an option" [value]="info?.attorney" disabled>
+                                <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
+                                <mat-radio-button value="No">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="info?.attorney=='Yes'">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Attorney Name </label>
                             <input value="{{info.attorneyName}}" class="form-control" type="text" disabled
                                 placeholder="Enter Attorney Name" />
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                    <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="info?.attorney=='Yes'">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Attorney Phone </label>
                             <input value="{{info.attorneyPhone}}" class="form-control" type="text" disabled
                                 placeholder="Enter Attorney Phone" />
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12" *ngIf="info?.attorney=='Yes'">
                         <div class="form-group">
                             <label class="col-form-label fw-600">Attorney Address </label>
                             <textarea class="form-control " type="text" disabled placeholder="Enter Address"
                                 rows="4">{{info.attorneyAddress}}</textarea>
                         </div>
                     </div>
-                    <div class="col-12 d-flex flex-column">
-                        <div class="d-flex align-items-center justify-content-end w-100">
-                            <label class="fw-700 font-16 clr--1F2F3E me-3 mb-0">Upload Insurance Card</label>  
-                            <div class="form-group mb-0">
-                               <button   mat-raised-button color="primary"
-                                   class="flex-shrink-0 ms-0 ms-sm-auto   ui--button">
-                                   <input  accept="image/*, application/pdf,.doc, .docx" type="file">
-                                   <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
-                                   Upload
-                               </button> 
-                            </div>
-                        </div> 
-                        <div class="text-end text-danger mt-1 w-100"  > 
-                            <div class="text text-danger mt-1"  >
-                               Error here
-                            </div>
-                        </div> 
-                    </div>
                     <div class="col-12">
-                        <p class="fw-700">Uploaded documents :</p>
+                        <p class="fw-700">Uploaded Insurance documents :</p>
                     </div>
-                    <div *ngIf="info.insuranceFiles && info.insuranceFiles.length > 0">
+                    <div *ngIf="!info?.insuranceFiles || info?.insuranceFiles.length > 0">
                         <div *ngFor="let row of info.insuranceFiles"
                             class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center mb-3">
                             <div class="doc--desc d-flex align-items-start align-items-sm-center ">
@@ -650,10 +637,11 @@
                             </button>
                         </div>
                     </div>
+                    <div *ngIf="info.insuranceFiles && info.insuranceFiles.length ==  0">No files found!</div>
 
                     <div class="col-12 d-flex flex-column concent--box">
                         <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-2">Consent</label>
-                        <mat-checkbox (change)="openCMSmodal($event)">I have read and agree to the Hamilton Physical Therapy's <a target="_blank" [routerLink]="['/terms-of-services']" class="fw-700 text-decoration-underline font-16"> Terms of Service </a> and <a [routerLink]="['/privacy-policy']" target="_blank" class="fw-700 text-decoration-underline font-16">Privacy Policy. </a></mat-checkbox>
+                        <mat-checkbox disabled [checked]="info.consentCheck" (change)="openCMSmodal($event)">I have read and agree to the Hamilton Physical Therapy's <a target="_blank" [routerLink]="['/terms-of-services']" class="fw-700 text-decoration-underline font-16"> Terms of Service </a> and <a [routerLink]="['/privacy-policy']" target="_blank" class="fw-700 text-decoration-underline font-16">Privacy Policy. </a></mat-checkbox>
                     </div>
                     <div class="col-12 d-flex
                                 flex-column flex-sm-row 
@@ -667,16 +655,16 @@
 
                     <div class="col-12 mt-3">
                         <div class="row">
-                            <div class="col-12 d-flex align-items-center">
+                            <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
                                 <label class="fw-700 font-16 clr--1F2F3E mb-0 me-3">Is The Patient A Minor?</label>
-                                <mat-radio-group (change)="onChange($event)">
-                                    <mat-radio-button value="0011" class="me-3">Yes </mat-radio-button>
-                                    <mat-radio-button value="1122">No</mat-radio-button>
+                                <mat-radio-group (change)="onChange($event)" [value]="isPatientMinorVal" disabled>
+                                    <mat-radio-button value="yes" class="me-3">Yes </mat-radio-button>
+                                    <mat-radio-button value="no">No</mat-radio-button>
                                 </mat-radio-group>
-                            </div> 
-                            <div class="col-12 minor--consent mb-4" *ngIf="selectedValue == 0011"> 
+                            </div>                             
+                            <div class="col-12 minor--consent mb-4" *ngIf="isPatientMinor"> 
                                 <label class="fw-700 font-16 clr--1F2F3E mb-1">Minor Consent</label>
-                                <mat-checkbox (change)="openCMSmodal($event)"> 
+                                <mat-checkbox disabled (change)="openCMSmodal($event)"> 
                                 <p class="font-16 clr--1F2F3E lh-24 mb-0">{{info.firstName}} {{info.lastName}} - I hereby authorize this PT
                                     clinic
                                     and/or it's
@@ -697,7 +685,7 @@
                     </div>
 
                     
-                    <div class="col-12 d-flex flex-column w-100">
+                    <div class="col-12 d-flex flex-column w-100" *ngIf="isPatientMinor">
                         <div class="signature--box d-flex align-items-center justify-content-center">
                             {{info.firstName}} {{info.lastName}}
                         </div>

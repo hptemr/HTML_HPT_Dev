@@ -65,7 +65,6 @@ export class EmergencyContactComponent implements OnInit {
   }
 
   async getEmergencyContactDetail(action=""){
-  
     const req_vars = {
       query: this.whereCond,
       order: this.orderBy,
