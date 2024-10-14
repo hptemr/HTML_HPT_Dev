@@ -68,6 +68,8 @@ export class CaseDetailsComponent {
   isSelfPay:boolean=false
   isPatientCheckedIn:boolean=false
   patientCheckInCount:number = 0
+  hasInitialExamPlanData:boolean=false
+  initialExamPlanData:any
 
   searchValue = ""
   status = ""
@@ -145,6 +147,7 @@ export class CaseDetailsComponent {
           this.getAuthManagementHistory(this.patientId, this.caseName)  
           this.getStCaseDetails(this.patientId, this.caseName)
           this.getPatientCheckInCount(this.patientId, this.caseName)
+          this.getInitialExamination()
         }
       })
     }
@@ -371,6 +374,21 @@ export class CaseDetailsComponent {
 
   onDateChange() {
     this.getAppointmentNotes()
+  }
+
+  getInitialExamination(){
+    this.hasInitialExamPlanData = false
+    let reqVars = {
+      query: { appointmentId: this.appointmentId },
+      fields: { plan_start_date:1, plan_end_date:1 }
+    }
+
+    this.authService.apiRequest('post', 'soapNote/getInitialExamination', reqVars).subscribe(async response => { 
+      this.hasInitialExamPlanData = (response.data!=null) ? true :false
+      this.initialExamPlanData = response.data
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
   }
 
 
