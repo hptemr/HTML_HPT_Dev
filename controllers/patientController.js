@@ -354,7 +354,6 @@ async function previewDocument(req, res) {
             }
             documentLink = url;
         } catch (error) {
-            console.log('error>>>', error)
             documentLink = ''; fileSize = '';
         }
     }
