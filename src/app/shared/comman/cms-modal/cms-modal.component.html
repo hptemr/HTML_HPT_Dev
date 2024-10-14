@@ -46,7 +46,7 @@
   
     </div>
     <div class="cms--footer w-100 d-flex align-items-center justify-content-end mt-2">
-        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary" mat-dialog-close>I agree and sign</button>
+        <button mat-stroked-button color="primary" class="me-2" (click)="aggree('Cancel')">Cancel</button> 
+        <button mat-raised-button color="primary" (click)="aggree('I agree')">I agree and sign</button>
     </div>
 </div>
