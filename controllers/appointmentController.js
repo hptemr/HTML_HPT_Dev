@@ -18,6 +18,7 @@ const crypto = require('crypto');
 const BillingDetailsModel = require('../models/btBillingDetailsModel');
 const AthorizationManagementModel = require('../models/btAthorizationManagementModel');
 const STCaseDetailsModel = require('../models/stCaseDetailsModel');
+const moment = require('moment');
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -282,14 +283,17 @@ const updatePatientCheckIn = async (req, res) => {
 const createAppointmentRequest = async (req, res) => {
     try {
         const { userId, data } = req.body;
-        // console.log('data>>>',data)
         // data.appointmentDate = new Date(data.appointmentDate)
-        // console.log('>>>>>>>',new Date(data.appointmentDate).toString())
-        // console.log('>>>>>>>',new Date(data.appointmentDate).toISOString())
         // let appointmentRequestData = await AppointmentRequest.findOne({patientId:userId,practiceLocation:data.practiceLocation,status:'Pending'});
         // if(appointmentRequestData){
-        //     commonHelper.sendResponse(res, 'errorValidation', null, appointmentMessage.alreadyRequestCreated);
+        //   commonHelper.sendResponse(res, 'errorValidation', null, appointmentMessage.alreadyRequestCreated);
         // }else{
+
+        //Timezone issue Start
+        const localDate = new Date(data.appointmentDate);  
+        localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
+        data.appointmentDate = localDate;
+        //Timezone issue END
 
         let newAppointmentRequest = new AppointmentRequest(data);
         const result = await newAppointmentRequest.save();
