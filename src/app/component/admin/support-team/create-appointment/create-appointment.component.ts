@@ -49,6 +49,8 @@ export class CreateAppointmentComponent {
   orderBy: any = { firstName: 1 }
   invalidEmailErrorMessage: string = '';
   emailError:boolean = false;
+  minToDate: any = this.commonService.displayFormatDate(new Date(),true)
+  maxToDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
   constructor(  public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService) {}
 
   ngOnInit() {    

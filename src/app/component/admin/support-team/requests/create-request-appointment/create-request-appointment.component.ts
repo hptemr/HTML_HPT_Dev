@@ -207,11 +207,15 @@ export class CreateRequestAppointmentComponent {
           //   }            ISODate("2024-08-14T13:05:58.124+0000")
           // }
           //let selected_date = this.datePipe.transform(this.appointmentDate, 'MM-dd-yyyy T HH:MM')
-         // this.minToDate = '2024-08-16T00:00';//this.commonService.displayFormatDate(new Date(),true)
-        //  this.maxToDate = '2025-05-16T00:00';//this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
-
-          this.appointmentForm.controls['appointmentDate'].setValue(this.commonService.displayFormatDate(new Date(this.appointmentDate),false));
-          this.commonService.formatDateInUTC(this.appointmentDate)
+          //this.minToDate = '2024-08-16T00:00';//this.commonService.displayFormatDate(new Date(),true)
+          // this.maxToDate = '2025-05-16T00:00';//this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
+         
+          let appointmentDate = this.commonService.displayFormatDate(new Date(this.appointmentDate),false)               
+          let appointmentDate2 = this.commonService.formatDateInUTC(this.appointmentDate,'yyyy-MM-ddThh:mm')
+          this.appointmentForm.controls['appointmentDate'].setValue(appointmentDate2);
+          console.log('appointment Date 11>>>',appointmentDate)
+          console.log('appointment Date 22>>>',appointmentDate2)
+         
           this.appointment_flag = true;    
         }
       })
@@ -277,7 +281,7 @@ export class CreateRequestAppointmentComponent {
     const regex = /^\d+$/;
     return regex.test(input);
   }
-  
+
   selectDoctor(id: string): any {    
     if(this.doctorList.length>0) {
       let selected = this.doctorList.find(item => typeof item === 'object' && item.id === id) || null;

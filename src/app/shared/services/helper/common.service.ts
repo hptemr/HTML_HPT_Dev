@@ -210,9 +210,10 @@ export class CommonService {
     }    
   }
 
-  formatDateInUTC(dateval:any) {
+  formatDateInUTC(dateval:any,dateformat:any) {
     const currentDate = new Date(dateval);
-    const utcDateString = this.datePipe.transform(currentDate, 'EEE, MMM d, y hh:mm a', 'UTC');
+    //'EEE, MMM d, y hh:mm a'          'MM/dd/yyyy hh:mm a' 
+    const utcDateString = this.datePipe.transform(currentDate, dateformat, 'UTC');
     return utcDateString;
   }
 

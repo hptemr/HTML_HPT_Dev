@@ -100,7 +100,7 @@
                             <div class="form-group" *ngIf="relationWithPatientFlag">
                                 <input class="form-control" type="text" formControlName="subscriberOtherRelation" placeholder="Enter other relation" />
                                 <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['subscriberOtherRelation'].touched && (insuranceForm.controls['subscriberOtherRelation'].hasError('required') || insuranceForm.controls['subscriberOtherRelation'].invalid)">
-                                {{ validationMessages.required('Enter your relation with patient') }}
+                                {{ validationMessages.required('Your Relationship with Patient') }}
                             </div>
                             </div>
                         </div>
