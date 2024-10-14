@@ -1119,13 +1119,9 @@
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-7 col-xl-6" *ngIf="insuranceInfo?.insuranceFiles && insuranceInfo?.insuranceFiles.length">
-                            <!-- <div class="d-flex flex-row align-items-center justify-content-md-end pt-1">
-                                <label class="mb-0 font-14 fw-700 pt-0">Uploaded Insurance Card:</label>
-                                <p class="mb-0 text-primary font-14 fw-600 ms-3">Insurancefile.jpg</p>
-                            </div> -->
                             <div class="d-flex flex-row align-items-center justify-content-md-end pt-1" *ngFor="let file of insuranceInfo.insuranceFiles;">
                                 <label class="mb-0 font-14 fw-700 pt-0">Uploaded Insurance Card:</label>
-                                <p class="mb-0 text-primary font-14 fw-600 ms-3">{{file}}</p>
+                                <p class="mb-0 text-primary font-14 fw-600 ms-3 cursor-pointer" (click)="download(file)">{{file}}</p>
                             </div>
                         </div>
                         <div class="col-12 mt-3" *ngIf="userType=='billing_team'">
