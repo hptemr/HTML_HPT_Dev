@@ -282,7 +282,7 @@ export class CreateAppointmentComponent {
 
   
   selectDoctor(id: string): any {    
-    if(this.patientList.length>0) {
+    if(this.doctorList.length>0) {
       let selected = this.doctorList.find(item => typeof item === 'object' && item.id === id) || null;
       if(selected) {
         this.doctorId = id;        

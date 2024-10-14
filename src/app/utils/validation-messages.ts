@@ -1,5 +1,5 @@
 export const validationMessages = {
-  required: (fieldName: string) => `Please enter ${fieldName}`,
+  required: (fieldName: string) => `Please Enter ${fieldName}`,
   validEmail: 'The email address seems to be incorrect',
   email: (fieldName: string) => `Please enter a valid ${fieldName}`,
   password: 'Minimum 8 and maximum 16 character, atleast one special character, one numeric & 1 uppercase and lowercase letter',
@@ -11,9 +11,9 @@ export const validationMessages = {
   minlength: (fieldName: string, length: number) => `${fieldName} should be at least ${length} characters.`,
   maxlength: (fieldName: string, length: number) => `${fieldName} should not exceed ${length} characters.`,
   noRecords: 'No records found!',
-  requiredDropdown: (fieldName: string) => `Please select ${fieldName}`,
+  requiredDropdown: (fieldName: string) => `Please Select ${fieldName}`,
   radioButton: 'Gender is required',
-  requiredCheckbox: (fieldName: string) => `Please check ${fieldName}`,
+  requiredCheckbox: (fieldName: string) => `Please Check ${fieldName}`,
   requiredProofDocument: 'Document uploaded, Please select ID Proof document type',
   requiredDocument: 'ID Proof document type is slected, Please upload document',
   isUnique: (fieldName: string) => `${fieldName} should be unique`,
