@@ -240,50 +240,52 @@
                                         </mat-radio-group>
                                     </div>
                                 </div> -->
-                                <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                                    <div class="form-group">
-                                        <label class="col-form-label fw-600">Passport Approval To</label>
-                                        <div class="input-group">
-                                            <!-- <input class="form-control" placeholder="Select Date" name="dp"
-                                                ngbDatepicker #to1="ngbDatepicker" />
-                                            <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="to1.toggle()"
-                                                type="button">
-                                                <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                            </button> -->
-                                            <mat-form-field class="w-100 am--datepicker">
-                                                <input formControlName="PI_passportApprovalTo" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="PIPassportApprovalToDatepicker" (focus)="PIPassportApprovalToDatepicker.open()">
-                                                <mat-datepicker-toggle matIconSuffix [for]="PIPassportApprovalToDatepicker"></mat-datepicker-toggle>
-                                                <mat-datepicker #PIPassportApprovalToDatepicker></mat-datepicker>
-                                            </mat-form-field>
+                                <ng-container *ngIf="isInsuranceTypeMedicare">
+                                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label fw-600">Passport Approval To</label>
+                                            <div class="input-group">
+                                                <!-- <input class="form-control" placeholder="Select Date" name="dp"
+                                                    ngbDatepicker #to1="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="to1.toggle()"
+                                                    type="button">
+                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                </button> -->
+                                                <mat-form-field class="w-100 am--datepicker">
+                                                    <input formControlName="PI_passportApprovalTo" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="PIPassportApprovalToDatepicker" (focus)="PIPassportApprovalToDatepicker.open()">
+                                                    <mat-datepicker-toggle matIconSuffix [for]="PIPassportApprovalToDatepicker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #PIPassportApprovalToDatepicker></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-lg-6 col-md-6 col-xl-3">
-                                    <div class="form-group">
-                                        <label class="col-form-label fw-600">Passport Approval From</label>
-                                        <div class="input-group">
-                                            <!-- <input class="form-control" placeholder="Select Date" name="dp"
-                                                ngbDatepicker #from1="ngbDatepicker" />
-                                            <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="from1.toggle()"
-                                                type="button">
-                                                <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
-                                            </button> -->
-                                            <mat-form-field class="w-100 am--datepicker">
-                                                <input formControlName="PI_passportApprovalFrom" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="PIPassportApprovalFromToDatepicker" (focus)="PIPassportApprovalFromToDatepicker.open()">
-                                                <mat-datepicker-toggle matIconSuffix [for]="PIPassportApprovalFromToDatepicker"></mat-datepicker-toggle>
-                                                <mat-datepicker #PIPassportApprovalFromToDatepicker></mat-datepicker>
-                                            </mat-form-field>
+                                    <div class="col-12 col-lg-6 col-md-6 col-xl-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label fw-600">Passport Approval From</label>
+                                            <div class="input-group">
+                                                <!-- <input class="form-control" placeholder="Select Date" name="dp"
+                                                    ngbDatepicker #from1="ngbDatepicker" />
+                                                <button class="btn btn-outline-primary py-0 px-3 calender--btn" (click)="from1.toggle()"
+                                                    type="button">
+                                                    <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
+                                                </button> -->
+                                                <mat-form-field class="w-100 am--datepicker">
+                                                    <input formControlName="PI_passportApprovalFrom" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="PIPassportApprovalFromToDatepicker" (focus)="PIPassportApprovalFromToDatepicker.open()">
+                                                    <mat-datepicker-toggle matIconSuffix [for]="PIPassportApprovalFromToDatepicker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #PIPassportApprovalFromToDatepicker></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                
-                                <div class="col-12 col-lg-6 col-md-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label fw-600">Passport Provider</label>
-                                        <input class="form-control" type="text" placeholder="Enter Passport Provider" formControlName="PI_passportProvider"/>
-                                        <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                    
+                                    <div class="col-12 col-lg-6 col-md-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label fw-600">Passport Provider</label>
+                                            <input class="form-control" type="text" placeholder="Enter Passport Provider" formControlName="PI_passportProvider"/>
+                                            <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                                        </div>
                                     </div>
-                                </div>
+                                </ng-container>
                             </div>
                         </div>
                     </div>

@@ -58,6 +58,7 @@ export class BillingDetailsComponent {
   isSupportTeamUser:boolean= false
   urlSegment:any
   isReportedToEmployer: boolean=false
+  isInsuranceTypeMedicare: boolean=false
 
   constructor(
     public dialog: MatDialog,
@@ -170,12 +171,19 @@ export class BillingDetailsComponent {
 
   saveBillingDetails(){
     this.commonService.showLoader();
+    this.billingDetailsForm.value['PI_payerID']= (this.selectedPrimaryInsuranceData!=null && this.selectedPrimaryInsuranceData!=undefined)?
+    this.selectedPrimaryInsuranceData.payerID:(this.isBillingDetailsData)?this.billingDetailsData.PI_payerID:''
+    this.billingDetailsForm.value['PI_billingType']= (this.selectedPrimaryInsuranceData!=null && this.selectedPrimaryInsuranceData!=undefined)?
+    this.selectedPrimaryInsuranceData.billingType:(this.isBillingDetailsData)?this.billingDetailsData.PI_billingType:''
+    this.billingDetailsForm.value['PI_insuranceType']= (this.selectedPrimaryInsuranceData!=null && this.selectedPrimaryInsuranceData!=undefined)?
+    this.selectedPrimaryInsuranceData.insuranceType:(this.isBillingDetailsData)?this.billingDetailsData.PI_insuranceType:''
+
     let billingDetailsObj:any = {
       billingDetails : this.billingDetailsForm.value,
       patientId : this.patientId,
       caseName : this.caseName
     }
-
+   
     this.authService.apiRequest('post', 'appointment/addBillingDetails', billingDetailsObj).subscribe(async response => {  
       this.commonService.openSnackBar(response.message, "SUCCESS")
       this.commonService.hideLoader(); 
@@ -197,6 +205,7 @@ export class BillingDetailsComponent {
       if(data && data!=null ){
         this.isBillingDetailsData = true
         this.billingDetailsData = data
+        this.isInsuranceTypeMedicare = (data?.PI_insuranceType && data?.PI_insuranceType=='Medicare')?true:false
       }
       this.setDataToBillingDetails()
       this.commonService.hideLoader(); 
@@ -305,14 +314,25 @@ export class BillingDetailsComponent {
         if(insuranceType=='primary'){ 
           this.selectedPrimaryInsuranceData = result 
           this.billingDetailsForm.controls['primaryInsurance'].setValue(result?.insuranceName)
+          this.isInsuranceTypeMedicare = (result.insuranceType && result.insuranceType=='Medicare')?true:false
+
+
+          let formatedPICustServPhoneNumber = result.phoneNumber ? this.commonService.formatPhoneNumber(result.phoneNumber) : ''
+          this.billingDetailsForm.controls['PI_customerServicePhNo'].setValue(formatedPICustServPhoneNumber);
         }
         if(insuranceType=='secondary'){ 
           this.selectedSecondaryInsuranceData = result 
           this.billingDetailsForm.controls['secondaryInsurance'].setValue(result?.insuranceName)
+
+          let formatedSICustServPhoneNumber = result.phoneNumber ? this.commonService.formatPhoneNumber(result.phoneNumber) : ''
+          this.billingDetailsForm.controls['SI_customerServicePhNo'].setValue(formatedSICustServPhoneNumber);
         }
         if(insuranceType=='third'){ 
           this.selectedThirdInsuranceData = result 
           this.billingDetailsForm.controls['thirdInsurance'].setValue(result?.insuranceName)
+
+          let formatedTICustServPhoneNumber = result.phoneNumber ? this.commonService.formatPhoneNumber(result.phoneNumber) : ''
+          this.billingDetailsForm.controls['TI_customerServicePhNo'].setValue(formatedTICustServPhoneNumber);
         }
       }
     });
@@ -571,4 +591,5 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['EI_employerPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerPhone : "");
     this.billingDetailsForm.controls['EI_employerAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerAddress : "");
   }
+  
 }
