@@ -865,7 +865,7 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Email<span class="clr--DF0404 ms-1"> *
                                 </span> </label>
-                                <input class="form-control" type="text" placeholder="Enter Email Address" formControlName="RP_email"/>
+                                <input class="form-control" type="text" placeholder="Enter Email Address" (input)="onEmailInput($event,'RP_email')" formControlName="RP_email"/>
                                 <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['RP_email'].touched && billingDetailsForm.controls['RP_email'].hasError('required')">
                                     {{ validationMessages.required('Email') }}
                                 </div>

@@ -571,4 +571,8 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['EI_employerPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerPhone : "");
     this.billingDetailsForm.controls['EI_employerAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerAddress : "");
   }
+  onEmailInput(event: any,val:string) {
+    const emailInput = event.target.value;
+    this.billingDetailsForm.get(val)?.setValue(emailInput.toLowerCase(), { emitEvent: false });
+  }
 }
