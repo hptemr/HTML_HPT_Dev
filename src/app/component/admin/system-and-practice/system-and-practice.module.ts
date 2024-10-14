@@ -25,6 +25,7 @@ import { SystemDocumentsDetailedComponent } from 'src/app/shared/component/manag
 import { AddFolderModalComponent } from 'src/app/shared/component/manage-documents/add-folder-modal/add-folder-modal.component';
 import { UploadDocumentsModalComponent } from 'src/app/shared/component/manage-documents/upload-documents-modal/upload-documents-modal.component';
 import { PreviewComponent } from 'src/app/shared/component/manage-documents/file-preview/preview.component';
+import { FilePreviewComponent } from 'src/app/shared/component/file-preview-model/file-preview-model.component';
 import { ProviderManagementComponent } from './doctor-management/provider-management/provider-management.component';
 import { BulkUploadProvidersComponent } from './doctor-management/bulk-upload-providers/bulk-upload-providers.component';
 import { UploadInsurancesComponent } from './insurance-management/upload-insurances/upload-insurances.component';
@@ -52,6 +53,7 @@ import { ManageInsuranceComponent } from './insurance-management/manage-insuranc
     AddFolderModalComponent,
     UploadDocumentsModalComponent,
     PreviewComponent,
+    FilePreviewComponent,
     ProviderManagementComponent,
     BulkUploadProvidersComponent,
     ManageInsuranceComponent,
