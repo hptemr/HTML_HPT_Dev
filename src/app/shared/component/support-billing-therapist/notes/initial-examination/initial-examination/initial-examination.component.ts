@@ -17,7 +17,6 @@ export class InitialExaminationComponent {
   userType=""
   previousUrl = ''
   currentUrl = ""
-  subUrl = ""
   currentPath = ""
   constructor(public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     this.route.firstChild?.params.subscribe(params => {
@@ -25,11 +24,6 @@ export class InitialExaminationComponent {
     });
     this.currentUrl = this.router.url;
     this.currentPath = this.currentUrl.split('/')[3].toString()
-    // if(currentPath.includes('view')){
-    //   this.subUrl = ""
-    // }else{
-    //   this.subUrl = ""
-    // }
     // router.events.subscribe(event => {
     //   if (event instanceof NavigationEnd) {
     //     this.previousUrl = this.currentUrl;

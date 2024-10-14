@@ -24,10 +24,14 @@ export class DnAssessmentComponent {
   validationMessages = validationMessages;
   appointment: any = null
   isUpdate: boolean = false;
-
+  readOnly =  false
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, private datePipe: DatePipe, public commonService: CommonService, private appointmentService: AppointmentService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'assessment-view'){
+        this.readOnly = true
+      }
     })
   }
 
@@ -38,6 +42,9 @@ export class DnAssessmentComponent {
       assessment_text: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
       supporting_documentation_text: [defaultSupportDocText, [Validators.required, Validators.minLength(1), Validators.maxLength(10000)]],
     });
+    if(this.readOnly){
+      this.assessmentForm.disable()
+    }
     this.getAssessment()
   }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 @Component({
@@ -20,8 +20,15 @@ export class DnPlanComponent {
   processPatient = ""
   actionType = "create"
   minDate = new Date();
+  readOnly  = false
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
-    this.appointmentId = this.route.snapshot.params['appointmentId'];
+    this.route.params.subscribe((params: Params) => {
+      this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'plan-view'){
+        this.readOnly = true
+      }
+    })
     this.userId = this.authService.getLoggedInInfo('_id')
   }
 

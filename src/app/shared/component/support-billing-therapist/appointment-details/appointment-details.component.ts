@@ -358,4 +358,17 @@ export class AppointmentDetailsComponent implements OnInit {
     })
   }
 
+  loadValue(value:any){
+    if(value=='daily_note'){
+      return 'daily-notes'
+    }else if(value=='progress_note'){
+      return 'progress-notes'
+    }else if(value=='discharge_note'){
+      return 'discharge-notes'
+    }else{
+      return value.replace('_','-')
+    }
+    
+  }
+
 }

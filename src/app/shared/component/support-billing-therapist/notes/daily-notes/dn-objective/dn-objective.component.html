@@ -2,14 +2,14 @@
     <form [formGroup]="objectiveForm">
         <div class="row">
             <div class="col-12 d-flex align-items-center flex-wrap">
-                <button mat-raised-button color="primary" class="me-3" (click)="addProtocolModal()">
+                <button mat-raised-button color="primary" class="me-3" (click)="addProtocolModal()" [disabled]="readOnly">
                     <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                     Add Protocol
                 </button>
                 <div class="d-flex align-items-center me-3 my-2" *ngIf="selectedProtocols.length>0">
                     <div *ngFor="let item of selectedProtocols; let i = index">
                         <a class="font-16 clr--1F2F3E text-decoration-underline cursor-pointer" (click)="previewModal(item.id)">{{item.file_name}} </a>
-                        <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeProtocols(item.id)">
+                        <button mat-button class="flex-shrink-0 min-width-unset cancle--btn" (click)="removeProtocols(item.id)" [disabled]="readOnly">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger">cancel</mat-icon>
                         </button>
                     </div>
@@ -49,7 +49,7 @@
             <div class="col-12 mt-2">
                 <div class="form-group d-flex align-items-center justify-content-between justify-content-sm-start">
                     <label class="col-form-label fw-700 font-16 text-uppercase me-3">Land Flowsheet</label>
-                    <button mat-raised-button color="primary" (click)="addExersiceModal('Land Flowsheet')">
+                    <button mat-raised-button color="primary" (click)="addExersiceModal('Land Flowsheet')" [disabled]="readOnly">
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon> Exercise
                     </button>
                 </div>
@@ -124,7 +124,7 @@
             <div class="col-12">
                 <div class="form-group d-flex align-items-center justify-content-between justify-content-sm-start">
                     <label class="col-form-label fw-700 font-16 text-uppercase me-3">Aquatic Flowsheet</label>
-                    <button mat-raised-button color="primary"  (click)="addExersiceModal('Aquatic Flowsheet')">
+                    <button mat-raised-button color="primary"  (click)="addExersiceModal('Aquatic Flowsheet')" [disabled]="readOnly">
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
                         Exercise
                     </button>
@@ -198,7 +198,7 @@
             </div>
         </div>
         <div class="d-flex align-items-center justify-content-end  notes--footer--btns"> 
-            <button mat-raised-button color="primary" class="m-1" (click)="objectiveSubmit(objectiveForm.value)">
+            <button mat-raised-button color="primary" class="m-1" (click)="objectiveSubmit(objectiveForm.value)" [disabled]="readOnly">
                 Save as Draft
             </button>
         </div>

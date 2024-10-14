@@ -91,9 +91,14 @@ export class DnObjectiveComponent {
   aquatic_exercise_list:any =[]
   aquatic_exercise_grouped_list:any =[]
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
+  readOnly = false
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'objective-view'){
+        this.readOnly = true
+      }
     })
   }
 
@@ -108,7 +113,9 @@ export class DnObjectiveComponent {
     
       treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(500)]]
     });
-
+    if(this.readOnly){
+      this.objectiveForm.disable()
+    }
     this.onFlagChange();
     this.getObjectiveRecord();  
   }

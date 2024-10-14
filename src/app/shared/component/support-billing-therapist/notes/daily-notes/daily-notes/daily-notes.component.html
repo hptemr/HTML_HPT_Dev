@@ -11,11 +11,11 @@
         <div class="col-12">
             <div class="tab--header">
                 <ul class="d-flex align-items-center p-0 m-0 flex-wrap flex-sm-nowrap">
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/daily-notes/subjective/',appointmentId]"><a>Subjective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/daily-notes/objective/',appointmentId]"><a>Objective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/daily-notes/assessment/',appointmentId]"><a>Assessment</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/daily-notes/plan/',appointmentId]"><a>Plan</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/daily-notes/billing/',appointmentId]"><a>Billing</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/daily-notes/{{loadValue('subjective')}}/{{appointmentId}}"><a>Subjective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/daily-notes/{{loadValue('objective')}}/{{appointmentId}}"><a>Objective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/daily-notes/{{loadValue('assessment')}}/{{appointmentId}}"><a>Assessment</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/daily-notes/{{loadValue('plan')}}/{{appointmentId}}" ><a>Plan</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/daily-notes/{{loadValue('billing')}}/{{appointmentId}}"><a>Billing</a></li>
                 </ul>
             </div>
         </div>
