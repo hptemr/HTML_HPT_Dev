@@ -111,7 +111,9 @@ input::-ms-reveal { display: none; }
 .mat-calendar-body-selected{
     background-color:#31B7B7 !important
 }
-
+.owl-theme .owl-nav.disabled + .owl-dots{
+    margin: 0 !important;
+}
 .breadcrumb-item + .breadcrumb-item::before{
     content: '';
     background-image: url('assets/images/ark/breadcrumb-arrow.svg');
