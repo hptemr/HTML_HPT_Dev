@@ -220,7 +220,7 @@
                                             Date of Service
                                         </th>
                                         <td mat-cell *matCellDef="let element"> 
-                                            {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} 
+                                            {{element.note_date | date: 'EEE, MMM d, y hh:mm a':'UTC'}} 
                                             <!-- <p class="mt-1 "> <span class="fw-700"> Addendum:</span> {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} </p> -->
                                         </td>
                                     </ng-container> 
