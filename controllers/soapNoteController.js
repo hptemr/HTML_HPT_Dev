@@ -509,6 +509,16 @@ const createAddendum = async (req, res) => {
   }
 }
 
+const getInitialExamination = async (req, res) => {
+  try {
+    const { query, fields } = req.body;
+    let initialExaminationData = await PlanTemp.findOne(query, fields);
+    commonHelper.sendResponse(res, 'success', initialExaminationData, 'Success');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   createPlanNote,
   getPlanNote,
@@ -526,5 +536,6 @@ module.exports = {
   getAssessment,
   getAppointmentNoteList,
   deleteSoapNote,
-  createAddendum
+  createAddendum,
+  getInitialExamination
 };
