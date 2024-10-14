@@ -152,13 +152,17 @@
                                                         class="material-symbols-outlined text-primary">assignment_ind</mat-icon>
                                                 </div>
                                                 <div class="d-flex flex-column">
-                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700">
-                                                        {{patientData.documents_type}}</h3>
-                                                    <div class="document--box"
-                                                        *ngIf="patientData.documents_type && documentsLink">
-                                                        <img src="{{documentsLink}}"
-                                                            alt="{{patientData.documents_type}}" class="img-fluid" />
+                                                    <h3 class="m-0 clr--1F2F3E font-16 fw-700" *ngIf="patientData.documents_type && documentsLink && fileType=='image'"> {{patientData.documents_type}}</h3>
+                                                    <div class="document--box" *ngIf="patientData.documents_type && documentsLink && fileType=='image'">
+                                                        <img src="{{documentsLink}}" alt="{{patientData.documents_name}}" class="img-fluid" />
                                                     </div>
+
+                                                    <button (click)="previewfile()" mat-raised-button  class="flex-shrink-0" *ngIf="patientData.documents_type && documentsLink && fileType!='image'">
+                                                        <div class="doc--pic d-flex align-items-center justify-content-center me-3">
+                                                            <mat-icon>{{icon}}</mat-icon>         {{patientData.documents_type}}
+                                                        </div>
+                                                
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

@@ -306,5 +306,9 @@ export class IntakeStep1Component {
     return this.cities = cities_data.filter(city => city.state_code === state_code);
   }
 
+  onEmailInput(event: any) {
+    const emailInput = event.target.value;
+    this.step1Form.get('email')?.setValue(emailInput.toLowerCase(), { emitEvent: false });
+  }
 
 }

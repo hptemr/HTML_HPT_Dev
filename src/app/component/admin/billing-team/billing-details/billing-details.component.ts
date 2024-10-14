@@ -592,4 +592,18 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['EI_employerAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerAddress : "");
   }
   
+  onEmailInput(event: any,val:string) {
+    const emailInput = event.target.value;
+    this.billingDetailsForm.get(val)?.setValue(emailInput.toLowerCase(), { emitEvent: false });
+  }
+
+
+  async download(fileName: any) {
+    this.commonService.showLoader()
+    let params = { fileName: fileName, filePath: s3Details.patientInsuranceFolderPath }
+    await this.authService.apiRequest('post', 'appointment/download', params).subscribe(async response => {
+      this.commonService.hideLoader()
+      window.open(`${response.data.url}`+"", '_blank');
+    })
+  }
 }

@@ -9,6 +9,7 @@ import { s3Details } from 'src/app/config';
 import { DatePipe } from '@angular/common';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { Location } from '@angular/common';
+import { FilePreviewComponent}  from '../../../component/file-preview-model/file-preview-model.component'
 @Component({
   selector: 'app-patient-profile',
   templateUrl: './patient-profile.component.html',
@@ -24,6 +25,9 @@ export class PatientProfileComponent {
   activeUserRoute = this.commonService.getLoggedInRoute()
   previousUrl: string | undefined;
   currentUrl: string | undefined;
+  fileName: string = '';
+  fileType: string = '';
+  icon: string = '';
   constructor(private router: Router, public dialog: MatDialog, private navigationService: NavigationService, private route: ActivatedRoute, private location: Location, public authService: AuthService, public commonService: CommonService, private datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.patientId = params['userId'];
@@ -70,9 +74,46 @@ export class PatientProfileComponent {
         } else {
           let profile = response.data;
           this.documentsLink = profile.document;
+
+          var extension = this.patientData.document_temp_name.substring(this.patientData.document_temp_name.lastIndexOf('.') + 1);
+          this.fileName = this.patientData.document_temp_name;
+          if(extension=='png' || extension=='jpg' || extension=='jpeg' || extension=='PNG' || extension=='JPG' || extension=='JPEG'){
+            this.fileType = "image"
+          }else if(extension=='mp4' || extension=='webm'){
+            this.fileType = "video"
+          }else if(extension=='mpeg' || extension=='mp3'){
+            this.fileType = "audio"
+          }else{
+            this.fileType = "doc"
+          }
+          this.icon = this.getIcon(extension)
         }
       })
     })
+  }
+
+  previewfile() {
+    const dialogRef = this.dialog.open(FilePreviewComponent, {
+      panelClass: 'custom-alert-container',
+      data: {
+        documentsLink:this.documentsLink,
+        fileType:this.fileType,
+        fileName:this.fileName,
+        icon:this.icon
+      }
+    });
+  }
+
+  getIcon(fileType: any) {
+    let icon = ''
+    if (['png', 'jpg', 'jpeg', 'webp'].includes(fileType)) {
+      icon = 'image'
+    } else if (['doc', 'docx'].includes(fileType)) {
+      icon = 'description'
+    } else {
+      icon = 'picture_as_pdf'
+    }
+    return icon
   }
 
   deleteAccount() {
