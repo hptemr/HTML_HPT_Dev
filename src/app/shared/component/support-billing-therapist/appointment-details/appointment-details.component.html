@@ -81,7 +81,10 @@
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
-                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h me-2">NA</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 min-h me-2">
+                                                <span *ngIf="hasInitialExamPlanData"> {{initialExamPlanData.plan_start_date | date: 'MM/dd/yyyy'}} - {{initialExamPlanData.plan_end_date | date: 'MM/dd/yyyy'}} </span>
+                                                <span *ngIf="!hasInitialExamPlanData"> NA </span>
+                                            </p>
                                         </div>
                                         <div class="col-12 col-sm-4 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Primary Insurance</h3>

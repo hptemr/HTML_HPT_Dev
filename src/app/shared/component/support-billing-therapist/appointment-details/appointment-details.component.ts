@@ -61,6 +61,8 @@ export class AppointmentDetailsComponent implements OnInit {
   isStCaseDetails:boolean=false
   authVisits: string = 'NA'
   patientCheckInCount:number = 0
+  hasInitialExamPlanData:boolean=false
+  initialExamPlanData:any
   
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -154,6 +156,7 @@ export class AppointmentDetailsComponent implements OnInit {
           this.getAuthManagementHistory(this.patientId, this.caseName)  
           this.getStCaseDetails(this.patientId, this.caseName)
           this.getPatientCheckInCount(this.patientId, this.caseName)
+          this.getInitialExamination()
         }
       })
     }
@@ -335,6 +338,21 @@ export class AppointmentDetailsComponent implements OnInit {
     }
     this.authService.apiRequest('post', 'appointment/getPatientCheckInCount', queryObj).subscribe(async response => { 
       this.patientCheckInCount = response?.data
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
+
+  getInitialExamination(){
+    this.hasInitialExamPlanData = false
+    let reqVars = {
+      query: { appointmentId: this.appointmentId },
+      fields: { plan_start_date:1, plan_end_date:1 }
+    }
+
+    this.authService.apiRequest('post', 'soapNote/getInitialExamination', reqVars).subscribe(async response => { 
+      this.hasInitialExamPlanData = (response.data!=null) ? true :false
+      this.initialExamPlanData = response.data
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })

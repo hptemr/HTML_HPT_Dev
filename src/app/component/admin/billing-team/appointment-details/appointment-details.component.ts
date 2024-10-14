@@ -46,6 +46,8 @@ export class AppointmentDetailsComponent {
   authVisits: string = 'NA'
   isSelfPay: boolean=false
   patientCheckInCount:number = 0
+  hasInitialExamPlanData:boolean=false
+  initialExamPlanData:any
 
   displayedColumns: string[] = ['soap_note_type', ' note_date', 'createdBy', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -124,6 +126,7 @@ export class AppointmentDetailsComponent {
           this.getBillingDetails(this.patientId, this.caseName)  
           this.getAuthManagementHistory(this.patientId, this.caseName)
           this.getPatientCheckInCount(this.patientId, this.caseName)
+          this.getInitialExamination()
         }
       })
     }
@@ -209,5 +212,19 @@ export class AppointmentDetailsComponent {
     this.getAppointmentNotes()
   }
 
+  getInitialExamination(){
+    this.hasInitialExamPlanData = false
+    let reqVars = {
+      query: { appointmentId: this.appointmentId },
+      fields: { plan_start_date:1, plan_end_date:1 }
+    }
+
+    this.authService.apiRequest('post', 'soapNote/getInitialExamination', reqVars).subscribe(async response => { 
+      this.hasInitialExamPlanData = (response.data!=null) ? true :false
+      this.initialExamPlanData = response.data
+    },(err) => {
+      err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
+    })
+  }
   
 }
