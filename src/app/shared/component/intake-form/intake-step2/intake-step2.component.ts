@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { states_data } from 'src/app/state';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { MatCheckbox } from '@angular/material/checkbox';
 interface State {
   state: string;
   state_code: string;
@@ -23,6 +24,7 @@ interface State {
 export class IntakeStep2Component {
   @ViewChild('insuranceFileInput') insuranceFileInput: any
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
+  @ViewChild('myCheckbox') checkbox!: MatCheckbox;
   appId: any
   payViaSelected: any = 'Insurance'
   injurySelected: any
@@ -76,12 +78,19 @@ export class IntakeStep2Component {
 
   openCMSmodal(event:any) {  
       if (event.checked === true) {
-        const dialogRef = this.dialog.open(CmsModalComponent,{
-          panelClass: 'cms--container', 
-        });
+          const dialogRef = this.dialog.open(CmsModalComponent,{
+            panelClass: 'cms--container', 
+          });
+
+          dialogRef.afterClosed().subscribe(async flag_response => {
+            if (!flag_response) {
+              this.checkbox.checked = false;
+            }
+          })
       } else{
-        console.log('else')
+        this.checkbox.checked = false;
       }
+
   }
 
   async getAppointmentDetails() {

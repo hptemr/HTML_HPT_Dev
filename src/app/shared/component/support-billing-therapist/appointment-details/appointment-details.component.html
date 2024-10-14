@@ -57,7 +57,7 @@
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Billing Type</h3>
-                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">NA</p>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">{{ isBillingDetailsData && billingDetailsData?.PI_billingType ? billingDetailsData.PI_billingType:'NA'}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -220,7 +220,7 @@
                                             Date of Service
                                         </th>
                                         <td mat-cell *matCellDef="let element"> 
-                                            {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} 
+                                            {{element.note_date | date: 'EEE, MMM d, y hh:mm a':'UTC'}} 
                                             <!-- <p class="mt-1 "> <span class="fw-700"> Addendum:</span> {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} </p> -->
                                         </td>
                                     </ng-container> 

@@ -1051,7 +1051,7 @@
                                     <!-- *ngIf="selectedValue == 0011" -->
                                     <div class="col-12 minor--consent" *ngIf="isMinorFlag"> 
                                         <label class="fw-700 font-16 clr--1F2F3E mb-1">Minor Consent</label>
-                                        <mat-checkbox (change)="openCMSmodal($event)"> 
+                                        <mat-checkbox #myCheckbox (change)="openCMSmodal($event)"> 
                                         <p class="font-16 clr--1F2F3E lh-24 mb-0">{{fullNameForSign}} - I hereby authorize this PT
                                             clinic
                                             and/or it's

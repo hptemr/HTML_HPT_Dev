@@ -169,7 +169,7 @@
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Email </label>
-                        <input formControlName="email" [readonly]="isReadonly" class="form-control" type="email" placeholder="Enter Email" />
+                        <input formControlName="email" [readonly]="isReadonly" class="form-control" (input)="onEmailInput($event)" type="email" placeholder="Enter Email" />
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['email'].touched && (step1Form.controls['email'].hasError('required') || step1Form.controls['email'].invalid)">
                             {{ validationMessages.required('valid Email') }}

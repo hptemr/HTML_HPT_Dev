@@ -228,6 +228,7 @@
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
             position: relative;
+            overflow: hidden;
             table{ 
                 thead{
                     tr{
@@ -334,7 +335,7 @@
                         }
                     }
                     .owl-prev{
-                        margin-left: -38px;
+                        margin-left: 20px;
                     }
                     .owl-next{
                         margin-right: 10px;
