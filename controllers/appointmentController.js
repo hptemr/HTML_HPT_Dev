@@ -706,11 +706,18 @@ const getCaseList = async (req, res) => {
 const addBillingDetails = async (req, res) => {
     try {
       const { billingDetails, patientId, caseName } = req.body
-  
+      const { PI_billingType}  = billingDetails
+
       const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
       const update = { $set: billingDetails }; // The data to update
       const options = { upsert: true }; // Create a new document if no match is found
       const result = await BillingDetailsModel.updateOne(filter, update, options);
+
+      // Billing Type Update in case table
+      const filterCaseData = { patientId: patientId, caseName: caseName };
+      const updateCaseData = { $set: { billingType : PI_billingType } };
+      await Case.updateOne(filterCaseData, updateCaseData);
+
       commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
     } catch (error) {
       console.log("addBillingDetails Error>>>",error)
