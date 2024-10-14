@@ -563,7 +563,6 @@ async function patientAppointmentSignupEmail(patientData) {
             phoneNumber: patientData.phoneNumber,
             status: 'Pending'
         }
-        console.log('patientData >>>>>>', patientData)
         let newPatient = new Patient(request_data);
         const patient_result = await newPatient.save();
         // let tokenObj = {
