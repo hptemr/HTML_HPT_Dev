@@ -31,9 +31,14 @@ export class AssessmentComponent {
   appointment: any = null
   assessmentData: any = []
   isUpdate: any = true
+  readOnly = false
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, private datePipe: DatePipe, public commonService: CommonService) {//,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'assessment-view'){
+        this.readOnly = true
+      }
     })
   }
 
@@ -95,6 +100,10 @@ export class AssessmentComponent {
           supporting_documentation_text: [that.supporting_documentation_text, [Validators.required, Validators.minLength(1)]],
         });
 
+        if(that.readOnly){
+          that.assessmentForm.disable()
+        }
+
         const ctrls = that.assessmentForm.get('assessment_icd') as FormArray;
         ctrls.removeAt(0)
         that.assessment_icd.forEach((item: any) => {
@@ -144,6 +153,9 @@ export class AssessmentComponent {
       long_term_goal: ['', Validators.required],
     }));
     this.assessmentForm.controls['assessment_icd_info'].markAsUntouched();
+    if(this.readOnly){
+      this.assessmentForm.disable()
+    }
   }
 
   get assessment_icd_info() {

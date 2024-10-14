@@ -11,11 +11,11 @@
         <div class="col-12">
             <div class="tab--header">
                 <ul class="d-flex align-items-center p-0 m-0 flex-wrap flex-sm-nowrap">
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/initial-examination/subjective/',appointmentId]"><a>Subjective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/initial-examination/objective/',appointmentId]"><a>Objective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/initial-examination/assessment/',appointmentId]"><a>Assessment</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/initial-examination/plan/',appointmentId]"><a>Plan</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/initial-examination/billing/',appointmentId]"><a>Billing</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/initial-examination/{{loadValue('subjective')}}/{{appointmentId}}"><a>Subjective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/initial-examination/{{loadValue('objective')}}/{{appointmentId}}"><a>Objective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/initial-examination/{{loadValue('assessment')}}/{{appointmentId}}"><a>Assessment</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/initial-examination/{{loadValue('plan')}}/{{appointmentId}}" ><a>Plan</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/initial-examination/{{loadValue('billing')}}/{{appointmentId}}"><a>Billing</a></li>
                 </ul>
             </div>
         </div>

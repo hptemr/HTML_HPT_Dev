@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -55,8 +55,15 @@ export class PlanComponent {
   actionType = ""
   submitted = false
   minDate = new Date();
+  readOnly = false
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
-    this.appointmentId = this.route.snapshot.params['appointmentId'];
+    this.route.params.subscribe((params: Params) => {
+      this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'plan-view'){
+        this.readOnly = true
+      }
+    })
     this.userId = this.authService.getLoggedInInfo('_id')
   }
 
@@ -69,6 +76,9 @@ export class PlanComponent {
       planStartDate: ['',Validators.required],
       planEndDate: ['',Validators.required],
     })
+    if(this.readOnly){
+      this.planNoteForm.disable()
+    }
     var params = {
       appointmentId:this.appointmentId,
       soapNoteType:'initial_examination'
@@ -111,7 +121,7 @@ export class PlanComponent {
   }
 
   clickFrequency(){
-    this.planNoteForm.controls['frequencyPerWeek'].setValue(this.clickedIndex);
+      this.planNoteForm.controls['frequencyPerWeek'].setValue(this.clickedIndex);
   }
   clickDuraction(){
     this.planNoteForm.controls['durationPerWeek'].setValue(this.clickedIndex2);

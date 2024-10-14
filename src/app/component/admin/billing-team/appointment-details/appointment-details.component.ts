@@ -61,6 +61,8 @@ export class AppointmentDetailsComponent {
   dataLoading = false
   fromDate: any = ''
   toDate: any = ''
+  activeUserRoute = this.commonService.getLoggedInRoute()
+
   constructor(
     private _liveAnnouncer: LiveAnnouncer, 
     public dialog: MatDialog,

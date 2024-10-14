@@ -365,7 +365,7 @@
                                             </th>
                                             <td mat-cell *matCellDef="let element">  
                                                 <div class="w-100 d-flex align-items-center">
-                                                    <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
+                                                    <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above" [routerLink]="['/',activeUserRoute,'initial-examination','subjective-view',appointmentId]">
                                                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                                     </button>  
                                                 </div>

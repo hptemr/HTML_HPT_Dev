@@ -78,6 +78,8 @@ export class CaseDetailsComponent {
   dataLoading = false
   fromDate: any = ''
   toDate: any = ''
+  activeUserRoute = this.commonService.getLoggedInRoute()
+
   constructor(
     public dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer,

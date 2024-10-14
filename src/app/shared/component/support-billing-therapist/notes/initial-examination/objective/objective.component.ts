@@ -102,10 +102,14 @@ export class ObjectiveComponent {
   todayDate = new Date()
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
-
+  readOnly = false
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'objective-view'){
+        this.readOnly = true
+      }
     })
   }
  
@@ -234,6 +238,9 @@ export class ObjectiveComponent {
 
       }),
     });
+    if(this.readOnly){
+      this.objectiveForm.disable()
+    }
     //this.initializeFormValidation();
     this.onFlagChange();
     this.getObjectiveRecord();  

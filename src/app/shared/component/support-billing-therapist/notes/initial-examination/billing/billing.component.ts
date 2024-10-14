@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
@@ -92,8 +92,15 @@ export class BillingComponent {
   additionalCodes:any = []
   caseType = ""
   billingType = "CMS"
+  readOnly = false
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService) {
-    this.appointmentId = this.route.snapshot.params['appointmentId'];
+    this.route.params.subscribe((params: Params) => {
+      this.appointmentId = params['appointmentId'];
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - 2] == 'billing-view'){
+        this.readOnly = true
+      }
+    })
     this.userId = this.authService.getLoggedInInfo('_id')
   }
 
