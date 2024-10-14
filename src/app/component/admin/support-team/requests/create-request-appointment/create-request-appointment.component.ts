@@ -11,6 +11,9 @@ import { FormBuilder, FormControl, FormGroup, Validators,AbstractControl } from 
 import { validationMessages } from '../../../../../utils/validation-messages';
 import { DatePipe } from '@angular/common';
 import { practiceLocations, s3Details } from 'src/app/config';
+export class doctorlists {
+  constructor(public id: string, public name: string,public npi: string) {}
+}
 @Component({
   selector: 'app-create-appointment', 
   templateUrl: './create-request-appointment.component.html',
@@ -41,12 +44,15 @@ export class CreateRequestAppointmentComponent {
   appointment_flag: boolean = false
   appointmentForm: FormGroup;
   practiceLocationData: string[] = practiceLocations
+  public doctorList:doctorlists[] = []
   validationMessages = validationMessages
   clickOnRequestAppointment:boolean=false;
   readonlyFlag:boolean=true;
   caseNameOtherFlag:boolean=false;
   convertPhoneNumber: string = '';
   casenameList:any = [];
+  doctorId:string='';
+  whereDocCond: any = {stauts:"Active"}
   constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.requestId = params['requestId'];
@@ -65,6 +71,7 @@ export class CreateRequestAppointmentComponent {
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
+      seachByDoctor: ['',[Validators.required]],  
       appointmentDate: ['', [Validators.required]],
       appointmentType: [''],
       appointmentTypeOther: [''],
@@ -80,6 +87,12 @@ export class CreateRequestAppointmentComponent {
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
         Object.assign(formData, {patientId: this.patientId})
+        Object.assign(formData, {doctorId: this.doctorId});
+
+        delete formData.seachByPname;
+        delete formData.seachByDoctor;
+
+
         let reqVars = {
           requestId:this.requestId,
           userId: this.userId,
@@ -212,6 +225,66 @@ export class CreateRequestAppointmentComponent {
     this.caseNameOtherFlag = true
     this.appointmentForm.controls['caseNameOther'].setValidators([Validators.required]);
    }   
+  }
+
+  async getDoctorsList(){
+    let reqVars = {
+      query: this.whereDocCond,
+      fields: {_id:1, name: 1, credentials: 1, npi: 1 },     
+      order: {name:1}
+    }
+    await this.authService.apiRequest('post', 'appointment/getDoctorList', reqVars).subscribe(async response => {
+      let finalData: any = []
+      if (response.data && response.data.doctorList && response.data.doctorList.length > 0) {
+        await response.data.doctorList.map((element: any) => {
+          let newColumns = {
+           id: element._id,
+           name: element.name,
+           credentials: element.credentials,
+           npi: element.npi,
+          }
+          finalData.push(newColumns)
+        })
+      }
+      this.doctorList = finalData;    
+    })
+  }
+
+  searchDoctorRecords(event: any) {
+    let searchStr = event.target.value.trim()
+    if (searchStr != '') {      
+      searchStr = searchStr.replace("+", "\\+");
+      let number = this.isOnlyNumbers(searchStr)
+      searchStr = { $regex: searchStr, $options: 'i' }   
+        if (number) {
+          this.whereDocCond = {
+            status: "Active",
+            $or: [{ npi: searchStr }]
+          }
+        }else{
+          this.whereDocCond = {
+            status: "Active",
+            $or: [{ name: searchStr }]
+          }
+        }
+      this.getDoctorsList()
+    } else {
+      this.whereDocCond = {status: "Active"};
+    }
+  }
+
+  isOnlyNumbers(input:string) {
+    const regex = /^\d+$/;
+    return regex.test(input);
+  }
+  
+  selectDoctor(id: string): any {    
+    if(this.doctorList.length>0) {
+      let selected = this.doctorList.find(item => typeof item === 'object' && item.id === id) || null;
+      if(selected) {
+        this.doctorId = id;        
+      }    
+    }
   }
 
   successModal(successMsg:string) {

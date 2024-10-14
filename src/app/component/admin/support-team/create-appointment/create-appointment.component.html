@@ -154,7 +154,7 @@
             </div>
             <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                 <div class="form-group">
-                    <label class="col-form-label fw-600">Referred By </label>
+                    <label class="col-form-label fw-600">Referred By <span class="clr--DF0404 ms-1"> * </span></label>
                         <input type="text" class="form-control search--outer" placeholder="Enter Doctor Name Or NPI" aria-label="Patient" [matAutocomplete]="auto" 
                         (keyup)="searchDoctorRecords($event)" formControlName="seachByDoctor" />
                         <mat-autocomplete #auto="matAutocomplete">
@@ -163,7 +163,7 @@
                             </mat-option>
                         </mat-autocomplete> 
                     <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['seachByDoctor'].touched && appointmentForm.controls['seachByDoctor'].hasError('required')">
-                        {{ validationMessages.requiredDropdown('Search Doctor') }}
+                        {{ validationMessages.openValidation('Please Search Referred Doctor Name') }}
                     </div>
                   </div>
             </div>
