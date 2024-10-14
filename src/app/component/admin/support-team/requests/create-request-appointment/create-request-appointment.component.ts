@@ -197,9 +197,8 @@ export class CreateRequestAppointmentComponent {
          // this.minToDate = '2024-08-16T00:00';//this.commonService.displayFormatDate(new Date(),true)
         //  this.maxToDate = '2025-05-16T00:00';//this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
 
-
           this.appointmentForm.controls['appointmentDate'].setValue(this.commonService.displayFormatDate(new Date(this.appointmentDate),false));
-          //console.log('>?>>>>>',this.minToDate,'>>> ' ,typeof this.minToDate,' ---- ',this.maxToDate,'>>> ' ,typeof this.maxToDate)
+          this.commonService.formatDateInUTC(this.appointmentDate)
           this.appointment_flag = true;    
         }
       })

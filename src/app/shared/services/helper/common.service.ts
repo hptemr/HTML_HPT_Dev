@@ -8,6 +8,7 @@ import { maxAppoinmentFutureMonths, urlSegmentAndUserRole } from 'src/app/config
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderComponent } from '../../component/loader/loader.component';
 import { AdminService } from '../api/admin.service';
+import { DatePipe } from '@angular/common';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +23,7 @@ export class CommonService {
     public authService: AuthService,
     public dialog: MatDialog,
     public adminService: AdminService,
+    public datePipe: DatePipe
   ) { }
 
   openSnackBar(message: string, action: string) {
@@ -205,8 +207,13 @@ export class CommonService {
       return `${year}-${month}-${day}T00:00`;
     }else{
       return `${year}-${month}-${day}T${hours}:${minutes}`;
-    }
-    
+    }    
+  }
+
+  formatDateInUTC(dateval:any) {
+    const currentDate = new Date(dateval);
+    const utcDateString = this.datePipe.transform(currentDate, 'EEE, MMM d, y hh:mm a', 'UTC');
+    return utcDateString;
   }
 
   cometChatLog(userDetails:any, apiFunction:any, messageType:any, parameter:any, error:any) {
