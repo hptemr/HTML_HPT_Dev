@@ -5,9 +5,12 @@ const patientTempSchema = new mongoose.Schema({
   firstName: { type: String },
   middleName: { type: String },
   lastName: { type: String },
-  email: { type: String },
+  email: {
+    type: String, 
+    lowercase: true, 
+    trim: true 
+  },
   dob:  { type: Date },
-  //dob:  { type: String },
   gender: {
     type: String,
     enum: ["Male", "Female", "Other"],

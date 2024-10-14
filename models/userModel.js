@@ -4,7 +4,11 @@ const Schema = mongoose.Schema;
 const userSchema = new mongoose.Schema({
   firstName: { type: String },
   lastName: { type: String },
-  email: { type: String },
+  email: { 
+    type: String, 
+    lowercase: true, 
+    trim: true 
+  },
   phoneNumber: { type: String, "default": "" },
   salt: { type: String },
   hash_password: { type: String },

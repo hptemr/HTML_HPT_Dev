@@ -13,7 +13,9 @@ const checkLoginValidation = async (req, res, next) =>{
         let inactiveStatus = ['Pending','Deleted']
         if(userData==null || !userData){
             return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
-        }else if (inactiveStatus.includes(userData.status)){
+        }else if (inactiveStatus.includes(userData.status) && userData.role =='practice_admin'){
+            return commonHelper.sendResponse(res, 'info', null, userMessage.inactivePracticeUser);
+        } else if (inactiveStatus.includes(userData.status)){
             return commonHelper.sendResponse(res, 'info', null, userMessage.inactiveUser);
         } else if (userData.status == 'Suspended'){
             return commonHelper.sendResponse(res, 'info', null, userMessage.suspendedAccount);

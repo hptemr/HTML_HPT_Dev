@@ -20,6 +20,7 @@ const subjectiveSchema = new mongoose.Schema({
     subjective_note: { type: String },
     updateInfo: { type: Array, default: [] },//keys will be ==> "fromAdminId, updatedAt, userRole"
     status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+    is_deleted:{ type: Boolean,default:false },
     createdBy: {
         type: mongoose.Schema.ObjectId,
         ref: "users"

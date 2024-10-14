@@ -8,6 +8,7 @@ const casesSchema = new mongoose.Schema({
     caseName: { type: String, default: "" },
     caseType: { type: String, default: "" },
     appointments: { type: Array, default: [] },//appointment id
+    billingType: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })
