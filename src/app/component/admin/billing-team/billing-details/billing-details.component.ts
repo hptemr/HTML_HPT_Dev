@@ -105,7 +105,7 @@ export class BillingDetailsComponent {
       PI_copayAmt: ['',[Validators.pattern(regex.numericWithDecimal)]],
       PI_highDeductible: ['',[Validators.pattern(regex.numericWithDecimal)]],
       PI_deductibleNetAmt: ['',[Validators.pattern(regex.numericWithDecimal)]],
-      PI_turnOnModifier: [''],
+      PI_turnOnModifier: ['true'],
       PI_hardSoftCap: [''],
       PI_hardSoftCapText: [''],
       PI_passportApprovalTo: [''],
@@ -224,6 +224,7 @@ export class BillingDetailsComponent {
     // if(this.isBillingDetailsData){
     //   filledBillingDetailsData = this.billingDetailsData
     // }
+
     this.billingDetailsForm.controls['primaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.primaryInsurance : this.adminPayViaInsuranceInfo?.primaryInsuranceCompany);
     this.billingDetailsForm.controls['PI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_idPolicy : this.adminPayViaInsuranceInfo?.primaryInsuranceIdPolicy);
     this.billingDetailsForm.controls['PI_numberOfVisit'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_numberOfVisit : '');
@@ -235,7 +236,8 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['PI_copayAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_copayAmt : '');
     this.billingDetailsForm.controls['PI_highDeductible'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_highDeductible : '');
     this.billingDetailsForm.controls['PI_deductibleNetAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_deductibleNetAmt : '');
-    this.billingDetailsForm.controls['PI_turnOnModifier'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_turnOnModifier : '');
+    // this.billingDetailsForm.controls['PI_turnOnModifier'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_turnOnModifier : '');
+    this.billingDetailsForm.controls['PI_turnOnModifier'].setValue((this.isBillingDetailsData && this.billingDetailsData?.PI_turnOnModifier=='true')? true : (this.isBillingDetailsData && this.billingDetailsData?.PI_turnOnModifier=='false')? false :true);
     this.billingDetailsForm.controls['PI_hardSoftCap'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_hardSoftCap : '');
     this.billingDetailsForm.controls['PI_hardSoftCapText'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_hardSoftCapText : '');
     this.billingDetailsForm.controls['PI_passportApprovalTo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_passportApprovalTo : '');
@@ -319,6 +321,11 @@ export class BillingDetailsComponent {
           this.selectedPrimaryInsuranceData = result 
           this.billingDetailsForm.controls['primaryInsurance'].setValue(result?.insuranceName)
           this.isInsuranceTypeMedicare = (result.insuranceType && result.insuranceType=='Medicaid')?true:false
+          if(!this.isInsuranceTypeMedicare){
+            this.billingDetailsForm.controls['PI_passportApprovalTo'].setValue('');
+            this.billingDetailsForm.controls['PI_passportApprovalFrom'].setValue('');
+            this.billingDetailsForm.controls['PI_passportProvider'].setValue('');
+          }
 
 
           let formatedPICustServPhoneNumber = result.phoneNumber ? this.commonService.formatPhoneNumber(result.phoneNumber) : ''

@@ -50,6 +50,7 @@ export class AppointmentDetailsComponent {
   initialExamPlanData:any
   todayDate:any = new Date();
   isAuthDateExpire:boolean=false
+  isPOCExpire:boolean=false
 
   displayedColumns: string[] = ['soap_note_type', ' note_date', 'createdBy', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -228,6 +229,11 @@ export class AppointmentDetailsComponent {
     this.authService.apiRequest('post', 'soapNote/getInitialExamination', reqVars).subscribe(async response => { 
       this.hasInitialExamPlanData = (response.data!=null) ? true :false
       this.initialExamPlanData = response.data
+
+      if(this.hasInitialExamPlanData && response.data?.plan_end_date){
+        let planEndDate =  this.datePipe.transform(new Date(response.data?.plan_end_date), 'MM/dd/yyyy')!;
+        this.isPOCExpire = (planEndDate && this.todayDate > planEndDate)?true:false
+      }
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })
