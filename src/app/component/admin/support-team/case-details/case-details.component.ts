@@ -72,6 +72,7 @@ export class CaseDetailsComponent {
   initialExamPlanData:any
   todayDate:any = new Date();
   isAuthDateExpire:boolean=false
+  isPOCExpire:boolean=false
 
   searchValue = ""
   status = ""
@@ -392,6 +393,11 @@ export class CaseDetailsComponent {
     this.authService.apiRequest('post', 'soapNote/getInitialExamination', reqVars).subscribe(async response => { 
       this.hasInitialExamPlanData = (response.data!=null) ? true :false
       this.initialExamPlanData = response.data
+
+      if(this.hasInitialExamPlanData && response.data?.plan_end_date){
+        let planEndDate =  this.datePipe.transform(new Date(response.data?.plan_end_date), 'MM/dd/yyyy')!;
+        this.isPOCExpire = (planEndDate && this.todayDate > planEndDate)?true:false
+      }
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })

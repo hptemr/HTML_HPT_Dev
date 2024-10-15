@@ -101,7 +101,7 @@
                                             <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
                                                 <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
                                                 <!-- <p class="mb-0 clr--1F2F3E font-16 fw-400 ">12/1/24 - 12/10/2024</p> -->
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">
+                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 {{isPOCExpire?'auth-text-danger':''}}">
                                                     <span *ngIf="hasInitialExamPlanData"> {{initialExamPlanData.plan_start_date | date: 'MM/dd/yyyy'}} - {{initialExamPlanData.plan_end_date | date: 'MM/dd/yyyy'}} </span>
                                                     <span *ngIf="!hasInitialExamPlanData"> NA </span>
                                                 </p>
