@@ -12,6 +12,7 @@ import { regex } from '../../../../utils/regex-patterns';
 import { carrierNameList, maritalStatus, practiceLocations, relationWithPatient } from 'src/app/config';
 import { states_data } from 'src/app/state';
 import { s3Details } from 'src/app/config';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 interface State {
   state: string;
   state_code: string;
@@ -59,6 +60,7 @@ export class BillingDetailsComponent {
   urlSegment:any
   isReportedToEmployer: boolean=false
   isInsuranceTypeMedicare: boolean=false
+  SIAsPrimaryInsurance:boolean=false
 
   constructor(
     public dialog: MatDialog,
@@ -177,7 +179,8 @@ export class BillingDetailsComponent {
     this.selectedPrimaryInsuranceData.billingType:(this.isBillingDetailsData)?this.billingDetailsData.PI_billingType:''
     this.billingDetailsForm.value['PI_insuranceType']= (this.selectedPrimaryInsuranceData!=null && this.selectedPrimaryInsuranceData!=undefined)?
     this.selectedPrimaryInsuranceData.insuranceType:(this.isBillingDetailsData)?this.billingDetailsData.PI_insuranceType:''
-
+    this.billingDetailsForm.value['SI_asPrimaryInsurance']= this.SIAsPrimaryInsurance
+    
     let billingDetailsObj:any = {
       billingDetails : this.billingDetailsForm.value,
       patientId : this.patientId,
@@ -205,7 +208,8 @@ export class BillingDetailsComponent {
       if(data && data!=null ){
         this.isBillingDetailsData = true
         this.billingDetailsData = data
-        this.isInsuranceTypeMedicare = (data?.PI_insuranceType && data?.PI_insuranceType=='Medicare')?true:false
+        this.isInsuranceTypeMedicare = (data?.PI_insuranceType && data?.PI_insuranceType=='Medicaid')?true:false
+        this.SIAsPrimaryInsurance = (data?.SI_asPrimaryInsurance)?true:false
       }
       this.setDataToBillingDetails()
       this.commonService.hideLoader(); 
@@ -314,7 +318,7 @@ export class BillingDetailsComponent {
         if(insuranceType=='primary'){ 
           this.selectedPrimaryInsuranceData = result 
           this.billingDetailsForm.controls['primaryInsurance'].setValue(result?.insuranceName)
-          this.isInsuranceTypeMedicare = (result.insuranceType && result.insuranceType=='Medicare')?true:false
+          this.isInsuranceTypeMedicare = (result.insuranceType && result.insuranceType=='Medicaid')?true:false
 
 
           let formatedPICustServPhoneNumber = result.phoneNumber ? this.commonService.formatPhoneNumber(result.phoneNumber) : ''
@@ -605,5 +609,39 @@ export class BillingDetailsComponent {
       this.commonService.hideLoader()
       window.open(`${response.data.url}`+"", '_blank');
     })
+  }
+
+  SIMarkAsPrimaryInsurance(event:MatCheckboxChange){
+    if(event.checked){
+      this.billingDetailsForm.controls['secondaryInsurance'].setValue(this.billingDetailsForm.get('primaryInsurance')?.value);
+      this.billingDetailsForm.controls['SI_idPolicy'].setValue(this.billingDetailsForm.get('PI_idPolicy')?.value);
+      this.billingDetailsForm.controls['SI_group'].setValue(this.billingDetailsForm.get('PI_group')?.value);
+      this.billingDetailsForm.controls['SI_customerServicePhNo'].setValue(this.billingDetailsForm.get('PI_customerServicePhNo')?.value);
+      this.billingDetailsForm.controls['SI_effectiveDate'].setValue(this.billingDetailsForm.get('PI_effectiveDate')?.value);
+      this.billingDetailsForm.controls['SI_endDate'].setValue(this.billingDetailsForm.get('PI_endDate')?.value);
+      this.billingDetailsForm.controls['SI_rxRequired'].setValue(this.billingDetailsForm.get('PI_rxRequired')?.value);
+      this.billingDetailsForm.controls['SI_copayAmt'].setValue(this.billingDetailsForm.get('PI_copayAmt')?.value);
+      this.billingDetailsForm.controls['SI_highDeductible'].setValue(this.billingDetailsForm.get('PI_highDeductible')?.value);
+      this.billingDetailsForm.controls['SI_deductibleNetAmt'].setValue(this.billingDetailsForm.get('PI_deductibleNetAmt')?.value);
+      this.billingDetailsForm.controls['SI_hardSoftCap'].setValue(this.billingDetailsForm.get('PI_hardSoftCap')?.value);
+      this.billingDetailsForm.controls['SI_hardSoftCapText'].setValue(this.billingDetailsForm.get('PI_hardSoftCapText')?.value);
+    }else{
+      this.billingDetailsForm.controls['secondaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.secondaryInsurance : this.adminPayViaInsuranceInfo?.secondaryInsuranceCompany);
+      this.billingDetailsForm.controls['SI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_idPolicy : this.adminPayViaInsuranceInfo?.secondaryInsuranceIdPolicy);
+      this.billingDetailsForm.controls['SI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_group : this.adminPayViaInsuranceInfo?.secondaryInsuranceGroup);
+      this.billingDetailsForm.controls['SI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_customerServicePhNo : this.adminPayViaInsuranceInfo?.secondaryInsuranceCustomerServicePh);
+      this.billingDetailsForm.controls['SI_authorization'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorization : "");
+      this.billingDetailsForm.controls['SI_authorizationFromDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorizationFromDate : "");
+      this.billingDetailsForm.controls['SI_authorizationToDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorizationToDate : "");
+      this.billingDetailsForm.controls['SI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_effectiveDate : this.adminPayViaInsuranceInfo?.secondaryInsuranceFromDate);
+      this.billingDetailsForm.controls['SI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_endDate : this.adminPayViaInsuranceInfo?.secondaryInsuranceToDate);
+      this.billingDetailsForm.controls['SI_rxRequired'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_rxRequired : "");
+      this.billingDetailsForm.controls['SI_copayAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_copayAmt : "");
+      this.billingDetailsForm.controls['SI_highDeductible'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_highDeductible : "");
+      this.billingDetailsForm.controls['SI_deductibleNetAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_deductibleNetAmt : "");
+      this.billingDetailsForm.controls['SI_hardSoftCap'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_hardSoftCap : "");
+      this.billingDetailsForm.controls['SI_hardSoftCapText'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_hardSoftCapText : "");
+
+    }
   }
 }

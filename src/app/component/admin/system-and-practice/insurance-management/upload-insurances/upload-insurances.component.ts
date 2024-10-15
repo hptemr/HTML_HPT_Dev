@@ -186,6 +186,7 @@ export class UploadInsurancesComponent {
     this.totalRecordFound = 0
     this.errorRecordFound = 0
     this.allRecordFoundError = false
+    this.isSaveUploadedData = false
     const formData: FormData = new FormData();
     formData.append('file', file);
 

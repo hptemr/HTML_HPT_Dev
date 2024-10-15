@@ -70,6 +70,8 @@ export class CaseDetailsComponent {
   patientCheckInCount:number = 0
   hasInitialExamPlanData:boolean=false
   initialExamPlanData:any
+  todayDate:any = new Date();
+  isAuthDateExpire:boolean=false
 
   searchValue = ""
   status = ""
@@ -100,6 +102,7 @@ export class CaseDetailsComponent {
     this.getAppointmentDetails()
     this.getTherapistList()
     this.getAppointmentNotes()
+    this.todayDate = this.datePipe.transform(new Date(this.todayDate), 'MM/dd/yyyy')!;
   }
 
   getAppointmentNotes(){
@@ -310,6 +313,7 @@ export class CaseDetailsComponent {
         this.authManagementHistory = allAuthManagementHistory[0]
         this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
         this.authVisits = this.authManagementHistory?.authorizationVisit
+        this.isAuthDateExpire = (this.authExpireDate!='NA' && this.todayDate > this.authExpireDate)?true:false
       }
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''

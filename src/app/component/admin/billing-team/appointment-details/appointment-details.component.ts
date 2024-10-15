@@ -42,12 +42,14 @@ export class AppointmentDetailsComponent {
   insuranceInfo:any;
   isAuthManagmentHistory:boolean=false
   authManagementHistory :any
-  authExpireDate: string = 'NA'
+  authExpireDate: any = 'NA'
   authVisits: string = 'NA'
   isSelfPay: boolean=false
   patientCheckInCount:number = 0
   hasInitialExamPlanData:boolean=false
   initialExamPlanData:any
+  todayDate:any = new Date();
+  isAuthDateExpire:boolean=false
 
   displayedColumns: string[] = ['soap_note_type', ' note_date', 'createdBy', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -82,6 +84,7 @@ export class AppointmentDetailsComponent {
     this.userRole = this.authService.getLoggedInInfo('role')
     this.getAppointmentDetails()
     this.getAppointmentNotes()
+    this.todayDate = this.datePipe.transform(new Date(this.todayDate), 'MM/dd/yyyy')!;
   }
 
   getAppointmentNotes(){
@@ -167,6 +170,7 @@ export class AppointmentDetailsComponent {
         this.authManagementHistory = allAuthManagementHistory[0]
         this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
         this.authVisits = this.authManagementHistory?.authorizationVisit
+        this.isAuthDateExpire = (this.authExpireDate!='NA' && this.todayDate > this.authExpireDate)?true:false
       } 
     },(err) => {
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''

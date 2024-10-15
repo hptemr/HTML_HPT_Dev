@@ -251,6 +251,7 @@ export class BulkUploadProvidersComponent {
     this.errorRecordFound = 0
     this.showTable = false
     this.allRecordFoundError = false
+    this.isSaveUploadedData = false
     const formData: FormData = new FormData();
     formData.append('file', file);
 
