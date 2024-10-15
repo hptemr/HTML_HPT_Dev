@@ -110,9 +110,9 @@ export class DocumentDetailingComponent {
     gotoDirectory(id:any,type:any,name:any){
       this.dirId = id
       if(type=='folder'){
-        this.tempPathValues.push({link:"/document-details/"+id,name:name})
+        this.tempPathValues.push({link:"/documents/document-details/"+id,name:name})
         localStorage.setItem("pathValues",JSON.stringify(this.tempPathValues))
-        window.open(`${window.location.origin}`+"/"+`${this.userType}`+"/document-details/"+id,"_self");
+        window.open(`${window.location.origin}`+"/"+`${this.userType}`+"/documents/document-details/"+id,"_self");
       }
     }
 

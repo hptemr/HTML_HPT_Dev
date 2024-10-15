@@ -98,11 +98,11 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'document-listing',
+    path: 'documents',
     component: DocumentListingComponent,
   },
   {
-    path: 'document-details/:id',
+    path: 'documents/document-details/:id',
     component: DocumentDetailingComponent,
   },
   {

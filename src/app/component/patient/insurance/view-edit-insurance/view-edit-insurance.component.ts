@@ -9,10 +9,11 @@ import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.com
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component'; 
-import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList } from 'src/app/config';
+import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList,s3Details } from 'src/app/config';
 import { states_data } from 'src/app/state';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { FilePreviewComponent}  from 'src/app/shared/component/file-preview-model/file-preview-model.component'
 interface State {
   state: string;
   state_code: string;
@@ -55,6 +56,7 @@ export class ViewEditInsuranceComponent {
   uploadedInsuranceFilesTotal = 0
   isMinorFlag:boolean=false
   attorneyFlag:boolean=false
+  @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   constructor(public dialog: MatDialog,private fb: FormBuilder,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
       const locationArray = location.href.split('/')
@@ -423,43 +425,92 @@ export class ViewEditInsuranceComponent {
       const mockEvent = { target: { value: 'Other' } }; 
       this.relationShipPatient(mockEvent)
     }
+    if(injuryRelelatedTo)this.injurySelected = injuryRelelatedTo;
+    if(injuryRelelatedTo && injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
+      const mockEvent5: MatRadioChange = { value: "Worker's Compensation (WCOMP)", source: this.radioButton! }; 
+      this.onInjuryChange(mockEvent5)
+    }
+
+    let reportedEmployerVal = typeof reportedEmployer !== 'undefined' ? reportedEmployer : '';
+    if(reportedEmployerVal){
+      const mockEvent7: MatRadioChange = { value: reportedEmployerVal, source: this.radioButton! }; 
+      this.onEmployerChange(mockEvent7)
+    }
+
+    let attorneyVal = typeof attorney !== 'undefined' ? attorney : '';
+    if(attorneyVal){
+      if(attorneyVal=='yes'){ attorneyVal='Yes';} if(attorneyVal=='no'){ attorneyVal='No';}
+      const mockEvent11: MatRadioChange = { value: attorneyVal, source: this.radioButton! }; 
+      this.attorneyChange(mockEvent11)
+    }
     
     if(thirdInsuranceCompany){
       this.thirdInsurance()
     }
+
+    let filesArr: any = []
+    if(info.insuranceFiles){
+      let insuranceFiles = info.insuranceFiles
+      insuranceFiles.forEach((element: any) => {
+        filesArr.push({
+          name: element,
+          data: '',
+          icon: this.getIcon(this.getExtension(element))
+        })
+      });
+      this.uploadedInsuranceFiles = filesArr            
+    }
+
   }
   
+  
+  getInsuranceFiles() {
+    let filesName: any = []
+    if (localStorage.getItem("uploadedInsuranceFiles")) {
+      let files: any
+      files = localStorage.getItem("uploadedInsuranceFiles")
+      filesName = JSON.parse(files).map((item: any) => item.name);
+    }
+    return filesName
+  }
+
+
   async formSubmit(formData:any=null){
     console.log(this.insuranceForm.invalid,' Submit insuranceForm >>>>>',this.insuranceForm)
-
     for (const control in this.insuranceForm.controls) {
       if (this.insuranceForm.controls[control].invalid) {
         console.log(`Field ${control} has an error`, this.insuranceForm.controls[control].errors);
       }
     }
 
-
     if (this.insuranceForm.invalid) {
         this.insuranceForm.markAllAsTouched();
         return;
     }else{
         var query = {};
+        let req_vars = formData;
+        let uploadedInsuranceFiles: any = localStorage.getItem('uploadedInsuranceFiles')
+        let insuranceFiles = this.getInsuranceFiles()
+        if (insuranceFiles.length > 0) {
+          Object.assign(formData, { insuranceFiles: insuranceFiles })
+        }
+
         if(!this.insuranceId){
           Object.assign(formData, {
-            patientId: this.userId
+            patientId: this.userId,
+            uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
           })
         }
 
-        let req_vars = formData
         let apiKey = 'addInsurance';
         if(this.insuranceId){
           apiKey = 'updateInsurance';
           req_vars = {
             query: Object.assign({ _id: this.insuranceId }, query),
+            uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
             data: formData
            }
         }
-
         this.commonService.showLoader();       
         await this.authService.apiRequest('post', 'insurance/'+apiKey, req_vars).subscribe(async response => {         
           this.commonService.hideLoader();
@@ -706,39 +757,86 @@ thirdSubscriberRelationShipPatient(event: any) {
   }
 }
 
-onInjuryChange(event: MatRadioChange): void {
-  this.injurySelected = event.value
+  onInjuryChange(event: MatRadioChange): void {
+    this.injurySelected = event.value
 
-  if (event.source) {
-    console.log('Source exists:', event.source);
+    if (event.source) {
+      console.log('Source exists:', event.source);
+    }
+    this.workerCompensation = false
+    this.insuranceForm.get('carrierName')?.markAsUntouched();
+    this.insuranceForm.get('dateOfInjury')?.markAsUntouched();
+    this.insuranceForm.get('insuranceState')?.markAsUntouched();
+    this.insuranceForm.get('claim')?.markAsUntouched();
+    this.insuranceForm.get('adjusterName')?.markAsUntouched();
+    this.insuranceForm.get('adjusterPhone')?.markAsUntouched();
+    
+    this.insuranceForm.controls['carrierName'].setValidators([])
+    this.insuranceForm.controls['dateOfInjury'].setValidators([])
+    this.insuranceForm.controls['insuranceState'].setValidators([])
+    this.insuranceForm.controls['claim'].setValidators([])
+    this.insuranceForm.controls['adjusterName'].setValidators([])
+    this.insuranceForm.controls['adjusterPhone'].setValidators([])
+
+    if(this.injurySelected=="Worker's Compensation (WCOMP)"){
+      this.workerCompensation = true
+      this.insuranceForm.controls['carrierName'].setValidators([Validators.required])
+      this.insuranceForm.controls['dateOfInjury'].setValidators([Validators.required])
+      this.insuranceForm.controls['insuranceState'].setValidators([Validators.required])
+      this.insuranceForm.controls['claim'].setValidators([Validators.required])
+      this.insuranceForm.controls['adjusterName'].setValidators([Validators.required,Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
+      this.insuranceForm.controls['adjusterPhone'].setValidators([Validators.required,Validators.minLength(14), Validators.maxLength(14)])
+    }
+
+    
+    //else if(this.injurySelected=='Other Personal Injury'){  }
   }
-  this.workerCompensation = false
-  this.insuranceForm.get('carrierName')?.markAsUntouched();
-  this.insuranceForm.get('dateOfInjury')?.markAsUntouched();
-  this.insuranceForm.get('insuranceState')?.markAsUntouched();
-  this.insuranceForm.get('claim')?.markAsUntouched();
-  this.insuranceForm.get('adjusterName')?.markAsUntouched();
-  this.insuranceForm.get('adjusterPhone')?.markAsUntouched();
-  
-  this.insuranceForm.controls['carrierName'].setValidators([])
-  this.insuranceForm.controls['dateOfInjury'].setValidators([])
-  this.insuranceForm.controls['insuranceState'].setValidators([])
-  this.insuranceForm.controls['claim'].setValidators([])
-  this.insuranceForm.controls['adjusterName'].setValidators([])
-  this.insuranceForm.controls['adjusterPhone'].setValidators([])
 
-  if(this.injurySelected=="Worker's Compensation (WCOMP)"){
-    this.workerCompensation = true
-    this.insuranceForm.controls['carrierName'].setValidators([Validators.required])
-    this.insuranceForm.controls['dateOfInjury'].setValidators([Validators.required])
-    this.insuranceForm.controls['insuranceState'].setValidators([Validators.required])
-    this.insuranceForm.controls['claim'].setValidators([Validators.required])
-    this.insuranceForm.controls['adjusterName'].setValidators([Validators.required,Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
-    this.insuranceForm.controls['adjusterPhone'].setValidators([Validators.required,Validators.minLength(14), Validators.maxLength(14)])
+
+async previewfile(document_temp_name:string) {
+  let req_vars = {
+    query: { _id: this.userId },
+    fileName: document_temp_name,
+    filePath:s3Details.patientInsuranceFolderPath
   }
+  this.commonService.showLoader()
+  await this.authService.apiRequest('post', 'patients/getPreviewDocument', req_vars).subscribe(async response => {
+    this.commonService.hideLoader()
+    if (response.error) {
+      this.commonService.openSnackBar(response.message, "ERROR")
+    } else {
+      let profile = response.data;
+      let documentsLink = profile.document;
 
-  
-  //else if(this.injurySelected=='Other Personal Injury'){  }
+      var extension = document_temp_name.substring(document_temp_name.lastIndexOf('.') + 1);
+      let fileName = document_temp_name;
+      let fileType = '';let icon = ''
+      if(extension=='png' || extension=='jpg' || extension=='jpeg' || extension=='PNG' || extension=='JPG' || extension=='JPEG'){
+        fileType = "image"
+      }else if(extension=='mp4' || extension=='webm'){
+        fileType = "video"
+      }else if(extension=='mpeg' || extension=='mp3'){
+        fileType = "audio"
+      }else{
+        fileType = "doc"
+      }      
+      icon = this.getIcon(extension)
+
+      if(documentsLink){
+        const dialogRef = this.dialog.open(FilePreviewComponent, {
+          panelClass: 'custom-alert-container',
+          data: {
+            documentsLink:documentsLink,
+            fileType:fileType,
+            fileName:fileName,
+            icon:icon
+          }
+        });
+      }
+    }
+  })
+
+
+
 }
-
 }

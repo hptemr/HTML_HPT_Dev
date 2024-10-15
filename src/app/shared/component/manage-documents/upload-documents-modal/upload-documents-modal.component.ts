@@ -60,6 +60,7 @@ export class UploadDocumentsModalComponent {
   async uploadDocument(){
     this.submitted = true
     if(this.uploadedFile==undefined || this.uploadError || this.documentName==''){
+      this.submitted = false
       return
     }
     // this.commonService.showLoader()
@@ -76,6 +77,7 @@ export class UploadDocumentsModalComponent {
         this.submitted = false
         this.dialogRef.close(true)
       },(err)=>{
+        this.submitted = false
         this.commonService.openSnackBar(err.error.message, "ERROR")
         // this.commonService.hideLoader()
         this.uploadErrorMessage = err.error.message

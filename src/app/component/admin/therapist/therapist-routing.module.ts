@@ -267,11 +267,11 @@ const routes: Routes = [
     component: ConversationsChatComponent,
   },
   {
-    path: 'document-listing',
+    path: 'documents',
     component: DocumentListingComponent,
   },
   {
-    path: 'document-details/:id',
+    path: 'documents/document-details/:id',
     component: DocumentDetailingComponent,
   },
   {

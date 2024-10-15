@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 
@@ -93,7 +93,8 @@ export class BillingComponent {
   caseType = ""
   billingType = "CMS"
   readOnly = false
-  constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService) {
+  isHold = false
+  constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,public router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
       const locationArray = location.href.split('/')
@@ -111,6 +112,12 @@ export class BillingComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
+      if(result.status=='Finalized'){
+        this.readOnly = true
+      }
+      if(response.message.billingType==""){
+        this.isHold = true
+      }
       if(response.message.caseType && response.message.caseType!=''){
         this.caseType = response.message.caseType
       }
@@ -478,6 +485,7 @@ export class BillingComponent {
         }
         this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
           this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
         })
       }
     }
