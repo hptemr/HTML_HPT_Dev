@@ -30,8 +30,8 @@ const createPlanNote = async (req, res) => {
       createParams.ot_treatment_provided = req.body.otList,
       createParams.slp_treatment_provided = req.body.slpList
     } else if (req.body.soapNoteType == 'daily_note') {
-      createParams.process_patient = req.body.processPatient,
-      createParams.anticipat_DC = req.body.anticipatDC
+      createParams.process_patient = req.body.processPatient?req.body.processPatient:false,
+      createParams.anticipat_DC = req.body.anticipatDC?req.body.anticipatDC:false
     }
     await PlanTemp.create(createParams)
     if(req.body.soapNoteType == 'initial_examination'){
@@ -59,7 +59,9 @@ const getPlanNote = async (req, res) => {
       let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, appointments: 1, caseName: 1 })
       if(caseData){
         let recentAppointmentId = caseData.appointments[caseData.appointments.length-2]
-        planData = await PlanTemp.findOne({ appointmentId: recentAppointmentId, soap_note_type: req.body.soapNoteType });
+        if(recentAppointmentId!=undefined){
+          planData = await PlanTemp.findOne({ appointmentId: recentAppointmentId, soap_note_type: req.body.soapNoteType });
+        }
       }
     }
     commonHelper.sendResponse(res, 'success', planData);
