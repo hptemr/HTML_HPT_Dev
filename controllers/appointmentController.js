@@ -111,7 +111,7 @@ const createAppointment = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
         let alreadyFound = []; let proceed = true;
-        //8 console.log(patientType,' >>>>> data >>>> ',data)
+       //  console.log(patientType,' >>>>> data >>>> ',data)
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
             if (alreadyPatient) {
@@ -155,6 +155,12 @@ const createAppointment = async (req, res) => {
 
             if (caseFound) {
                 caseId = caseFound._id;
+                if(caseFound.caseType!=caseType){
+                    let caseData = {
+                        caseType: caseType
+                    }
+                 await Case.findOneAndUpdate({ _id: caseFound._id }, caseData);
+                }
             }
             if (!caseFound) {
                 let caseData = {
@@ -168,6 +174,10 @@ const createAppointment = async (req, res) => {
             } else if (caseType == '') {
                 caseType = caseFound.caseType ? caseFound.caseType : ''
             }
+            //local time conversion
+            const localDate = new Date(data.appointmentDate);  
+            localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
+            data.appointmentDate = localDate;
             let appointmentData = {
                 appointmentId: appointmentId,
                 caseName: caseName,
@@ -232,7 +242,7 @@ const createAppointment = async (req, res) => {
 
             const therapistData = await User.findOne({ _id: data.therapistId }, { firstName: 1, lastName: 1 });
             const patientData = { appointment_date: appointment_date, firstName: data.firstName, lastName: data.lastName, email: data.email, phoneNumber: data.phoneNumber, practice_location: data.practiceLocation, therapistId: data.therapistId, therapist_name: therapistData.firstName + ' ' + therapistData.lastName, caseId: caseId, appId: appId };
-            console.log('patient Data>>>>',patientData)
+            console.log(patientType,' >> patient Data>>>>',patientData)
 
             if (patientType == 'New') {
                 patientAppointmentSignupEmail(patientData)
