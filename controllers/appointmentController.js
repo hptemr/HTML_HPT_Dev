@@ -237,10 +237,10 @@ const createAppointment = async (req, res) => {
             if (patientType == 'New') {
                 patientAppointmentSignupEmail(patientData)
             } else if (!requestId && patientType == 'Existing') {
-                let link = `${process.env.BASE_URL}/patient/appointment-details/${appId}/`;
+                let link = `${process.env.BASE_URL}/patient/case-details/${appId}/`;
                 triggerEmail.appointmentCreatedByAdminReplyPatient('appointmentCreatedByAdminReplyPatient', patientData, link);
             } else if (requestId && patientType == 'Existing') {
-                let link = `${process.env.BASE_URL}/patient/appointment-details/${appId}/`;
+                let link = `${process.env.BASE_URL}/patient/case-details/${appId}/`;
                 triggerEmail.appointmentRequestReplyFromAdmin('appointmentRequestReplyFromAdmin', patientData, link);
             }
 
