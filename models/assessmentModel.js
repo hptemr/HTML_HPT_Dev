@@ -25,7 +25,7 @@ const assessmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Draft', 'Finalize'],
+        enum: ['Draft', 'Finalized'],
         default: 'Draft'
     },
     soap_note_type: {

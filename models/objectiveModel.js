@@ -184,7 +184,7 @@ const objectiveSchema = new mongoose.Schema({
     slp: { type: String, default: ""},
     ot: { type: String, default: ""},
     treatment_provided: { type: String, default: ""},
-    status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+    status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
     is_deleted:{ type: Boolean,default:false },
     createdBy: {
         type: mongoose.Schema.ObjectId,

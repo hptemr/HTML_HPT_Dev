@@ -80,7 +80,7 @@ const billingSchema = new mongoose.Schema({
   },
   additional_cpt_code:  {type: Array, default: [] }, 
   no_visit_charges: { type: Boolean },
-  status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+  status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
   is_deleted:{ type: Boolean,default:false },
   createdBy: {
     type: mongoose.Schema.ObjectId,

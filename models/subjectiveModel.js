@@ -19,7 +19,7 @@ const subjectiveSchema = new mongoose.Schema({
     surgery_type: { type: String },
     subjective_note: { type: String },
     updateInfo: { type: Array, default: [] },//keys will be ==> "fromAdminId, updatedAt, userRole"
-    status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+    status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
     is_deleted:{ type: Boolean,default:false },
     createdBy: {
         type: mongoose.Schema.ObjectId,

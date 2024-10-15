@@ -167,19 +167,39 @@ const updateBillingNote = async (req, res) => {
 
 const finalizeNote = async (req, res) => {
   try {
-    let updateParams = {
-      status: 'Finalize',
-      updatedAt: new Date()
+    subjectiveResult = await subjectiveTemp.findOne({appointmentId: new ObjectId(req.body.appointmentId)});
+    if(subjectiveResult){
+      ObjectiveResult = await ObjectiveModel.findOne({appointmentId: new ObjectId(req.body.appointmentId)});
+      if(ObjectiveResult){
+        AssessmentResult = await AssessmentModel.findOne({appointmentId: new ObjectId(req.body.appointmentId)});
+        if(AssessmentResult){
+          planResult = await PlanTemp.findOne({appointmentId: new ObjectId(req.body.appointmentId)});
+          if(planResult){
+            let updateParams = {
+              status: 'Finalized',
+              updatedAt: new Date()
+            }
+            const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId) };
+            const updatePlan = { $set: updateParams };
+            let optionsUpdatePlan = { returnOriginal: false };
+            await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+            await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+            await subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+            await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+            await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+            commonHelper.sendResponse(res, 'success', {}, '');
+          }else{
+            commonHelper.sendResponse(res, 'error', null, "Please fill the Plan note");
+          }
+        }else{
+          commonHelper.sendResponse(res, 'error', null, "Please fill the Assessment note");
+        }
+      }else{
+        commonHelper.sendResponse(res, 'error', null, "Please fill the Objective note");
+      }
+    }else{
+      commonHelper.sendResponse(res, 'error', null, "Please fill the Subjective note");
     }
-    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId) };
-    const updatePlan = { $set: updateParams };
-    let optionsUpdatePlan = { returnOriginal: false };
-    await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-    await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-    await subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-    await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-    await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-    commonHelper.sendResponse(res, 'success', {}, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
