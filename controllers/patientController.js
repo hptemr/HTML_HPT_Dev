@@ -331,12 +331,16 @@ function bytesToMB(bytes) {
 }
 
 async function previewDocument(req, res) {
-    let { query } = req.body;
+    let { query,filePath } = req.body;
     let { fileName } = req.body;
 
     let documentLink = ''; let fileSize = '';
     if (fileName) {
+
         let path = patientFilePath + fileName;
+        if(filePath){
+            path = filePath + fileName;
+        }
         try {
             const url = await s3.s3.getSignedUrl('getObject', {
                 Bucket: constants.s3Details.bucketName,

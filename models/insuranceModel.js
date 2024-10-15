@@ -19,7 +19,6 @@ const insurnaceSchema = new mongoose.Schema({
     primaryInsuranceCustomerServicePh: { type: String, default: "" },
     primaryInsuranceFromDate: { type: Date, default: "" },
     primaryInsuranceToDate: { type: Date, default: "" },
-
     secondarySubscriberFirstName: { type: String, default: "" },
     secondarySubscriberMiddleName: { type: String, default: "" },
     secondarySubscriberLastName: { type: String, default: "" },
@@ -33,7 +32,6 @@ const insurnaceSchema = new mongoose.Schema({
     secondaryInsuranceCustomerServicePh: { type: String, default: "" },
     secondaryInsuranceFromDate: { type: Date, default: "" },
     secondaryInsuranceToDate: { type: Date, default: "" },
-
     thirdSubscriberFirstName: { type: String, default: "" },
     thirdSubscriberMiddleName: { type: String, default: "" },
     thirdSubscriberLastName: { type: String, default: "" },
@@ -63,6 +61,9 @@ const insurnaceSchema = new mongoose.Schema({
     attorneyName: { type: String, default: "" },
     attorneyPhone: { type: String, default: "" },
     isPatientMinor: { type: String, default: "" },
+    insuranceFiles: {
+        type: Object //all the basic info will save in this object
+    },
     //isPatientMinor: { type: Boolean, default: false }, 
     adultConsent: { type: Boolean, default: true },
     minorConsent: { type: Boolean, default: false },   
