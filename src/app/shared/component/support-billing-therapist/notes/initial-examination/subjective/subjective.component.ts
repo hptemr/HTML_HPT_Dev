@@ -212,6 +212,40 @@ export class SubjectiveComponent implements OnInit {
 
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
+
+          if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
+            this.initialName = this.appointment_data?.patientId?.firstName.charAt(0)+''+this.appointment_data?.patientId?.lastName.charAt(0)
+          }
+          
+          this.bodyPartFront = this.appointment_data?.bodyPartFront;
+          if(this.appointment_data?.adminBodyPartFront){
+            this.bodyPartFront = this.appointment_data?.adminBodyPartFront;
+          }
+          this.bodyPartBack = this.appointment_data?.bodyPartBack;
+          if(this.appointment_data?.adminBodyPartBack){
+            this.bodyPartBack = this.appointment_data?.adminBodyPartBack;
+          }
+
+          if(this.bodyPartFront){          
+            this.bodyPartFront.forEach((element: any) => {
+              if (!this.selectedPartsFront.includes(element.part)) {
+                this.selectedPartsFront.push(element.part);
+              } else {
+                this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
+              }
+            });
+          }
+
+          if(this.bodyPartBack){          
+            this.bodyPartBack.forEach((element: any) => {
+              if (!this.selectedPartsBack.includes(element.part)) {
+                this.selectedPartsBack.push(element.part);
+              } else {
+                this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
+              }
+            });
+          } 
+          
         let medicalHistory = this.appointment_data?.patientMedicalHistory;
         if(this.appointment_data?.adminPatientMedicalHistory && this.appointment_data?.adminPatientMedicalHistory.fullName){
           medicalHistory = this.appointment_data?.adminPatientMedicalHistory;
@@ -313,43 +347,10 @@ export class SubjectiveComponent implements OnInit {
           this.areYouDepressedSelf= medicalHistory?.areYouDepressedSelf;
           this.areYouDepressedSelfYes= medicalHistory?.areYouDepressedSelfYes;
           this.areYouUnderStressSelf= medicalHistory?.areYouUnderStressSelf;
-          this.areYouUnderStressSelfYes= medicalHistory?.areYouUnderStressSelfYes;
-          if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
-            this.initialName = this.appointment_data?.patientInfo?.firstName.charAt(0)+''+this.appointment_data?.patientInfo?.lastName.charAt(0)
-          }
-                    
+          this.areYouUnderStressSelfYes= medicalHistory?.areYouUnderStressSelfYes;                              
           this.symptoms = medicalHistory?.symptoms;
           this.symptomsSame = medicalHistory?.symptomsSame;
-          this.rateYourPain = medicalHistory?.rateYourPain ? medicalHistory?.rateYourPain : 0;
-        
-          this.bodyPartFront = this.appointment_data?.bodyPartFront;
-          if(this.appointment_data?.adminBodyPartFront){
-            this.bodyPartFront = this.appointment_data?.adminBodyPartFront;
-          }
-          this.bodyPartBack = this.appointment_data?.bodyPartBack;
-          if(this.appointment_data?.adminBodyPartBack){
-            this.bodyPartBack = this.appointment_data?.adminBodyPartBack;
-          }
-
-          if(this.bodyPartFront){          
-            this.bodyPartFront.forEach((element: any) => {
-              if (!this.selectedPartsFront.includes(element.part)) {
-                this.selectedPartsFront.push(element.part);
-              } else {
-                this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
-              }
-            });
-          }
-
-          if(this.bodyPartBack){          
-            this.bodyPartBack.forEach((element: any) => {
-              if (!this.selectedPartsBack.includes(element.part)) {
-                this.selectedPartsBack.push(element.part);
-              } else {
-                this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
-              }
-            });
-          } 
+          this.rateYourPain = medicalHistory?.rateYourPain ? medicalHistory?.rateYourPain : 0;                
         }       
       }       
       if(response.data.subjectiveData.status=='Finalized'){
