@@ -254,11 +254,11 @@ export class NavservicesService implements OnInit {
         // },
         {
           id: 5,
-          activeMenu: 'document-listing',
+          activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
-          path: 'document-listing',
+          path: 'documents',
           active: false, 
           type: 'link', 
           item: [ ]
@@ -354,11 +354,11 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 4,
-          activeMenu: 'document-listing',
+          activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
-          path: 'document-listing',
+          path: 'documents',
           active: false, 
           type: 'link', 
           item: [ ]
@@ -481,11 +481,11 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 6,
-          activeMenu: 'document-listing',
+          activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  
           headTitle1: '',
-          path: 'document-listing',
+          path: 'documents',
           active: false, 
           type: 'link', 
           item: [ ]

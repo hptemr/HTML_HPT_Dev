@@ -4,7 +4,7 @@
             <div class="col-12 d-flex align-items-center mb-2">
                 <div class="row w-100 align-items-center">
                     <div class="col-12 col-sm-6 col-lg-6 d-flex"> 
-                        <button mat-stroked-button color="primary" class="me-3 back--btn" routerLink="/{{userType}}/document-listing">
+                        <button mat-stroked-button color="primary" class="me-3 back--btn" routerLink="/{{userType}}/documents">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
                         </button> 
                         <div class="form-group mb-0 position-relative w-100">
@@ -20,8 +20,6 @@
                                 <li class="breadcrumb-item fw-500" *ngFor="let item of pathValues" style="cursor: pointer;">
                                     <a class="font-12 clr--1F2F3E" (click)="backToDirectory(item)">{{item.name}}</a>
                                 </li>
-                              <!-- <li class="breadcrumb-item fw-500"><a [routerLink]="['/support-team/document-listing']" class="font-12 clr--1F2F3E">Documents</a></li> -->
-                              <!-- <li class="breadcrumb-item fw-500  active" aria-current="page"><a class="font-12 clr--1F2F3E">css</a></li> -->
                             </ol>
                           </nav>
                     </div>

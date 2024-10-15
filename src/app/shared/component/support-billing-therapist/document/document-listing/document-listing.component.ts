@@ -28,7 +28,7 @@ export class DocumentListingComponent {
   pathValues:any = []
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog,private authService: AuthService,public commonService: CommonService) {
     this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
-    this.pathValues.push({link:'/document-listing',name:'Documents'})
+    this.pathValues.push({link:'/documents',name:'Documents'})
     this.getDefaultDirectories()
   }
 
@@ -70,7 +70,7 @@ export class DocumentListingComponent {
   }
 
   gotoDirectory(name:any,id:any){
-    this.pathValues.push({link:"/document-details/"+id,name:name})
+    this.pathValues.push({link:"/documents/document-details/"+id,name:name})
     localStorage.setItem("pathValues",JSON.stringify(this.pathValues))
   }
 }
