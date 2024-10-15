@@ -14,7 +14,7 @@ const dailyNotesSchema = new mongoose.Schema({
   subjective_note: { type: String },
   assessment_text: { type: String },
   supporting_documentation_text: { type: String },
-  status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+  status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "users"

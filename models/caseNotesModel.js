@@ -12,7 +12,7 @@ const caseNotesSchema = new mongoose.Schema({
   },
   case_note_date:  { type: Date },
   case_comment: { type: String },
-  status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+  status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "users"

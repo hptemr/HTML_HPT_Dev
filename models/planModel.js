@@ -51,7 +51,7 @@ const planSchema = new mongoose.Schema({
   },
   process_patient: { type: Boolean },
   anticipat_DC: { type: Boolean },
-  status: { type: String, enum: ['Draft', 'Finalize'], default: 'Draft' },
+  status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
   is_deleted:{ type: Boolean,default:false },
   createdBy: {
     type: mongoose.Schema.ObjectId,
