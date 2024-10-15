@@ -257,19 +257,22 @@ async function getPreviousObjectiveData(queryMatch) {
 const getObjectiveData = async (req, res) => {
   try {
     const { query } = req.body;
-    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
+    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1,patientId:1 })
+
     let objectiveData = await ObjectiveModel.findOne(query);
-    if(!objectiveData){
+    if(!objectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       objectiveData = await getPreviousObjectiveData(app_query);
     }
     let subjectiveData = await subjectiveTemp.findOne(query);
-    if(!subjectiveData){      
+    if(!subjectiveData && appointmentData){      
       let app_subjective_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       subjectiveData = await getPreviousSubjectiveData(app_subjective_query,query.soap_note_type);
     }
-    console.log('objectiveData',objectiveData)
-    let appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    let appointmentDatesList = [];
+    if(appointmentData){      
+     appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    }
     let returnData = { objectiveData: objectiveData, subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
@@ -372,12 +375,15 @@ const getSubjectiveData = async (req, res) => {
     const { query } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
     let subjectiveData = await subjectiveTemp.findOne(query);
-    if(!subjectiveData){
+    if(!subjectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_query);
       if(getData && getData[0])subjectiveData = getData[0];
     }
-    let appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    let appointmentDatesList = [];
+    if(appointmentData){      
+      appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    }
     let returnData = { subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
