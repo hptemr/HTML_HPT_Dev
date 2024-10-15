@@ -24,7 +24,8 @@ interface State {
 export class IntakeStep2Component {
   @ViewChild('insuranceFileInput') insuranceFileInput: any
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
-  @ViewChild('myCheckbox') checkbox!: MatCheckbox;
+  @ViewChild('MyCheckbox') myCheckbox!: MatCheckbox;
+  @ViewChild('MinorCheckbox') minorCheckbox!: MatCheckbox;
   appId: any
   payViaSelected: any = 'Insurance'
   injurySelected: any
@@ -76,7 +77,8 @@ export class IntakeStep2Component {
     this.getAppointmentDetails()
   }
 
-  openCMSmodal(event:any) {  
+  openCMSmodal(event:any,id:string) {  
+       
       if (event.checked === true) {
           const dialogRef = this.dialog.open(CmsModalComponent,{
             panelClass: 'cms--container', 
@@ -84,11 +86,17 @@ export class IntakeStep2Component {
 
           dialogRef.afterClosed().subscribe(async flag_response => {
             if (!flag_response) {
-              this.checkbox.checked = false;
+              if(id=='MyCheckbox')
+              this.myCheckbox.checked = false;
+              else if(id=='MinorCheckbox')
+              this.minorCheckbox.checked = false;
             }
           })
       } else{
-        this.checkbox.checked = false;
+        if(id=='MyCheckbox')
+          this.myCheckbox.checked = false;
+          else if(id=='MinorCheckbox')
+          this.minorCheckbox.checked = false;
       }
 
   }

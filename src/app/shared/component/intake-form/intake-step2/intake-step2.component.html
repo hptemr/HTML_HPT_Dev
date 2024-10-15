@@ -1019,7 +1019,7 @@
                                     Consent
                                     <span class="clr--DF0404 ms-1"> *</span>
                                 </label>
-                                <mat-checkbox formControlName="consentCheck">I have read and agree to the Hamilton Physical Therapy's <a target="_blank" [routerLink]="['/terms-of-services']" class="fw-700 text-decoration-underline font-16"> Terms of Service </a> and <a [routerLink]="['/privacy-policy']" target="_blank" class="fw-700 text-decoration-underline font-16">Privacy Policy. </a></mat-checkbox>
+                                <mat-checkbox formControlName="consentCheck" #MyCheckbox (change)="openCMSmodal($event,'MyCheckbox')">I have read and agree to the Hamilton Physical Therapy's <a target="_blank" [routerLink]="['/terms-of-services']" class="fw-700 text-decoration-underline font-16"> Terms of Service </a> and <a [routerLink]="['/privacy-policy']" target="_blank" class="fw-700 text-decoration-underline font-16">Privacy Policy. </a></mat-checkbox>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['attorneyPhone'].touched && !step2Form.controls['consentCheck'].value">
                                     {{ validationMessages.requiredCheckbox('Consent') }}
@@ -1051,7 +1051,7 @@
                                     <!-- *ngIf="selectedValue == 0011" -->
                                     <div class="col-12 minor--consent" *ngIf="isMinorFlag"> 
                                         <label class="fw-700 font-16 clr--1F2F3E mb-1">Minor Consent</label>
-                                        <mat-checkbox #myCheckbox (change)="openCMSmodal($event)"> 
+                                        <mat-checkbox #MinorCheckbox (change)="openCMSmodal($event,'MinorCheckbox')"> 
                                         <p class="font-16 clr--1F2F3E lh-24 mb-0">{{fullNameForSign}} - I hereby authorize this PT
                                             clinic
                                             and/or it's

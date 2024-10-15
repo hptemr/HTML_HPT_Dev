@@ -99,6 +99,7 @@ export class CreateRequestAppointmentComponent {
           data: formData,
           patientType:'Existing'
         }
+   
         await this.authService.apiRequest('post', 'appointment/createAppointment',reqVars).subscribe(async response => { 
           this.clickOnRequestAppointment = false
           this.commonService.hideLoader();
@@ -211,10 +212,8 @@ export class CreateRequestAppointmentComponent {
           // this.maxToDate = '2025-05-16T00:00';//this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
          
           let appointmentDate = this.commonService.displayFormatDate(new Date(this.appointmentDate),false)               
-          let appointmentDate2 = this.commonService.formatDateInUTC(this.appointmentDate,'yyyy-MM-ddThh:mm')
+          let appointmentDate2 = this.commonService.formatDateInUTC(this.appointmentDate,'yyyy-MM-ddTHH:mm')
           this.appointmentForm.controls['appointmentDate'].setValue(appointmentDate2);
-          console.log('appointment Date 11>>>',appointmentDate)
-          console.log('appointment Date 22>>>',appointmentDate2)
          
           this.appointment_flag = true;    
         }

@@ -112,16 +112,16 @@ export class BillingComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
-      if(result && result.status=='Finalized'){
+      if(result && result?.status=='Finalized'){
         this.readOnly = true
       }
-      if(response.message && response.message.billingType==""){
+      if(response && response.message && response.message?.billingType==""){
         this.isHold = true
       }
-      if(response.message && response.message.caseType && response.message.caseType!=''){
+      if(response && response?.message && response.message.caseType!=''){
         this.caseType = response.message.caseType
       }
-      if(response.message && response.message.billingType && response.message.billingType!=''){
+      if(response && response.message && response.message.billingType!=''){
         this.billingType = response.message.billingType
       }
       if(response.data && response.data.appointmentId){
