@@ -93,6 +93,7 @@ export class BillingComponent {
   caseType = ""
   billingType = "CMS"
   readOnly = false
+  isHold = false
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,public router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -111,8 +112,11 @@ export class BillingComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
-      if(result.status=='Finalize'){
+      if(result.status=='Finalized'){
         this.readOnly = true
+      }
+      if(response.message.billingType==""){
+        this.isHold = true
       }
       if(response.message.caseType && response.message.caseType!=''){
         this.caseType = response.message.caseType

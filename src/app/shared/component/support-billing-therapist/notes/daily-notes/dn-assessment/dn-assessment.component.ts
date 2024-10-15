@@ -60,7 +60,7 @@ export class DnAssessmentComponent {
     }
     await this.authService.apiRequest('post', 'soapNote/getAssessment', reqVars).subscribe(async (response) => {
       this.commonService.hideLoader()
-      if(response.data.status=='Finalize'){
+      if(response.data.status=='Finalized'){
         this.assessmentForm.disable()
         this.readOnly = true
       }

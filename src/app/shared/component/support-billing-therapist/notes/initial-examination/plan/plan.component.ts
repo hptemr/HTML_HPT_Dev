@@ -84,7 +84,7 @@ export class PlanComponent {
       soapNoteType:'initial_examination'
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
-      if(response.data.status=='Finalize'){
+      if(response.data.status=='Finalized'){
         this.readOnly = true
       }
       if(response.data && response.data.appointmentId){

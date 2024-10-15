@@ -110,7 +110,7 @@ export class AssessmentComponent {
         that.assessment_icd.forEach((item: any) => {
           ctrls.push(that.editAssessmentGroup(item));
         })
-        if(assessmentData.status=='Finalize'){
+        if(assessmentData.status=='Finalized'){
           that.assessmentForm.disable()
           that.readOnly = true
         }

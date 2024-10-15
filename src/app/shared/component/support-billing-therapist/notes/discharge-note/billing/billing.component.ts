@@ -92,6 +92,7 @@ export class DischargeNoteBillingComponent {
   additionalCodes:any = []
   caseType = ""
   billingType = "CMS"
+  isHold = false
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
@@ -104,6 +105,9 @@ export class DischargeNoteBillingComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
+      if(response.message.billingType==""){
+        this.isHold = true
+      }
       if(response.message.caseType && response.message.caseType!=''){
         this.caseType = response.message.caseType
       }
