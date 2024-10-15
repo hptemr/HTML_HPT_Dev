@@ -43,6 +43,7 @@ const btBillingDetailsSchema = new mongoose.Schema({
     SI_deductibleNetAmt: { type: String },
     SI_hardSoftCap: { type: String },
     SI_hardSoftCapText: { type: String },
+    SI_asPrimaryInsurance: { type: Boolean, default: false },
     thirdInsurance: { type: String, default: "" },
     TI_idPolicy: { type: String, default: "" },
     TI_group: { type: String, default: "" },
