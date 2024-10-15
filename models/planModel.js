@@ -49,8 +49,8 @@ const planSchema = new mongoose.Schema({
     aphasia_assessment: { type: Boolean },
     cognitive_skills: { type: Boolean },
   },
-  process_patient: { type: Boolean },
-  anticipat_DC: { type: Boolean },
+  process_patient: { type: Boolean,default:false },
+  anticipat_DC: { type: Boolean,default:false },
   status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
   is_deleted:{ type: Boolean,default:false },
   createdBy: {
