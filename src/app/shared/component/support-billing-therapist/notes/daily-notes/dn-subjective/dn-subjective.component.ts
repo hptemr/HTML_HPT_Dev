@@ -70,6 +70,10 @@ export class DnSubjectiveComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
+      if(response.data.subjectiveData.status=='Finalize'){
+        this.readOnly = true
+        this.subjectiveForm.disable()
+      }
       if (response.data && response.data.subjectiveData) {
         let subjectiveData = response.data.subjectiveData;
         this.subjectiveId = subjectiveData._id

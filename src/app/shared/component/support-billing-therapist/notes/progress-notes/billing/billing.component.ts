@@ -460,6 +460,7 @@ export class ProgressNoteBillingComponent {
         }
         this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
           this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
         })
       }
     }

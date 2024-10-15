@@ -144,6 +144,10 @@ export class DnObjectiveComponent {
     }
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
       let subjectiveData: never[] = []; let objectiveData = [];
+      if(response.data.objectiveData.status=='Finalize'){
+        this.objectiveForm.disable()
+        this.readOnly = true
+      }
       if(response.data){
         objectiveData = response.data.objectiveData;
         this.land_exercise_list = objectiveData?.land_exercise;

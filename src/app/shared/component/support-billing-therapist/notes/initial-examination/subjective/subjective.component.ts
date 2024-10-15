@@ -181,7 +181,7 @@ export class SubjectiveComponent implements OnInit {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
-    
+      
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
         this.subjectiveId = subjectiveData._id;
@@ -350,7 +350,11 @@ export class SubjectiveComponent implements OnInit {
           } 
         }       
       }       
-      
+      if(response.data.subjectiveData.status=='Finalize'){
+        this.readOnly = true
+        this.subjectiveForm.disable()
+        this.icd_data = []
+      }
     })
   }
 

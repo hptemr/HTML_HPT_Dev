@@ -255,6 +255,10 @@ export class ObjectiveComponent {
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
       let subjectiveData: never[] = []; let objectiveData = [];
+      if(response.data.objectiveData.status=='Finalize'){
+        this.objectiveForm.disable()
+        this.readOnly = true
+      }
       if(response.data){
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;

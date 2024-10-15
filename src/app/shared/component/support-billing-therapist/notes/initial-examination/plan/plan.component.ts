@@ -84,6 +84,9 @@ export class PlanComponent {
       soapNoteType:'initial_examination'
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
+      if(response.data.status=='Finalize'){
+        this.readOnly = true
+      }
       if(response.data && response.data.appointmentId){
         this.actionType = "update"
         this.planNoteForm.controls['planType'].setValue(response.data.plan_note_type);

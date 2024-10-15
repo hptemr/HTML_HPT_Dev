@@ -38,6 +38,9 @@ export class DnPlanComponent {
       soapNoteType:'daily_note'
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
+      if(response.data.status=='Finalize'){
+        this.readOnly = true
+      }
       if(response.data && response.data.appointmentId){
         this.actionType = "update"
         this.processPatient = response.data.process_patient
