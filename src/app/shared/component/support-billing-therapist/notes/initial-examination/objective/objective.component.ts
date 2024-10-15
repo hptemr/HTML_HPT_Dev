@@ -1220,8 +1220,9 @@ export class ObjectiveComponent {
   }
 
   async objectiveSubmit(formData: any){
-    console.log('<<<<<  objective form >>>>',this.objectiveForm)
     if (this.objectiveForm.invalid){
+      
+    console.log('<<<<<  objective form >>>>',this.objectiveForm)
       this.objectiveForm.markAllAsTouched();
     }else{
       if (this.objectiveForm.invalid){
