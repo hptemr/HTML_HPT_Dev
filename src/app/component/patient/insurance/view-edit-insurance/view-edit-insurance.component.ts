@@ -9,7 +9,7 @@ import { CmsModalComponent } from 'src/app/shared/comman/cms-modal/cms-modal.com
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component'; 
-import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList } from 'src/app/config';
+import { practiceLocations, maritalStatus, relationWithPatient, carrierNameList,s3Details } from 'src/app/config';
 import { states_data } from 'src/app/state';
 import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { faL } from '@fortawesome/free-solid-svg-icons';
@@ -796,7 +796,8 @@ thirdSubscriberRelationShipPatient(event: any) {
 async previewfile(document_temp_name:string) {
   let req_vars = {
     query: { _id: this.userId },
-    fileName: document_temp_name
+    fileName: document_temp_name,
+    filePath:s3Details.patientInsuranceFolderPath
   }
   this.commonService.showLoader()
   await this.authService.apiRequest('post', 'patients/getPreviewDocument', req_vars).subscribe(async response => {
@@ -821,16 +822,17 @@ async previewfile(document_temp_name:string) {
       }      
       icon = this.getIcon(extension)
 
-
-      const dialogRef = this.dialog.open(FilePreviewComponent, {
-        panelClass: 'custom-alert-container',
-        data: {
-          documentsLink:documentsLink,
-          fileType:fileType,
-          fileName:fileName,
-          icon:icon
-        }
-      });
+      if(documentsLink){
+        const dialogRef = this.dialog.open(FilePreviewComponent, {
+          panelClass: 'custom-alert-container',
+          data: {
+            documentsLink:documentsLink,
+            fileType:fileType,
+            fileName:fileName,
+            icon:icon
+          }
+        });
+      }
     }
   })
 
