@@ -59,6 +59,7 @@ const getPlanNote = async (req, res) => {
       let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, appointments: 1, caseName: 1 })
       if(caseData){
         let recentAppointmentId = caseData.appointments[caseData.appointments.length-2]
+      
         if(recentAppointmentId!=undefined){
           planData = await PlanTemp.findOne({ appointmentId: recentAppointmentId, soap_note_type: req.body.soapNoteType });
         }
