@@ -352,7 +352,7 @@ export class SubjectiveComponent implements OnInit {
           } 
         }       
       }       
-      if(response.data.subjectiveData.status=='Finalized'){
+      if(response.data.subjectiveData && response.data.subjectiveData.status=='Finalized'){
         this.readOnly = true
         this.subjectiveForm.disable()
         this.icd_data = []

@@ -112,16 +112,16 @@ export class BillingComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
-      if(result.status=='Finalized'){
+      if(result && result.status=='Finalized'){
         this.readOnly = true
       }
-      if(response.message.billingType==""){
+      if(response.message && response.message.billingType==""){
         this.isHold = true
       }
-      if(response.message.caseType && response.message.caseType!=''){
+      if(response.message && response.message.caseType && response.message.caseType!=''){
         this.caseType = response.message.caseType
       }
-      if(response.message.billingType && response.message.billingType!=''){
+      if(response.message && response.message.billingType && response.message.billingType!=''){
         this.billingType = response.message.billingType
       }
       if(response.data && response.data.appointmentId){
@@ -484,8 +484,13 @@ export class BillingComponent {
           appointmentId : this.appointmentId
         }
         this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
-          this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+          console.log(response)
+          if(response.error){
+            this.commonService.openSnackBar(response.message, "ERROR");
+          }else{
+            this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+          }
         })
       }
     }
