@@ -1299,7 +1299,6 @@ export class ObjectiveComponent {
        }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(' >> result >>>>',result)
       if (result) { 
         this.getObjectiveRecord();
       } else {

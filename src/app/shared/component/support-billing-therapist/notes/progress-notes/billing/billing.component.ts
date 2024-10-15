@@ -105,13 +105,13 @@ export class ProgressNoteBillingComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
-      if(response.message.billingType==""){
+      if(response && response.message && response.message.billingType!=''){
         this.isHold = true
       }
-      if(response.message.caseType && response.message.caseType!=''){
+      if(response && response?.message && response.message.caseType!=''){
         this.caseType = response.message.caseType
       }
-      if(response.message.billingType && response.message.billingType!=''){
+      if(response && response.message && response.message.billingType!=''){
         this.billingType = response.message.billingType
       }
       if(response.data && response.data.appointmentId){
