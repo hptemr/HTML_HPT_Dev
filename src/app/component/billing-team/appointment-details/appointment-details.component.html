@@ -416,6 +416,7 @@
                                         <td mat-cell *matCellDef="let element"> 
                                             {{element.dateAddedOn}} 
                                             <p class="mt-1 "> <span class="fw-700"> Addendum:</span> Fri, Nov 09, 2023 10:00 am</p>
+                                            <p class="mt-1 "> <span class="fw-700"> Addendum:</span> Fri, Nov 09, 2023 10:00 am</p>
                                         </td>
                                     </ng-container> 
                                     <ng-container matColumnDef="noteAddedOn">
@@ -425,6 +426,7 @@
                                         <td mat-cell *matCellDef="let element">  
                                             {{element.noteAddedOn}}
                                             <p class="mt-1 "> Taylor Stafford</p>
+                                            <p class="mt-1 "> Taylor Stafford</p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="status">
@@ -432,7 +434,9 @@
                                             Status
                                         </th>
                                         <td mat-cell *matCellDef="let element">
-                                            {{element.status}}
+                                            <p class="m-0">{{element.status}}</p>
+                                            <p class="m-0">{{element.status}}</p>
+                                            <p class="m-0">{{element.status}}</p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="action">
@@ -440,10 +444,65 @@
                                             Actions
                                         </th>
                                         <td mat-cell *matCellDef="let element">  
-                                            <div class="w-100 d-flex align-items-center">
+                                            <div class="w-100 d-flex align-items-center"> 
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above">
+                                                    <!-- <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">font_download </mat-icon> -->
+                                                    <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                </button>
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
-                                                </button>  
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" disabled> 
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" >
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="w-100 d-flex align-items-center"> 
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above">
+                                                    <!-- <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">font_download </mat-icon> -->
+                                                    <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" disabled> 
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" >
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="w-100 d-flex align-items-center"> 
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" disabled>
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above">
+                                                    <!-- <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">font_download </mat-icon> -->
+                                                    <div class="icon-img flex-shrink-0">
+                                                        <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
+                                                    </div>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" disabled> 
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" >
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
+                                                </button>
                                             </div>
                                         </td>
                                     </ng-container>
