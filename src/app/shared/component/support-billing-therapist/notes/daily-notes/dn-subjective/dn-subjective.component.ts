@@ -79,9 +79,9 @@ export class DnSubjectiveComponent {
         this.subjectiveId = subjectiveData._id
         this.subjectiveForm.controls['note_date'].setValue(this.datePipe.transform(subjectiveData.note_date, 'MM/dd/yyyy'))
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
-        if(response.data && response.data.appointmentDatesList){
-          this.appointment_dates = response.data.appointmentDatesList       
-        }
+      }
+      if(response.data && response.data.appointmentDatesList){
+        this.appointment_dates = response.data.appointmentDatesList       
       }
     })
   }

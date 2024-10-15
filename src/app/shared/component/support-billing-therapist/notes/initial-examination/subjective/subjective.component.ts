@@ -140,6 +140,8 @@ export class SubjectiveComponent implements OnInit {
   initialName:string = '';
   selectedPartsFront: string[] = [];
   selectedPartsBack: string[] = [];
+  bodyPartFront:any=[]
+  bodyPartBack:any=[]
   diagnosisClicked = false
   readOnly = false
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
@@ -150,7 +152,6 @@ export class SubjectiveComponent implements OnInit {
         this.readOnly = true
       }
     })
-
   }
 
   ngOnInit() {
@@ -320,18 +321,18 @@ export class SubjectiveComponent implements OnInit {
           this.symptoms = medicalHistory?.symptoms;
           this.symptomsSame = medicalHistory?.symptomsSame;
           this.rateYourPain = medicalHistory?.rateYourPain ? medicalHistory?.rateYourPain : 0;
-
-          let bodyPartFront = this.appointment_data?.bodyPartFront;
+        
+          this.bodyPartFront = this.appointment_data?.bodyPartFront;
           if(this.appointment_data?.adminBodyPartFront){
-            bodyPartFront = this.appointment_data?.adminBodyPartFront;
+            this.bodyPartFront = this.appointment_data?.adminBodyPartFront;
           }
-          let bodyPartBack = this.appointment_data?.bodyPartBack;
+          this.bodyPartBack = this.appointment_data?.bodyPartBack;
           if(this.appointment_data?.adminBodyPartBack){
-            bodyPartBack = this.appointment_data?.adminBodyPartBack;
+            this.bodyPartBack = this.appointment_data?.adminBodyPartBack;
           }
 
-          if(bodyPartFront){          
-            bodyPartFront.forEach((element: any) => {
+          if(this.bodyPartFront){          
+            this.bodyPartFront.forEach((element: any) => {
               if (!this.selectedPartsFront.includes(element.part)) {
                 this.selectedPartsFront.push(element.part);
               } else {
@@ -339,8 +340,9 @@ export class SubjectiveComponent implements OnInit {
               }
             });
           }
-          if(bodyPartBack){          
-            bodyPartBack.forEach((element: any) => {
+
+          if(this.bodyPartBack){          
+            this.bodyPartBack.forEach((element: any) => {
               if (!this.selectedPartsBack.includes(element.part)) {
                 this.selectedPartsBack.push(element.part);
               } else {
@@ -447,7 +449,7 @@ export class SubjectiveComponent implements OnInit {
   checkSpace(colName: any, event: any) {
     this.subjectiveForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
- 
+
   bodyClick(from:string,partName:string) {   
     const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
       panelClass: 'custom-alert-container', 
@@ -456,8 +458,8 @@ export class SubjectiveComponent implements OnInit {
         partName:partName,
         appId:this.appointment_data._id,
         from:from,
-        bodyPartFront:this.appointment_data.bodyPartFront,
-        bodyPartBack:this.appointment_data.bodyPartBack,
+        bodyPartFront:this.bodyPartFront,
+        bodyPartBack:this.bodyPartBack,
         appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
         readOnly:true
       }
