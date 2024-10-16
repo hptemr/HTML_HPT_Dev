@@ -60,7 +60,7 @@ export class BillingDetailsComponent {
   urlSegment:any
   isReportedToEmployer: boolean=false
   isInsuranceTypeMedicare: boolean=false
-  SIAsPrimaryInsurance:boolean=false
+  // SIAsPrimaryInsurance:boolean=false
 
   constructor(
     public dialog: MatDialog,
@@ -172,14 +172,23 @@ export class BillingDetailsComponent {
   }
 
   saveBillingDetails(){
-    this.commonService.showLoader();
+    // this.commonService.showLoader();
+
+    // Set selected primary insurance data
     this.billingDetailsForm.value['PI_payerID']= (this.selectedPrimaryInsuranceData!=null && this.selectedPrimaryInsuranceData!=undefined)?
     this.selectedPrimaryInsuranceData.payerID:(this.isBillingDetailsData)?this.billingDetailsData.PI_payerID:''
     this.billingDetailsForm.value['PI_billingType']= (this.selectedPrimaryInsuranceData!=null && this.selectedPrimaryInsuranceData!=undefined)?
     this.selectedPrimaryInsuranceData.billingType:(this.isBillingDetailsData)?this.billingDetailsData.PI_billingType:''
     this.billingDetailsForm.value['PI_insuranceType']= (this.selectedPrimaryInsuranceData!=null && this.selectedPrimaryInsuranceData!=undefined)?
     this.selectedPrimaryInsuranceData.insuranceType:(this.isBillingDetailsData)?this.billingDetailsData.PI_insuranceType:''
-    this.billingDetailsForm.value['SI_asPrimaryInsurance']= this.SIAsPrimaryInsurance
+  
+     // Set selected secondary insurance data
+    this.billingDetailsForm.value['SI_payerID']= (this.selectedSecondaryInsuranceData!=null && this.selectedSecondaryInsuranceData!=undefined)?
+    this.selectedSecondaryInsuranceData.payerID:(this.isBillingDetailsData)?this.billingDetailsData.SI_payerID:''
+    this.billingDetailsForm.value['SI_billingType']= (this.selectedSecondaryInsuranceData!=null && this.selectedSecondaryInsuranceData!=undefined)?
+    this.selectedSecondaryInsuranceData.billingType:(this.isBillingDetailsData)?this.billingDetailsData.SI_billingType:''
+    this.billingDetailsForm.value['SI_insuranceType']= (this.selectedSecondaryInsuranceData!=null && this.selectedSecondaryInsuranceData!=undefined)?
+    this.selectedSecondaryInsuranceData.insuranceType:(this.isBillingDetailsData)?this.billingDetailsData.SI_insuranceType:''
     
     let billingDetailsObj:any = {
       billingDetails : this.billingDetailsForm.value,
@@ -189,10 +198,10 @@ export class BillingDetailsComponent {
    
     this.authService.apiRequest('post', 'appointment/addBillingDetails', billingDetailsObj).subscribe(async response => {  
       this.commonService.openSnackBar(response.message, "SUCCESS")
-      this.commonService.hideLoader(); 
+      // this.commonService.hideLoader(); 
       this.router.navigate(['/billing-team/case-details',this.appointmentId])
     },(err) => {
-      this.commonService.hideLoader();
+      // this.commonService.hideLoader();
       err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
     })
   }
@@ -209,7 +218,7 @@ export class BillingDetailsComponent {
         this.isBillingDetailsData = true
         this.billingDetailsData = data
         this.isInsuranceTypeMedicare = (data?.PI_insuranceType && data?.PI_insuranceType=='Medicaid')?true:false
-        this.SIAsPrimaryInsurance = (data?.SI_asPrimaryInsurance)?true:false
+        // this.SIAsPrimaryInsurance = (data?.SI_asPrimaryInsurance)?true:false
       }
       this.setDataToBillingDetails()
       this.commonService.hideLoader(); 
@@ -224,6 +233,18 @@ export class BillingDetailsComponent {
     // if(this.isBillingDetailsData){
     //   filledBillingDetailsData = this.billingDetailsData
     // }
+
+    this.selectedPrimaryInsuranceData = {
+      insuranceType : (this.isBillingDetailsData && this.billingDetailsData?.PI_insuranceType)? this.billingDetailsData?.PI_insuranceType:'',
+      payerID : (this.isBillingDetailsData && this.billingDetailsData?.PI_payerID)? this.billingDetailsData?.PI_payerID:'',
+      billingType : (this.isBillingDetailsData && this.billingDetailsData?.PI_billingType)? this.billingDetailsData?.PI_billingType:''
+    }
+
+    this.selectedSecondaryInsuranceData = {
+      insuranceType : (this.isBillingDetailsData && this.billingDetailsData?.SI_insuranceType)? this.billingDetailsData?.SI_insuranceType:'',
+      payerID : (this.isBillingDetailsData && this.billingDetailsData?.SI_payerID)? this.billingDetailsData?.SI_payerID:'',
+      billingType : (this.isBillingDetailsData && this.billingDetailsData?.SI_billingType)? this.billingDetailsData?.SI_billingType:'',
+    }
 
     this.billingDetailsForm.controls['primaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.primaryInsurance : this.adminPayViaInsuranceInfo?.primaryInsuranceCompany);
     this.billingDetailsForm.controls['PI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_idPolicy : this.adminPayViaInsuranceInfo?.primaryInsuranceIdPolicy);
@@ -620,6 +641,24 @@ export class BillingDetailsComponent {
 
   SIMarkAsPrimaryInsurance(event:MatCheckboxChange){
     if(event.checked){
+      let holdSecondaryInsuranceData = this.selectedSecondaryInsuranceData
+      this.selectedSecondaryInsuranceData = this.selectedPrimaryInsuranceData
+      this.selectedPrimaryInsuranceData = holdSecondaryInsuranceData
+
+      let holdSecondaryInsurance= this.billingDetailsForm.get('secondaryInsurance')?.value;
+      let holdSI_idPolicy= this.billingDetailsForm.get('SI_idPolicy')?.value;
+      let holdSI_group= this.billingDetailsForm.get('SI_group')?.value;
+      let holdSI_customerServicePhNo= this.billingDetailsForm.get('SI_customerServicePhNo')?.value;
+      let holdSI_effectiveDate= this.billingDetailsForm.get('SI_effectiveDate')?.value;
+      let holdSI_endDate= this.billingDetailsForm.get('SI_endDate')?.value;
+      let holdSI_rxRequired= this.billingDetailsForm.get('SI_rxRequired')?.value;
+      let holdSI_copayAmt= this.billingDetailsForm.get('SI_copayAmt')?.value;
+      let holdSI_highDeductible= this.billingDetailsForm.get('SI_highDeductible')?.value;
+      let holdSI_deductibleNetAmt= this.billingDetailsForm.get('SI_deductibleNetAmt')?.value;
+      let holdSI_hardSoftCap= this.billingDetailsForm.get('SI_hardSoftCap')?.value;
+      let holdSI_hardSoftCapText= this.billingDetailsForm.get('SI_hardSoftCapText')?.value;
+
+
       this.billingDetailsForm.controls['secondaryInsurance'].setValue(this.billingDetailsForm.get('primaryInsurance')?.value);
       this.billingDetailsForm.controls['SI_idPolicy'].setValue(this.billingDetailsForm.get('PI_idPolicy')?.value);
       this.billingDetailsForm.controls['SI_group'].setValue(this.billingDetailsForm.get('PI_group')?.value);
@@ -632,23 +671,69 @@ export class BillingDetailsComponent {
       this.billingDetailsForm.controls['SI_deductibleNetAmt'].setValue(this.billingDetailsForm.get('PI_deductibleNetAmt')?.value);
       this.billingDetailsForm.controls['SI_hardSoftCap'].setValue(this.billingDetailsForm.get('PI_hardSoftCap')?.value);
       this.billingDetailsForm.controls['SI_hardSoftCapText'].setValue(this.billingDetailsForm.get('PI_hardSoftCapText')?.value);
-    }else{
-      this.billingDetailsForm.controls['secondaryInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.secondaryInsurance : this.adminPayViaInsuranceInfo?.secondaryInsuranceCompany);
-      this.billingDetailsForm.controls['SI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_idPolicy : this.adminPayViaInsuranceInfo?.secondaryInsuranceIdPolicy);
-      this.billingDetailsForm.controls['SI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_group : this.adminPayViaInsuranceInfo?.secondaryInsuranceGroup);
-      this.billingDetailsForm.controls['SI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_customerServicePhNo : this.adminPayViaInsuranceInfo?.secondaryInsuranceCustomerServicePh);
-      this.billingDetailsForm.controls['SI_authorization'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorization : "");
-      this.billingDetailsForm.controls['SI_authorizationFromDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorizationFromDate : "");
-      this.billingDetailsForm.controls['SI_authorizationToDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_authorizationToDate : "");
-      this.billingDetailsForm.controls['SI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_effectiveDate : this.adminPayViaInsuranceInfo?.secondaryInsuranceFromDate);
-      this.billingDetailsForm.controls['SI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_endDate : this.adminPayViaInsuranceInfo?.secondaryInsuranceToDate);
-      this.billingDetailsForm.controls['SI_rxRequired'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_rxRequired : "");
-      this.billingDetailsForm.controls['SI_copayAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_copayAmt : "");
-      this.billingDetailsForm.controls['SI_highDeductible'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_highDeductible : "");
-      this.billingDetailsForm.controls['SI_deductibleNetAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_deductibleNetAmt : "");
-      this.billingDetailsForm.controls['SI_hardSoftCap'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_hardSoftCap : "");
-      this.billingDetailsForm.controls['SI_hardSoftCapText'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_hardSoftCapText : "");
 
+      this.billingDetailsForm.controls['primaryInsurance'].setValue(holdSecondaryInsurance);
+      this.billingDetailsForm.controls['PI_idPolicy'].setValue(holdSI_idPolicy);
+      this.billingDetailsForm.controls['PI_group'].setValue(holdSI_group);
+      this.billingDetailsForm.controls['PI_customerServicePhNo'].setValue(holdSI_customerServicePhNo);
+      this.billingDetailsForm.controls['PI_effectiveDate'].setValue(holdSI_effectiveDate);
+      this.billingDetailsForm.controls['PI_endDate'].setValue(holdSI_endDate);
+      this.billingDetailsForm.controls['PI_rxRequired'].setValue(holdSI_rxRequired);
+      this.billingDetailsForm.controls['PI_copayAmt'].setValue(holdSI_copayAmt);
+      this.billingDetailsForm.controls['PI_highDeductible'].setValue(holdSI_highDeductible);
+      this.billingDetailsForm.controls['PI_deductibleNetAmt'].setValue(holdSI_deductibleNetAmt);
+      this.billingDetailsForm.controls['PI_hardSoftCap'].setValue(holdSI_hardSoftCap);
+      this.billingDetailsForm.controls['PI_hardSoftCapText'].setValue(holdSI_hardSoftCapText);
+     
+    }else{
+
+      // let holdSecondaryInsuranceData = this.selectedSecondaryInsuranceData
+      // this.selectedSecondaryInsuranceData = this.selectedPrimaryInsuranceData
+      // this.selectedPrimaryInsuranceData = holdSecondaryInsuranceData
+
+      let holdPrimaryInsuranceData = this.selectedPrimaryInsuranceData
+      this.selectedPrimaryInsuranceData = this.selectedSecondaryInsuranceData
+      this.selectedSecondaryInsuranceData = holdPrimaryInsuranceData
+
+      let holdPrimaryInsurance= this.billingDetailsForm.get('primaryInsurance')?.value;
+      let holdPI_idPolicy= this.billingDetailsForm.get('PI_idPolicy')?.value;
+      let holdPI_group= this.billingDetailsForm.get('PI_group')?.value;
+      let holdPI_customerServicePhNo= this.billingDetailsForm.get('PI_customerServicePhNo')?.value;
+      let holdPI_effectiveDate= this.billingDetailsForm.get('PI_effectiveDate')?.value;
+      let holdPI_endDate= this.billingDetailsForm.get('PI_endDate')?.value;
+      let holdPI_rxRequired= this.billingDetailsForm.get('PI_rxRequired')?.value;
+      let holdPI_copayAmt= this.billingDetailsForm.get('PI_copayAmt')?.value;
+      let holdPI_highDeductible= this.billingDetailsForm.get('PI_highDeductible')?.value;
+      let holdPI_deductibleNetAmt= this.billingDetailsForm.get('PI_deductibleNetAmt')?.value;
+      let holdPI_hardSoftCap= this.billingDetailsForm.get('PI_hardSoftCap')?.value;
+      let holdPI_hardSoftCapText= this.billingDetailsForm.get('PI_hardSoftCapText')?.value;
+
+
+      this.billingDetailsForm.controls['primaryInsurance'].setValue(this.billingDetailsForm.get('secondaryInsurance')?.value);
+      this.billingDetailsForm.controls['PI_idPolicy'].setValue(this.billingDetailsForm.get('SI_idPolicy')?.value);
+      this.billingDetailsForm.controls['PI_group'].setValue(this.billingDetailsForm.get('SI_group')?.value);
+      this.billingDetailsForm.controls['PI_customerServicePhNo'].setValue(this.billingDetailsForm.get('SI_customerServicePhNo')?.value);
+      this.billingDetailsForm.controls['PI_effectiveDate'].setValue(this.billingDetailsForm.get('SI_effectiveDate')?.value);
+      this.billingDetailsForm.controls['PI_endDate'].setValue(this.billingDetailsForm.get('SI_endDate')?.value);
+      this.billingDetailsForm.controls['PI_rxRequired'].setValue(this.billingDetailsForm.get('SI_rxRequired')?.value);
+      this.billingDetailsForm.controls['PI_copayAmt'].setValue(this.billingDetailsForm.get('SI_copayAmt')?.value);
+      this.billingDetailsForm.controls['PI_highDeductible'].setValue(this.billingDetailsForm.get('SI_highDeductible')?.value);
+      this.billingDetailsForm.controls['PI_deductibleNetAmt'].setValue(this.billingDetailsForm.get('SI_deductibleNetAmt')?.value);
+      this.billingDetailsForm.controls['PI_hardSoftCap'].setValue(this.billingDetailsForm.get('SI_hardSoftCap')?.value);
+      this.billingDetailsForm.controls['PI_hardSoftCapText'].setValue(this.billingDetailsForm.get('SI_hardSoftCapText')?.value);
+
+      this.billingDetailsForm.controls['secondaryInsurance'].setValue(holdPrimaryInsurance);
+      this.billingDetailsForm.controls['SI_idPolicy'].setValue(holdPI_idPolicy);
+      this.billingDetailsForm.controls['SI_group'].setValue(holdPI_group);
+      this.billingDetailsForm.controls['SI_customerServicePhNo'].setValue(holdPI_customerServicePhNo);
+      this.billingDetailsForm.controls['SI_effectiveDate'].setValue(holdPI_effectiveDate);
+      this.billingDetailsForm.controls['SI_endDate'].setValue(holdPI_endDate);
+      this.billingDetailsForm.controls['SI_rxRequired'].setValue(holdPI_rxRequired);
+      this.billingDetailsForm.controls['SI_copayAmt'].setValue(holdPI_copayAmt);
+      this.billingDetailsForm.controls['SI_highDeductible'].setValue(holdPI_highDeductible);
+      this.billingDetailsForm.controls['SI_deductibleNetAmt'].setValue(holdPI_deductibleNetAmt);
+      this.billingDetailsForm.controls['SI_hardSoftCap'].setValue(holdPI_hardSoftCap);
+      this.billingDetailsForm.controls['SI_hardSoftCapText'].setValue(holdPI_hardSoftCapText);
     }
   }
 }
