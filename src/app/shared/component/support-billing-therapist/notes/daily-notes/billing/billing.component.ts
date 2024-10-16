@@ -477,8 +477,12 @@ export class DailyNoteBillingComponent {
           appointmentId : this.appointmentId
         }
         this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
+          if(response.error){
+            this.commonService.openSnackBar(response.message, "ERROR");
+          }else{
           this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
           window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+          }
         })
       }
     }

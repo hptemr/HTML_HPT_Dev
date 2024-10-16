@@ -70,7 +70,7 @@ export class DnSubjectiveComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
-      if(response.data.subjectiveData.status=='Finalized'){
+      if(response.data && response.data.subjectiveData && response.data.subjectiveData.status=='Finalized'){
         this.readOnly = true
         this.subjectiveForm.disable()
       }
