@@ -264,12 +264,22 @@ const getObjectiveData = async (req, res) => {
     let objectiveData = await ObjectiveModel.findOne(query);
     if(!objectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
-      objectiveData = await getPreviousObjectiveData(app_query);
+      const getObjData = await getPreviousObjectiveData(app_query);
+      if(getObjData && getObjData[0]){objectiveData = getObjData[0];
+        if(objectiveData && (objectiveData.status=='Finalized' || objectiveData.status=='Finalize')){
+          objectiveData.status='Draft';
+        }      
+      }
     }
     let subjectiveData = await subjectiveTemp.findOne(query);
     if(!subjectiveData && appointmentData){      
       let app_subjective_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
-      subjectiveData = await getPreviousSubjectiveData(app_subjective_query,query.soap_note_type);
+      const getData = await getPreviousSubjectiveData(app_subjective_query,query.soap_note_type);
+      if(getData && getData[0]){subjectiveData = getData[0];
+        if(subjectiveData.status=='Finalized' || objectiveData.status=='Finalize'){
+          subjectiveData.status='Draft';
+        }      
+      }
     }
     let appointmentDatesList = [];
     if(appointmentData){      
@@ -380,7 +390,11 @@ const getSubjectiveData = async (req, res) => {
     if(!subjectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_query);
-      if(getData && getData[0])subjectiveData = getData[0];
+      if(getData && getData[0]){subjectiveData = getData[0];
+          if(subjectiveData.status=='Finalized' || subjectiveData.status=='Finalize'){
+            subjectiveData.status='Draft';
+          }      
+      }
     }
     let appointmentDatesList = [];
     if(appointmentData){      
