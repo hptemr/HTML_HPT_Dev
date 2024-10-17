@@ -19,7 +19,7 @@
         }
     }
     .label--width{
-        width: 110px;
+        width: 115px;
     }
     .font-16{
         font-size: 16px !important;
@@ -305,6 +305,7 @@
                 .owl-stage-outer{
                     .owl-stage{
                         .owl-item{
+                            float: left;
                             &.active{
                                 border-left: 1px solid #31B7B7;
                             }
