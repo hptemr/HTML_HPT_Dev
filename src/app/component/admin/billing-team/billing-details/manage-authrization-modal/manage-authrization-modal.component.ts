@@ -75,13 +75,19 @@ export class ManageAuthrizationModalComponent {
 
   saveAuthorizationManagement(){
     if(this.authorizationManagement.valid){
+      if(this.authorizationManagement.value['authorizationRequired']=='No'){
+        this.authorizationManagement.value['authorizationToDate'] =''
+        this.authorizationManagement.value['authorizationFromDate'] =''
+        this.authorizationManagement.value['authorizationVisit'] =''
+        this.authorizationManagement.value['authorizationNumber'] =''
+      }
       this.commonService.showLoader();
       let authManagementObj:any = {
         authorizationManagementData : this.authorizationManagement.value,
         patientId : this.patientId,
         caseName : this.caseName
       }
-
+      
       this.authService.apiRequest('post', 'appointment/addAuthorizationManagement', authManagementObj).subscribe(async response => {  
         this.commonService.openSnackBar(response.message, "SUCCESS")
         this.commonService.hideLoader(); 
@@ -112,6 +118,47 @@ export class ManageAuthrizationModalComponent {
         this.commonService.hideLoader();
         err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
       })
+  }
+  
+  onChangeAuthorization(event: any){
+    if(event.value=="No"){
+      this.authorizationManagement.controls['authorizationToDate'].setValue('')
+      this.authorizationManagement?.get('authorizationToDate')?.clearValidators();
+      this.authorizationManagement?.get('authorizationToDate')?.updateValueAndValidity();
+      this.authorizationManagement?.get('authorizationToDate')?.disable();
+
+      this.authorizationManagement.controls['authorizationFromDate'].setValue('')
+      this.authorizationManagement?.get('authorizationFromDate')?.clearValidators();
+      this.authorizationManagement?.get('authorizationFromDate')?.updateValueAndValidity();
+      this.authorizationManagement?.get('authorizationFromDate')?.disable();
+
+      this.authorizationManagement.controls['authorizationVisit'].setValue('')
+      this.authorizationManagement?.get('authorizationVisit')?.clearValidators();
+      this.authorizationManagement?.get('authorizationVisit')?.updateValueAndValidity();
+      this.authorizationManagement?.get('authorizationVisit')?.disable();
+
+      this.authorizationManagement.controls['authorizationNumber'].setValue('')
+      this.authorizationManagement?.get('authorizationNumber')?.clearValidators();
+      this.authorizationManagement?.get('authorizationNumber')?.updateValueAndValidity();
+      this.authorizationManagement?.get('authorizationNumber')?.disable();
+    }else{
+
+      this.authorizationManagement?.get('authorizationToDate')?.enable();
+      this.authorizationManagement?.get('authorizationToDate')?.setValidators([Validators.required]);
+      this.authorizationManagement?.get('authorizationToDate')?.updateValueAndValidity();
+
+      this.authorizationManagement?.get('authorizationFromDate')?.enable();
+      this.authorizationManagement?.get('authorizationFromDate')?.setValidators([Validators.required]);
+      this.authorizationManagement?.get('authorizationFromDate')?.updateValueAndValidity();
+
+      this.authorizationManagement?.get('authorizationVisit')?.enable();
+      this.authorizationManagement?.get('authorizationVisit')?.setValidators([Validators.required, Validators.pattern(regex.onlyNumeric)]);
+      this.authorizationManagement?.get('authorizationVisit')?.updateValueAndValidity();
+
+      this.authorizationManagement?.get('authorizationNumber')?.enable();
+      this.authorizationManagement?.get('authorizationNumber')?.setValidators([Validators.required, Validators.pattern(regex.onlyNumeric)]);
+      this.authorizationManagement?.get('authorizationNumber')?.updateValueAndValidity();
+    }
   }
 
 }
