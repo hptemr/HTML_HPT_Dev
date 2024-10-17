@@ -8,7 +8,7 @@
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4  ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Authorization Required</label>
-                        <mat-radio-group aria-label="Select an option" formControlName="authorizationRequired">
+                        <mat-radio-group aria-label="Select an option" formControlName="authorizationRequired" (change)="onChangeAuthorization($event)">
                             <mat-radio-button value="Yes" class="me-3">Yes</mat-radio-button>
                             <mat-radio-button value="No" class="me-3">No</mat-radio-button>
                         </mat-radio-group>

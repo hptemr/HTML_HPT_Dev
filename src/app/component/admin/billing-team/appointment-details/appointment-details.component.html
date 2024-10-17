@@ -66,7 +66,9 @@
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
                                             <!-- <p class="mb-1 text-danger font-16 fw-600 ">1 of 12 visits, expires 12/1/24</p> -->
-                                            <p class="mb-1 font-16 fw-600 {{isAuthDateExpire?'text-danger':''}}">{{isBillingDetailsData? +patientCheckInCount+' of '+ authVisits +' visits, expires '+authExpireDate :'NA'}}</p>
+                                            <p class="mb-1 font-16 fw-600" *ngIf="!isAuthManagmentHistory">NA</p>
+                                            <p class="mb-1 font-16 fw-600" *ngIf="isAuthManagmentHistory && authManagementHistory?.authorizationRequired=='No'">No Authorization</p>
+                                            <p class="mb-1 font-16 fw-600 {{isAuthDateExpire?'text-danger':''}}" *ngIf="isAuthManagmentHistory && authManagementHistory?.authorizationRequired=='Yes'">{{isBillingDetailsData? +patientCheckInCount+' of '+ authVisits +' visits, expires '+authExpireDate :'NA'}}</p>
                                         </div>
                                         <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Medicare Therapy Threshold</h3>
