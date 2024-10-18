@@ -10,6 +10,7 @@ import { CreateRequestAppointmentComponent } from './requests/create-request-app
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CaseDetailsComponent } from './case-details/case-details.component';
 import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 @NgModule({
   declarations: [ 
     // AppointmentsComponent,
@@ -30,7 +31,9 @@ import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    DatePipe
+    DatePipe,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ]
 })
 export class SupportTeamModule { }

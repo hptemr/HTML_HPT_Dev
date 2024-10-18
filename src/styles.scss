@@ -148,6 +148,31 @@ div.mat-mdc-autocomplete-panel{
     }
 }
 
+.date--time--picker{
+    position: relative;
+    .form-control{
+        border-top-right-radius: 5px !important;
+        border-bottom-right-radius: 5px !important;
+    }
+    .calendar--icon{
+        position: absolute;
+        right: 9px;
+        top: 11px;
+        z-index: 9;
+        color: #989292;
+        cursor: pointer;
+    }
+}
+.owl-dt-popup{
+    box-shadow: 0 0 5px #ddd;
+}
+.owl-dt-calendar-table .owl-dt-calendar-cell-selected{
+    background-color: #31b7b7 !important;
+}
+.owl-dt-calendar-table .owl-dt-calendar-cell-today:not(.owl-dt-calendar-cell-selected) {
+    border-color: rgb(49 183 183) !important;
+}
+
 .no--record--found{
     font-size: 20px;
     background: #f3fbfb;
