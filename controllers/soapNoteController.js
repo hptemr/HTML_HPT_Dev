@@ -64,7 +64,8 @@ const getPlanNote = async (req, res) => {
         }
       }
     }
-    commonHelper.sendResponse(res, 'success', planData);
+    let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
+    commonHelper.sendResponse(res, 'success', planData,caseData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -191,19 +192,19 @@ const finalizeNote = async (req, res) => {
             await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
             commonHelper.sendResponse(res, 'success', {}, '');
           }else{
-            commonHelper.sendResponse(res, 'error', null, "Please fill the Plan note");
+            commonHelper.sendResponse(res, 'success', null, "Please fill the Plan note to Finalize note");
           }
         }else{
-          commonHelper.sendResponse(res, 'error', null, "Please fill the Assessment note");
+          commonHelper.sendResponse(res, 'success', null, "Please fill the Assessment note to Finalize note");
         }
       }else{
-        commonHelper.sendResponse(res, 'error', null, "Please fill the Objective note");
+        commonHelper.sendResponse(res, 'success', null, "Please fill the Objective note to Finalize note");
       }
     }else{
-      commonHelper.sendResponse(res, 'error', null, "Please fill the Subjective note");
+      commonHelper.sendResponse(res, 'success', null, "Please fill the Subjective note to Finalize note");
     }
   } catch (error) {
-    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    commonHelper.sendResponse(res, 'success', null, commonMessage.wentWrong);
   }
 }
 
