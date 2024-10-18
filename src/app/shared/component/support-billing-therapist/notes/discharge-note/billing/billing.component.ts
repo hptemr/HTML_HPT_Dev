@@ -465,7 +465,7 @@ export class DischargeNoteBillingComponent {
           appointmentId : this.appointmentId
         }
         this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
-          if(response.error){
+          if(response.message!=''){
             this.commonService.openSnackBar(response.message, "ERROR");
           }else{
           this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")

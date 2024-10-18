@@ -56,6 +56,7 @@ export class PlanComponent {
   submitted = false
   minDate = new Date();
   readOnly = false
+  caseType = ""
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -86,6 +87,9 @@ export class PlanComponent {
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
       if(response.data && response.data.status=='Finalized'){
         this.readOnly = true
+      }
+      if(response && response?.message && response.message.caseType!=''){
+        this.caseType = response.message.caseType
       }
       if(response.data && response.data.appointmentId){
         this.actionType = "update"

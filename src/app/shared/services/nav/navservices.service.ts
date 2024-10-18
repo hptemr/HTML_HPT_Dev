@@ -130,7 +130,7 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 6,
-          activeMenu: 'system-documents',
+          activeMenu: 'manage-documents',
           icon: 'home',
           mainTitle: 'Manage Documents',
           headTitle1: 'Manage Documents',
