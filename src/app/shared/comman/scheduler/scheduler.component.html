@@ -1,25 +1,27 @@
 <div class="scheduler--wrapper w-100">
-    <div class="sc--header d-flex align-items-center" *ngIf="calenderView">
-        <div class="form-group mb-0 flex-shrink-0 pl--field">
-            <select class="form-select form-control form-control-md" aria-label="Default select example">
-                <option selected>Practice Location</option>
-                <option value="1">Hamilton PT at The Canyons</option>
-                <option value="2">Darby PT</option>
-                <option value="3">Corvallis PT</option>
-                <option value="4">Stevi PT</option>
-                <option value="5">PT Specialists of Florence</option>
-                <option value="6">Frenchtown PT</option>
-                <option value="7">HNB</option>
-            </select>
-            <!-- <div class="text text-danger mt-1">Error here</div> -->
-        </div>
-        <div class="d-flex align-items-center justify-content-between w-100">
+    <div class="sc--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center" *ngIf="calenderView">
+        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center flex-shrink-0 sm-w-100">
+            <div class="form-group mb-0 flex-shrink-0 pl--field">
+                <select class="form-select form-control form-control-md" aria-label="Default select example">
+                    <option selected>Practice Location</option>
+                    <option value="1">Hamilton PT at The Canyons</option>
+                    <option value="2">Darby PT</option>
+                    <option value="3">Corvallis PT</option>
+                    <option value="4">Stevi PT</option>
+                    <option value="5">PT Specialists of Florence</option>
+                    <option value="6">Frenchtown PT</option>
+                    <option value="7">HNB</option>
+                </select>
+                <!-- <div class="text text-danger mt-1">Error here</div> -->
+            </div>
             <div class="thra--profile d-flex align-items-center ">
                 <div class="pro--box me-2 flex-shrink-0">
                     <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
                 </div>
                 <h6 class="font-16 m-0 fw-700">John Therapist 1</h6>
             </div>
+        </div> 
+        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between  w-100"> 
             <div class="btn-group today--btns">
                 <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
                     (viewDateChange)="closeOpenMonthViewDay()">
@@ -54,7 +56,7 @@
         </div>
     </div>
 
-    <div class="sc--header search--filter--header d-flex align-items-center" *ngIf="searchView">
+    <div class="sc--header search--filter--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center " *ngIf="searchView">
         <div class="d-flex align-items-center flex-shrink-0">
             <button mat-stroked-button color="primary" class="m-1 back--btn" (click)="backToCalender()" >
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
@@ -147,7 +149,7 @@
         <div class="sc--right--panel d-flex flex-column w-100">
 
             <!-- Calendar view (Start here) -->
-            <div class="row w-100" *ngIf="calenderView"> 
+            <div class="w-100" *ngIf="calenderView"> 
                 <div class="col-12">
                     <div [ngSwitch]="view">
                         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
@@ -256,6 +258,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0"> 
+                        <button mat-raised-button color="primary"  (click)="close()">Close</button>
                     </div>
                      
                 </div> 
