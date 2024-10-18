@@ -950,7 +950,7 @@
                                             <i class="fa fa-calendar-o clr--fff" aria-hidden="true"></i>
                                         </button> -->
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input formControlName="RP_dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="RPDateOfInjuryPicker" (focus)="RPDateOfInjuryPicker.open()">
+                                            <input [max]="todayDate" formControlName="RP_dateOfInjury" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="RPDateOfInjuryPicker" (focus)="RPDateOfInjuryPicker.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="RPDateOfInjuryPicker"></mat-datepicker-toggle>
                                             <mat-datepicker #RPDateOfInjuryPicker></mat-datepicker>
                                         </mat-form-field>
