@@ -247,9 +247,9 @@ export class PnObjectiveComponent {
   }
 
 
- async getObjectiveRecord(){
+ async getObjectiveRecord(type:string='progress_note'){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
+      query: {appointmentId:this.appointmentId,soap_note_type:type},     
     }
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
@@ -260,8 +260,8 @@ export class PnObjectiveComponent {
       }
       if(response.data){
         objectiveData = response.data.objectiveData;
-        subjectiveData = response.data.subjectiveData;
-        this.objectiveId = objectiveData?._id;
+        subjectiveData = response.data.subjectiveData;        
+        if(objectiveData && objectiveData?.soap_note_type=='progress_note')this.objectiveId = objectiveData?._id;
         this.land_exercise_list = objectiveData?.land_exercise;
         this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};
@@ -274,9 +274,7 @@ export class PnObjectiveComponent {
                 }
               }
             });
-            this.land_exercises_names = groupedExercisesNames;
-        
-          
+            this.land_exercises_names = groupedExercisesNames;                  
             this.land_exercise_list.forEach((element:any,index:number) => {
                 if(element.exercise_date) {
                   const excersize_date = this.formatDate(element.exercise_date);
@@ -295,8 +293,7 @@ export class PnObjectiveComponent {
                           createdBy: element.createdBy
                         });                     
                 }          
-            });        
-    
+            });            
             //let land_exercise_grouped_list = Object.entries(groupedExercises);         
             Object.keys(groupedExercises).forEach(date => {
                 groupedExercisesNames.forEach((item: { exercises: string; }) => {
@@ -314,8 +311,7 @@ export class PnObjectiveComponent {
                         });
                     }
                 });
-            });
-        
+            });        
             const reorderedArray = this.reorderExercises(groupedExercises, groupedExercisesNames);
             this.land_exercise_grouped_list = Object.entries(reorderedArray); 
           }
@@ -384,6 +380,10 @@ export class PnObjectiveComponent {
           }       
     
           this.loadForm(objectiveData,subjectiveData,this.appointment_data);
+      }else {
+        if(type=='progress_note'){
+          this.getObjectiveRecord('initial_examination')
+        }
       }
           this.commonService.hideLoader();
     })
@@ -1229,7 +1229,7 @@ export class PnObjectiveComponent {
       }else{
         this.isSubmit = true
         Object.assign(formData, {
-          soap_note_type:"initial_examination",
+          soap_note_type:"progress_note",
           createdBy: this.userId,
         })
         let reqVars = {
@@ -1295,7 +1295,7 @@ export class PnObjectiveComponent {
       data : {
         appointmentId:this.appointmentId,
         type:type,
-        soap_note_type:"initial_examination",        
+        soap_note_type:"progress_note",        
        }
     });
     dialogRef.afterClosed().subscribe(result => {

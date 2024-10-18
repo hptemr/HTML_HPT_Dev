@@ -36,8 +36,10 @@ export class CreateRequestAppointmentComponent {
   public userId: string;
   public userRole: string;
   btnName: string = 'Create';
-  minToDate: any = this.commonService.displayFormatDate(new Date(),true)
-  maxToDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
+  // minToDate: any = this.commonService.displayFormatDate(new Date(),true)
+  // maxToDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
+  minToDate: Date;
+  maxToDate: Date;
   statusFlag: string;
   patientId: string = '';
   profileImage: string = '';
@@ -62,6 +64,10 @@ export class CreateRequestAppointmentComponent {
   ngOnInit() {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
+
+    const now = new Date();
+    this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
+    this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
 
     this.appointmentForm = this.fb.group({
       caseName: ['', [Validators.required]],

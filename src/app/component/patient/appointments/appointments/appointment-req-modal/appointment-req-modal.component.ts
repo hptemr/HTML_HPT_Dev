@@ -15,10 +15,11 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from '../../../../../utils/validation-messages';
 import { Router} from '@angular/router';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 @Component({
   selector: 'app-reschedule-appointment-modal',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatDialogModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
+  imports: [MatIconModule, MatButtonModule, MatDialogModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule,OwlDateTimeModule, OwlNativeDateTimeModule],
   templateUrl: './appointment-req-modal.component.html',
   styleUrl: './appointment-req-modal.component.scss'
 })
@@ -27,8 +28,10 @@ export class AppointmentReqModalComponent {
   fromDate: any
   toDate: any;
   whereCond: any = {}
-  minToDate: any = this.commonService.displayFormatDate(new Date(),true)
-  maxFromDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
+  // minToDate: any = this.commonService.displayFormatDate(new Date(),true)
+  // maxFromDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
+  minToDate: Date;
+  maxFromDate: Date;
   requestAppointmentForm: FormGroup;
   validationMessages = validationMessages
   practiceLocationData: string[] = practiceLocations
@@ -41,10 +44,13 @@ export class AppointmentReqModalComponent {
     private fb: FormBuilder,
     private router: Router,
     public dialogRef: MatDialogRef<AppointmentReqModalComponent>,
-  ) {
-  }
+  ) { }
  
   ngOnInit() {
+    const now = new Date();
+    this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
+    this.maxFromDate = this.commonService.getMaxAppoinmentFutureMonths();
+
     this.requestAppointmentForm = this.fb.group({
       appointmentDate: ['', [Validators.required]],
       practiceLocation: ['',[Validators.required]],
@@ -81,7 +87,6 @@ export class AppointmentReqModalComponent {
         return;  
     }
   }
-
   
   successModal() {
     const dialogRef = this.dialog.open(SuccessModalComponent,{
@@ -92,36 +97,6 @@ export class AppointmentReqModalComponent {
       }
     });
   }
-
-   // getAppointmentList() {
-  //   throw new Error('Method not implemented.');
-  // }
-  // onDateChange(event: any, colName: any) {
-  //   if (colName == 'fromDate') {
-  //     this.minToDate = new Date(event.target.value)
-  //   }
-  //   let dateCond
-  //   if (this.fromDate && this.toDate) {
-  //     dateCond = {
-  //       appointmentDate: {
-  //         $gte: this.fromDate,
-  //         $lte: this.toDate
-  //       }
-  //     }
-  //   } else {
-  //     if (this.fromDate) {
-  //       dateCond = {
-  //         appointmentDate: { $gte: this.fromDate }
-  //       }
-  //     } else {
-  //       dateCond = {
-  //         appointmentDate: { $lte: this.toDate }
-  //       }
-  //     }
-  //   }
-  //   Object.assign(this.whereCond, dateCond)
-  //   //this.getAppointmentList()
-  // }
-
+ 
   
 }

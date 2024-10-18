@@ -49,11 +49,17 @@ export class CreateAppointmentComponent {
   orderBy: any = { firstName: 1 }
   invalidEmailErrorMessage: string = '';
   emailError:boolean = false;
-  minToDate: any = this.commonService.displayFormatDate(new Date(),true)
-  maxToDate:any = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
-  constructor(  public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService) {}
+  //minToDate: any = this.commonService.displayFormatDate(new Date(),true)
+  //maxToDate:any  = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
+  minToDate: Date;
+  maxToDate: Date;
+  constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService) {}
 
   ngOnInit() {    
+    const now = new Date();
+    this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
+    this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
+
     if(this.userRole!='support_team'){
       this.router.navigate([''])
     }

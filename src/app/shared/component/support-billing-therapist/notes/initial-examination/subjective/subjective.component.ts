@@ -231,7 +231,7 @@ export class SubjectiveComponent implements OnInit {
               if (!this.selectedPartsFront.includes(element.part)) {
                 this.selectedPartsFront.push(element.part);
               } else {
-                this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
+                this.selectedPartsFront = this.selectedPartsFront.filter(p => p[0] !== element.part);
               }
             });
           }
@@ -241,7 +241,7 @@ export class SubjectiveComponent implements OnInit {
               if (!this.selectedPartsBack.includes(element.part)) {
                 this.selectedPartsBack.push(element.part);
               } else {
-                this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
+                this.selectedPartsBack = this.selectedPartsBack.filter(p => p[0] !== element.part);
               }
             });
           } 
@@ -452,30 +452,31 @@ export class SubjectiveComponent implements OnInit {
   }
 
   bodyClick(from:string,partName:string) {   
-    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
-      panelClass: 'custom-alert-container', 
-      data : {
-        heading: '',
-        partName:partName,
-        appId:this.appointment_data._id,
-        from:from,
-        bodyPartFront:this.bodyPartFront,
-        bodyPartBack:this.bodyPartBack,
-        appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
-        readOnly:true
-      }
-    });  
+    if (this.selectedPartsFront.includes(partName) || this.selectedPartsBack.includes(partName)) {
+      const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+        panelClass: 'custom-alert-container', 
+        data : {
+          heading: '',
+          partName:partName,
+          appId:this.appointment_data._id,
+          from:from,
+          bodyPartFront:this.bodyPartFront,
+          bodyPartBack:this.bodyPartBack,
+          appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
+          readOnly:true
+        }
+      });  
 
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){
-          if(from=='bodyPartFront'){
-            this.selectedPartsFront.push(partName);
-          }else if(from=='bodyPartBack'){
-            this.selectedPartsBack.push(partName);
-          }
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && !result.error){
+            if(from=='bodyPartFront'){
+              this.selectedPartsFront.push(partName);
+            }else if(from=='bodyPartBack'){
+              this.selectedPartsBack.push(partName);
+            }
+        }
+      });
+    }
   }
-  
 }

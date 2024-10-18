@@ -309,8 +309,10 @@ export class AppointmentDetailsComponent implements OnInit {
       if(response?.data && response?.data.authManagement.length){
         this.isAuthManagmentHistory = true
         let allAuthManagementHistory = response?.data.authManagement.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        this.authManagementHistory = allAuthManagementHistory[0]
-        this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
+        this.authManagementHistory = allAuthManagementHistory[0];
+        if(this.authManagementHistory?.authorizationToDate){
+          this.authExpireDate =  this.datePipe.transform(new Date(this.authManagementHistory?.authorizationToDate), 'MM/dd/yyyy')!;
+        }        
         this.authVisits = this.authManagementHistory?.authorizationVisit
         this.isAuthDateExpire = (this.authExpireDate!='NA' && this.todayDate > this.authExpireDate)?true:false
       }

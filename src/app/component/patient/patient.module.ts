@@ -26,6 +26,7 @@ import { AddInsuranceModalComponent } from './book-appointment/add-insurance-mod
 import { HomeExerciseComponent } from './home-exercise/home-exercise.component';
 import { IMaskModule } from 'angular-imask';  
 import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/intake-step3/body-details-modal/body-details-modal.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 @NgModule({
   declarations: [
     AppointmentsComponent, 
@@ -55,7 +56,9 @@ import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/
     ReactiveFormsModule, 
     SharedModule,  
     FileUploadModule,
-    IMaskModule
+    IMaskModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   providers: [{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }],
 
