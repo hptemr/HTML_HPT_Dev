@@ -31,6 +31,7 @@ export class AdminProfileComponent {
   profileImage: any
   showProfileForm: boolean = false
   isDefaultImage:boolean = true
+  hasInviteToken: boolean = false
 
   constructor(
     private router: Router,
@@ -75,7 +76,7 @@ export class AdminProfileComponent {
     this.commonService.showLoader() 
       let bodyData = {
         query: { _id: this.adminId },
-        params: { profileImage: 1, firstName: 1, lastName: 1, email: 1, phoneNumber: 1, status: 1, practiceLocation: 1, role: 1, NPI: 1, SSN: 1, siteLeaderForPracLocation: 1, licenceNumber: 1 }
+        params: { profileImage: 1, firstName: 1, lastName: 1, email: 1, phoneNumber: 1, status: 1, practiceLocation: 1, role: 1, NPI: 1, SSN: 1, siteLeaderForPracLocation: 1, licenceNumber: 1, inviteToken:1 }
       }
       this.adminService.profile(bodyData).subscribe({
         next: (res) => {
@@ -91,6 +92,9 @@ export class AdminProfileComponent {
             this.practiceAdminProfileForm.controls['status'].setValue(res.data ? res.data.status : '');
             this.selectedLocations = res.data.practiceLocation
             this.userRole = res.data.role
+
+            this.hasInviteToken = (res.data?.inviteToken)? true :false
+            if(this.hasInviteToken){ this.practiceAdminProfileForm.get('status')?.disable() }
 
             // Therapist Fields
             if (this.userRole == 'therapist') {

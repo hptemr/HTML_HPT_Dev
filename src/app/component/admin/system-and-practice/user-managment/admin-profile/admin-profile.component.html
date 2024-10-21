@@ -110,9 +110,9 @@
 
                                 <div class="col-12 col-lg-6">
                                     <div class="form-group">
-                                        <label class="col-form-label fw-600">Status  </label>
+                                        <label class="col-form-label fw-600">Status</label>
                                         <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="status">
-                                            <option value="Pending">Pending</option>
+                                            <option value="Pending" [disabled]="!hasInviteToken">Pending</option>
                                             <option value="Active">Active</option>
                                             <option value="Suspended">Suspended</option>
                                             <option value="Deleted">Deleted</option>

@@ -7,4 +7,5 @@ export const regex = {
     numericAndSpecialCharacter: /^[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/,
     alphanumeric: /^[a-zA-Z0-9]*$/,
     numericWithDecimal:/^\d+(\.\d{2})?$/,
+    alphabeticWithSpace: /^[A-Za-z\s]+$/,
 };

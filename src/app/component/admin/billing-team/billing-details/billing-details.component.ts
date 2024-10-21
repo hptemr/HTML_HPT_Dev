@@ -125,7 +125,7 @@ export class BillingDetailsComponent {
       SI_copayAmt: ['',[Validators.pattern(regex.numericWithDecimal)]],
       SI_highDeductible: ['',[Validators.pattern(regex.numericWithDecimal)]],
       SI_deductibleNetAmt: ['',[Validators.pattern(regex.numericWithDecimal)]],
-      SI_hardSoftCap: ['',[Validators.required]],
+      SI_hardSoftCap: [''],
       SI_hardSoftCapText: [''],
 
       RP_relationWithPatient: ['', []],
@@ -143,7 +143,7 @@ export class BillingDetailsComponent {
       RP_injuryRelatedTo: ['', []],
       RP_reportedToEmployer: ['', []],
 
-      AI_attorneyName: ['', [Validators.required,Validators.pattern(regex.alphabetic)]],
+      AI_attorneyName: ['', [Validators.required,Validators.pattern(regex.alphabeticWithSpace)]],
       AI_attorneyPhone: ['', [Validators.required,Validators.pattern(regex.usPhoneNumber)]],
       AI_attorneyAddress: ['', [Validators.required]],
       inCollection:['No', [Validators.required]]
@@ -281,20 +281,35 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.controls['SI_hardSoftCap'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_hardSoftCap : "");
     this.billingDetailsForm.controls['SI_hardSoftCapText'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_hardSoftCapText : "");
 
-    this.billingDetailsForm.controls['RP_relationWithPatient'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_relationWithPatient : "");
-    this.billingDetailsForm.controls['RP_otherRelation'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_otherRelation : "");
-    this.billingDetailsForm.controls['RP_firstName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_firstName : "");
-    this.billingDetailsForm.controls['RP_middleName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_middleName : "");
-    this.billingDetailsForm.controls['RP_lastName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_lastName : "");
-    this.billingDetailsForm.controls['RP_dob'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_dob : "");
-    this.billingDetailsForm.controls['RP_maritalStatus'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_maritalStatus : "");
-    this.billingDetailsForm.controls['RP_gender'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_gender : "");
-    this.billingDetailsForm.controls['RP_email'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_email : "");
-    this.billingDetailsForm.controls['RP_phoneNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_phoneNo : "");
-    this.billingDetailsForm.controls['RP_cellPhoneNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_cellPhoneNo : "");
-    this.billingDetailsForm.controls['RP_workExtension'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_workExtension : "");
-    this.billingDetailsForm.controls['RP_injuryRelatedTo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_injuryRelatedTo : "");
-    this.billingDetailsForm.controls['RP_reportedToEmployer'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_reportedToEmployer : "");
+    // this.billingDetailsForm.controls['RP_relationWithPatient'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_relationWithPatient : "");
+    // this.billingDetailsForm.controls['RP_otherRelation'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_otherRelation : "");
+    // this.billingDetailsForm.controls['RP_firstName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_firstName : "");
+    // this.billingDetailsForm.controls['RP_middleName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_middleName : "");
+    // this.billingDetailsForm.controls['RP_lastName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_lastName : "");
+    // this.billingDetailsForm.controls['RP_dob'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_dob : "");
+    // this.billingDetailsForm.controls['RP_maritalStatus'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_maritalStatus : "");
+    // this.billingDetailsForm.controls['RP_gender'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_gender : "");
+    // this.billingDetailsForm.controls['RP_email'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_email : "");
+    // this.billingDetailsForm.controls['RP_phoneNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_phoneNo : "");
+    // this.billingDetailsForm.controls['RP_cellPhoneNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_cellPhoneNo : "");
+    // this.billingDetailsForm.controls['RP_workExtension'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_workExtension : "");
+    // this.billingDetailsForm.controls['RP_injuryRelatedTo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_injuryRelatedTo : "");
+    // this.billingDetailsForm.controls['RP_reportedToEmployer'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_reportedToEmployer : "");
+
+    this.billingDetailsForm.controls['RP_relationWithPatient'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_relationWithPatient : this.adminPayViaInsuranceInfo?.relationWithPatient);
+    this.billingDetailsForm.controls['RP_otherRelation'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_otherRelation : this.adminPayViaInsuranceInfo?.otherRelation);
+    this.billingDetailsForm.controls['RP_firstName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_firstName : this.adminPayViaInsuranceInfo?.firstName);
+    this.billingDetailsForm.controls['RP_middleName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_middleName : this.adminPayViaInsuranceInfo?.middleName);
+    this.billingDetailsForm.controls['RP_lastName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_lastName : this.adminPayViaInsuranceInfo?.lastName);
+    this.billingDetailsForm.controls['RP_dob'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_dob : this.adminPayViaInsuranceInfo?.dob);
+    this.billingDetailsForm.controls['RP_maritalStatus'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_maritalStatus : this.adminPayViaInsuranceInfo?.maritalStatus);
+    this.billingDetailsForm.controls['RP_gender'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_gender : this.adminPayViaInsuranceInfo?.gender);
+    this.billingDetailsForm.controls['RP_email'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_email : this.adminPayViaInsuranceInfo?.email);
+    this.billingDetailsForm.controls['RP_phoneNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_phoneNo : this.adminPayViaInsuranceInfo?.phoneNumber);
+    this.billingDetailsForm.controls['RP_cellPhoneNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_cellPhoneNo : this.adminPayViaInsuranceInfo?.cellPhoneNumber);
+    this.billingDetailsForm.controls['RP_workExtension'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_workExtension : this.adminPayViaInsuranceInfo?.workExtensionNumber);
+    this.billingDetailsForm.controls['RP_injuryRelatedTo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_injuryRelatedTo : this.adminPayViaInsuranceInfo?.injuryRelelatedTo);
+    this.billingDetailsForm.controls['RP_reportedToEmployer'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_reportedToEmployer : this.adminPayViaInsuranceInfo?.reportedEmployer);
 
     this.billingDetailsForm.controls['AI_attorneyName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyName : this.adminPayViaInsuranceInfo?.attorneyName);
     this.billingDetailsForm.controls['AI_attorneyPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyPhone : this.adminPayViaInsuranceInfo?.attorneyPhone);
@@ -303,13 +318,19 @@ export class BillingDetailsComponent {
 
     if(this.isBillingDetailsData && this.billingDetailsData?.thirdInsurance){
       this.addThirdInsurance('add_circle')
+    }else if(!this.isBillingDetailsData && this.adminPayViaInsuranceInfo?.thirdInsuranceCompany){
+      this.addThirdInsurance('add_circle')
     }
 
     if(this.isBillingDetailsData && this.billingDetailsData?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)"){
       this.onChangeInjuryRelated({value:"Worker's Compensation (WCOMP)"})
+    }else if(!this.isBillingDetailsData && this.adminPayViaInsuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
+      this.onChangeInjuryRelated({value:"Worker's Compensation (WCOMP)"})
     }
 
     if(this.isBillingDetailsData && this.billingDetailsData?.RP_reportedToEmployer=="Yes"){
+      this.onChangeReportedToEmployer({value:"Yes"})
+    }else if(!this.isBillingDetailsData && this.adminPayViaInsuranceInfo?.reportedEmployer=="Yes"){
       this.onChangeReportedToEmployer({value:"Yes"})
     }
   }
@@ -505,7 +526,7 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.addControl('EI_employerPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
     this.billingDetailsForm.addControl('EI_employerAddress', this.fb.control('', [Validators.required]));
 
-    if(this.isBillingDetailsData && this.billingDetailsData?.RP_reportedToEmployer=="Yes"){
+    if((this.isBillingDetailsData && this.billingDetailsData?.RP_reportedToEmployer=="Yes") || this.adminPayViaInsuranceInfo?.reportedEmployer=="Yes"){
       this.setReportedToEmployerData()
     }
   }
@@ -525,7 +546,7 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.addControl('RP_adjusterPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
     
 
-    if(this.isBillingDetailsData && this.billingDetailsData?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)"){
+    if((this.isBillingDetailsData && this.billingDetailsData?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)") || this.adminPayViaInsuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
       this.setWorkerCompensationInjuryData()
     }
   }
@@ -564,10 +585,10 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.addControl('TI_copayAmt', this.fb.control('', [Validators.pattern(regex.numericWithDecimal)]));
     this.billingDetailsForm.addControl('TI_highDeductible', this.fb.control('', [Validators.pattern(regex.numericWithDecimal)]));
     this.billingDetailsForm.addControl('TI_deductibleNetAmt', this.fb.control('', [Validators.pattern(regex.numericWithDecimal)]));
-    this.billingDetailsForm.addControl('TI_hardSoftCap', this.fb.control('', [Validators.required]));
+    this.billingDetailsForm.addControl('TI_hardSoftCap', this.fb.control(''));
     this.billingDetailsForm.addControl('TI_hardSoftCapText', this.fb.control('', []));
 
-    if(this.isBillingDetailsData && this.billingDetailsData?.thirdInsurance){
+    if((this.isBillingDetailsData && this.billingDetailsData?.thirdInsurance) || this.adminPayViaInsuranceInfo?.thirdInsuranceCompany){
       this.setThirdInsuranceData()
     }
   }
@@ -592,15 +613,15 @@ export class BillingDetailsComponent {
   }
 
   setThirdInsuranceData(){
-    this.billingDetailsForm.controls['thirdInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.thirdInsurance : "");
-    this.billingDetailsForm.controls['TI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_idPolicy : "");
-    this.billingDetailsForm.controls['TI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_group : "");
-    this.billingDetailsForm.controls['TI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_customerServicePhNo : "");
+    this.billingDetailsForm.controls['thirdInsurance'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.thirdInsurance : this.adminPayViaInsuranceInfo?.thirdInsuranceCompany);
+    this.billingDetailsForm.controls['TI_idPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_idPolicy :this.adminPayViaInsuranceInfo?.thirdInsuranceIdPolicy);
+    this.billingDetailsForm.controls['TI_group'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_group : this.adminPayViaInsuranceInfo?.thirdInsuranceGroup);
+    this.billingDetailsForm.controls['TI_customerServicePhNo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_customerServicePhNo : this.adminPayViaInsuranceInfo?.thirdInsuranceCustomerServicePh);
     this.billingDetailsForm.controls['TI_authorization'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_authorization : "");
     this.billingDetailsForm.controls['TI_authorizationFromDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_authorizationFromDate : "");
     this.billingDetailsForm.controls['TI_authorizationToDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_authorizationToDate : "");
-    this.billingDetailsForm.controls['TI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_effectiveDate : "");
-    this.billingDetailsForm.controls['TI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_endDate : "");
+    this.billingDetailsForm.controls['TI_effectiveDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_effectiveDate : this.adminPayViaInsuranceInfo?.thirdInsuranceFromDate);
+    this.billingDetailsForm.controls['TI_endDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_endDate : this.adminPayViaInsuranceInfo?.thirdInsuranceToDate);
     this.billingDetailsForm.controls['TI_rxRequired'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_rxRequired : "");
     this.billingDetailsForm.controls['TI_copayAmt'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_copayAmt : "");
     this.billingDetailsForm.controls['TI_highDeductible'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.TI_highDeductible : "");
@@ -610,18 +631,18 @@ export class BillingDetailsComponent {
   }
 
   setWorkerCompensationInjuryData(){
-    this.billingDetailsForm.controls['RP_carrierName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_carrierName : "");
-    this.billingDetailsForm.controls['RP_dateOfInjury'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_dateOfInjury : "");
-    this.billingDetailsForm.controls['RP_state'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_state : "");
-    this.billingDetailsForm.controls['RP_claim'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_claim : "");
-    this.billingDetailsForm.controls['RP_adjusterName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterName : "");
-    this.billingDetailsForm.controls['RP_adjusterPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterPhone : "");
+    this.billingDetailsForm.controls['RP_carrierName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_carrierName : this.adminPayViaInsuranceInfo?.carrierName);
+    this.billingDetailsForm.controls['RP_dateOfInjury'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_dateOfInjury : this.adminPayViaInsuranceInfo?.dateOfInjury);
+    this.billingDetailsForm.controls['RP_state'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_state : this.adminPayViaInsuranceInfo?.insuranceState);
+    this.billingDetailsForm.controls['RP_claim'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_claim : this.adminPayViaInsuranceInfo?.claim);
+    this.billingDetailsForm.controls['RP_adjusterName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterName : this.adminPayViaInsuranceInfo?.adjusterName);
+    this.billingDetailsForm.controls['RP_adjusterPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterPhone : this.adminPayViaInsuranceInfo?.adjusterPhone);
   }
 
   setReportedToEmployerData(){
-    this.billingDetailsForm.controls['EI_employerName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerName : "");
-    this.billingDetailsForm.controls['EI_employerPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerPhone : "");
-    this.billingDetailsForm.controls['EI_employerAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerAddress : "");
+    this.billingDetailsForm.controls['EI_employerName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerName : this.adminPayViaInsuranceInfo?.employerName);
+    this.billingDetailsForm.controls['EI_employerPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerPhone : this.adminPayViaInsuranceInfo?.employerPhone);
+    this.billingDetailsForm.controls['EI_employerAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerAddress : this.adminPayViaInsuranceInfo?.employerAddress);
   }
   
   onEmailInput(event: any,val:string) {

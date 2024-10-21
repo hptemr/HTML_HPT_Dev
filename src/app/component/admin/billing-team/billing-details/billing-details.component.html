@@ -504,14 +504,14 @@
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                             <div class="form-group d-flex align-items-center">
                                 <!-- <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label> -->
-                                <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"><span class="clr--DF0404 ms-1"> *</span></label>
+                                <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label>
                                 <mat-radio-group aria-label="Select an option" formControlName="SI_hardSoftCap">
                                     <mat-radio-button value="Hard Cap" class="me-3" checked>Hard Cap</mat-radio-button>
                                     <mat-radio-button value="Soft Cap">Soft Cap</mat-radio-button>
                                 </mat-radio-group>
-                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['SI_hardSoftCap'].touched && billingDetailsForm.controls['SI_hardSoftCap'].hasError('required')">
+                                <!-- <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['SI_hardSoftCap'].touched && billingDetailsForm.controls['SI_hardSoftCap'].hasError('required')">
                                     {{ validationMessages.required('Hard/Soft Cap') }}
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-8 col-xl-9 mb-3">
@@ -739,14 +739,14 @@
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                             <div class="form-group d-flex align-items-center">
                                 <!-- <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label> -->
-                                <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"><span class="clr--DF0404 ms-1"> *</span></label>
+                                <label class="col-form-label fw-600 p-0 me-3 label--width flex-shrink-0"></label>
                                 <mat-radio-group aria-label="Select an option" [disabled]="false" formControlName="TI_hardSoftCap">
                                     <mat-radio-button value="Hard Cap" class="me-3" checked>Hard Cap</mat-radio-button>
                                     <mat-radio-button value="Soft Cap">Soft Cap</mat-radio-button>
                                 </mat-radio-group>
-                                <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['TI_hardSoftCap'].touched && billingDetailsForm.controls['TI_hardSoftCap'].hasError('required')">
+                                <!-- <div class="text text-danger mt-1" *ngIf="billingDetailsForm.controls['TI_hardSoftCap'].touched && billingDetailsForm.controls['TI_hardSoftCap'].hasError('required')">
                                     {{ validationMessages.required('Hard/Soft Cap') }}
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-8 col-xl-9 mb-3">
@@ -766,9 +766,11 @@
                                 <label class="col-form-label fw-600">Relationship with Patient</label>
                                 <select class="form-select form-control" aria-label="Default select example" formControlName="RP_relationWithPatient">
                                     <option value="" selected>Select</option>
-                                    <option value="Self">Self</option>
-                                    <option value="Spouse">Spouse</option>
-                                    <option value="Child">Child</option>
+                                    <option value="Friend">Friend</option>
+                                    <option value="Father">Father</option>
+                                    <option value="Mother">Mother</option>
+                                    <option value="Wife">Wife</option>
+                                    <option value="Husband">Husband</option>
                                     <option value="Other">Other</option>
                                 </select>
                                 <!-- <div class="text text-danger mt-1">Error here</div> -->

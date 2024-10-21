@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse  } from '@angular/common/http';
+import { Observable, throwError  } from 'rxjs';
 import { AuthService } from '../api/auth.service';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -16,6 +17,19 @@ export class JwtInterceptor implements HttpInterceptor {
                 setHeaders: { Authorization: `Bearer ${userData.token}` }
             });
         }
-        return next.handle(request);
+        // return next.handle(request);
+
+        return next.handle(request).pipe(
+            catchError((error: HttpErrorResponse) => {
+              if (error.status === 401 ) {
+                // Handle unauthorized
+                let req_vars = { _id: userData?._id, userType: userData?.role }
+                this.authService.apiRequest('post', 'auth/logout', req_vars).subscribe(result => { })
+                this.authService.logout(userData.role)
+              }
+              return throwError(error); // Return the error back to the component
+            })
+        );
+    
     }
 }
