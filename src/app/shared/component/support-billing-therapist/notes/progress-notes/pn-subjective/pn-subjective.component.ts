@@ -187,10 +187,11 @@ export class PnSubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData;
         this.status = subjectiveData.status;  
+        if(subjectiveData.soap_note_type=='progress_note')this.subjectiveId = subjectiveData._id;
         if(type=='initial_examination' && subjectiveData.status=='Finalized'){
           this.status = 'Draft';
         }
-        this.subjectiveId = subjectiveData._id;
+       
         this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
@@ -211,7 +212,10 @@ export class PnSubjectiveComponent implements OnInit {
         this.selectedCode = this.icdCodeList.length>0 ? true : false;
       }else{
         if(type=='progress_note'){
+          this.selectedPartsFront = [];
+          this.selectedPartsBack = [];
           this.getSubjectiveRecord('initial_examination')
+
         }
       }
 
@@ -240,7 +244,7 @@ export class PnSubjectiveComponent implements OnInit {
               if (!this.selectedPartsFront.includes(element.part)) {
                 this.selectedPartsFront.push(element.part);
               } else {
-                this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
+                this.selectedPartsFront = this.selectedPartsFront.filter(p => p[0] !== element.part);
               }
             });
           }
@@ -250,7 +254,7 @@ export class PnSubjectiveComponent implements OnInit {
               if (!this.selectedPartsBack.includes(element.part)) {
                 this.selectedPartsBack.push(element.part);
               } else {
-                this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
+                this.selectedPartsBack = this.selectedPartsBack.filter(p => p[0] !== element.part);
               }
             });
           } 
@@ -462,30 +466,32 @@ export class PnSubjectiveComponent implements OnInit {
   }
 
   bodyClick(from:string,partName:string) {   
-    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
-      panelClass: 'custom-alert-container', 
-      data : {
-        heading: '',
-        partName:partName,
-        appId:this.appointment_data._id,
-        from:from,
-        bodyPartFront:this.bodyPartFront,
-        bodyPartBack:this.bodyPartBack,
-        appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
-        readOnly:true
-      }
-    });  
+    if (this.selectedPartsFront.includes(partName) || this.selectedPartsBack.includes(partName)) {
+      const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+        panelClass: 'custom-alert-container', 
+        data : {
+          heading: '',
+          partName:partName,
+          appId:this.appointment_data._id,
+          from:from,
+          bodyPartFront:this.bodyPartFront,
+          bodyPartBack:this.bodyPartBack,
+          appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
+          readOnly:true
+        }
+      });  
 
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){
-          if(from=='bodyPartFront'){
-            this.selectedPartsFront.push(partName);
-          }else if(from=='bodyPartBack'){
-            this.selectedPartsBack.push(partName);
-          }
-      }
-    });
-  }
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && !result.error){
+            if(from=='bodyPartFront'){
+              this.selectedPartsFront.push(partName);
+            }else if(from=='bodyPartBack'){
+              this.selectedPartsBack.push(partName);
+            }
+        }
+      });
+     }
+    }
   
 }

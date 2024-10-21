@@ -231,7 +231,7 @@ export class SubjectiveComponent implements OnInit {
               if (!this.selectedPartsFront.includes(element.part)) {
                 this.selectedPartsFront.push(element.part);
               } else {
-                this.selectedPartsFront = this.selectedPartsFront.filter(p => p !== element.part);
+                this.selectedPartsFront = this.selectedPartsFront.filter(p => p[0] !== element.part);
               }
             });
           }
@@ -241,7 +241,7 @@ export class SubjectiveComponent implements OnInit {
               if (!this.selectedPartsBack.includes(element.part)) {
                 this.selectedPartsBack.push(element.part);
               } else {
-                this.selectedPartsBack = this.selectedPartsBack.filter(p => p !== element.part);
+                this.selectedPartsBack = this.selectedPartsBack.filter(p => p[0] !== element.part);
               }
             });
           } 
@@ -368,7 +368,6 @@ export class SubjectiveComponent implements OnInit {
     });
   }
 
-
   subjectiveSubmit(formData:any){
     this.diagnosisClicked = true
     if (this.subjectiveForm.invalid){
@@ -387,8 +386,7 @@ export class SubjectiveComponent implements OnInit {
           Object.assign(formData, {updateInfo:updateInfo})
         }else{
           Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,soap_note_type:'initial_examination',status:'Draft',createdBy:this.userId})
-        }
-        
+        }        
         let reqVars = {
           userId: this.userId,
           data: formData,
@@ -408,8 +406,7 @@ export class SubjectiveComponent implements OnInit {
           this.commonService.hideLoader();
           setTimeout(() => {
             this.submitted = false
-          }, 3000)
-          
+          }, 3000)          
         })
     }
   }
@@ -441,41 +438,38 @@ export class SubjectiveComponent implements OnInit {
     control.removeAt(index);
   }
 
-
   get diagnosisCodeInfo() {
     return this.subjectiveForm.get('diagnosis_code') as FormArray;
   }
-
   
   checkSpace(colName: any, event: any) {
     this.subjectiveForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
   }
 
   bodyClick(from:string,partName:string) {   
-    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
-      panelClass: 'custom-alert-container', 
-      data : {
-        heading: '',
-        partName:partName,
-        appId:this.appointment_data._id,
-        from:from,
-        bodyPartFront:this.bodyPartFront,
-        bodyPartBack:this.bodyPartBack,
-        appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
-        readOnly:true
-      }
-    });  
-
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){
-          if(from=='bodyPartFront'){
-            this.selectedPartsFront.push(partName);
-          }else if(from=='bodyPartBack'){
-            this.selectedPartsBack.push(partName);
-          }
-      }
-    });
+    if (this.selectedPartsFront.includes(partName) || this.selectedPartsBack.includes(partName)) {
+      const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+        panelClass: 'custom-alert-container', 
+        data : {
+          heading: '',
+          partName:partName,
+          appId:this.appointment_data._id,
+          from:from,
+          bodyPartFront:this.bodyPartFront,
+          bodyPartBack:this.bodyPartBack,
+          appointmentUpdateInfo:this.appointment_data.appointmentUpdateInfo,
+          readOnly:true
+        }
+      });  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && !result.error){
+            if(from=='bodyPartFront'){
+              this.selectedPartsFront.push(partName);
+            }else if(from=='bodyPartBack'){
+              this.selectedPartsBack.push(partName);
+            }
+        }
+      });
+    }
   }
-  
 }

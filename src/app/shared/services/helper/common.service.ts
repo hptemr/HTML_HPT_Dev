@@ -213,8 +213,7 @@ export class CommonService {
   formatDateInUTC(dateval:any,dateformat:any) {
     const currentDate = new Date(dateval);
     //'EEE, MMM d, y hh:mm a'              'MM/dd/yyyy hh:mm a' 
-    const utcDateString1 = this.datePipe.transform(currentDate, 'MM/dd/yyyy hh:mm a', 'UTC');
-    console.log(dateval,'utcDateString1utcDateString1>>>>',utcDateString1)
+    const utcDateString1 = this.datePipe.transform(currentDate, 'MM/dd/yyyy hh:mm a', 'UTC');    
     const utcDateString = this.datePipe.transform(currentDate, dateformat, 'UTC');
     return utcDateString;
   }

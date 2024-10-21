@@ -8,17 +8,16 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Preferred Date & Time</label>
-                    <!-- <mat-form-field class="w-100 am--datepicker">
-                        <input [(ngModel)]="fromDate" [min]="minToDate" formControlName="appointmentDate" readonly="isReadonly" [max]="maxFromDate" placeholder="From Date" matInput
-                            [matDatepicker]="picker">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field> -->
-
-                    <!-- Added New Date and Time Picker -->
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                             <input (keydown)="false" class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local" [(ngModel)]="fromDate" [min]="minToDate" formControlName="appointmentDate"  [max]="maxFromDate" placeholder="From Date" >
-                            <!-- onfocus="this.showPicker()" -->
+                             onfocus="this.showPicker()" 
+                    </div> -->
+                    <div class="input-group date--time--picker"> 
+                        <input class="form-control" [min]="minToDate" [max]="maxFromDate" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" formControlName="appointmentDate">
+                            <span class="trigger" [owlDateTimeTrigger]="dt">
+                                <mat-icon class="calendar--icon">calendar_month</mat-icon>
+                            </span>
+                        <owl-date-time #dt></owl-date-time> 
                     </div>
                 </div>
                 <div class="text text-danger mt-1" *ngIf="requestAppointmentForm.controls['appointmentDate'].touched && requestAppointmentForm.controls['appointmentDate'].hasError('required')">

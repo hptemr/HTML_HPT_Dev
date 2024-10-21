@@ -115,7 +115,7 @@
                         <input (keydown)="false" class="form-control digits cursor-pointer" [min]="minToDate" [max]="maxToDate" formControlName="appointmentDate" id="example-datetime-local-input" type="datetime-local" value="">
                     </div> -->
                     <div class="input-group date--time--picker"> 
-                        <input class="form-control" [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
+                        <input class="form-control" [min]="minToDate" [max]="maxToDate" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" formControlName="appointmentDate">
                             <span class="trigger" [owlDateTimeTrigger]="dt">
                                 <mat-icon class="calendar--icon">calendar_month</mat-icon>
                             </span>
