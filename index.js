@@ -10,6 +10,7 @@ var routesApi = require('./routes')
 var constants = require('./config/constants')
 const db = require('./config/database'); 
 var compress = require('compression');
+let { checkUserDeleted } = require('./middlewares/commonMiddleware ');
 
 app.use(compress());
 app.set('view engine', 'jade');
@@ -25,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('tmp'))
-app.use('/api', routesApi);
+app.use('/api', checkUserDeleted, routesApi);
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', express.static(path.join(__dirname, 'dist')))
 app.get('/*', (req, res) => {

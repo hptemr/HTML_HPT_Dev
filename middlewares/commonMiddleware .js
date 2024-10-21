@@ -5,6 +5,7 @@ const { userMessage, commonMessage } = require('../helpers/message');
 const bcrypt = require('bcrypt')
 const User = require('../models/userModel');
 const Patient = require('../models/patientModel');
+const jwt = require('jsonwebtoken');
 
 const checkLoginValidation = async (req, res, next) =>{
     try {
@@ -94,8 +95,25 @@ const checkLoginValidation = async (req, res, next) =>{
     }
  }
 
+ const checkUserDeleted = async (req, res, next) => {
+    const tokenWithBearer = req.header('Authorization');
+    const token = tokenWithBearer ? tokenWithBearer.split(' ')[1]:''; // Return token without Bearer
+    if(token){
+        const decoded = jwt.verify(token, process.env.SECRET);
+        let userId = decoded._id;
+        const statusesToCheck = ['Deleted'];
+        let userExist = await User.findOne({ _id: userId, status: { $in: statusesToCheck }});
+        console.log("userExist>>>",userExist)
+        if(userExist && userExist!=null){
+            return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.inactiveUser);
+        }
+    }
+    next();
+  };
+
  module.exports = {
     checkLoginValidation,
     checkPatientLoginValidation,
-    checkTherapistValidation
+    checkTherapistValidation,
+    checkUserDeleted
 };
