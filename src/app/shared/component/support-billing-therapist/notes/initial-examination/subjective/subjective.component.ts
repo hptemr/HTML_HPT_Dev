@@ -368,7 +368,6 @@ export class SubjectiveComponent implements OnInit {
     });
   }
 
-
   subjectiveSubmit(formData:any){
     this.diagnosisClicked = true
     if (this.subjectiveForm.invalid){
@@ -387,8 +386,7 @@ export class SubjectiveComponent implements OnInit {
           Object.assign(formData, {updateInfo:updateInfo})
         }else{
           Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,soap_note_type:'initial_examination',status:'Draft',createdBy:this.userId})
-        }
-        
+        }        
         let reqVars = {
           userId: this.userId,
           data: formData,
@@ -408,8 +406,7 @@ export class SubjectiveComponent implements OnInit {
           this.commonService.hideLoader();
           setTimeout(() => {
             this.submitted = false
-          }, 3000)
-          
+          }, 3000)          
         })
     }
   }
@@ -441,11 +438,9 @@ export class SubjectiveComponent implements OnInit {
     control.removeAt(index);
   }
 
-
   get diagnosisCodeInfo() {
     return this.subjectiveForm.get('diagnosis_code') as FormArray;
   }
-
   
   checkSpace(colName: any, event: any) {
     this.subjectiveForm.controls[colName].setValue(this.commonService.capitalize(event.target.value.trim()))
@@ -466,8 +461,6 @@ export class SubjectiveComponent implements OnInit {
           readOnly:true
         }
       });  
-
-
       dialogRef.afterClosed().subscribe(result => {
         if(result && !result.error){
             if(from=='bodyPartFront'){
