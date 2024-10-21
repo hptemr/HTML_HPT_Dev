@@ -247,10 +247,11 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   deleteNote(appointmentId:any,noteType:any){
+    
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: 'Are you sure you want to delete this note?'
+        warningNote: 'Are you sure you want to delete this '+this.soapNoteType(noteType)+'?'
       }
     });
 
@@ -379,8 +380,25 @@ export class AppointmentDetailsComponent implements OnInit {
       return 'discharge-notes'
     }else{
       return value.replace('_','-')
-    }
-    
+    }    
   }
+
+  soapNoteType(soap_note_type: string): string {
+    switch (soap_note_type) {
+      case 'initial_examination':
+        return 'Initial Examinations';
+      case 'daily_note':
+        return 'Daily Notes';
+      case 'progress_note':
+        return 'Progress Notes';
+      case 'discharge_note':
+        return 'Discharge Notes';
+      case 'case_note':
+          return 'Case Notes';
+      default:
+        return soap_note_type.replace('_','-');
+    }
+  }
+
 
 }
