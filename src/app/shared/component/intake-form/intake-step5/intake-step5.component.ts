@@ -117,7 +117,11 @@ export class IntakeStep5Component {
         updateInfo: formData
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-          this.successModal()
+          if(this.userRole=='patient'){
+            this.successModal()
+          }else{
+            this.commonService.openSnackBar("Intake form submit successfully", "SUCCESS")
+          }
       })
     } else {
       this.router.navigate([this.activeUserRoute, 'case-details', this.appId])

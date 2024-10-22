@@ -223,16 +223,16 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
-        {
-          id: 4,
-          activeMenu: 'patients',
-          icon: 'group',
-          mainTitle: 'Patients',
-          headTitle1: '',
-          path: '/therapist/patients',
-          active: false,
-          item: []
-        },
+        // {
+        //   id: 4,
+        //   activeMenu: 'patients',
+        //   icon: 'group',
+        //   mainTitle: 'Patients',
+        //   headTitle1: '',
+        //   path: '/therapist/patients',
+        //   active: false,
+        //   item: []
+        // },
         // {
         //   id: 4,
         //   icon: 'chat_bubble_outline',
@@ -253,7 +253,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 5,
+          id: 4,
           activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  
@@ -264,7 +264,7 @@ export class NavservicesService implements OnInit {
           item: [ ]
         },
         {
-          id: 6,
+          id: 5,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -342,18 +342,18 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
+        // {
+        //   id: 3,
+        //   activeMenu: 'patients',
+        //   icon: 'group',
+        //   mainTitle: 'Patients',
+        //   headTitle1: '',
+        //   path: '/billing-team/patients',
+        //   active: false,
+        //   item: []
+        // },
         {
           id: 3,
-          activeMenu: 'patients',
-          icon: 'group',
-          mainTitle: 'Patients',
-          headTitle1: '',
-          path: '/billing-team/patients',
-          active: false,
-          item: []
-        },
-        {
-          id: 4,
           activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  
@@ -364,7 +364,7 @@ export class NavservicesService implements OnInit {
           item: [ ]
         },
         {
-          id: 5,
+          id: 4,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -439,16 +439,16 @@ export class NavservicesService implements OnInit {
           type: 'link',
           item: []
         },
-        {
-          id: 4,
-          activeMenu: 'patients',
-          icon: 'group',
-          mainTitle: 'Patients',
-          headTitle1: '',
-          path: '/support-team/patients',
-          active: false,
-          item: []
-        },
+        // {
+        //   id: 4,
+        //   activeMenu: 'patients',
+        //   icon: 'group',
+        //   mainTitle: 'Patients',
+        //   headTitle1: '',
+        //   path: '/support-team/patients',
+        //   active: false,
+        //   item: []
+        // },
         // {
         //   id: 5,
         //   icon: 'people',
@@ -470,7 +470,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 5,
+          id: 4,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -480,7 +480,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 6,
+          id: 5,
           activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  

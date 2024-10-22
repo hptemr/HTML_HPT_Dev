@@ -39,7 +39,7 @@
                                 <input (blur)="checkSpace('subscriberFirstName', $event)" formControlName="subscriberFirstName" class="form-control" type="text"  placeholder="Enter First Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['subscriberFirstName'].touched && (insuranceForm.controls['subscriberFirstName'].hasError('required') || insuranceForm.controls['subscriberFirstName'].invalid)">
-                                    {{ validationMessages.required('Subscriber First Name') }}
+                                    {{ validationMessages.required("Subscriber's First Name") }}
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                 <input (blur)="checkSpace('subscriberLastName', $event)" formControlName="subscriberLastName" class="form-control" type="text" placeholder="Enter Last Name" />
                             <div class="text text-danger mt-1"
                                 *ngIf="insuranceForm.controls['subscriberLastName'].touched && (insuranceForm.controls['subscriberLastName'].hasError('required') || insuranceForm.controls['subscriberLastName'].invalid)">
-                                {{ validationMessages.required('Subscriber Last Name') }}
+                                {{ validationMessages.required("Subscriber's Last Name") }}
                             </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['subscriberDob'].touched && (insuranceForm.controls['subscriberDob'].hasError('required') || insuranceForm.controls['subscriberDob'].invalid)">
-                                    {{ validationMessages.required('Date of Birth') }}
+                                    {{ validationMessages.requiredDropdown('Date of Birth') }}
                                 </div>
 
                             </div>
@@ -112,7 +112,7 @@
                                     <mat-radio-button value="Female">Female</mat-radio-button>
                                 </mat-radio-group>
                                 <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['subscriberGender'].touched && (insuranceForm.controls['subscriberGender'].hasError('required') || insuranceForm.controls['subscriberGender'].invalid)">
-                                    {{ validationMessages.required('Select Gender') }}
+                                    {{ validationMessages.requiredDropdown('Gender') }}
                                </div>
                             </div>
                         </div>
@@ -217,7 +217,7 @@
                                     placeholder="Enter First Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['secondarySubscriberFirstName'].touched && (insuranceForm.controls['secondarySubscriberFirstName'].hasError('required') || insuranceForm.controls['secondarySubscriberFirstName'].invalid)">
-                                    {{ validationMessages.required('Subscriber First Name') }}
+                                    {{ validationMessages.required("Subscriber's First Name") }}
                                 </div>
                             </div>
                         </div>
@@ -237,7 +237,7 @@
                                     placeholder="Enter Last Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['secondarySubscriberLastName'].touched && (insuranceForm.controls['secondarySubscriberLastName'].hasError('required') || insuranceForm.controls['secondarySubscriberLastName'].invalid)">
-                                    {{ validationMessages.required('Subscriber Last Name') }}
+                                    {{ validationMessages.required("Subscriber's Last Name") }}
                                 </div>
                             </div>
                         </div>
@@ -288,7 +288,7 @@
                                     <mat-radio-button value="Female">Female</mat-radio-button>
                                 </mat-radio-group>
                                 <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['secondarySubscriberGender'].touched && (insuranceForm.controls['secondarySubscriberGender'].hasError('required') || insuranceForm.controls['secondarySubscriberGender'].invalid)">
-                                    {{ validationMessages.required('Select Gender') }}
+                                    {{ validationMessages.requiredDropdown('Gender') }}
                                 </div>
                             </div>
                         </div>
@@ -403,7 +403,7 @@
                                     placeholder="Enter First Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['thirdSubscriberFirstName'].touched && (insuranceForm.controls['thirdSubscriberFirstName'].hasError('required') || insuranceForm.controls['thirdSubscriberFirstName'].invalid)">
-                                    {{ validationMessages.required('Subscriber First Name') }}
+                                    {{ validationMessages.required("Subscriber's First Name") }}
                                 </div>
                             </div>
                         </div>
@@ -423,7 +423,7 @@
                                     placeholder="Enter Last Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['thirdSubscriberLastName'].touched && (insuranceForm.controls['thirdSubscriberLastName'].hasError('required') || insuranceForm.controls['thirdSubscriberLastName'].invalid)">
-                                    {{ validationMessages.required('Subscriber Last Name') }}
+                                    {{ validationMessages.required("Subscriber's Last Name") }}
                                 </div>
                             </div>
                         </div>
@@ -473,7 +473,7 @@
                                     <mat-radio-button value="Female">Female</mat-radio-button>
                                 </mat-radio-group>
                                 <div class="text text-danger mt-1" *ngIf="insuranceForm.controls['thirdSubscriberGender'].touched && (insuranceForm.controls['thirdSubscriberGender'].hasError('required') || insuranceForm.controls['thirdSubscriberGender'].invalid)">
-                                    {{ validationMessages.required('Select Gender') }}
+                                    {{ validationMessages.requiredDropdown('Gender') }}
                                 </div>
                             </div>
                         </div>

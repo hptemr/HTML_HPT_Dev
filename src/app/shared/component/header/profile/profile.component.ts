@@ -29,14 +29,19 @@ export class ProfileComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-
+  async ngOnInit(){
     this.picService.itemValue.subscribe((nextValue) => {
       console.log('next value profile component>>>',nextValue)
       if(nextValue)
         this.profileImage =  nextValue
     })
 
+    /*+++++++++
+      If profile update by System or Practice admin if any Admin user.
+      And that time any Admin user login. so Real time changes reflect through
+      this function.
+    */ 
+    await this.checkProfileDataUpdate().catch(()=>false)
   
     this.fullName = this.authService.getFullName()
     this.userType = this.authService.getLoggedInInfo('role')
@@ -84,4 +89,38 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
+
+  checkProfileDataUpdate(){
+    return new Promise(async (resolve, reject) => {
+      let params = {
+        query: { 
+          _id: this.authService.getLoggedInInfo("_id"),
+          $or: [
+            { firstName: { $ne: this.authService.getLoggedInInfo("firstName") } },
+            { lastName: { $ne: this.authService.getLoggedInInfo("lastName")} },
+            { profileImage: { $ne: this.authService.getLoggedInInfo("profileImage") } }
+          ]
+        },
+        params: { firstName: 1, lastName:1, profileImage:1}
+      }
+      this.adminService.profile(params).subscribe({
+        next: (res:any) => {
+          if(!res?.error && res?.data && res?.data!=null){
+            let userDetails: any
+            userDetails = this.authService.getLoggedInInfo()
+            userDetails.firstName = res.data?.firstName
+            userDetails.lastName = res.data?.lastName
+            userDetails.profileImage = res.data?.profileImage
+            localStorage.setItem('user', JSON.stringify(userDetails))
+            resolve(true)
+          }else{
+            resolve(true)
+          }
+        }, error: (err) => {
+          reject()
+        }
+      })
+    })
+  }
+
 }

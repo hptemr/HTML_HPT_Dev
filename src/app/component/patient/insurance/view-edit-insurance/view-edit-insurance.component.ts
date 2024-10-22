@@ -112,7 +112,7 @@ export class ViewEditInsuranceComponent {
       subscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberMiddleName: [''],
       subscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberDob: [''],
+      subscriberDob: ['',[Validators.required]],
       subscriberGender: ['',[Validators.required]],
       subscriberRelationWithPatient: ['', [Validators.required]],
       subscriberOtherRelation: [''],
@@ -126,7 +126,7 @@ export class ViewEditInsuranceComponent {
       secondarySubscriberFirstName: ['',[Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondarySubscriberMiddleName: [''],
       secondarySubscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      secondarySubscriberDob: [''],
+      secondarySubscriberDob: ['',[Validators.required]],
       secondarySubscriberRelationWithPatient: ['', [Validators.required]],
       secondarySubscriberOtherRelation: [''],
       secondarySubscriberGender: ['', [Validators.required]],
@@ -140,7 +140,7 @@ export class ViewEditInsuranceComponent {
       thirdSubscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
       thirdSubscriberMiddleName: [''],
       thirdSubscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
-      thirdSubscriberDob: [''],
+      thirdSubscriberDob: ['',[Validators.required]],
       thirdSubscriberRelationWithPatient: [''],
       thirdSubscriberOtherRelation: [''],
       thirdSubscriberGender: [''],
@@ -678,7 +678,7 @@ export class ViewEditInsuranceComponent {
       this.insuranceForm.controls['thirdSubscriberFirstName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
       this.insuranceForm.controls['thirdSubscriberMiddleName'].setValidators([])
       this.insuranceForm.controls['thirdSubscriberLastName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
-      this.insuranceForm.controls['thirdSubscriberDob'].setValidators([])
+      this.insuranceForm.controls['thirdSubscriberDob'].setValidators([Validators.required])
       this.insuranceForm.controls['thirdSubscriberRelationWithPatient'].setValidators([Validators.required])
       this.insuranceForm.controls['thirdSubscriberOtherRelation'].setValidators([Validators.required])
       this.insuranceForm.controls['thirdSubscriberGender'].setValidators([Validators.required])
