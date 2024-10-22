@@ -21,6 +21,8 @@ import { CollectPaymentModalComponent } from 'src/app/shared/comman/scheduler/co
  
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
  
 
 @NgModule({
@@ -49,6 +51,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     AuthRoutingModule, 
     MatStepperModule,
     NgOptimizedImage, 
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,

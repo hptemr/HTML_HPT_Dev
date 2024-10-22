@@ -69,11 +69,24 @@
                 </button>
             </div>
         </div>
-        <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
-            <input class="form-control form-control-md w-130p m-1 flex-shrink-0" type="text"   placeholder="" value="Aug 26, 2024" /> 
-            <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text"  placeholder="" value="10:00 AM" /> 
+        <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start">  
+            <!-- <input class="form-control form-control-md w-170p m-1 flex-shrink-0" type="text"   placeholder="" value="Aug 26, 2024" />  -->
+            <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker"> 
+                <input class=" " matInput [matDatepicker]="picker" placeholder="14/12/2012"> 
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            <div> 
+                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+            </div>
+            <!-- <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text"  placeholder="" value="10:00 AM" />  -->
             <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
-            <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text" placeholder="" value="10:00 PM" /> 
+            <div> 
+                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+                <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+            </div>
+            <!-- <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text" placeholder="" value="10:00 PM" />  -->
         </div>
         <div class="d-flex align-items-sm-center flex-column flex-sm-row align-items-start w-100">
             <select class="form-select form-control form-control-md  m-1 " aria-label="Default select example">
@@ -105,8 +118,8 @@
                     <h2 class="font-18 fw-700 clr--1F2F3E">Scheduling</h2>
                 </div>
                 <div class="col-12 my-3">
-                    <button mat-raised-button color="primary" (click)="createAppointmen()">
-                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
+                    <button class="ca--btn" mat-raised-button color="primary" (click)="createAppointmen()">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
                         Create Appointment
                     </button> 
                 </div>
@@ -124,7 +137,7 @@
                             <div class="col-12">
                                 <div class="form-group position-relative w-100">
                                     <input type="text" class="form-control form-control-md search--outer"
-                                        placeholder="Search ">
+                                        placeholder="Search for people ">
                                     <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                     </button>

@@ -65,11 +65,27 @@
             .w-100p{
                 width: 100px;
             }
-            .w-130p{
-                width: 130px;
+            .w-170p{
+                width: 170px;
             } 
             .form-control{
                 background-color: #F4F4F5 !important;
+            }
+            ::ng-deep{
+                .am--datepicker .mat-mdc-form-field-infix{
+                    min-height: 20px !important;
+                    padding-top: 6px !important;
+                    padding-bottom: 5px !important;
+                    font-size: 14px;
+                }
+                .am--datepicker .mat-mdc-icon-button.mat-mdc-button-base {
+                    height: 35px;
+                    width: 40px;
+                    padding: 3px; 
+                }
+                .am--datepicker.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper{
+                    background-color: #F4F4F5  !important;
+                }
             }
         }
     }   
@@ -81,8 +97,15 @@
             // height: calc(100vh - 95px);
             padding: 15px;
             background: #FFF;
-            overflow: auto;
+            overflow: auto; 
             ::ng-deep{
+                .ca--btn{
+                    .mat-icon{
+                        font-size: 21px;
+                        width: 21px;
+                        height: 21px;
+                    }
+                }
                 .mat-mdc-card{
                     box-shadow: none;
                     .mat-calendar{
@@ -145,11 +168,11 @@
                     margin-top: 16px;
                     .search--outer{
                         background-color: #BCDADA !important;
-                        padding-right: 35px;
+                        padding-left: 35px;
                     }
                     .search--fields{
                         position: absolute;
-                        right: 0;
+                        left: 10px;
                         top: 0;
                     }
                     .mat-mdc-checkbox{
