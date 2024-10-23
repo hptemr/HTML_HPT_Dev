@@ -6,6 +6,7 @@ const subjectiveTemp = require('../models/subjectiveModel');
 const Appointment = require('../models/appointmentModel');
 const AssessmentModel = require('../models/assessmentModel');
 const Case = require('../models/casesModel');
+const caseNotes = require('../models/caseNotesModel');
 const ObjectiveModel = require('../models/objectiveModel');
 const moment = require('moment');
 require('dotenv').config();
@@ -562,6 +563,45 @@ const getInitialExamination = async (req, res) => {
   }
 }
 
+
+const getCaseNoteData = async (req, res) => {
+  try {
+    const { query } = req.body;
+    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })  
+    let caseNoteData = await caseNotes.findOne(query);
+  
+    let appointmentDatesList = [];
+    if(appointmentData){      
+      appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
+    }
+  
+    let returnData = { caseNoteData: caseNoteData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
+    commonHelper.sendResponse(res, 'success', returnData);
+  } catch (error) {
+    console.log('get case notes data error >>>>',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const submitCaseNote = async (req, res) => {
+  try {
+    const { data, caseNoteId } = req.body;
+    let message = '';
+    if (caseNoteId) {
+      let optionsUpdatePlan = { returnOriginal: false };
+      await caseNotes.findOneAndUpdate({ _id: caseNoteId }, data, optionsUpdatePlan);
+      message = soapMessage.caseNoteUpdated;
+    } else {
+      await caseNotes.create(data)
+      message = soapMessage.caseNoteCreate;
+    }
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log("*****************error", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   createPlanNote,
   getPlanNote,
@@ -578,6 +618,8 @@ module.exports = {
   submitAssessment,
   getAssessment,
   getAppointmentNoteList,
+  submitCaseNote,
+  getCaseNoteData,
   deleteSoapNote,
   createAddendum,
   getInitialExamination
