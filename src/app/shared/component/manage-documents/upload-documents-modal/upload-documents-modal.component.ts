@@ -17,6 +17,7 @@ export class UploadDocumentsModalComponent {
   directory = ""
   userId = ""
   submitted = false
+  uploadResponseError = false
   @ViewChild('fileInput') fileInput: ElementRef;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<UploadDocumentsModalComponent>,private authService: AuthService,public commonService: CommonService){
     this.directory = this.data.directory
@@ -59,6 +60,7 @@ export class UploadDocumentsModalComponent {
 
   async uploadDocument(){
     this.submitted = true
+    this.uploadResponseError = false;
     if(this.uploadedFile==undefined || this.uploadError || this.documentName==''){
       this.submitted = false
       return
@@ -81,7 +83,7 @@ export class UploadDocumentsModalComponent {
         this.commonService.openSnackBar(err.error.message, "ERROR")
         // this.commonService.hideLoader()
         this.uploadErrorMessage = err.error.message
-        this.uploadError = true;
+        this.uploadResponseError = true;
       })
   }
 }
