@@ -17,11 +17,12 @@
                             <mat-expansion-panel class="exp-class" expanded="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
-                                        Basic Information 
+                                        Basic Information
                                         <span class="font-14 fw-400 ml-3 badge" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">
                                             This Case is in collections
                                         </span>
-                                        <span class="font-14 fw-600 ms-auto" *ngIf="isSelfPay">User Selected the Self Pay Option</span>
+                                        <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Selfpay' && isSelfPay">User Selected the Self Pay Option</span>
+                                        <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Insurance' && !isSelfPay">User Selected the Insurance Option</span>
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                         <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile/',appointmentData?.patientId._id)">View Patient Profile</button>
@@ -308,7 +309,7 @@
                                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                                             <div class="form-group">
                                                 <select class="form-select form-control" aria-placeholder="select Case" aria-label="select Case" (change)="searchRecords()" [(ngModel)]="caseType">
-                                                    <option value = "">Filter by Note Type</option>
+                                                    <option value="">Filter by Note Type</option>
                                                     <option value="initial_examination">Initial Examination</option>
                                                     <option value="daily_note">Daily Note</option>
                                                     <option value="progress_note">Progress Note</option>
@@ -330,7 +331,7 @@
                                             <td mat-cell *matCellDef="let element" class="width-textArea"> 
                                                 <div class="d-flex align-items-center  "> 
                                                     <div> 
-                                                        <p class="mb-0 font-14 text-primary clr--1F2F3E fw-500">{{element.soap_note_type}}</p>
+                                                        <p class="mb-0 font-14 text-primary clr--1F2F3E fw-500">{{soapNoteType(element.soap_note_type)}}</p>
                                                    </div>
                                                 </div>     
                                             </td>

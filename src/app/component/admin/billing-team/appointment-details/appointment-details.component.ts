@@ -250,5 +250,22 @@ export class AppointmentDetailsComponent {
       return value.replace('_','-')
     }
   }
+
+  soapNoteType(soap_note_type: string): string {
+    switch (soap_note_type) {
+      case 'initial_examination':
+        return 'Initial Examinations';
+      case 'daily_note':
+        return 'Daily Notes';
+      case 'progress_note':
+        return 'Progress Notes';
+      case 'discharge_note':
+        return 'Discharge Notes';
+      case 'case_note':
+          return 'Case Notes';
+      default:
+        return soap_note_type.replace('_','-');
+    }
+  }
   
 }

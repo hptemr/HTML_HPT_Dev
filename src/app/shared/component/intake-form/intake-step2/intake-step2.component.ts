@@ -43,7 +43,6 @@ export class IntakeStep2Component {
   states: State[] = states_data
   fullNameForSign: string = '';
   selectedValue: number
-
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
   fileError: any = ''
   uploadedInsuranceFiles: any = []
@@ -64,6 +63,7 @@ export class IntakeStep2Component {
   thirdSubscriberOtherRelationFlag:boolean=false
   payViaSelectedFlag:boolean=false
   employerSelected:string=''
+  myCheckboxFlag:boolean=false
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -74,29 +74,34 @@ export class IntakeStep2Component {
   }
 
   ngOnInit() {
+    if(this.myCheckbox==undefined){
+      this.myCheckboxFlag = false;
+    }
     this.getAppointmentDetails()
   }
 
   openCMSmodal(event:any,id:string) {  
-       
       if (event.checked === true) {
           const dialogRef = this.dialog.open(CmsModalComponent,{
             panelClass: 'cms--container', 
           });
-
           dialogRef.afterClosed().subscribe(async flag_response => {
             if (!flag_response) {
-              if(id=='MyCheckbox')
+              if(id=='MyCheckbox'){            
               this.myCheckbox.checked = false;
-              else if(id=='MinorCheckbox')
-              this.minorCheckbox.checked = false;
+              }else if(id=='MinorCheckbox'){
+                this.minorCheckbox.checked = false;
+              }
+            }else{
+              if(id=='MyCheckbox')this.myCheckboxFlag = true;
             }
           })
-      } else{
-        if(id=='MyCheckbox')
-          this.myCheckbox.checked = false;
-          else if(id=='MinorCheckbox')
-          this.minorCheckbox.checked = false;
+      } else {
+        if(id=='MyCheckbox'){
+            this.myCheckbox.checked = false;
+          }else if(id=='MinorCheckbox'){
+            this.minorCheckbox.checked = false;
+          }
       }
 
   }
@@ -125,8 +130,11 @@ export class IntakeStep2Component {
     
         if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
           this.payViaSelected = this.step2FormData.adminPayViaInsuranceInfo.payVia;
-        }        
-        this.loadForm()
+        }       
+        this.loadForm(this.payViaSelected)
+
+        const mockEvent6: MatRadioChange = { value: this.payViaSelected, source: this.radioButton! }; 
+        this.onChange(mockEvent6)
 
         if (this.userRole == 'patient' && !this.step2FormData.intakeFormSubmit) {
           this.isReadonly = false
@@ -161,7 +169,7 @@ export class IntakeStep2Component {
     })
   }
 
-  loadForm() {
+  loadForm(payViaSelected:string) {
     let payViaInsuranceInfo = [];
     if(this.step2FormData && this.step2FormData.payViaInsuranceInfo){
       payViaInsuranceInfo = this.step2FormData.payViaInsuranceInfo
@@ -180,7 +188,7 @@ export class IntakeStep2Component {
       attorne = 'Yes';
     }
     this.step2Form = this.fb.group({
-      payVia: [this.payViaSelected],
+      payVia: [payViaSelected],
       relationWithPatient: [typeof payViaInsuranceInfo?.relationWithPatient !== 'undefined' ? payViaInsuranceInfo?.relationWithPatient : ''],
       otherRelation: [typeof payViaInsuranceInfo?.otherRelation !== 'undefined' ? payViaInsuranceInfo?.otherRelation : ''],
       firstName: [typeof payViaInsuranceInfo?.firstName !== 'undefined' ? payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -302,16 +310,15 @@ export class IntakeStep2Component {
       const mockEvent11: MatRadioChange = { value: attorney, source: this.radioButton! }; 
       this.attorneyChange(mockEvent11)
     }
-
-    if(this.payViaSelected=='Selfpay'){
+    
+    if(payViaSelected=='Selfpay'){
       Object.keys(this.step2Form.controls).forEach(control => {
         this.step2Form.get(control)?.clearValidators();
         this.step2Form.get(control)?.updateValueAndValidity();
       });
     }
 
-    const mockEvent6: MatRadioChange = { value: this.payViaSelected, source: this.radioButton! }; 
-    this.onChange(mockEvent6)
+    
   }
 
   getInsuranceDetails(event: any) {
@@ -538,7 +545,7 @@ export class IntakeStep2Component {
    this.payViaSelectedFlag = false;
     if(this.payViaSelected=='Insurance'){
       this.payViaSelectedFlag = true;
-      
+      this.loadForm(this.payViaSelected)
     }else if(this.payViaSelected=='Selfpay'){
       Object.keys(this.step2Form.controls).forEach(control => {
         this.step2Form.get(control)?.clearValidators();
