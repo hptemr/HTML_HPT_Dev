@@ -1,14 +1,20 @@
 
 let serverUrlEnv = ""
 let bucketName = "hpt.dev"
-export const appointmentDirectory = '66a1dfbd79ac8729a98d0b80'
-export const protocolDirectory = '66a1dfcd79ac8729a98d2caf'
+let appointmentDirectoryValue = ""
+let protocolDirectoryValue = ""
 if (window.location.hostname.indexOf("localhost") > -1) {
   serverUrlEnv = "http://localhost:3000"
+  appointmentDirectoryValue = '66a1dfbd79ac8729a98d0b80'
+  protocolDirectoryValue = '66a1dfcd79ac8729a98d2caf'
 } else if (window.location.hostname.indexOf("dev.hamiltonpt.com") > -1) {
   serverUrlEnv = 'http://dev.hamiltonpt.com' //Development Server
+  appointmentDirectoryValue = '66a1dfbd79ac8729a98d0b80'
+  protocolDirectoryValue = '66a1dfcd79ac8729a98d2caf'
 } else if (window.location.hostname.indexOf("staging.hamiltonpt.com") > -1) {
   serverUrlEnv = 'http://staging.hamiltonpt.com' //Staging Server
+  appointmentDirectoryValue = '6719de74df985cee425ffa7d'
+  protocolDirectoryValue = '6719de59df985cee425fadae'
 } else {
   //serverUrlEnv = 'https://ec2-34-239-203-1.compute-1.amazonaws.com' //dev
   serverUrlEnv = 'http://ec2-3-91-254-185.compute-1.amazonaws.com'   //staging
@@ -26,6 +32,8 @@ export const s3Details = {
   patientInsuranceFolderPath: "patient-insurance/",
   patientPrescriptionFolderPath: "patient-prescription/",
 }
+export const appointmentDirectory = appointmentDirectoryValue
+export const protocolDirectory = protocolDirectoryValue
 export const webTitle = "HPT"
 export const serverUrl = serverUrlEnv
 export const pageSize = 10
