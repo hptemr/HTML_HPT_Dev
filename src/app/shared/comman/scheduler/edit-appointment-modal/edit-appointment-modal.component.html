@@ -20,12 +20,22 @@
                     <div class="col-12 col-lg-8">
                         <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
                             <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
-                            <input class="form-control form-control-md w-130p me-3" disabled type="text"   placeholder="" value="Aug 26, 2024" /> 
-                            <input class="form-control form-control-md w-100p" type="text" disabled  placeholder="" value="10:00 AM" /> 
-                            <label class="col-form-label fw-600 font-16 p-0 mx-3 flex-shrink-0">To </label>
-                            <input class="form-control form-control-md w-100p me-3" type="text" disabled placeholder="" value="10:00 PM" /> 
+                            <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker sm--datepicker"> 
+                                <input class=" " matInput [matDatepicker]="picker1" placeholder="14/12/2012"> 
+                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                              </mat-form-field>
+                              <div> 
+                                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                                <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                            </div>
+                            <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
+                            <div> 
+                                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+                                <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                            </div>
                             <div class="form-group d-flex align-items-center mb-0 w-100"> 
-                                <select class="form-select form-control form-control-md" disabled aria-label="Default select example">
+                                <select class="form-select form-control form-control-md"   aria-label="Default select example">
                                     <option selected> Mountain Time </option> 
                                     <option value="1">Mountain Time 1</option> 
                                 </select>
@@ -38,14 +48,14 @@
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">First Name </label>
-                    <input class="form-control " disabled type="text" value="John" placeholder="Enter First Name" />
+                    <input class="form-control "   type="text" value="John" placeholder="Enter First Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div> 
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control " disabled type="text" value="Walter" placeholder="Enter Last Name" />
+                    <input class="form-control "   type="text" value="Walter" placeholder="Enter Last Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>
@@ -69,7 +79,7 @@
                 <div class="form-group">
                     <label class="col-form-label fw-600">Date of Birth</label>
                     <mat-form-field class="w-100 am--datepicker" appearance="outline" >
-                        <input disabled matInput [matDatepicker]="picker" placeholder="From Date">
+                        <input   matInput [matDatepicker]="picker" placeholder="From Date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>

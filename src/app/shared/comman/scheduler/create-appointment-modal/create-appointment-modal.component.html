@@ -17,7 +17,7 @@
                     </mat-radio-group>  
                 </div>
                 <div class="form-group  other--booking"  *ngIf="selectedValue == 222"> 
-                    <input class="form-control form-control-md" type="text" disabled placeholder="" value="John Walter, jw@gmail.com" /> 
+                    <input class="form-control form-control-md" type="text" placeholder="" value="John Walter, jw@gmail.com" /> 
                 </div>
             </div> 
             <div class="col-12 col-sm-6 col-lg-4 mb-2">
@@ -43,30 +43,40 @@
             <div class="col-12 mb-4">
                 <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
                     <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
-                    <input class="form-control form-control-md w-130p me-3" disabled type="text"   placeholder="" value="Aug 26, 2024" /> 
-                    <input class="form-control form-control-md w-100p" type="text" disabled  placeholder="" value="10:00 AM" /> 
-                    <label class="col-form-label fw-600 font-16 p-0 mx-3 flex-shrink-0">To </label>
-                    <input class="form-control form-control-md w-100p" type="text" disabled placeholder="" value="10:00 PM" /> 
-                </div>
+                    <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker"> 
+                        <input class=" " matInput [matDatepicker]="picker" placeholder="14/12/2012"> 
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                      <div> 
+                        <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                        <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                    </div>
+                    <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
+                    <div> 
+                        <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+                        <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                    </div>
+                 </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">First Name </label>
-                    <input class="form-control " disabled type="text" value="John" placeholder="Enter First Name" />
+                    <input class="form-control " type="text" value="John" placeholder="Enter First Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div> 
             <div class="col-12 col-lg-6 col-md-6 ">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control " disabled type="text" value="Walter" placeholder="Enter Last Name" />
+                    <input class="form-control " type="text" value="Walter" placeholder="Enter Last Name" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Email  </label>
-                    <input class="form-control  text-lowercase" disabled type="email" value="mail@abc.com" placeholder="Enter Email" />
+                    <input class="form-control  text-lowercase" type="email" value="mail@abc.com" placeholder="Enter Email" />
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
                   </div>
             </div>

@@ -10,7 +10,7 @@
                     <option value="4">Stevi PT</option>
                     <option value="5">PT Specialists of Florence</option>
                     <option value="6">Frenchtown PT</option>
-                    <option value="7">HNB</option>
+                    <option value="7">HNBC</option>
                 </select>
                 <!-- <div class="text text-danger mt-1">Error here</div> -->
             </div>
@@ -28,7 +28,7 @@
                     <mat-icon>chevron_left</mat-icon>
                 </div>
                 <div class="btn" mwlCalendarToday [(viewDate)]="viewDate">
-                    Today
+                    {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
                 </div>
                 <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
                     (viewDateChange)="closeOpenMonthViewDay()">
