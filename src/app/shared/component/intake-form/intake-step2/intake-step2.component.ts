@@ -46,6 +46,7 @@ export class IntakeStep2Component {
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
   fileError: any = ''
   uploadedInsuranceFiles: any = []
+  selectedInsuranceFiles: any = []
   uploadedInsuranceFilesTotal = 0
   todayDate = new Date()
   isReadonly = true
@@ -416,7 +417,7 @@ export class IntakeStep2Component {
       secondaryInsuranceCustomerServicePh = info.secondaryInsuranceCustomerServicePh
       secondaryInsuranceFromDate = info.secondaryInsuranceFromDate
       secondaryInsuranceToDate = info.secondaryInsuranceToDate    
-
+      
       thirdSubscriberFirstName = info.thirdSubscriberFirstName    
       thirdSubscriberMiddleName = info.thirdSubscriberMiddleName    
       thirdSubscriberLastName = info.thirdSubscriberLastName    
@@ -430,7 +431,6 @@ export class IntakeStep2Component {
       thirdInsuranceCustomerServicePh = info.thirdInsuranceCustomerServicePh
       thirdInsuranceFromDate = info.thirdInsuranceFromDate
       thirdInsuranceToDate = info.thirdInsuranceToDate
-
       injuryRelelatedTo = info.injuryRelelatedTo
       carrierName = info.carrierName
       dateOfInjury = info.dateOfInjury
@@ -447,6 +447,19 @@ export class IntakeStep2Component {
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
+      this.selectedInsuranceFiles = info.insuranceFiles;
+      
+      if(info.insuranceFiles.length>0){
+        let filesArr: any = []
+        info.insuranceFiles.forEach((element: any) => {
+          filesArr.push({
+            name: element,
+            data: '',
+            icon: this.getIcon(this.getExtension(element))
+          })
+        });
+        this.uploadedInsuranceFiles = filesArr
+      }
       consentCheck = info.consentCheck ? info.consentCheck : false  
     }
 
@@ -563,7 +576,15 @@ export class IntakeStep2Component {
       this.step2Form.controls['employerName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
       this.step2Form.controls['employerPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
       this.step2Form.controls['employerAddress'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1000)])
+    }else{
+      this.step2Form.controls['employerName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)])
+      this.step2Form.controls['employerPhone'].setValidators([ Validators.minLength(14), Validators.maxLength(14)])
+      this.step2Form.controls['employerAddress'].setValidators([Validators.minLength(1), Validators.maxLength(1000)])
+      this.step2Form.controls['employerName'].reset();
+      this.step2Form.controls['employerPhone'].reset();
+      this.step2Form.controls['employerAddress'].reset();   
     }
+    this.step2Form.updateValueAndValidity();
   }
 
   attorneyChange(event: MatRadioChange) {
@@ -699,6 +720,9 @@ export class IntakeStep2Component {
               let insuranceFiles = this.getInsuranceFiles()
               if (insuranceFiles.length > 0) {
                 Object.assign(formData, { insuranceFiles: insuranceFiles })
+              }
+              if (this.selectedInsuranceFiles.length > 0) {
+                Object.assign(formData, { insuranceFiles: this.selectedInsuranceFiles })
               }
               let updateInfo = {}
               if(this.userRole=='patient'){
@@ -866,7 +890,7 @@ export class IntakeStep2Component {
   }
 
   onInjuryChange(event: MatRadioChange): void {
-    this.injurySelected = event.value
+    this.injurySelected = event.value;   
     if (event.source) {
      // console.log('Source exists:', event.source);
     }
@@ -886,7 +910,22 @@ export class IntakeStep2Component {
       this.step2Form.controls['claim'].setValidators([Validators.required])
       this.step2Form.controls['adjusterName'].setValidators([Validators.required,Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
       this.step2Form.controls['adjusterPhone'].setValidators([Validators.required,Validators.minLength(14), Validators.maxLength(14)])
+    }else{
+      this.step2Form.controls['carrierName'].setValidators([])
+      this.step2Form.controls['dateOfInjury'].setValidators([])
+      this.step2Form.controls['insuranceState'].setValidators([])
+      this.step2Form.controls['claim'].setValidators([])
+      this.step2Form.controls['adjusterName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"),  Validators.minLength(1), Validators.maxLength(35)])
+      this.step2Form.controls['adjusterPhone'].setValidators([Validators.minLength(14), Validators.maxLength(14)])
+      this.step2Form.controls['carrierName'].reset();
+      this.step2Form.controls['dateOfInjury'].reset();
+      this.step2Form.controls['insuranceState'].reset();
+      this.step2Form.controls['claim'].reset();
+      this.step2Form.controls['adjusterName'].reset();
+      this.step2Form.controls['adjusterPhone'].reset();
+      this.step2Form.updateValueAndValidity();   
     }
+    this.step2Form.updateValueAndValidity()
     //else if(this.injurySelected=='Other Personal Injury'){  }
   }
 
