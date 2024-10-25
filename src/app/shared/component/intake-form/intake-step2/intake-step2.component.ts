@@ -43,10 +43,10 @@ export class IntakeStep2Component {
   states: State[] = states_data
   fullNameForSign: string = '';
   selectedValue: number
-
   allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
   fileError: any = ''
   uploadedInsuranceFiles: any = []
+  selectedInsuranceFiles: any = []
   uploadedInsuranceFilesTotal = 0
   todayDate = new Date()
   isReadonly = true
@@ -64,6 +64,7 @@ export class IntakeStep2Component {
   thirdSubscriberOtherRelationFlag:boolean=false
   payViaSelectedFlag:boolean=false
   employerSelected:string=''
+  myCheckboxFlag:boolean=false
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,
@@ -74,29 +75,34 @@ export class IntakeStep2Component {
   }
 
   ngOnInit() {
+    if(this.myCheckbox==undefined){
+      this.myCheckboxFlag = false;
+    }
     this.getAppointmentDetails()
   }
 
   openCMSmodal(event:any,id:string) {  
-       
       if (event.checked === true) {
           const dialogRef = this.dialog.open(CmsModalComponent,{
             panelClass: 'cms--container', 
           });
-
           dialogRef.afterClosed().subscribe(async flag_response => {
             if (!flag_response) {
-              if(id=='MyCheckbox')
+              if(id=='MyCheckbox'){            
               this.myCheckbox.checked = false;
-              else if(id=='MinorCheckbox')
-              this.minorCheckbox.checked = false;
+              }else if(id=='MinorCheckbox'){
+                this.minorCheckbox.checked = false;
+              }
+            }else{
+              if(id=='MyCheckbox')this.myCheckboxFlag = true;
             }
           })
-      } else{
-        if(id=='MyCheckbox')
-          this.myCheckbox.checked = false;
-          else if(id=='MinorCheckbox')
-          this.minorCheckbox.checked = false;
+      } else {
+        if(id=='MyCheckbox'){
+            this.myCheckbox.checked = false;
+          }else if(id=='MinorCheckbox'){
+            this.minorCheckbox.checked = false;
+          }
       }
 
   }
@@ -125,8 +131,11 @@ export class IntakeStep2Component {
     
         if(this.step2FormData && this.step2FormData.adminPayViaInsuranceInfo && this.userRole!='patient'){
           this.payViaSelected = this.step2FormData.adminPayViaInsuranceInfo.payVia;
-        }        
-        this.loadForm()
+        }       
+        this.loadForm(this.payViaSelected)
+
+        const mockEvent6: MatRadioChange = { value: this.payViaSelected, source: this.radioButton! }; 
+        this.onChange(mockEvent6)
 
         if (this.userRole == 'patient' && !this.step2FormData.intakeFormSubmit) {
           this.isReadonly = false
@@ -161,7 +170,7 @@ export class IntakeStep2Component {
     })
   }
 
-  loadForm() {
+  loadForm(payViaSelected:string) {
     let payViaInsuranceInfo = [];
     if(this.step2FormData && this.step2FormData.payViaInsuranceInfo){
       payViaInsuranceInfo = this.step2FormData.payViaInsuranceInfo
@@ -180,7 +189,7 @@ export class IntakeStep2Component {
       attorne = 'Yes';
     }
     this.step2Form = this.fb.group({
-      payVia: [this.payViaSelected],
+      payVia: [payViaSelected],
       relationWithPatient: [typeof payViaInsuranceInfo?.relationWithPatient !== 'undefined' ? payViaInsuranceInfo?.relationWithPatient : ''],
       otherRelation: [typeof payViaInsuranceInfo?.otherRelation !== 'undefined' ? payViaInsuranceInfo?.otherRelation : ''],
       firstName: [typeof payViaInsuranceInfo?.firstName !== 'undefined' ? payViaInsuranceInfo?.firstName : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
@@ -302,16 +311,15 @@ export class IntakeStep2Component {
       const mockEvent11: MatRadioChange = { value: attorney, source: this.radioButton! }; 
       this.attorneyChange(mockEvent11)
     }
-
-    if(this.payViaSelected=='Selfpay'){
+    
+    if(payViaSelected=='Selfpay'){
       Object.keys(this.step2Form.controls).forEach(control => {
         this.step2Form.get(control)?.clearValidators();
         this.step2Form.get(control)?.updateValueAndValidity();
       });
     }
 
-    const mockEvent6: MatRadioChange = { value: this.payViaSelected, source: this.radioButton! }; 
-    this.onChange(mockEvent6)
+    
   }
 
   getInsuranceDetails(event: any) {
@@ -409,7 +417,7 @@ export class IntakeStep2Component {
       secondaryInsuranceCustomerServicePh = info.secondaryInsuranceCustomerServicePh
       secondaryInsuranceFromDate = info.secondaryInsuranceFromDate
       secondaryInsuranceToDate = info.secondaryInsuranceToDate    
-
+      
       thirdSubscriberFirstName = info.thirdSubscriberFirstName    
       thirdSubscriberMiddleName = info.thirdSubscriberMiddleName    
       thirdSubscriberLastName = info.thirdSubscriberLastName    
@@ -423,7 +431,6 @@ export class IntakeStep2Component {
       thirdInsuranceCustomerServicePh = info.thirdInsuranceCustomerServicePh
       thirdInsuranceFromDate = info.thirdInsuranceFromDate
       thirdInsuranceToDate = info.thirdInsuranceToDate
-
       injuryRelelatedTo = info.injuryRelelatedTo
       carrierName = info.carrierName
       dateOfInjury = info.dateOfInjury
@@ -440,6 +447,19 @@ export class IntakeStep2Component {
       attorneyName = info.attorneyName
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
+      this.selectedInsuranceFiles = info.insuranceFiles;
+      
+      if(info.insuranceFiles.length>0){
+        let filesArr: any = []
+        info.insuranceFiles.forEach((element: any) => {
+          filesArr.push({
+            name: element,
+            data: '',
+            icon: this.getIcon(this.getExtension(element))
+          })
+        });
+        this.uploadedInsuranceFiles = filesArr
+      }
       consentCheck = info.consentCheck ? info.consentCheck : false  
     }
 
@@ -538,7 +558,7 @@ export class IntakeStep2Component {
    this.payViaSelectedFlag = false;
     if(this.payViaSelected=='Insurance'){
       this.payViaSelectedFlag = true;
-      
+      this.loadForm(this.payViaSelected)
     }else if(this.payViaSelected=='Selfpay'){
       Object.keys(this.step2Form.controls).forEach(control => {
         this.step2Form.get(control)?.clearValidators();
@@ -556,7 +576,15 @@ export class IntakeStep2Component {
       this.step2Form.controls['employerName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
       this.step2Form.controls['employerPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
       this.step2Form.controls['employerAddress'].setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1000)])
+    }else{
+      this.step2Form.controls['employerName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)])
+      this.step2Form.controls['employerPhone'].setValidators([ Validators.minLength(14), Validators.maxLength(14)])
+      this.step2Form.controls['employerAddress'].setValidators([Validators.minLength(1), Validators.maxLength(1000)])
+      this.step2Form.controls['employerName'].reset();
+      this.step2Form.controls['employerPhone'].reset();
+      this.step2Form.controls['employerAddress'].reset();   
     }
+    this.step2Form.updateValueAndValidity();
   }
 
   attorneyChange(event: MatRadioChange) {
@@ -694,6 +722,9 @@ export class IntakeStep2Component {
               let insuranceFiles = this.getInsuranceFiles()
               if (insuranceFiles.length > 0) {
                 Object.assign(formData, { insuranceFiles: insuranceFiles })
+              }
+              if (this.selectedInsuranceFiles.length > 0) {
+                Object.assign(formData, { insuranceFiles: this.selectedInsuranceFiles })
               }
               let updateInfo = {}
               if(this.userRole=='patient'){
@@ -861,7 +892,7 @@ export class IntakeStep2Component {
   }
 
   onInjuryChange(event: MatRadioChange): void {
-    this.injurySelected = event.value
+    this.injurySelected = event.value;   
     if (event.source) {
      // console.log('Source exists:', event.source);
     }
@@ -881,7 +912,22 @@ export class IntakeStep2Component {
       this.step2Form.controls['claim'].setValidators([Validators.required])
       this.step2Form.controls['adjusterName'].setValidators([Validators.required,Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
       this.step2Form.controls['adjusterPhone'].setValidators([Validators.required,Validators.minLength(14), Validators.maxLength(14)])
+    }else{
+      this.step2Form.controls['carrierName'].setValidators([])
+      this.step2Form.controls['dateOfInjury'].setValidators([])
+      this.step2Form.controls['insuranceState'].setValidators([])
+      this.step2Form.controls['claim'].setValidators([])
+      this.step2Form.controls['adjusterName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"),  Validators.minLength(1), Validators.maxLength(35)])
+      this.step2Form.controls['adjusterPhone'].setValidators([Validators.minLength(14), Validators.maxLength(14)])
+      this.step2Form.controls['carrierName'].reset();
+      this.step2Form.controls['dateOfInjury'].reset();
+      this.step2Form.controls['insuranceState'].reset();
+      this.step2Form.controls['claim'].reset();
+      this.step2Form.controls['adjusterName'].reset();
+      this.step2Form.controls['adjusterPhone'].reset();
+      this.step2Form.updateValueAndValidity();   
     }
+    this.step2Form.updateValueAndValidity()
     //else if(this.injurySelected=='Other Personal Injury'){  }
   }
 

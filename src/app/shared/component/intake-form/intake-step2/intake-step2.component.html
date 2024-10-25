@@ -1025,18 +1025,11 @@
                                     {{ validationMessages.requiredCheckbox('Consent') }}
                                 </div>
                             </div>
-                            <div class="col-12 d-flex
-                                        flex-column flex-sm-row 
-                                        align-items-start align-items-sm-center 
-                                        justify-content-start justify-content-sm-between">
-                                <div class="signature--box d-flex align-items-center justify-content-center" *ngIf="fullNameForSign && myCheckbox.checked">
+                            <div class="col-12 d-flex  flex-column flex-sm-row  align-items-start align-items-sm-center  justify-content-start justify-content-sm-between">
+                                <div class="signature--box d-flex align-items-center justify-content-center" *ngIf="fullNameForSign && myCheckboxFlag && myCheckbox.checked">
                                     {{fullNameForSign}}
                                 </div> 
-                                <!-- <button  mat-raised-button color="primary"
-                                class="flex-shrink-0 mt-2">
-                                <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon>
-                                Add Insurance  
-                             </button> -->
+                                <!-- <button  mat-raised-button color="primary" class="flex-shrink-0 mt-2"><mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle </mat-icon> Add Insurance </button> -->
                             </div>
 
                             <div class="col-12 mt-3">

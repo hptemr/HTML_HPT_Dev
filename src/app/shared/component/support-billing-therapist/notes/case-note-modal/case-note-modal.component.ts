@@ -18,7 +18,13 @@ export class CaseNoteModalComponent implements OnInit {
   public userId: string = this.authService.getLoggedInInfo('_id');
   public userRole: string = this.authService.getLoggedInInfo('role');
   validationMessages = validationMessages; 
-  appointment_dates:any=["07/12/2024","05/14/2024","04/10/2024"];
+  appointment_dates:any=[];
+  appointment: any = null
+  submitted:boolean=false;
+  caseNoteId: string = '';
+  appointment_data: any = null
+  readOnly:boolean=false;
+
   constructor(private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public dialog: MatDialog, public commonService: CommonService, public authService: AuthService,public dialogRef: MatDialogRef<CaseNoteModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
@@ -30,20 +36,82 @@ export class CaseNoteModalComponent implements OnInit {
        case_note_date:['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],  
        case_comment:['', [Validators.required, Validators.minLength(1), Validators.maxLength(1000)]],       
     });
+    this.getCaseNoteRecord();
+  }
+
+
+  getCaseNoteRecord(){
+    let reqVars = {
+      query: {appointmentId:this.appointmentId},     
+    }
+    this.authService.apiRequest('post', 'soapNote/getCaseNoteData', reqVars).subscribe(async response => {
+      if(response.data && response.data.caseNoteData){
+        let caseNoteData = response.data.caseNoteData; 
+        this.caseNoteId = caseNoteData._id;
+        this.caseNoteForm.controls['case_note_date'].setValue(caseNoteData.case_note_date);
+        this.caseNoteForm.controls['case_comment'].setValue(caseNoteData.case_comment);      
+      }
+
+      if(response.data && response.data.appointmentDatesList){
+        this.appointment_dates = response.data.appointmentDatesList       
+      }
+
+      if(response.data && response.data.appointmentData){
+        this.appointment_data = response.data.appointmentData
+      }       
+
+      if(response.data.caseNoteData && response.data.caseNoteData.status=='Finalized'){
+        this.readOnly = true
+        this.caseNoteForm.disable()
+      }
+    })
   }
   
   async caseNoteSubmit(formData:any,from:string){
+    console.log(from,'>>>>formData>>>>',formData)
     if (this.caseNoteForm.invalid){
       this.caseNoteForm.markAllAsTouched();
     }else{
-
       if (this.appointmentId) {
-        this.dialogRef.close();
-        this.successModal();
-      }
+        this.submitted = true
+        this.commonService.showLoader();       
+        let updateInfo = [];
+        updateInfo.push({
+          fromAdminId:this.userId,
+          userRole:this.userRole,
+          updatedAt:new Date()
+        });
 
+        if(this.caseNoteId){
+          Object.assign(formData, {updateInfo:updateInfo,status:from})
+        }else{
+          Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,status:from,createdBy:this.userId})
+        }        
+        let reqVars = {
+          userId: this.userId,
+          data: formData,
+          caseNoteId:this.caseNoteId
+        }        
+        this.authService.apiRequest('post', 'soapNote/submitCaseNote', reqVars).subscribe(async (response) => {    
+          if (response.error) {
+            if (response.message) {
+              this.commonService.openSnackBar(response.message, "ERROR");
+            }           
+          } else {         
+            if (response.message) {
+              this.dialogRef.close();
+              this.successModal();
+              //this.commonService.openSnackBar(response.message, "SUCCESS");
+            }
+          }
+          this.commonService.hideLoader();
+          setTimeout(() => {
+            this.submitted = false
+          }, 3000)          
+        })
+      }
     }
-    console.log(from,'>>>>formData>>>>',formData)
+
   }
 
 

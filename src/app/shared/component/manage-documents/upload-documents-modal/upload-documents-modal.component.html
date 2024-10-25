@@ -36,7 +36,7 @@
                 <mat-error *ngIf="previewUrl=='' && submitted">Please upload document</mat-error>
               </div>
             </div>
-            <div class="col-12" *ngIf="uploadError">
+            <div class="col-12" *ngIf="uploadError || uploadResponseError">
                 <div class="d-flex flex-row align-items-center">
                     <mat-icon class="text-danger me-2" style="overflow:visible"> info </mat-icon>
                     <div class="text text-danger fw-500 font-14 mt-1">{{uploadErrorMessage}}</div>
