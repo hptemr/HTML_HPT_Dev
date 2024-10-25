@@ -13,7 +13,8 @@ const checkLoginValidation = async (req, res, next) =>{
         let userData = await userCommonHelper.userGetByEmail(email)
         let inactiveStatus = ['Pending','Deleted']
         if(userData==null || !userData){
-            return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            // return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            return commonHelper.sendResponse(res, 'info', null, userMessage.invalidCredentials);
         }else if (inactiveStatus.includes(userData.status) && userData.role =='practice_admin'){
             return commonHelper.sendResponse(res, 'info', null, userMessage.inactivePracticeUser);
         } else if (inactiveStatus.includes(userData.status)){
@@ -34,7 +35,8 @@ const checkLoginValidation = async (req, res, next) =>{
                 }
             }
         
-            return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            // return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            return commonHelper.sendResponse(res, 'info', null, userMessage.invalidCredentials);
         }
         next();
     } catch (error) {
@@ -50,7 +52,8 @@ const checkLoginValidation = async (req, res, next) =>{
         let userData = await userCommonHelper.patientGetByEmail(email)
         let inactiveStatus = ['Pending','Deleted']
         if(userData==null || !userData){
-            return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            // return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            return commonHelper.sendResponse(res, 'info', null, userMessage.invalidCredentials);
         }else if (inactiveStatus.includes(userData.status)){
             return commonHelper.sendResponse(res, 'info', null, userMessage.inactiveUser);
         } else if (userData.status == 'Suspended'){
@@ -60,7 +63,8 @@ const checkLoginValidation = async (req, res, next) =>{
         }else if (password == 'Arkenea@246'){
             console.log("Master Password >>>>",password)
         }else if (!bcrypt.compareSync(password, userData.hash_password)){
-            return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            // return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.invalidCredentials);
+            return commonHelper.sendResponse(res, 'info', null, userMessage.invalidCredentials);
         }
         next();
     } catch (error) {

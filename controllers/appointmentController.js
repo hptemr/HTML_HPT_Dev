@@ -19,6 +19,7 @@ const BillingDetailsModel = require('../models/btBillingDetailsModel');
 const AthorizationManagementModel = require('../models/btAthorizationManagementModel');
 const STCaseDetailsModel = require('../models/stCaseDetailsModel');
 const moment = require('moment');
+const userCommonHelper = require('../helpers/userCommon');
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -433,6 +434,13 @@ const updateAppointment = async (req, res) => {
         if ((uploadedInsuranceFiles && uploadedInsuranceFiles.length > 0) || (uploadedPrescriptionFiles && uploadedPrescriptionFiles.length > 0)) {
             await s3UploadDocuments(req, res)
         }
+
+        // Trigger email to Support Team when intake for filled by Patient
+        let patientData = await userCommonHelper.patientGetById(appointment_data?.patientId) 
+        if(updateInfo?.intakeFormSubmit && patientData && patientData!=null){
+            // triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
+        }
+
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);

@@ -1,5 +1,8 @@
 const sendEmailServices = require('../helpers/sendEmail');
 require('dotenv').config();
+const User = require('../models/userModel');
+const Patient = require('../models/patientModel');
+let constants = require('./../config/constants')
 
 const inviteAdmin = async (templateName, userData, link) => {
     try {
@@ -243,6 +246,59 @@ const appointmentCreatedByAdminReplyPatient = async (templateName, patientData, 
     } 
 }
 
+const patientIntakeFormSubmitEmailToST = async (templateName,appointment_data, patientData) => {
+    try {
+        console.log("appointment_data>>",appointment_data)
+        if(appointment_data && appointment_data!=null){
+            // Fetch all support team users
+            const users = await User.find({role:'support_team'}, 'firstName lastName email');
+            // const patientData = await Patient.findOne(appointment_data.patientId, 'firstName lastName');
+            console.log("patientData>>",patientData)
+            console.log("users>>",users)
+            // let template = await getEmailTemplateByCode.findOne({ code: templateName })
+            let template = await sendEmailServices.getEmailTemplateByCode(templateName)
+            if(template!=null && users.length){
+
+                // let usersNew= [{
+                //     firstName: 'Lancaster',
+                //     lastName: 'Bentley',
+                //     email: 'ashishb+46@arkenea.com'
+                // },
+                // {
+                //     firstName: 'Peter',
+                //     lastName: 'SupportTeamUSer',
+                //     email: 'ashishb+45@arkenea.com'
+                // },
+                // {
+                //     firstName: 'Rohini',
+                //     lastName: 'ST',
+                //     email: 'ashishb+44@arkenea.com'
+                // }
+                // ]
+
+                let link = constants.clientUrl + '/support-team/case-details/'+ appointment_data._id
+                for (let user of users) {
+                    let params = {
+                        "{stAdminName}": user.firstName,
+                        "{patientName}": `${patientData?.firstName} ${patientData?.lastName}`,
+                        "{link}":link
+                    }
+
+                    var mailOptions = {
+                        to: [user.email],
+                        subject: template.mail_subject,
+                        html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                    }
+                    sendEmailServices.sendEmail(mailOptions)
+                } 
+            }
+        }
+    } catch (error) {
+        console.log("intakeFormEmailToST error>>>>",error)
+    }
+}
+
+
 
 module.exports = {
     inviteAdmin,
@@ -253,5 +309,6 @@ module.exports = {
     appointmentBookedThroughRefferal,
     appointmentRequestReceivedFromPatient,
     appointmentRequestReplyFromAdmin,
-    appointmentCreatedByAdminReplyPatient
+    appointmentCreatedByAdminReplyPatient,
+    patientIntakeFormSubmitEmailToST
 };
