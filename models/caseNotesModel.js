@@ -12,6 +12,7 @@ const caseNotesSchema = new mongoose.Schema({
   },
   case_note_date:  { type: Date },
   case_comment: { type: String },
+  updateInfo: { type: Array, default: [] },//keys will be ==> "fromAdminId, updatedAt, userRole"
   status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
   createdBy: {
     type: mongoose.Schema.ObjectId,

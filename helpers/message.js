@@ -81,6 +81,8 @@ const messages = {
         addExercise: 'Exercise has been added successfully',
         upadteExercise: 'Exercise has been updated successfully',
         subjective: 'Subjective has been updated successfully',
+        caseNoteCreate: 'Case note has been created successfully!',
+        caseNoteUpdated: 'Case note has been created successfully!',
     },
     billingMessage:{
         addDetails:"Billing details added successfully",

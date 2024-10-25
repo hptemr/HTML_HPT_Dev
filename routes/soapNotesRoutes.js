@@ -23,5 +23,7 @@ router.post('/getAppointmentNoteList', soapController.getAppointmentNoteList);
 router.post('/deleteSoapNote', soapController.deleteSoapNote);
 router.post('/createAddendum', soapController.createAddendum);
 router.post('/getInitialExamination', soapController.getInitialExamination);
+router.post('/submitCaseNote', soapController.submitCaseNote);
+router.post('/getCaseNoteData', soapController.getCaseNoteData);
 
 module.exports = router;    

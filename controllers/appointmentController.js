@@ -686,6 +686,9 @@ const getCaseList = async (req, res) => {
 
         let aggrQuery = [
             {
+                $sort: order
+            },
+            {
                 $group: {
                     _id: { patientId: "$patientId", caseName: "$caseName" },  // Group by userId and name
                     appointmentRow: { $first: "$$ROOT" }  // Return the first appointment in each case
@@ -710,11 +713,16 @@ const getCaseList = async (req, res) => {
                     '_id': 1, 'appointmentDate': 1, 'appointmentId': 1, 'caseName': 1, 'checkIn': 1, 'createdAt': 1, 'patientId': 1, 'practiceLocation': 1, 'status': 1, 'therapistId': 1, 'updatedAt': 1,
                     'patientObj._id': 1, 'patientObj.firstName': 1, 'patientObj.lastName': 1, 'patientObj.profileImage': 1
                 }
+            },
+            {
+                $skip: offset
+            },
+            {
+                $limit: limit
             }
         ]
-        let appointmentList = await Appointment.aggregate(aggrQuery)
-            .sort(order).skip(offset).limit(limit);
-
+       
+        let appointmentList = await Appointment.aggregate(aggrQuery);//.sort(order).skip(offset).limit(limit);
         let totalRecords = await Appointment.aggregate(aggrQuery);
         let totalCount = totalRecords.length;
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
