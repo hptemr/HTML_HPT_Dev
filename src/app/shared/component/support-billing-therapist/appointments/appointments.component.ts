@@ -265,11 +265,11 @@ export class AppointmentsComponent {
 
   navigateToappointmentDetails(appointmentId: string) {
     // this.router.navigate([this.commonService.getLoggedInRoute(), 'appointment-details', appointmentId]);
-    // this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);
+    this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);
 
-    this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]).then(() => {
-      window.location.reload();
-    })
+    // this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]).then(() => {
+    //   window.location.reload();
+    // })
   }
 
 }

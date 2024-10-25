@@ -121,6 +121,7 @@ export class IntakeStep5Component {
             this.successModal()
           }else{
             this.commonService.openSnackBar("Intake form submit successfully", "SUCCESS")
+            this.router.navigate([this.activeUserRoute, 'case-details', this.appId])
           }
       })
     } else {

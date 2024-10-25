@@ -119,6 +119,7 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.commonService.moveScrollToTop()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }

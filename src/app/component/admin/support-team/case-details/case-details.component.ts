@@ -221,6 +221,7 @@ export class CaseDetailsComponent {
   }
 
   ngAfterViewInit() {
+    this.commonService.moveScrollToTop()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }

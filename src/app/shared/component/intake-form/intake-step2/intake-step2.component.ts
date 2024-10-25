@@ -669,7 +669,9 @@ export class IntakeStep2Component {
 
   async bookAppointmentStep2() {
     //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
-      if (this.step2Form.invalid || !this.step2Form.controls['consentCheck'].value){
+      let payVia = this.step2Form.controls['payVia'].value
+      // Selfpay
+    if ((this.step2Form.invalid || !this.step2Form.controls['consentCheck'].value) && payVia!='Selfpay'){
         console.log(this.isReadonly,' #### step2 Form>>>>>>',this.step2Form)
         this.step2Form.markAllAsTouched();
         Object.keys(this.step2Form.controls).forEach(field => {

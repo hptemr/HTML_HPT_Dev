@@ -1,11 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SystemFollowupModalComponent } from '../system-followup-modal/system-followup-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { s3Details } from 'src/app/config';
@@ -74,7 +74,9 @@ export class AppointmentDetailsComponent {
     public authService: AuthService, 
     public commonService: CommonService,
     private datePipe: DatePipe
+    
   ) {
+
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
@@ -192,6 +194,7 @@ export class AppointmentDetailsComponent {
 
 
   ngAfterViewInit() {
+    this.commonService.moveScrollToTop()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }

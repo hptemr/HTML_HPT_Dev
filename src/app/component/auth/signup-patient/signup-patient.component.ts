@@ -216,15 +216,14 @@ export class SignupPatientComponent implements OnInit {
   }
 
   goToNext(steps:any, userData:any,stepper:MatStepper) {
-      
     this.mainHeadTxt="Create your account";
     if (steps==1 && !this.firstFormGroup.invalid){
-
+      const emailValue = this.firstFormGroup.get('email')?.value
       let first_form_data:any = {
         "firstName":userData.firstName,
         "middleName": userData.middleName,
         "lastName": userData.lastName,
-        "email": userData.email,
+        "email": userData.email? userData.email : emailValue,
         "disply_dob":this.selectedDate,
         "dob":this.selected_date,
         "phoneNumber": userData.phoneNumber,
@@ -632,6 +631,7 @@ export class SignupPatientComponent implements OnInit {
           this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
           this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
           this.firstFormGroup.controls['email'].setValue(response.data.email);
+          this.firstFormGroup.get('email')?.disable();
           if(response.data.phoneNumber){
             this.firstFormGroup.controls['phoneNumber'].setValue(response.data.phoneNumber);
           }          
