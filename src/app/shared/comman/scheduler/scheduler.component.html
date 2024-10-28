@@ -231,6 +231,12 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-group">
+                                    <label class="col-form-label fw-700 pb-0">Therapist Name</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">John Poll</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Practice Location</label>
                                     <p class="font-14 mb-0 clr--1F2F3E text-break">Hamilton PT</p>
                                 </div>
@@ -240,10 +246,7 @@
                                     <label class="col-form-label fw-700 pb-0">Appointment Type</label>
                                     <p class="font-14 mb-0 clr--1F2F3E text-break">Evaluations</p>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <mat-checkbox class="w-100" checked>Patient Check-In</mat-checkbox>
-                            </div>
+                            </div> 
                             <div class="col-12 col-md-3"> 
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Insurance Type</label>
@@ -256,6 +259,13 @@
                                     <p class="font-14 mb-0 clr--1F2F3E">Lisa Robertson on Nov 12, 2023 09:10 pm</p>
                                 </div>
                             </div> 
+                            <div class="col-12 mb-3">
+                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                    <mat-radio-button value="1" class="me-3">Patient Check-In</mat-radio-button>
+                                    <mat-radio-button value="2" class="me-3">Mark as No-show</mat-radio-button>
+                                    <mat-radio-button value="3"  >Mark as Cancelled</mat-radio-button>
+                                </mat-radio-group> 
+                            </div>
                             <div class="col-12 col-md-3"> 
                                 <button mat-stroked-button color="primary" class="mb-2 w-100">Case Details</button> 
                             </div>

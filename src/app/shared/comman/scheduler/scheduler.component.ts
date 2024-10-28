@@ -16,6 +16,7 @@ import { UpcomingAppModalComponent } from './upcoming-app-modal/upcoming-app-mod
 import { CollectPaymentModalComponent } from './collect-payment-modal/collect-payment-modal.component';
 import { AlertComponent } from '../alert/alert.component';
 import { tr } from 'date-fns/locale';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-scheduler', 
@@ -42,6 +43,14 @@ export class SchedulerComponent {
 
   constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal) { }
 
+  onChange(event: MatRadioChange) {
+    const dialogRef = this.dialog.open(AlertComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        warningNote: 'Are you sure you want to mark this Patient as checked in?'
+      }
+    });
+  }
 
   search() {
     this.calenderView = false;
