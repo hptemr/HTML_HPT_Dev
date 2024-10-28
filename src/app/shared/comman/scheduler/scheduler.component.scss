@@ -222,6 +222,9 @@
                     width: 5px;
                     height: 5px;
                 }
+                .cal-week-view .cal-hour-segment.cal-after-hour-start .cal-time {
+                    display: block !important;
+                }
             }
 
             .search--results--wrapper{ 

@@ -19,10 +19,11 @@ import { AppointmentDetailsModalComponent } from 'src/app/shared/comman/schedule
 import { UpcomingAppModalComponent } from 'src/app/shared/comman/scheduler/upcoming-app-modal/upcoming-app-modal.component';
 import { CollectPaymentModalComponent } from 'src/app/shared/comman/scheduler/collect-payment-modal/collect-payment-modal.component';
  
-import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { CalendarDateFormatter, CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { CustomDateFormatter } from 'src/app/shared/comman/scheduler/calendar-moment-date-formatter.provider';
  
 
 @NgModule({
@@ -57,6 +58,9 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+  ],
+  providers: [
+    { provide: CalendarDateFormatter, useClass: CustomDateFormatter } // Provide the custom formatter
   ],
 })
 export class AuthModule {}

@@ -146,7 +146,7 @@ export class SchedulerComponent {
           beforeStart: true,
           afterEnd: true,
         },
-        draggable: true,
+        draggable: false,
       },
       {
         start: startOfDay(new Date()),
@@ -171,7 +171,7 @@ export class SchedulerComponent {
           beforeStart: true,
           afterEnd: true,
         },
-        draggable: true,
+        draggable: false,
       },
     ];
   
@@ -222,7 +222,7 @@ export class SchedulerComponent {
           start: startOfDay(new Date()),
           end: endOfDay(new Date()),
           color: colors['red'],
-          draggable: true,
+          draggable: false,
           resizable: {
             beforeStart: true,
             afterEnd: true,
