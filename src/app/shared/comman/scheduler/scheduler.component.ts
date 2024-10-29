@@ -40,6 +40,7 @@ import { MatRadioChange } from '@angular/material/radio';
 export class SchedulerComponent {
   calenderView = true;
   searchView = false;
+  noRecordFound = false
 
   constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal) { }
 
