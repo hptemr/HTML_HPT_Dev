@@ -39,7 +39,6 @@ export class CaseNoteModalComponent implements OnInit {
     this.getCaseNoteRecord();
   }
 
-
   getCaseNoteRecord(){
     let reqVars = {
       query: {appointmentId:this.appointmentId},     

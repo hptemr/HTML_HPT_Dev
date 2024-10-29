@@ -9,11 +9,13 @@ import { icd_data } from '../../../../../../ICD';
 import { validationMessages } from '../../../../../../utils/validation-messages';
 import { Validators, FormGroup, FormBuilder,FormArray, AbstractControl,FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { BodyDetailsModalComponent } from 'src/app/shared/component/intake-form/intake-step3/body-details-modal/body-details-modal.component';
+import { DatePipe } from '@angular/common';
 //import { AppointmentService } from 'src/app/shared/services/appointment.service';
 @Component({
   selector: 'app-subjective', 
   templateUrl: './subjective.component.html',
   styleUrl: './subjective.component.scss',
+  providers: [DatePipe]
 })
 export class SubjectiveComponent implements OnInit {
   icd_data = icd_data;
@@ -144,7 +146,8 @@ export class SubjectiveComponent implements OnInit {
   bodyPartBack:any=[]
   diagnosisClicked = false
   readOnly = false
-  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
+  constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog,
+    private datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
       const locationArray = location.href.split('/')
@@ -160,7 +163,7 @@ export class SubjectiveComponent implements OnInit {
 
     this.subjectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
-      note_date: ['', [Validators.required]],
+      note_date: ['',],
       diagnosis_code: this.fb.array([this.fb.group({
         code: ['',Validators.required],
         name: ['',Validators.required]
@@ -177,20 +180,26 @@ export class SubjectiveComponent implements OnInit {
     this.getSubjectiveRecord()
   }
 
+  formatDate(date: Date): string | null {
+    return this.datePipe.transform(date, 'MM-dd-yyyy hh:mm a', 'UTC');
+  }
+
   getSubjectiveRecord(){
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
     }
-    this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
-      
+    this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {      
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
         this.subjectiveId = subjectiveData._id;
-        this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+        if(subjectiveData.note_date){
+          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+        }        
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
         this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note); 
+        
         subjectiveData.diagnosis_code.forEach((element: any,index:number) => {
           let item = {'code':element.code,'name':element.name};      
           if(this.icdCodeList.length==0){
@@ -206,12 +215,15 @@ export class SubjectiveComponent implements OnInit {
         this.selectedCode = this.icdCodeList.length>0 ? true : false;
       }
 
-      if(response.data && response.data.appointmentDatesList){
-        this.appointment_dates = response.data.appointmentDatesList       
-      }
+      // if(response.data && response.data.appointmentDatesList){
+      //   this.appointment_dates = response.data.appointmentDatesList       
+      // }           
 
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
+          if(this.appointment_data.checkInDateTime){            
+            this.subjectiveForm.controls['note_date'].setValue(this.formatDate(this.appointment_data.checkInDateTime));
+          }
 
           if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
             this.initialName = this.appointment_data?.patientId?.firstName.charAt(0)+''+this.appointment_data?.patientId?.lastName.charAt(0)
