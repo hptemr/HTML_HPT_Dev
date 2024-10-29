@@ -282,8 +282,11 @@ const updatePatientCheckIn = async (req, res) => {
         const { query, updateInfo, } = req.body;
         let checkInDateTime = '';
         if (updateInfo.checkIn) {
-            checkInDateTime = new Date();
+            const localDate = new Date();           
+            localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
+            checkInDateTime = localDate;
         }
+
         await Appointment.findOneAndUpdate({ _id: query._id }, { checkIn: updateInfo.checkIn, checkInDateTime: checkInDateTime });
         commonHelper.sendResponse(res, 'success', null, 'Check in updated Successfully!');
     } catch (error) {
