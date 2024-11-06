@@ -33,7 +33,7 @@ export class CaseNoteModalComponent implements OnInit {
   ngOnInit() {
     this.caseNoteForm = this.fb.group({
        appointmentId:[this.appointmentId],
-       case_note_date:['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],  
+       case_note_date:['', [Validators.minLength(1), Validators.maxLength(500)]],  
        case_comment:['', [Validators.required, Validators.minLength(1), Validators.maxLength(1000)]],       
     });
     this.getCaseNoteRecord();
@@ -57,6 +57,9 @@ export class CaseNoteModalComponent implements OnInit {
 
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
+        // if(this.appointment_data.checkInDateTime){            
+        //   this.caseNoteForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
+        // }
       }       
 
       if(response.data.caseNoteData && response.data.caseNoteData.status=='Finalized'){
@@ -67,8 +70,8 @@ export class CaseNoteModalComponent implements OnInit {
   }
   
   async caseNoteSubmit(formData:any,from:string){
-    console.log(from,'>>>>formData>>>>',formData)
     if (this.caseNoteForm.invalid){
+      console.log(from,'>>>>formData>>>>',formData)
       this.caseNoteForm.markAllAsTouched();
     }else{
       if (this.appointmentId) {

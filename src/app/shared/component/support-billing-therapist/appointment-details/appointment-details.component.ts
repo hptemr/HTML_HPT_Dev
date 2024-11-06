@@ -121,7 +121,6 @@ export class AppointmentDetailsComponent implements OnInit {
       this.noteList = response.data
       if(this.noteList.length>0){
         this.noteList.forEach((item:any) => {
-          console.log(item.status,' >>>> soap_note_type >>>>  ',item.soap_note_type)
           if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
             this.dailyNoteFlag=false
             this.progressNoteFlag=false

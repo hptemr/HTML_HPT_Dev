@@ -12,6 +12,7 @@
                       <option value="" disabled>Select date</option>                      
                       <option *ngFor="let d of appointment_dates"value="{{d.appointmentDate}}">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC' }}</option>
                     </select>
+                    <!-- <input type="text" class="form-control" placeholder="Check In Date" formControlName="case_note_date" [readonly]="true"> -->
                     <div class="text text-danger mt-1" *ngIf="caseNoteForm.controls['case_note_date'].touched && caseNoteForm.controls['case_note_date'].hasError('required')">
                         {{ validationMessages.requiredDropdown('Creation date') }}</div>
                 </div>
