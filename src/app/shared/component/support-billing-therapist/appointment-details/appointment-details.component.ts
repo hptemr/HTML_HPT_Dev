@@ -153,9 +153,9 @@ export class AppointmentDetailsComponent implements OnInit {
           this.appointmentData = response.data.appointmentData;
           if(this.appointmentData.status=='Scheduled'){
             this.initialExaminationFlag=false
-            this.dailyNoteFlag=false
-            this.progressNoteFlag=false
-            this.dischargeNoteFlag=false
+            // this.dailyNoteFlag=false
+            // this.progressNoteFlag=false
+            // this.dischargeNoteFlag=false
             this.caseNoteFlag=false
           }
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
