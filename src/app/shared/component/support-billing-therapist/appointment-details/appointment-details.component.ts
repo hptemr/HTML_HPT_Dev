@@ -46,10 +46,8 @@ export class AppointmentDetailsComponent implements OnInit {
   model: NgbDateStruct;
   appointment: any = null
   activeUserRoute = this.commonService.getLoggedInRoute()
-
   displayedColumns: string[] = ['soap_note_type', ' note_date', 'createdBy', 'status' ,'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-
   caseName:string =''
   patientId:string =''
   isBillingDetailsData:boolean=false
@@ -66,7 +64,13 @@ export class AppointmentDetailsComponent implements OnInit {
   todayDate:any = new Date();
   isAuthDateExpire:boolean=false
   isPOCExpire:boolean=false
-  
+
+  initialExaminationFlag:boolean=true
+  dailyNoteFlag:boolean=true
+  progressNoteFlag:boolean=true
+  dischargeNoteFlag:boolean=true
+  caseNoteFlag:boolean=true
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searchValue = ""
@@ -115,6 +119,15 @@ export class AppointmentDetailsComponent implements OnInit {
       this.dataLoading = false
       this.dataSource.data = response.data
       this.noteList = response.data
+      if(this.noteList.length>0){
+        this.noteList.forEach((item:any) => {
+          console.log('soap_note_type >>>>',item.soap_note_type)
+          if(item.soap_note_type=='initial_examination'){
+
+
+          }
+        })
+      }
     })
   }
 
@@ -138,7 +151,13 @@ export class AppointmentDetailsComponent implements OnInit {
         this.commonService.hideLoader();
         if (response.data && response.data.appointmentData) {
           this.appointmentData = response.data.appointmentData;
-         
+          if(this.appointmentData.status=='Scheduled'){
+            this.initialExaminationFlag=false
+            this.dailyNoteFlag=false
+            this.progressNoteFlag=false
+            this.dischargeNoteFlag=false
+            this.caseNoteFlag=false
+          }
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;

@@ -116,23 +116,23 @@
                 <div class="col-12 col-sm-10 col-lg-10 mb-2">
                     <div class="d-flex flex-row flex-wrap gap-10">
                       
-                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
+                        <button class="flex-shrink-0 {{initialExaminationFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="initialExaminationFlag" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Initial Examination 
                         </button>
-                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/daily-notes/subjective/',appointmentId]">
+                        <button class="flex-shrink-0 {{dailyNoteFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="dailyNoteFlag" [routerLink]="['/therapist/daily-notes/subjective/',appointmentId]">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Daily Note
                         </button>
-                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/progress-notes/subjective/',appointmentId]">
+                        <button class="flex-shrink-0 {{progressNoteFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="progressNoteFlag" [routerLink]="['/therapist/progress-notes/subjective/',appointmentId]">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Progress Note
                         </button>
-                        <button class="flex-shrink-0" mat-stroked-button color="primary" [routerLink]="['/therapist/discharge-notes/subjective/',appointmentId]">
+                        <button class="flex-shrink-0 {{dischargeNoteFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="dischargeNoteFlag" [routerLink]="['/therapist/discharge-notes/subjective/',appointmentId]">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Discharge Note
                         </button>
-                        <button class="flex-shrink-0" mat-stroked-button color="primary" (click)="caseNoteModal()">
+                        <button class="flex-shrink-0 {{caseNoteFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="caseNoteFlag" (click)="caseNoteModal()">
                             <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
                             Case Note
                         </button>
@@ -160,7 +160,7 @@
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                                         <div class="form-group">
                                             <select class="form-select form-control" aria-label="select status" (change)="searchRecords()" [(ngModel)]="status">
-                                                <option value = "">Filter by Status</option> 
+                                                <option value="">Filter by Status</option> 
                                                 <option value="Draft">Draft</option>
                                                 <option value="Finalized">Finalized</option> 
                                                 <option value="Pending">Pending</option> 
@@ -191,7 +191,7 @@
                                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                                         <div class="form-group">
                                             <select class="form-select form-control" aria-placeholder="select Case" aria-label="select Case" (change)="searchRecords()" [(ngModel)]="caseType">
-                                                <option value = "">Filter by Note Type</option>
+                                                <option value="">Filter by Note Type</option>
                                                 <option value="initial_examination">Initial Examination</option>
                                                 <option value="daily_note">Daily Note</option>
                                                 <option value="progress_note">Progress Note</option>
