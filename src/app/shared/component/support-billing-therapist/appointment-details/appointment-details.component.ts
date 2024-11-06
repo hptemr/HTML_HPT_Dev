@@ -65,11 +65,11 @@ export class AppointmentDetailsComponent implements OnInit {
   isAuthDateExpire:boolean=false
   isPOCExpire:boolean=false
 
-  initialExaminationFlag:boolean=true
+  initialExaminationFlag:boolean=false
   dailyNoteFlag:boolean=true
   progressNoteFlag:boolean=true
   dischargeNoteFlag:boolean=true
-  caseNoteFlag:boolean=true
+  caseNoteFlag:boolean=false
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -121,10 +121,11 @@ export class AppointmentDetailsComponent implements OnInit {
       this.noteList = response.data
       if(this.noteList.length>0){
         this.noteList.forEach((item:any) => {
-          console.log('soap_note_type >>>>',item.soap_note_type)
-          if(item.soap_note_type=='initial_examination'){
-
-
+          console.log(item.status,' >>>> soap_note_type >>>>  ',item.soap_note_type)
+          if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
+            this.dailyNoteFlag=false
+            this.progressNoteFlag=false
+            this.dischargeNoteFlag=false
           }
         })
       }
@@ -152,11 +153,11 @@ export class AppointmentDetailsComponent implements OnInit {
         if (response.data && response.data.appointmentData) {
           this.appointmentData = response.data.appointmentData;
           if(this.appointmentData.status=='Scheduled'){
-            this.initialExaminationFlag=false
+            //this.initialExaminationFlag=false
             // this.dailyNoteFlag=false
             // this.progressNoteFlag=false
             // this.dischargeNoteFlag=false
-            this.caseNoteFlag=false
+            //this.caseNoteFlag=false
           }
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage

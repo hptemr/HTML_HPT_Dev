@@ -163,7 +163,7 @@ export class SubjectiveComponent implements OnInit {
 
     this.subjectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
-      note_date: ['',],
+      note_date: [''],
       diagnosis_code: this.fb.array([this.fb.group({
         code: ['',Validators.required],
         name: ['',Validators.required]
@@ -180,10 +180,6 @@ export class SubjectiveComponent implements OnInit {
     this.getSubjectiveRecord()
   }
 
-  formatDate(date: Date): string | null {
-    return this.datePipe.transform(date, 'MM-dd-yyyy hh:mm a', 'UTC');
-  }
-
   getSubjectiveRecord(){
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
@@ -192,8 +188,8 @@ export class SubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
         this.subjectiveId = subjectiveData._id;
-        if(subjectiveData.note_date){
-          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+        if(subjectiveData.note_date){          
+          this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(subjectiveData.note_date));
         }        
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
@@ -222,7 +218,7 @@ export class SubjectiveComponent implements OnInit {
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
           if(this.appointment_data.checkInDateTime){            
-            this.subjectiveForm.controls['note_date'].setValue(this.formatDate(this.appointment_data.checkInDateTime));
+            this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
           }
 
           if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){

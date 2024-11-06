@@ -161,7 +161,7 @@ export class PnSubjectiveComponent implements OnInit {
 
     this.subjectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
-      note_date: ['', [Validators.required]],
+      note_date: [''],
       diagnosis_code: this.fb.array([this.fb.group({
         code: ['',Validators.required],
         name: ['',Validators.required]
@@ -190,9 +190,10 @@ export class PnSubjectiveComponent implements OnInit {
         if(subjectiveData.soap_note_type=='progress_note')this.subjectiveId = subjectiveData._id;
         if(type=='initial_examination' && subjectiveData.status=='Finalized'){
           this.status = 'Draft';
-        }
-       
-        this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+        }       
+        if(subjectiveData.note_date){          
+          this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(subjectiveData.note_date));
+        }                
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
         this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
@@ -215,7 +216,6 @@ export class PnSubjectiveComponent implements OnInit {
           this.selectedPartsFront = [];
           this.selectedPartsBack = [];
           this.getSubjectiveRecord('initial_examination')
-
         }
       }
 
@@ -226,6 +226,9 @@ export class PnSubjectiveComponent implements OnInit {
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
 
+          if(this.appointment_data.checkInDateTime){            
+            this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
+          }
           if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
             this.initialName = this.appointment_data?.patientId?.firstName.charAt(0)+''+this.appointment_data?.patientId?.lastName.charAt(0)
           }

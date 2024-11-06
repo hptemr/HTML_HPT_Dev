@@ -36,6 +36,7 @@ export class DnSubjectiveComponent {
   submitted: boolean = false;
   subjectiveId: string = '';
   readOnly = false
+  appointment_data:any=[];
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, public datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -53,7 +54,7 @@ export class DnSubjectiveComponent {
     this.getSubjective();
     this.subjectiveForm = this.fb.group({
       appointmentId: [this.appointmentId],
-      note_date: ['', [Validators.required]],
+      note_date: [''],
       subjective_note: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(2500)]],
     });
     if(this.readOnly){
@@ -70,17 +71,24 @@ export class DnSubjectiveComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
-      if(response.data && response.data.subjectiveData && response.data.subjectiveData.status=='Finalized'){
+      if (response.data && response.data.subjectiveData && response.data.subjectiveData.status=='Finalized'){
         this.readOnly = true
         this.subjectiveForm.disable()
       }
       if (response.data && response.data.subjectiveData) {
         let subjectiveData = response.data.subjectiveData;
         this.subjectiveId = subjectiveData._id
-        this.subjectiveForm.controls['note_date'].setValue(this.datePipe.transform(subjectiveData.note_date, 'MM/dd/yyyy'))
+        this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(subjectiveData.note_date))
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
       }
-      if(response.data && response.data.appointmentDatesList){
+      
+      if (response.data && response.data.appointmentData){
+        this.appointment_data = response.data.appointmentData;
+        if(this.appointment_data.checkInDateTime)
+        this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
+      }
+     
+      if (response.data && response.data.appointmentDatesList){
         this.appointment_dates = response.data.appointmentDatesList       
       }
     })
