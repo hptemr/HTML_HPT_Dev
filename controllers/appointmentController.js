@@ -426,8 +426,6 @@ const updateAppointment = async (req, res) => {
         const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles } = req.body;
         // console.log("********query*****", query)
         // console.log("********updateInfo*****", updateInfo)
-
-
         const appointment_data = await Appointment.findOneAndUpdate(query, updateInfo);
         if (updateInfo.emergencyContact) {
             if (updateInfo.emergencyContact.ec1myContactCheckbox || updateInfo.emergencyContact.ec2myContactCheckbox) {
@@ -441,7 +439,8 @@ const updateAppointment = async (req, res) => {
         // Trigger email to Support Team when intake for filled by Patient
         let patientData = await userCommonHelper.patientGetById(appointment_data?.patientId) 
         if(updateInfo?.intakeFormSubmit && patientData && patientData!=null){
-            // triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
+            console.log(updateInfo?.intakeFormSubmit,"********updateInfo-------*****", updateInfo)
+            triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
         }
 
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);
