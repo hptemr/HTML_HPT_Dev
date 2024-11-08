@@ -526,7 +526,7 @@ const getAppointmentNoteList = async (req, res) => {
       },
       {
           $project: {
-              '_id': 1, 'note_date': 1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
+              '_id': 1, 'note_date': 1,'appointmentId':1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
           }
       },
       { "$sort": { "createdAt": -1 } }
