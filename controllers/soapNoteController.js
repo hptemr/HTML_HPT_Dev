@@ -614,9 +614,10 @@ const submitCaseNote = async (req, res) => {
 const getOnePageNoteDetails = async (req, res) => {
   try {
     let planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId })
-    let subjectiveData = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId },{ updatedAt: 1, diagnosis_code: 1,note_date:1})
-    let assessmentData = await AssessmentModel.findOne({ appointmentId: req.body.appointmentId },{ assessment_icd: 1 })
-    let returnData = { planData: planData,subjectiveData:subjectiveData,assessmentData:assessmentData }
+    let subjectiveData = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId },{ updatedAt: 1, diagnosis_code: 1,note_date:1,subjective_note:1})
+    let assessmentData = await AssessmentModel.findOne({ appointmentId: req.body.appointmentId },{ assessment_icd: 1,assessment_text:1 })
+    let objectiveData = await ObjectiveModel.findOne({ appointmentId: req.body.appointmentId },{ observation: 1,range_of_motion:1,strength:1,neurological:1 })
+    let returnData = { planData: planData,subjectiveData:subjectiveData,assessmentData:assessmentData,objectiveData:objectiveData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
     console.log(error)
@@ -721,6 +722,15 @@ const sendFax = async (req, res) => {
             "{longTermGoal}": "",
             "{plan_start_date}": moment(req.body.noteData.plan_start_date).utc().format('MM/DD/yyyy'),
             "{plan_end_date}": moment(req.body.noteData.plan_end_date).utc().format('MM/DD/yyyy'),
+            "{numberOfVisits}": req.body.visits,
+            "{treatments}": req.body.treatmentToBeProvided,
+            "{subjectiveContent}": req.body.subjectiveData.subjective_note,
+            "{observation}": req.body.objectiveData.observation,
+            "{rom}": req.body.objectiveData.range_of_motion,
+            "{strength}": req.body.objectiveData.strength,
+            "{neurological}": req.body.objectiveData.neurological,
+            "{assessmentNote}": req.body.assessmentData.assessment_text,
+            "{planNote}": req.body.noteData.plan_note,
           }
           if(req.body.subjectiveData.diagnosis_code.length>0){
             params['{dignosis}'] = req.body.subjectiveData.diagnosis_code[0].code +":"+req.body.subjectiveData.diagnosis_code[0].name
