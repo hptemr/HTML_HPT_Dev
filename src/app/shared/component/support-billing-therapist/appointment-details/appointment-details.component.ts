@@ -224,7 +224,8 @@ export class AppointmentDetailsComponent implements OnInit {
         appointmentDate:DOSDate,
         soap_note_type:soap_note_type,
         appointmentId:this.appointmentId,
-        appointmentData:this.appointmentData
+        appointmentData:this.appointmentData,
+        visits:this.patientCheckInCount+' of '+ this.authVisits+' visits'
       }
     });
   } 

@@ -55,11 +55,14 @@ export class OnePageNoteModalComponent {
   appointmentData : any = [];
   subjectiveData : any;
   assessmentData:any;
+  objectiveData:any;
+  visits = ""
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog,public authService: AuthService,private dialogRef: MatDialogRef<OnePageNoteModalComponent >){
     this.patientName = data.patientName;
     this.noteType = data.soap_note_type;
     this.appointmentId = data.appointmentId;
     this.appointmentData = data.appointmentData
+    this.visits = data.visits
     let reqVars = {
       appointmentId:this.appointmentId
     }
@@ -67,6 +70,7 @@ export class OnePageNoteModalComponent {
       this.noteData = response.data.planData
       this.subjectiveData = response.data.subjectiveData;
       this.assessmentData = response.data.assessmentData;
+      this.objectiveData = response.data.objectiveData;
       if(this.noteData!=null){
         this.planPtList.forEach((code:any,index:any) => {
           if(this.noteData.pt_treatment_provided[this.planPtList[index].value]){
@@ -108,7 +112,9 @@ export class OnePageNoteModalComponent {
         appointmentId:this.appointmentId,
         treatmentToBeProvided:this.treatmentToBeProvided,
         noteData:this.noteData,
-        appointmentData:this.appointmentData
+        appointmentData:this.appointmentData,
+        visits : this.visits,
+        objectiveData:this.objectiveData,
       }
     });
   }

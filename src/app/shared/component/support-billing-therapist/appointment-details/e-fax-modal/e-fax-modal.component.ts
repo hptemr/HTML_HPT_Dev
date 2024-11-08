@@ -27,6 +27,8 @@ export class EFaxModalComponent {
   appointmentData:any
   submitted = false
   dateOfService:any
+  objectiveData:any
+  visits =""
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog,public authService: AuthService,public commonService: CommonService,private dialogRef: MatDialogRef<EFaxModalComponent >) {
     this.patientName = data.patientName;
     this.noteType = data.soapNoteType;
@@ -37,6 +39,8 @@ export class EFaxModalComponent {
     this.assessmentData = data.assessmentData
     this.appointmentData = data.appointmentData
     this.dateOfService = data.dateOfService
+    this.visits = data.visits
+    this.objectiveData = data.objectiveData
     this.getDoctorsList()
   } 
 
@@ -139,6 +143,8 @@ export class EFaxModalComponent {
           subjectiveData : this.subjectiveData,
           assessmentData : this.assessmentData,
           appointmentData : this.appointmentData,
+          visits : this.visits,
+          objectiveData : this.objectiveData
         }
         this.submitted = true
         this.commonService.showLoader();
