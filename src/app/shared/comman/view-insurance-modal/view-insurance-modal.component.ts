@@ -21,6 +21,7 @@ export class ViewInsuranceModalComponent {
   constructor(public dialog: MatDialog, private commonService: CommonService,
     private authService: AuthService, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.info = data.payViaInsuranceInfo;
+    console.log('info >>>>>',this.info)
     if(this.info?.injuryRelelatedTo && this.info?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
       this.workerCompensation = true
     }    

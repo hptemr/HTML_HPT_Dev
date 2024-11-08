@@ -58,6 +58,11 @@ export class CommonService {
     }
   }
 
+  
+  formatUTCDate(date: Date): string | null {
+    return this.datePipe.transform(date, 'MM-dd-yyyy hh:mm a', 'UTC');
+  }
+
   public capitalize = function (str: any) {
     if (str && str != "") {
       var firstLetter = str.substr(0, 1);

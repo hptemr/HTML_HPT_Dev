@@ -553,7 +553,7 @@
                             </mat-radio-group>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12" *ngIf="info?.reportedEmployer=='Yes'">
                         <h2 class="mb-2 mt-3 clr--1F2F3E fw-700 d-flex flex-wrap font-16">Employers Information </h2>
                     </div>
                     <div class="col-12 col-lg-6 col-md-6 col-xl-6" *ngIf="info?.reportedEmployer=='Yes'">
