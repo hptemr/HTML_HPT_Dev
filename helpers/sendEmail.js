@@ -24,7 +24,7 @@ const sendEmail = async (mailOptions) => {
 //replace dynamic keys with actual values
 const generateContentFromTemplate = (content, params) => {
   for (var key in params) {
-    content = content.replace(key, params[key])
+    content = content.replaceAll(key, params[key])
   }
   return content.trim()
 }
