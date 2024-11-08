@@ -1,0 +1,75 @@
+<div class="modal--wrapper d-flex flex-column w-100 efax--modal--wrapper">
+    <div class="modal--header w-100">
+        <h1 class="mb-0  d-flex align-items-center">
+            <button mat-dialog-close mat-stroked-button color="primary" class="me-3 back--btn">
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+            </button>
+            E-Fax One Page Notes
+        </h1>  
+    </div>
+    <div class="modal--body w-100">
+        <div class="row"> 
+            <div class="col-12  ">
+                <div class="row">
+                    <div class="col-12 d-flex align-items-start mb-2">
+                        <label class="font-16 fw-600 mb-0 flex-shrink-0">Patient Name : </label>
+                        <p class="font-16 mb-0 ms-1">{{patientName}}</p>
+                    </div>
+                    <div class="col-12 d-flex align-items-start mb-2">
+                        <label class="font-16 fw-600 mb-0 flex-shrink-0">Note Type : </label>
+                        <p class="font-16 mb-0 ms-1">{{soapNoteType(noteType)}}</p>
+                    </div>
+                    <div class="col-12 d-flex align-items-start mb-2">
+                        <label class="font-16 fw-600 mb-0 flex-shrink-0">Date of Service : </label>
+                        <p class="font-16 mb-0 ms-1">{{dateOfService | date:"dd MMMM , y":'UTC'}}</p>
+                    </div>
+
+
+                    <div class="col-12  send--to d-flex flex-column">
+                        <label class="col-form-label fw-600">Send To </label> 
+                        <mat-form-field appearance="outline" class="w-100"> 
+                            <input matInput type="text" [formControl]="myControl" [matAutocomplete]="auto" placeholder="Send to">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of options | async" (click)="addOption(option)" (keydown.enter)="addOption(option)"> 
+                                    {{loadData(option)}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field> 
+
+                        <mat-chip-set class="mt-2">
+                            <mat-chip *ngFor="let option of selectedOptions" class="chips"> 
+                               {{loadData(option)}} <mat-icon class="chip--close--btn" matChipRemove (click)="removeOption(option)">close</mat-icon>
+                            </mat-chip>
+                        </mat-chip-set>
+                    </div>
+
+
+                    <div class="col-12 mt-3">
+                       <div class="row"> 
+                            <div class="col-12">
+                                <div class="form-group mb-0">
+                                    <label class="col-form-label fw-600">Add New Fax Number </label>
+                                    <div class="d-flex align-items-start flex-column flex-sm-row">
+                                        <input class="form-control form-control-md mb-2" type="text" [(ngModel)]="newFaxNumber"  placeholder="Enter New Fax Number" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" maxlength="12" minlength="10" />
+                                        <button mat-raised-button color="primary" class="flex-shrink-0 ms-2 mb-2" [disabled]="newFaxNumber.length<10" (click)="addNewFax()">Add New Fax Number</button>
+                                    </div>
+                                </div>
+                                <div class="chips d-inline-flex align-items-center" *ngFor="let number of NewFaxNumbers;">
+                                   {{number}}
+                                    <button mat-button class="flex-shrink-0 min-width-unset chip--close--btn pe-0 ps-1" (click)="removeNewFax(number)">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 ">close </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
+        <button mat-stroked-button color="primary" [disabled]="submitted" class="me-2" mat-dialog-close>Cancel</button> 
+        <button mat-raised-button color="primary" [disabled]="submitted" (click)="sendEFax()">Send</button>
+    </div>
+</div>

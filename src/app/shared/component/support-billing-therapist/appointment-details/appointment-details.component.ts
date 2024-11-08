@@ -17,6 +17,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 //import { AppointmentService } from 'src/app/shared/services/appointment.service';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { DatePipe } from '@angular/common';
+import { EFaxHistoryModalComponent } from './e-fax-history-modal/e-fax-history-modal.component';
 
 export interface PeriodicElement {
   soap_note_type: string;  
@@ -195,13 +196,16 @@ export class AppointmentDetailsComponent implements OnInit {
 
   }
 
-  noteModal() {
+  noteModal(soap_note_type:any,DOSDate:any) {
     let patientName = this.appointmentData.patientInfo.firstName+" "+ this.appointmentData.patientInfo.lastName
     const dialogRef = this.dialog.open(OnePageNoteModalComponent,{
       width:"960px",
       data : {
         patientName:patientName,
-        appointmentDate:this.appointmentData.appointmentDate
+        appointmentDate:DOSDate,
+        soap_note_type:soap_note_type,
+        appointmentId:this.appointmentId,
+        appointmentData:this.appointmentData
       }
     });
   } 
@@ -399,6 +403,12 @@ export class AppointmentDetailsComponent implements OnInit {
       default:
         return soap_note_type.replace('_','-');
     }
+  }
+
+  eFaxHistoryModal(){
+    const dialogRef = this.dialog.open(EFaxHistoryModalComponent,{
+      width:"960px", 
+    });
   }
 
 

@@ -1,0 +1,65 @@
+.efax--modal--wrapper{
+    ::ng-deep{
+        .back--btn{
+            min-width: 42px;
+            .material-symbols-outlined{
+                width: 24px;
+                height: 24px;
+                font-size: 24px; 
+            }
+        }
+        .mat-mdc-select-value,
+        .mat-mdc-form-field .mat-mdc-floating-label.mdc-floating-label{
+            font-family: "Nunito Sans", sans-serif !important;
+        }
+        .mat-mdc-form-field-subscript-wrapper{
+            display: none;
+        }
+        .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label{
+            color: #fff !important;
+            font-family: "Nunito Sans", sans-serif !important;
+        }
+        .mdc-evolution-chip-set .mdc-evolution-chip-set__chips{
+            margin-left: 0; 
+        }
+        .mat-mdc-standard-chip.mdc-evolution-chip--with-trailing-action .mdc-evolution-chip__action--primary{
+            padding-left: 0 !important;
+        }
+        .chips{
+            border-radius: 5px;
+            background: #31B7B7;
+            font-size: 14px;
+            color: #fff;
+            padding: 2px 9px;
+            margin: 0 10px 10px 0;
+            .chip--close--btn{
+                font-size: 16px;
+                color: #fff;
+                opacity: 9;
+                padding: 0 0 0 6px;            
+                .mat-icon{
+                    font-size: 14px;
+                    height: 14px;
+                    width: 14px; 
+                }
+            }
+        }
+        .modal--footer{
+            border-top: 1px solid #ddd;
+        }
+        .send--to{
+            .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+                top: 22px;
+            }
+            .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+                padding-top: 12px;
+                padding-bottom: 8px;
+            }
+            .mat-mdc-form-field-infix {
+                min-height: 40px;
+            }
+        }
+    }
+}
+
+

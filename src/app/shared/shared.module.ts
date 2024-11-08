@@ -78,6 +78,11 @@ import { UserListingComponent } from '../component/admin/system-and-practice/use
 import { DatePipe } from '@angular/common';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 //import { ProfilePicService } from 'src/app/shared/services/profile-pic.service';
+import { OnePageNoteModalComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/one-page-note-modal/one-page-note-modal.component';
+import { EFaxModalComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/e-fax-modal/e-fax-modal.component';
+import { EFaxHistoryModalComponent } from 'src/app/shared/component/support-billing-therapist/appointment-details/e-fax-history-modal/e-fax-history-modal.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -137,7 +142,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserListingComponent,
     DailyNoteBillingComponent,
     ProgressNoteBillingComponent,
-    DischargeNoteBillingComponent
+    DischargeNoteBillingComponent,
+    OnePageNoteModalComponent,
+    EFaxModalComponent,
+    EFaxHistoryModalComponent
    // AdminProfileComponent
   ],
   imports: [
@@ -153,7 +161,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forRoot(),
     IMaskModule,
     DatePipe,
-    NgxDocViewerModule
+    NgxDocViewerModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   exports: [
     CommonModule,

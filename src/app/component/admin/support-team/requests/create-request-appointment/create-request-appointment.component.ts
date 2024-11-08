@@ -54,7 +54,7 @@ export class CreateRequestAppointmentComponent {
   convertPhoneNumber: string = '';
   casenameList:any = [];
   doctorId:string='';
-  whereDocCond: any = {stauts:"Active"}
+  whereDocCond: any = {status:"Active"}
   constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.requestId = params['requestId'];
