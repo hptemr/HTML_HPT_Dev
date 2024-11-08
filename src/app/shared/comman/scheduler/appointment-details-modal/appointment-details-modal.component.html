@@ -1,0 +1,92 @@
+<div class="modal--wrapper d-flex flex-column w-100 app--details--modal--wrapper">
+    <div class="modal--header w-100 d-flex justify-content-between align-items-center">
+        <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-0">
+            Appointment Details
+        </h1> 
+        <button class="more--opt" mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="editAppointment()"> 
+              <span>Edit</span>
+            </button> 
+            <button mat-menu-item> 
+              <span>Delete</span>
+            </button>
+            <button mat-menu-item> 
+                <span>Duplicate</span>
+            </button>
+          </mat-menu> 
+    </div>
+    <div class="modal--body w-100  ">
+        <div class="row">
+            <div class="col-12 d-flex align-items-start">
+                <div class="profile--round flex-shrink-0">
+                    <img src="assets/images/ark/user.png"  alt="" class="img-fluid  " />
+                </div>
+                <div class="w-100 d-flex flex-column  align-items-start">
+                    <h2 class="font-16 clr--1F2F3E mb-1 fw-500">John Walter</h2>
+                    <div class="w-100 d-flex flex-column flex-sm-row align-items-start">
+                        <div class="d-flex flex-column me-4">
+                            <label class="font-14 fw-700 clr--1F2F3E mb-1">Neck Pain</label>
+                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"> <mat-icon class="text-primary me-2">phone</mat-icon> (123) 123 1234</p>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <label class="font-14 fw-700 clr--1F2F3E mb-1">Date of Birth</label>
+                            <p class="font-14 d-flex align-items-center clr--1F2F3E"> 10/04/2005</p>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label fw-700 pb-0">Appointment Date and Start Time-End Time</label>
+                    <p class="font-14 mb-0 clr--1F2F3E">Mon, Aug 22, 2024 08:00 am-08:45 am</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="form-group">
+                    <label class="col-form-label fw-700 pb-0">Practice Location</label>
+                    <p class="font-14 mb-0 clr--1F2F3E text-break">Hamilton PT</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-3"> 
+                <div class="form-group">
+                    <label class="col-form-label fw-700 pb-0">Appointment Type</label>
+                    <p class="font-14 mb-0 clr--1F2F3E text-break">Evaluations</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <mat-checkbox class="w-100" checked>Patient Check-In</mat-checkbox>
+            </div>
+            <div class="col-12 col-md-3"> 
+                <div class="form-group">
+                    <label class="col-form-label fw-700 pb-0">Insurance Type</label>
+                    <p class="font-14 mb-0 clr--1F2F3E text-break">Primary Insurance</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-9"> 
+                <div class="form-group">
+                    <label class="col-form-label fw-700 pb-0">Patient Checked in by </label>
+                    <p class="font-14 mb-0 clr--1F2F3E">Lisa Robertson on Nov 12, 2023 09:10 pm</p>
+                </div>
+            </div> 
+            <div class="col-12 col-md-3"> 
+                <button mat-stroked-button color="primary" class="mb-2 w-100">Case Details</button> 
+            </div>
+            <div class="col-12 col-md-9"> 
+                <button mat-stroked-button color="primary" class="mb-2 me-3 sm-w-100" (click)="upcomingAppointmentModal()" >Upcoming Appointments</button>
+                <button mat-stroked-button color="primary" class="mb-2 sm-w-100" (click)="collectPaymentModal()" >Payments</button>  
+            </div> 
+            <div class="col-12"> 
+                <div class="form-group"> 
+                    <label class="col-form-label fw-700 pb-0 mt-3">Notes</label>
+                    <p class="font-14 mb-0 clr--1F2F3E">Darlene Robertson is appearing unusually agitated. he almost extubated himself. 
+                        Please order sedation/arm restraints.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+</div>
+

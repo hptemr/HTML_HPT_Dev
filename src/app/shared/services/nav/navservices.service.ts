@@ -419,6 +419,16 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 2,
+          activeMenu: 'scheduler',
+          icon: 'calendar_month',
+          mainTitle: 'Scheduler',
+          headTitle1: 'Dashboard',
+          path: '/support-team/scheduler',
+          active: false,
+          item: []
+        },
+        {
+          id: 3,
           activeMenu: 'cases',
           icon: 'pending_actions',
           mainTitle: 'Cases',
@@ -429,7 +439,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 3,
+          id: 4,
           activeMenu: 'requests',
           icon: 'group',
           mainTitle: 'Request',
@@ -470,7 +480,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 4,
+          id: 5,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -480,7 +490,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 5,
+          id: 6,
           activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  

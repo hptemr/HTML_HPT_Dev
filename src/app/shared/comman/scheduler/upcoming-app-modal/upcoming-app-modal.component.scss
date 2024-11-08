@@ -1,0 +1,23 @@
+.uam--wrapper{
+    ul{
+        li{
+            list-style-type: disc;
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+    }
+}
+@media only screen and (max-width: 599px) {} 
+@media screen and (orientation:landscape) and (max-width: 850px){
+    .uam--wrapper{
+        .modal--body{
+            max-height: calc(100vh - 142px) !important;
+            ul{
+                li{ 
+                    margin-bottom: 10px; 
+                }
+            }
+        }
+        
+    }
+}

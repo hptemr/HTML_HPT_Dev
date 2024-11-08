@@ -1,0 +1,445 @@
+<div class="scheduler--wrapper w-100">
+    <div class="sc--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center" *ngIf="calenderView">
+        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center flex-shrink-0 sm-w-100">
+            <div class="form-group mb-0 flex-shrink-0 pl--field">
+                <select class="form-select form-control form-control-md"  (ngModelChange)="searchRecords('practiceLocation',$event)" [(ngModel)]="practiceLocationsVal" class="form-select form-control" aria-label="Default select example">
+                    <option selected value="">Practice Location</option>
+                    <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}
+                    </option>
+                </select>
+                <!-- <div class="text text-danger mt-1">Error here</div> -->
+            </div>
+            <div class="thra--profile d-flex align-items-center ">
+                <div class="pro--box me-2 flex-shrink-0">
+                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                </div>
+                <h6 class="font-16 m-0 fw-700">John Therapist 1</h6>
+            </div>
+        </div> 
+        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between  w-100"> 
+            <div class="btn-group today--btns">
+                <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    <mat-icon>chevron_left</mat-icon>
+                </div>
+                <div class="btn" mwlCalendarToday [(viewDate)]="viewDate">
+                    {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
+                </div>
+                <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    <mat-icon>chevron_right</mat-icon>
+                </div>
+            </div>
+            <div class="btn-group day--to--month">
+                <div class="btn" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+                    Day
+                </div>
+                <div class="btn" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+                    Week
+                </div>
+                <div class="btn " (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+                    Month
+                </div> 
+            </div>
+            <div class="form-group position-relative mb-0 head--search" (click)="search()" >
+                <input type="text" class="form-control form-control-md search--outer"
+                    placeholder="Search ">
+                <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="sc--header search--filter--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center " *ngIf="searchView">
+        <div class="d-flex align-items-center flex-shrink-0">
+            <button mat-stroked-button color="primary" class="m-1 back--btn" (click)="backToCalender()" >
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+            </button>
+            <div class="form-group position-relative head--search m-1" >
+                <input type="text" class="form-control form-control-md search--outer"
+                    placeholder="Search ">
+                <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                    <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start">  
+            <!-- <input class="form-control form-control-md w-170p m-1 flex-shrink-0" type="text"   placeholder="" value="Aug 26, 2024" />  -->
+            <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker"> 
+                <input class=" " matInput [matDatepicker]="picker" placeholder="14/12/2012"> 
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            <div> 
+                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+            </div>
+            <!-- <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text"  placeholder="" value="10:00 AM" />  -->
+            <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
+            <div> 
+                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+                <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+            </div>
+            <!-- <input class="form-control form-control-md w-100p m-1 flex-shrink-0" type="text" placeholder="" value="10:00 PM" />  -->
+        </div>
+        <div class="d-flex align-items-sm-center flex-column flex-sm-row align-items-start w-100">
+            <select class="form-select form-control form-control-md  m-1 " aria-label="Default select example">
+                <option selected>Patient Name </option> 
+                <option value="1">Patient 1 </option> 
+                <option value="2">Patient 2 </option> 
+                <option value="3">Patient 3 </option> 
+            </select>
+            <select class="form-select form-control form-control-md m-1" aria-label="Default select example">
+                <option selected>Case Name  </option> 
+                <option value="1">Case 1 </option> 
+                <option value="2">Case 2 </option> 
+                <option value="3">Case 3 </option> 
+            </select>
+            <select class="form-select form-control form-control-md m-1" aria-label="Default select example"> 
+                <option selected>Insurance </option> 
+                <option value="1">Insurance 1 </option> 
+                <option value="2">Insurance 2 </option> 
+                <option value="3">Insurance 3 </option> 
+            </select>
+        </div>
+        <button mat-raised-button class="flex-shrink-0 m-1" color="primary">Reset</button>
+    </div>
+
+    <div class="sc--body d-flex align-items-start">
+        <div class="sc--left--panel">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="font-18 fw-700 clr--1F2F3E">Scheduling</h2>
+                </div>
+                <div class="col-12 my-3">
+                    <button class="ca--btn" mat-raised-button color="primary" (click)="createAppointmen()">
+                        <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
+                        Create Appointment
+                    </button> 
+                </div>
+                <div class="col-12">
+                    <h3 class="text-primary">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+                </div>
+                <div class="col-12">
+                    <mat-card class="demo-inline-calendar-card">
+                        <mat-calendar [(selected)]="selected"></mat-calendar>
+                    </mat-card>
+                </div>
+                <div class="col-12">
+                    <div class="search--people--sec">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group position-relative w-100">
+                                    <input type="text" class="form-control form-control-md search--outer"
+                                        placeholder="Search for people ">
+                                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                        <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12"> 
+                                <mat-checkbox class="w-100">Therapist 1 </mat-checkbox>
+                                <mat-checkbox class="w-100">Therapist 2 </mat-checkbox>
+                                <mat-checkbox class="w-100">Therapist 3 </mat-checkbox> 
+                                <mat-checkbox class="w-100">Therapist 4 </mat-checkbox>
+                                <mat-checkbox class="w-100">Therapist 5 </mat-checkbox>
+                                <mat-checkbox class="w-100">Therapist 6 </mat-checkbox> 
+                                <mat-checkbox class="w-100">Therapist 7 </mat-checkbox> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calender Start here -->
+        <div class="sc--right--panel d-flex flex-column w-100">
+
+            <!-- Calendar view (Start here) -->
+            <div class="w-100" *ngIf="calenderView"> 
+                <div class="col-12">
+                    <div [ngSwitch]="view">
+                        <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
+                            [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+                            (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-month-view>
+                        <mwl-calendar-week-view 
+                            *ngSwitchCase="CalendarView.Week" 
+                            [viewDate]="viewDate"
+                            [hourSegments]="4"
+                            [hourDuration]="60"                             
+                            [dayStartHour]="9"
+                            [dayEndHour]="21"
+                            [events]="events" 
+                            [refresh]="refresh" 
+                            (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-week-view>
+                        <!-- <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+                            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-day-view> -->
+                        <mwl-calendar-day-view 
+                            *ngSwitchCase="CalendarView.Day"
+                            [viewDate]="viewDate" 
+                            [hourSegments]="4"
+                            [hourDuration]="60"                             
+                            [dayStartHour]="9"
+                            [dayEndHour]="21"
+                            [events]="events" 
+                            [refresh]="refresh"
+                            (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-day-view>
+                    </div>
+                </div>
+            </div>  
+
+            <ng-template #modalContent let-close="close"> 
+                <div class="modal--wrapper d-flex flex-column w-100 app--details--modal--wrapper">
+                    <div class="modal--header w-100 d-flex justify-content-between align-items-center">
+                        <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-0">
+                            Appointment Details
+                        </h1> 
+                        <button class="more--opt" mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #beforeMenu="matMenu" xPosition="before">
+                            <button mat-menu-item (click)="editAppointment()"> 
+                              <span>Edit</span>
+                            </button> 
+                            <button mat-menu-item (click)="deleteAppointment()" > 
+                              <span>Delete</span>
+                            </button>
+                            <button mat-menu-item> 
+                                <span>Duplicate</span>
+                            </button>
+                          </mat-menu> 
+                    </div>
+                    <div class="modal--body w-100  ">
+                        <div class="row">
+                            <div class="col-12 d-flex align-items-start">
+                                <div class="profile--round flex-shrink-0">
+                                    <img src="assets/images/ark/user.png"  alt="" class="img-fluid  " />
+                                </div>
+                                <div class="w-100 d-flex flex-column  align-items-start">
+                                    <h2 class="font-16 clr--1F2F3E mb-1 fw-500">John Walter</h2>
+                                    <div class="w-100 d-flex flex-column flex-sm-row align-items-start">
+                                        <div class="d-flex flex-column me-4">
+                                            <label class="font-14 fw-700 clr--1F2F3E mb-1">Neck Pain</label>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"> <mat-icon class="text-primary me-2">phone</mat-icon> (123) 123 1234</p>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <label class="font-14 fw-700 clr--1F2F3E mb-1">Date of Birth</label>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E"> 10/04/2005</p>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-700 pb-0">Appointment Date and Start Time-End Time</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E">Mon, Aug 22, 2024 08:00 am-08:45 am</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-700 pb-0">Therapist Name</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">John Poll</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label fw-700 pb-0">Practice Location</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">Hamilton PT</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3"> 
+                                <div class="form-group">
+                                    <label class="col-form-label fw-700 pb-0">Appointment Type</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">Evaluations</p>
+                                </div>
+                            </div> 
+                            <div class="col-12 col-md-3"> 
+                                <div class="form-group">
+                                    <label class="col-form-label fw-700 pb-0">Insurance Type</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">Primary Insurance</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-9"> 
+                                <div class="form-group">
+                                    <label class="col-form-label fw-700 pb-0">Patient Checked in by </label>
+                                    <p class="font-14 mb-0 clr--1F2F3E">Lisa Robertson on Nov 12, 2023 09:10 pm</p>
+                                </div>
+                            </div> 
+                            <div class="col-12 mb-3">
+                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                                    <mat-radio-button value="1" class="me-3">Patient Check-In</mat-radio-button>
+                                    <mat-radio-button value="2" class="me-3">Mark as No-show</mat-radio-button>
+                                    <mat-radio-button value="3"  >Mark as Cancelled</mat-radio-button>
+                                </mat-radio-group> 
+                            </div>
+                            <div class="col-12 col-md-3"> 
+                                <button mat-stroked-button color="primary" class="mb-2 w-100">Case Details</button> 
+                            </div>
+                            <div class="col-12 col-md-9"> 
+                                <button mat-stroked-button color="primary" class="mb-2 me-3 sm-w-100" (click)="upcomingAppointmentModal()" >Upcoming Appointments</button>
+                                <button mat-stroked-button color="primary" class="mb-2 sm-w-100" (click)="collectPaymentModal()" >Payments</button>  
+                            </div> 
+                            <div class="col-12"> 
+                                <div class="form-group"> 
+                                    <label class="col-form-label fw-700 pb-0 mt-3">Notes</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E">Darlene Robertson is appearing unusually agitated. he almost extubated himself. 
+                                        Please order sedation/arm restraints.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0"> 
+                        <button mat-raised-button color="primary"  (click)="close()">Close</button>
+                    </div>
+                     
+                </div> 
+            </ng-template>
+            <!-- Calendar view (End here) --> 
+
+
+            <!-- Search view (Start here) --> 
+             <div class="row w-100" *ngIf="searchView">
+                <div class="col-12">
+                    <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100">
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">22 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 orange"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">John Doe, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 orange"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">John Doe, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search--results--wrapper d-flex   flex-column flex-sm-row align-items-start w-100"> 
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">23 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 red"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">Maria Jones, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                    <div class="search--results--wrapper d-flex   flex-column flex-sm-row align-items-start w-100"> 
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">24 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 blue"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">Lisa Mathew, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                    <div class="search--results--wrapper d-flex   flex-column flex-sm-row align-items-start w-100"> 
+                        <div class="date flex-shrink-0">
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">25 
+                                <span class="fw-700 ms-3">Aug 2024, Mon</span>
+                            </p>
+                        </div>
+                        <div class="w-100 d-flex flex-column align-items-start">
+                            <div class="user--time d-flex align-items-between w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <div class="point m-1 green"></div>
+                                        <p class="m-1 font-14 clr--1F2F3E">8:00 AM -8:30 AM</p> 
+                                    </div>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">Lisa Mathew, Knee Pain, Medicare</p>
+                                </div>
+                                <div class="pro--circle">
+                                    <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <nav>
+                        <ul class="pagination justify-content-end mt-4 mb-3">
+                          <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                          <li class="page-item active"><a class="page-link">1</a></li>
+                          <li class="page-item cursor-pointer"><a class="page-link">2</a></li>
+                          <li class="page-item cursor-pointer"><a class="page-link">3</a></li>
+                          <li class="page-item cursor-pointer"><a class="page-link">Next</a></li>
+                        </ul>
+                      </nav>
+                </div>
+             </div>
+            <!-- Search view (End here) --> 
+
+            <!-- No Record Found (Start here) -->
+            <div class="row w-100" *ngIf="noRecordFound">
+                <div class="col-12">
+                    <div class="no--record--found d-flex align-items-center justify-content-center w-100" >
+                        <div class="d-flex flex-column align-items-center w-100">
+                            <img src="assets/images/ark/sad.png" alt="" class="mb-3 sad--img">
+                            <p class="">No Records found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- No Record Found (End here) -->
+
+
+
+        </div>
+        <!-- Calender End's here -->
+
+    </div>
+</div>

@@ -36,11 +36,16 @@ import { DnObjectiveComponent } from 'src/app/shared/component/support-billing-t
 import { DnAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-assessment/dn-assessment.component';
 import { DnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-plan/dn-plan.component';
 import { DailyNoteBillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/billing/billing.component';
+import { SchedulerComponent } from 'src/app/shared/comman/scheduler/scheduler.component';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: AppointmentRequestsComponent
+  },
+  {
+    path: 'scheduler',
+    component: SchedulerComponent,   
   },
   {
     path: 'cases',

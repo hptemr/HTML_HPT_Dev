@@ -1,0 +1,44 @@
+.ca--wrapper{
+    .other--booking{
+        width: 29%;
+        margin-left: 18px;
+    } 
+    .w-100p{
+        width: 100px;
+    }
+    .w-130p{
+        width: 130px;
+    }
+    ::ng-deep{
+        .am--datepicker .mat-mdc-form-field-infix{
+            min-height: 20px !important;
+            padding-top: 6px !important;
+            padding-bottom: 5px !important;
+            font-size: 14px;
+        }
+        .am--datepicker .mat-mdc-icon-button.mat-mdc-button-base {
+            height: 35px;
+            width: 40px;
+            padding: 3px; 
+        }
+        // .am--datepicker.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper{
+        //     background-color: #F4F4F5  !important;
+        // }
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .ca--wrapper{
+        .other--booking{
+            width: 100%;
+            margin-left: 0;
+        } 
+        .w-100p{
+            width: 150px;
+        }
+        .w-130p{
+            width: 150px;
+            margin: 5px 0;
+        }
+    }
+}

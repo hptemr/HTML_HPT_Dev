@@ -1,0 +1,405 @@
+.scheduler--wrapper{
+    .sc--header{
+        background: #FFF;
+        padding: 20px 16px;
+        box-shadow: 0px 8px 28px 0px rgba(72, 89, 102, 0.10);
+        margin-bottom: 16px;
+        .pl--field{
+            width: 240px;
+            margin-right: 20px;
+            background-color: #F5F6F9 !important;
+        }
+        .today--btns{
+            .btn{
+                padding: 2px;
+                background-color: #F4F4F5;
+                font-size: 12px;
+                display: flex;
+                align-items: center; 
+                justify-content: center;
+                margin: 2px;
+                &:nth-child(2){
+                    width: 100px;
+                }
+            }
+        }
+        .day--to--month{
+            .btn{
+                font-size: 14px;
+                padding: 5px 15px;
+                border-radius: 18px;
+                border: none;
+                &.active{
+                    background-color: #31B7B7;
+                    color: #fff;
+
+                }
+            }
+        }
+        .head--search{
+            .search--outer{
+                width: 232px;
+                padding-left: 30px;
+                background-color: #F4F4F5 !important;
+            }
+            .search--fields{
+                position: absolute;
+                left: 7px;
+                top: 1px;
+            }
+        }
+        .thra--profile{
+            width: 250px;
+            margin-right: 30px;
+            .pro--box{
+                width: 45px;
+                height: 45px;
+                border: 1px solid #ddd;
+                border-radius: 100px;
+                overflow: hidden;
+            }
+        }
+
+        // Search Filter Header
+        &.search--filter--header{
+            .w-100p{
+                width: 100px;
+            }
+            .w-170p{
+                width: 170px;
+            } 
+            .form-control{
+                background-color: #F4F4F5 !important;
+            }
+            ::ng-deep{
+                .am--datepicker .mat-mdc-form-field-infix{
+                    min-height: 20px !important;
+                    padding-top: 6px !important;
+                    padding-bottom: 5px !important;
+                    font-size: 14px;
+                }
+                .am--datepicker .mat-mdc-icon-button.mat-mdc-button-base {
+                    height: 35px;
+                    width: 40px;
+                    padding: 3px; 
+                }
+                .am--datepicker.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper{
+                    background-color: #F4F4F5  !important;
+                }
+            }
+        }
+    }   
+    .sc--body{ 
+        background-color: #f2f3f48f;
+        .sc--left--panel{
+            width: 300px;
+            margin-right: 20px;
+            // height: calc(100vh - 95px);
+            padding: 15px;
+            background: #FFF;
+            overflow: auto; 
+            ::ng-deep{
+                .ca--btn{
+                    .mat-icon{
+                        font-size: 21px;
+                        width: 21px;
+                        height: 21px;
+                    }
+                }
+                .mat-mdc-card{
+                    box-shadow: none;
+                    .mat-calendar{
+                        border-radius: 8px;
+                        border: 1px solid #31B7B7; 
+                        .mat-calendar-header{
+                            .mat-calendar-controls{
+                                margin-top: 0;
+                            }
+                        }
+                        .mat-calendar-content{
+                            .mat-calendar-table{
+                                .mat-calendar-table-header{
+                                    tr{
+                                        th{
+                                            font-weight: bold;
+                                            font-family: "Nunito Sans", sans-serif !important;
+                                            color: #000;
+                                        }
+                                    }
+                                } 
+                                .mat-calendar-body{
+                                    tr{
+                                        td{
+                                            &.mat-calendar-body-label{
+                                                color: #31B7B7;
+                                                font-weight: bold;
+                                                font-family: "Nunito Sans", sans-serif !important;
+                                            }
+                                            .mat-calendar-body-cell{
+                                                .mat-calendar-body-cell-content{
+                                                    color: #31B7B7;
+                                                    font-size: 13px;
+                                                    font-weight: 600;
+                                                    font-family: "Nunito Sans", sans-serif !important;
+                                                } 
+                                                &.mat-calendar-body-active{
+                                                    .mat-calendar-body-today{
+                                                        background-color: #31B7B7;
+                                                        border-color: #31B7B7;
+                                                        color: #fff;
+                                                    }
+                                                    .mat-calendar-body-selected{
+                                                        color: #fff;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .search--people--sec{
+                    border-radius: 8px;
+                    border: 1px solid #31B7B7;
+                    background: #F3FBFB;
+                    padding: 18px 12px;
+                    margin-top: 16px;
+                    .search--outer{
+                        background-color: #BCDADA !important;
+                        padding-left: 35px;
+                    }
+                    .search--fields{
+                        position: absolute;
+                        left: 10px;
+                        top: 0;
+                    }
+                    .mat-mdc-checkbox{
+                        .mdc-form-field{ 
+                            .mdc-checkbox{
+                                padding-right: 7px; 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .sc--right--panel{
+            background-color: #fff;
+            height: calc(100vh - 95px);
+            padding: 30px 0;
+            ::ng-deep{
+                .cal-month-view .cal-day-number{
+                    font-weight: bold;
+                }
+                .cal-month-view .cal-cell-top{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                }
+                .cal-month-view .cal-day-badge{
+                    color: #fff;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+                .cal-month-view .cal-events{
+                    display: none;
+                }
+                .cal-month-view .cal-open-day-events{
+                    background-color: #b1ebeb;
+                    box-shadow: inset 0 0 15px 0 #88cccc;
+                }
+                .cal-month-view .cal-event-title{
+                    color: #000;
+                }
+                .cal-month-view .cal-open-day-events .cal-event {
+                    position: relative;
+                    top: 0px;
+                    background-color: #000 !important;
+                    width: 5px;
+                    height: 5px;
+                }
+                .cal-week-view .cal-hour-segment.cal-after-hour-start .cal-time {
+                    display: block !important;
+                }
+            }
+
+            .search--results--wrapper{ 
+                border-bottom: 1px solid #E0E0E0;
+                padding: 20px 20px 0 20px;
+                &:first-child{
+                    padding-top: 0;
+                }
+                .date{
+                    margin-right: 10px;
+                    width: 150px;
+                    p{
+                        font-size: 22px;
+                        line-height: 34px;
+                        span{
+                            font-size: 12px;
+                        }
+                    }
+                }
+                .user--time{
+                    margin-bottom: 20px;
+                    .point{
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 20px;
+                        margin-right: 10px !important;
+                        flex-shrink: 0;
+                        &.orange{
+                            background-color: #F59E0B;
+                        }
+                        &.red{
+                            background-color: #BE123C;
+                        }
+                        &.blue{
+                            background-color: #6D28D9;
+                        }
+                        &.green{
+                            background-color: #0369A1;
+                        }
+                    }
+                    .pro--circle{
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 100px;
+                        overflow: hidden;  
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+ 
+
+
+.app--details--modal--wrapper{
+    .modal--header{
+        h1{
+            &.font-22{
+                font-size: 22px;
+            }
+        }
+        .more--opt{
+            color: #31B7B7 !important;
+        }
+    } 
+    .modal--body{
+        .profile--round{
+            width: 48px;
+            height: 48px;
+            border-radius: 100px;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+        .phone{
+            .mat-icon{
+                font-size: 18px;
+                height: 18px;
+                width: 18px;
+            }
+        }
+    }
+}
+
+::ng-deep{ 
+    .mat-mdc-menu-item{
+        min-height: 40px !important;
+        border-bottom: 1px solid #ddd !important;
+        .mat-mdc-menu-item-text{
+            color: #1F2F3E !important;
+            font-weight: 600 !important;
+        }
+        &:hover{
+            .mat-mdc-menu-item-text{
+                color: #31B7B7 !important;
+                font-weight: 600 !important;
+            }
+        }
+    }
+    .cdk-overlay-container { 
+        z-index: 99999 !important;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .sm-w-100{
+        width: 100% !important;
+    }  
+    .app--details--modal--wrapper{
+        .modal--header{
+            h1{
+                &.font-22{
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    .scheduler--wrapper .sc--header .pl--field{
+        width: 100%;
+        margin-right: 0;
+    } 
+    .scheduler--wrapper .sc--header .thra--profile {
+        width: 100%;
+        margin: 10px 0;
+    }
+    .scheduler--wrapper .sc--header .head--search, 
+    .scheduler--wrapper .sc--header .head--search .search--outer,
+    .scheduler--wrapper .sc--header .today--btns{
+        width: 100%;
+    }
+    .scheduler--wrapper .sc--header .day--to--month{
+        margin: 10px 0;
+        width: 100%;
+    }
+    .scheduler--wrapper .sc--body{
+        flex-direction: column;
+    }
+    .scheduler--wrapper .sc--body .sc--left--panel{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .scheduler--wrapper .sc--body .sc--right--panel{
+        height: unset;
+        padding: 10px;
+    }
+    ::ng-deep{
+        .cal-month-view .cal-header .cal-cell{
+            font-size: 10px;
+        }
+        .cal-month-view .cal-day-number{
+            margin-top: 0;
+            margin-right: 0;
+            font-size: 12px;
+        }
+        .cal-month-view .cal-day-cell.cal-today .cal-day-number {
+            font-size: 16px;
+        }
+    }
+}
+
+ 
+@media only screen and (min-width: 600px) and (max-width: 1279px){
+    .scheduler--wrapper .sc--header{
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .scheduler--wrapper .sc--header .thra--profile {
+        width: 100% !important;
+        margin-right: 0;
+    }
+}
+ 
