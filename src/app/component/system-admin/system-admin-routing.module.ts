@@ -24,6 +24,7 @@ import { ProviderManagementComponent } from './provider-management/provider-mana
 import { BulkUploadProvidersComponent } from './bulk-upload-providers/bulk-upload-providers.component';
 import { InsuranceManagementComponent } from './insurance-management/insurance-management.component';
 import { UploadInsurancesComponent } from './upload-insurances/upload-insurances.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -133,6 +134,10 @@ const routes: Routes = [
     path: 'upload-insurances',
     component:UploadInsurancesComponent   
   },
+  {
+    path: 'dashboard',
+    component:DashboardComponent   
+  }
 ];
 
 @NgModule({

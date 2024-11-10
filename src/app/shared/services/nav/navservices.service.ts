@@ -40,22 +40,14 @@ export class NavservicesService {
 
   Nvabarmenu: Menu[] = [ 
 
-    // {
-    //   id: 1,
-    //   icon: 'dashboard_outline',
-    //   mainTitle: 'Dashboard',
-    //   headTitle1: 'Dashboard', 
-    //   active: false,
-    //   item: [ 
-    //     {
-    //       title: 'Notifications',
-    //       icon: 'notifications_none',
-    //       type: 'link',
-    //       active: false,
-    //       path: '/system-admin/notifications', 
-    //     },
-    //   ]
-    // },
+    {
+      id: 1,
+      icon: 'dashboard_outline',
+      mainTitle: 'Dashboard',
+      headTitle1: 'Dashboard', 
+      path: '/system-admin/dashboard', 
+      
+    },
     {
       id: 2,
       icon: 'person_outline',

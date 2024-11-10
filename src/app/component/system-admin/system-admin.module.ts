@@ -33,6 +33,7 @@ import { BulkUploadProvidersComponent } from './bulk-upload-providers/bulk-uploa
 import { MatChipsModule } from '@angular/material/chips';
 import { InsuranceManagementComponent } from './insurance-management/insurance-management.component';
 import { UploadInsurancesComponent } from './upload-insurances/upload-insurances.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { UploadInsurancesComponent } from './upload-insurances/upload-insurances
     ProviderManagementComponent,
     BulkUploadProvidersComponent,
     InsuranceManagementComponent,
-    UploadInsurancesComponent
+    UploadInsurancesComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
