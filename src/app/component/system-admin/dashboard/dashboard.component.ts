@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 
 
 
@@ -1146,7 +1147,10 @@ export class DashboardComponent {
   quarterlyAquaticReport = false;
   individualTherapistsReport = false;
   quarterlyEVALSReport = false;
+
+  defaultWarning = true;
   therapistName = false;
+  markDefaultReports = false;
 
 
   displayedColumns: string[] = [ 'month', 'evals','cx','cxper','ns','nsper','totalpts','totalpts2','prioryear','unitsbilled','unitsvist','aquatic','aquatic2'];
@@ -1188,7 +1192,9 @@ export class DashboardComponent {
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
 
   generateReport() {
-    
+    this.defaultWarning = false;
+    this.markDefaultReports = true;
+
     const getval = this.selectedGroup;
    
     if(getval === 'sr'){
@@ -1231,6 +1237,15 @@ export class DashboardComponent {
       this.individualTherapistsReport = false;
       this.therapistName = false;
     }
+  }
+
+  markDefaultReport() {
+    const dialogRef = this.dialog.open(AlertComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        warningNote: 'Are you sure to mark this report as a default?'
+      }
+    });
   }
 
   @ViewChild(MatSort) sort: MatSort;

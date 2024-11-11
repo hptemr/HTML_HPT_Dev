@@ -7,6 +7,15 @@
             .form-select{
                 background-color: #F5F6F9 !important;
             }
+            .default--warn{
+                font-size: 16px;
+                margin: 15px 0 30px 0;
+                color: red; 
+                padding: 15px;
+                box-shadow: 0 0 5px #a6c2c2;
+                border-radius: 6px;
+                text-align: center;
+            }
         }
     }
     .main--txt{
@@ -18,7 +27,7 @@
     .sub--txt{
         font-size: 16px;
         color: #324556;
-        margin: 0 0 15px 0;
+        margin: 12px 0 15px 0;
         padding: 0 27px;
     }
     ::ng-deep{
@@ -42,7 +51,7 @@
                 tr{
                     td{
                         &:first-child{
-                            font-weight: bold;
+                            font-weight: bold !important;
                             padding-left: 30px;
                         }
                     }
@@ -57,7 +66,65 @@
                 padding: 0 6px 0 6px;
                 font-family: "Nunito Sans", sans-serif !important;
             }
+            &.therapist--report--table{
+                tbody{
+                    tr{ 
+                        &:last-child{
+                            td{
+                                font-weight: 400 ;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
+}
+
+
+
+@media only screen and (max-width: 599px) {
+    .sa--dashboard--wrapper .head--box header .filter--outer{
+        flex-wrap: wrap !important;
+    }
+    .sa--dashboard--wrapper .head--box header .repo--buttons ::ng-deep .mdc-button,
+    .sa--dashboard--wrapper .head--box header .repo--buttons{
+        width: 100%;
+    }
+    .sa--dashboard--wrapper .main--txt{
+        font-size: 16px; 
+        padding: 0 20px;
+    }
+    .sa--dashboard--wrapper .sub--txt{
+        font-size: 14px; 
+        margin: 10px 0 5px 0;
+        padding: 0 20px;
+    }
+    .sa--dashboard--wrapper .cust--mat--table.qpsr--table{
+        width: 417px;
+    }
+}
+@media only screen and (min-width: 600px) and (max-width: 979px){
+    .sa--dashboard--wrapper .head--box header .fw-w,
+    .sa--dashboard--wrapper .head--box header .filter--outer{
+        flex-wrap: wrap !important;
+    }
+}
+@media only screen and (min-width: 980px) and (max-width: 1279px){
+    .sa--dashboard--wrapper .head--box header .filter--outer{
+        flex-wrap: wrap !important;
+    }
+}
+@media only screen and (min-width: 1280px) and (max-width: 1365px){
+    .sa--dashboard--wrapper .head--box header .filter--outer{
+        flex-wrap: wrap !important;
+    }
+}
+@media only screen and (min-width: 1366px) and (max-width: 1440px){}
+@media only screen and (min-width: 1441px) and (max-width: 1550px){}
+@media screen and (orientation:landscape) and (max-width: 850px){
+    .sa--dashboard--wrapper .head--box header .filter--outer{
+        flex-wrap: wrap !important;
+    }
 }

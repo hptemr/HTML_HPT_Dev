@@ -1,12 +1,17 @@
 <div class="container-fluid sa--dashboard--wrapper">
     <section class="col-12 head--box">
         <header class="col-12">
+            <div class="row" *ngIf="defaultWarning">
+                <div class="col-12">
+                    <h4 class="default--warn">Please Select Report Type, Clinic, Year to Generate Report</h4>
+                </div>
+            </div>
             <div class="row">
-                <div class="col-12 d-flex flex-column flex-sm-row align-items-center justify-content-between">
-                    <div class="d-flex flex-column flex-sm-row align-items-center w-100">
-                        <select id="selectReport" [(ngModel)]="selectedGroup" class="form-select form-control form-control-md m-1 "
+                <div class="col-12 d-flex flex-column flex-sm-row align-items-center justify-content-between filter--outer">
+                    <div class="d-flex flex-column flex-sm-row align-items-center w-100 fw-w">
+                        <select [(ngModel)]="selectedGroup" class="form-select form-control form-control-md m-1 "
                             aria-label="Default select example">
-                            <option selected>Select Report Type </option>
+                            <option value="sel" selected>Select Report Type </option>
                             <option value="sr">Summry Report </option>
                             <option value="qpsp">Quarterly Patients Seen Report </option>
                             <option value="qar">Quarterly Aquatic Report</option>
@@ -48,9 +53,9 @@
                         </select>
                         
                     </div>
-                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-end flex-shrink-0">
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-end flex-shrink-0 repo--buttons">
                         <button mat-raised-button class="m-1" color="primary" (click)="generateReport()">Generate Report</button>
-                        <button mat-stroked-button class="m-1" color="primary">Mark as default report</button>
+                        <button mat-stroked-button class="m-1" color="primary" (click)="markDefaultReport()" *ngIf="markDefaultReports">Mark as default report</button>
                     </div>
                 </div> 
             </div>
@@ -316,7 +321,7 @@
             </div>
             <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
                 <mat-tab label="QUARTERLY PATIENTS SEEN 2023">
-                    <table mat-table [dataSource]="dataSource3" matSort class="cust--mat--table">
+                    <table mat-table [dataSource]="dataSource3" matSort class="cust--mat--table qpsr--table">
                         <ng-container matColumnDef="quarterlypatientsseen">
                             <th mat-header-cell *matHeaderCellDef  
                                 sortActionDescription="Sort by number">
@@ -371,7 +376,7 @@
                     </table>
                 </mat-tab> 
                 <mat-tab label="QUARTERLY PATIENTS SEEN 2022">
-                    <table mat-table [dataSource]="dataSource4" matSort class="cust--mat--table">
+                    <table mat-table [dataSource]="dataSource4" matSort class="cust--mat--table qpsr--table">
                         <ng-container matColumnDef="qpatients">
                             <th mat-header-cell *matHeaderCellDef  
                                 sortActionDescription="Sort by number">
