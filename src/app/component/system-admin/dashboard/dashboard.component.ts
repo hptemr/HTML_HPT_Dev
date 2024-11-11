@@ -1140,7 +1140,7 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 
 export class DashboardComponent {
 
-  selectedGroup:any
+  selectedGroup='sel';
 
   monthlyReport = false;
   quarterlyPatientsSeenReport = false;
