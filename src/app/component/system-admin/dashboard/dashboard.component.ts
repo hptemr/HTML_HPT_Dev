@@ -1139,10 +1139,14 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 
 export class DashboardComponent {
 
-  monthlyReportSection = false;
+  selectedGroup:any
+
+  monthlyReport = false;
   quarterlyPatientsSeenReport = false;
   quarterlyAquaticReport = false;
   individualTherapistsReport = false;
+  quarterlyEVALSReport = false;
+  therapistName = false;
 
 
   displayedColumns: string[] = [ 'month', 'evals','cx','cxper','ns','nsper','totalpts','totalpts2','prioryear','unitsbilled','unitsvist','aquatic','aquatic2'];
@@ -1182,6 +1186,52 @@ export class DashboardComponent {
   dataSource10 = new MatTableDataSource(ELEMENT_DATA_10);
 
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
+
+  generateReport() {
+    
+    const getval = this.selectedGroup;
+   
+    if(getval === 'sr'){
+      this.monthlyReport = true;
+      this.quarterlyPatientsSeenReport = false;
+      this.quarterlyAquaticReport = false;
+      this.individualTherapistsReport = false;
+      this.quarterlyEVALSReport = false;
+      this.therapistName = false;
+    } 
+    else if(getval === 'qpsp'){
+      this.quarterlyPatientsSeenReport = true;
+      this.monthlyReport = false; 
+      this.quarterlyAquaticReport = false;
+      this.individualTherapistsReport = false;
+      this.quarterlyEVALSReport = false;
+      this.therapistName = false;
+    }
+    else if(getval === 'qar'){
+      this.quarterlyAquaticReport = true;
+      this.monthlyReport = false; 
+      this.quarterlyPatientsSeenReport = false;
+      this.individualTherapistsReport = false;
+      this.quarterlyEVALSReport = false;
+      this.therapistName = false;
+    }
+    else if(getval === 'itr'){
+      this.individualTherapistsReport = true;
+      this.monthlyReport = false; 
+      this.quarterlyPatientsSeenReport = false;
+      this.quarterlyAquaticReport = false;
+      this.quarterlyEVALSReport = false;
+      this.therapistName = true;
+    }
+    else if(getval === 'qer'){
+      this.quarterlyEVALSReport = true;
+      this.monthlyReport = false; 
+      this.quarterlyPatientsSeenReport = false;
+      this.quarterlyAquaticReport = false;
+      this.individualTherapistsReport = false;
+      this.therapistName = false;
+    }
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;

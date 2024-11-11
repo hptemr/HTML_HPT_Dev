@@ -4,14 +4,14 @@
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row align-items-center justify-content-between">
                     <div class="d-flex flex-column flex-sm-row align-items-center w-100">
-                        <select class="form-select form-control form-control-md m-1 "
+                        <select id="selectReport" [(ngModel)]="selectedGroup" class="form-select form-control form-control-md m-1 "
                             aria-label="Default select example">
                             <option selected>Select Report Type </option>
-                            <option value="1">Summry Report </option>
-                            <option value="2">Quarterly Patients Seen Report </option>
-                            <option value="3">Quarterly Aquatic Report</option>
-                            <option value="4">Individual Therapists Report</option>
-                            <option value="5">Quarterly EVALS Report </option> 
+                            <option value="sr">Summry Report </option>
+                            <option value="qpsp">Quarterly Patients Seen Report </option>
+                            <option value="qar">Quarterly Aquatic Report</option>
+                            <option value="itr">Individual Therapists Report</option>
+                            <option value="qer">Quarterly EVALS Report </option> 
                         </select>
                         <select class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
@@ -26,17 +26,6 @@
                         </select>
                         <select class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
-                            <option selected>Therapist Name</option>
-                            <option>Emily Blunt</option>
-                            <option value="2">John Doe</option>
-                            <option value="3">Martin Heidi</option>
-                            <option value="4">Brooker Ben</option>
-                            <option value="5">Nohren White</option>
-                            <option value="6">Ashley Doe</option>
-                            <option value="7">Emily White</option>
-                        </select>
-                        <select class="form-select form-control form-control-md m-1"
-                            aria-label="Default select example">
                             <option selected>Select Year</option>
                             <option>2018</option>
                             <option value="2">2019</option>
@@ -46,9 +35,21 @@
                             <option value="6">2023</option>
                             <option value="7">2024</option>
                         </select>
+                        <select *ngIf="therapistName" class="form-select form-control form-control-md m-1"
+                            aria-label="Default select example">
+                            <option selected>Therapist Name</option>
+                            <option>Emily Blunt</option>
+                            <option value="2">John Doe</option>
+                            <option value="3">Martin Heidi</option>
+                            <option value="4">Brooker Ben</option>
+                            <option value="5">Nohren White</option>
+                            <option value="6">Ashley Doe</option>
+                            <option value="7">Emily White</option>
+                        </select>
+                        
                     </div>
                     <div class="d-flex flex-column flex-sm-row align-items-center justify-content-end flex-shrink-0">
-                        <button mat-raised-button class="m-1" color="primary">Generate Report</button>
+                        <button mat-raised-button class="m-1" color="primary" (click)="generateReport()">Generate Report</button>
                         <button mat-stroked-button class="m-1" color="primary">Mark as default report</button>
                     </div>
                 </div> 
@@ -56,7 +57,7 @@
         </header>
 
         <!-- Monthly Report (Start here) -->
-        <section class="col-12" *ngIf="monthlyReportSection">
+        <section class="col-12" *ngIf="monthlyReport">
             <div class="col-12">
                 <h2 class="main--txt fw-600 ">Summary Report for Stevensville Physical Therapy 2023</h2>
             </div>
@@ -750,7 +751,18 @@
         </section>
 
         <!-- Quarterly EVALS Report (Start here) -->
-        <section class="col-12 ">
+        <section class="col-12" *ngIf="quarterlyEVALSReport">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="main--txt fw-600 ">Quarterly Patients Seen Report for Stevensville Physical Therapy 2023</h2>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2023 ALL CLINIC TOTAL: 13859  </h4>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2022 ALL CLINIC TOTAL: 49340  </h4>
+                </div>
+            </div>
             <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
                 <mat-tab label="QUARTERLY EVALS 2023">
                     <table mat-table [dataSource]="dataSource9" matSort class="cust--mat--table">
