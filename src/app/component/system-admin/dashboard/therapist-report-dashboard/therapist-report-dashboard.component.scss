@@ -40,7 +40,7 @@
                 tr{
                     td{
                         &:first-child{
-                            font-weight: bold;
+                            font-weight: bold !important;
                             padding-left: 30px;
                         }
                     }
@@ -54,6 +54,17 @@
             .mdc-data-table__cell, .mdc-data-table__header-cell {
                 padding: 0 6px 0 6px;
                 font-family: "Nunito Sans", sans-serif !important;
+            }
+            &.therapist--report--table{
+                tbody{
+                    tr{ 
+                        &:last-child{
+                            td{
+                                font-weight: 400 ;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

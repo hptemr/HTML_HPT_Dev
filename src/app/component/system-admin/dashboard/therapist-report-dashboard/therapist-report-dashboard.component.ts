@@ -169,96 +169,163 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 
 export interface PeriodicElement2 {
-  month: string; 
-  evals: string; 
-  cx: string;
+  provider: string; 
+  year: string; 
+  totalevals: string;
+  totalcx: string;
   cxper: string;
-  ns: string;
+  totalns: string;
   nsper: string;
-  totalpts: string;
   totalpts2: string;
-  prioryear: string;
-  unitsbilled: string;
-  unitsvist: string;
-  aquatic: string;
-  aquatic2: string;
+  totalbilledunits: string;
+  unitsvisits: string; 
 }
 const ELEMENT_DATA_2: PeriodicElement2[] = [
   { 
-    month: '1ST QTR', 
-    evals: '111', 
-    cx:'130', 
+    provider: 'Brady, Thomas', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
     cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  }, 
-  { 
-    month: '2ND QTR', 
-    evals: '111', 
-    cx:'130', 
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  }, 
-  { 
-    month: '3RD QTR', 
-    evals: '111', 
-    cx:'130', 
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  }, 
-  { 
-    month: '4TH QTR', 
-    evals: '111', 
-    cx:'130', 
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  }, 
-  { 
-    month: 'TOTAL', 
-    evals: '111', 
-    cx:'130', 
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
   },  
+  { 
+    provider: 'Brooker, Ben', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  { 
+    provider: 'Martin, Doug', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  { 
+    provider: 'Nohren, Chase', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  }, 
+  { 
+    provider: 'Palacio, Ashley', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  { 
+    provider: 'Stroppel, Sheri', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  { 
+    provider: 'Brady, Thomas', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },  
+  { 
+    provider: 'Brooker, Ben', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  { 
+    provider: 'Martin, Doug', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  { 
+    provider: 'Nohren, Chase', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  }, 
+  { 
+    provider: 'Palacio, Ashley', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  { 
+    provider: 'Stroppel, Sheri', 
+    year: '2023', 
+    totalevals:'10', 
+    totalcx: '29',
+    cxper: '13.01%',
+    totalns: '6',
+    nsper: '3.00%',
+    totalpts2: '200',
+    totalbilledunits: '586',
+    unitsvisits: '20', 
+  },
+  
 ];
 
 @Component({
@@ -272,7 +339,7 @@ export class TherapistReportDashboardComponent {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
 
-  displayedColumns2: string[] = [ 'month', 'evals','cx','cxper','ns','nsper','totalpts','totalpts2','prioryear','unitsbilled','unitsvist','aquatic','aquatic2'];
+  displayedColumns2: string[] = [ 'provider', 'year','totalevals','totalcx','cxper','totalns','nsper','totalpts2','totalbilledunits','unitsvisits'];
   dataSource2 = new MatTableDataSource(ELEMENT_DATA_2);
 
   constructor(private _liveAnnouncer: LiveAnnouncer,  public dialog: MatDialog) {}
