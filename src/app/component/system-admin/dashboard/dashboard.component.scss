@@ -3,21 +3,23 @@
         background-color: #fff;
         border-radius: 6px;
         header{
-            padding: 20px;
-            .main--txt{
-                font-size: 22px;
-                color: #324556;
-                margin-top: 20px;
-            }
-            .sub--txt{
-                font-size: 16px;
-                color: #324556;
-                margin-top: 20px;
-            }
+            padding: 20px; 
             .form-select{
                 background-color: #F5F6F9 !important;
             }
         }
+    }
+    .main--txt{
+        font-size: 22px;
+        color: #324556;
+        margin: 0 0 15px 0;
+        padding: 0 27px;
+    }
+    .sub--txt{
+        font-size: 16px;
+        color: #324556;
+        margin: 0 0 15px 0;
+        padding: 0 27px;
     }
     ::ng-deep{
         .cust--mat--table{

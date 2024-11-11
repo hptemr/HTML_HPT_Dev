@@ -4,16 +4,14 @@
             <div class="row">
                 <div class="col-12 d-flex flex-column flex-sm-row align-items-center justify-content-between">
                     <div class="d-flex flex-column flex-sm-row align-items-center w-100">
-                        <select class="form-select form-control form-control-md m-1"
+                        <select class="form-select form-control form-control-md m-1 "
                             aria-label="Default select example">
                             <option selected>Select Report Type </option>
-                            <option>Hamilton PT </option>
-                            <option value="2">Darby PT</option>
-                            <option value="3">Corvallis PT</option>
-                            <option value="4">Stevi PT</option>
-                            <option value="5">PT Specialists of Florence</option>
-                            <option value="6">Frenchtown PT</option>
-                            <option value="7">HNB</option>
+                            <option value="1">Summry Report </option>
+                            <option value="2">Quarterly Patients Seen Report </option>
+                            <option value="3">Quarterly Aquatic Report</option>
+                            <option value="4">Individual Therapists Report</option>
+                            <option value="5">Quarterly EVALS Report </option> 
                         </select>
                         <select class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
@@ -28,6 +26,17 @@
                         </select>
                         <select class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
+                            <option selected>Therapist Name</option>
+                            <option>Emily Blunt</option>
+                            <option value="2">John Doe</option>
+                            <option value="3">Martin Heidi</option>
+                            <option value="4">Brooker Ben</option>
+                            <option value="5">Nohren White</option>
+                            <option value="6">Ashley Doe</option>
+                            <option value="7">Emily White</option>
+                        </select>
+                        <select class="form-select form-control form-control-md m-1"
+                            aria-label="Default select example">
                             <option selected>Select Year</option>
                             <option>2018</option>
                             <option value="2">2019</option>
@@ -38,17 +47,19 @@
                             <option value="7">2024</option>
                         </select>
                     </div>
-                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-end w-100">
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-end flex-shrink-0">
                         <button mat-raised-button class="m-1" color="primary">Generate Report</button>
                         <button mat-stroked-button class="m-1" color="primary">Mark as default report</button>
                     </div>
-                </div>
-                <div class="col-12">
-                    <h2 class="main--txt fw-600 ">Summary Report for Stevensville Physical Therapy 2023</h2>
-                </div>
+                </div> 
             </div>
         </header>
-        <section class="col-12 ">
+
+        <!-- Monthly Report (Start here) -->
+        <section class="col-12" *ngIf="monthlyReportSection">
+            <div class="col-12">
+                <h2 class="main--txt fw-600 ">Summary Report for Stevensville Physical Therapy 2023</h2>
+            </div>
             <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
                 <mat-tab label="Monthly Values">
                     <table mat-table [dataSource]="dataSource" matSort class="cust--mat--table">
@@ -167,8 +178,7 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
                     </table>
-                </mat-tab>
-
+                </mat-tab> 
                 <mat-tab label="Quarterly Values">
                     <table mat-table [dataSource]="dataSource2" matSort class="cust--mat--table">
                         <ng-container matColumnDef="month">
@@ -289,5 +299,573 @@
                 </mat-tab>
             </mat-tab-group>
         </section>
+ 
+        <!-- Quarterly Patients Seen Report  (Start here) -->
+        <section class="col-12" *ngIf="quarterlyPatientsSeenReport">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="main--txt fw-600 ">Quarterly Patients Seen Report for Stevensville Physical Therapy 2023</h2>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2023 ALL CLINIC TOTAL: 13859  </h4>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2022 ALL CLINIC TOTAL: 49340  </h4>
+                </div>
+            </div>
+            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                <mat-tab label="QUARTERLY PATIENTS SEEN 2023">
+                    <table mat-table [dataSource]="dataSource3" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="quarterlypatientsseen">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY PATIENTS SEEN 2023
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.quarterlypatientsseen}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="firstq">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.firstq}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="secondq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.secondq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="thirdq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.thirdq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fourthq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.fourthq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalq}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+                    </table>
+                </mat-tab> 
+                <mat-tab label="QUARTERLY PATIENTS SEEN 2022">
+                    <table mat-table [dataSource]="dataSource4" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="qpatients">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY PATIENTS SEEN 2022
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qpatients}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfirst">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qfirst}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qsecond">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qsecond}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qthird">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qthird}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfourth">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qfourth}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qtotal">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qtotal}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns4"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
+                    </table>
+                </mat-tab>
+            </mat-tab-group>
+        </section>
+
+        <!-- Quarterly Aquatic Report (Start here) --> 
+        <section class="col-12" *ngIf="quarterlyAquaticReport">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="main--txt fw-600 ">Quarterly Aquatic Report for Stevensville Physical Therapy 2023</h2>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2023 ALL CLINIC TOTAL: 13859  </h4>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2022 ALL CLINIC TOTAL: 49340  </h4>
+                </div>
+            </div>
+            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                <mat-tab label="QUARTERLY AQUATIC 2023 ">
+                    <table mat-table [dataSource]="dataSource5" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="quarterlypatientsseen">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY PATIENTS SEEN 2023
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.quarterlypatientsseen}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="firstq">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.firstq}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="secondq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.secondq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="thirdq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.thirdq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fourthq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.fourthq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalq}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns5"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns5;"></tr>
+                    </table>
+                </mat-tab>
+
+                <mat-tab label="QUARTERLY AQUATIC 2022">
+                    <table mat-table [dataSource]="dataSource6" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="qpatients">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY PATIENTS SEEN 2022
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qpatients}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfirst">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qfirst}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qsecond">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qsecond}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qthird">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qthird}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfourth">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qfourth}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qtotal">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qtotal}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns6"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns6;"></tr>
+                    </table>
+                </mat-tab>
+            </mat-tab-group>
+        </section>
+
+        <!-- Individual Therapists Report (Start here) -->
+        <section class="col-12" *ngIf="individualTherapistsReport">
+            <div class="col-12">
+                <h2 class="main--txt fw-600 ">Individual Therapists Report for Stevensville Physical Therapy 2023</h2>
+            </div>
+            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                <mat-tab label="Monthly Therapists Report">
+                    <table mat-table [dataSource]="dataSource7" matSort class="cust--mat--table therapist--report--table">
+                        <ng-container matColumnDef="provider">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                Provider 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="month">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                Month 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.month}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalevals">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total Evals 
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalevals}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalcx">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total CX
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalcx}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="cxper">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                CX % 
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.cxper}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalns">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total NS
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalns}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="nsper">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                NS %
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.nsper}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalpts2">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total Pts Seen
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalpts2}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalbilledunits">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total Billed Units 
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalbilledunits}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="unitsvisits">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Units/Visit
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.unitsvisits}}
+                            </td>
+                        </ng-container>
+                          
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns7"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns7;"></tr>
+                    </table>
+                </mat-tab>
+
+                <mat-tab label="Annual Therapists">
+                    <table mat-table [dataSource]="dataSource8" matSort class="cust--mat--table therapist--report--table">
+                        <ng-container matColumnDef="provider">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                Provider 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="year">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                Year 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalevals">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total Evals 
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalevals}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalcx">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total CX
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalcx}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="cxper">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                CX % 
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.cxper}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalns">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total NS
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalns}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="nsper">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                NS %
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.nsper}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalpts2">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total Pts Seen
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalpts2}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalbilledunits">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Total Billed Units 
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalbilledunits}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="unitsvisits">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                Units/Visit
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.unitsvisits}}
+                            </td>
+                        </ng-container>
+                          
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns8"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns8;"></tr>
+                    </table>
+                </mat-tab>
+            </mat-tab-group>
+        </section>
+
+        <!-- Quarterly EVALS Report (Start here) -->
+        <section class="col-12 ">
+            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                <mat-tab label="QUARTERLY EVALS 2023">
+                    <table mat-table [dataSource]="dataSource9" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="quarterlypatientsseen">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY EVALS 2023
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.quarterlypatientsseen}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="firstq">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.firstq}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="secondq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.secondq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="thirdq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.thirdq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fourthq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.fourthq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalq}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns9"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns9;"></tr>
+                    </table>
+                </mat-tab>
+
+                <mat-tab label="QUARTERLY EVALS 2022">
+                    <table mat-table [dataSource]="dataSource10" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="qpatients">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY EVALS 2022
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qpatients}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfirst">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qfirst}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qsecond">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qsecond}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qthird">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qthird}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfourth">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qfourth}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qtotal">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qtotal}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns10"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns10;"></tr>
+                    </table>
+                </mat-tab>
+            </mat-tab-group>
+        </section>
+
+
     </section>
 </div>
