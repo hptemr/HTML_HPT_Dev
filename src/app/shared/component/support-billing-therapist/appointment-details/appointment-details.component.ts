@@ -428,6 +428,9 @@ export class AppointmentDetailsComponent implements OnInit {
   eFaxHistoryModal(){
     const dialogRef = this.dialog.open(EFaxHistoryModalComponent,{
       width:"960px", 
+      data : {
+        appointmentId:this.appointmentId,
+      }
     });
   }
 

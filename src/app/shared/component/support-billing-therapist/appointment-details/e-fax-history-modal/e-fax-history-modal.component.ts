@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 
 
@@ -17,12 +18,16 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 export class EFaxHistoryModalComponent {
   displayedColumns: string[] = ['dateOfService', 'noteType', 'createdAt', 'status'];
   dataSource = ELEMENT_DATA;
-
-  constructor(public authService: AuthService){
-    let reqVars = {}
+  appointmentId = ""
+  constructor(public authService: AuthService,@Inject(MAT_DIALOG_DATA) public data: any){
+    this.appointmentId = data.appointmentId;
+    let reqVars = {
+      appointmentId:this.appointmentId
+    }
     this.authService.apiRequest('post', 'soapNote/getFaxHistory', reqVars).subscribe(response => {
       this.dataSource = response.data
     })
+    
   }
 
 }
