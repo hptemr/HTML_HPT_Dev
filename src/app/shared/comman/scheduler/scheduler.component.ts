@@ -18,7 +18,7 @@ import { MatRadioChange } from '@angular/material/radio';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
-import { s3Details, practiceLocations, appointmentStatus } from 'src/app/config';
+import { s3Details, practiceLocations,pageSize, appointmentStatus } from 'src/app/config';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
@@ -45,8 +45,19 @@ export class SchedulerComponent {
   appointmentStatus: any = appointmentStatus
   validationMessages: any = validationMessages
   whereCond: any = {}
+  patientQuery: any = {}  
+  userQuery: any = {}
   practiceLocationsVal: any = ''
+  orderBy: any = { updatedAt: -1 }
+  pageIndex = 0
+  pageSize = 1000
+  totalCount = 0
+  appointmentsList: any
   constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
+
+  ngOnInit() {
+    this.getAppointmentList('')
+  }
 
   onChange(event: MatRadioChange) {
     const dialogRef = this.dialog.open(AlertComponent,{
@@ -107,21 +118,19 @@ export class SchedulerComponent {
       }
     });
   }
- 
-    @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-  
-    view: CalendarView = CalendarView.Month;
-  
-    CalendarView = CalendarView;
-  
-    viewDate: Date = new Date();
-  
-    modalData: {
+
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  view: CalendarView = CalendarView.Month;
+  CalendarView = CalendarView;
+  viewDate: Date = new Date();
+  modalData: {
       action: string;
       event: CalendarEvent;
-    };
-  
-    actions: CalendarEventAction[] = [
+  };
+
+  actionsnew: CalendarEventAction[] = [];
+
+  actions: CalendarEventAction[] = [
       {
         label: '<i class="fas fa-fw fa-pencil-alt"></i>',
         a11yLabel: 'Edit',
@@ -137,11 +146,12 @@ export class SchedulerComponent {
           this.handleEvent('Deleted', event);
         },
       },
-    ];
+  ];
   
-    refresh = new Subject<void>();
-  
-    events: CalendarEvent[] = [
+  refresh = new Subject<void>();
+  events: CalendarEvent[] = [];
+
+  eventsOld: CalendarEvent[] = [
       {
         start: subDays(startOfDay(new Date()), 1),
         end: addDays(new Date(), 1),
@@ -182,9 +192,11 @@ export class SchedulerComponent {
       },
     ];
   
-    activeDayIsOpen: boolean = true; 
   
-    dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  activeDayIsOpen: boolean = true; 
+  
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {    
+    console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)      
       if (isSameMonth(date, this.viewDate)) {
         if (
           (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -196,9 +208,11 @@ export class SchedulerComponent {
         }
         this.viewDate = date;
       }
-    }
+
+    console.log(this.activeDayIsOpen,'viewDate>>>>',this.viewDate)      
+  }
   
-    eventTimesChanged({
+  eventTimesChanged({
       event,
       newStart,
       newEnd,
@@ -214,14 +228,14 @@ export class SchedulerComponent {
         return iEvent;
       });
       this.handleEvent('Dropped or resized', event);
-    }
+  }
   
-    handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event: CalendarEvent): void {
       this.modalData = { event, action };
       this.modal.open(this.modalContent, { size: 'lg' });
-    }
+  }
   
-    addEvent(): void {
+  addEvent(): void {
       this.events = [
         ...this.events,
         {
@@ -236,47 +250,172 @@ export class SchedulerComponent {
           },
         },
       ];
-    }
+  }
   
-    deleteEvent(eventToDelete: CalendarEvent) {
+  deleteEvent(eventToDelete: CalendarEvent) {
       this.events = this.events.filter((event) => event !== eventToDelete);
-    }
+  }
   
-    setView(view: CalendarView) {
+  setView(view: CalendarView) {
       this.view = view;
-    }
+  }
   
-    closeOpenMonthViewDay() {
+  closeOpenMonthViewDay() {
       this.activeDayIsOpen = false;
-    } 
+  } 
 
-
-
-    searchRecords(colName: string, event: any) {
+  searchRecords(colName: string, event: any) {
       if (event && event != '') {
         Object.assign(this.whereCond, { [colName]: { $in: event } })
       } else {
         delete this.whereCond[colName];
       }
-     // this.getAppointmentList('search')
+      this.getAppointmentList('search')
     }
 
-}
- 
-const colors: Record<string, EventColor> = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
+  async getAppointmentList(action = "") {
+    if (action == "") {
+      this.commonService.showLoader()
+    }
+
+    let reqVars = {
+      query: this.whereCond,
+      userQuery: this.userQuery,
+      patientQuery: this.patientQuery, 
+      fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, caseName: 1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1, checkIn: 1 },
+      patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1 },
+      order: this.orderBy,
+      limit: this.pageSize,
+      offset: (this.pageIndex * this.pageSize)
+    }
+    await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
+      this.commonService.hideLoader()
+      this.totalCount = response.data.totalCount
+      let finalData: any = []
+      if (response.data.appointmentList.length > 0) {
+        await response.data.appointmentList.map((element: any) => {
+          let newColumns = {
+            id: element._id,
+            practiceLocation: element.practiceLocation,
+            appointmentId: element.appointmentId,
+            checkIn: element.checkIn,
+            createdAt: element.updatedAt,
+            appointmentDate: element.appointmentDate,
+            status: element.status,
+            caseName: element.caseName,
+            statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
+            patientName: element.patientObj[0]?.firstName + " " + element.patientObj[0]?.lastName,
+            profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientObj[0]?.profileImage,
+          }
+          finalData.push(newColumns)
+        })
+      }     
+      this.appointmentsList = finalData;
+      this.appointmentsEventsList();
+     // console.log('>>>>> Appointments List >>>>',this.appointmentsList)
+
+    })
+  }
+
+
+  async appointmentsEventsList(){
+    
+    // console.log('>>>>> 11111 >>>>',subDays(startOfDay(new Date()), 1));
+
+    // console.log('>>>>> 22222 >>>>', addDays(new Date(), 1));
+
+
+
+    let eventArray: any = []
+    this.appointmentsList.forEach((element:any) => {
+      let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
+      let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
+      let newColumns = {
+        start:appointmentDate,
+        end: appointmentEndDate,
+        title: element.patientName,
+        color: { ...colors['red'] },
+        actions: this.actions,
+        allDay: false,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
+        },
+        draggable: false,
+      }
+
+      eventArray.push(newColumns)
+     
+    });
+
+    this.events = eventArray;
+
+    this.activeDayIsOpen = false;
+  
+    console.log(' >>>  actions>>>',this.actions)
+
+    // this.events = [
+    //   {
+    //     start: subDays(startOfDay(new Date()), 1),
+    //     end: addDays(new Date(), 1),
+    //     title: 'A 3 day event',
+    //     color: { ...colors['red'] },
+    //     actions: this.actions,
+    //     allDay: true,
+    //     resizable: {
+    //       beforeStart: true,
+    //       afterEnd: true,
+    //     },
+    //     draggable: false,
+    //   },
+    //   {
+    //     start: startOfDay(new Date()),
+    //     title: 'An event with no end date',
+    //     color: { ...colors['yellow'] },
+    //     actions: this.actions,
+    //   },
+    //   {
+    //     start: subDays(endOfMonth(new Date()), 3),
+    //     end: addDays(endOfMonth(new Date()), 3),
+    //     title: 'A long event that spans 2 months',
+    //     color: { ...colors['blue'] },
+    //     allDay: true,
+    //   },
+    //   {
+    //     start: addHours(startOfDay(new Date()), 2),
+    //     end: addHours(new Date(), 2),
+    //     title: 'A draggable and resizable event',
+    //     color: { ...colors['yellow'] },
+    //     actions: this.actions,
+    //     resizable: {
+    //       beforeStart: true,
+    //       afterEnd: true,
+    //     },
+    //     draggable: false,
+    //   },
+    // ];
+
+
+
+  }
+
+
+
+  }
+
 
  
-
+  const colors: Record<string, EventColor> = {
+    red: {
+      primary: '#ad2121',
+      secondary: '#FAE3E3',
+    },
+    blue: {
+      primary: '#1e90ff',
+      secondary: '#D1E8FF',
+    },
+    yellow: {
+      primary: '#e3bc08',
+      secondary: '#FDF1BA',
+    },
+  };

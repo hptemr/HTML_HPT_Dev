@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { MatDialog,MatDialogRef  } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators,AbstractControl } from '@angular/forms';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { s3Details, practiceLocations } from 'src/app/config';
 import { Router } from '@angular/router';
 import { validationMessages } from '../../../../utils/validation-messages';
+import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
+import * as moment from 'moment';
 export class lists {
   constructor(public id: string, public firstName: string,public lastName: string,public status: string,public patientName: string, public patientEmail: string,public profileImage: string) {}
 }
@@ -44,13 +47,20 @@ export class CreateAppointmentModalComponent {
   validationMessages = validationMessages;
   invalidEmailErrorMessage: string = '';
   emailError:boolean = false;
+  clickOnRequestAppointment:boolean=false;
   whereDocCond: any = {stauts:"Active"}
-  constructor( private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService) {}
+  minTime: Date;
+  minEndTime: Date;
+  constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService,private dialogRef: MatDialogRef<CreateAppointmentModalComponent>) {}
 
   ngOnInit() {    
     const now = new Date();
     this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
     this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
+
+    const defaultStartTime = this.getNext30MinuteMark();
+    const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
+    this.minTime = new Date();
 
     if(this.userRole!='support_team'){
       this.router.navigate([''])
@@ -66,6 +76,8 @@ export class CreateAppointmentModalComponent {
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required,Validators.email]],
       appointmentDate: ['', [Validators.required]],
+      appointmentStartTime: ['', [Validators.required]],
+      appointmentEndTime: ['', [Validators.required]],
       practiceLocation: ['',[Validators.required]],
       therapistId: ['',[Validators.required]],    
       phoneNumber: ['', []],
@@ -74,62 +86,113 @@ export class CreateAppointmentModalComponent {
       appointmentTypeOther: [''],      
       notes: [''],      
       repeatsNotes: [''],      
-    });
-   // this.getTherapistList()
+    },
+    { validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
+  );
+
+  this.appointmentForm.patchValue({
+    appointmentStartTime: defaultStartTime,
+    appointmentEndTime: defaultEndTime,
+  });
+
+    this.getTherapistList()
+  }
+
+
+  getNext30MinuteMark(): Date {
+    const currentTime = moment();
+    const minutes = currentTime.minutes();
+    const next15MinuteMark = minutes % 30 === 0 ? currentTime : currentTime.add(30 - (minutes % 30), 'minutes');
+    return next15MinuteMark.seconds(0).milliseconds(0).toDate(); // Set seconds and milliseconds to 0
+  }
+
+  endTimeAfterStartTime(startTimeKey: string, endTimeKey: string) {
+    // const currentTime = this.appointmentForm.controls['appointmentStartTime'].value;//moment();
+    // const minutes = currentTime.minutes();
+    // this.minEndTime = currentTime.add(30 - (minutes % 30), 'minutes');
+    
+    return (formGroup: FormGroup) => {
+      const startTime = formGroup.controls[startTimeKey];
+      const endTime = formGroup.controls[endTimeKey];
+
+      if (endTime.errors && !endTime.errors['endTimeAfterStartTime']) {
+        return;
+      }
+
+      // Check if endTime is after startTime
+      if (moment(endTime.value).isSameOrBefore(moment(startTime.value))) {
+        endTime.setErrors({ endTimeAfterStartTime: true });
+      } else {
+        endTime.setErrors(null);
+      }
+    };
   }
 
   async createAppointment(formData:any){
+    
     if (this.appointmentForm.valid) {
       console.log(' #### form data >>>>>>',formData)
-      //   this.clickOnRequestAppointment = true
-      //   this.commonService.showLoader();
+        this.clickOnRequestAppointment = true
+        this.commonService.showLoader();
        
-      //   if(formData.patientType=='Existing'){
-      //     Object.assign(formData, {patientId: this.patientId})
-      //   }
-      //   Object.assign(formData, {doctorId: this.doctorId});
+        if(formData.patientType=='Existing'){
+          Object.assign(formData, {patientId: this.patientId})
+        }
+        Object.assign(formData, {doctorId: this.doctorId});
+        if (this.appointmentForm.controls['firstName'].disabled) {
+          Object.assign(formData, {firstName: this.appointmentForm.controls['firstName'].value});
+          Object.assign(formData, {lastName: this.appointmentForm.controls['lastName'].value});
+          Object.assign(formData, {email: this.appointmentForm.controls['email'].value});
+        }
+        delete formData.seachByPname;
+        delete formData.seachByDoctor;
 
-      //   if (this.appointmentForm.controls['firstName'].disabled) {
-      //     Object.assign(formData, {firstName: this.appointmentForm.controls['firstName'].value});
-      //     Object.assign(formData, {lastName: this.appointmentForm.controls['lastName'].value});
-      //     Object.assign(formData, {email: this.appointmentForm.controls['email'].value});
-      //   }
-
-      //   delete formData.seachByPname;
-      //   delete formData.seachByDoctor;
-
-      //   let reqVars = {
-      //     requestId:'',
-      //     userId: this.userId,
-      //     data: formData,
-      //     patientType:formData.patientType
-      //   }
-      //   this.emailError = false; this.invalidEmailErrorMessage = '';   
-      //   this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {
+        let reqVars = {
+          requestId:'',
+          userId: this.userId,
+          data: formData,
+          patientType:formData.patientType
+        }
+        this.emailError = false; this.invalidEmailErrorMessage = '';   
+        this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {
     
-      //   this.commonService.hideLoader();
-      //   if (response.error) {
-      //     if (response.message) {
-      //       this.commonService.openSnackBar(response.message, "ERROR");
-      //     }
-      //     if(response.data.email){
-      //       this.appointmentForm.controls["email"].markAsTouched();
-      //       //this.appointmentForm.controls['email'].setValue('');
-      //       this.emailError = true;
-      //       this.invalidEmailErrorMessage = response.data.email;
-      //     }
-      //   } else {
-      //     if (response.message) {
-      //       this.successModal(response.message);
-      //       this.commonService.openSnackBar(response.message, "SUCCESS");
-      //     }
-      //   }
-      // })
+        this.commonService.hideLoader();
+        if (response.error) {
+          if (response.message) {
+            this.commonService.openSnackBar(response.message, "ERROR");
+          }
+          if(response.data.email){
+            this.appointmentForm.controls["email"].markAsTouched();
+            //this.appointmentForm.controls['email'].setValue('');
+            this.emailError = true;
+            this.invalidEmailErrorMessage = response.data.email;
+          }
+        } else {
+          if (response.message) {       
+            this.dialogRef.close();
+            this.successModal(response.message);
+            this.commonService.openSnackBar(response.message, "SUCCESS");
+          }
+        }
+      })
     }else{
       console.log(' #### appointment Form>>>>>>',this.appointmentForm)
         this.appointmentForm.markAllAsTouched();
         return;  
     }
+  }
+
+  successModal(successMsg:string) {
+    const dialogRef = this.dialog.open(SuccessModalComponent,{
+      panelClass: 'custom-alert-container',
+      data : {
+        successNote:successMsg
+      }
+    })
+    dialogRef.afterClosed().subscribe(async id => {
+      //this.router.navigate(['/support-team/cases'])
+    });
+    
   }
 
   onAppointmentTypeChange(value: any) {
@@ -248,6 +311,7 @@ export class CreateAppointmentModalComponent {
       await this.authService.apiRequest('post', 'appointment/getPatientCaseList', reqVars).subscribe(async response => {
         if (response.data && response.data.caseNameList && response.data.caseNameList.length > 0) {
           this.casenameList = response.data.caseNameList
+          this.caseNameOtherFlag = false;          
         }
       })
     }

@@ -39,14 +39,14 @@
                             <option *ngFor="let case of casenameList" [value]="case.caseName">{{ case.caseName }}</option>
                             <option value="Other">Create a new case</option>
                         </select>
-                        <div class="text text-danger mt-1" *ngIf="caseNameFlag && appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
-                            {{ validationMessages.requiredDropdown('Case name') }}
-                        </div>  
-                        <input class="form-control " type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
-                        <div class="text text-danger mt-1" *ngIf="caseNameOtherFlag && appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
-                            {{ validationMessages.required('Case name') }}
-                        </div> 
                     </div>
+                    <div class="text text-danger mt-1" *ngIf="caseNameFlag && appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
+                        {{ validationMessages.requiredDropdown('Case name') }}
+                    </div>  
+                    <input class="form-control " type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
+                    <div class="text text-danger mt-1" *ngIf="caseNameOtherFlag && appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
+                        {{ validationMessages.required('Case name') }}
+                    </div>                   
                 </div>
                 <div class="col-12 col-sm-6 col-lg-4 mb-2">
                     <div class="form-group d-flex align-items-center">
@@ -66,18 +66,31 @@
                     <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
                         <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
                         <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker"> 
-                            <input class=" " matInput [matDatepicker]="picker" placeholder="14/12/2012"> 
+                            <input class="" matInput [matDatepicker]="picker" [min]="minToDate" [max]="maxToDate" placeholder="14/12/2012" readonly="true" formControlName="appointmentDate"> 
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
+                            {{ validationMessages.required('appointment date time') }}
+                        </div>   
                         <div> 
-                            <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
-                            <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                            <input placeholder="10:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" value="10:10 AM" readonly="true" [owlDateTime]="dt4" [min]="minTime" formControlName="appointmentStartTime">
+                            <owl-date-time [pickerType]="'timer'" #dt4 [stepMinute]="15"></owl-date-time>
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentStartTime'].touched && appointmentForm.controls['appointmentStartTime'].hasError('required')">
+                                {{ validationMessages.required('appointment end time') }}
+                            </div>
                         </div>
                         <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
                         <div> 
-                            <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
-                            <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                            <input placeholder="10:15 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" value="10:15 AM" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" readonly="true" [min]="this.appointmentForm.controls['appointmentStartTime'].value" formControlName="appointmentEndTime">
+                            <owl-date-time [pickerType]="'timer'" #dt5 [stepMinute]="15"></owl-date-time>
+                            
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].touched && appointmentForm.controls['appointmentEndTime'].hasError('required')">
+                                {{ validationMessages.required('appointment end time') }}
+                            </div>
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].hasError('endTimeAfterStartTime')">
+                                End time must be greater than start time.
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -209,7 +222,7 @@
         </div>
         <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
             <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-            <button mat-raised-button color="primary">Create</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="clickOnRequestAppointment">Create</button>
         </div>
     </form>
 </div>
