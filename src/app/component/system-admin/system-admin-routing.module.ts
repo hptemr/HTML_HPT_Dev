@@ -25,6 +25,9 @@ import { BulkUploadProvidersComponent } from './bulk-upload-providers/bulk-uploa
 import { InsuranceManagementComponent } from './insurance-management/insurance-management.component';
 import { UploadInsurancesComponent } from './upload-insurances/upload-insurances.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { QuarterlyPatientsDashboardComponent } from './dashboard/quarterly-patients-dashboard/quarterly-patients-dashboard.component';
+import { QuarterlyAquaticComponent } from './dashboard/quarterly-aquatic/quarterly-aquatic.component';
+import { QuarterlyEvalsComponent } from './dashboard/quarterly-evals/quarterly-evals.component';
 
 const routes: Routes = [
   {
@@ -136,8 +139,26 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component:DashboardComponent   
-  }
+    children: [ 
+      {
+        path: 'monthly-quarterly',
+        component:DashboardComponent   
+      },  
+      {
+        path: 'quarterly-patients',
+        component:QuarterlyPatientsDashboardComponent   
+      } ,
+      {
+        path: 'quarterly-aquatic',
+        component:QuarterlyAquaticComponent   
+      }  ,
+      {
+        path: 'quarterly-evals',
+        component:QuarterlyEvalsComponent   
+      } 
+    ]
+  },
+ 
 ];
 
 @NgModule({

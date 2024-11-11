@@ -1,0 +1,173 @@
+<div class="container-fluid sa--dashboard--wrapper">
+    <section class="col-12 head--box">
+        <header class="col-12">
+            <div class="row">
+                <div class="col-12 d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                    <div class="d-flex flex-column flex-sm-row align-items-center w-100">
+                        <select class="form-select form-control form-control-md m-1"
+                            aria-label="Default select example">
+                            <option selected>Select Report Type </option>
+                            <option>Hamilton PT </option>
+                            <option value="2">Darby PT</option>
+                            <option value="3">Corvallis PT</option>
+                            <option value="4">Stevi PT</option>
+                            <option value="5">PT Specialists of Florence</option>
+                            <option value="6">Frenchtown PT</option>
+                            <option value="7">HNB</option>
+                        </select>
+                        <select class="form-select form-control form-control-md m-1"
+                            aria-label="Default select example">
+                            <option selected>Select Clinic </option>
+                            <option>Apollo Clinic</option>
+                            <option value="2">Ruby Hall Clinic - Sassoon Road</option>
+                            <option value="3">Dugad Hospital</option>
+                            <option value="4">Laparo Obeso Centre</option>
+                            <option value="5">Chhajed Clinic</option>
+                            <option value="6">Patil Clinic</option>
+                            <option value="7">Laparo Obeso Centre 123</option>
+                        </select>
+                        <select class="form-select form-control form-control-md m-1"
+                            aria-label="Default select example">
+                            <option selected>Select Year</option>
+                            <option>2018</option>
+                            <option value="2">2019</option>
+                            <option value="3">2020</option>
+                            <option value="4">2021</option>
+                            <option value="5">2022</option>
+                            <option value="6">2023</option>
+                            <option value="7">2024</option>
+                        </select>
+                    </div>
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-end w-100">
+                        <button mat-raised-button class="m-1" color="primary">Generate Report</button>
+                        <button mat-stroked-button class="m-1" color="primary">Mark as default report</button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h2 class="main--txt fw-600 ">Quarterly EVALS Report for Stevensville Physical Therapy 2023</h2>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2023 ALL CLINIC TOTAL: 13859  </h4>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h4 class="sub--txt fw-700">  2022 ALL CLINIC TOTAL: 49340  </h4>
+                </div>
+            </div>
+        </header>
+        <section class="col-12 ">
+            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                <mat-tab label="QUARTERLY EVALS 2023">
+                    <table mat-table [dataSource]="dataSource" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="quarterlypatientsseen">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY EVALS 2023
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.quarterlypatientsseen}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="firstq">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST 
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.firstq}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="secondq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.secondq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="thirdq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.thirdq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fourthq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.fourthq}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalq">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.totalq}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </mat-tab>
+
+                <mat-tab label="QUARTERLY EVALS 2022">
+                    <table mat-table [dataSource]="dataSource2" matSort class="cust--mat--table">
+                        <ng-container matColumnDef="qpatients">
+                            <th mat-header-cell *matHeaderCellDef  
+                                sortActionDescription="Sort by number">
+                                QUARTERLY EVALS 2022
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qpatients}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfirst">
+                            <th mat-header-cell *matHeaderCellDef  sortActionDescription="Sort by name">
+                                1ST
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.qfirst}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qsecond">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                2ND
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qsecond}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qthird">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                3RD
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qthird}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qfourth">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                4TH
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qfourth}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qtotal">
+                            <th mat-header-cell *matHeaderCellDef 
+                                sortActionDescription="Sort by symbol">
+                                TOTAL
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.qtotal}}
+                            </td>
+                        </ng-container> 
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                    </table>
+                </mat-tab>
+            </mat-tab-group>
+        </section>
+    </section>
+</div>
