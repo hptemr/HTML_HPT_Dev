@@ -140,29 +140,33 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    children: [ 
-      {
-        path: 'monthly-quarterly',
-        component:DashboardComponent   
-      },  
-      {
-        path: 'quarterly-patients',
-        component:QuarterlyPatientsDashboardComponent   
-      } ,
-      {
-        path: 'quarterly-aquatic',
-        component:QuarterlyAquaticComponent   
-      }  ,
-      {
-        path: 'quarterly-evals',
-        component:QuarterlyEvalsComponent   
-      } ,
-      {
-        path: 'therapist-report',
-        component:TherapistReportDashboardComponent   
-      }
-    ]
+    component:DashboardComponent   
   },
+  // {
+  //   path: 'dashboard',
+  //   children: [ 
+  //     {
+  //       path: 'monthly-quarterly',
+  //       component:DashboardComponent   
+  //     },  
+  //     {
+  //       path: 'quarterly-patients',
+  //       component:QuarterlyPatientsDashboardComponent   
+  //     } ,
+  //     {
+  //       path: 'quarterly-aquatic',
+  //       component:QuarterlyAquaticComponent   
+  //     }  ,
+  //     {
+  //       path: 'quarterly-evals',
+  //       component:QuarterlyEvalsComponent   
+  //     } ,
+  //     {
+  //       path: 'therapist-report',
+  //       component:TherapistReportDashboardComponent   
+  //     }
+  //   ]
+  // },
  
 ];
 
