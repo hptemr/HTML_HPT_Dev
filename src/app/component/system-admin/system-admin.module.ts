@@ -37,6 +37,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { QuarterlyPatientsDashboardComponent } from './dashboard/quarterly-patients-dashboard/quarterly-patients-dashboard.component';
 import { QuarterlyAquaticComponent } from './dashboard/quarterly-aquatic/quarterly-aquatic.component';
 import { QuarterlyEvalsComponent } from './dashboard/quarterly-evals/quarterly-evals.component';
+import { TherapistReportDashboardComponent } from './dashboard/therapist-report-dashboard/therapist-report-dashboard.component';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { QuarterlyEvalsComponent } from './dashboard/quarterly-evals/quarterly-e
     DashboardComponent,
     QuarterlyPatientsDashboardComponent,
     QuarterlyAquaticComponent,
-    QuarterlyEvalsComponent
+    QuarterlyEvalsComponent,
+    TherapistReportDashboardComponent
   ],
   imports: [
     CommonModule,
