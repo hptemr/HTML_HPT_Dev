@@ -144,7 +144,8 @@ export class EFaxModalComponent {
           assessmentData : this.assessmentData,
           appointmentData : this.appointmentData,
           visits : this.visits,
-          objectiveData : this.objectiveData
+          objectiveData : this.objectiveData,
+          appointmentId:this.appointmentId
         }
         this.submitted = true
         this.commonService.showLoader();

@@ -19,6 +19,7 @@ export class EFaxHistoryModalComponent {
   displayedColumns: string[] = ['dateOfService', 'noteType', 'createdAt', 'status'];
   dataSource = ELEMENT_DATA;
   appointmentId = ""
+  dataLength :any
   constructor(public authService: AuthService,@Inject(MAT_DIALOG_DATA) public data: any){
     this.appointmentId = data.appointmentId;
     let reqVars = {
@@ -26,6 +27,7 @@ export class EFaxHistoryModalComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getFaxHistory', reqVars).subscribe(response => {
       this.dataSource = response.data
+      this.dataLength = response.data.length
     })
     
   }

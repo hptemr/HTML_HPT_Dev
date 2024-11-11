@@ -30,6 +30,7 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
+                  <p style="text-align: center;" *ngIf="dataLength==0">No records found</p>
             </div>
         </div>
     </div>
