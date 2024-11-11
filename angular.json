@@ -45,7 +45,9 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "./node_modules/@danielmoncada/angular-datetime-picker/assets/style/picker.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/apexcharts/dist/apexcharts.min.js"
+            ]
           },
           "configurations": {
             "production": {

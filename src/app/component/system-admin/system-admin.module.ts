@@ -38,7 +38,7 @@ import { QuarterlyPatientsDashboardComponent } from './dashboard/quarterly-patie
 import { QuarterlyAquaticComponent } from './dashboard/quarterly-aquatic/quarterly-aquatic.component';
 import { QuarterlyEvalsComponent } from './dashboard/quarterly-evals/quarterly-evals.component';
 import { TherapistReportDashboardComponent } from './dashboard/therapist-report-dashboard/therapist-report-dashboard.component';
-
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -84,7 +84,8 @@ import { TherapistReportDashboardComponent } from './dashboard/therapist-report-
     FormsModule,
     ReactiveFormsModule, 
     SharedModule,
-    MatChipsModule
+    MatChipsModule,
+    NgApexchartsModule
   ]
 })
 export class SystemAdminModule { }
