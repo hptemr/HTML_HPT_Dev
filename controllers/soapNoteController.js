@@ -758,6 +758,16 @@ const sendFax = async (req, res) => {
   }
 }
 
+const getFaxHistory = async (req, res) => {
+  try {
+    let faxData = await faxTemp.find({}).sort({ _id: -1 }).limit(10)
+    commonHelper.sendResponse(res, 'success', faxData);
+  } catch (error) {
+    console.log(error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   createPlanNote,
   getPlanNote,
@@ -780,5 +790,6 @@ module.exports = {
   createAddendum,
   getInitialExamination,
   sendFax,
-  getOnePageNoteDetails
+  getOnePageNoteDetails,
+  getFaxHistory
 };

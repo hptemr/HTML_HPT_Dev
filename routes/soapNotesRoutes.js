@@ -27,5 +27,6 @@ router.post('/submitCaseNote', soapController.submitCaseNote);
 router.post('/getCaseNoteData', soapController.getCaseNoteData);
 router.post('/getOnePageNoteDetails', soapController.getOnePageNoteDetails);
 router.post('/sendFax', soapController.sendFax);
+router.post('/getFaxHistory', soapController.getFaxHistory);
 
 module.exports = router;    
