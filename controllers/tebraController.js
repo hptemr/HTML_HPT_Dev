@@ -2,8 +2,8 @@ require('dotenv').config();
 const commonHelper = require('../helpers/common');
 const { commonMessage } = require('../helpers/message');
 const https = require('https')
-const { XMLParser, XMLBuilder, XMLValidator} = require("fast-xml-parser");
-const parser = new XMLParser();
+// const { XMLParser, XMLBuilder, XMLValidator} = require("fast-xml-parser");
+// const parser = new XMLParser();
 const soap = require('soap');
 
 const createPatients = async (req, res) => {
