@@ -229,11 +229,11 @@
                                     <div class="w-100 d-flex flex-column flex-sm-row align-items-start">
                                         <div class="d-flex flex-column me-4">
                                             <label class="font-14 fw-700 clr--1F2F3E mb-1">{{app_data.caseName}}</label>
-                                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"> <mat-icon class="text-primary me-2">phone</mat-icon> {{app_data.phoneNumber}}</p>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"><mat-icon class="text-primary me-2">phone</mat-icon> {{app_data.phoneNumber}}</p>
                                         </div>
                                         <div class="d-flex flex-column">
                                             <label class="font-14 fw-700 clr--1F2F3E mb-1">Date of Birth</label>
-                                            <p class="font-14 d-flex align-items-center clr--1F2F3E"> {{app_data.dob}}</p>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E">{{app_data.dob}}</p>
                                         </div>
                                     </div> 
                                 </div>
@@ -247,7 +247,7 @@
                             <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Therapist Name</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.therapistName}}</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.therapistName ? app_data.therapistName : ''}}</p>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
@@ -259,7 +259,7 @@
                             <div class="col-12 col-md-3"> 
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Appointment Type</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.appointmentType}}</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.appointmentType ? app_data.appointmentType : ''}}</p>
                                 </div>
                             </div> 
                             <div class="col-12 col-md-3"> 
@@ -276,7 +276,7 @@
                             </div> 
                             <div class="col-12 mb-3">
                                 <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                    <mat-radio-button value="1" class="me-3" checked="true">Patient Check-In</mat-radio-button>
+                                    <mat-radio-button value="1" class="me-3" checked="{{app_data?.checkIn}}">Patient Check-In</mat-radio-button>
                                     <mat-radio-button value="2" class="me-3">Mark as No-show</mat-radio-button>
                                     <mat-radio-button value="3">Mark as Cancelled</mat-radio-button>
                                 </mat-radio-group>
