@@ -216,7 +216,7 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   noteModal(soap_note_type:any,DOSDate:any) {
-    let patientName = this.appointmentData.patientInfo.firstName+" "+ this.appointmentData.patientInfo.lastName
+    let patientName = this.appointmentData.patientId.firstName+" "+ this.appointmentData.patientId.lastName
     const dialogRef = this.dialog.open(OnePageNoteModalComponent,{
       width:"960px",
       data : {
