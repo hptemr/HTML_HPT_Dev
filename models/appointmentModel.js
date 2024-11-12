@@ -31,6 +31,10 @@ const appointmentSchema = new mongoose.Schema({
     repeatsNotes: { type: String, default: "" },
     checkIn: { type: Boolean, default: false },
     checkInDateTime: { type: Date },
+    checkInBy:  {
+        type: mongoose.Schema.ObjectId,
+        ref: "users"
+    },
     bookingFor: {
         type: String,
         enum: ['Myself', 'Other'],

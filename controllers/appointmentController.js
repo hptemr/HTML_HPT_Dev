@@ -727,12 +727,21 @@ const getCaseList = async (req, res) => {
                 }
             },
             {
+                "$lookup": {
+                    from: "users",
+                    localField: "therapistId",
+                    foreignField: "_id",
+                    as: "therapistObj"
+                }
+            },
+            {
                 $match: query
             },
             {
                 $project: {
-                    '_id': 1, 'appointmentDate': 1, 'appointmentId': 1, 'caseName': 1, 'checkIn': 1, 'createdAt': 1, 'patientId': 1, 'practiceLocation': 1, 'status': 1, 'therapistId': 1, 'updatedAt': 1,
-                    'patientObj._id': 1, 'patientObj.firstName': 1, 'patientObj.lastName': 1, 'patientObj.profileImage': 1
+                    '_id': 1, 'appointmentDate': 1,'appointmentEndTime': 1, 'appointmentId': 1,'notes':1, 'caseName': 1, 'checkIn': 1,'checkInBy':1,'checkInDateTime':1, 'patientId': 1, 'practiceLocation': 1, 'status': 1, 'therapistId': 1,'createdAt': 1, 'updatedAt': 1,
+                    'patientObj._id': 1, 'patientObj.firstName': 1, 'patientObj.lastName': 1, 'patientObj.profileImage': 1, 'patientObj.dob': 1, 'patientObj.gender': 1, 'patientObj.phoneNumber': 1,
+                    'therapistObj._id': 1, 'therapistObj.firstName': 1, 'therapistObj.lastName': 1, 'therapistObj.profileImage': 1
                 }
             },
             {
