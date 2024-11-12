@@ -27,6 +27,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-jwt": "^8.4.1",
+    "fast-xml-parser": "^4.5.0",
     "file-type": "^19.0.0",
     "helmet": "^7.1.0",
     "jade": "^1.11.0",
@@ -43,7 +44,8 @@
     "passport": "^0.7.0",
     "path": "^0.12.7",
     "q": "^1.5.1",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "soap": "^1.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
