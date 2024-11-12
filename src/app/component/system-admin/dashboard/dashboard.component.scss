@@ -18,6 +18,9 @@
             }
         }
     }
+    .bg--white{
+        background-color: #fff;
+    }
     .main--txt{
         font-size: 22px;
         color: #324556;
@@ -77,6 +80,10 @@
                     }
                 }
             }
+        }
+        .graph--wrapper{
+            margin: 15px 0;
+            border-radius: 6px; 
         }
     }
 
