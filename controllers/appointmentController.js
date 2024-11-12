@@ -175,10 +175,26 @@ const createAppointment = async (req, res) => {
             } else if (caseType == '') {
                 caseType = caseFound.caseType ? caseFound.caseType : ''
             }
-            //local time conversion
-            const localDate = new Date(data.appointmentDate);  
+
+            // appointmentStartTime
+            // appointmentEndTime
+            let appointmentDate = data.appointmentDate;
+            if(data.appointmentStartTime){
+                appointmentDate = data.appointmentStartTime;
+            }
+            //local start time conversion
+            const localDate = new Date(appointmentDate);  
             localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
             data.appointmentDate = localDate;
+
+            let appointmentEndTime = '';
+            //local end time conversion
+            if(data.appointmentEndTime){
+                const localEndDate = new Date(data.appointmentEndTime);  
+                localEndDate.setMinutes(localEndDate.getMinutes() - localEndDate.getTimezoneOffset());       
+                appointmentEndTime = localEndDate;
+            }            
+ 
             let appointmentData = {
                 appointmentId: appointmentId,
                 caseName: caseName,
@@ -186,6 +202,9 @@ const createAppointment = async (req, res) => {
                 appointmentType: data.appointmentType,
                 appointmentTypeOther: data.appointmentTypeOther,
                 appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
+                appointmentEndTime: appointmentEndTime,
+                notes:data.notes ? data.notes : '',
+                repeatsNotes:data.repeatsNotes ? data.repeatsNotes : '',
                 practiceLocation: data.practiceLocation,
                 therapistId: data.therapistId ? data.therapistId : null,
                 patientId: data.patientId,
@@ -426,8 +445,6 @@ const updateAppointment = async (req, res) => {
         const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles } = req.body;
         // console.log("********query*****", query)
         // console.log("********updateInfo*****", updateInfo)
-
-
         const appointment_data = await Appointment.findOneAndUpdate(query, updateInfo);
         if (updateInfo.emergencyContact) {
             if (updateInfo.emergencyContact.ec1myContactCheckbox || updateInfo.emergencyContact.ec2myContactCheckbox) {
@@ -441,7 +458,8 @@ const updateAppointment = async (req, res) => {
         // Trigger email to Support Team when intake for filled by Patient
         let patientData = await userCommonHelper.patientGetById(appointment_data?.patientId) 
         if(updateInfo?.intakeFormSubmit && patientData && patientData!=null){
-            // triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
+            console.log(updateInfo?.intakeFormSubmit,"********updateInfo-------*****", updateInfo)
+            triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
         }
 
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);

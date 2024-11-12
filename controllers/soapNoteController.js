@@ -8,10 +8,19 @@ const AssessmentModel = require('../models/assessmentModel');
 const Case = require('../models/casesModel');
 const caseNotes = require('../models/caseNotesModel');
 const ObjectiveModel = require('../models/objectiveModel');
+const faxTemp = require('../models/faxDetailsModel');
+const sendEmailServices = require('../helpers/sendEmail');
+var constants = require('./../config/constants')
 const moment = require('moment');
 require('dotenv').config();
 let ObjectId = require('mongoose').Types.ObjectId;
 const _ = require('lodash');
+const axios = require('axios');
+const FormData = require('form-data');
+const fs = require('fs');
+const htmlPdf = require('html-pdf-node');
+const apiKey = constants.faxDetails.apiKey;
+const apiSecret = constants.faxDetails.apiSecret;
 
 const createPlanNote = async (req, res) => {
   try {
@@ -602,6 +611,163 @@ const submitCaseNote = async (req, res) => {
   }
 }
 
+const getOnePageNoteDetails = async (req, res) => {
+  try {
+    let planData = await PlanTemp.findOne({ appointmentId: req.body.appointmentId })
+    let subjectiveData = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId },{ updatedAt: 1, diagnosis_code: 1,note_date:1,subjective_note:1})
+    let assessmentData = await AssessmentModel.findOne({ appointmentId: req.body.appointmentId },{ assessment_icd: 1,assessment_text:1 })
+    let objectiveData = await ObjectiveModel.findOne({ appointmentId: req.body.appointmentId },{ observation: 1,range_of_motion:1,strength:1,neurological:1 })
+    let returnData = { planData: planData,subjectiveData:subjectiveData,assessmentData:assessmentData,objectiveData:objectiveData }
+    commonHelper.sendResponse(res, 'success', returnData);
+  } catch (error) {
+    console.log(error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+async function createTmpFax(recipientFaxNumber,senderFaxNumber) {
+  console.log("createTmpFax function")
+  const tmpFaxData = {
+    "toName": "HPT EHR",
+    "fromName": "HPT EHR",
+    "subject": "",
+    "message": "",
+    "companyInfo": "",
+    "fromNumber": 14062730993,
+    "recipients": recipientFaxNumber,
+    "resolution": "Fine",
+    "pageSize": "Letter",
+    "includeCoversheet": false,
+    "uuid": "ABC-123"
+  }
+  const response = await axios.post('https://api.humblefax.com/tmpFax',tmpFaxData,
+    { auth: { username: apiKey, password: apiSecret } }
+  );
+  return response.data.data.tmpFax.id; // Get the temporary fax ID
+}
+
+// Step 2: Upload attachment
+async function uploadAttachment(tmpFaxId,filePath) {
+  console.log("uploadAttachment function")
+  const form = new FormData();
+  form.append('attachment', fs.createReadStream(filePath));
+  await axios.post(`https://api.humblefax.com/attachment/${tmpFaxId}`,
+    form,
+    {
+      headers: { ...form.getHeaders() },
+      auth: { username: apiKey, password: apiSecret },
+    }
+  );
+  fs.unlink(filePath, (err) => { })
+}
+
+// Step 3: Send the fax
+async function sendFaxData(tmpFaxId,dateOfService,appointmentId,noteName) {
+  try {
+    console.log("sendFaxData")
+    await axios.post(`https://api.humblefax.com/tmpFax/${tmpFaxId}/send`,{},{ auth: { username: apiKey, password: apiSecret } }).then(async response => {
+      let status = ""
+      if(response.data.result == 'success'){
+        status = "success"
+      }else{
+        status = "failed"
+      }
+      let createParams = {
+        appointmentId: new ObjectId(appointmentId),
+        dateOfService: dateOfService,
+        noteType: noteName,
+        status: status
+      }
+      await faxTemp.create(createParams)
+    });
+  } catch (error) {
+    let createParams = {
+      appointmentId: new ObjectId(appointmentId),
+      dateOfService: dateOfService,
+      noteType: noteName,
+      status: 'failed'
+    }
+    await faxTemp.create(createParams)
+  } 
+}
+
+const sendFax = async (req, res) => {
+  try {
+    const senderFaxNumber = '14062730993';
+    let templateName = ""
+    let noteName = ""
+    if(req.body.noteType == 'initial_examination'){
+      templateName = "initialExaminationOnePageNote"
+      noteName = "Initial Examination"
+    }else if(req.body.noteType == 'progress_note'){
+      templateName = "progressNoteOnePageNote"
+      noteName = "Progress Note"
+    }else if(req.body.noteType == 'discharge_note'){
+      templateName = "dischargeNoteOnePageNote"
+      noteName = "Discharge Note"
+    }
+    let template = await sendEmailServices.getEmailTemplateByCode(templateName);
+      if (template) {
+          let params = {
+            "{noteType}": noteName,
+            "{patientName}": req.body.patientName,
+            "{appointmentDate}": moment(req.body.subjectiveData.note_date).utc().format('MMM d, y hh:mm a'),
+            "{freequency_per_week}": req.body.noteData.freequency_per_week,
+            "{duration_per_week}": req.body.noteData.duration_per_week,
+            "{treatmentToBeProvided}": req.body.treatmentToBeProvided,
+            "{patientDob}": moment(req.body.appointmentData.patientInfo.dob).utc().format('MM/DD/yyyy'),
+            "{referDoctor}": req.body.appointmentData.doctorId.name,
+            "{dateOfFinalized}": moment(req.body.subjectiveData.updatedAt).utc().format('MM/DD/yyyy'),
+            "{dignosis}": "",
+            "{longTermGoal}": "",
+            "{plan_start_date}": moment(req.body.noteData.plan_start_date).utc().format('MM/DD/yyyy'),
+            "{plan_end_date}": moment(req.body.noteData.plan_end_date).utc().format('MM/DD/yyyy'),
+            "{numberOfVisits}": req.body.visits,
+            "{treatments}": req.body.treatmentToBeProvided,
+            "{subjectiveContent}": req.body.subjectiveData.subjective_note,
+            "{observation}": req.body.objectiveData.observation,
+            "{rom}": req.body.objectiveData.range_of_motion,
+            "{strength}": req.body.objectiveData.strength,
+            "{neurological}": req.body.objectiveData.neurological,
+            "{assessmentNote}": req.body.assessmentData.assessment_text,
+            "{planNote}": req.body.noteData.plan_note,
+          }
+          if(req.body.subjectiveData.diagnosis_code.length>0){
+            params['{dignosis}'] = req.body.subjectiveData.diagnosis_code[0].code +":"+req.body.subjectiveData.diagnosis_code[0].name
+          }
+
+          if(req.body.assessmentData.assessment_icd.length>0){
+            params['{longTermGoal}'] = req.body.assessmentData.assessment_icd[0].long_term_goal
+          }
+        const options = { format: 'A3' };
+        const file = { content: sendEmailServices.generateContentFromTemplate(template.mail_body, params) };
+        const pdfBuffer = await htmlPdf.generatePdf(file, options);
+        let fileName = req.body.patientName+"_"+moment(req.body.subjectiveData.note_date).utc().format('DDMMYYYY')+".pdf"
+        fs.writeFileSync(__dirname + '/../tmp/'+fileName, pdfBuffer);
+        const tmpFaxId = await createTmpFax(req.body.faxNumbers,senderFaxNumber);
+        const filePath = __dirname + '/../tmp/'+fileName;
+        await uploadAttachment(tmpFaxId,filePath);
+        await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
+        commonHelper.sendResponse(res, 'success', {});
+      }else{
+        commonHelper.sendResponse(res, 'success', {});
+      }
+  } catch (error) {
+    console.log(error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const getFaxHistory = async (req, res) => {
+  try {
+    let faxData = await faxTemp.find({appointmentId:req.body.appointmentId}).sort({ _id: -1 }).limit(10)
+    commonHelper.sendResponse(res, 'success', faxData);
+  } catch (error) {
+    console.log(error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 module.exports = {
   createPlanNote,
   getPlanNote,
@@ -622,5 +788,8 @@ module.exports = {
   getCaseNoteData,
   deleteSoapNote,
   createAddendum,
-  getInitialExamination
+  getInitialExamination,
+  sendFax,
+  getOnePageNoteDetails,
+  getFaxHistory
 };

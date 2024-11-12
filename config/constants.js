@@ -30,6 +30,10 @@ var constants = {
   // cometChatApikey : '488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d'
   cometChatAppId : (process.env.BASE_URL == 'http://staging.hamiltonpt.com')?'26516651acb282a6': (process.env.BASE_URL == 'http://dev.hamiltonpt.com')?'26118921798ec2ec':'26118921798ec2ec',
   cometChatApikey : (process.env.BASE_URL == 'http://staging.hamiltonpt.com')?'dd11efe2e776cce14e3480d3cf720b8789485f82': (process.env.BASE_URL == 'http://dev.hamiltonpt.com')?'488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d':'488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d',
+  faxDetails:{
+    apiKey :'ffb45e85f45fdaf795430a3d',
+    apiSecret : '50f4df9a5924fd9a06b72943'
+  }
 }
 
 module.exports = constants
