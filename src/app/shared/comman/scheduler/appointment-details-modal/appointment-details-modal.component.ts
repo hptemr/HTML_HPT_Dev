@@ -13,6 +13,11 @@ import { EditAppointmentModalComponent } from '../edit-appointment-modal/edit-ap
 export class AppointmentDetailsModalComponent {
   constructor(private router: Router, public dialog: MatDialog) { }
 
+
+  ngOnInit() {  
+    console.log('asdasd  AppointmentDetailsModalComponent asd sd')
+  }
+
   upcomingAppointmentModal(){
     const dialogRef = this.dialog.open(UpcomingAppModalComponent,{
       width:'310px',

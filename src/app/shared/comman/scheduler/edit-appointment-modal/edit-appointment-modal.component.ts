@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './edit-appointment-modal.component.scss'
 })
 export class EditAppointmentModalComponent {
-
+  
+  ngOnInit() {  
+    console.log('asdasda EditAppointmentModalComponent asd asd sd')
+  }
 }

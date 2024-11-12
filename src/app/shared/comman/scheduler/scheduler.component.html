@@ -162,7 +162,7 @@
                     <div [ngSwitch]="view">
                         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
                             [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
-                            (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (dayClicked)="dayClicked($event.day)" 
                             (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-month-view>
                         <mwl-calendar-week-view 
@@ -174,7 +174,7 @@
                             [dayEndHour]="21"
                             [events]="events" 
                             [refresh]="refresh" 
-                            (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventClicked)="handleEvent('Clicked', $event.event,'6')"
                             (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-week-view>
                         <!-- <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
@@ -190,7 +190,7 @@
                             [dayEndHour]="21"
                             [events]="events" 
                             [refresh]="refresh"
-                            (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventClicked)="handleEvent('Clicked', $event.event,'7')"
                             (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-day-view>
                     </div>
@@ -207,10 +207,10 @@
                             <mat-icon>more_vert</mat-icon>
                           </button>
                           <mat-menu #beforeMenu="matMenu" xPosition="before">
-                            <button mat-menu-item (click)="editAppointment()"> 
+                            <button mat-menu-item (click)="editAppointment()">
                               <span>Edit</span>
                             </button> 
-                            <button mat-menu-item (click)="deleteAppointment()" > 
+                            <button mat-menu-item (click)="deleteAppointment()">
                               <span>Delete</span>
                             </button>
                             <button mat-menu-item> 
@@ -222,18 +222,18 @@
                         <div class="row">
                             <div class="col-12 d-flex align-items-start">
                                 <div class="profile--round flex-shrink-0">
-                                    <img src="assets/images/ark/user.png"  alt="" class="img-fluid  " />
+                                    <img src="{{app_data.profileImage}}"  alt="" class="img-fluid  " />
                                 </div>
                                 <div class="w-100 d-flex flex-column  align-items-start">
-                                    <h2 class="font-16 clr--1F2F3E mb-1 fw-500">John Walter</h2>
+                                    <h2 class="font-16 clr--1F2F3E mb-1 fw-500">{{app_data.patientName}}</h2>
                                     <div class="w-100 d-flex flex-column flex-sm-row align-items-start">
                                         <div class="d-flex flex-column me-4">
-                                            <label class="font-14 fw-700 clr--1F2F3E mb-1">Neck Pain</label>
-                                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"> <mat-icon class="text-primary me-2">phone</mat-icon> (123) 123 1234</p>
+                                            <label class="font-14 fw-700 clr--1F2F3E mb-1">{{app_data.caseName}}</label>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"> <mat-icon class="text-primary me-2">phone</mat-icon> {{app_data.phoneNumber}}</p>
                                         </div>
                                         <div class="d-flex flex-column">
                                             <label class="font-14 fw-700 clr--1F2F3E mb-1">Date of Birth</label>
-                                            <p class="font-14 d-flex align-items-center clr--1F2F3E"> 10/04/2005</p>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E"> {{app_data.dob}}</p>
                                         </div>
                                     </div> 
                                 </div>
@@ -241,25 +241,25 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Appointment Date and Start Time-End Time</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E">Mon, Aug 22, 2024 08:00 am-08:45 am</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data.appointmentDate | date:'MMM d, y hh:mm a':'UTC'}} {{app_data.appointmentEndTime ? '-' : ''}} {{app_data.appointmentEndTime | date:'hh:mm a':'UTC'}}</p>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Therapist Name</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E text-break">John Poll</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.therapistName}}</p>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Practice Location</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E text-break">Hamilton PT</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.practiceLocation}}</p>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3"> 
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Appointment Type</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E text-break">Evaluations</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.appointmentType}}</p>
                                 </div>
                             </div> 
                             <div class="col-12 col-md-3"> 
@@ -271,15 +271,15 @@
                             <div class="col-12 col-md-9"> 
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Patient Checked in by </label>
-                                    <p class="font-14 mb-0 clr--1F2F3E">Lisa Robertson on Nov 12, 2023 09:10 pm</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E">on {{app_data?.checkInDateTime | date:'MMM d, y hh:mm a':'UTC'}}</p>
                                 </div>
                             </div> 
                             <div class="col-12 mb-3">
                                 <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                    <mat-radio-button value="1" class="me-3">Patient Check-In</mat-radio-button>
+                                    <mat-radio-button value="1" class="me-3" checked="true">Patient Check-In</mat-radio-button>
                                     <mat-radio-button value="2" class="me-3">Mark as No-show</mat-radio-button>
-                                    <mat-radio-button value="3"  >Mark as Cancelled</mat-radio-button>
-                                </mat-radio-group> 
+                                    <mat-radio-button value="3">Mark as Cancelled</mat-radio-button>
+                                </mat-radio-group>
                             </div>
                             <div class="col-12 col-md-3"> 
                                 <button mat-stroked-button color="primary" class="mb-2 w-100">Case Details</button> 
@@ -291,8 +291,7 @@
                             <div class="col-12"> 
                                 <div class="form-group"> 
                                     <label class="col-form-label fw-700 pb-0 mt-3">Notes</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E">Darlene Robertson is appearing unusually agitated. he almost extubated himself. 
-                                        Please order sedation/arm restraints.</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data.notes}}</p>
                                 </div>
                             </div>
                         </div>
