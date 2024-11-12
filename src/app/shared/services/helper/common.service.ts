@@ -259,4 +259,11 @@ export class CommonService {
       window.scrollTo(0, 0);
     }, 2000) 
   }
+
+  openSnackBarCloseManually(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 0,
+    });
+  }
+
 }

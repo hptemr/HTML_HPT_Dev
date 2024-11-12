@@ -47,6 +47,8 @@ export const practiceLocations = [
   "HNBC",
   "PT Specialists of Florence",
   "Stevi PT",
+  "Hamilton PT",
+  "Admin All"
 ]
 export const urlSegmentAndUserRole = [
   { urlSegment: 'practice-admin', userRole: 'practice_admin' },

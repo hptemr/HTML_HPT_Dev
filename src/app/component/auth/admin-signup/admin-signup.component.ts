@@ -60,7 +60,8 @@ export class AdminSignupComponent {
         this.signupForm.controls['lastName'].setValue(res.data.lastName)
         this.signupForm.controls['email'].setValue(res.data.email)
       },error: (err) => {
-        err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+        // err.error?.error?this.commonService.openSnackBar(err.error?.message,"ERROR"):''
+        err.error?.error?this.commonService.openSnackBarCloseManually(err.error?.message,"Close"):''
       }
     })
   }
