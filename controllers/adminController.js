@@ -280,7 +280,7 @@ const getUserList = async (req, res) => {
       inviteTokenStatus: user.inviteToken? checkTokenExpire(user.inviteToken):"blank"
     }));
 
-    let totalCount = await User.find(query).count()
+    let totalCount = await User.find(query).countDocuments()
     commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
   } catch (error) {
     console.log('error >>> ',error)
@@ -299,7 +299,7 @@ const getTherapistList = async (req, res) => {
     const { query, fields, order } = req.body;
     console.log('order>>>',order)
     let therapist_data = await User.find(query, fields).sort(order);
-    let totalCount = await User.find(query).count()
+    let totalCount = await User.find(query).countDocuments()
     let therapistData = [];
     therapist_data.forEach(element => {
       let newValue = {id:element._id,name:element.firstName+' '+element.lastName};
