@@ -53,6 +53,7 @@ export class SchedulerComponent {
   pageSize = 1000
   totalCount = 0
   appointmentsList: any
+  selected: Date | null;
   constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
 
   ngOnInit() {
@@ -77,9 +78,7 @@ export class SchedulerComponent {
     this.searchView = false;
   }
 
-  selected: Date | null;
-
-  createAppointmen(){
+  createAppointmentModal(){
     const dialogRef = this.dialog.open(CreateAppointmentModalComponent,{
       disableClose: true,
       width:'1260px',

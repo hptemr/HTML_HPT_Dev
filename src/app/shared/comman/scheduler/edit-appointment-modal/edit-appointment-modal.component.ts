@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { validationMessages } from '../../../../utils/validation-messages';
 import { CommonService } from '../../../../shared/services/helper/common.service';
+import { s3Details, practiceLocations } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 @Component({
   selector: 'app-edit-appointment-modal', 
@@ -17,6 +18,8 @@ export class EditAppointmentModalComponent {
   public userId: string = this.authService.getLoggedInInfo('_id');
   userRole = this.authService.getLoggedInInfo('role')
   selectedAppTypeValue: string;
+  clickOnRequestAppointment:boolean=false
+  practiceLocationData: string[] = practiceLocations;
   //public doctorList:doctorlists[] = []
 
   constructor(
@@ -51,5 +54,66 @@ export class EditAppointmentModalComponent {
       appointmentType: [''],
       appointmentTypeOther: [''],      
     });
+  }
+
+
+  
+  onAppointmentTypeChange(value: any) {
+    this.selectedAppTypeValue = value
+  }
+  
+
+  async createAppointment(formData:any){
+    
+    if (this.appointmentForm.valid) {
+      console.log(' #### form data >>>>>>',formData)
+        this.clickOnRequestAppointment = true
+        this.commonService.showLoader();
+       
+        // if(formData.patientType=='Existing'){
+        //   Object.assign(formData, {patientId: this.patientId})
+        // }
+        // Object.assign(formData, {doctorId: this.doctorId});
+        if (this.appointmentForm.controls['firstName'].disabled) {
+          Object.assign(formData, {firstName: this.appointmentForm.controls['firstName'].value});
+          Object.assign(formData, {lastName: this.appointmentForm.controls['lastName'].value});
+          Object.assign(formData, {email: this.appointmentForm.controls['email'].value});
+        }
+        delete formData.seachByPname;
+        delete formData.seachByDoctor;
+
+        let reqVars = {
+          requestId:'',
+          userId: this.userId,
+          data: formData,
+          patientType:formData.patientType
+        }
+        // this.emailError = false; this.invalidEmailErrorMessage = '';   
+        // this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {
+    
+        // this.commonService.hideLoader();
+        // if (response.error) {
+        //   if (response.message) {
+        //     this.commonService.openSnackBar(response.message, "ERROR");
+        //   }
+        //   if(response.data.email){
+        //     this.appointmentForm.controls["email"].markAsTouched();
+        //     //this.appointmentForm.controls['email'].setValue('');
+        //     this.emailError = true;
+        //     this.invalidEmailErrorMessage = response.data.email;
+        //   }
+        // } else {
+        //   if (response.message) {       
+        //     this.dialogRef.close();
+        //     this.successModal(response.message);
+        //     this.commonService.openSnackBar(response.message, "SUCCESS");
+        //   }
+        // }
+      //})
+    }else{
+      console.log(' #### appointment Form>>>>>>',this.appointmentForm)
+        this.appointmentForm.markAllAsTouched();
+        return;  
+    }
   }
 }
