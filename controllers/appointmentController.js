@@ -651,7 +651,7 @@ const getDoctorList = async (req, res) => {
     try {
         const { query, fields, order } = req.body;
         let doctorList = await Provider.find(query, fields).sort(order);
-        let totalCount = await Provider.find(query).count()
+        let totalCount = await Provider.find(query).countDocuments()
         commonHelper.sendResponse(res, 'success', { doctorList, totalCount }, '');
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
