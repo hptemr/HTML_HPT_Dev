@@ -4,117 +4,130 @@
             Edit Appointment Details
         </h1>  
     </div>
-    <div class="modal--body w-100 pt-0">
-        <div class="row">  
-            <div class="col-12 mb-2 mt-4">
-                <div class="row">
-                    <div class="col-12 col-lg-4">
-                        <div class="form-group d-flex align-items-center mb-0">
-                            <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0 mb-2">Case Name </label>
-                            <select class="form-select form-control form-control-md mb-2" aria-label="Default select example">
-                                <option selected> Select </option> 
-                                <option value="1">Case Name</option> 
-                            </select>
+    <form [formGroup]="appointmentForm" (ngSubmit)="createAppointment(appointmentForm.value)">
+        <div class="modal--body w-100 pt-0">
+            <div class="row">  
+                <div class="col-12 mb-2 mt-4">
+                    <div class="row">
+                        <div class="col-12 col-lg-4">
+                            <div class="form-group d-flex align-items-center mb-0">
+                                <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0 mb-2">Case Name </label>
+                                <select class="form-select form-control form-control-md mb-2" aria-label="Default select example">
+                                    <option selected> Select </option> 
+                                    <option value="1">Case Name</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
+                                <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
+                                <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker sm--datepicker"> 
+                                    <input class=" " matInput [matDatepicker]="picker1" placeholder="14/12/2012"> 
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                <div> 
+                                    <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                                    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                                </div>
+                                <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
+                                <div> 
+                                    <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+                                    <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                                </div>
+                                
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-8">
-                        <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
-                            <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
-                            <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker sm--datepicker"> 
-                                <input class=" " matInput [matDatepicker]="picker1" placeholder="14/12/2012"> 
-                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                                <mat-datepicker #picker1></mat-datepicker>
-                              </mat-form-field>
-                              <div> 
-                                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
-                                <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
-                            </div>
-                            <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
-                            <div> 
-                                <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
-                                <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
-                            </div>
-                             
+                    
+                </div>
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text" formControlName="firstName" placeholder="Enter First Name" />
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['firstName'].touched && appointmentForm.controls['firstName'].hasError('required')">
+                            {{ validationMessages.required('First name') }}
+                        </div>   
+                    </div>
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input class="form-control" type="text" formControlName="lastName" placeholder="Enter Last Name" />
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['lastName'].touched && appointmentForm.controls['lastName'].hasError('required')">
+                            {{ validationMessages.required('Last name') }}
+                        </div>    
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="practiceLocation" readonly="readonlyFlag">
+                            <option value="" selected>Select Practice Location</option>
+                            <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['practiceLocation'].touched && appointmentForm.controls['practiceLocation'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Practice Location') }}
                         </div>
                     </div>
                 </div>
-                
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 ">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">First Name </label>
-                    <input class="form-control "   type="text" value="John" placeholder="Enter First Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6 ">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Last Name </label>
-                    <input class="form-control "   type="text" value="Walter" placeholder="Enter Last Name" />
-                    <!-- <div class="text text-danger mt-1"> First Name required</div> -->
-                  </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Select Practice Location</option> 
-                        <option value="1">Hamilton PT at The Canyons</option>
-                        <option value="2">Darby PT</option>
-                        <option value="3">Corvallis PT</option>
-                        <option value="4">Stevi PT</option>
-                        <option value="5">PT Specialists of Florence</option>
-                        <option value="6">Frenchtown PT</option>
-                        <option value="7">HNB</option>
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Date of Birth</label>
+                        <mat-form-field class="w-100 am--datepicker" appearance="outline" >
+                            <input   matInput [matDatepicker]="picker" placeholder="From Date">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                    </div>
                 </div>
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600 pb-0">Select Appointment type</label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="appointmentType" #appointmentTy (change)='onAppointmentTypeChange(appointmentTy.value)' readonly="readonlyFlag">
+                            <option value="" selected>Select Appointment Type</option>
+                            <option value="Evaluation">Evaluation</option>
+                            <option value="Follow-up">Follow-up</option>
+                            <option value="Aquatic">Aquatic</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-6 mt-2" *ngIf="selectedAppTypeValue == 'Other'" >
+                        <div class="form-group w-100">
+                            <label class="col-form-label fw-600 pb-0">Appointment type</label>
+                            <input class="form-control mt-1" type="text" formControlName="appointmentTypeOther" placeholder="Enter Appointment type" maxlength="50"/>
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentTypeOther'].touched && appointmentForm.controls['appointmentTypeOther'].hasError('required')">
+                                {{ validationMessages.required('Appointment type') }}
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-12 col-lg-6 col-md-6"> 
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Insurance Type</label>
+                        <select class="form-select form-control" aria-label="Default select example">
+                            <option selected>Primary Insurance</option>
+                            <option value="1">Insurance 2</option> 
+                        </select>
+                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                    </div>
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Notes</label>
+                        <input class="form-control" type="text" formControlName="notes" placeholder="Enter Notes" rows="4"/>
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['lastName'].touched && appointmentForm.controls['lastName'].hasError('required')">
+                                {{ validationMessages.required('Notes') }}
+                            </div>    
+                    </div>
+                </div> 
             </div>
-            <div class="col-12 col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Date of Birth</label>
-                    <mat-form-field class="w-100 am--datepicker" appearance="outline" >
-                        <input   matInput [matDatepicker]="picker" placeholder="From Date">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Appointment Type <span class="clr--DF0404 ms-1"> * </span></label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Evaluation</option>
-                        <option value="1"> Follow-Up</option> 
-                        <option value="1"> Aquatic</option> 
-                        <option value="1"> Other</option>
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-6"> 
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Insurance Type</label>
-                    <select class="form-select form-control" aria-label="Default select example">
-                        <option selected>Primary Insurance</option>
-                        <option value="1">Insurance 2</option> 
-                    </select>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div>
-            </div> 
-            <div class="col-12 col-lg-6 col-md-6">
-                <div class="form-group">
-                    <label class="col-form-label fw-600">Notes</label>
-                    <textarea class="form-control " type="text" placeholder="Enter here" rows="4"></textarea>
-                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                </div>
-            </div> 
         </div>
-    </div>
-    <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
-        <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary" mat-dialog-close>Save</button>
-    </div>
+        <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
+            <button mat-stroked-button color="primary" class="me-2" mat-dialog-close>Cancel</button> 
+            <button mat-raised-button color="primary" type="submit" [disabled]="clickOnRequestAppointment">Save</button>
+        </div>
+    </form>
 </div>
 

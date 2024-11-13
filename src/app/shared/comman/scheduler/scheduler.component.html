@@ -207,7 +207,7 @@
                             <mat-icon>more_vert</mat-icon>
                           </button>
                           <mat-menu #beforeMenu="matMenu" xPosition="before">
-                            <button mat-menu-item (click)="editAppointment()">
+                            <button mat-menu-item (click)="editAppointment(app_data)">
                               <span>Edit</span>
                             </button> 
                             <button mat-menu-item (click)="deleteAppointment()">
@@ -233,7 +233,7 @@
                                         </div>
                                         <div class="d-flex flex-column">
                                             <label class="font-14 fw-700 clr--1F2F3E mb-1">Date of Birth</label>
-                                            <p class="font-14 d-flex align-items-center clr--1F2F3E">{{app_data.dob}}</p>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E">{{app_data.dob | date:'MM-dd-yyyy':'UTC' }}</p>
                                         </div>
                                     </div> 
                                 </div>
@@ -271,7 +271,7 @@
                             <div class="col-12 col-md-9"> 
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Patient Checked in by </label>
-                                    <p class="font-14 mb-0 clr--1F2F3E">on {{app_data?.checkInDateTime | date:'MMM d, y hh:mm a':'UTC'}}</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data?.checkInUser}}</p>
                                 </div>
                             </div> 
                             <div class="col-12 mb-3">

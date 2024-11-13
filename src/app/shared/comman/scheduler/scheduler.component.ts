@@ -86,11 +86,13 @@ export class SchedulerComponent {
       panelClass: [ 'modal--wrapper'],
     });
   }
-  editAppointment(){
-    console.log('asd editAppointment ')
+  editAppointment(app_data:any){
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
       width:'1260px',
       panelClass: [ 'modal--wrapper'],
+      data: {
+        app_data: app_data,        
+      }
     });
   }
   appointmentDetailsModal(){
@@ -229,7 +231,6 @@ export class SchedulerComponent {
   
   handleEvent(action: string, event: CalendarEvent, app_data:any=[]): void {
       this.app_data = app_data;
-      console.log(action,'app_data>>>>',app_data)
       this.modalData = { event, action };
 
       this.modal.open(this.modalContent, { 
@@ -307,21 +308,23 @@ export class SchedulerComponent {
             id: element._id,
             practiceLocation: element.practiceLocation,
             appointmentId: element.appointmentId,
-            appointmentType: element.appointmentType,
+            appointmentType: element.appointmentType ? element.appointmentType : 'N/A',
             checkIn: element.checkIn,
             createdAt: element.updatedAt,
             appointmentDate: element.appointmentDate,
-            appointmentEndTime: element.appointmentEndTime,
+            appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : 'N/A',
             status: element.status,
             caseName: element.caseName,
-            notes: element.notes,
-            checkInDateTime: element.checkInDateTime,
+            notes: element.notes ? element.notes : 'N/A',
+            checkInBy: element.checkInBy,
+            checkInUser: element.checkInDateTime ? 'on '+this.commonService.formatDateInUTC(element.checkInDateTime,'MMM d, y hh:mm a') : 'N/A',
             statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
             patientName: element.patientObj[0]?.firstName + " " + element.patientObj[0]?.lastName,
-            dob:element.patientObj.dob,
+            dob:element.patientObj[0]?.dob,
+            phoneNumber:element.patientObj[0]?.phoneNumber ? element.patientObj[0]?.phoneNumber : 'N/A',
             profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientObj[0]?.profileImage,
-            therapistName:element.therapistObj.firstName+' '+element.therapistObj.lastName,            
-            therapistProfileImage:element.therapistObj.profileImage
+            therapistName:element.therapistObj[0]?.firstName+' '+element.therapistObj[0]?.lastName,            
+            therapistProfileImage:element.therapistObj[0]?.profileImage
           }
           finalData.push(newColumns)
         })
@@ -337,7 +340,6 @@ export class SchedulerComponent {
   async appointmentsEventsList(){
     let eventArray: any = []
     this.appointmentsList.forEach((element:any) => {
-      
       let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
       let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
       let newColumns = {
