@@ -742,8 +742,10 @@ const sendFax = async (req, res) => {
           }
         // const options = { format: 'A3' };
         // const file = { content: sendEmailServices.generateContentFromTemplate(template.mail_body, params) };
+        console.log("before template data")
         let content= sendEmailServices.generateContentFromTemplate(template.mail_body, params)
         let fileName = req.body.patientName+"_"+moment(req.body.subjectiveData.note_date).utc().format('DDMMYYYY')+".png"
+        console.log("after template data")
         nodeHtmlToImage({
           output: __dirname + '/../tmp/'+fileName,
           html: content
