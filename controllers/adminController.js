@@ -317,7 +317,7 @@ const getLocationWiseUserList = async (req, res) => {
   try {
     const { query, fields, order, offset, limit } = req.body;
     let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit);
-    let totalCount = await User.find(query).count()
+    let totalCount = await User.find(query).countDocuments()
     commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -872,7 +872,7 @@ const getProviderList = async (req, res) => {
   try {
     const { query, fields, order, offset, limit } = req.body;
     let providerList = await Provider.find(query, fields).sort(order).skip(offset).limit(limit).lean();
-    let totalCount = await Provider.find(query).count()
+    let totalCount = await Provider.find(query).countDocuments()
     commonHelper.sendResponse(res, 'success', { providerList, totalCount }, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -1051,7 +1051,7 @@ const getUploadInsuranceList = async (req, res) => {
   try {
     const { query, fields, order, offset, limit } = req.body;
     let insuranceList = await UploadInsurances.find(query, fields).sort(order).skip(offset).limit(limit).lean();
-    let totalCount = await UploadInsurances.find(query).count()
+    let totalCount = await UploadInsurances.find(query).countDocuments()
     commonHelper.sendResponse(res, 'success', { insuranceList, totalCount }, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
