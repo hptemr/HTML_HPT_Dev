@@ -743,17 +743,18 @@ const sendFax = async (req, res) => {
         // const options = { format: 'A3' };
         // const file = { content: sendEmailServices.generateContentFromTemplate(template.mail_body, params) };
         console.log("before template data")
-        // let content= sendEmailServices.generateContentFromTemplate(template.mail_body, params)
-        // let fileName = req.body.patientName+"_"+moment(req.body.subjectiveData.note_date).utc().format('DDMMYYYY')+".png"
-        // console.log("after template data")
-        // nodeHtmlToImage({
-        //   output: __dirname + '/../tmp/'+fileName,
-        //   html: content
-        // }).then(async()  => {
+        let content= sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+        let fileNameVal = req.body.patientName+"_"+moment(req.body.subjectiveData.note_date).utc().format('DDMMYYYY')+".html"
+          var fileName = __dirname + '/../tmp/'+fileNameVal;
+          var stream = fs.createWriteStream(fileName);
+          stream.once('open', function(fd) {
+            var html = content;
+            stream.end(html);
+          });
           console.log('The image was created successfully!')
           const tmpFaxId = await createTmpFax(req.body.faxNumbers,senderFaxNumber);
-          // const filePath = __dirname + '/../tmp/'+fileName;
-          // await uploadAttachment(tmpFaxId,filePath);
+          const filePath = fileName;
+          await uploadAttachment(tmpFaxId,filePath);
           await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
         // })
 
