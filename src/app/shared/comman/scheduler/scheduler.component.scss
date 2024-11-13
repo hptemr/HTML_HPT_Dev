@@ -225,6 +225,11 @@
                 .cal-week-view .cal-hour-segment.cal-after-hour-start .cal-time {
                     display: block !important;
                 }
+                .day--view{
+                    .cal-week-view{
+                        width: 300px;
+                    }
+                }
             }
 
             .search--results--wrapper{ 

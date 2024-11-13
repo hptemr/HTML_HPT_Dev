@@ -186,7 +186,7 @@
                             [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
                             (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-day-view> -->
-                        <mwl-calendar-day-view 
+                        <mwl-calendar-day-view class="day--view" 
                             *ngSwitchCase="CalendarView.Day"
                             [viewDate]="viewDate" 
                             [hourSegments]="4"
