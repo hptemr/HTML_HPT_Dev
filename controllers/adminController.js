@@ -283,6 +283,7 @@ const getUserList = async (req, res) => {
     let totalCount = await User.find(query).count()
     commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
   } catch (error) {
+    console.log('error >>> ',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
