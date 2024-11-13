@@ -18,9 +18,10 @@ const _ = require('lodash');
 const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
-const htmlPdf = require('html-pdf-node');
+// const htmlPdf = require('html-pdf-node');
 const apiKey = constants.faxDetails.apiKey;
 const apiSecret = constants.faxDetails.apiSecret;
+const nodeHtmlToImage = require('node-html-to-image')
 
 const createPlanNote = async (req, res) => {
   try {
@@ -715,7 +716,7 @@ const sendFax = async (req, res) => {
             "{freequency_per_week}": req.body.noteData.freequency_per_week,
             "{duration_per_week}": req.body.noteData.duration_per_week,
             "{treatmentToBeProvided}": req.body.treatmentToBeProvided,
-            "{patientDob}": moment(req.body.appointmentData.patientId.dob).utc().format('MM/DD/yyyy'),
+            "{patientDob}": moment(req.body.appointmentData.patientInfo.dob).utc().format('MM/DD/yyyy'),
             "{referDoctor}": req.body.appointmentData.doctorId.name,
             "{dateOfFinalized}": moment(req.body.subjectiveData.updatedAt).utc().format('MM/DD/yyyy'),
             "{dignosis}": "",
@@ -739,15 +740,28 @@ const sendFax = async (req, res) => {
           if(req.body.assessmentData.assessment_icd.length>0){
             params['{longTermGoal}'] = req.body.assessmentData.assessment_icd[0].long_term_goal
           }
-        const options = { format: 'A3' };
-        const file = { content: sendEmailServices.generateContentFromTemplate(template.mail_body, params) };
-        const pdfBuffer = await htmlPdf.generatePdf(file, options);
-        let fileName = req.body.patientName+"_"+moment(req.body.subjectiveData.note_date).utc().format('DDMMYYYY')+".pdf"
-        fs.writeFileSync(__dirname + '/../tmp/'+fileName, pdfBuffer);
-        const tmpFaxId = await createTmpFax(req.body.faxNumbers,senderFaxNumber);
-        const filePath = __dirname + '/../tmp/'+fileName;
-        await uploadAttachment(tmpFaxId,filePath);
-        await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
+        // const options = { format: 'A3' };
+        // const file = { content: sendEmailServices.generateContentFromTemplate(template.mail_body, params) };
+        let content= sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+        let fileName = req.body.patientName+"_"+moment(req.body.subjectiveData.note_date).utc().format('DDMMYYYY')+".png"
+        nodeHtmlToImage({
+          output: __dirname + '/../tmp/'+fileName,
+          html: content
+        }).then(async()  => {
+          console.log('The image was created successfully!')
+          const tmpFaxId = await createTmpFax(req.body.faxNumbers,senderFaxNumber);
+          const filePath = __dirname + '/../tmp/'+fileName;
+          await uploadAttachment(tmpFaxId,filePath);
+          await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
+        })
+
+        // const pdfBuffer = await htmlPdf.generatePdf(file, options);
+        // let fileName = req.body.patientName+"_"+moment(req.body.subjectiveData.note_date).utc().format('DDMMYYYY')+".pdf"
+        // fs.writeFileSync(__dirname + '/../tmp/'+fileName, pdfBuffer);
+        // const tmpFaxId = await createTmpFax(req.body.faxNumbers,senderFaxNumber);
+        // const filePath = __dirname + '/../tmp/'+fileName;
+        // await uploadAttachment(tmpFaxId,filePath);
+        // await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
         commonHelper.sendResponse(res, 'success', {});
       }else{
         commonHelper.sendResponse(res, 'success', {});
