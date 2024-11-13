@@ -113,6 +113,10 @@ const createAppointment = async (req, res) => {
         const { data, userId, requestId, patientType } = req.body; 
         let alreadyFound = []; let proceed = true;
        //  console.log(patientType,' >>>>> data >>>> ',data)
+       let appointmentQuery = {};
+        if(data.id){
+            appointmentQuery = {_id:data.id};
+        } 
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
             if (alreadyPatient) {
@@ -141,7 +145,7 @@ const createAppointment = async (req, res) => {
             let existingAppointmentData = alreadyFound;
 
             let appointmentId = 1;
-            existingAppointmentData = await Appointment.findOne({}, { _id: 1, appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
+            existingAppointmentData = await Appointment.findOne(appointmentQuery, { _id: 1, appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
             appointmentId = existingAppointmentData.appointmentId + 1;
             
             if (alreadyFound && alreadyFound.length > 0 && alreadyFound.appointmentId) {
