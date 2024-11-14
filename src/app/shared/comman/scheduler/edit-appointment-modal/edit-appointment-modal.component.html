@@ -12,34 +12,52 @@
                         <div class="col-12 col-lg-4">
                             <div class="form-group d-flex align-items-center mb-0">
                                 <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0 mb-2">Case Name </label>
-                                <select class="form-select form-control form-control-md mb-2" aria-label="Default select example">
-                                    <option selected> Select </option> 
-                                    <option value="1">Case Name</option> 
+                                <select class="form-select form-control form-control-md" formControlName="caseName" *ngIf="caseNameFlag" aria-label="Default select example" #mySelect (change)='onCaseSelected(mySelect.value)'>
+                                    <option value="" selected>Select</option>
+                                    <option *ngFor="let case of casenameList" [value]="case.caseName">{{ case.caseName }}</option>
+                                    <option value="Other">Create a new case</option>
                                 </select>
                             </div>
+                            <div class="text text-danger mt-1" *ngIf="caseNameFlag && appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
+                                {{ validationMessages.requiredDropdown('Case name') }}
+                            </div>  
+                            <input class="form-control" type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
+                            <div class="text text-danger mt-1" *ngIf="caseNameOtherFlag && appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
+                                {{ validationMessages.required('Case name') }}
+                            </div>             
                         </div>
                         <div class="col-12 col-lg-8">
                             <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
-                                <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
-                                <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker sm--datepicker"> 
-                                    <input class=" " matInput [matDatepicker]="picker1" placeholder="14/12/2012"> 
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker1></mat-datepicker>
-                                </mat-form-field>
-                                <div> 
-                                    <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
-                                    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
-                                </div>
-                                <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
-                                <div> 
-                                    <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
-                                    <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
-                                </div>
-                                
+                                <label class="col-form-label fw-600 font-16 p-0 me-3 flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
+                                    <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker sm--datepicker"> 
+                                        <input class="" matInput [matDatepicker]="picker1" [max]="maxToDate" placeholder="14/12/2012" formControlName="appointmentDate"> 
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                    <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
+                                         {{ validationMessages.required('appointment date time') }}
+                                    </div>   
+                                    <div> 
+                                        <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4"  [min]="minTime" formControlName="appointmentStartTime">
+                                        <owl-date-time [pickerType]="'timer'" #dt4 [stepMinute]="15"></owl-date-time>
+                                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentStartTime'].touched && appointmentForm.controls['appointmentStartTime'].hasError('required')">
+                                            {{ validationMessages.required('appointment end time') }}
+                                        </div>
+                                    </div>
+                                    <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
+                                    <div> 
+                                        <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" [min]="this.appointmentForm.controls['appointmentStartTime'].value" value="16" formControlName="appointmentEndTime">                                    
+                                        <owl-date-time [pickerType]="'timer'" #dt5 [stepMinute]="15"></owl-date-time>                                
+                                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].touched && appointmentForm.controls['appointmentEndTime'].hasError('required')">
+                                            {{ validationMessages.required('appointment end time') }}
+                                        </div>
+                                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].hasError('endTimeAfterStartTime')">
+                                            End time must be greater than start time.
+                                        </div>
+                                    </div>                                
                             </div>
                         </div>
-                    </div>
-                    
+                    </div>                    
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 ">
                     <div class="form-group">
@@ -73,13 +91,14 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Date of Birth</label>
-                        <mat-form-field class="w-100 am--datepicker" appearance="outline" >
-                            <input   matInput [matDatepicker]="picker" placeholder="From Date">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        <label class="col-form-label fw-600">Therapist <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="therapistId">
+                            <option value="" selected>Select</option>
+                            <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['therapistId'].touched && appointmentForm.controls['therapistId'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Therapist') }}
+                        </div>               
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
@@ -105,12 +124,17 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6"> 
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Insurance Type</label>
-                        <select class="form-select form-control" aria-label="Default select example">
-                            <option selected>Primary Insurance</option>
-                            <option value="1">Insurance 2</option> 
-                        </select>
-                        <!-- <div class="text text-danger mt-1">Error here</div> -->
+                        <label class="col-form-label fw-600">Referred By <span class="clr--DF0404 ms-1"> * </span></label>
+                        <input type="text" class="form-control search--outer" placeholder="Enter Doctor Name Or NPI" aria-label="Patient" [matAutocomplete]="auto" 
+                        (keyup)="searchDoctorRecords($event)" formControlName="seachByDoctor" />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let pt of doctorList" [value]="pt.name+' (NPI: '+pt.npi+')'" (click)="selectDoctor(pt.id)">
+                            <span>{{ pt.name }} | (NPI: {{ pt.npi }})</span>
+                            </mat-option>
+                        </mat-autocomplete> 
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['seachByDoctor'].touched && appointmentForm.controls['seachByDoctor'].hasError('required')">
+                            {{ validationMessages.openValidation('Please Search Referred Doctor Name') }}
+                        </div>
                     </div>
                 </div> 
                 <div class="col-12 col-lg-6 col-md-6">
@@ -122,6 +146,21 @@
                             </div>    
                     </div>
                 </div> 
+
+                <div class="col-12 col-lg-6 col-md-6"> 
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Repeats</label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="repeatsNotes">
+                            <option selected>Select</option>
+                            <option value="Every week on Monday"> Every week on Monday</option> 
+                            <option value="Every Month on Monday"> Every Month on Monday</option> 
+                            <option value="Every two weeks on Monday"> Every two weeks on Monday</option> 
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['repeatsNotes'].touched && appointmentForm.controls['repeatsNotes'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Repeats') }}
+                        </div>    
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
