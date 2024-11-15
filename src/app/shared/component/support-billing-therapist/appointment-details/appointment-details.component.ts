@@ -144,7 +144,7 @@ export class AppointmentDetailsComponent implements OnInit {
       let reqVars = {
         query: { _id: this.appointmentId },
         fields: {},
-        patientFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1,email:1,phoneNumber:1 },
+        patientFields: { _id: 1, firstName: 1, lastName: 1,dob:1, profileImage: 1,email:1,phoneNumber:1 },
         therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage: 1 }
       }
 
