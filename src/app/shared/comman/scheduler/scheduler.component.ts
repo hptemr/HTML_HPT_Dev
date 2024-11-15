@@ -86,6 +86,7 @@ export class SchedulerComponent {
     });
   }
   editAppointment(app_data:any){
+    console.log('*************')
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
       width:'1260px',
       panelClass: [ 'modal--wrapper'],
@@ -93,9 +94,17 @@ export class SchedulerComponent {
         app_data: app_data,        
       }
     });
+    dialogRef.afterClosed().subscribe(async resp => {
+      console.log('********ResP*****',resp)
+      if(resp=='SUCCESS'){
+        setTimeout( () => {    
+          console.log('******** HERE *****',)
+          this.refresh.next();
+        }, 100)
+      }    
+    });
   }
   appointmentDetailsModal(){
-    console.log('asd asd asd APPointmentDetailsModal')
     const dialogRef = this.dialog.open(AppointmentDetailsModalComponent,{
       width:'633px',
       panelClass: [ 'modal--wrapper'],
@@ -291,7 +300,7 @@ export class SchedulerComponent {
       query: this.whereCond,
       userQuery: this.userQuery,
       patientQuery: this.patientQuery, 
-      fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, caseName: 1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentEndTime:1, checkIn: 1,checkInBy:1,checkInDateTime:1,notes:1, },
+      fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1,doctorId:1, status: 1, caseName: 1,caseType:1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentType:1,appointmentEndTime:1, checkIn: 1,checkInBy:1,checkInDateTime:1,notes:1,repeatsNotes:1, },
       patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1,dob:1,gender:1,phoneNumber:1 },
       order: this.orderBy,
       limit: this.pageSize,
@@ -311,19 +320,27 @@ export class SchedulerComponent {
             checkIn: element.checkIn,
             createdAt: element.updatedAt,
             appointmentDate: element.appointmentDate,
-            appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : 'N/A',
+            appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
             status: element.status,
             caseName: element.caseName,
-            notes: element.notes ? element.notes : 'N/A',
+            caseType: element.caseType,
+            notes: element.notes ? element.notes : '',
+            repeatsNotes: element.repeatsNotes ? element.repeatsNotes : '',
             checkInBy: element.checkInBy,
             checkInUser: element.checkInDateTime ? 'on '+this.commonService.formatDateInUTC(element.checkInDateTime,'MMM d, y hh:mm a') : 'N/A',
             statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
             patientName: element.patientObj[0]?.firstName + " " + element.patientObj[0]?.lastName,
+            patientfirstName: element.patientObj[0]?.firstName,
+            patientlastName: element.patientObj[0]?.lastName,
             dob:element.patientObj[0]?.dob,
+            doctorId:element.doctorId,
+            patientId:element.patientObj[0]?._id,
+            patientemail:element.patientObj[0]?.email,
             phoneNumber:element.patientObj[0]?.phoneNumber ? element.patientObj[0]?.phoneNumber : 'N/A',
             profileImage: s3Details.awsS3Url + s3Details.userProfileFolderPath + element.patientObj[0]?.profileImage,
             therapistName:element.therapistObj[0]?.firstName+' '+element.therapistObj[0]?.lastName,            
-            therapistProfileImage:element.therapistObj[0]?.profileImage
+            therapistProfileImage:element.therapistObj[0]?.profileImage,
+            therapistId:element.therapistObj[0]?._id,
           }
           finalData.push(newColumns)
         })
@@ -348,7 +365,7 @@ export class SchedulerComponent {
         color: { ...colors['red'] },
         actions:  [
           {
-            label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+            label: '<i class="fas fa-fw fa-eye"></i>',
             a11yLabel: 'Edit',
             onClick: ({ event }: { event: CalendarEvent }): void => {
               this.handleEvent('Edited', event, element);
@@ -376,7 +393,7 @@ export class SchedulerComponent {
     
     setTimeout( () => {    
       this.refresh.next();
-    }, 500)
+    }, 100)
 
   }
 

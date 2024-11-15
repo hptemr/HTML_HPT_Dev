@@ -31,6 +31,7 @@ export class AppointmentDetailsModalComponent {
     });
   }
   editAppointment(){
+    console.log('^^^^^^^&&&&&&&&&&&&')
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
       width:'1260px',
       panelClass: [ 'modal--wrapper'],
