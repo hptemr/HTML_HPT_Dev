@@ -299,10 +299,10 @@ export class AppointmentDetailsComponent implements OnInit {
       appointmentId:appointmentId,
       noteType:noteType,
     }
-    // this.authService.apiRequest('post', 'soapNote/createAddendum', reqVars).subscribe(async response => {
-    //   this.commonService.openSnackBar("Note Deleted Successfully", "SUCCESS")
-    //   this.getAppointmentNotes()
-    // })
+    this.authService.apiRequest('post', 'soapNote/createAddendum', reqVars).subscribe(async response => {
+      this.commonService.openSnackBar("Addendum created successfully", "SUCCESS")
+      this.getAppointmentNotes()
+    })
   }
 
   getBillingDetails(patientId:any, caseName:string){
