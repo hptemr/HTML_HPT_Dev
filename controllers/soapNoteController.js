@@ -527,7 +527,7 @@ const getAppointmentNoteList = async (req, res) => {
       },
       {
           $project: {
-              '_id': 1, 'note_date': 1,'appointmentId':1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
+              '_id': 1, 'note_date': 1,'appointmentId':1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1,'is_disabled':1,'version':1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
           }
       },
       { "$sort": { "createdAt": -1 } }
@@ -554,11 +554,91 @@ const deleteSoapNote = async (req, res) => {
 const createAddendum = async (req, res) => {
   try {
     const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType };
-    const updatePlan = { $set: { is_deleted: true } };
+    const updatePlan = { $set: { is_disabled: true } };
     let optionsUpdatePlan = { returnOriginal: false };
-    result = await subjectiveTemp.findOne(filterPlan, updatePlan, optionsUpdatePlan);
-    commonHelper.sendResponse(res, 'success', 'Deleted successfully');
+
+    //subjective note
+    let subResult = await subjectiveTemp.find(filterPlan);
+    let noteCount = subResult.length
+    if(noteCount>0){
+      await subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+      let recentResult = subResult[noteCount-1]
+      noteCount = noteCount+1
+      const duplicateDoc = recentResult.toObject(); // Convert to plain JavaScript object
+      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
+      duplicateDoc.version = 'v'+noteCount
+      duplicateDoc.status = 'Draft'
+      duplicateDoc.is_disabled = false
+      duplicateDoc.createdAt = new Date()
+      await subjectiveTemp.create(duplicateDoc)
+    }
+
+    //objective note
+    let objResult = await ObjectiveModel.find(filterPlan);
+    let objNoteCount = objResult.length
+    if(objNoteCount>0){
+      await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+      let recentObjResult = objResult[objNoteCount-1]
+      objNoteCount = objNoteCount+1
+      const duplicateDoc = recentObjResult.toObject(); // Convert to plain JavaScript object
+      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
+      duplicateDoc.version = 'v'+noteCount
+      duplicateDoc.status = 'Draft'
+      duplicateDoc.is_disabled = false
+      duplicateDoc.createdAt = new Date()
+      await ObjectiveModel.create(duplicateDoc)
+    }
+
+    //Assessment note
+    let assResult = await AssessmentModel.find(filterPlan);
+    let assNoteCount = assResult.length
+    if(assNoteCount>0){
+      await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+      let recentAssResult = assResult[assNoteCount-1]
+      assNoteCount = assNoteCount+1
+      const duplicateDoc = recentAssResult.toObject(); // Convert to plain JavaScript object
+      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
+      duplicateDoc.version = 'v'+assNoteCount
+      duplicateDoc.status = 'Draft'
+      duplicateDoc.is_disabled = false
+      duplicateDoc.createdAt = new Date()
+      await AssessmentModel.create(duplicateDoc)
+    }
+
+    //Plan note
+    let planResult = await PlanTemp.find(filterPlan);
+    let planNoteCount = planResult.length
+    if(planNoteCount>0){
+      await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+      let recentPlanResult = planResult[planNoteCount-1]
+      planNoteCount = planNoteCount+1
+      const duplicateDoc = recentPlanResult.toObject(); // Convert to plain JavaScript object
+      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
+      duplicateDoc.version = 'v'+planNoteCount
+      duplicateDoc.status = 'Draft'
+      duplicateDoc.is_disabled = false
+      duplicateDoc.createdAt = new Date()
+      await PlanTemp.create(duplicateDoc)
+    }
+
+    //Billing note
+    let billResult = await BillingTemp.find(filterPlan);
+    let billNoteCount = billResult.length
+    if(billNoteCount>0){
+      await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+      let recentBillResult = billResult[billNoteCount-1]
+      billNoteCount = billNoteCount+1
+      const duplicateDoc = recentBillResult.toObject(); // Convert to plain JavaScript object
+      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
+      duplicateDoc.version = 'v'+planNoteCount
+      duplicateDoc.status = 'Draft'
+      duplicateDoc.is_disabled = false
+      duplicateDoc.createdAt = new Date()
+      await BillingTemp.create(duplicateDoc)
+    }
+    commonHelper.sendResponse(res, 'success', 'Addendum created successfully');
   } catch (error) {
+    console.log(error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -716,7 +796,7 @@ const sendFax = async (req, res) => {
             "{freequency_per_week}": req.body.noteData.freequency_per_week,
             "{duration_per_week}": req.body.noteData.duration_per_week,
             "{treatmentToBeProvided}": req.body.treatmentToBeProvided,
-            "{patientDob}": moment(req.body.appointmentData.patientInfo.dob).utc().format('MM/DD/yyyy'),
+            "{patientDob}": (req.body.appointmentData && req.body.appointmentData.patientId && req.body.appointmentData.patientId.dob)? moment(req.body.appointmentData.patientId.dob).utc().format('MM/DD/yyyy'):"",
             "{referDoctor}": req.body.appointmentData.doctorId.name,
             "{dateOfFinalized}": moment(req.body.subjectiveData.updatedAt).utc().format('MM/DD/yyyy'),
             "{dignosis}": "",
