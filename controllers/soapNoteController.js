@@ -796,7 +796,7 @@ const sendFax = async (req, res) => {
             "{freequency_per_week}": req.body.noteData.freequency_per_week,
             "{duration_per_week}": req.body.noteData.duration_per_week,
             "{treatmentToBeProvided}": req.body.treatmentToBeProvided,
-            "{patientDob}": (req.body.appointmentData && req.body.appointmentData.patientInfo && req.body.appointmentData.patientInfo.dob)? moment(req.body.appointmentData.patientInfo.dob).utc().format('MM/DD/yyyy'):"",
+            "{patientDob}": (req.body.appointmentData && req.body.appointmentData.patientId && req.body.appointmentData.patientId.dob)? moment(req.body.appointmentData.patientId.dob).utc().format('MM/DD/yyyy'):"",
             "{referDoctor}": req.body.appointmentData.doctorId.name,
             "{dateOfFinalized}": moment(req.body.subjectiveData.updatedAt).utc().format('MM/DD/yyyy'),
             "{dignosis}": "",
