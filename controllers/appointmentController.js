@@ -111,12 +111,7 @@ const getAppointmentRequestDetails = async (req, res) => {
 const createAppointment = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
-        let alreadyFound = []; let proceed = true;
-       //  console.log(patientType,' >>>>> data >>>> ',data)
-       let appointmentQuery = {};
-        if(data.id){
-            appointmentQuery = {_id:data.id};
-        } 
+        let alreadyFound = ''; let proceed = true;
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
             if (alreadyPatient) {
@@ -145,10 +140,16 @@ const createAppointment = async (req, res) => {
             let existingAppointmentData = alreadyFound;
 
             let appointmentId = 1;
-            existingAppointmentData = await Appointment.findOne(appointmentQuery, { _id: 1, appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
+            if(data.id){
+                existingAppointmentData = await Appointment.findOne({ _id: data.id });
+                alreadyFound = existingAppointmentData;
+            }else{
+                existingAppointmentData = await Appointment.findOne({}, { _id: 1, appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
+            }
+            
             appointmentId = existingAppointmentData.appointmentId + 1;
             
-            if (alreadyFound && alreadyFound.length > 0 && alreadyFound.appointmentId) {
+            if (alreadyFound && alreadyFound.appointmentId) {
                 appointmentId = alreadyFound.appointmentId;
             }
 
@@ -223,7 +224,7 @@ const createAppointment = async (req, res) => {
             }
 
             let result = []; let msg = ''; let appId = '';
-            if (alreadyFound && alreadyFound.length > 0) {
+            if (alreadyFound) {
                 msg = appointmentMessage.updated;
                 appId = alreadyFound._id;
                 result = await Appointment.findOneAndUpdate({ _id: appId }, appointmentData);
@@ -743,8 +744,8 @@ const getCaseList = async (req, res) => {
             },
             {
                 $project: {
-                    '_id': 1, 'appointmentDate': 1,'appointmentEndTime': 1, 'appointmentId': 1,'notes':1, 'caseName': 1, 'checkIn': 1,'checkInBy':1,'checkInDateTime':1, 'patientId': 1, 'practiceLocation': 1, 'status': 1, 'therapistId': 1,'createdAt': 1, 'updatedAt': 1,
-                    'patientObj._id': 1, 'patientObj.firstName': 1, 'patientObj.lastName': 1, 'patientObj.profileImage': 1, 'patientObj.dob': 1, 'patientObj.gender': 1, 'patientObj.phoneNumber': 1,
+                    '_id': 1, 'appointmentDate': 1,'appointmentType':1,'appointmentEndTime': 1, 'appointmentId': 1,'notes':1,'repeatsNotes':1, 'caseName': 1,'doctorId':1,'caseType':1,'checkIn': 1,'checkInBy':1,'checkInDateTime':1, 'patientId': 1, 'practiceLocation': 1, 'status': 1, 'therapistId': 1,'createdAt': 1, 'updatedAt': 1,
+                    'patientObj._id': 1, 'patientObj.firstName': 1, 'patientObj.lastName': 1, 'patientObj.profileImage': 1, 'patientObj.email': 1,'patientObj.dob': 1, 'patientObj.gender': 1, 'patientObj.phoneNumber': 1,
                     'therapistObj._id': 1, 'therapistObj.firstName': 1, 'therapistObj.lastName': 1, 'therapistObj.profileImage': 1
                 }
             },

@@ -33,6 +33,12 @@ var constants = {
   faxDetails:{
     apiKey :'ffb45e85f45fdaf795430a3d',
     apiSecret : '50f4df9a5924fd9a06b72943'
+  },
+  tebraCredentials :{
+    customerKey : (process.env.BASE_URL == 'http://staging.hamiltonpt.com')?'n87kg43ms26w': (process.env.BASE_URL == 'http://dev.hamiltonpt.com')?'n87kg43ms26w':'n87kg43ms26w',
+    user: (process.env.BASE_URL == 'http://staging.hamiltonpt.com')?'ahptehr@gmail.com': (process.env.BASE_URL == 'http://dev.hamiltonpt.com')?'ahptehr@gmail.com':'ahptehr@gmail.com',
+    password: (process.env.BASE_URL == 'http://staging.hamiltonpt.com')?'Arkenea@2024': (process.env.BASE_URL == 'http://dev.hamiltonpt.com')?'Arkenea@2024':'Arkenea@2024',
+    wsdlUrl:'https://webservice.kareo.com/services/soap/2.1/KareoServices.svc'
   }
 }
 
