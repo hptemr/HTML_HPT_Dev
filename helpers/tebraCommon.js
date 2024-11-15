@@ -1,4 +1,5 @@
 const xml2js = require('xml2js');
+const moment = require('moment');
 
 const requestHeader = (soapAction) => {
   let reqHeader = {
@@ -24,8 +25,15 @@ const parseXMLResponse = (responseData) => {
   return res
 }
 
+const changeDateFormat = (date) => {
+  if (date) {
+    return moment(date).format('YYYY-MM-DD')
+  }
+  return date;
+}
 
 module.exports = {
   requestHeader,
   parseXMLResponse,
+  changeDateFormat
 };

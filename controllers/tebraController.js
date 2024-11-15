@@ -6,6 +6,8 @@ const xml2js = require('xml2js');
 const tebraCommon = require('../helpers/tebraCommon');
 const { tebraCredentials } = require('./../config/constants')
 const tebraSoapRequest = require('../helpers/tebraSoapRequest');
+let ObjectId = require('mongoose').Types.ObjectId;
+const Patient = require('../models/patientModel');
 
 // const GetPractices = async (req, res) => {
 //     try {
@@ -72,42 +74,37 @@ const tebraSoapRequest = require('../helpers/tebraSoapRequest');
 // };
 
 
-const GetPractices = async (req, res) => {
+const getPractices = async (req, res) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/GetPractices'
         const soapRequest = tebraSoapRequest.getPracice()
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
 
-        axios.post(tebraCredentials.wsdlUrl, soapRequest, requestHeaders ).then(response => {
-            console.log('Response >>>>>:', response);
+        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(response => {
+            // console.log('Response >>>>>:', response);
             console.log('Response Data>>>>:', response.data);
 
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
             if(!parseError){
-                const practicesResponse = parseResult['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['Practices'];
-                console.log('practicesResponse:', practicesResponse);
                 const errorResponse = parseResult['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['ErrorResponse'];
                 console.log('errorResponse:', errorResponse);
+                if(errorResponse && errorResponse?.IsError=='false'){
+                    const Practices = parseResult['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['Practices'];
+                    const practicesAuthorized = parseResult['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['SecurityResponse']['PracticesAuthorized'];
+                    console.log("practicesAuthorized>>>",practicesAuthorized)
+                    const aInt = practicesAuthorized.PracticeID["a:int"];
+                    let practiceData = {
+                        Practices,
+                        PracticeID: Array.isArray(aInt)?practicesAuthorized.PracticeID["a:int"].map(Number):parseInt(practicesAuthorized.PracticeID['a:int'], 10)
+                    }
+                    commonHelper.sendResponse(res, 'success', practiceData, "Practices get successfully");
+                } 
             }
 
-            // xml2js.parseString(response.data, { explicitArray: false }, (err, result) => {
-            //     if (err) {
-            //        console.error('Error parsing XML:', err);
-            //     } else {
-                    
-            //         const practicesResponse = result['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['Practices'];
-            //         console.log('practicesResponse:', practicesResponse);
-            //         const errorResponse = result['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['ErrorResponse'];
-            //         console.log('errorResponse:', errorResponse);
-            //         // const practiceName = result['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['Practices']['PracticeData']['PracticeName'];
-            //     }
-            // });
-            
         }).catch(error => {
-            console.error('Error:', error);
+            console.error('API Error:', error);
+            commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
         });
-
-        commonHelper.sendResponse(res, 'success', null, "Practices get successfully");
 
     } catch (error) {
         console.log("========GetPractices=========", error)
@@ -115,6 +112,90 @@ const GetPractices = async (req, res) => {
     }
 };
 
+const createPatient = async (patientData) => {
+    try {
+        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/CreatePatient'
+        const soapRequest = tebraSoapRequest.createPatient(patientData)
+        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+
+        console.log("soapRequest>>>>",soapRequest)
+
+        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+            console.log('Response >>>>>:', response);
+            console.log('Response Data>>>>:', response.data);
+
+            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+            console.log("parseResult>>>>",parseResult)
+            if(!parseError){
+                const errorResponse = parseResult['s:Envelope']['s:Body']['CreatePatientResponse']['CreatePatientResult']['ErrorResponse'];
+                if(errorResponse && errorResponse?.IsError=='false'){
+                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['CreatePatientResponse']['CreatePatientResult'];
+
+                    // Save tebra response object in patient collection
+                    let insertObject ={
+                        'tebraDetails':{
+                            PatientID: patientTebraRes.PatientID,
+                            PracticeID: patientTebraRes.PracticeID,
+                            PracticeName: patientTebraRes.PracticeName
+                        }
+                    }
+                    console.log("patientData._id>>>>",patientData._id)
+                    console.log("insertObject>>>>",insertObject)
+                    await Patient.updateOne({ _id: patientData._id }, { $set: insertObject });
+
+                    console.log('========Patient created successfully=========:',patientTebraRes);
+                }
+            }
+
+        }).catch(error => {
+            console.error('========createPatient API Error=========:', error);
+        });
+
+    } catch (error) {
+        console.log("========createPatient=========:", error)
+    }
+};
+
+const testAPI = async (req, res) => {
+
+    let patientData = {
+        firstName: 'Belaska',
+        middleName: 'Test', 
+        lastName: 'Austin',
+        email: 'ashishb+103@arkenea.com',
+        dob: '1980-10-09T18:30:00.000Z', 
+        gender: 'Male', 
+        phoneNumber: '(356) 677-6666',
+        cellPhoneNumber: '',
+        workExtensionNumber: '',
+        salt: '$2b$10$zq0loLq0hFM0okw0tnIMCe',
+        hash_password: '$2b$10$zq0loLq0hFM0okw0tnIMCeT4lF6p7teNkirLPUUTTwyo0AyvDN/E.',
+        address1: 'New street',
+        address2: '123',
+        city: 'Aripeka', 
+        state: 'FL', 
+        zipcode: '12333', 
+        documents_type: "Driver's License",
+        document_name: 'default.png',
+        document_temp_name: '1731673593814.png',
+        document_size: '6.32 KB',
+        acceptConsent: true,
+        failedAttempts: 0,
+        loginCount: 0,
+        signupToken: '',
+        profileImage: 'default.png',
+        status: 'Active',
+        _id: new ObjectId('6737735722112281430b5fcd'),
+        createdAt: '2024-11-15T12:26:40.993Z',
+        updatedAt: '2024-11-15T12:26:40.993Z',
+        __v: 0
+    }
+   
+    createPatient(patientData)
+};
+
 module.exports = {
-    GetPractices
+    getPractices,
+    createPatient,
+    testAPI
 };

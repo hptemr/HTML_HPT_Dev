@@ -18,6 +18,7 @@ const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const s3Details = constants.s3Details;
+const tebraController = require('../controllers/tebraController');
 
 
 const signup = async (req, res) => {
@@ -101,6 +102,9 @@ const signup = async (req, res) => {
                        // Normal patient register
                         let newPatient = new Patient(request_data);
                         result = await newPatient.save();
+                        console.log("result>>>>>",result)
+                        // Create patient on tebra
+                        // tebraController.createPatient(result)
                     }
 
                     if (result && result._id) {
