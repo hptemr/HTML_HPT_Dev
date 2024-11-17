@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef  } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CreateAppointmentModalComponent } from './create-appointment-modal/create-appointment-modal.component';
 import { EditAppointmentModalComponent } from './edit-appointment-modal/edit-appointment-modal.component';
@@ -18,7 +18,7 @@ import { MatRadioChange } from '@angular/material/radio';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
-import { s3Details, practiceLocations,pageSize, appointmentStatus } from 'src/app/config';
+import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
@@ -49,15 +49,21 @@ export class SchedulerComponent {
   userQuery: any = {}
   practiceLocationsVal: any = ''
   orderBy: any = { updatedAt: -1 }
+  orderTherapistBy: any = { firstName: 1 }
   pageIndex = 0
-  pageSize = 1000
+  pageSize = pageSize
+  pageSizeOptions = pageSizeOptions
   totalCount = 0
   appointmentsList: any
   selected: Date | null;
+  therapistList:any=[];
+  whereTherapistCond: any = { role: 'therapist', status: 'Active' }
+  selectedItems: string[] = [];
   constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
 
   ngOnInit() {
-    this.getAppointmentList('')
+    this.getAppointmentList('');
+    this.getTherapistList();
   }
 
   onChange(event: MatRadioChange) {
@@ -85,6 +91,7 @@ export class SchedulerComponent {
       panelClass: [ 'modal--wrapper'],
     });
   }
+  dialog1Ref: MatDialogRef<any> | null = null;
   editAppointment(app_data:any){
     console.log('*************')
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
@@ -99,13 +106,20 @@ export class SchedulerComponent {
       if(resp=='SUCCESS'){
         setTimeout( () => {    
           console.log('******** HERE *****',)
-          this.refresh.next();
+          this.dialog1Ref?.close();
+          this.dialog1Ref = null;
+          
+          this.getAppointmentList('')
+          
+          // this.refresh.next();
         }, 100)
+
+
       }    
     });
   }
   appointmentDetailsModal(){
-    const dialogRef = this.dialog.open(AppointmentDetailsModalComponent,{
+    this.dialog1Ref = this.dialog.open(AppointmentDetailsModalComponent,{
       width:'633px',
       panelClass: [ 'modal--wrapper'],
     });
@@ -206,7 +220,7 @@ export class SchedulerComponent {
   activeDayIsOpen: boolean = true; 
   
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-      //console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)
+      console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)
       if (isSameMonth(date, this.viewDate)) {
         //console.log(this.activeDayIsOpen,' >>> date >>>>',date,' ###### events >>>>',events) 
         if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0) {
@@ -240,17 +254,9 @@ export class SchedulerComponent {
   handleEvent(action: string, event: CalendarEvent, app_data:any=[]): void {
       this.app_data = app_data;
       this.modalData = { event, action };
-
       this.modal.open(this.modalContent, { 
         size: 'lg',
       });
-
-      // const dialogRef = this.dialog.open(AppointmentDetailsModalComponent,{
-      //   width:'633px',
-      //   data: this.modalData,
-      //   size: 'lg', 
-      //   panelClass: [ 'modal--wrapper'],
-      // });
   }
   
   addEvent(): void {
@@ -282,20 +288,24 @@ export class SchedulerComponent {
       this.activeDayIsOpen = false;
   } 
 
+  onDateChange(event: any) {
+      console.log('Event >>>>>>',event)
+  }
+
   searchRecords(colName: string, event: any) {
-      if (event && event != '') {
-        Object.assign(this.whereCond, { [colName]: { $in: event } })
+      if (event && event != '') {      
+        Object.assign(this.whereCond, { [colName]: { $in: [event] } })
       } else {
         delete this.whereCond[colName];
       }
       this.getAppointmentList('search')
-    }
+  }
 
   async getAppointmentList(action = "") {
     if (action == "") {
       this.commonService.showLoader()
     }
-
+    console.log('whereCond>>>>',this.whereCond)
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
@@ -307,7 +317,9 @@ export class SchedulerComponent {
       offset: (this.pageIndex * this.pageSize)
     }
     await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
-      this.commonService.hideLoader()
+      if (action == "") {
+        this.commonService.hideLoader()
+      }
       this.totalCount = response.data.totalCount
       let finalData: any = []
       if (response.data.appointmentList.length > 0) {
@@ -352,7 +364,6 @@ export class SchedulerComponent {
     })
   }
 
-
   async appointmentsEventsList(){
     let eventArray: any = []
     this.appointmentsList.forEach((element:any) => {
@@ -394,26 +405,109 @@ export class SchedulerComponent {
     setTimeout( () => {    
       this.refresh.next();
     }, 100)
+  }
+
+  searchTherapist(searchStr: string,colName:string) {
+   // let searchStr = event.target.value.trim()
+    if (searchStr != '') {
+      searchStr = searchStr.replace("+", "\\+");
+      let finalStr = { $regex: searchStr, $options: 'i' }      
+      if (colName == 'byTname') {
+        let firstName = finalStr;
+        let lastName = finalStr;
+        let final_str = searchStr.trim().split(' ');
+        if(final_str[0] && final_str[1]){
+          firstName =  { $regex: final_str[0], $options: 'i' }
+          lastName =  { $regex: final_str[1], $options: 'i' }
+        }
+        this.whereTherapistCond = {
+          status: "Active",
+          $or: [{ firstName: firstName }, { lastName: lastName }, { email: finalStr }]
+        }
+      }      
+    } else {
+      this.whereTherapistCond = { role: 'therapist', status: 'Active' };
+    }
+    this.getTherapistList()   
+  }
+  
+  onCheckboxChange(event: any, id: string): void {  
+    if (event.checked) {
+      this.selectedItems.push(id); // Add ID to the selected list
+    } else {
+      this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
+    }
+    console.log('Selected Items:', this.selectedItems);
+    if (this.selectedItems.length>0) {      
+      Object.assign(this.whereCond, { ['therapistId']: { $in: [this.selectedItems] } })
+
+      this.userQuery = {
+        status: "Active",
+        role: "therapist",
+        $or: [{ ['therapistId']: { $in: [this.selectedItems] } }]
+      }
+      this.getAppointmentList('search')
+    } 
 
   }
 
 
+  //onCheckboxChange(event: any, id: number): void {
+    // if (event.checked) {
+    //   this.selectedItems.push(id); // Add ID to the selected list
+    // } else {
+    //   this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
+    // }
+    // console.log('Selected Items:', this.selectedItems);
+    // if (this.selectedItems.length>0) {      
+    //   Object.assign(this.whereCond, { ['therapistId']: { $in: [this.selectedItems] } })
+    // } 
+  //   onCheckboxChange(TherapistName: string): void {
+  //     let firstName = { $regex: TherapistName, $options: 'i' }
+  //     let lastName = { $regex: TherapistName, $options: 'i' }
+  //     let final_str = TherapistName.trim().split(' ');
+  //     if(final_str[0] && final_str[1]){
+  //       firstName =  { $regex: final_str[0], $options: 'i' }
+  //       lastName =  { $regex: final_str[1], $options: 'i' }
+  //     }
+      
+  //     this.userQuery = {
+  //       status: "Active",
+  //       role: "therapist",
+  //       $or: [{ firstName: firstName }, { lastName: lastName }]
+  //     }
+  //     this.getAppointmentList('search')
+  // }
+     
+  async getTherapistList() {
+    const reqVars = {     
+      query: this.whereTherapistCond,
+      fields: { _id: 1, firstName: 1, lastName: 1 },
+      limit: 10,
+      order: this.orderTherapistBy,
+    }
+    await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
+      if (response.data && response.data.therapistData) {
+        this.therapistList = response.data.therapistData;
+      }
+    })
+  }
 
   }
 
 
  
-  const colors: Record<string, EventColor> = {
-    red: {
-      primary: '#ad2121',
-      secondary: '#FAE3E3',
-    },
-    blue: {
-      primary: '#1e90ff',
-      secondary: '#D1E8FF',
-    },
-    yellow: {
-      primary: '#e3bc08',
-      secondary: '#FDF1BA',
-    },
-  };
+const colors: Record<string, EventColor> = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3',
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF',
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
+};
