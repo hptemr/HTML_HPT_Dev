@@ -672,13 +672,12 @@ const getCaseList = async (req, res) => {
                 let userArray = [];
                 userList.map((obj) => {
                     userArray.push(obj._id)
-                })
+                })                
                 query['therapistId'] = { $in: userArray }
             } else {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-
         // Patient Search
         if (patientQuery && Object.keys(patientQuery).length) {
             let patientList = await Patient.find(patientQuery, { _id: 1 });
@@ -758,7 +757,10 @@ const getCaseList = async (req, res) => {
         ]
        
         let appointmentList = await Appointment.aggregate(aggrQuery);//.sort(order).skip(offset).limit(limit);
-        let totalRecords = await Appointment.aggregate(aggrQuery);
+        let totalRecordsQuery = aggrQuery.filter(stage => {
+            return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
+        });
+        let totalRecords = await Appointment.aggregate(totalRecordsQuery);
         let totalCount = totalRecords.length;
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
