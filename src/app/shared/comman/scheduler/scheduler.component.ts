@@ -18,24 +18,14 @@ import { MatRadioChange } from '@angular/material/radio';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { ChangeDetectorRef } from '@angular/core';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
   styleUrl: './scheduler.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      h3 {
-        margin: 0 0 10px;
-      }
-
-      pre {
-        background-color: #f5f5f5;
-        padding: 15px;
-      }
-    `,
-  ],
+  styles: [`h3 { margin: 0 0 10px; } pre { background-color: #f5f5f5; padding: 15px; }`],
 })
 export class SchedulerComponent {
   calenderView = true;
@@ -59,7 +49,8 @@ export class SchedulerComponent {
   therapistList:any=[];
   whereTherapistCond: any = { role: 'therapist', status: 'Active' }
   selectedItems: string[] = [];
-  constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
+  activeDayIsOpen: boolean = false; 
+  constructor(private router: Router,private cdr: ChangeDetectorRef, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
 
   ngOnInit() {
     this.getAppointmentList('');
@@ -118,24 +109,28 @@ export class SchedulerComponent {
       }    
     });
   }
-  appointmentDetailsModal(){
+
+  appointmentDetailsModal(){//Need Appointment Details Modal
     this.dialog1Ref = this.dialog.open(AppointmentDetailsModalComponent,{
       width:'633px',
       panelClass: [ 'modal--wrapper'],
     });
   }
+
   upcomingAppointmentModal(){
     const dialogRef = this.dialog.open(UpcomingAppModalComponent,{
       width:'310px',
       panelClass: [ 'modal--wrapper'],
     });
   }
+
   collectPaymentModal(){
     const dialogRef = this.dialog.open(CollectPaymentModalComponent,{
       width:'400px',
       panelClass: [ 'modal--wrapper'],
     });
   }
+
   deleteAppointment() {
     const dialogRef = this.dialog.open(AlertComponent,{
       panelClass: 'custom-alert-container',
@@ -154,8 +149,6 @@ export class SchedulerComponent {
       event: CalendarEvent;
   };
   app_data:any=[]
-  actionsnew: CalendarEventAction[] = [];
-
   actions: CalendarEventAction[] = [
       {
         label: '<i class="fas fa-fw fa-pencil-alt"></i>',
@@ -216,21 +209,18 @@ export class SchedulerComponent {
         draggable: false,
       },
     ];
-    
-  activeDayIsOpen: boolean = true; 
-  
+      
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-      console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)
+      //console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)
       if (isSameMonth(date, this.viewDate)) {
-        //console.log(this.activeDayIsOpen,' >>> date >>>>',date,' ###### events >>>>',events) 
         if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0) {
           this.activeDayIsOpen = false;
         } else {
           this.activeDayIsOpen = true;
         }
         this.viewDate = date;
-      }
-    //console.log(this.activeDayIsOpen,'viewDate>>>>',this.viewDate)
+      } 
+      //console.log(this.activeDayIsOpen,'viewDate>>>>',this.viewDate)
   }
   
   eventTimesChanged({
@@ -290,6 +280,7 @@ export class SchedulerComponent {
 
   onDateChange(event: any) {
       console.log('Event >>>>>>',event)
+      this.viewDate = event;
   }
 
   searchRecords(colName: string, event: any) {
@@ -305,7 +296,7 @@ export class SchedulerComponent {
     if (action == "") {
       this.commonService.showLoader()
     }
-    console.log('whereCond>>>>',this.whereCond)
+    //console.log('whereCond>>>>',this.whereCond)
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
@@ -448,9 +439,7 @@ export class SchedulerComponent {
       }
       this.getAppointmentList('search')
     } 
-
   }
-
 
   //onCheckboxChange(event: any, id: number): void {
     // if (event.checked) {
@@ -489,6 +478,7 @@ export class SchedulerComponent {
     await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
       if (response.data && response.data.therapistData) {
         this.therapistList = response.data.therapistData;
+        this.cdr.detectChanges();
       }
     })
   }
