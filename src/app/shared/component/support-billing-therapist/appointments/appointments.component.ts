@@ -179,7 +179,7 @@ export class AppointmentsComponent {
     if (action == "") {
       this.commonService.showLoader()
     }
-
+    console.log('111 whereCond>>>>',this.whereCond)
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
