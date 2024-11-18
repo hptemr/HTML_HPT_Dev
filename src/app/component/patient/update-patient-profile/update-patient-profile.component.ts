@@ -444,7 +444,8 @@ export class UpdatePatientProfileComponent implements OnInit {
     const req_vars = {
       query: Object.assign({ _id: this.userId }, query),
       data: data,
-      formTitle:title
+      formTitle:title,
+      steps:steps
     }
     // this.commonService.showLoader();       
     await this.authService.apiRequest('post', 'patients/updateProfile', req_vars).subscribe(async response => {         
