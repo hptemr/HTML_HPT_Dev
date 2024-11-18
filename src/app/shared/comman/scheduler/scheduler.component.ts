@@ -50,6 +50,7 @@ export class SchedulerComponent {
   whereTherapistCond: any = { role: 'therapist', status: 'Active' }
   selectedItems: string[] = [];
   activeDayIsOpen: boolean = false; 
+  dialog1Ref: MatDialogRef<any> | null = null;
   constructor(private router: Router,private cdr: ChangeDetectorRef, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
 
   ngOnInit() {
@@ -82,13 +83,19 @@ export class SchedulerComponent {
       panelClass: [ 'modal--wrapper'],
     });
   }
-  dialog1Ref: MatDialogRef<any> | null = null;
-  editAppointment(app_data:any){
-    console.log('*************')
+
+  editAppointment(from:string,app_data:any){
+    console.log('*************',from)
+    let title = 'Edit Appointment Details';
+    if(from=='Duplicate'){
+      title = 'Create Duplicate Appointment';
+    }
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
       width:'1260px',
       panelClass: [ 'modal--wrapper'],
       data: {
+        from:from,
+        title:title,
         app_data: app_data,        
       }
     });
@@ -296,7 +303,7 @@ export class SchedulerComponent {
     if (action == "") {
       this.commonService.showLoader()
     }
-    //console.log('whereCond>>>>',this.whereCond)
+   
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
@@ -304,14 +311,15 @@ export class SchedulerComponent {
       fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1,doctorId:1, status: 1, caseName: 1,caseType:1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentType:1,appointmentEndTime:1, checkIn: 1,checkInBy:1,checkInDateTime:1,notes:1,repeatsNotes:1, },
       patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1,dob:1,gender:1,phoneNumber:1 },
       order: this.orderBy,
-      limit: this.pageSize,
-      offset: (this.pageIndex * this.pageSize)
+       limit: 1000,
+      // offset: (this.pageIndex * this.pageSize)
     }
     await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
       if (action == "") {
         this.commonService.hideLoader()
       }
       this.totalCount = response.data.totalCount
+      //console.log('length>>>',response.data.appointmentList.length,'>>>>>totalCount>>>>>>>>>>>>>',this.totalCount,'>>>>>>> WhereCond >>>>',this.whereCond)
       let finalData: any = []
       if (response.data.appointmentList.length > 0) {
         await response.data.appointmentList.map((element: any) => {
@@ -349,15 +357,15 @@ export class SchedulerComponent {
         })
       }     
       this.appointmentsList = finalData;
+      //console.log('>>>>> Appointments List Length >>>>',this.appointmentsList.length)
       this.appointmentsEventsList();
-     // console.log('>>>>> Appointments List >>>>',this.appointmentsList)
-
     })
   }
 
   async appointmentsEventsList(){
     let eventArray: any = []
-    this.appointmentsList.forEach((element:any) => {
+    console.log('........appointmentsList........',this.appointmentsList.length);
+    this.appointmentsList.forEach((element:any,index:any) => {
       let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
       let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
       let newColumns = {
@@ -394,6 +402,7 @@ export class SchedulerComponent {
     this.events = eventArray;
     
     setTimeout( () => {    
+      console.log('........Refresh........',eventArray.length);
       this.refresh.next();
     }, 100)
   }
@@ -472,7 +481,7 @@ export class SchedulerComponent {
     const reqVars = {     
       query: this.whereTherapistCond,
       fields: { _id: 1, firstName: 1, lastName: 1 },
-      limit: 10,
+      limit: 100,
       order: this.orderTherapistBy,
     }
     await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
