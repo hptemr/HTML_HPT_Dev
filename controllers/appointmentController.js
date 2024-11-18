@@ -184,6 +184,7 @@ const createAppointment = async (req, res) => {
             // appointmentStartTime
             // appointmentEndTime
             let appointmentDate = data.appointmentDate;
+            console.log('appointmentDate >>> ',appointmentDate)
             if(data.appointmentStartTime){
                 appointmentDate = data.appointmentStartTime;
             }
@@ -191,7 +192,7 @@ const createAppointment = async (req, res) => {
             const localDate = new Date(appointmentDate);  
             localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
             data.appointmentDate = localDate;
-
+            console.log(' data appointmentDate >>> ',data.appointmentDate)
             let appointmentEndTime = '';
             //local end time conversion
             if(data.appointmentEndTime){
@@ -647,7 +648,7 @@ async function patientAppointmentSignupEmail(patientData) {
 
         return true;
     } catch (error) {
-        console.log('query error >>>', error)
+        console.log('patientAppointmentSignupEmail error >>>', error)
         return error;
     }
 };
@@ -659,6 +660,7 @@ const getDoctorList = async (req, res) => {
         let totalCount = await Provider.find(query).countDocuments()
         commonHelper.sendResponse(res, 'success', { doctorList, totalCount }, '');
     } catch (error) {
+        console.log('getDoctorList error >>>', error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -755,8 +757,14 @@ const getCaseList = async (req, res) => {
                 $limit: limit
             }
         ]
-       
-        let appointmentList = await Appointment.aggregate(aggrQuery);//.sort(order).skip(offset).limit(limit);
+        let totalQuery = aggrQuery;
+        if(limit==1000){
+            totalQuery = aggrQuery.filter(stage => {
+                return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
+            });
+        }
+
+        let appointmentList = await Appointment.aggregate(totalQuery);//.sort(order).skip(offset).limit(limit);
         let totalRecordsQuery = aggrQuery.filter(stage => {
             return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
         });
