@@ -137,7 +137,8 @@ const createPatient = async (patientData) => {
                             PatientID: patientTebraRes.PatientID,
                             PracticeID: patientTebraRes.PracticeID,
                             PracticeName: patientTebraRes.PracticeName
-                        }
+                        },
+                        patientOnTebra: true
                     }
                     console.log("patientData._id>>>>",patientData._id)
                     console.log("insertObject>>>>",insertObject)
@@ -153,6 +154,72 @@ const createPatient = async (patientData) => {
 
     } catch (error) {
         console.log("========createPatient=========:", error)
+    }
+};
+
+
+const updatePatientPersonalInfo = async (patientData, tebraDetails) => {
+    try {
+        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
+        const soapRequest = tebraSoapRequest.updatePatientPersonalInfo(patientData, tebraDetails)
+        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+
+        console.log("soapRequest>>>>",soapRequest)
+
+        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+            console.log('Response >>>>>:', response);
+            console.log('Response Data>>>>:', response.data);
+
+            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+            console.log("parseResult>>>>",parseResult)
+            if(!parseError){
+                const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
+                if(errorResponse && errorResponse?.IsError=='false'){
+                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
+
+                    console.log('========Patient updated successfully=========:',patientTebraRes);
+                }
+            }
+
+        }).catch(error => {
+            console.error('========updatePatient API Error=========:', error);
+        });
+
+    } catch (error) {
+        console.log("========updatePatient=========:", error)
+    }
+};
+
+
+const updatePatientAdditionalInfo = async (patientData, tebraDetails) => {
+    try {
+        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
+        const soapRequest = tebraSoapRequest.updatePatientAdditionalInfo(patientData, tebraDetails)
+        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+
+        console.log("soapRequest>>>>",soapRequest)
+
+        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+            console.log('Response >>>>>:', response);
+            console.log('Response Data>>>>:', response.data);
+
+            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+            console.log("parseResult>>>>",parseResult)
+            if(!parseError){
+                const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
+                if(errorResponse && errorResponse?.IsError=='false'){
+                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
+
+                    console.log('========Patient updated successfully=========:',patientTebraRes);
+                }
+            }
+
+        }).catch(error => {
+            console.error('========updatePatient API Error=========:', error);
+        });
+
+    } catch (error) {
+        console.log("========updatePatient=========:", error)
     }
 };
 
@@ -197,5 +264,7 @@ const testAPI = async (req, res) => {
 module.exports = {
     getPractices,
     createPatient,
+    updatePatientPersonalInfo,
+    updatePatientAdditionalInfo,
     testAPI
 };
