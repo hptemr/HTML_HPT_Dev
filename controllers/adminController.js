@@ -297,11 +297,12 @@ const checkTokenExpire = (inviteToken) => {
 const getTherapistList = async (req, res) => {
   try {
     const { query, fields, order, limit } = req.body;
-    if(!limit){
-      limit = 100;
+    let limitas = 100;
+    if(limit){
+      limitas = limit;
     }
-    console.log('*********** Limit >>>>',limit)
-    let therapist_data = await User.find(query, fields).sort(order).limit(limit);
+    //console.log('*********** Limit >>>>',limit)
+    let therapist_data = await User.find(query, fields).sort(order).limit(limitas);
     let totalCount = await User.find(query).countDocuments()
     let therapistData = [];
     therapist_data.forEach(element => {
@@ -311,6 +312,7 @@ const getTherapistList = async (req, res) => {
 
     commonHelper.sendResponse(res, 'success', { therapistData, totalCount }, '');
   } catch (error) {
+    console.log('*********** getTherapistList >>>>',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
