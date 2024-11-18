@@ -122,7 +122,7 @@
                 </div>
                 <div class="col-12">
                     <mat-card class="demo-inline-calendar-card">
-                        <mat-calendar [(selected)]="selected"></mat-calendar>
+                        <mat-calendar (selectedChange)="onDateChange($event)" [(selected)]="selected"></mat-calendar>
                     </mat-card>
                 </div>
                 <div class="col-12">
@@ -130,21 +130,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group position-relative w-100">
-                                    <input type="text" class="form-control form-control-md search--outer"
-                                        placeholder="Search for people ">
-                                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
+                                    <input type="text" class="form-control form-control-md search--outer" #searchInput placeholder="Search for Therapist">
+                                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields" (click)="searchTherapist(searchInput.value,'byTname')">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-12"> 
-                                <mat-checkbox class="w-100">Therapist 1 </mat-checkbox>
-                                <mat-checkbox class="w-100">Therapist 2 </mat-checkbox>
-                                <mat-checkbox class="w-100">Therapist 3 </mat-checkbox> 
-                                <mat-checkbox class="w-100">Therapist 4 </mat-checkbox>
-                                <mat-checkbox class="w-100">Therapist 5 </mat-checkbox>
-                                <mat-checkbox class="w-100">Therapist 6 </mat-checkbox> 
-                                <mat-checkbox class="w-100">Therapist 7 </mat-checkbox> 
+                            <div class="col-12" *ngFor="let item of therapistList">
+                                <mat-checkbox class="w-100" (change)="onCheckboxChange($event, item.id)">{{item.name}}</mat-checkbox>                               
                             </div>
                         </div>
                     </div>
@@ -154,7 +147,6 @@
 
         <!-- Calender Start here -->
         <div class="sc--right--panel d-flex flex-column w-100">
-
             <!-- Calendar view (Start here) -->
             <div class="w-100" *ngIf="calenderView"> 
                 <div class="col-12">
