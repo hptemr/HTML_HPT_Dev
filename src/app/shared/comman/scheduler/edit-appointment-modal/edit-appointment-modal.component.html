@@ -1,7 +1,7 @@
 <div class="modal--wrapper d-flex flex-column w-100 ea--wrapper">
     <div class="modal--header w-100">
         <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-2">
-            Edit Appointment Details
+            {{title}}
         </h1>  
     </div>
     <form [formGroup]="appointmentForm" (ngSubmit)="createAppointment(appointmentForm.value)">
@@ -26,17 +26,35 @@
                                 {{ validationMessages.required('Case name') }}
                             </div>             
                         </div>
+                        <div class="col-12 col-sm-6 col-lg-4 mb-2">
+                            <div class="form-group mb-0 d-flex align-items-center">
+                                <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Case Type  </label>
+                                <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="caseType" >
+                                    <option value="" selected>Select Case Type</option>
+                                    <option value="OT">OT</option>
+                                    <option value="PT">PT</option>
+                                    <option value="SLP">SLP</option>
+                                </select>  
+                            </div>
+                            <div class="form-group">
+                                <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['caseType'].touched && appointmentForm.controls['caseType'].hasError('required')">
+                                    {{ validationMessages.required('Case Type') }}
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 col-lg-8">
                             <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
                                 <label class="col-form-label fw-600 font-16 p-0 me-3 flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
-                                    <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker sm--datepicker"> 
-                                        <input class="" matInput [matDatepicker]="picker1" [max]="maxToDate" placeholder="14/12/2012" formControlName="appointmentDate"> 
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker1></mat-datepicker>
-                                    </mat-form-field>
-                                    <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
-                                         {{ validationMessages.required('appointment date time') }}
-                                    </div>   
+                                    <div> 
+                                        <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker sm--datepicker"> 
+                                            <input class="" matInput [matDatepicker]="picker1" [max]="maxToDate" placeholder="14/12/2012" formControlName="appointmentDate"> 
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
+                                            {{ validationMessages.required('appointment date time') }}
+                                        </div> 
+                                    </div> 
                                     <div> 
                                         <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4"  [min]="minTime" formControlName="appointmentStartTime">
                                         <owl-date-time [pickerType]="'timer'" #dt4 [stepMinute]="15"></owl-date-time>
@@ -54,8 +72,8 @@
                                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].hasError('endTimeAfterStartTime')">
                                             End time must be greater than start time.
                                         </div>
-                                    </div>                                
-                            </div>
+                                    </div>                               
+                            </div>                 
                         </div>
                     </div>                    
                 </div>

@@ -197,13 +197,13 @@
                             <mat-icon>more_vert</mat-icon>
                           </button>
                           <mat-menu #beforeMenu="matMenu" xPosition="before">
-                            <button mat-menu-item (click)="editAppointment(app_data)">
+                            <button mat-menu-item (click)="editAppointment('Update',app_data)">
                               <span>Edit</span>
                             </button> 
                             <button mat-menu-item (click)="deleteAppointment()">
                               <span>Delete</span>
                             </button>
-                            <button mat-menu-item> 
+                            <button mat-menu-item (click)="editAppointment('Duplicate',app_data)"> 
                                 <span>Duplicate</span>
                             </button>
                           </mat-menu> 

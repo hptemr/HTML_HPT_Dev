@@ -42,6 +42,8 @@ export class EditAppointmentModalComponent {
   casenameList:caselist[] = [];
   minTime: Date;
   minEndTime: Date;
+  title:string='';
+  from:string='';
   constructor(
     public dialog: MatDialog,
     private commonService: CommonService,
@@ -51,6 +53,8 @@ export class EditAppointmentModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.app_data = data.app_data != undefined ? data.app_data : this.app_data;
+    this.title = data.title;
+    this.from = data.from;
   }
 
   ngOnInit() {      
@@ -64,9 +68,18 @@ export class EditAppointmentModalComponent {
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
          
-    console.log('app_data Appointment ',this.app_data)  
+    console.log(this.app_data.id,'....app_data Appointment ',this.app_data)  
+    let appointmentDate = '';
+    let appointmentEndTime = '';
+    let appointmentId = '';
+    if(this.from=='Update'){
+      appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : '';
+      appointmentDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : '';
+      appointmentId = this.app_data.id;
+    }
+    console.log('appointmentDate>>>',appointmentDate,'......appointmentEndTime>>>',appointmentEndTime)
     this.appointmentForm = this.fb.group({
-      id:[this.app_data.id, [Validators.required]],
+      id:[appointmentId,[]],
       patientId: [this.patientId, [Validators.required]],
       patientType: ['Existing', [Validators.required]],
       seachByPname: [''],
@@ -76,24 +89,31 @@ export class EditAppointmentModalComponent {
       firstName: [this.app_data.patientfirstName, [Validators.required]],
       lastName: [this.app_data.patientlastName, [Validators.required]],
       email: [this.app_data.patientemail],
-      appointmentDate: [this.app_data.appointmentDate, [Validators.required]],
-      appointmentStartTime: [this.app_data.appointmentDate ? this.app_data.appointmentDate : '', [Validators.required]],
-      appointmentEndTime: [this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : '', [Validators.required]],
+      appointmentDate: [appointmentDate, [Validators.required]],
+      appointmentStartTime: [appointmentDate, [Validators.required]],
+      appointmentEndTime: [appointmentEndTime, [Validators.required]],
       practiceLocation: [this.app_data.practiceLocation,[Validators.required]],
       therapistId: [this.therapistId,[Validators.required]],    
       phoneNumber: [this.app_data.phoneNumber, []],
       seachByDoctor: ['',[Validators.required]],  
       appointmentType: [this.app_data.appointmentType],
       appointmentTypeOther: [''],      
+      status: [this.app_data.status],
       notes: [this.app_data.notes],        
       repeatsNotes: [this.app_data.repeatsNotes], 
     });
-    this.appointmentForm.controls['appointmentStartTime'].setValue(this.app_data.appointmentDate ? this.app_data.appointmentDate : '');
-    this.appointmentForm.controls['appointmentEndTime'].setValue(this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : '');
+    this.appointmentForm.controls['appointmentStartTime'].setValue(appointmentDate);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(appointmentEndTime);
+    if(this.from=='Update'){
+      this.appointmentForm.controls['id'].setValidators([Validators.required])
+      this.appointmentForm.updateValueAndValidity();
+    }
+    
+    this.getCaseList(this.patientId);
     this.getTherapistList();
     this.whereDocCond = { _id: this.app_data.doctorId }
     this.getDoctorsList();
-    this.getCaseList(this.patientId);
+   
   }
 
 
@@ -130,7 +150,7 @@ export class EditAppointmentModalComponent {
       console.log(' #### form data >>>>>>',formData)
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
-       
+        //Object.assign(formData, {from: this.from})
         if(formData.patientType=='Existing'){
           Object.assign(formData, {patientId: this.patientId})
         }
@@ -166,7 +186,7 @@ export class EditAppointmentModalComponent {
         }
       })
     }else{
-      console.log(' #### appointment Form>>>>>>',this.appointmentForm)
+      console.log(this.appointmentForm.controls['appointmentDate'].value,' #### appointment Form>>>>>>',this.appointmentForm)
         this.appointmentForm.markAllAsTouched();
         Object.keys(this.appointmentForm.controls).forEach(field => {
           const control = this.appointmentForm.get(field);
