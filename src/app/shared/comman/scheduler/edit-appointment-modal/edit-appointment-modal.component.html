@@ -47,7 +47,7 @@
                                 <label class="col-form-label fw-600 font-16 p-0 me-3 flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
                                     <div> 
                                         <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker sm--datepicker"> 
-                                            <input class="" matInput [matDatepicker]="picker1" [max]="maxToDate" placeholder="14/12/2012" formControlName="appointmentDate"> 
+                                            <input class="" matInput [matDatepicker]="picker1" [min]="minToDate" [max]="maxToDate" placeholder="14/12/2012" formControlName="appointmentDate" (dateChange)="onDateChange($event)" (dateInput)="onDateInput($event)"> 
                                             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>
                                         </mat-form-field>

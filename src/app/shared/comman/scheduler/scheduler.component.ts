@@ -85,7 +85,6 @@ export class SchedulerComponent {
   }
 
   editAppointment(from:string,app_data:any){
-    console.log('*************',from)
     let title = 'Edit Appointment Details';
     if(from=='Duplicate'){
       title = 'Create Duplicate Appointment';
@@ -100,19 +99,15 @@ export class SchedulerComponent {
       }
     });
     dialogRef.afterClosed().subscribe(async resp => {
-      console.log('********ResP*****',resp)
+      //console.log('********ResP*****',resp)
       if(resp=='SUCCESS'){
         setTimeout( () => {    
-          console.log('******** HERE *****',)
           this.dialog1Ref?.close();
           this.dialog1Ref = null;
           
           this.getAppointmentList('')
-          
-          // this.refresh.next();
+           this.refresh.next();
         }, 100)
-
-
       }    
     });
   }
@@ -364,10 +359,16 @@ export class SchedulerComponent {
 
   async appointmentsEventsList(){
     let eventArray: any = []
-    console.log('........appointmentsList........',this.appointmentsList.length);
+      //console.log('........appointmentsList........',this.appointmentsList.length);
     this.appointmentsList.forEach((element:any,index:any) => {
-      let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
-      let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
+      //let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
+      //let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
+      let appointmentDate = new Date(element.appointmentDate)
+      let appointmentEndDate = new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate)
+      // if(element.id=='67333913049362faebb931f3'){
+      //   console.log(element.id,' >>>>>> appointmentDate >>>>',appointmentDate,' appointmentEndDate>>>>',appointmentEndDate)
+      // }
+
       let newColumns = {
         start:appointmentDate,
         end: appointmentEndDate,
@@ -402,7 +403,6 @@ export class SchedulerComponent {
     this.events = eventArray;
     
     setTimeout( () => {    
-      console.log('........Refresh........',eventArray.length);
       this.refresh.next();
     }, 100)
   }

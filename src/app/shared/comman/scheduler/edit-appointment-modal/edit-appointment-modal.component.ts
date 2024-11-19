@@ -6,6 +6,7 @@ import { validationMessages } from '../../../../utils/validation-messages';
 import { CommonService } from '../../../../shared/services/helper/common.service';
 import { s3Details, practiceLocations } from 'src/app/config';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import * as moment from 'moment';
 export class doctorlists {
   constructor(public id: string, public name: string,public npi: string) {}
@@ -60,8 +61,12 @@ export class EditAppointmentModalComponent {
   ngOnInit() {      
     this.patientId = this.app_data.patientId
     this.therapistId = this.app_data.therapistId
-    const now = new Date();
-    this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
+    if(this.from=='Update'){
+      this.minToDate = this.app_data.appointmentDate;
+    }else{
+      const now = new Date();
+      this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);      
+    }
     this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
 
     const defaultStartTime = this.getNext30MinuteMark();
@@ -69,15 +74,17 @@ export class EditAppointmentModalComponent {
     this.minTime = new Date();
          
     console.log(this.app_data.id,'....app_data Appointment ',this.app_data)  
-    let appointmentDate = '';
+    let appointmentStartDate = '';
     let appointmentEndTime = '';
     let appointmentId = '';
+    let appointmentDate = '';
     if(this.from=='Update'){
-      appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : '';
       appointmentDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : '';
+      appointmentStartDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : defaultStartTime;
+      appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : this.app_data.appointmentDate;     
       appointmentId = this.app_data.id;
     }
-    console.log('appointmentDate>>>',appointmentDate,'......appointmentEndTime>>>',appointmentEndTime)
+    //console.log('appointmentDate>>>',appointmentDate,'......appointmentEndTime>>>',appointmentEndTime)
     this.appointmentForm = this.fb.group({
       id:[appointmentId,[]],
       patientId: [this.patientId, [Validators.required]],
@@ -90,7 +97,7 @@ export class EditAppointmentModalComponent {
       lastName: [this.app_data.patientlastName, [Validators.required]],
       email: [this.app_data.patientemail],
       appointmentDate: [appointmentDate, [Validators.required]],
-      appointmentStartTime: [appointmentDate, [Validators.required]],
+      appointmentStartTime: [appointmentStartDate, [Validators.required]],
       appointmentEndTime: [appointmentEndTime, [Validators.required]],
       practiceLocation: [this.app_data.practiceLocation,[Validators.required]],
       therapistId: [this.therapistId,[Validators.required]],    
@@ -101,9 +108,11 @@ export class EditAppointmentModalComponent {
       status: [this.app_data.status],
       notes: [this.app_data.notes],        
       repeatsNotes: [this.app_data.repeatsNotes], 
-    });
-    this.appointmentForm.controls['appointmentStartTime'].setValue(appointmentDate);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(appointmentEndTime);
+    },{ validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
+    );
+    //console.log('<>>>>>>>>>>>>>>>',appointmentStartDate,'appointment date >>>',appointmentDate,'......>>>>>',appointmentEndTime)
+    // this.appointmentForm.controls['appointmentStartTime'].setValue(appointmentDate);
+    // this.appointmentForm.controls['appointmentEndTime'].setValue(appointmentEndTime);
     if(this.from=='Update'){
       this.appointmentForm.controls['id'].setValidators([Validators.required])
       this.appointmentForm.updateValueAndValidity();
@@ -116,6 +125,14 @@ export class EditAppointmentModalComponent {
    
   }
 
+  onDateChange(event: MatDatepickerInputEvent<Date>): void {
+    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+  }
+
+  // This function is triggered on date input
+  onDateInput(event: MatDatepickerInputEvent<Date>): void {
+    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+  }
 
   getNext30MinuteMark(): Date {
     const currentTime = moment();
@@ -131,11 +148,9 @@ export class EditAppointmentModalComponent {
     return (formGroup: FormGroup) => {
       const startTime = formGroup.controls[startTimeKey];
       const endTime = formGroup.controls[endTimeKey];
-
       if (endTime.errors && !endTime.errors['endTimeAfterStartTime']) {
         return;
       }
-
       // Check if endTime is after startTime
       if (moment(endTime.value).isSameOrBefore(moment(startTime.value))) {
         endTime.setErrors({ endTimeAfterStartTime: true });
@@ -150,7 +165,6 @@ export class EditAppointmentModalComponent {
       console.log(' #### form data >>>>>>',formData)
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
-        //Object.assign(formData, {from: this.from})
         if(formData.patientType=='Existing'){
           Object.assign(formData, {patientId: this.patientId})
         }
@@ -169,22 +183,21 @@ export class EditAppointmentModalComponent {
           data: formData,
           patientType:formData.patientType
         }
-        this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {
-    
-        this.commonService.hideLoader();
-        if (response.error) {
-          if (response.message) {
-            this.commonService.openSnackBar(response.message, "ERROR");
+        this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
+          this.commonService.hideLoader();
+          if (response.error) {
+            if (response.message) {
+              this.commonService.openSnackBar(response.message, "ERROR");
+            }
+          } else {
+            if (response.message) {       
+              this.dialogRef.close();
+              //this.successModal(response.message);
+              this.commonService.openSnackBar(response.message, "SUCCESS");
+              this.dialogRef.close('SUCCESS');
+            }
           }
-        } else {
-          if (response.message) {       
-            this.dialogRef.close();
-            //this.successModal(response.message);
-            this.commonService.openSnackBar(response.message, "SUCCESS");
-            this.dialogRef.close('SUCCESS');
-          }
-        }
-      })
+        })
     }else{
       console.log(this.appointmentForm.controls['appointmentDate'].value,' #### appointment Form>>>>>>',this.appointmentForm)
         this.appointmentForm.markAllAsTouched();
