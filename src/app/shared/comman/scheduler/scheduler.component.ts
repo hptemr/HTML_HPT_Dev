@@ -306,8 +306,8 @@ export class SchedulerComponent {
       fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1,doctorId:1, status: 1, caseName: 1,caseType:1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentType:1,appointmentEndTime:1, checkIn: 1,checkInBy:1,checkInDateTime:1,notes:1,repeatsNotes:1, },
       patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1,dob:1,gender:1,phoneNumber:1 },
       order: this.orderBy,
-       limit: 1000,
-      // offset: (this.pageIndex * this.pageSize)
+      limit: 1000,
+     // offset: (this.pageIndex * this.pageSize)
     }
     await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
       if (action == "") {
@@ -325,6 +325,8 @@ export class SchedulerComponent {
             appointmentType: element.appointmentType ? element.appointmentType : 'N/A',
             checkIn: element.checkIn,
             createdAt: element.updatedAt,
+            appointmentStartDate: element.appointmentStartDate,
+            appointmentEndDate: element.appointmentEndDate,
             appointmentDate: element.appointmentDate,
             appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
             status: element.status,
@@ -363,15 +365,30 @@ export class SchedulerComponent {
     this.appointmentsList.forEach((element:any,index:any) => {
       //let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
       //let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
-      let appointmentDate = new Date(element.appointmentDate)
-      let appointmentEndDate = new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate)
-      // if(element.id=='67333913049362faebb931f3'){
-      //   console.log(element.id,' >>>>>> appointmentDate >>>>',appointmentDate,' appointmentEndDate>>>>',appointmentEndDate)
-      // }
+     
+      //  let appointmentDate = new Date(element.appointmentDate);   
+      //  let appointmentEndDate = new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate);
+     
+     // console.log('date format>>>>',new Date(element.appointmentDate));
+     // let appointmentDate = this.commonService.formatDateInUTC(element.appointmentDate,'EEE, MMM d, y hh:mm a')
+    //  let appointmentEndDate = this.commonService.formatDateInUTC(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate,'EEE, MMM d, y hh:mm a')
+
+      if(element.id=='67333913049362faebb931f3' || element.id=='6735efa59590fb85262a2237' || element.id=='67190fb15b8f774a7f86862c'){
+       // console.log('date format>>>>',new Date(element.appointmentDate));
+       // console.log(element.id,' >>>>>> appointmentDate >>>>',appointmentDate,' appointmentEndDate>>>>',appointmentEndDate,' local format date>>>>>',new Date(element.appointmentDate))
+        // console.log(appointmentDate.toUTCString());
+        // console.log(appointmentEndDate.toUTCString());
+        // appointmentDate = new Date(appointmentDate.toISOString());
+        // appointmentEndDate = new Date(appointmentEndDate.toISOString());
+        //console.log(element.id,' >>>>>> appointmentDate >>>>',new Date(element.appointmentStartDate),' >>>>>>',new Date(element.appointmentDate),'>>>>>',new Date(element.appointmentEndDate)); 
+        //appointmentEndDate = appointmentDate = 'Fri 29 Nov 2024 11:45:24 GMT+0530';
+        
+      }
+
 
       let newColumns = {
-        start:appointmentDate,
-        end: appointmentEndDate,
+        start:new Date(element.appointmentStartDate),
+        end: new Date(element.appointmentEndDate),
         title: element.caseName+' ('+element.patientName+')',
         color: { ...colors['red'] },
         actions:  [

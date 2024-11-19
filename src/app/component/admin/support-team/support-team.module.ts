@@ -16,11 +16,11 @@ import { EditAppointmentModalComponent } from 'src/app/shared/comman/scheduler/e
 import { AppointmentDetailsModalComponent } from 'src/app/shared/comman/scheduler/appointment-details-modal/appointment-details-modal.component';
 import { UpcomingAppModalComponent } from 'src/app/shared/comman/scheduler/upcoming-app-modal/upcoming-app-modal.component';
 import { CollectPaymentModalComponent } from 'src/app/shared/comman/scheduler/collect-payment-modal/collect-payment-modal.component';
-import { CalendarDateFormatter, CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarModule, DateAdapter,CalendarDateFormatter  } from 'angular-calendar';
 import { CustomDateFormatter } from 'src/app/shared/comman/scheduler/calendar-moment-date-formatter.provider';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-//import { CustomDateParserFormatter } from 'src/app/shared/comman/custom-date-parser-formatter';CustomDateParserFormatter
+//import { CustomDateParserFormatter } from 'src/app/shared/comman/custom-date-parser-formatter';//CustomDateParserFormatter
 @NgModule({
   declarations: [ 
     // AppointmentsComponent,
@@ -55,6 +55,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
       useFactory: adapterFactory,
     }),
   ],
-  providers: [{ provide: [CalendarDateFormatter], useClass: CustomDateFormatter }],
+  providers: [{ provide: CalendarDateFormatter, useClass: CustomDateFormatter }],
+ 
 })
 export class SupportTeamModule { }
