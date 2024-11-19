@@ -332,7 +332,7 @@ export class SchedulerComponent {
             status: element.status,
             caseName: element.caseName,
             caseType: element.caseType,
-            notes: element.notes ? element.notes : '',
+            notes: element.notes ? element.notes : 'N/A',
             repeatsNotes: element.repeatsNotes ? element.repeatsNotes : '',
             checkInBy: element.checkInBy,
             checkInUser: element.checkInDateTime ? 'on '+this.commonService.formatDateInUTC(element.checkInDateTime,'MMM d, y hh:mm a') : 'N/A',
@@ -385,12 +385,14 @@ export class SchedulerComponent {
         
       }
 
-
+      //<div class="thra--profile d-flex align-items-center"><div class="pro--box me-2 flex-shrink-0"><img src="/assets/images/ark/user.png" class="img-fluid"></div></div> 
+      //color: {   primary: '#e3bc08', secondary: '#FDF1BA' },
       let newColumns = {
         start:new Date(element.appointmentStartDate),
         end: new Date(element.appointmentEndDate),
         title: element.caseName+' ('+element.patientName+')',
         color: { ...colors['red'] },
+        //profileImage: 'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
         actions:  [
           {
             label: '<i class="fas fa-fw fa-eye"></i>',
@@ -407,13 +409,7 @@ export class SchedulerComponent {
               this.handleEvent('Deleted', event, element);
             },
           },
-      ],
-        allDay: false,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-        draggable: false,
+      ]
       }
       eventArray.push(newColumns)     
     });
