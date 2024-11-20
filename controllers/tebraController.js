@@ -147,22 +147,26 @@ const createPatient = async (patientData) => {
                     console.log('========Patient created successfully=========:',patientTebraRes);
                 }
             }
-
+            // Tebra Logs
+            tebraCommon.tebraApiLog('createPatient',soapRequest,parseResult,'success',{patientId:patientData._id},'')
         }).catch(error => {
             console.error('========createPatient API Error=========:', error);
+            tebraCommon.tebraApiLog('createPatient',soapRequest,'','apiError',{patientId:patientData._id},error)
         });
 
     } catch (error) {
         console.log("========createPatient=========:", error)
+        tebraCommon.tebraApiLog('createPatient',soapRequest,'','catchError',{patientId:patientData._id},error)
     }
 };
 
 
-const updatePatientPersonalInfo = async (patientData, tebraDetails) => {
+const updatePatientPersonalInfo = async (patientData, patient) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.updatePatientPersonalInfo(patientData, tebraDetails)
+        const soapRequest = tebraSoapRequest.updatePatientPersonalInfo(patientData, patient.tebraDetails)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
+        let patientDataForLogs = { 'patientId': patient._id}
 
         console.log("soapRequest>>>>",soapRequest)
 
@@ -180,22 +184,26 @@ const updatePatientPersonalInfo = async (patientData, tebraDetails) => {
                     console.log('========Patient updated successfully=========:',patientTebraRes);
                 }
             }
-
+            // Tebra Logs
+            tebraCommon.tebraApiLog('updatePatientPersonalInfo',soapRequest,parseResult,'success',patientDataForLogs,'')
         }).catch(error => {
             console.error('========updatePatient API Error=========:', error);
+            tebraCommon.tebraApiLog('updatePatientPersonalInfo',soapRequest,'','apiError',patientDataForLogs,error)
         });
 
     } catch (error) {
         console.log("========updatePatient=========:", error)
+        tebraCommon.tebraApiLog('updatePatientPersonalInfo',soapRequest,'','catchError',patientDataForLogs,error)
     }
 };
 
 
-const updatePatientAdditionalInfo = async (patientData, tebraDetails) => {
+const updatePatientAdditionalInfo = async (patientData, patient) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.updatePatientAdditionalInfo(patientData, tebraDetails)
+        const soapRequest = tebraSoapRequest.updatePatientAdditionalInfo(patientData, patient.tebraDetails)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
+        let patientDataForLogs = { 'patientId': patient._id}
 
         console.log("soapRequest>>>>",soapRequest)
 
@@ -213,13 +221,16 @@ const updatePatientAdditionalInfo = async (patientData, tebraDetails) => {
                     console.log('========Patient updated successfully=========:',patientTebraRes);
                 }
             }
-
+            // Tebra Logs
+            tebraCommon.tebraApiLog('updatePatientAdditionalInfo',soapRequest,parseResult,'success',patientDataForLogs,'')
         }).catch(error => {
             console.error('========updatePatient API Error=========:', error);
+            tebraCommon.tebraApiLog('updatePatientAdditionalInfo',soapRequest,'','apiError',patientDataForLogs,error)
         });
 
     } catch (error) {
         console.log("========updatePatient=========:", error)
+        tebraCommon.tebraApiLog('updatePatientAdditionalInfo',soapRequest,'','catchError',patientDataForLogs,error)
     }
 };
 

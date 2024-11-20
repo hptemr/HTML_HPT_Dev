@@ -418,8 +418,8 @@ const updateProfile = async (req, res) => {
 
             // Update patient information on Tebra
             if(found?.patientOnTebra && found?.tebraDetails){
-                // if(steps==0) { tebraController.updatePatientPersonalInfo(data, found.tebraDetails) }
-                // if(steps==1) { tebraController.updatePatientAdditionalInfo(data, found.tebraDetails) }
+                if(steps==0) { tebraController.updatePatientPersonalInfo(data, found) }
+                if(steps==1) { tebraController.updatePatientAdditionalInfo(data, found) }
             }
         }
 

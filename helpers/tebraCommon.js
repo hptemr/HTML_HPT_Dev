@@ -1,5 +1,6 @@
 const xml2js = require('xml2js');
 const moment = require('moment');
+const TebraLogs= require("../models/tebraLogsModel");
 
 const requestHeader = (soapAction) => {
   let reqHeader = {
@@ -32,8 +33,22 @@ const changeDateFormat = (date) => {
   return date;
 }
 
+// Save tebra api request and response
+const tebraApiLog = (apiMethod,xmlRequest,xmlResponse,status,otherData,errorData) => {
+  // save here
+  let Rinsert = new TebraLogs()
+  Rinsert.apiMethod = apiMethod;
+  Rinsert.xmlRequest = xmlRequest;
+  Rinsert.xmlResponse = xmlResponse;
+  Rinsert.status = status;
+  Rinsert.otherData = otherData;
+  Rinsert.errorData = errorData;
+  Rinsert.save();
+}
+
 module.exports = {
   requestHeader,
   parseXMLResponse,
-  changeDateFormat
+  changeDateFormat,
+  tebraApiLog
 };

@@ -345,7 +345,7 @@ const createAppointmentRequest = async (req, res) => {
         // Create patient on tebra when patient book first appointment
         const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
         if(patientRes!=null && !patientRes?.patientOnTebra){
-            // tebraController.createPatient(patientRes)
+            tebraController.createPatient(patientRes)
         }
 
         triggerEmail.appointmentRequestReceivedFromPatient('appointmentRequestReceivedFromPatient', adminData, patientData, link)
