@@ -674,7 +674,21 @@ const getDoctorList = async (req, res) => {
 
 const getCaseList = async (req, res) => {
     try {
-        const { query, order, offset, limit, userQuery, patientQuery } = req.body;
+        const { query, order, selectedDate,therapistIds, offset, limit, userQuery, patientQuery } = req.body;
+
+        let dateRangeObj = {};
+        if(selectedDate){
+            dateRangeObj = getMonthRange(selectedDate)
+            Object.assign(query, { appointmentDate: dateRangeObj })
+        }
+
+        if(therapistIds.length>0){
+            query['therapistId'] = { $in: therapistIds.map((id) =>new ObjectId(id)), }
+        } 
+        // else{
+        //     delete query['therapistId'] ;
+        // }
+
         if (userQuery && Object.keys(userQuery).length) {
             let userList = await User.find(userQuery, { _id: 1 });
             if (userList && userList.length > 0) {
@@ -687,6 +701,13 @@ const getCaseList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
+
+
+
+        console.log(therapistIds,'..............',therapistIds.length,'..........query>>>>',query)
+// $in: therapistIds.map((id) => mongoose.Types.ObjectId(id)),
+// $in: whereCond.therapistId.$in.map((id) => mongoose.Types.ObjectId(id)),
+
         // Patient Search
         if (patientQuery && Object.keys(patientQuery).length) {
             let patientList = await Patient.find(patientQuery, { _id: 1 });
@@ -719,9 +740,7 @@ const getCaseList = async (req, res) => {
         }
 
         let aggrQuery = [
-            {
-                $sort: order
-            },
+
             {
                 $group: {
                     _id: { patientId: "$patientId", caseName: "$caseName" },  // Group by userId and name
@@ -758,6 +777,9 @@ const getCaseList = async (req, res) => {
                 }
             },
             {
+                $sort: order
+            },
+            {
                 $skip: offset
             },
             {
@@ -766,29 +788,46 @@ const getCaseList = async (req, res) => {
         ]
         let totalQuery = aggrQuery;
         if(limit==1000){
+            //console.log('******************$$$$$$$$$$$$$$$$$$******************');
             totalQuery = aggrQuery.filter(stage => {
                 return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
             });
         }
-
+        
         let appointmentList = await Appointment.aggregate(totalQuery);//.sort(order).skip(offset).limit(limit);
-        appointmentList = appointmentList.map(item => ({
+            appointmentList = appointmentList.map(item => ({
             ...item,
             appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
             appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
           }));
-
-        let totalRecordsQuery = aggrQuery.filter(stage => {
-            return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
+          console.log(appointmentList.length,"****************totalQuery:", totalQuery)
+        
+        //let totalRecordsQuery = aggrQuery;
+        let totalRecordsQuery = aggrQuery.filter(stage2 => {
+            return !("$limit" in stage2);
         });
+      
         let totalRecords = await Appointment.aggregate(totalRecordsQuery);
         let totalCount = totalRecords.length;
+
+       // console.log(totalCount,"****************totalRecordsQuery:", totalRecordsQuery)
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
-        console.log("****************error:", error)
+        console.log("getCaseList****************error:", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
+
+function getMonthRange(selectedDate) {
+    if(selectedDate){
+        const date = moment.utc(selectedDate); // Parse the selected date as UTC
+        const firstDay = date.clone().startOf('month').toISOString(); // Start of the month
+        const lastDay = date.clone().endOf('month').toISOString(); // End of the month
+        return { $gte: firstDay, $lte: lastDay };      
+    }else{
+        return false;
+    }
+  }
 
 
 const addBillingDetails = async (req, res) => {
