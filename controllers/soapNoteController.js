@@ -22,6 +22,7 @@ const fs = require('fs');
 const apiKey = constants.faxDetails.apiKey;
 const apiSecret = constants.faxDetails.apiSecret;
 // const nodeHtmlToImage = require('node-html-to-image')
+const User = require('../models/userModel');
 
 const createPlanNote = async (req, res) => {
   try {
@@ -57,7 +58,6 @@ const createPlanNote = async (req, res) => {
 
 async function setPlan(req) {
   let planData = await PlanTemp.findOne({ appointmentId: req.appointmentId, soap_note_type: req.soap_note_type });
-  console.log(planData)
   if (!planData) {
     await PlanTemp.create(req)
   }
@@ -76,6 +76,9 @@ const getPlanNote = async (req, res) => {
       }
     }
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
+    if(req.body.addendumId!=undefined){
+      planData = planData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString())[0];
+    }
     commonHelper.sendResponse(res, 'success', planData,caseData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -94,19 +97,35 @@ const updatePlanNote = async (req, res) => {
     }
     if (req.body.soapNoteType == 'initial_examination' || req.body.soapNoteType == 'progress_note') {
       updateParams.plan_note_type = req.body.planType,
-        updateParams.freequency_per_week = req.body.frequencyPerWeek,
-        updateParams.duration_per_week = req.body.durationPerWeek,
-        updateParams.pt_treatment_provided = req.body.ptList,
-        updateParams.ot_treatment_provided = req.body.otList,
-        updateParams.slp_treatment_provided = req.body.slpList
+      updateParams.freequency_per_week = req.body.frequencyPerWeek,
+      updateParams.duration_per_week = req.body.durationPerWeek,
+      updateParams.pt_treatment_provided = req.body.ptList,
+      updateParams.ot_treatment_provided = req.body.otList,
+      updateParams.slp_treatment_provided = req.body.slpList
     } else if (req.body.soapNoteType == 'daily_note') {
       updateParams.process_patient = req.body.processPatient,
-        updateParams.anticipat_DC = req.body.anticipatDC
+      updateParams.anticipat_DC = req.body.anticipatDC
     }
-    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId) };
+    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type: req.body.soapNoteType };
     const updatePlan = { $set: updateParams };
     let optionsUpdatePlan = { returnOriginal: false };
-    result = await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    if(req.body.addendumId!=undefined){
+      let planData = await PlanTemp.findOne(filterPlan, { addendums: 1})
+      planData = planData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString());
+      updateParams.version = planData[0].version
+      updateParams.is_disabled = planData[0].is_disabled
+      updateParams.createUser = planData[0].createUser
+      updateParams.status = planData[0].status
+      updateParams.createdBy = planData[0].createdBy
+      updateParams.addendumId = planData[0].addendumId
+      filterPlan["addendums.addendumId"] = new ObjectId(req.body.addendumId)
+      const update = {
+        $set: {"addendums.$": updateParams}
+      };
+      await PlanTemp.updateOne(filterPlan, update);
+    }else{
+      await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    }
     commonHelper.sendResponse(res, 'success', {}, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -144,6 +163,9 @@ const getBillingNote = async (req, res) => {
     let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType });
     // let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1 })
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
+    if(req.body.addendumId!=undefined){
+      billingData = billingData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString())[0];
+    }
     commonHelper.sendResponse(res, 'success', billingData, caseData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -169,10 +191,26 @@ const updateBillingNote = async (req, res) => {
       additional_cpt_code: req.body.additionalCodes,
       updatedAt: new Date()
     }
-    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId) };
+    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type: req.body.soapNoteType };
     const updatePlan = { $set: updateParams };
     let optionsUpdatePlan = { returnOriginal: false };
-    result = await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    if(req.body.addendumId!=undefined){
+      let billingData = await BillingTemp.findOne(filterPlan, { addendums: 1})
+      billingData = billingData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString());
+      updateParams.version = billingData[0].version
+      updateParams.is_disabled = billingData[0].is_disabled
+      updateParams.createUser = billingData[0].createUser
+      updateParams.status = billingData[0].status
+      updateParams.createdBy = billingData[0].createdBy
+      updateParams.addendumId = billingData[0].addendumId
+      filterPlan["addendums.addendumId"] = new ObjectId(req.body.addendumId)
+      const update = {
+        $set: {"addendums.$": updateParams}
+      };
+      await BillingTemp.updateOne(filterPlan, update);
+    }else{
+      await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    }
     commonHelper.sendResponse(res, 'success', {}, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -193,14 +231,24 @@ const finalizeNote = async (req, res) => {
               status: 'Finalized',
               updatedAt: new Date()
             }
-            const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId) };
+            const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.soapNoteType };
             const updatePlan = { $set: updateParams };
             let optionsUpdatePlan = { returnOriginal: false };
-            await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-            await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-            await subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-            await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-            await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+            if(req.body.addendumId!=undefined){
+              const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.soapNoteType, "addendums.addendumId": new ObjectId(req.body.addendumId) };
+              const update = { $set: { "addendums.$.status": 'Finalized',"addendums.$.updatedAt": new Date() } };
+              await BillingTemp.updateOne(filter, update);
+              await PlanTemp.updateOne(filter, update);
+              await subjectiveTemp.updateOne(filter, update);
+              await ObjectiveModel.updateOne(filter, update);
+              await AssessmentModel.updateOne(filter, update);
+            }else{
+              await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+              await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+              await subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+              await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+              await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+            }
             commonHelper.sendResponse(res, 'success', {}, '');
           }else{
             commonHelper.sendResponse(res, 'success', null, "Please fill the Plan note to Finalize note");
@@ -221,10 +269,30 @@ const finalizeNote = async (req, res) => {
 
 const submitSubjective = async (req, res) => {
   try {
-    const { data, subjectiveId } = req.body;
+    const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
     if (subjectiveId) {
-      let optionsUpdatePlan = { returnOriginal: false };
-      await subjectiveTemp.findOneAndUpdate({ _id: subjectiveId }, data, optionsUpdatePlan);
+      if(addendumId!=undefined){
+        const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
+        let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
+        subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
+        data.version = subjData[0].version
+        data.is_disabled = subjData[0].is_disabled
+        data.createUser = subjData[0].createUser
+        data.status = subjData[0].status
+        data.createdBy = subjData[0].createdBy
+        data.addendumId = subjData[0].addendumId
+        data.soap_note_type = subjData[0].soap_note_type
+        data.updatedAt = new Date()
+        data.createdAt = subjData[0].createdAt
+        filterPlan["addendums.addendumId"] = new ObjectId(addendumId)
+        const update = {
+          $set: {"addendums.$": data}
+        };
+        await subjectiveTemp.updateOne(filterPlan, update);
+      }else{
+        let optionsUpdatePlan = { returnOriginal: false };
+        await subjectiveTemp.findOneAndUpdate({ _id: subjectiveId }, data, optionsUpdatePlan);
+      }
     } else {
       await subjectiveTemp.create(data)
       if (data.soap_note_type && data.soap_note_type != 'daily_note') {
@@ -297,6 +365,9 @@ const getObjectiveData = async (req, res) => {
     if(appointmentData){      
      appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
     }
+    if(query.addendumId!=undefined){
+      objectiveData = objectiveData.addendums.filter(task => task.addendumId.toLocaleString() === query.addendumId.toLocaleString())[0];
+    }
     let returnData = { objectiveData: objectiveData, subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
@@ -307,14 +378,31 @@ const getObjectiveData = async (req, res) => {
 
 const submitObjective = async (req, res) => {
   try {
-    const { data, query, userId, type } = req.body;
-
+    const { data, query, userId, type,addendumId,appointmentId,soap_note_type } = req.body;
     let objective_data = await ObjectiveModel.findOne(query);
-
     let message = '';
     if (objective_data) {
-      await ObjectiveModel.findOneAndUpdate(query, data);
-      message = soapMessage.updateObjective;
+      if(addendumId!=undefined){
+        const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
+        let objData = await ObjectiveModel.findOne(filterPlan, { addendums: 1})
+        objData = objData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
+        data.version = objData[0].version
+        data.is_disabled = objData[0].is_disabled
+        data.createUser = objData[0].createUser
+        data.status = objData[0].status
+        data.createdBy = objData[0].createdBy
+        data.addendumId = objData[0].addendumId
+        filterPlan["addendums.addendumId"] = new ObjectId(addendumId)
+        const update = {
+          $set: {"addendums.$": data}
+        };
+        await ObjectiveModel.updateOne(filterPlan, update);
+        message = soapMessage.updateObjective;
+      }else{
+        await ObjectiveModel.findOneAndUpdate(query, data);
+        message = soapMessage.updateObjective;
+      }
+      
     } else {
       await ObjectiveModel.create(data)
       message = soapMessage.addObjective;
@@ -408,6 +496,9 @@ const getSubjectiveData = async (req, res) => {
           }      
       }
     }
+    if(query.addendumId!=undefined){
+      subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === query.addendumId.toLocaleString())[0];
+    }
     let appointmentDatesList = [];
     if(appointmentData){      
       appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
@@ -434,10 +525,26 @@ async function appointmentsList(casename, patientId) {
 //Add/Update the Assessment data for initial exam
 const submitAssessment = async (req, res) => {
   try {
-    const { data, query, isUpdate } = req.body;
+    const { data, query, isUpdate,addendumId } = req.body;
     if (isUpdate) {
-      let optionsUpdatePlan = { returnOriginal: false };
-      await AssessmentModel.findOneAndUpdate(query, data, optionsUpdatePlan);
+      if(addendumId!=undefined){
+        let assData = await AssessmentModel.findOne(query, { addendums: 1})
+        assData = assData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
+        data.version = assData[0].version
+        data.is_disabled = assData[0].is_disabled
+        data.createUser = assData[0].createUser
+        data.status = assData[0].status
+        data.createdBy = assData[0].createdBy
+        data.addendumId = assData[0].addendumId
+        query["addendums.addendumId"] = new ObjectId(addendumId)
+        const update = {
+          $set: {"addendums.$": data}
+        };
+        await AssessmentModel.updateOne(query, update);
+      }else{
+        let optionsUpdatePlan = { returnOriginal: false };
+        await AssessmentModel.findOneAndUpdate(query, data, optionsUpdatePlan);
+      }
     } else {
       await AssessmentModel.create(data)
     }
@@ -450,8 +557,11 @@ const submitAssessment = async (req, res) => {
 //get Assessment data for initial exam
 const getAssessment = async (req, res) => {
   try {
-    const { query, fields } = req.body;
+    const { query, fields,params } = req.body;
     let assessmentData = await AssessmentModel.findOne(query, fields);
+    if(params.addendumId!=undefined){
+      assessmentData = assessmentData.addendums.filter(task => task.addendumId.toLocaleString() === params.addendumId.toLocaleString())[0];
+    }
     commonHelper.sendResponse(res, 'success', assessmentData, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -527,7 +637,7 @@ const getAppointmentNoteList = async (req, res) => {
       },
       {
           $project: {
-              '_id': 1, 'note_date': 1,'appointmentId':1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1,'is_disabled':1,'version':1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
+              '_id': 1, 'note_date': 1,'appointmentId':1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1,'is_disabled':1,'version':1,'addendums':1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
           }
       },
       { "$sort": { "createdAt": -1 } }
@@ -542,9 +652,73 @@ const getAppointmentNoteList = async (req, res) => {
 const deleteSoapNote = async (req, res) => {
   try {
     const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType };
-    const updatePlan = { $set: { is_deleted: true } };
-    let optionsUpdatePlan = { returnOriginal: false };
-    subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+    let updatePlan = {};
+    if(req.body.addendumId!=''){
+      updatePlan = { $pull: { addendums: { addendumId: new ObjectId(req.body.addendumId) } } };
+    }else{
+      updatePlan = { $set: { is_deleted: true }}
+    }
+    await subjectiveTemp.updateOne(filterPlan, updatePlan);
+    await ObjectiveModel.updateOne(filterPlan, updatePlan);
+    await AssessmentModel.updateOne(filterPlan, updatePlan);
+    await PlanTemp.updateOne(filterPlan, updatePlan);
+    await BillingTemp.updateOne(filterPlan, updatePlan);
+    //enable the previous addendum
+    let subResult = await subjectiveTemp.find(filterPlan);
+    if(subResult && subResult[0].addendums && subResult[0].addendums.length>0){
+      let noteCount = subResult[0].addendums.length
+      let recentResult = subResult[0].addendums[noteCount-1]
+      const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
+      const update = {
+        $set: { "addendums.$.is_disabled": false } 
+      };
+      await subjectiveTemp.updateOne(filter, update);
+    } 
+
+    let objResult = await ObjectiveModel.find(filterPlan);
+    if(objResult && objResult[0].addendums && objResult[0].addendums.length>0){
+      let noteCount = objResult[0].addendums.length
+      let recentResult = objResult[0].addendums[noteCount-1]
+      const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
+      const update = {
+        $set: { "addendums.$.is_disabled": false } 
+      };
+      await ObjectiveModel.updateOne(filter, update);
+    }
+
+    let assResult = await AssessmentModel.find(filterPlan);
+    if(assResult && assResult[0].addendums && assResult[0].addendums.length>0){
+      let noteCount = assResult[0].addendums.length
+      let recentResult = assResult[0].addendums[noteCount-1]
+      const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
+      const update = {
+        $set: { "addendums.$.is_disabled": false } 
+      };
+      await AssessmentModel.updateOne(filter, update);
+    }
+
+    let planResult = await PlanTemp.find(filterPlan);
+    if(planResult && planResult[0].addendums && planResult[0].addendums.length>0){
+      let noteCount = planResult[0].addendums.length
+      let recentResult = planResult[0].addendums[noteCount-1]
+      const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
+      const update = {
+        $set: { "addendums.$.is_disabled": false } 
+      };
+      await PlanTemp.updateOne(filter, update);
+    }
+
+    let billResult = await BillingTemp.find(filterPlan);
+    if(billResult && billResult[0].addendums && billResult[0].addendums.length>0){
+      let noteCount = billResult[0].addendums.length
+      let recentResult = billResult[0].addendums[noteCount-1]
+      const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
+      const update = {
+        $set: { "addendums.$.is_disabled": false } 
+      };
+      await BillingTemp.updateOne(filter, update);
+    }
+
     commonHelper.sendResponse(res, 'success', 'Deleted successfully');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -553,89 +727,155 @@ const deleteSoapNote = async (req, res) => {
 
 const createAddendum = async (req, res) => {
   try {
+    let userData = await User.findOne({_id:new ObjectId(req.body.createBy)}, { firstName: 1,lastName: 1 });
     const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType };
-    const updatePlan = { $set: { is_disabled: true } };
-    let optionsUpdatePlan = { returnOriginal: false };
-
-    //subjective note
+    let newAddendumId = new ObjectId()
+    //<=============================subjective note ==============================================>
     let subResult = await subjectiveTemp.find(filterPlan);
-    let noteCount = subResult.length
-    if(noteCount>0){
-      await subjectiveTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-      let recentResult = subResult[noteCount-1]
+    if(subResult.length>0){
+      let noteCount = 0
+      if(subResult[0].addendums && subResult[0].addendums.length>0){
+        noteCount = subResult[0].addendums.length
+      } 
+      let recentResult = subResult[0]
+      if(noteCount>0){
+        recentResult = subResult[0].addendums[noteCount-1]
+        const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
+        const update = { $set: { "addendums.$.is_disabled": true } };
+        await subjectiveTemp.updateOne(filter, update);
+      }
       noteCount = noteCount+1
-      const duplicateDoc = recentResult.toObject(); // Convert to plain JavaScript object
-      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
+      const duplicateDoc = recentResult;
+      delete duplicateDoc._id;
+      delete duplicateDoc.addendums;
+      duplicateDoc.addendumId = newAddendumId
       duplicateDoc.version = 'v'+noteCount
       duplicateDoc.status = 'Draft'
       duplicateDoc.is_disabled = false
       duplicateDoc.createdAt = new Date()
-      await subjectiveTemp.create(duplicateDoc)
+      duplicateDoc.createdBy = new ObjectId(req.body.createBy)
+      duplicateDoc.createUser = userData.firstName +' '+userData.lastName
+      const update = { $push: { addendums: duplicateDoc } };
+      // const options = { upsert: true };
+      await subjectiveTemp.updateOne(filterPlan, update);
     }
+    
 
-    //objective note
+    //<=============================Objective note ==============================================>
     let objResult = await ObjectiveModel.find(filterPlan);
-    let objNoteCount = objResult.length
-    if(objNoteCount>0){
-      await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-      let recentObjResult = objResult[objNoteCount-1]
+    if(objResult.length>0){
+      let objNoteCount = 0
+      if(objResult[0].addendums && objResult[0].addendums.length>0){
+        objNoteCount = objResult[0].addendums.length
+      } 
+      let recentObjResult = objResult[0]
+      if(objNoteCount>0){
+        recentObjResult = objResult[0].addendums[objNoteCount-1]
+        const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentObjResult.addendumId) };
+        const update = { $set: { "addendums.$.is_disabled": true } };
+        await ObjectiveModel.updateOne(filter, update);
+      }
       objNoteCount = objNoteCount+1
-      const duplicateDoc = recentObjResult.toObject(); // Convert to plain JavaScript object
-      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
-      duplicateDoc.version = 'v'+noteCount
-      duplicateDoc.status = 'Draft'
-      duplicateDoc.is_disabled = false
-      duplicateDoc.createdAt = new Date()
-      await ObjectiveModel.create(duplicateDoc)
+      const duplicateObjDoc = recentObjResult;
+      delete duplicateObjDoc._id;
+      delete duplicateObjDoc.addendums;
+      duplicateObjDoc.addendumId = newAddendumId
+      duplicateObjDoc.version = 'v'+objNoteCount
+      duplicateObjDoc.status = 'Draft'
+      duplicateObjDoc.is_disabled = false
+      duplicateObjDoc.createdAt = new Date()
+      duplicateObjDoc.createdBy = new ObjectId(req.body.createBy)
+      duplicateObjDoc.createUser = userData.firstName +' '+userData.lastName
+      const objupdate = { $push: { addendums: duplicateObjDoc } };
+      await ObjectiveModel.updateOne(filterPlan, objupdate);
     }
 
-    //Assessment note
+    //<=============================Assessment note ==============================================>
     let assResult = await AssessmentModel.find(filterPlan);
-    let assNoteCount = assResult.length
-    if(assNoteCount>0){
-      await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-      let recentAssResult = assResult[assNoteCount-1]
+    if(assResult.length>0){
+      let assNoteCount = 0
+      if(assResult[0].addendums && assResult[0].addendums.length>0){
+        assNoteCount = assResult[0].addendums.length
+      } 
+      let recentAssResult = assResult[0]
+      if(assNoteCount>0){
+        recentAssResult = assResult[0].addendums[assNoteCount-1]
+        const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentAssResult.addendumId) };
+        const update = { $set: { "addendums.$.is_disabled": true } };
+        await AssessmentModel.updateOne(filter, update);
+      }
       assNoteCount = assNoteCount+1
-      const duplicateDoc = recentAssResult.toObject(); // Convert to plain JavaScript object
-      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
-      duplicateDoc.version = 'v'+assNoteCount
-      duplicateDoc.status = 'Draft'
-      duplicateDoc.is_disabled = false
-      duplicateDoc.createdAt = new Date()
-      await AssessmentModel.create(duplicateDoc)
+      const duplicateAssDoc = recentAssResult;
+      delete duplicateAssDoc._id;
+      delete duplicateAssDoc.addendums;
+      duplicateAssDoc.addendumId = newAddendumId
+      duplicateAssDoc.version = 'v'+assNoteCount
+      duplicateAssDoc.status = 'Draft'
+      duplicateAssDoc.is_disabled = false
+      duplicateAssDoc.createdAt = new Date()
+      duplicateAssDoc.createdBy = new ObjectId(req.body.createBy)
+      duplicateAssDoc.createUser = userData.firstName +' '+userData.lastName
+      const assupdate = { $push: { addendums: duplicateAssDoc } };
+      await AssessmentModel.updateOne(filterPlan, assupdate);
     }
 
-    //Plan note
+    //<=============================Plan note ==============================================>
     let planResult = await PlanTemp.find(filterPlan);
-    let planNoteCount = planResult.length
-    if(planNoteCount>0){
-      await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-      let recentPlanResult = planResult[planNoteCount-1]
+    if(planResult.length>0){
+      let planNoteCount = 0
+      if(planResult[0].addendums && planResult[0].addendums.length>0){
+        planNoteCount = planResult[0].addendums.length
+      } 
+      let recentPlanResult = planResult[0]
+      if(planNoteCount>0){
+        recentPlanResult = planResult[0].addendums[planNoteCount-1]
+        const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentPlanResult.addendumId) };
+        const update = { $set: { "addendums.$.is_disabled": true } };
+        await PlanTemp.updateOne(filter, update);
+      }
       planNoteCount = planNoteCount+1
-      const duplicateDoc = recentPlanResult.toObject(); // Convert to plain JavaScript object
-      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
-      duplicateDoc.version = 'v'+planNoteCount
-      duplicateDoc.status = 'Draft'
-      duplicateDoc.is_disabled = false
-      duplicateDoc.createdAt = new Date()
-      await PlanTemp.create(duplicateDoc)
+      const duplicatePlanDoc = recentPlanResult;
+      delete duplicatePlanDoc._id;
+      delete duplicatePlanDoc.addendums;
+      duplicatePlanDoc.addendumId = newAddendumId
+      duplicatePlanDoc.version = 'v'+planNoteCount
+      duplicatePlanDoc.status = 'Draft'
+      duplicatePlanDoc.is_disabled = false
+      duplicatePlanDoc.createdAt = new Date()
+      duplicatePlanDoc.createdBy = new ObjectId(req.body.createBy)
+      duplicatePlanDoc.createUser = userData.firstName +' '+userData.lastName
+      const Planupdate = { $push: { addendums: duplicatePlanDoc } };
+      await PlanTemp.updateOne(filterPlan, Planupdate);
     }
 
-    //Billing note
-    let billResult = await BillingTemp.find(filterPlan);
-    let billNoteCount = billResult.length
+//<=============================Plan note ==============================================>
+  let billResult = await BillingTemp.find(filterPlan);
+  if(billResult.length>0){
+    let billNoteCount = 0
+    if(billResult[0].addendums && billResult[0].addendums.length>0){
+      billNoteCount = billResult[0].addendums.length
+    } 
+    let recentBillResult = billResult[0]
     if(billNoteCount>0){
-      await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
-      let recentBillResult = billResult[billNoteCount-1]
-      billNoteCount = billNoteCount+1
-      const duplicateDoc = recentBillResult.toObject(); // Convert to plain JavaScript object
-      delete duplicateDoc._id; // Remove _id to let MongoDB create a new one
-      duplicateDoc.version = 'v'+planNoteCount
-      duplicateDoc.status = 'Draft'
-      duplicateDoc.is_disabled = false
-      duplicateDoc.createdAt = new Date()
-      await BillingTemp.create(duplicateDoc)
+      recentBillResult = billResult[0].addendums[billNoteCount-1]
+      const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentBillResult.addendumId) };
+      const update = { $set: { "addendums.$.is_disabled": true } };
+      await BillingTemp.updateOne(filter, update);
     }
+    billNoteCount = billNoteCount+1
+    const duplicateBillDoc = recentBillResult;
+    delete duplicateBillDoc._id;
+    delete duplicateBillDoc.addendums;
+    duplicateBillDoc.addendumId = newAddendumId
+    duplicateBillDoc.version = 'v'+billNoteCount
+    duplicateBillDoc.status = 'Draft'
+    duplicateBillDoc.is_disabled = false
+    duplicateBillDoc.createdAt = new Date()
+    duplicateBillDoc.createdBy = new ObjectId(req.body.createBy)
+    duplicateBillDoc.createUser = userData.firstName +' '+userData.lastName
+    const billUpdate = { $push: { addendums: duplicateBillDoc } };
+    await BillingTemp.updateOne(filterPlan, billUpdate);
+  }
     commonHelper.sendResponse(res, 'success', 'Addendum created successfully');
   } catch (error) {
     console.log(error)

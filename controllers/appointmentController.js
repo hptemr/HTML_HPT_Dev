@@ -772,6 +772,12 @@ const getCaseList = async (req, res) => {
         }
 
         let appointmentList = await Appointment.aggregate(totalQuery);//.sort(order).skip(offset).limit(limit);
+        appointmentList = appointmentList.map(item => ({
+            ...item,
+            appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
+            appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
+          }));
+
         let totalRecordsQuery = aggrQuery.filter(stage => {
             return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
         });
