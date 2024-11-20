@@ -94,11 +94,17 @@ export class DailyNoteBillingComponent {
   billingType = "CMS"
   readOnly = false
   isHold = false
+  addendumId =""
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,public router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'billing-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'billing-view'){
         this.readOnly = true
       }
     })
@@ -108,7 +114,8 @@ export class DailyNoteBillingComponent {
   ngOnInit() { 
     var params = {
       appointmentId:this.appointmentId,
-      noteType:"daily_note"
+      noteType:"daily_note",
+      addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data
@@ -456,8 +463,8 @@ export class DailyNoteBillingComponent {
           dmeCptList:tempDmeCptList,
           appointmentId : this.appointmentId,
           soapNoteType : "daily_note",
-          additionalCodes:this.additionalCodes
-  
+          additionalCodes:this.additionalCodes,
+          addendumId : this.addendumId
         }
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
@@ -474,7 +481,9 @@ export class DailyNoteBillingComponent {
     }else{
       if(!errorInCode){
         let inputParams = {
-          appointmentId : this.appointmentId
+          appointmentId : this.appointmentId,
+          soapNoteType : "daily_note",
+          addendumId : this.addendumId
         }
         this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
           if(response.message!=''){

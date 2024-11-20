@@ -92,11 +92,17 @@ export class DnObjectiveComponent {
   aquatic_exercise_grouped_list:any =[]
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   readOnly = false
+  addendumId =""
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'objective-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'objective-view'){
         this.readOnly = true
       }
     })
@@ -140,7 +146,7 @@ export class DnObjectiveComponent {
 
   async getObjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'daily_note'},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'daily_note',addendumId:this.addendumId},     
     }
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
       let subjectiveData: never[] = []; let objectiveData = [];
@@ -334,6 +340,9 @@ export class DnObjectiveComponent {
           type:'objective',
           userId: this.userId,
           data: formData,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId,
+          soap_note_type:'daily_note'
         }
         await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
           let assessmentData = response.data

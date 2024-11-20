@@ -32,11 +32,17 @@ export class AssessmentComponent {
   assessmentData: any = []
   isUpdate: any = true
   readOnly = false
+  addendumId =""
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, private datePipe: DatePipe, public commonService: CommonService) {//,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'assessment-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'assessment-view'){
         this.readOnly = true
       }
     })
@@ -53,10 +59,13 @@ export class AssessmentComponent {
     let reqVars = {
       query: {
         appointmentId: this.appointmentId,
-        soap_note_type: "initial_examination",
+        soap_note_type: "initial_examination"
       },
       fields: {
         updatedAt: 0
+      },
+      params:{
+        addendumId:this.addendumId
       }
     }
     await this.authService.apiRequest('post', 'soapNote/getAssessment', reqVars).subscribe(async (response) => {
@@ -133,7 +142,8 @@ export class AssessmentComponent {
         query: {
           soap_note_type: "initial_examination",
           appointmentId: this.appointmentId
-        }
+        },
+        addendumId:this.addendumId,
       }
       this.authService.apiRequest('post', 'soapNote/submitAssessment', reqVars).subscribe(async (response) => {
         this.commonService.hideLoader();

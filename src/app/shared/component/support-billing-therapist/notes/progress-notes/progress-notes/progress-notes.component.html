@@ -11,11 +11,12 @@
         <div class="col-12">
             <div class="tab--header">
                 <ul class="d-flex align-items-center p-0 m-0 flex-wrap flex-sm-nowrap">
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/progress-notes/subjective/',appointmentId]"><a>Subjective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/progress-notes/objective/',appointmentId]"><a>Objective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/progress-notes/assessment/',appointmentId]"><a>Assessment</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/progress-notes/plan/',appointmentId]"><a>Plan</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/therapist/progress-notes/billing/',appointmentId]"><a>Billing</a></li>
+                     
+                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('subjective')}}/{{addendumUrl}}"><a>Subjective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('objective')}}/{{addendumUrl}}"><a>Objective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('assessment')}}/{{addendumUrl}}"><a>Assessment</a></li>
+                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('plan')}}/{{addendumUrl}}"><a>Plan</a></li>
+                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('billing')}}/{{addendumUrl}}"><a>Billing</a></li>
                 </ul>
             </div>
         </div>

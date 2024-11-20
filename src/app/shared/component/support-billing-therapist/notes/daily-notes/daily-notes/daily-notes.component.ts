@@ -17,10 +17,18 @@ export class DailyNotesComponent {
   previousUrl = ''
   currentUrl = ""
   currentPath = ""
+  addendumId: string;
+  addendumUrl = ""
   constructor(public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     this.route.firstChild?.params.subscribe(params => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
     });
+    if(this.addendumId!=undefined){
+      this.addendumUrl = this.appointmentId +"/"+this.addendumId
+    }else{
+      this.addendumUrl = this.appointmentId
+    }
     this.currentUrl = this.router.url;
     this.currentPath = this.currentUrl.split('/')[3].toString()
   }

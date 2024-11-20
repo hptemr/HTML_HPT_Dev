@@ -103,11 +103,17 @@ export class ObjectiveComponent {
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
   readOnly = false
+  addendumId =""
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'objective-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'objective-view'){
         this.readOnly = true
       }
     })
@@ -250,7 +256,7 @@ export class ObjectiveComponent {
 
  async getObjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId},     
     }
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
@@ -1220,9 +1226,7 @@ export class ObjectiveComponent {
   }
 
   async objectiveSubmit(formData: any){
-    if (this.objectiveForm.invalid){
-      
-    console.log('<<<<<  objective form >>>>',this.objectiveForm)
+    if (this.objectiveForm.invalid){      
       this.objectiveForm.markAllAsTouched();
     }else{
       if (this.objectiveForm.invalid){
@@ -1240,6 +1244,9 @@ export class ObjectiveComponent {
           type:'objective',
           userId: this.userId,
           data: formData,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId,
+          soap_note_type:'initial_examination'
         }
         await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
           let assessmentData = response.data

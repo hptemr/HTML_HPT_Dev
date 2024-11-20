@@ -146,12 +146,18 @@ export class SubjectiveComponent implements OnInit {
   bodyPartBack:any=[]
   diagnosisClicked = false
   readOnly = false
+  addendumId =""
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog,
     private datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'subjective-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'subjective-view'){
         this.readOnly = true
       }
     })
@@ -182,7 +188,7 @@ export class SubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination'},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId},     
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {      
       if(response.data && response.data.subjectiveData){
@@ -398,7 +404,10 @@ export class SubjectiveComponent implements OnInit {
         let reqVars = {
           userId: this.userId,
           data: formData,
-          subjectiveId:this.subjectiveId
+          subjectiveId:this.subjectiveId,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId,
+          soap_note_type:'initial_examination'
         }        
         this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
           if (response.error) {

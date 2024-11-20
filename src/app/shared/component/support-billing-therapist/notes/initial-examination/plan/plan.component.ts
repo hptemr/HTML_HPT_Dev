@@ -57,11 +57,17 @@ export class PlanComponent {
   minDate = new Date();
   readOnly = false
   caseType = ""
+  addendumId =""
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'plan-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'plan-view'){
         this.readOnly = true
       }
     })
@@ -82,7 +88,8 @@ export class PlanComponent {
     }
     var params = {
       appointmentId:this.appointmentId,
-      soapNoteType:'initial_examination'
+      soapNoteType:'initial_examination',
+      addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
       if(response.data && response.data.status=='Finalized'){
@@ -157,6 +164,7 @@ export class PlanComponent {
     this.planNoteForm.value.otList = tempOtList
     this.planNoteForm.value.slpList = tempSlpList
     this.planNoteForm.value.appointmentId = this.appointmentId
+    this.planNoteForm.value.addendumId = this.addendumId
     this.planNoteForm.value.soapNoteType = "initial_examination"
     if(this.actionType=='create'){
       this.authService.apiRequest('post', 'soapNote/createPlanNote', this.planNoteForm.value).subscribe(async response => {

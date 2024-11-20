@@ -21,11 +21,17 @@ export class DnPlanComponent {
   actionType = "create"
   minDate = new Date();
   readOnly  = false
+  addendumId =""
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'plan-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'plan-view'){
         this.readOnly = true
       }
     })
@@ -35,7 +41,8 @@ export class DnPlanComponent {
   ngOnInit() {
     var params = {
       appointmentId:this.appointmentId,
-      soapNoteType:'daily_note'
+      soapNoteType:'daily_note',
+      addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
       if(response.data && response.data.status=='Finalized'){
@@ -65,7 +72,8 @@ export class DnPlanComponent {
       processPatient : this.processPatient,
       anticipatDC : this.anticipatDC,
       soapNoteType:"daily_note",
-      planNote:""
+      planNote:"",
+      addendumId:this.addendumId
     }
     if(this.typeBelow){
       planPlans.planNote = this.typeHere

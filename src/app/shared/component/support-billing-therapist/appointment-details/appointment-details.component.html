@@ -223,7 +223,7 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element"> 
                                             {{element.note_date | date: 'EEE, MMM d, y hh:mm a':'UTC'}} 
-                                            <!-- <p class="mt-1 "> <span class="fw-700"> Addendum:</span> {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} </p> -->
+                                            <p class="mt-1 " *ngFor="let addendum of element.addendums"> <span class="fw-700"> Addendum:</span> {{addendum.createdAt | date: 'EEE, MMM d, y hh:mm a'}} </p>
                                         </td>
                                     </ng-container> 
                                     <ng-container matColumnDef="createdBy">
@@ -232,7 +232,7 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element">  
                                             {{element.userObj[0].firstName}} {{element.userObj[0].lastName}}
-                                            <!-- <p class="mt-1 "> {{element.userObj[0].firstName}} {{element.userObj[0].lastName}}</p> -->
+                                            <p class="mt-1 " *ngFor="let addendum of element.addendums"> {{addendum.createUser}}</p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="status">
@@ -241,6 +241,7 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element">
                                             {{element.status}}
+                                            <p *ngFor="let addendum of element.addendums">{{addendum.status}}</p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="action">
@@ -252,7 +253,7 @@
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="element.status=='Finalized'" [routerLink]="['/',activeUserRoute,loadValue(element.soap_note_type),'subjective',appointmentId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" style="cursor: pointer;" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="element.status!='Finalized' || element.is_disabled" (click)="createAddendum(appointmentId,element.soap_note_type)">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" style="cursor: pointer;" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="element.status!='Finalized' || loadDataLength(element)>0" (click)="createAddendum(appointmentId,element.soap_note_type)">
                                                     <div class="icon-img flex-shrink-0">
                                                         <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
                                                     </div>
@@ -260,32 +261,32 @@
                                                 <button mat-button class="flex-shrink-0 min-width-unset"  matTooltip="View Note" matTooltipPosition="above" [routerLink]="['/',activeUserRoute,loadValue(element.soap_note_type),'subjective-view',appointmentId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" [disabled]="element.status=='Finalized'" (click)="deleteNote(appointmentId,element.soap_note_type)">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" [disabled]="element.status=='Finalized'" (click)="deleteNote(appointmentId,element.soap_note_type,'')">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
                                                 </button>
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" (click)="noteModal(element.soap_note_type,element.note_date)" [disabled]="element.status!='Finalized'">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
                                                 </button>
                                             </div>
-                                            <!-- <div class="w-100 d-flex align-items-center">
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="element.status=='Finalized'" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
+                                            <div class="w-100 d-flex align-items-center" *ngFor="let addendum of element.addendums">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="addendum.status=='Finalized'" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId,addendum.addendumId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="element.status!='Finalized'">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="addendum.status!='Finalized' || addendum.is_disabled" (click)="createAddendum(appointmentId,addendum.soap_note_type)">
                                                     <div class="icon-img flex-shrink-0">
                                                         <img src="assets/images/ark/a-icon.png" alt="" class="img-fluid" />
                                                     </div>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId]">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above" [routerLink]="['/',activeUserRoute,loadValue(element.soap_note_type),'subjective-view',appointmentId,addendum.addendumId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" [disabled]="element.status=='Finalized'" (click)="deleteNote(appointmentId,element.soap_note_type)">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Delete Note" matTooltipPosition="above" [disabled]="addendum.status=='Finalized'" (click)="deleteNote(appointmentId,addendum.soap_note_type,addendum.addendumId)">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">delete </mat-icon>
                                                 </button>
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" (click)="noteModal()">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="One Page Note" matTooltipPosition="above" (click)="noteModal(addendum.soap_note_type,addendum.note_date)" [disabled]="addendum.status!='Finalized'">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">description </mat-icon>
                                                 </button>
-                                            </div> -->
+                                            </div>
                                         </td>
                                     </ng-container>
                 

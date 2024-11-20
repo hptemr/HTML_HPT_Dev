@@ -81,6 +81,7 @@ export class AppointmentDetailsComponent implements OnInit {
   dataLoading = false
   fromDate: any = ''
   toDate: any = ''
+  addendumLength = 0
   constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, private datePipe: DatePipe) {
     //,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
@@ -271,7 +272,7 @@ export class AppointmentDetailsComponent implements OnInit {
     this.getAppointmentNotes()
   }
 
-  deleteNote(appointmentId:any,noteType:any){
+  deleteNote(appointmentId:any,noteType:any,addendumId:any){
     
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
@@ -285,6 +286,7 @@ export class AppointmentDetailsComponent implements OnInit {
         let reqVars = {
           appointmentId:appointmentId,
           noteType:noteType,
+          addendumId:addendumId
         }
         this.authService.apiRequest('post', 'soapNote/deleteSoapNote', reqVars).subscribe(async response => {
           this.commonService.openSnackBar("Note Deleted Successfully", "SUCCESS")
@@ -298,6 +300,7 @@ export class AppointmentDetailsComponent implements OnInit {
     let reqVars = {
       appointmentId:appointmentId,
       noteType:noteType,
+      createBy:this.userId
     }
     this.authService.apiRequest('post', 'soapNote/createAddendum', reqVars).subscribe(async response => {
       this.commonService.openSnackBar("Addendum created successfully", "SUCCESS")
@@ -432,6 +435,15 @@ export class AppointmentDetailsComponent implements OnInit {
         appointmentId:this.appointmentId,
       }
     });
+  }
+
+  loadDataLength(element:any){
+    if(element && element.addendums &&element.addendums.length){
+      return element.addendums.length
+    }else{
+      return 0
+    }
+    
   }
 
 
