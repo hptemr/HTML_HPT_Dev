@@ -102,9 +102,6 @@ const signup = async (req, res) => {
                        // Normal patient register
                         let newPatient = new Patient(request_data);
                         result = await newPatient.save();
-                        console.log("result>>>>>",result)
-                        // Create patient on tebra
-                        // tebraController.createPatient(result)
                     }
 
                     if (result && result._id) {
@@ -412,12 +409,18 @@ const getPatientData = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
-        const { query, data } = req.body;
+        const { query, data, steps } = req.body;
         let found = await Patient.findOne(query);
         console.log('patient  data  >>>', data)
         if (found) {
             let res = await Patient.updateOne({ _id: found._id }, { $set: data });
             //console.log('*** res **** ',res)
+
+            // Update patient information on Tebra
+            if(found?.patientOnTebra && found?.tebraDetails){
+                // if(steps==0) { tebraController.updatePatientPersonalInfo(data, found.tebraDetails) }
+                // if(steps==1) { tebraController.updatePatientAdditionalInfo(data, found.tebraDetails) }
+            }
         }
 
         commonHelper.sendResponse(res, 'success', { found }, '');

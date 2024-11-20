@@ -64,7 +64,77 @@ const createPatient = (patientData) => {
       return soapRequest
   }
 
+
+  const updatePatientPersonalInfo = (patientData, tebraDetails) => {
+    let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <sch:UpdatePatient>
+                                <sch:UpdatePatientReq>
+                                    <sch:RequestHeader>
+                                    <sch:CustomerKey>${tebraCredentials?.customerKey}</sch:CustomerKey>
+                                    <sch:Password>${tebraCredentials?.password}</sch:Password>
+                                    <sch:User>${tebraCredentials?.user}</sch:User>
+                                    </sch:RequestHeader>
+                                    <sch:Patient>
+                                    <sch:DateofBirth>${tebraCommon.changeDateFormat(patientData.dob)}</sch:DateofBirth>
+                                    <sch:FirstName>${patientData.firstName}</sch:FirstName>
+                                    <sch:Gender>${patientData.gender}</sch:Gender>
+                                    <sch:HomePhone>${patientData.phoneNumber?patientData.phoneNumber:''}</sch:HomePhone>
+                                    <sch:LastName>${patientData.lastName}</sch:LastName>
+                                    <sch:MaritalStatus>${patientData.maritalStatus=='Married'?'M':'S'}</sch:MaritalStatus>
+                                    <sch:MiddleName>${patientData.middleName?patientData.middleName:''}</sch:MiddleName>
+                                    <sch:MobilePhone>${patientData.cellPhoneNumber?patientData.cellPhoneNumber:''}</sch:MobilePhone>
+                                    <sch:PatientID>${tebraDetails?.PatientID}</sch:PatientID>
+                                    <sch:Practice>
+                                        <sch:PracticeID>1</sch:PracticeID>
+                                        <sch:PracticeName>Hamilton Physical Therapy</sch:PracticeName>
+                                    </sch:Practice>
+                                    <sch:WorkPhone>${patientData.workExtensionNumber?patientData.workExtensionNumber:''}</sch:WorkPhone>
+                                    </sch:Patient>
+                                </sch:UpdatePatientReq>
+                            </sch:UpdatePatient>
+                        </soapenv:Body>
+                        </soapenv:Envelope>`
+    
+      return soapRequest
+  }
+
+
+  const updatePatientAdditionalInfo = (patientData, tebraDetails) => {
+    let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <sch:UpdatePatient>
+                                <sch:UpdatePatientReq>
+                                    <sch:RequestHeader>
+                                    <sch:CustomerKey>${tebraCredentials?.customerKey}</sch:CustomerKey>
+                                    <sch:Password>${tebraCredentials?.password}</sch:Password>
+                                    <sch:User>${tebraCredentials?.user}</sch:User>
+                                    </sch:RequestHeader>
+                                    <sch:Patient>
+                                    <sch:AddressLine1>${patientData.address1?patientData.address1:''}</sch:AddressLine1>
+                                    <sch:AddressLine2>${patientData.address2?patientData.address2:''}</sch:AddressLine2>
+                                    <sch:City>${patientData.city?patientData.city:''}</sch:City>
+                                    <sch:PatientID>${tebraDetails?.PatientID}</sch:PatientID>
+                                    <sch:Practice>
+                                        <sch:PracticeID>1</sch:PracticeID>
+                                        <sch:PracticeName>Hamilton Physical Therapy</sch:PracticeName>
+                                    </sch:Practice>
+                                    <sch:State>${patientData.state?patientData.state:''}</sch:State>
+                                    <sch:ZipCode>${patientData.zipcode?patientData.zipcode:''}</sch:ZipCode>
+                                    </sch:Patient>
+                                </sch:UpdatePatientReq>
+                            </sch:UpdatePatient>
+                        </soapenv:Body>
+                        </soapenv:Envelope>`
+    
+      return soapRequest
+  }
+
 module.exports = {
   getPracice,
-  createPatient
+  createPatient,
+  updatePatientPersonalInfo,
+  updatePatientAdditionalInfo
 };

@@ -20,6 +20,7 @@ const AthorizationManagementModel = require('../models/btAthorizationManagementM
 const STCaseDetailsModel = require('../models/stCaseDetailsModel');
 const moment = require('moment');
 const userCommonHelper = require('../helpers/userCommon');
+const tebraController = require('../controllers/tebraController');
 
 const getAppointmentList = async (req, res) => {
     try {
@@ -184,6 +185,7 @@ const createAppointment = async (req, res) => {
             // appointmentStartTime
             // appointmentEndTime
             let appointmentDate = data.appointmentDate;
+            console.log('appointmentDate >>> ',appointmentDate)
             if(data.appointmentStartTime){
                 appointmentDate = data.appointmentStartTime;
             }
@@ -191,7 +193,7 @@ const createAppointment = async (req, res) => {
             const localDate = new Date(appointmentDate);  
             localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
             data.appointmentDate = localDate;
-
+            console.log(' data appointmentDate >>> ',data.appointmentDate)
             let appointmentEndTime = '';
             //local end time conversion
             if(data.appointmentEndTime){
@@ -339,6 +341,12 @@ const createAppointmentRequest = async (req, res) => {
         const adminData = await User.findOne({ role: "support_team", status: "Active" }, { firstName: 1, lastName: 1, email: 1 });
         const patientData = await Patient.findOne({ _id: data.patientId }, { firstName: 1, lastName: 1, email: 1 });
         const link = `${process.env.BASE_URL}/support-team/create-request-appointment/${result._id}`;
+
+        // Create patient on tebra when patient book first appointment
+        const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
+        if(patientRes!=null && !patientRes?.patientOnTebra){
+            // tebraController.createPatient(patientRes)
+        }
 
         triggerEmail.appointmentRequestReceivedFromPatient('appointmentRequestReceivedFromPatient', adminData, patientData, link)
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.requestCreated);
@@ -647,7 +655,7 @@ async function patientAppointmentSignupEmail(patientData) {
 
         return true;
     } catch (error) {
-        console.log('query error >>>', error)
+        console.log('patientAppointmentSignupEmail error >>>', error)
         return error;
     }
 };
@@ -659,6 +667,7 @@ const getDoctorList = async (req, res) => {
         let totalCount = await Provider.find(query).countDocuments()
         commonHelper.sendResponse(res, 'success', { doctorList, totalCount }, '');
     } catch (error) {
+        console.log('getDoctorList error >>>', error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -755,8 +764,20 @@ const getCaseList = async (req, res) => {
                 $limit: limit
             }
         ]
-       
-        let appointmentList = await Appointment.aggregate(aggrQuery);//.sort(order).skip(offset).limit(limit);
+        let totalQuery = aggrQuery;
+        if(limit==1000){
+            totalQuery = aggrQuery.filter(stage => {
+                return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
+            });
+        }
+
+        let appointmentList = await Appointment.aggregate(totalQuery);//.sort(order).skip(offset).limit(limit);
+        appointmentList = appointmentList.map(item => ({
+            ...item,
+            appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
+            appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
+          }));
+
         let totalRecordsQuery = aggrQuery.filter(stage => {
             return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
         });
