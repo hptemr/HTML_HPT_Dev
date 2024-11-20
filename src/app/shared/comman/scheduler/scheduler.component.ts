@@ -18,24 +18,14 @@ import { MatRadioChange } from '@angular/material/radio';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
+import { ChangeDetectorRef } from '@angular/core';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
   styleUrl: './scheduler.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      h3 {
-        margin: 0 0 10px;
-      }
-
-      pre {
-        background-color: #f5f5f5;
-        padding: 15px;
-      }
-    `,
-  ],
+  styles: [`h3 { margin: 0 0 10px; } pre { background-color: #f5f5f5; padding: 15px; }`],
 })
 export class SchedulerComponent {
   calenderView = true;
@@ -59,7 +49,9 @@ export class SchedulerComponent {
   therapistList:any=[];
   whereTherapistCond: any = { role: 'therapist', status: 'Active' }
   selectedItems: string[] = [];
-  constructor(private router: Router, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
+  activeDayIsOpen: boolean = false; 
+  dialog1Ref: MatDialogRef<any> | null = null;
+  constructor(private router: Router,private cdr: ChangeDetectorRef, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
 
   ngOnInit() {
     this.getAppointmentList('');
@@ -91,51 +83,56 @@ export class SchedulerComponent {
       panelClass: [ 'modal--wrapper'],
     });
   }
-  dialog1Ref: MatDialogRef<any> | null = null;
-  editAppointment(app_data:any){
-    console.log('*************')
+
+  editAppointment(from:string,app_data:any){
+    let title = 'Edit Appointment Details';
+    if(from=='Duplicate'){
+      title = 'Create Duplicate Appointment';
+    }
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
       width:'1260px',
       panelClass: [ 'modal--wrapper'],
       data: {
+        from:from,
+        title:title,
         app_data: app_data,        
       }
     });
     dialogRef.afterClosed().subscribe(async resp => {
-      console.log('********ResP*****',resp)
+      //console.log('********ResP*****',resp)
       if(resp=='SUCCESS'){
         setTimeout( () => {    
-          console.log('******** HERE *****',)
           this.dialog1Ref?.close();
           this.dialog1Ref = null;
           
           this.getAppointmentList('')
-          
-          // this.refresh.next();
+           this.refresh.next();
         }, 100)
-
-
       }    
     });
   }
-  appointmentDetailsModal(){
+
+  appointmentDetailsModal(){//Need Appointment Details Modal
     this.dialog1Ref = this.dialog.open(AppointmentDetailsModalComponent,{
       width:'633px',
       panelClass: [ 'modal--wrapper'],
     });
   }
+
   upcomingAppointmentModal(){
     const dialogRef = this.dialog.open(UpcomingAppModalComponent,{
       width:'310px',
       panelClass: [ 'modal--wrapper'],
     });
   }
+
   collectPaymentModal(){
     const dialogRef = this.dialog.open(CollectPaymentModalComponent,{
       width:'400px',
       panelClass: [ 'modal--wrapper'],
     });
   }
+
   deleteAppointment() {
     const dialogRef = this.dialog.open(AlertComponent,{
       panelClass: 'custom-alert-container',
@@ -154,8 +151,6 @@ export class SchedulerComponent {
       event: CalendarEvent;
   };
   app_data:any=[]
-  actionsnew: CalendarEventAction[] = [];
-
   actions: CalendarEventAction[] = [
       {
         label: '<i class="fas fa-fw fa-pencil-alt"></i>',
@@ -216,21 +211,18 @@ export class SchedulerComponent {
         draggable: false,
       },
     ];
-    
-  activeDayIsOpen: boolean = true; 
-  
+      
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-      console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)
+      //console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)
       if (isSameMonth(date, this.viewDate)) {
-        //console.log(this.activeDayIsOpen,' >>> date >>>>',date,' ###### events >>>>',events) 
         if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0) {
           this.activeDayIsOpen = false;
         } else {
           this.activeDayIsOpen = true;
         }
         this.viewDate = date;
-      }
-    //console.log(this.activeDayIsOpen,'viewDate>>>>',this.viewDate)
+      } 
+      //console.log(this.activeDayIsOpen,'viewDate>>>>',this.viewDate)
   }
   
   eventTimesChanged({
@@ -290,6 +282,7 @@ export class SchedulerComponent {
 
   onDateChange(event: any) {
       console.log('Event >>>>>>',event)
+      this.viewDate = event;
   }
 
   searchRecords(colName: string, event: any) {
@@ -305,7 +298,7 @@ export class SchedulerComponent {
     if (action == "") {
       this.commonService.showLoader()
     }
-    console.log('whereCond>>>>',this.whereCond)
+   
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
@@ -313,14 +306,15 @@ export class SchedulerComponent {
       fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1,doctorId:1, status: 1, caseName: 1,caseType:1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentType:1,appointmentEndTime:1, checkIn: 1,checkInBy:1,checkInDateTime:1,notes:1,repeatsNotes:1, },
       patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1,dob:1,gender:1,phoneNumber:1 },
       order: this.orderBy,
-      limit: this.pageSize,
-      offset: (this.pageIndex * this.pageSize)
+      limit: 1000,
+     // offset: (this.pageIndex * this.pageSize)
     }
     await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
       if (action == "") {
         this.commonService.hideLoader()
       }
       this.totalCount = response.data.totalCount
+      //console.log('length>>>',response.data.appointmentList.length,'>>>>>totalCount>>>>>>>>>>>>>',this.totalCount,'>>>>>>> WhereCond >>>>',this.whereCond)
       let finalData: any = []
       if (response.data.appointmentList.length > 0) {
         await response.data.appointmentList.map((element: any) => {
@@ -331,12 +325,14 @@ export class SchedulerComponent {
             appointmentType: element.appointmentType ? element.appointmentType : 'N/A',
             checkIn: element.checkIn,
             createdAt: element.updatedAt,
+            appointmentStartDate: element.appointmentStartDate,
+            appointmentEndDate: element.appointmentEndDate,
             appointmentDate: element.appointmentDate,
             appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
             status: element.status,
             caseName: element.caseName,
             caseType: element.caseType,
-            notes: element.notes ? element.notes : '',
+            notes: element.notes ? element.notes : 'N/A',
             repeatsNotes: element.repeatsNotes ? element.repeatsNotes : '',
             checkInBy: element.checkInBy,
             checkInUser: element.checkInDateTime ? 'on '+this.commonService.formatDateInUTC(element.checkInDateTime,'MMM d, y hh:mm a') : 'N/A',
@@ -358,22 +354,45 @@ export class SchedulerComponent {
         })
       }     
       this.appointmentsList = finalData;
+      //console.log('>>>>> Appointments List Length >>>>',this.appointmentsList.length)
       this.appointmentsEventsList();
-     // console.log('>>>>> Appointments List >>>>',this.appointmentsList)
-
     })
   }
 
   async appointmentsEventsList(){
     let eventArray: any = []
-    this.appointmentsList.forEach((element:any) => {
-      let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
-      let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
+      //console.log('........appointmentsList........',this.appointmentsList.length);
+    this.appointmentsList.forEach((element:any,index:any) => {
+      //let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
+      //let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
+     
+      //  let appointmentDate = new Date(element.appointmentDate);   
+      //  let appointmentEndDate = new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate);
+     
+     // console.log('date format>>>>',new Date(element.appointmentDate));
+     // let appointmentDate = this.commonService.formatDateInUTC(element.appointmentDate,'EEE, MMM d, y hh:mm a')
+    //  let appointmentEndDate = this.commonService.formatDateInUTC(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate,'EEE, MMM d, y hh:mm a')
+
+      if(element.id=='67333913049362faebb931f3' || element.id=='6735efa59590fb85262a2237' || element.id=='67190fb15b8f774a7f86862c'){
+       // console.log('date format>>>>',new Date(element.appointmentDate));
+       // console.log(element.id,' >>>>>> appointmentDate >>>>',appointmentDate,' appointmentEndDate>>>>',appointmentEndDate,' local format date>>>>>',new Date(element.appointmentDate))
+        // console.log(appointmentDate.toUTCString());
+        // console.log(appointmentEndDate.toUTCString());
+        // appointmentDate = new Date(appointmentDate.toISOString());
+        // appointmentEndDate = new Date(appointmentEndDate.toISOString());
+        //console.log(element.id,' >>>>>> appointmentDate >>>>',new Date(element.appointmentStartDate),' >>>>>>',new Date(element.appointmentDate),'>>>>>',new Date(element.appointmentEndDate)); 
+        //appointmentEndDate = appointmentDate = 'Fri 29 Nov 2024 11:45:24 GMT+0530';
+        
+      }
+
+      //<div class="thra--profile d-flex align-items-center"><div class="pro--box me-2 flex-shrink-0"><img src="/assets/images/ark/user.png" class="img-fluid"></div></div> 
+      //color: {   primary: '#e3bc08', secondary: '#FDF1BA' },
       let newColumns = {
-        start:appointmentDate,
-        end: appointmentEndDate,
+        start:new Date(element.appointmentStartDate),
+        end: new Date(element.appointmentEndDate),
         title: element.caseName+' ('+element.patientName+')',
         color: { ...colors['red'] },
+        //profileImage: 'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
         actions:  [
           {
             label: '<i class="fas fa-fw fa-eye"></i>',
@@ -390,13 +409,7 @@ export class SchedulerComponent {
               this.handleEvent('Deleted', event, element);
             },
           },
-      ],
-        allDay: false,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-        draggable: false,
+      ]
       }
       eventArray.push(newColumns)     
     });
@@ -448,9 +461,7 @@ export class SchedulerComponent {
       }
       this.getAppointmentList('search')
     } 
-
   }
-
 
   //onCheckboxChange(event: any, id: number): void {
     // if (event.checked) {
@@ -483,12 +494,13 @@ export class SchedulerComponent {
     const reqVars = {     
       query: this.whereTherapistCond,
       fields: { _id: 1, firstName: 1, lastName: 1 },
-      limit: 10,
+      limit: 100,
       order: this.orderTherapistBy,
     }
     await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
       if (response.data && response.data.therapistData) {
         this.therapistList = response.data.therapistData;
+        this.cdr.detectChanges();
       }
     })
   }

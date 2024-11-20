@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators,AbstractControl } from 
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { s3Details, practiceLocations } from 'src/app/config';
 import { Router } from '@angular/router';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { validationMessages } from '../../../../utils/validation-messages';
 import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/success-modal.component';
 import * as moment from 'moment';
@@ -61,7 +62,7 @@ export class CreateAppointmentModalComponent {
     const defaultStartTime = this.getNext30MinuteMark();
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
-
+    console.log('minTime:', this.minTime);
     if(this.userRole!='support_team'){
       this.router.navigate([''])
     }
@@ -98,7 +99,6 @@ export class CreateAppointmentModalComponent {
     this.getTherapistList()
   }
 
-
   getNext30MinuteMark(): Date {
     const currentTime = moment();
     const minutes = currentTime.minutes();
@@ -110,7 +110,6 @@ export class CreateAppointmentModalComponent {
     // const currentTime = this.appointmentForm.controls['appointmentStartTime'].value;//moment();
     // const minutes = currentTime.minutes();
     // this.minEndTime = currentTime.add(30 - (minutes % 30), 'minutes');
-    
     return (formGroup: FormGroup) => {
       const startTime = formGroup.controls[startTimeKey];
       const endTime = formGroup.controls[endTimeKey];
@@ -118,7 +117,6 @@ export class CreateAppointmentModalComponent {
       if (endTime.errors && !endTime.errors['endTimeAfterStartTime']) {
         return;
       }
-
       // Check if endTime is after startTime
       if (moment(endTime.value).isSameOrBefore(moment(startTime.value))) {
         endTime.setErrors({ endTimeAfterStartTime: true });
@@ -128,10 +126,18 @@ export class CreateAppointmentModalComponent {
     };
   }
 
+  onDateChange(event: MatDatepickerInputEvent<Date>): void {
+    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+  }
+
+  onDateInput(event: MatDatepickerInputEvent<Date>): void {
+    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+  }
+
   async createAppointment(formData:any){
     
     if (this.appointmentForm.valid) {
-      console.log(' #### form data >>>>>>',formData)
+        //console.log(' #### form data >>>>>>',formData)
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
        
@@ -154,27 +160,26 @@ export class CreateAppointmentModalComponent {
           patientType:formData.patientType
         }
         this.emailError = false; this.invalidEmailErrorMessage = '';   
-        this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {
-    
-        this.commonService.hideLoader();
-        if (response.error) {
-          if (response.message) {
-            this.commonService.openSnackBar(response.message, "ERROR");
+        this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
+          this.commonService.hideLoader();
+          if (response.error) {
+            if (response.message) {
+              this.commonService.openSnackBar(response.message, "ERROR");
+            }
+            if(response.data.email){
+              this.appointmentForm.controls["email"].markAsTouched();
+              //this.appointmentForm.controls['email'].setValue('');
+              this.emailError = true;
+              this.invalidEmailErrorMessage = response.data.email;
+            }
+          } else {
+            if (response.message) {       
+              this.dialogRef.close();
+              this.successModal(response.message);
+              this.commonService.openSnackBar(response.message, "SUCCESS");
+            }
           }
-          if(response.data.email){
-            this.appointmentForm.controls["email"].markAsTouched();
-            //this.appointmentForm.controls['email'].setValue('');
-            this.emailError = true;
-            this.invalidEmailErrorMessage = response.data.email;
-          }
-        } else {
-          if (response.message) {       
-            this.dialogRef.close();
-            this.successModal(response.message);
-            this.commonService.openSnackBar(response.message, "SUCCESS");
-          }
-        }
-      })
+        })
     }else{
       console.log(' #### appointment Form>>>>>>',this.appointmentForm)
         this.appointmentForm.markAllAsTouched();
