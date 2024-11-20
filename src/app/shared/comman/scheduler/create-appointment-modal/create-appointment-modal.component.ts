@@ -70,9 +70,9 @@ export class CreateAppointmentModalComponent {
     this.appointmentForm = this.fb.group({
       patientType: ['New', [Validators.required]],
       seachByPname: [''],
-      caseName: ['Other', [Validators.required]],
+      caseName: ['', [Validators.required]],
       caseType: ['PT', [Validators.required]],
-      caseNameOther: ['',Validators.required],
+      caseNameOther: ['',[Validators.required]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required,Validators.email]],
