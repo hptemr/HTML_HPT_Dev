@@ -286,6 +286,7 @@ export class SchedulerComponent {
     
     closeOpenMonthViewDay() {
         this.activeDayIsOpen = false;
+        console.log('closeOpenMonthViewDay  >>>>>>',this.viewDate)
     } 
 
     onDateChange(event: any) {
@@ -416,9 +417,9 @@ export class SchedulerComponent {
         let newColumns = {
           start:new Date(element.appointmentStartDate),
           end: new Date(element.appointmentEndDate),
-          title: element.caseName+' ('+element.patientName+')',
+          title: element.caseName+' ('+element.patientName+')',//'<img src="'+element.profileImage+'" alt="Profile" class="img-fluid" />'+
           color: { ...colors['red'] },
-          //profileImage: 'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
+          //profileImage: element.profileImage,//'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
           actions:  [
             {
               label: '<i class="fas fa-fw fa-eye"></i>',
@@ -549,8 +550,8 @@ export class SchedulerComponent {
     }
 
     onSearchDateChange(event: any) {
-      console.log('onSearchDateChange Event >>>>>>',event)
-      console.log('onSearchDateChange value >>>>>>',event.value,'>>>>>>>>>>>>>>>>>>>>>>>>',typeof event.value)
+      //console.log('onSearchDateChange Event >>>>>>',event)
+      //console.log('onSearchDateChange value >>>>>>',event.value,'>>>>>>>>>>>>>>>>>>>>>>>>',typeof event.value)
 
      // let selectedDate = new Date(event.value);
      // let obj = {}
@@ -561,7 +562,7 @@ export class SchedulerComponent {
     
      let startdDate = startOfDay(new Date(event.value));this.commonService.formatUTCDate(event.value)
      let endDate = addDays(new Date(event.value), 1)
-     console.log('......startdDate>>>>>>',startdDate,'......endDate>>>>',endDate)
+     //console.log('......startdDate>>>>>>',startdDate,'......endDate>>>>',endDate)
      let obj = { $gt: startdDate, $lte: endDate }
       Object.assign(this.patientSearchQuery, { dob: obj })//this.commonService.formatUTCDate(event.value)
 
