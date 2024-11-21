@@ -701,16 +701,14 @@ const getCaseList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-
-
-
-        console.log(therapistIds,'..............',therapistIds.length,'..........query>>>>',query)
+// console.log(therapistIds,'..............',therapistIds.length,'..........query>>>>',query)
 // $in: therapistIds.map((id) => mongoose.Types.ObjectId(id)),
 // $in: whereCond.therapistId.$in.map((id) => mongoose.Types.ObjectId(id)),
-
+console.log('>>>>>>>>>',moment(patientQuery.dob).format('DD/MM/YYYY HH:mm:ss')) 
         // Patient Search
         if (patientQuery && Object.keys(patientQuery).length) {
             let patientList = await Patient.find(patientQuery, { _id: 1 });
+            console.log(patientList.length,'..........patientList >>>>',patientList)
             if (patientList && patientList.length > 0) {
                 let patientArray = [];
                 patientList.map((obj) => {
@@ -721,7 +719,7 @@ const getCaseList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-
+        console.log('..........query >>>>',query)
         //date format change for appointment filter
         if (query.appointmentDate && query.appointmentDate != null) {
             if (query.appointmentDate.$gte && query.appointmentDate.$lte) {
@@ -800,7 +798,7 @@ const getCaseList = async (req, res) => {
             appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
             appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
           }));
-          console.log(appointmentList.length,"****************totalQuery:", totalQuery)
+         // console.log(appointmentList.length,"****************totalQuery:", totalQuery)
         
         //let totalRecordsQuery = aggrQuery;
         let totalRecordsQuery = aggrQuery.filter(stage2 => {
