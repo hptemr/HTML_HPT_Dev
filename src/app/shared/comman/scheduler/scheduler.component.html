@@ -63,8 +63,8 @@
         </div>
         <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start">  
             <!-- <input class="form-control form-control-md w-170p m-1 flex-shrink-0" type="text"   placeholder="" value="Aug 26, 2024" />  -->
-            <mat-form-field class="w-170p m-1 flex-shrink-0  am--datepicker"> 
-                <input class=" " matInput [matDatepicker]="picker" placeholder="14/12/2012"> 
+            <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker"> 
+                <input class="" matInput [matDatepicker]="picker" placeholder="14/12/2012" (dateChange)="onSearchDateChange($event)"> 
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>

@@ -21,6 +21,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { ChangeDetectorRef } from '@angular/core';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
@@ -485,32 +486,6 @@ export class SchedulerComponent {
       }
     }
 
-    //onCheckboxChange(event: any, id: number): void {
-      // if (event.checked) {
-      //   this.selectedItems.push(id); // Add ID to the selected list
-      // } else {
-      //   this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
-      // }
-      // console.log('Selected Items:', this.selectedItems);
-      // if (this.selectedItems.length>0) {      
-      //   Object.assign(this.whereCond, { ['therapistId']: { $in: [this.selectedItems] } })
-      // } 
-    //   onCheckboxChange(TherapistName: string): void {
-    //     let firstName = { $regex: TherapistName, $options: 'i' }
-    //     let lastName = { $regex: TherapistName, $options: 'i' }
-    //     let final_str = TherapistName.trim().split(' ');
-    //     if(final_str[0] && final_str[1]){
-    //       firstName =  { $regex: final_str[0], $options: 'i' }
-    //       lastName =  { $regex: final_str[1], $options: 'i' }
-    //     }
-        
-    //     this.userQuery = {
-    //       status: "Active",
-    //       role: "therapist",
-    //       $or: [{ firstName: firstName }, { lastName: lastName }]
-    //     }
-    //     this.getAppointmentList('search')
-    // }
       
     async getTherapistList() {
       const reqVars = {     
@@ -542,6 +517,7 @@ export class SchedulerComponent {
     }
 
     searchPageFilters(event: any, colName: string) {
+      console.log('searchPageFilters Event >>>>>>',event)
       let searchStr = event.target.value.trim()
       if (searchStr != '') {
         searchStr = searchStr.replace("+", "\\+");
@@ -559,12 +535,12 @@ export class SchedulerComponent {
             $or: [{ firstName: firstName }, { lastName: lastName }, { email: finalStr }]
           }
         }
-        if (colName == 'byPatientDob') {
-          let selectedDate = new Date(event.value);
-          let obj = {}
-          obj = { $eq: selectedDate }
-          Object.assign(this.patientSearchQuery, { dob: obj })
-        }
+        // if (colName == 'byPatientDob') {
+        //   let selectedDate = new Date(event.value);
+        //   let obj = {}
+        //   obj = { $eq: selectedDate }
+        //   Object.assign(this.patientSearchQuery, { dob: obj })
+        // }
       } else {
         //this.whereSearchCond = {};
         this.patientSearchQuery = {}
@@ -572,8 +548,44 @@ export class SchedulerComponent {
       this.searchPageRecords('search')
     }
 
+    onSearchDateChange(event: any) {
+      console.log('onSearchDateChange Event >>>>>>',event)
+      console.log('onSearchDateChange value >>>>>>',event.value,'>>>>>>>>>>>>>>>>>>>>>>>>',typeof event.value)
+
+     // let selectedDate = new Date(event.value);
+     // let obj = {}
+     // obj = { $eq: selectedDate }
+     // obj = { $gte: selectedDate, $lte: selectedDate }
+     //new Date(event.value)
+     //Object.assign(this.patientSearchQuery, { dob: this.commonService.formatUTCDate(event.value) })
+    
+     let startdDate = startOfDay(new Date(event.value));this.commonService.formatUTCDate(event.value)
+     let endDate = addDays(new Date(event.value), 1)
+     console.log('......startdDate>>>>>>',startdDate,'......endDate>>>>',endDate)
+     let obj = { $gt: startdDate, $lte: endDate }
+      Object.assign(this.patientSearchQuery, { dob: obj })//this.commonService.formatUTCDate(event.value)
+
+      if(this.searchView){
+        this.searchPageRecords('')
+      }
+    }
+
+    // onSearchDateChange(event: MatDatepickerInputEvent<Date>): void {
+    //   // console.log('onSearchDateChange Event >>>>>>',event)
+    //    console.log('onSearchDateChange value >>>>>>',event.value,'>>>>>>>>>>>>>>>>>>>>>>>>',typeof event.value)
+    //   //let selectedDate = new Date(event.value);
+    //   let obj = {}
+    //   obj = { $eq: event.value }
+    //   Object.assign(this.patientSearchQuery, { dob: obj })
+    //   if(this.searchView){
+    //     this.searchPageRecords('')
+    //   }
+    // }
+
+
     async searchPageRecords(action:string) {
       this.commonService.showLoader()
+      console.log('.....patientSearch query >>>>>>',this.patientSearchQuery)
       let reqVars = {
         query: this.whereSearchCond,
         userQuery: this.userSearchQuery,
