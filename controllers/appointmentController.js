@@ -778,8 +778,8 @@ const getCaseList = async (req, res) => {
             }
         ]
         let totalQuery = aggrQuery;
-        if(limit==1000){
-            //console.log('******************$$$$$$$$$$$$$$$$$$******************');
+        if(limit==10000){
+           console.log('******************$$$$$$$$$$$$$$$$$$******************');
             totalQuery = aggrQuery.filter(stage => {
                 return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
             });
@@ -791,7 +791,7 @@ const getCaseList = async (req, res) => {
             appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
             appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
           }));
-         // console.log(appointmentList.length,"****************totalQuery:", totalQuery)
+        // console.log(appointmentList.length,"****************totalQuery:", totalQuery)
         
         //let totalRecordsQuery = aggrQuery;
         let totalRecordsQuery = aggrQuery.filter(stage2 => {
