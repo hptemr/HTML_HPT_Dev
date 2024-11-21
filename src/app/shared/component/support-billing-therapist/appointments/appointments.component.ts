@@ -166,6 +166,7 @@ export class AppointmentsComponent {
       maxDay.setDate(selectedDate.getDate() - 1);
       this.maxToDate = maxDay;
     }
+   
     if (this.selectedFromDate && this.selectedToDate) {
       obj = { $gte: this.selectedFromDate, $lte: this.selectedToDate }
       Object.assign(this.whereCond, { appointmentDate: obj })
@@ -179,7 +180,7 @@ export class AppointmentsComponent {
     if (action == "") {
       this.commonService.showLoader()
     }
-    console.log('111 whereCond>>>>',this.whereCond)
+   // console.log('111 whereCond>>>>',this.whereCond)
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
