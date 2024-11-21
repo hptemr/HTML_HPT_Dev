@@ -682,12 +682,9 @@ const getCaseList = async (req, res) => {
             Object.assign(query, { appointmentDate: dateRangeObj })
         }
 
-        if(therapistIds.length>0){
+        if(therapistIds && therapistIds.length>0){
             query['therapistId'] = { $in: therapistIds.map((id) =>new ObjectId(id)), }
         } 
-        // else{
-        //     delete query['therapistId'] ;
-        // }
 
         if (userQuery && Object.keys(userQuery).length) {
             let userList = await User.find(userQuery, { _id: 1 });
@@ -701,14 +698,12 @@ const getCaseList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-// console.log(therapistIds,'..............',therapistIds.length,'..........query>>>>',query)
-// $in: therapistIds.map((id) => mongoose.Types.ObjectId(id)),
-// $in: whereCond.therapistId.$in.map((id) => mongoose.Types.ObjectId(id)),
-console.log('>>>>>>>>>',moment(patientQuery.dob).format('DD/MM/YYYY HH:mm:ss')) 
+        // console.log(therapistIds,'..............',therapistIds.length,'..........query>>>>',query)
+        // $in: therapistIds.map((id) => mongoose.Types.ObjectId(id)),
+        // $in: whereCond.therapistId.$in.map((id) => mongoose.Types.ObjectId(id)),
         // Patient Search
         if (patientQuery && Object.keys(patientQuery).length) {
             let patientList = await Patient.find(patientQuery, { _id: 1 });
-            console.log(patientList.length,'..........patientList >>>>',patientList)
             if (patientList && patientList.length > 0) {
                 let patientArray = [];
                 patientList.map((obj) => {
@@ -719,7 +714,6 @@ console.log('>>>>>>>>>',moment(patientQuery.dob).format('DD/MM/YYYY HH:mm:ss'))
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-        console.log('..........query >>>>',query)
         //date format change for appointment filter
         if (query.appointmentDate && query.appointmentDate != null) {
             if (query.appointmentDate.$gte && query.appointmentDate.$lte) {
@@ -738,7 +732,6 @@ console.log('>>>>>>>>>',moment(patientQuery.dob).format('DD/MM/YYYY HH:mm:ss'))
         }
 
         let aggrQuery = [
-
             {
                 $group: {
                     _id: { patientId: "$patientId", caseName: "$caseName" },  // Group by userId and name
@@ -808,7 +801,7 @@ console.log('>>>>>>>>>',moment(patientQuery.dob).format('DD/MM/YYYY HH:mm:ss'))
         let totalRecords = await Appointment.aggregate(totalRecordsQuery);
         let totalCount = totalRecords.length;
 
-       // console.log(totalCount,"****************totalRecordsQuery:", totalRecordsQuery)
+        // console.log(totalCount,"****************totalRecordsQuery:", totalRecordsQuery)
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
         console.log("getCaseList****************error:", error)
