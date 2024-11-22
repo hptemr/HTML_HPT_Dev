@@ -387,7 +387,7 @@ const resolvedRequest = async (req, res) => {
     }
 }
 
-const cancelAppointment = async (req, res) => {//NOT IN USE
+const cancelAppointment = async (req, res) => {//use in schedular module
     try {
         const { query, updateInfo } = req.body;
         await Appointment.findOneAndUpdate(query, updateInfo);
@@ -471,7 +471,6 @@ const updateAppointment = async (req, res) => {
         // Trigger email to Support Team when intake for filled by Patient
         let patientData = await userCommonHelper.patientGetById(appointment_data?.patientId) 
         if(updateInfo?.intakeFormSubmit && patientData && patientData!=null){
-            console.log(updateInfo?.intakeFormSubmit,"********updateInfo-------*****", updateInfo)
             triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
         }
 
@@ -698,6 +697,7 @@ const getCaseList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
+       
         // console.log(therapistIds,'..............',therapistIds.length,'..........query>>>>',query)
         // $in: therapistIds.map((id) => mongoose.Types.ObjectId(id)),
         // $in: whereCond.therapistId.$in.map((id) => mongoose.Types.ObjectId(id)),
@@ -730,7 +730,8 @@ const getCaseList = async (req, res) => {
                 }
             }
         }
-
+        Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled'] } })
+       // console.log('*****************query*****************',query);
         let aggrQuery = [
             {
                 $group: {
@@ -778,8 +779,7 @@ const getCaseList = async (req, res) => {
             }
         ]
         let totalQuery = aggrQuery;
-        if(limit==10000){
-           console.log('******************$$$$$$$$$$$$$$$$$$******************');
+        if(limit==10000){         
             totalQuery = aggrQuery.filter(stage => {
                 return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
             });
@@ -801,7 +801,10 @@ const getCaseList = async (req, res) => {
         let totalRecords = await Appointment.aggregate(totalRecordsQuery);
         let totalCount = totalRecords.length;
 
-        // console.log(totalCount,"****************totalRecordsQuery:", totalRecordsQuery)
+
+        // const eResp =sendEmailServices.sendAwsEmail();
+        // console.log("eResp****************",eResp)
+
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
         console.log("getCaseList****************error:", error)
