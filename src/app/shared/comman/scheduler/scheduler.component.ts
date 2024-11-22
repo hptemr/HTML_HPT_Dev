@@ -22,6 +22,7 @@ import { validationMessages } from 'src/app/utils/validation-messages';
 import { ChangeDetectorRef } from '@angular/core';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
@@ -31,7 +32,8 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 })
 export class SchedulerComponent {
   @ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
-
+  editOptionFlag:boolean = true;   
+  deleteOptionFlag:boolean = true;  
   calenderView = true;
   searchView = false;
   noRecordFound = false
@@ -56,11 +58,14 @@ export class SchedulerComponent {
   selectedItems: string[] = [];
   activeDayIsOpen: boolean = false; 
   dialog1Ref: MatDialogRef<any> | null = null;
+  selectedDateEventCount:any=1
 
   whereSearchCond = {};
   userSearchQuery = {};
   patientSearchQuery = {}
   searchAppointmentsList: any = []
+  public userId: string = this.authService.getLoggedInInfo('_id');
+  userRole = this.authService.getLoggedInInfo('role')
   constructor(private router: Router,private cdr: ChangeDetectorRef, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
 
     ngOnInit() {
@@ -69,9 +74,8 @@ export class SchedulerComponent {
     }
 
     ngAfterViewInit() {
-      // Listen to stateChanges to detect month navigation
-      this.calendar.stateChanges.subscribe(() => {
-        this.onMonthChanges();
+      this.calendar.stateChanges.pipe(debounceTime(300)).subscribe(() => {
+        this.onMonthChanges('1');
       });
     }
 
@@ -141,13 +145,46 @@ export class SchedulerComponent {
       });
     }
 
-    deleteAppointment() {
-      const dialogRef = this.dialog.open(AlertComponent,{
-        panelClass: 'custom-alert-container',
-        data : {
-          warningNote: 'Do you really want to delete this appointment?'
-        }
-      });
+    deleteAppointment(id:string,count:any) {
+      console.log('count>>>>>',count)
+      if(id){
+        const dialogRef = this.dialog.open(AlertComponent,{
+          panelClass: 'custom-alert-container',
+          data : {
+            warningNote: 'Do you really want to delete this appointment?'
+          }
+        });
+        dialogRef.afterClosed().subscribe(res => {
+          if (!res) {
+            return;
+          } else {
+            var params = { 
+              query: { _id: id },
+              updateInfo: {
+                status: 'Cancelled',
+                rejectInfo: {
+                  fromPatientId: this.userId,
+                  fromAdminId: this.userId,
+                  userRole: this.userRole,
+                  comment: '',
+                  rejectedDate: new Date()
+                }
+              }
+            }
+            this.authService.apiRequest('post', 'appointment/cancelAppointment', params).subscribe(async response => {
+              this.modal.dismissAll()
+              if(!response.error){
+                if(count==1){
+                  this.activeDayIsOpen = false;
+                }                
+                this.commonService.openSnackBar(response.message, "SUCCESS");
+                this.getAppointmentList('')
+                this.cdr.detectChanges(); 
+              }                          
+            })
+          }
+        })
+      }
     }
 
     @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -250,10 +287,33 @@ export class SchedulerComponent {
         });
         this.handleEvent('Dropped or resized', event, ['1']);
     }
+
+    isDatePassed(inputDate: string | Date): boolean {
+      const givenDate = new Date(inputDate);
+      if (isNaN(givenDate.getTime())) {
+        throw new Error('Invalid date format');
+      }
+      const currentDate = new Date();
+      return givenDate.getTime() < currentDate.getTime();
+    }
     
     handleEvent(action: string, event: CalendarEvent, app_data:any=[]): void {
+      const eventsCount = this.events.filter((item) => {
+        const eventDate = new Date(item.start).toISOString().split("T")[0]; 
+        return eventDate === new Date(event.start).toISOString().split("T")[0];
+      });
+      const eventCount = eventsCount.length;
+        this.selectedDateEventCount = eventCount;
         this.app_data = app_data;
         this.modalData = { event, action };
+        if (this.isDatePassed(app_data.appointmentDate)) {
+          this.deleteOptionFlag = true
+          this.editOptionFlag = true
+        } else {
+          this.deleteOptionFlag = false
+          this.editOptionFlag = false
+        }
+      
         this.modal.open(this.modalContent, { 
           size: 'lg',
         });
@@ -286,23 +346,23 @@ export class SchedulerComponent {
     
     closeOpenMonthViewDay() {
         this.activeDayIsOpen = false;
-        console.log('closeOpenMonthViewDay  >>>>>>',this.viewDate)
+        //console.log('closeOpenMonthViewDay  >>>>>>',this.viewDate)
     } 
 
     onDateChange(event: any) {
-        console.log('onDateChange Event >>>>>>',event)
-        this.viewDate = event;
-        if(this.calenderView){
-          this.getAppointmentList('search')
-        }
-        if(this.searchView){
-          this.searchPageRecords('')
-        }
+        console.log('on Date Change Event >>>>>>',event)
+        // this.viewDate = event;
+        // if(this.calenderView){
+        //   this.getAppointmentList('search')
+        // }
+        // if(this.searchView){
+        //   this.searchPageRecords('')
+        // }
     }
 
-    onMonthChanges(): void {
+    onMonthChanges(id:any): void {
       this.viewDate = this.calendar.activeDate;
-     // console.log('Month navigation detected. Current active month:', this.viewDate);
+     // console.log(id,'*****Month navigation detected. Current active month:', this.viewDate,'....calender View>>>',this.calenderView,'....search View>>>',this.searchView);
       if(this.calenderView){
         this.getAppointmentList('search')
       }
@@ -359,7 +419,7 @@ export class SchedulerComponent {
               status: element.status,
               caseName: element.caseName,
               caseType: element.caseType,
-              notes: element.notes ? element.notes : 'N/A',
+              notes: element.notes ? element.notes : '',
               repeatsNotes: element.repeatsNotes ? element.repeatsNotes : '',
               checkInBy: element.checkInBy,
               checkInUser: element.checkInDateTime ? 'on '+this.commonService.formatDateInUTC(element.checkInDateTime,'MMM d, y hh:mm a') : 'N/A',
@@ -388,32 +448,7 @@ export class SchedulerComponent {
 
     async appointmentsEventsList(){
       let eventArray: any = []
-        //console.log('........appointmentsList........',this.appointmentsList.length);
       this.appointmentsList.forEach((element:any,index:any) => {
-        //let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
-        //let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
-      
-        //  let appointmentDate = new Date(element.appointmentDate);   
-        //  let appointmentEndDate = new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate);
-      
-      // console.log('date format>>>>',new Date(element.appointmentDate));
-      // let appointmentDate = this.commonService.formatDateInUTC(element.appointmentDate,'EEE, MMM d, y hh:mm a')
-      //  let appointmentEndDate = this.commonService.formatDateInUTC(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate,'EEE, MMM d, y hh:mm a')
-
-        if(element.id=='67333913049362faebb931f3' || element.id=='6735efa59590fb85262a2237' || element.id=='67190fb15b8f774a7f86862c'){
-        // console.log('date format>>>>',new Date(element.appointmentDate));
-        // console.log(element.id,' >>>>>> appointmentDate >>>>',appointmentDate,' appointmentEndDate>>>>',appointmentEndDate,' local format date>>>>>',new Date(element.appointmentDate))
-          // console.log(appointmentDate.toUTCString());
-          // console.log(appointmentEndDate.toUTCString());
-          // appointmentDate = new Date(appointmentDate.toISOString());
-          // appointmentEndDate = new Date(appointmentEndDate.toISOString());
-          //console.log(element.id,' >>>>>> appointmentDate >>>>',new Date(element.appointmentStartDate),' >>>>>>',new Date(element.appointmentDate),'>>>>>',new Date(element.appointmentEndDate)); 
-          //appointmentEndDate = appointmentDate = 'Fri 29 Nov 2024 11:45:24 GMT+0530';
-          
-        }
-
-        //<div class="thra--profile d-flex align-items-center"><div class="pro--box me-2 flex-shrink-0"><img src="/assets/images/ark/user.png" class="img-fluid"></div></div> 
-        //color: {   primary: '#e3bc08', secondary: '#FDF1BA' },
         let newColumns = {
           start:new Date(element.appointmentStartDate),
           end: new Date(element.appointmentEndDate),
@@ -472,13 +507,13 @@ export class SchedulerComponent {
       this.getTherapistList()   
     }
     
-    onCheckboxChange(event: any, id: string): void {  
+    onCheckboxChange(event: any, id: string): void {      
       if (event.checked) {
         this.selectedItems.push(id); // Add ID to the selected list
       } else {
         this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
       }
-      //console.log('Selected Items:', this.selectedItems,' >>>  checked >>>>',event.checked);
+      console.log('Selected Items:', this.selectedItems,' >>>  checked >>>>',event.checked);
       if(this.calenderView){
         this.getAppointmentList('search')
       }
@@ -503,11 +538,10 @@ export class SchedulerComponent {
       })
     }
 
-
     searchPage() {
       this.calenderView = false;
       this.searchView = true;
-      // console.log('view date >>>>',this.viewDate)
+       console.log('view date >>>>',this.viewDate)
       // const firstDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1); // First day of the month
       // const lastDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth() + 1, 1.5); // Last day of the month
       // console.log('firstDay >>>>',firstDay,'>>>>>>>>>>>>','lastDay >>>>',lastDay)
@@ -518,7 +552,7 @@ export class SchedulerComponent {
     }
 
     searchPageFilters(event: any, colName: string) {
-      console.log('searchPageFilters Event >>>>>>',event)
+      console.log('search Page Filters Event >>>>>>',event)
       let searchStr = event.target.value.trim()
       if (searchStr != '') {
         searchStr = searchStr.replace("+", "\\+");
@@ -550,7 +584,7 @@ export class SchedulerComponent {
     }
 
     onSearchDateChange(event: any) {
-      //console.log('onSearchDateChange Event >>>>>>',event)
+      console.log('on Search Date Change Event >>>>>>',event)
       //console.log('onSearchDateChange value >>>>>>',event.value,'>>>>>>>>>>>>>>>>>>>>>>>>',typeof event.value)
 
      // let selectedDate = new Date(event.value);
@@ -571,22 +605,10 @@ export class SchedulerComponent {
       }
     }
 
-    // onSearchDateChange(event: MatDatepickerInputEvent<Date>): void {
-    //   // console.log('onSearchDateChange Event >>>>>>',event)
-    //    console.log('onSearchDateChange value >>>>>>',event.value,'>>>>>>>>>>>>>>>>>>>>>>>>',typeof event.value)
-    //   //let selectedDate = new Date(event.value);
-    //   let obj = {}
-    //   obj = { $eq: event.value }
-    //   Object.assign(this.patientSearchQuery, { dob: obj })
-    //   if(this.searchView){
-    //     this.searchPageRecords('')
-    //   }
-    // }
-
-
     async searchPageRecords(action:string) {
-      this.commonService.showLoader()
-      console.log('.....patientSearch query >>>>>>',this.patientSearchQuery)
+      // this.commonService.showLoader()
+      // console.log('.....search Page Records >>>>>>',)
+      // console.log(this.patientSearchQuery,'.....search Page Records whereSearchCond >>>>>>',this.whereSearchCond)
       let reqVars = {
         query: this.whereSearchCond,
         userQuery: this.userSearchQuery,
@@ -600,7 +622,7 @@ export class SchedulerComponent {
         offset: (this.pageIndex * this.pageSize)
       }
       await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
-        this.commonService.hideLoader()
+        //this.commonService.hideLoader()
         this.totalSearchPageCount = response.data.totalCount
         let finalData: any = []
         if (response.data.appointmentList.length > 0) {
@@ -648,7 +670,21 @@ export class SchedulerComponent {
     handlePageEvent(event: any) {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
+      console.log('handle Page Event')
       this.searchPageRecords('')
+    }
+
+    resetSearchPage(){
+      this.whereSearchCond = {};
+      this.userSearchQuery = {};
+      this.patientSearchQuery = {}
+      this.searchAppointmentsList = []
+      this.searchPageRecords('')
+    }
+
+    navigateToappointmentDetails(appointmentId: string) {
+      this.modal.dismissAll()
+      this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);
     }
 
 

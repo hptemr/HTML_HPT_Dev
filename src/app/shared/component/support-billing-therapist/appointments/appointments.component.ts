@@ -204,6 +204,7 @@ export class AppointmentsComponent {
             checkIn: element.checkIn,
             createdAt: element.updatedAt,
             appointmentDate: element.appointmentDate,
+            appointmentEndTime: element.appointmentEndTime,
             status: element.status,
             caseName: element.caseName,
             statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),

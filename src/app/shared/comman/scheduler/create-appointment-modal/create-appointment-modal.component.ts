@@ -90,7 +90,7 @@ export class CreateAppointmentModalComponent {
     },
     { validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
   );
-
+  //console.log(defaultStartTime,'.........',defaultEndTime);
   this.appointmentForm.patchValue({
     appointmentStartTime: defaultStartTime,
     appointmentEndTime: defaultEndTime,

@@ -81,7 +81,7 @@
                             </div>
                         </div>   
                         <div> 
-                            <input placeholder="10:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" value="10:10 AM" readonly="true" [owlDateTime]="dt4" [min]="minTime" formControlName="appointmentStartTime">
+                            <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" readonly="true" [owlDateTime]="dt4" [min]="minTime" formControlName="appointmentStartTime">
                             <owl-date-time [pickerType]="'timer'" #dt4 [stepMinute]="15"></owl-date-time>
                             <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentStartTime'].touched && appointmentForm.controls['appointmentStartTime'].hasError('required')">
                                 {{ validationMessages.required('appointment end time') }}
@@ -89,7 +89,7 @@
                         </div>
                         <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
                         <div> 
-                            <input placeholder="10:15 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" value="10:15 AM" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" readonly="true" [min]="this.appointmentForm.controls['appointmentStartTime'].value" formControlName="appointmentEndTime">
+                            <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0"  [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" readonly="true" [min]="this.appointmentForm.controls['appointmentStartTime'].value" formControlName="appointmentEndTime">
                             <owl-date-time [pickerType]="'timer'" #dt5 [stepMinute]="15"></owl-date-time>
                             
                             <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].touched && appointmentForm.controls['appointmentEndTime'].hasError('required')">
