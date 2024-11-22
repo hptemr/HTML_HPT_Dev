@@ -165,6 +165,10 @@
                     background: #F3FBFB;
                     padding: 18px 12px;
                     margin-top: 16px;
+                    .scroll--outer{
+                        max-height: 319px;
+                        overflow: auto;
+                    }
                     .search--outer{
                         background-color: #BCDADA !important;
                         padding-left: 35px;
