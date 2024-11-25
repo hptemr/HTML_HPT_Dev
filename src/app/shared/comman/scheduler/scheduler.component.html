@@ -7,7 +7,6 @@
                     <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}
                     </option>
                 </select>
-                <!-- <div class="text text-danger mt-1">Error here</div> -->
             </div>
             <!-- <div class="thra--profile d-flex align-items-center ">
                 <div class="pro--box me-2 flex-shrink-0">
@@ -17,15 +16,13 @@
         </div> 
         <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between  w-100"> 
             <div class="btn-group today--btns">
-                <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-                    (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
                     <mat-icon>chevron_left</mat-icon>
                 </div>
                 <div class="btn" mwlCalendarToday [(viewDate)]="viewDate">
                     {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
                 </div>
-                <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-                    (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
                     <mat-icon>chevron_right</mat-icon>
                 </div>
             </div>
@@ -238,7 +235,7 @@
                         <div class="row">
                             <div class="col-12 d-flex align-items-start">
                                 <div class="profile--round flex-shrink-0">
-                                    <img src="{{app_data.profileImage}}"  alt="profileImage" class="img-fluid  " />
+                                    <img src="{{app_data.profileImage}}"  alt="profileImage" class="img-fluid" />
                                 </div>
                                 <div class="w-100 d-flex flex-column  align-items-start">
                                     <h2 class="font-16 clr--1F2F3E mb-1 fw-500">{{app_data.patientName}}</h2>
@@ -321,14 +318,14 @@
             <div class="row w-100" *ngIf="searchView && searchAppointmentsList.length>0 && !noRecordFound">
                 <span class="fw-700 ms-3"> {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}, Total record : {{totalSearchPageCount}}</span>
                 <div class="col-12">
-                    <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100" *ngFor="let element of searchAppointmentsList"> 
+                    <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100" *ngFor="let elements of searchAppointmentsList"> 
                         <div class="date flex-shrink-0">
-                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">{{element.appointmentDate | date:'d':'UTC' }} 
-                                <span class="fw-700 ms-3"> {{element.appointmentDate | date:'MMM yyyy, EEE':'UTC' }}</span>
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">{{elements.date | date:'d':'UTC' }} 
+                                <span class="fw-700 ms-3"> {{elements.date | date:'MMM yyyy, EEE':'UTC' }}</span>
                             </p>
                         </div>
                         <div class="w-100 d-flex flex-column align-items-start">
-                            <div class="user--time d-flex align-items-between w-100">
+                            <div class="user--time d-flex align-items-between w-100" *ngFor="let element of elements.appointments">
                                 <div class="d-flex align-items-center w-100">
                                     <div class="d-flex align-items-center">
                                         <div class="point m-1 red"></div><!-- orange        green      blue  -->
@@ -340,10 +337,8 @@
                                     <img src="{{element.profileImage}}" alt="Patient Profile" class="img-fluid">
                                 </div>
                             </div>
-                                
                         </div>
                     </div>
-
 
                     <!-- <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100">
                         <div class="date flex-shrink-0">
@@ -455,13 +450,11 @@
                             <li class="page-item cursor-pointer"><a class="page-link">Next</a></li>
                         </ul>
                         </nav> -->
-
                         <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalSearchPageCount"
                         [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions"
                         [pageIndex]="pageIndex"></mat-paginator>
                 </div>
             </div>
-
             <div class="row w-100" *ngIf="noRecordFound">
                 <div class="col-12">
                     <div class="no--record--found d-flex align-items-center justify-content-center w-100" >
@@ -473,6 +466,5 @@
                 </div>
             </div>
         </div>
-        <!-- Calender End's here -->
     </div>
 </div>

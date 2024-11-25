@@ -73,7 +73,7 @@ export class EditAppointmentModalComponent {
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
          
-    console.log(this.app_data.id,'....app_data Appointment ',this.app_data)  
+    //console.log(this.app_data.id,'....app_data Appointment ',this.app_data)  
     let appointmentStartDate = '';
     let appointmentEndTime = '';
     let appointmentId = '';
