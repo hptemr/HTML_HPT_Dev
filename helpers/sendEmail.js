@@ -76,7 +76,7 @@ const sendEmail = async (mailOptions) => {//using aws SES
 
 module.exports = {
   sendEmail,
-  sendAwsEmail,
+  //sendAwsEmail,
   generateContentFromTemplate,
   getEmailTemplateByCode
 }
