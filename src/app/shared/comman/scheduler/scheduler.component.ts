@@ -145,13 +145,12 @@ export class SchedulerComponent {
       });
     }
 
-    deleteAppointment(id:string,count:any) {
-      console.log('count>>>>>',count)
+    deleteAppointment(id:string,app_name:string,count:any) {
       if(id){
         const dialogRef = this.dialog.open(AlertComponent,{
           panelClass: 'custom-alert-container',
           data : {
-            warningNote: 'Do you really want to delete this appointment?'
+            warningNote: 'Do you really want to delete this "'+app_name+'" appointment?'
           }
         });
         dialogRef.afterClosed().subscribe(res => {
@@ -309,14 +308,19 @@ export class SchedulerComponent {
         if (this.isDatePassed(app_data.appointmentDate)) {
           this.deleteOptionFlag = true
           this.editOptionFlag = true
+          this.commonService.openSnackBar('You can not delete the past date appoitment', "SUCCESS");
         } else {
           this.deleteOptionFlag = false
           this.editOptionFlag = false
+          if(action=='Deleted'){
+            this.deleteAppointment(app_data.id,app_data.caseName+' ('+app_data.patientName+')',this.selectedDateEventCount)
+          }       
         }
-      
-        this.modal.open(this.modalContent, { 
-          size: 'lg',
-        });
+        if(action=='View details'){
+          this.modal.open(this.modalContent, { 
+            size: 'lg',
+          });
+        }
     }
     
     addEvent(): void {
@@ -460,14 +464,14 @@ export class SchedulerComponent {
               label: '<i class="fas fa-fw fa-eye"></i>',
               a11yLabel: 'Edit',
               onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.handleEvent('Edited', event, element);
+                this.handleEvent('View details', event, element);
               },
             },
             {
-              label: '<i class="fas fa-fw fa-trash-alt"></i>',
+              label: this.isDatePassed(element.appointmentDate)?'' : '<i class="fas fa-fw fa-trash-alt"></i>',
               a11yLabel: 'Delete',
               onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.events = this.events.filter((iEvent) => iEvent !== event);
+                //this.events = this.events.filter((iEvent) => iEvent !== event);
                 this.handleEvent('Deleted', event, element);
               },
             },

@@ -223,7 +223,7 @@
                             <button mat-menu-item [disabled]="editOptionFlag" (click)="editAppointment('Update',app_data)">
                               <span>Edit</span>
                             </button> 
-                            <button mat-menu-item [disabled]="deleteOptionFlag" (click)="deleteAppointment(app_data.id,this.selectedDateEventCount)">
+                            <button mat-menu-item [disabled]="deleteOptionFlag" (click)="deleteAppointment(app_data.id,app_data.caseName+ ' (' + app_data.patientName + ')',this.selectedDateEventCount)">
                               <span>Delete</span>
                             </button>
                             <button mat-menu-item (click)="editAppointment('Duplicate',app_data)"> 
