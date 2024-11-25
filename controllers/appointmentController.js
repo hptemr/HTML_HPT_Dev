@@ -801,10 +801,6 @@ const getCaseList = async (req, res) => {
         let totalRecords = await Appointment.aggregate(totalRecordsQuery);
         let totalCount = totalRecords.length;
 
-
-        // const eResp =sendEmailServices.sendAwsEmail();
-        // console.log("eResp****************",eResp)
-
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
         console.log("getCaseList****************error:", error)
