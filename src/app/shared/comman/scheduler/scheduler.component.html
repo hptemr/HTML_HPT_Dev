@@ -284,14 +284,14 @@
                             <div class="col-12 col-md-9"> 
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Patient Checked in by </label>
-                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data?.checkInUser}}</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data?.checkIn ? app_data?.checkInUser : 'N/A'}}</p>
                                 </div>
                             </div> 
-                            <div class="col-12 mb-3">
-                                <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
-                                    <mat-radio-button value="1" class="me-3" checked="{{app_data?.checkIn}}">Patient Check-In</mat-radio-button>
-                                    <mat-radio-button value="2" class="me-3">Mark as No-show</mat-radio-button>
-                                    <mat-radio-button value="3">Mark as Cancelled</mat-radio-button>
+                            <div class="col-12 mb-3">                              
+                                <mat-radio-group aria-label="Select an option" (change)="onChange($event,app_data.id)">
+                                    <mat-radio-button value="checkIn" class="me-3" checked="{{app_data?.checkIn}}">Patient Check-In</mat-radio-button>
+                                    <mat-radio-button value="No-Show" class="me-3" checked="{{app_data?.appointmentStatus=='No-Show'}}">Mark as No-show</mat-radio-button>
+                                    <mat-radio-button value="Cancelled" checked="{{app_data?.appointmentStatus=='Cancelled'}}">Mark as Cancelled</mat-radio-button>
                                 </mat-radio-group>
                             </div>
                             <div class="col-12 col-md-3"> 

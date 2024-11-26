@@ -82,7 +82,8 @@ export class CaseDetailsComponent {
   fromDate: any = ''
   toDate: any = ''
   activeUserRoute = this.commonService.getLoggedInRoute()
-
+  userId = this.authService.getLoggedInInfo('_id')
+  userRole = this.authService.getLoggedInInfo('role')
   constructor(
     public dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer,
@@ -356,6 +357,8 @@ export class CaseDetailsComponent {
       query: { _id: this.appointmentId },
       updateInfo: {
         checkIn: event.checked,
+        checkInBy: this.userId,
+        appointmentStatus:'checkIn'
       }
     }
 

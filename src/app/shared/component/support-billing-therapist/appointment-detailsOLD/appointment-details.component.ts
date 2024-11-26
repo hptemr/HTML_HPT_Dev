@@ -159,6 +159,8 @@ export class AppointmentDetailsComponent {
         query: { _id: obj._id },
         updateInfo: {
           checkIn: event.source._checked,
+          checkInBy: this.userId,
+          appointmentStatus:'checkIn'
         }
       }
       await this.authService.apiRequest('post', 'appointment/updatePatientCheckIn', reqVars).subscribe(async response => {

@@ -23,6 +23,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { debounceTime } from 'rxjs/operators';
+import * as moment from 'moment';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
@@ -79,13 +80,45 @@ export class SchedulerComponent {
       });
     }
 
-    onChange(event: MatRadioChange) {
+    onChange(event: MatRadioChange,id:string) {
+      let updateInfo = {};let text = '';
+      console.log('event????>>>',event)
+      if(event.value=='checkIn'){
+        text = 'checked in?'
+        updateInfo = { checkIn: true, checkInBy: this.userId,appointmentStatus:'checkIn'}
+      }else if(event.value=='No-Show'){
+        text = 'No Show?'; this.app_data.checkIn = false
+        updateInfo = { checkIn: false, checkInBy: this.userId,appointmentStatus:'No-Show'}
+      }else if(event.value=='Cancelled'){
+        text = 'cancelled appointment?'; this.app_data.checkIn = false
+        updateInfo = { checkIn: false, checkInBy: this.userId,appointmentStatus:'Cancelled'}
+      }
       const dialogRef = this.dialog.open(AlertComponent,{
         panelClass: 'custom-alert-container',
         data : {
-          warningNote: 'Are you sure you want to mark this Patient as checked in?'
+          warningNote: 'Are you sure you want to mark this Patient as '+text
         }
       });
+      dialogRef.afterClosed().subscribe(res => {
+        if (!res) {
+          this.app_data.appointmentStatus = '';
+          return;
+        } else {
+          var params = { 
+            query: { _id: id },
+            updateInfo:updateInfo
+          }
+          this.authService.apiRequest('post', 'appointment/updatePatientCheckIn', params).subscribe(async response => {
+            this.modal.dismissAll()
+            if(!response.error){               
+              this.commonService.openSnackBar(response.message, "SUCCESS");
+              this.getAppointmentList('')
+              this.cdr.detectChanges(); 
+            }                          
+          })
+
+        }
+      })
     }
 
     createAppointmentModal(){
@@ -93,6 +126,17 @@ export class SchedulerComponent {
         disableClose: true,
         width:'1260px',
         panelClass: [ 'modal--wrapper'],
+      });
+      dialogRef.afterClosed().subscribe(async resp => {
+        if(resp=='SUCCESS'){
+          setTimeout( () => {    
+            this.dialog1Ref?.close();
+            this.dialog1Ref = null;
+            
+            this.getAppointmentList('')
+            this.refresh.next();
+          }, 100)
+        }    
       });
     }
 
@@ -308,7 +352,9 @@ export class SchedulerComponent {
         if (this.isDatePassed(app_data.appointmentDate)) {
           this.deleteOptionFlag = true
           this.editOptionFlag = true
-          this.commonService.openSnackBar('You can not delete the past date appoitment', "SUCCESS");
+          if(action=='Deleted'){
+            this.commonService.openSnackBar('You can not delete the past date appoitment', "SUCCESS");
+          }
         } else {
           this.deleteOptionFlag = false
           this.editOptionFlag = false
@@ -394,7 +440,7 @@ export class SchedulerComponent {
         userQuery: this.userQuery,
         patientQuery: this.patientQuery, 
         therapistIds:this.selectedItems,
-        fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1,doctorId:1, status: 1, caseName: 1,caseType:1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentType:1,appointmentEndTime:1, checkIn: 1,checkInBy:1,checkInDateTime:1,notes:1,repeatsNotes:1, },
+        fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1,doctorId:1, status: 1, caseName: 1,caseType:1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentType:1,appointmentEndTime:1, checkIn: 1,checkInBy:1,checkInDateTime:1,notes:1,repeatsNotes:1,appointmentStatus:1 },
         patientFields: { firstName: 1, lastName: 1, email: 1, status: 1, profileImage: 1, practiceLocation: 1,dob:1,gender:1,phoneNumber:1 },
         order: this.orderBy,
         limit: 10000,
@@ -421,6 +467,7 @@ export class SchedulerComponent {
               appointmentDate: element.appointmentDate,
               appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
               status: element.status,
+              appointmentStatus: element.appointmentStatus,
               caseName: element.caseName,
               caseType: element.caseType,
               notes: element.notes ? element.notes : '',
@@ -440,12 +487,12 @@ export class SchedulerComponent {
               therapistName:element.therapistObj[0]?.firstName+' '+element.therapistObj[0]?.lastName,            
               therapistProfileImage:element.therapistObj[0]?.profileImage,
               therapistId:element.therapistObj[0]?._id,
+              eventsObj:element.eventsObj
             }
             finalData.push(newColumns)
           })
         }     
-        this.appointmentsList = finalData;
-        //console.log('>>>>> Appointments List Length >>>>',this.appointmentsList.length)
+        this.appointmentsList = finalData;     
         this.appointmentsEventsList();
       })
     }
@@ -453,37 +500,47 @@ export class SchedulerComponent {
     async appointmentsEventsList(){
       let eventArray: any = []
       this.appointmentsList.forEach((element:any,index:any) => {
-        let newColumns = {
-          start:new Date(element.appointmentStartDate),
-          end: new Date(element.appointmentEndDate),
-          title: element.caseName+' ('+element.patientName+')',//'<img src="'+element.profileImage+'" alt="Profile" class="img-fluid" />'+
-          color: { ...colors['red'] },
-          //profileImage: element.profileImage,//'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
-          actions:  [
-            {
-              label: '<i class="fas fa-fw fa-eye"></i>',
-              a11yLabel: 'Edit',
-              onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.handleEvent('View details', event, element);
-              },
-            },
-            {
-              label: this.isDatePassed(element.appointmentDate)?'' : '<i class="fas fa-fw fa-trash-alt"></i>',
-              a11yLabel: 'Delete',
-              onClick: ({ event }: { event: CalendarEvent }): void => {
-                //this.events = this.events.filter((iEvent) => iEvent !== event);
-                this.handleEvent('Deleted', event, element);
-              },
-            },
-        ]
-        }
-        eventArray.push(newColumns)     
+        if (Array.isArray(element.eventsObj) && element.eventsObj.length > 0) {
+              element.eventsObj.forEach((item:any) => {
+                delete element.eventsObj
+                eventArray.push(this.eventArray(element,moment.utc(item.repeateAppointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),moment.utc(item.repeateAppointmentEndDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),true))   
+              });
+          } else {
+              eventArray.push(this.eventArray(element,element.appointmentStartDate,element.appointmentEndDate,true))   
+          }
       });
+
       this.events = eventArray;
-      
+      //console.log('Event Array length >>>>',eventArray.length)
       setTimeout( () => {    
         this.refresh.next();
       }, 100)
+    }
+
+    eventArray(element:any,appointmentStartDate:any,appointmentEndDate:any,flag:boolean){
+      let newColumns = {
+        start:new Date(appointmentStartDate),
+        end: new Date(appointmentEndDate),
+        title: element.caseName+' ('+element.patientName+')',//'<img src="'+element.profileImage+'" alt="Profile" class="img-fluid" />'+
+        color: { ...colors['red'] },//profileImage: element.profileImage,//'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
+        actions:  [
+          {
+            label: '<i class="fas fa-fw fa-eye"></i>',
+            a11yLabel: 'Edit',
+            onClick: ({ event }: { event: CalendarEvent }): void => {
+              this.handleEvent('View details', event, element);
+            },
+          },
+          {
+            label: this.isDatePassed(element.appointmentDate) ? '' : '<i class="fas fa-fw fa-trash-alt"></i>',
+            a11yLabel: 'Delete',
+            onClick: ({ event }: { event: CalendarEvent }): void => { //this.events = this.events.filter((iEvent) => iEvent !== event);
+              this.handleEvent('Deleted', event, element);
+            },
+          },
+        ]
+      }
+      return newColumns;
     }
 
     searchTherapist(searchStr: string,colName:string) {

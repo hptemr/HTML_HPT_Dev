@@ -52,6 +52,7 @@ export class CreateAppointmentModalComponent {
   whereDocCond: any = {stauts:"Active"}
   minTime: Date;
   minEndTime: Date;
+  day: string;
   constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService,private dialogRef: MatDialogRef<CreateAppointmentModalComponent>) {}
 
   ngOnInit() {    
@@ -62,7 +63,8 @@ export class CreateAppointmentModalComponent {
     const defaultStartTime = this.getNext30MinuteMark();
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
-    //console.log('minTime:', this.minTime);
+    this.checkToday();
+    
     if(this.userRole!='support_team'){
       this.router.navigate([''])
     }
@@ -89,14 +91,20 @@ export class CreateAppointmentModalComponent {
       repeatsNotes: [''],      
     },
     { validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
-  );
-  //console.log(defaultStartTime,'.........',defaultEndTime);
-  this.appointmentForm.patchValue({
-    appointmentStartTime: defaultStartTime,
-    appointmentEndTime: defaultEndTime,
-  });
+    );
+  
+    this.appointmentForm.patchValue({
+      appointmentStartTime: defaultStartTime,
+      appointmentEndTime: defaultEndTime,
+    });
 
-    this.getTherapistList()
+    this.getTherapistList()    
+  }
+
+  checkToday(): void {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = new Date().getDay(); // Get the day index (0 = Sunday, 6 = Saturday)
+    this.day = daysOfWeek[today];
   }
 
   getNext30MinuteMark(): Date {
@@ -137,7 +145,6 @@ export class CreateAppointmentModalComponent {
   async createAppointment(formData:any){
     
     if (this.appointmentForm.valid) {
-        //console.log(' #### form data >>>>>>',formData)
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
        
@@ -195,6 +202,7 @@ export class CreateAppointmentModalComponent {
       }
     })
     dialogRef.afterClosed().subscribe(async id => {
+      this.dialogRef.close('SUCCESS');
       //this.router.navigate(['/support-team/cases'])
     });
     
