@@ -387,7 +387,7 @@ const resolvedRequest = async (req, res) => {
     }
 }
 
-const cancelAppointment = async (req, res) => {//NOT IN USE
+const cancelAppointment = async (req, res) => {//use in schedular module
     try {
         const { query, updateInfo } = req.body;
         await Appointment.findOneAndUpdate(query, updateInfo);
@@ -471,7 +471,6 @@ const updateAppointment = async (req, res) => {
         // Trigger email to Support Team when intake for filled by Patient
         let patientData = await userCommonHelper.patientGetById(appointment_data?.patientId) 
         if(updateInfo?.intakeFormSubmit && patientData && patientData!=null){
-            console.log(updateInfo?.intakeFormSubmit,"********updateInfo-------*****", updateInfo)
             triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
         }
 
@@ -685,9 +684,6 @@ const getCaseList = async (req, res) => {
         if(therapistIds && therapistIds.length>0){
             query['therapistId'] = { $in: therapistIds.map((id) =>new ObjectId(id)), }
         } 
-        // else{
-        //     delete query['therapistId'] ;
-        // }
 
         if (userQuery && Object.keys(userQuery).length) {
             let userList = await User.find(userQuery, { _id: 1 });
@@ -701,13 +697,7 @@ const getCaseList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-
-
-
-        console.log(therapistIds,'..............',therapistIds.length,'..........query>>>>',query)
-// $in: therapistIds.map((id) => mongoose.Types.ObjectId(id)),
-// $in: whereCond.therapistId.$in.map((id) => mongoose.Types.ObjectId(id)),
-
+       
         // Patient Search
         if (patientQuery && Object.keys(patientQuery).length) {
             let patientList = await Patient.find(patientQuery, { _id: 1 });
@@ -721,7 +711,7 @@ const getCaseList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
-
+       
         //date format change for appointment filter
         if (query.appointmentDate && query.appointmentDate != null) {
             if (query.appointmentDate.$gte && query.appointmentDate.$lte) {
@@ -738,9 +728,10 @@ const getCaseList = async (req, res) => {
                 }
             }
         }
-
-        let aggrQuery = [
-
+            
+        Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled'] } })
+       // console.log('*****************query*****************',query);
+        let aggrQuery = [   
             {
                 $group: {
                     _id: { patientId: "$patientId", caseName: "$caseName" },  // Group by userId and name
@@ -748,7 +739,7 @@ const getCaseList = async (req, res) => {
                 }
             },
             {
-                $replaceRoot: { newRoot: "$appointmentRow" }
+                $replaceRoot: { newRoot: "$appointmentRow" }                
             },
             {
                 "$lookup": {
@@ -786,9 +777,135 @@ const getCaseList = async (req, res) => {
                 $limit: limit
             }
         ]
+
+        let appointmentList = await Appointment.aggregate(aggrQuery);//.sort(order).skip(offset).limit(limit);
+                   
+        //let totalRecordsQuery = aggrQuery;
+        let totalRecordsQuery = aggrQuery.filter(stage2 => {
+            return !("$limit" in stage2);
+        });
+      
+        let totalRecords = await Appointment.aggregate(totalRecordsQuery);
+        let totalCount = totalRecords.length;
+
+        commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
+    } catch (error) {
+        console.log("getCaseList****************error:", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
+
+const getSchedularCaseList = async (req, res) => {
+    try {
+        const { query, order, selectedDate,therapistIds, offset, limit, userQuery, patientQuery } = req.body;
+        // let list = await Appointment.countDocuments();
+        // console.log('List >>>>',list)
+        let dateRangeObj = {};
+        if(selectedDate){
+            dateRangeObj = getMonthRange(selectedDate)
+            Object.assign(query, { appointmentDate: dateRangeObj })
+        }
+
+        if(therapistIds && therapistIds.length>0){
+            query['therapistId'] = { $in: therapistIds.map((id) =>new ObjectId(id)), }
+        } 
+
+        if (userQuery && Object.keys(userQuery).length) {
+            let userList = await User.find(userQuery, { _id: 1 });
+            if (userList && userList.length > 0) {
+                let userArray = [];
+                userList.map((obj) => {
+                    userArray.push(obj._id)
+                })                
+                query['therapistId'] = { $in: userArray }
+            } else {
+                query['noResults'] = true //if no records found then pass default condition just to failed query.
+            }
+        }
+       
+        // Patient Search
+        if (patientQuery && Object.keys(patientQuery).length) {
+            let patientList = await Patient.find(patientQuery, { _id: 1 });
+            if (patientList && patientList.length > 0) {
+                let patientArray = [];
+                patientList.map((obj) => {
+                    patientArray.push(obj._id)
+                })
+                query['patientId'] = { $in: patientArray }
+            } else {
+                query['noResults'] = true //if no records found then pass default condition just to failed query.
+            }
+        }
+       
+        //date format change for appointment filter
+        if (query.appointmentDate && query.appointmentDate != null) {
+            if (query.appointmentDate.$gte && query.appointmentDate.$lte) {
+                query.appointmentDate = {
+                    $gte: new Date(query.appointmentDate.$gte),
+                    $lte: new Date(query.appointmentDate.$lte)
+                }
+            } else {
+                if (query.appointmentDate.$gte) {
+                    query.appointmentDate = { $gte: new Date(query.appointmentDate.$gte) }
+                }
+                if (query.appointmentDate.$lte) {
+                    query.appointmentDate = { $lte: new Date(query.appointmentDate.$lte) }
+                }
+            }
+        }
+            
+        Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled'] } })
+        //console.log('*****************query*****************',query);
+        let aggrQuery = [   
+            // {
+            //     $group: {
+            //         _id: { patientId: "$patientId", caseName: "$caseName" },  // Group by userId and name
+            //         appointmentRow: { $first: "$$ROOT" }  // Return the first appointment in each case
+            //     }
+            // },
+            // {
+            //     $replaceRoot: { newRoot: "$appointmentRow" }                
+            // },
+            {
+                "$lookup": {
+                    from: "patients",
+                    localField: "patientId",
+                    foreignField: "_id",
+                    as: "patientObj"
+                }
+            },
+            {
+                "$lookup": {
+                    from: "users",
+                    localField: "therapistId",
+                    foreignField: "_id",
+                    as: "therapistObj"
+                }
+            },
+            {
+                $match: query
+            },
+            {
+                $project: {
+                    '_id': 1, 'appointmentDate': 1,'appointmentType':1,'appointmentEndTime': 1, 'appointmentId': 1,'notes':1,'repeatsNotes':1, 'caseName': 1,'doctorId':1,'caseType':1,'checkIn': 1,'checkInBy':1,'checkInDateTime':1, 'patientId': 1, 'practiceLocation': 1, 'status': 1, 'therapistId': 1,'createdAt': 1, 'updatedAt': 1,
+                    'patientObj._id': 1, 'patientObj.firstName': 1, 'patientObj.lastName': 1, 'patientObj.profileImage': 1, 'patientObj.email': 1,'patientObj.dob': 1, 'patientObj.gender': 1, 'patientObj.phoneNumber': 1,
+                    'therapistObj._id': 1, 'therapistObj.firstName': 1, 'therapistObj.lastName': 1, 'therapistObj.profileImage': 1
+                }
+            },
+            {
+                $sort: order
+            },
+            {
+                $skip: offset
+            },
+            {
+                $limit: limit
+            }
+        ]
         let totalQuery = aggrQuery;
-        if(limit==1000){
-            //console.log('******************$$$$$$$$$$$$$$$$$$******************');
+
+        if(limit==10000){         
             totalQuery = aggrQuery.filter(stage => {
                 return !("$sort" in stage || "$skip" in stage || "$limit" in stage);
             });
@@ -800,9 +917,8 @@ const getCaseList = async (req, res) => {
             appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
             appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
           }));
-          console.log(appointmentList.length,"****************totalQuery:", totalQuery)
+        // console.log(appointmentList.length,"****************totalQuery:", totalQuery)
         
-        //let totalRecordsQuery = aggrQuery;
         let totalRecordsQuery = aggrQuery.filter(stage2 => {
             return !("$limit" in stage2);
         });
@@ -810,13 +926,13 @@ const getCaseList = async (req, res) => {
         let totalRecords = await Appointment.aggregate(totalRecordsQuery);
         let totalCount = totalRecords.length;
 
-       // console.log(totalCount,"****************totalRecordsQuery:", totalRecordsQuery)
         commonHelper.sendResponse(res, 'success', { appointmentList, totalCount }, '');
     } catch (error) {
         console.log("getCaseList****************error:", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
+
 
 function getMonthRange(selectedDate) {
     if(selectedDate){
@@ -954,6 +1070,7 @@ module.exports = {
     getPatientCaseList,
     getDoctorList,
     getCaseList,
+    getSchedularCaseList,
     addBillingDetails,
     getBillingDetails,
     addAuthorizationManagement,

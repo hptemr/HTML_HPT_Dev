@@ -19,6 +19,7 @@ router.post('/resolvedRequest', appointmentController.resolvedRequest);
 router.post('/getPatientCaseList', appointmentController.getPatientCaseList);
 router.post('/getDoctorList', appointmentController.getDoctorList);
 router.post('/getCaseList', appointmentController.getCaseList);
+router.post('/getSchedularCaseList', appointmentController.getSchedularCaseList);
 router.post('/addBillingDetails', appointmentController.addBillingDetails);
 router.post('/getBillingDetails', appointmentController.getBillingDetails);
 router.post('/addAuthorizationManagement', appointmentController.addAuthorizationManagement);
