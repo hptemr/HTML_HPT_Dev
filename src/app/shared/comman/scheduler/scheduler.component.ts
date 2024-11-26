@@ -21,6 +21,8 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { ChangeDetectorRef } from '@angular/core';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-scheduler', 
   templateUrl: './scheduler.component.html',
@@ -30,7 +32,8 @@ import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocati
 })
 export class SchedulerComponent {
   @ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
-
+  editOptionFlag:boolean = true;   
+  deleteOptionFlag:boolean = true;  
   calenderView = true;
   searchView = false;
   noRecordFound = false
@@ -55,11 +58,14 @@ export class SchedulerComponent {
   selectedItems: string[] = [];
   activeDayIsOpen: boolean = false; 
   dialog1Ref: MatDialogRef<any> | null = null;
+  selectedDateEventCount:any=1
 
   whereSearchCond = {};
   userSearchQuery = {};
   patientSearchQuery = {}
   searchAppointmentsList: any = []
+  public userId: string = this.authService.getLoggedInInfo('_id');
+  userRole = this.authService.getLoggedInInfo('role')
   constructor(private router: Router,private cdr: ChangeDetectorRef, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
 
     ngOnInit() {
@@ -68,9 +74,8 @@ export class SchedulerComponent {
     }
 
     ngAfterViewInit() {
-      // Listen to stateChanges to detect month navigation
-      this.calendar.stateChanges.subscribe(() => {
-        this.onMonthChanges();
+      this.calendar.stateChanges.pipe(debounceTime(300)).subscribe(() => {
+        this.onMonthChanges('1');
       });
     }
 
@@ -140,13 +145,45 @@ export class SchedulerComponent {
       });
     }
 
-    deleteAppointment() {
-      const dialogRef = this.dialog.open(AlertComponent,{
-        panelClass: 'custom-alert-container',
-        data : {
-          warningNote: 'Do you really want to delete this appointment?'
-        }
-      });
+    deleteAppointment(id:string,app_name:string,count:any) {
+      if(id){
+        const dialogRef = this.dialog.open(AlertComponent,{
+          panelClass: 'custom-alert-container',
+          data : {
+            warningNote: 'Do you really want to delete this "'+app_name+'" appointment?'
+          }
+        });
+        dialogRef.afterClosed().subscribe(res => {
+          if (!res) {
+            return;
+          } else {
+            var params = { 
+              query: { _id: id },
+              updateInfo: {
+                status: 'Cancelled',
+                rejectInfo: {
+                  fromPatientId: this.userId,
+                  fromAdminId: this.userId,
+                  userRole: this.userRole,
+                  comment: '',
+                  rejectedDate: new Date()
+                }
+              }
+            }
+            this.authService.apiRequest('post', 'appointment/cancelAppointment', params).subscribe(async response => {
+              this.modal.dismissAll()
+              if(!response.error){
+                if(count==1){
+                  this.activeDayIsOpen = false;
+                }                
+                this.commonService.openSnackBar(response.message, "SUCCESS");
+                this.getAppointmentList('')
+                this.cdr.detectChanges(); 
+              }                          
+            })
+          }
+        })
+      }
     }
 
     @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -249,13 +286,41 @@ export class SchedulerComponent {
         });
         this.handleEvent('Dropped or resized', event, ['1']);
     }
+
+    isDatePassed(inputDate: string | Date): boolean {
+      const givenDate = new Date(inputDate);
+      if (isNaN(givenDate.getTime())) {
+        throw new Error('Invalid date format');
+      }
+      const currentDate = new Date();
+      return givenDate.getTime() < currentDate.getTime();
+    }
     
     handleEvent(action: string, event: CalendarEvent, app_data:any=[]): void {
+      const eventsCount = this.events.filter((item) => {
+        const eventDate = new Date(item.start).toISOString().split("T")[0]; 
+        return eventDate === new Date(event.start).toISOString().split("T")[0];
+      });
+      const eventCount = eventsCount.length;
+        this.selectedDateEventCount = eventCount;
         this.app_data = app_data;
         this.modalData = { event, action };
-        this.modal.open(this.modalContent, { 
-          size: 'lg',
-        });
+        if (this.isDatePassed(app_data.appointmentDate)) {
+          this.deleteOptionFlag = true
+          this.editOptionFlag = true
+          this.commonService.openSnackBar('You can not delete the past date appoitment', "SUCCESS");
+        } else {
+          this.deleteOptionFlag = false
+          this.editOptionFlag = false
+          if(action=='Deleted'){
+            this.deleteAppointment(app_data.id,app_data.caseName+' ('+app_data.patientName+')',this.selectedDateEventCount)
+          }       
+        }
+        if(action=='View details'){
+          this.modal.open(this.modalContent, { 
+            size: 'lg',
+          });
+        }
     }
     
     addEvent(): void {
@@ -285,22 +350,23 @@ export class SchedulerComponent {
     
     closeOpenMonthViewDay() {
         this.activeDayIsOpen = false;
+        //console.log('closeOpenMonthViewDay  >>>>>>',this.viewDate)
     } 
 
     onDateChange(event: any) {
-        console.log('onDateChange Event >>>>>>',event)
-        this.viewDate = event;
-        if(this.calenderView){
-          this.getAppointmentList('search')
-        }
-        if(this.searchView){
-          this.searchPageRecords('')
-        }
+        console.log('on Date Change Event >>>>>>',event)
+        // this.viewDate = event;
+        // if(this.calenderView){
+        //   this.getAppointmentList('search')
+        // }
+        // if(this.searchView){
+        //   this.searchPageRecords('')
+        // }
     }
 
-    onMonthChanges(): void {
+    onMonthChanges(id:any): void {
       this.viewDate = this.calendar.activeDate;
-     // console.log('Month navigation detected. Current active month:', this.viewDate);
+     // console.log(id,'*****Month navigation detected. Current active month:', this.viewDate,'....calender View>>>',this.calenderView,'....search View>>>',this.searchView);
       if(this.calenderView){
         this.getAppointmentList('search')
       }
@@ -334,7 +400,7 @@ export class SchedulerComponent {
         limit: 10000,
         offset: (this.pageIndex * this.pageSize)
       }
-      await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
+      await this.authService.apiRequest('post', 'appointment/getSchedularCaseList', reqVars).subscribe(async response => {
         if (action == "") {
           this.commonService.hideLoader()
         }
@@ -357,7 +423,7 @@ export class SchedulerComponent {
               status: element.status,
               caseName: element.caseName,
               caseType: element.caseType,
-              notes: element.notes ? element.notes : 'N/A',
+              notes: element.notes ? element.notes : '',
               repeatsNotes: element.repeatsNotes ? element.repeatsNotes : '',
               checkInBy: element.checkInBy,
               checkInUser: element.checkInDateTime ? 'on '+this.commonService.formatDateInUTC(element.checkInDateTime,'MMM d, y hh:mm a') : 'N/A',
@@ -386,51 +452,26 @@ export class SchedulerComponent {
 
     async appointmentsEventsList(){
       let eventArray: any = []
-        //console.log('........appointmentsList........',this.appointmentsList.length);
       this.appointmentsList.forEach((element:any,index:any) => {
-        //let appointmentDate = subDays(startOfDay(new Date(element.appointmentDate)), 1)
-        //let appointmentEndDate = addDays(new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate), 1)
-      
-        //  let appointmentDate = new Date(element.appointmentDate);   
-        //  let appointmentEndDate = new Date(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate);
-      
-      // console.log('date format>>>>',new Date(element.appointmentDate));
-      // let appointmentDate = this.commonService.formatDateInUTC(element.appointmentDate,'EEE, MMM d, y hh:mm a')
-      //  let appointmentEndDate = this.commonService.formatDateInUTC(element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate,'EEE, MMM d, y hh:mm a')
-
-        if(element.id=='67333913049362faebb931f3' || element.id=='6735efa59590fb85262a2237' || element.id=='67190fb15b8f774a7f86862c'){
-        // console.log('date format>>>>',new Date(element.appointmentDate));
-        // console.log(element.id,' >>>>>> appointmentDate >>>>',appointmentDate,' appointmentEndDate>>>>',appointmentEndDate,' local format date>>>>>',new Date(element.appointmentDate))
-          // console.log(appointmentDate.toUTCString());
-          // console.log(appointmentEndDate.toUTCString());
-          // appointmentDate = new Date(appointmentDate.toISOString());
-          // appointmentEndDate = new Date(appointmentEndDate.toISOString());
-          //console.log(element.id,' >>>>>> appointmentDate >>>>',new Date(element.appointmentStartDate),' >>>>>>',new Date(element.appointmentDate),'>>>>>',new Date(element.appointmentEndDate)); 
-          //appointmentEndDate = appointmentDate = 'Fri 29 Nov 2024 11:45:24 GMT+0530';
-          
-        }
-
-        //<div class="thra--profile d-flex align-items-center"><div class="pro--box me-2 flex-shrink-0"><img src="/assets/images/ark/user.png" class="img-fluid"></div></div> 
-        //color: {   primary: '#e3bc08', secondary: '#FDF1BA' },
         let newColumns = {
           start:new Date(element.appointmentStartDate),
           end: new Date(element.appointmentEndDate),
-          title: element.caseName+' ('+element.patientName+')',
+          title: element.caseName+' ('+element.patientName+')',//'<img src="'+element.profileImage+'" alt="Profile" class="img-fluid" />'+
           color: { ...colors['red'] },
-          //profileImage: 'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
+          //profileImage: element.profileImage,//'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
           actions:  [
             {
               label: '<i class="fas fa-fw fa-eye"></i>',
               a11yLabel: 'Edit',
               onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.handleEvent('Edited', event, element);
+                this.handleEvent('View details', event, element);
               },
             },
             {
-              label: '<i class="fas fa-fw fa-trash-alt"></i>',
+              label: this.isDatePassed(element.appointmentDate)?'' : '<i class="fas fa-fw fa-trash-alt"></i>',
               a11yLabel: 'Delete',
               onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.events = this.events.filter((iEvent) => iEvent !== event);
+                //this.events = this.events.filter((iEvent) => iEvent !== event);
                 this.handleEvent('Deleted', event, element);
               },
             },
@@ -470,13 +511,13 @@ export class SchedulerComponent {
       this.getTherapistList()   
     }
     
-    onCheckboxChange(event: any, id: string): void {  
+    onCheckboxChange(event: any, id: string): void {      
       if (event.checked) {
         this.selectedItems.push(id); // Add ID to the selected list
       } else {
         this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
       }
-      //console.log('Selected Items:', this.selectedItems,' >>>  checked >>>>',event.checked);
+      console.log('Selected Items:', this.selectedItems,' >>>  checked >>>>',event.checked);
       if(this.calenderView){
         this.getAppointmentList('search')
       }
@@ -484,33 +525,6 @@ export class SchedulerComponent {
         this.searchPageRecords('')
       }
     }
-
-    //onCheckboxChange(event: any, id: number): void {
-      // if (event.checked) {
-      //   this.selectedItems.push(id); // Add ID to the selected list
-      // } else {
-      //   this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
-      // }
-      // console.log('Selected Items:', this.selectedItems);
-      // if (this.selectedItems.length>0) {      
-      //   Object.assign(this.whereCond, { ['therapistId']: { $in: [this.selectedItems] } })
-      // } 
-    //   onCheckboxChange(TherapistName: string): void {
-    //     let firstName = { $regex: TherapistName, $options: 'i' }
-    //     let lastName = { $regex: TherapistName, $options: 'i' }
-    //     let final_str = TherapistName.trim().split(' ');
-    //     if(final_str[0] && final_str[1]){
-    //       firstName =  { $regex: final_str[0], $options: 'i' }
-    //       lastName =  { $regex: final_str[1], $options: 'i' }
-    //     }
-        
-    //     this.userQuery = {
-    //       status: "Active",
-    //       role: "therapist",
-    //       $or: [{ firstName: firstName }, { lastName: lastName }]
-    //     }
-    //     this.getAppointmentList('search')
-    // }
       
     async getTherapistList() {
       const reqVars = {     
@@ -527,11 +541,10 @@ export class SchedulerComponent {
       })
     }
 
-
     searchPage() {
       this.calenderView = false;
       this.searchView = true;
-      // console.log('view date >>>>',this.viewDate)
+       console.log('view date >>>>',this.viewDate)
       // const firstDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1); // First day of the month
       // const lastDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth() + 1, 1.5); // Last day of the month
       // console.log('firstDay >>>>',firstDay,'>>>>>>>>>>>>','lastDay >>>>',lastDay)
@@ -542,6 +555,7 @@ export class SchedulerComponent {
     }
 
     searchPageFilters(event: any, colName: string) {
+      console.log('search Page Filters Event >>>>>>',event)
       let searchStr = event.target.value.trim()
       if (searchStr != '') {
         searchStr = searchStr.replace("+", "\\+");
@@ -559,12 +573,6 @@ export class SchedulerComponent {
             $or: [{ firstName: firstName }, { lastName: lastName }, { email: finalStr }]
           }
         }
-        if (colName == 'byPatientDob') {
-          let selectedDate = new Date(event.value);
-          let obj = {}
-          obj = { $eq: selectedDate }
-          Object.assign(this.patientSearchQuery, { dob: obj })
-        }
       } else {
         //this.whereSearchCond = {};
         this.patientSearchQuery = {}
@@ -572,8 +580,23 @@ export class SchedulerComponent {
       this.searchPageRecords('search')
     }
 
+    onSearchDateChange(event: any) {
+     //console.log('on Search Date Change Event >>>>>>',event)
+    
+     let startdDate = startOfDay(new Date(event.value));this.commonService.formatUTCDate(event.value)
+     let endDate = addDays(new Date(event.value), 1)
+     let obj = { $gt: startdDate, $lte: endDate }
+      Object.assign(this.patientSearchQuery, { dob: obj })//this.commonService.formatUTCDate(event.value)
+
+      if(this.searchView){
+        this.searchPageRecords('')
+      }
+    }
+
     async searchPageRecords(action:string) {
-      this.commonService.showLoader()
+      // this.commonService.showLoader()
+      // console.log('.....search Page Records >>>>>>',)
+      // console.log(this.patientSearchQuery,'.....search Page Records whereSearchCond >>>>>>',this.whereSearchCond)
       let reqVars = {
         query: this.whereSearchCond,
         userQuery: this.userSearchQuery,
@@ -586,22 +609,22 @@ export class SchedulerComponent {
         limit: this.pageSize,
         offset: (this.pageIndex * this.pageSize)
       }
-      await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
-        this.commonService.hideLoader()
+      await this.authService.apiRequest('post', 'appointment/getSchedularCaseList', reqVars).subscribe(async response => {
+        //this.commonService.hideLoader()
         this.totalSearchPageCount = response.data.totalCount
         let finalData: any = []
         if (response.data.appointmentList.length > 0) {
           this.noRecordFound = false;
           await response.data.appointmentList.map((element: any) => {
             let newColumns = {
-              id: element._id,
-              practiceLocation: element.practiceLocation,
-              appointmentId: element.appointmentId,
-              checkIn: element.checkIn,
+              id: element._id,             
+              appointmentId: element.appointmentId,             
               appointmentStartDate: element.appointmentStartDate,
               appointmentEndDate: element.appointmentEndDate,
               appointmentDate: element.appointmentDate,
               appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
+              practiceLocation: element.practiceLocation,
+              checkIn: element.checkIn,
               status: element.status,
               caseName: element.caseName,
               caseType: element.caseType,
@@ -617,13 +640,37 @@ export class SchedulerComponent {
             }
             finalData.push(newColumns)
           })
-          this.searchAppointmentsList = finalData;
+          finalData = this.groupAppointmentsByDate(finalData); 
+          if(finalData.__zone_symbol__state){
+            this.searchAppointmentsList = finalData.__zone_symbol__value;   
+          }          
         } else {
           this.noRecordFound = true;
         }    
         this.cdr.detectChanges();
-        //console.log('search appointments list >>>>',this.searchAppointmentsList)
       })
+    }
+
+
+    async groupAppointmentsByDate(appointmentsList:any) {
+      const groupedAppointments:any = {};
+      appointmentsList.forEach((appointment:any) => {
+          // Extract date in YYYY-MM-DD format
+          const date = new Date(appointment.appointmentDate).toISOString().split("T")[0];
+          // Initialize array for the date if not already done
+          if (!groupedAppointments[date]) {
+              groupedAppointments[date] = [];
+          }
+          // Add appointment to the corresponding date
+          groupedAppointments[date].push(appointment);
+      });
+      // Convert groupedAppointments object to an array
+      const res_data = Object.keys(groupedAppointments).map(date => ({
+          date,
+          appointments: groupedAppointments[date]
+      }));
+
+      return res_data;
     }
     
     backToCalender(){
@@ -635,12 +682,26 @@ export class SchedulerComponent {
     handlePageEvent(event: any) {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
+      console.log('handle Page Event')
       this.searchPageRecords('')
     }
 
+    resetSearchPage(){
+      this.whereSearchCond = {};
+      this.userSearchQuery = {};
+      this.patientSearchQuery = {}
+      this.searchAppointmentsList = []
+      this.searchPageRecords('')
+    }
+
+    navigateToappointmentDetails(appointmentId: string) {
+      this.modal.dismissAll()
+      this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);
+    }
+
+
 
 }
-
 
 const colors: Record<string, EventColor> = {
   red: {
