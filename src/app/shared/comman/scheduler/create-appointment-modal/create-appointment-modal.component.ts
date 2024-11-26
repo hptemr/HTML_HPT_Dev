@@ -62,7 +62,7 @@ export class CreateAppointmentModalComponent {
     const defaultStartTime = this.getNext30MinuteMark();
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
-    console.log('minTime:', this.minTime);
+    //console.log('minTime:', this.minTime);
     if(this.userRole!='support_team'){
       this.router.navigate([''])
     }

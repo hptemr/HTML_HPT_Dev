@@ -145,13 +145,12 @@ export class SchedulerComponent {
       });
     }
 
-    deleteAppointment(id:string,count:any) {
-      console.log('count>>>>>',count)
+    deleteAppointment(id:string,app_name:string,count:any) {
       if(id){
         const dialogRef = this.dialog.open(AlertComponent,{
           panelClass: 'custom-alert-container',
           data : {
-            warningNote: 'Do you really want to delete this appointment?'
+            warningNote: 'Do you really want to delete this "'+app_name+'" appointment?'
           }
         });
         dialogRef.afterClosed().subscribe(res => {
@@ -309,14 +308,19 @@ export class SchedulerComponent {
         if (this.isDatePassed(app_data.appointmentDate)) {
           this.deleteOptionFlag = true
           this.editOptionFlag = true
+          this.commonService.openSnackBar('You can not delete the past date appoitment', "SUCCESS");
         } else {
           this.deleteOptionFlag = false
           this.editOptionFlag = false
+          if(action=='Deleted'){
+            this.deleteAppointment(app_data.id,app_data.caseName+' ('+app_data.patientName+')',this.selectedDateEventCount)
+          }       
         }
-      
-        this.modal.open(this.modalContent, { 
-          size: 'lg',
-        });
+        if(action=='View details'){
+          this.modal.open(this.modalContent, { 
+            size: 'lg',
+          });
+        }
     }
     
     addEvent(): void {
@@ -396,7 +400,7 @@ export class SchedulerComponent {
         limit: 10000,
         offset: (this.pageIndex * this.pageSize)
       }
-      await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
+      await this.authService.apiRequest('post', 'appointment/getSchedularCaseList', reqVars).subscribe(async response => {
         if (action == "") {
           this.commonService.hideLoader()
         }
@@ -460,14 +464,14 @@ export class SchedulerComponent {
               label: '<i class="fas fa-fw fa-eye"></i>',
               a11yLabel: 'Edit',
               onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.handleEvent('Edited', event, element);
+                this.handleEvent('View details', event, element);
               },
             },
             {
-              label: '<i class="fas fa-fw fa-trash-alt"></i>',
+              label: this.isDatePassed(element.appointmentDate)?'' : '<i class="fas fa-fw fa-trash-alt"></i>',
               a11yLabel: 'Delete',
               onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.events = this.events.filter((iEvent) => iEvent !== event);
+                //this.events = this.events.filter((iEvent) => iEvent !== event);
                 this.handleEvent('Deleted', event, element);
               },
             },
@@ -521,7 +525,6 @@ export class SchedulerComponent {
         this.searchPageRecords('')
       }
     }
-
       
     async getTherapistList() {
       const reqVars = {     
@@ -570,12 +573,6 @@ export class SchedulerComponent {
             $or: [{ firstName: firstName }, { lastName: lastName }, { email: finalStr }]
           }
         }
-        // if (colName == 'byPatientDob') {
-        //   let selectedDate = new Date(event.value);
-        //   let obj = {}
-        //   obj = { $eq: selectedDate }
-        //   Object.assign(this.patientSearchQuery, { dob: obj })
-        // }
       } else {
         //this.whereSearchCond = {};
         this.patientSearchQuery = {}
@@ -584,19 +581,10 @@ export class SchedulerComponent {
     }
 
     onSearchDateChange(event: any) {
-      console.log('on Search Date Change Event >>>>>>',event)
-      //console.log('onSearchDateChange value >>>>>>',event.value,'>>>>>>>>>>>>>>>>>>>>>>>>',typeof event.value)
-
-     // let selectedDate = new Date(event.value);
-     // let obj = {}
-     // obj = { $eq: selectedDate }
-     // obj = { $gte: selectedDate, $lte: selectedDate }
-     //new Date(event.value)
-     //Object.assign(this.patientSearchQuery, { dob: this.commonService.formatUTCDate(event.value) })
+     //console.log('on Search Date Change Event >>>>>>',event)
     
      let startdDate = startOfDay(new Date(event.value));this.commonService.formatUTCDate(event.value)
      let endDate = addDays(new Date(event.value), 1)
-     //console.log('......startdDate>>>>>>',startdDate,'......endDate>>>>',endDate)
      let obj = { $gt: startdDate, $lte: endDate }
       Object.assign(this.patientSearchQuery, { dob: obj })//this.commonService.formatUTCDate(event.value)
 
@@ -621,7 +609,7 @@ export class SchedulerComponent {
         limit: this.pageSize,
         offset: (this.pageIndex * this.pageSize)
       }
-      await this.authService.apiRequest('post', 'appointment/getCaseList', reqVars).subscribe(async response => {
+      await this.authService.apiRequest('post', 'appointment/getSchedularCaseList', reqVars).subscribe(async response => {
         //this.commonService.hideLoader()
         this.totalSearchPageCount = response.data.totalCount
         let finalData: any = []
@@ -629,14 +617,14 @@ export class SchedulerComponent {
           this.noRecordFound = false;
           await response.data.appointmentList.map((element: any) => {
             let newColumns = {
-              id: element._id,
-              practiceLocation: element.practiceLocation,
-              appointmentId: element.appointmentId,
-              checkIn: element.checkIn,
+              id: element._id,             
+              appointmentId: element.appointmentId,             
               appointmentStartDate: element.appointmentStartDate,
               appointmentEndDate: element.appointmentEndDate,
               appointmentDate: element.appointmentDate,
               appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
+              practiceLocation: element.practiceLocation,
+              checkIn: element.checkIn,
               status: element.status,
               caseName: element.caseName,
               caseType: element.caseType,
@@ -652,13 +640,37 @@ export class SchedulerComponent {
             }
             finalData.push(newColumns)
           })
-          this.searchAppointmentsList = finalData;
+          finalData = this.groupAppointmentsByDate(finalData); 
+          if(finalData.__zone_symbol__state){
+            this.searchAppointmentsList = finalData.__zone_symbol__value;   
+          }          
         } else {
           this.noRecordFound = true;
         }    
         this.cdr.detectChanges();
-        //console.log('search appointments list >>>>',this.searchAppointmentsList)
       })
+    }
+
+
+    async groupAppointmentsByDate(appointmentsList:any) {
+      const groupedAppointments:any = {};
+      appointmentsList.forEach((appointment:any) => {
+          // Extract date in YYYY-MM-DD format
+          const date = new Date(appointment.appointmentDate).toISOString().split("T")[0];
+          // Initialize array for the date if not already done
+          if (!groupedAppointments[date]) {
+              groupedAppointments[date] = [];
+          }
+          // Add appointment to the corresponding date
+          groupedAppointments[date].push(appointment);
+      });
+      // Convert groupedAppointments object to an array
+      const res_data = Object.keys(groupedAppointments).map(date => ({
+          date,
+          appointments: groupedAppointments[date]
+      }));
+
+      return res_data;
     }
     
     backToCalender(){
@@ -688,8 +700,8 @@ export class SchedulerComponent {
     }
 
 
-}
 
+}
 
 const colors: Record<string, EventColor> = {
   red: {

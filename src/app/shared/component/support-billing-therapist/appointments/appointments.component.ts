@@ -26,7 +26,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 export class AppointmentsComponent {
   displayedColumns: string[] = ['name', 'appointmentDate', 'status', 'checkIn', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  orderBy: any = { updatedAt: -1 }
+  orderBy: any = { appointmentDate:-1, updatedAt: -1 }
   whereCond: any = {}
   userQuery: any = {}
   dayTwo = false;
