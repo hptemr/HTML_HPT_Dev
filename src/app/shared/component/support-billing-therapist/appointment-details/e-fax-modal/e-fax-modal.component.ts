@@ -107,6 +107,7 @@ export class EFaxModalComponent {
           })
         }
         this.allOptions = finalData;    
+        this.myControl.setValue('')
       })
     }
 
