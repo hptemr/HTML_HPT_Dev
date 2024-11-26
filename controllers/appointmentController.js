@@ -682,7 +682,7 @@ const getCaseList = async (req, res) => {
             Object.assign(query, { appointmentDate: dateRangeObj })
         }
 
-        if(therapistIds.length>0){
+        if(therapistIds && therapistIds.length>0){
             query['therapistId'] = { $in: therapistIds.map((id) =>new ObjectId(id)), }
         } 
         // else{
