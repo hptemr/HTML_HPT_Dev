@@ -269,7 +269,7 @@
                                                 </button>
                                             </div>
                                             <div class="w-100 d-flex align-items-center" *ngFor="let addendum of element.addendums">
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="addendum.status=='Finalized'" [routerLink]="['/',activeUserRoute,'initial-examination','subjective',appointmentId,addendum.addendumId]">
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="addendum.status=='Finalized'" [routerLink]="['/',activeUserRoute,loadValue(element.soap_note_type),'subjective',appointmentId,addendum.addendumId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                                 </button>
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="addendum.status!='Finalized' || addendum.is_disabled" (click)="createAddendum(appointmentId,addendum.soap_note_type)">
