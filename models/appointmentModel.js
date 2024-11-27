@@ -31,6 +31,7 @@ const appointmentSchema = new mongoose.Schema({
     repeatsNotes: { type: String, default: "" },
     checkIn: { type: Boolean, default: false },
     checkInDateTime: { type: Date },
+    appointmentStatus: { type: String, default: "" },
     checkInBy:  {
         type: mongoose.Schema.ObjectId,
         ref: "users"
