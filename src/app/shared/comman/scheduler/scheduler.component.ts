@@ -82,7 +82,6 @@ export class SchedulerComponent {
 
     onChange(event: MatRadioChange,id:string) {
       let updateInfo = {};let text = '';
-      console.log('event????>>>',event)
       if(event.value=='checkIn'){
         text = 'checked in?'
         updateInfo = { checkIn: true, checkInBy: this.userId,appointmentStatus:'checkIn'}
