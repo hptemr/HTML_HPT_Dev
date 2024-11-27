@@ -1163,6 +1163,37 @@ const addBillingDetails = async (req, res) => {
     }
   }   
 
+  const getUpcomingAppointments = async (req, res) => {
+    try {
+      const { query, eventQuery, fields, order } = req.body
+
+      let appointmentList = await Appointment.find(query, fields).sort(order)
+      let appointmentEventsList = await AppointmentEventsModel.find(eventQuery, {repeateAppointmentDate:1,repeateAppointmentEndDate:1}).sort({repeateAppointmentDate:-1});
+
+      //console.log('appointmentList >>>>',appointmentList.length)
+      //console.log('appointmentEventsList >>>>',appointmentEventsList.length)
+
+      let list = [];
+      appointmentList.forEach(element => {
+        let newValue = {appointmentDate:element.appointmentDate};
+        list.push(newValue);
+      });
+
+      appointmentEventsList.forEach(element => {
+        let newValue = {appointmentDate:element.repeateAppointmentDate};
+        list.push(newValue);
+      });
+
+      //console.log('appointmentList >>>>',list)
+
+      let response = {appointmentList:list};
+      commonHelper.sendResponse(res, 'success', response, "Success");
+    } catch (error) {
+      console.log("getPatientCheckInCount Error>>>",error)
+      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+  }   
+
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
@@ -1188,5 +1219,6 @@ module.exports = {
     getAuthorizationManagementDetails,
     addStCaseDetails,
     getStCaseDetails,
-    getPatientCheckInCount
+    getPatientCheckInCount,
+    getUpcomingAppointments
 };
