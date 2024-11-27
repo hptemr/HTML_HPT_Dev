@@ -216,9 +216,9 @@
                         <label class="col-form-label fw-600">Repeats</label>
                         <select class="form-select form-control" aria-label="Default select example" formControlName="repeatsNotes">
                             <option selected>Select</option>
-                            <option value="Every week on Monday"> Every week on Monday</option> 
-                            <option value="Every Month on Monday"> Every Month on Monday</option> 
-                            <option value="Every two weeks on Monday"> Every two weeks on Monday</option> 
+                            <option value="Every week on {{day}}"> Every week on {{day}}</option> 
+                            <option value="Every two weeks on {{day}}"> Every two weeks on {{day}}</option> 
+                            <option value="Every Month on {{day}}"> Every Month on {{day}}</option> 
                         </select>
                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['repeatsNotes'].touched && appointmentForm.controls['repeatsNotes'].hasError('required')">
                             {{ validationMessages.requiredDropdown('Repeats') }}

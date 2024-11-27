@@ -54,8 +54,9 @@ export class AppointmentsComponent {
   patientQuery: any = {}
   minToDate: Date | null = null;
   maxToDate: Date | null = null;
-  userType:String=''
   patientCheckInDisable:boolean = false
+  userId = this.authService.getLoggedInInfo('_id')
+  userType = this.authService.getLoggedInInfo('role')
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -66,7 +67,6 @@ export class AppointmentsComponent {
   ) { }
 
   ngOnInit() {
-    this.userType = this.authService.getLoggedInInfo('role')
     let userTypes:any = ['therapist','billing_team']
     if(userTypes.includes(this.userType)){
       this.patientCheckInDisable = true
@@ -257,6 +257,8 @@ export class AppointmentsComponent {
         query: { _id: obj.id },
         updateInfo: {
           checkIn: event.source._checked,
+          checkInBy: this.userId,
+          appointmentStatus:'checkIn'
         }
       }
       await this.authService.apiRequest('post', 'appointment/updatePatientCheckIn', reqVars).subscribe(async response => {
