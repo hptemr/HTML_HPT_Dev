@@ -194,9 +194,9 @@ export class SubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
         this.subjectiveId = subjectiveData._id;
-        if(subjectiveData.note_date){          
-          this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(subjectiveData.note_date));
-        }        
+        // if(subjectiveData.note_date){          
+        //   this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(subjectiveData.note_date));
+        // }        
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
         this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
@@ -217,9 +217,9 @@ export class SubjectiveComponent implements OnInit {
         this.selectedCode = this.icdCodeList.length>0 ? true : false;
       }
 
-      // if(response.data && response.data.appointmentDatesList){
-      //   this.appointment_dates = response.data.appointmentDatesList       
-      // }           
+      if(response.data && response.data.appointmentDatesList){
+        this.appointment_dates = response.data.appointmentDatesList       
+      }           
 
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
