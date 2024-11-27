@@ -140,7 +140,7 @@ export class ViewEditInsuranceComponent {
       thirdSubscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
       thirdSubscriberMiddleName: [''],
       thirdSubscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
-      thirdSubscriberDob: ['',[Validators.required]],
+      thirdSubscriberDob: [''],
       thirdSubscriberRelationWithPatient: [''],
       thirdSubscriberOtherRelation: [''],
       thirdSubscriberGender: [''],
@@ -709,7 +709,6 @@ export class ViewEditInsuranceComponent {
  
 onEmployerChange(event: MatRadioChange) {
   this.employerSelected = event.value
-
   if(this.employerSelected=='Yes'){
     this.insuranceForm.controls['employerName'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])
     this.insuranceForm.controls['employerPhone'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
@@ -718,10 +717,14 @@ onEmployerChange(event: MatRadioChange) {
     this.insuranceForm.controls['employerName'].setValidators([])
     this.insuranceForm.controls['employerPhone'].setValidators([])
     this.insuranceForm.controls['employerAddress'].setValidators([])
+    this.insuranceForm.controls['employerName'].reset();
+    this.insuranceForm.controls['employerPhone'].reset();
+    this.insuranceForm.controls['employerAddress'].reset();  
     this.insuranceForm.get('employerName')?.markAsUntouched();
     this.insuranceForm.get('employerPhone')?.markAsUntouched();
     this.insuranceForm.get('employerAddress')?.markAsUntouched();
   }
+  this.insuranceForm.updateValueAndValidity();
 }
 
 subscriberRelationShipPatient(event: any) {
