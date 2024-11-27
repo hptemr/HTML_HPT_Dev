@@ -448,8 +448,7 @@ export class IntakeStep2Component {
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
       this.selectedInsuranceFiles = info.insuranceFiles;
-      
-      if(info.insuranceFiles.length>0){
+      if(info && info.insuranceFiles && info.insuranceFiles.length>0){
         let filesArr: any = []
         info.insuranceFiles.forEach((element: any) => {
           filesArr.push({
