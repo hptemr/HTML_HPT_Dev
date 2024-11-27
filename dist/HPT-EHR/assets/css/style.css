@@ -23126,7 +23126,7 @@ footer {
       -ms-flex-pack: center;
           justify-content: center;
   margin: 0 auto;
-  background: url("../images/login/login_bg.webp");
+  /* background: url("../images/login/login_bg.webp"); */
   background-position: center;
   padding: 30px 12px;
 }
