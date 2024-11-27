@@ -175,10 +175,13 @@ export class SchedulerComponent {
       });
     }
 
-    upcomingAppointmentModal(){
+    upcomingAppointmentModal(app_data:any){
       const dialogRef = this.dialog.open(UpcomingAppModalComponent,{
         width:'310px',
         panelClass: [ 'modal--wrapper'],
+        data: {
+          app_data:app_data,      
+        }
       });
     }
 
