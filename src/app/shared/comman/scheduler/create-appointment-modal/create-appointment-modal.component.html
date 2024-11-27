@@ -134,6 +134,24 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
+                        <label class="col-form-label fw-600">Appointment Date & Time<span class="clr--DF0404 ms-1"> * </span></label>
+                        <!-- <div class="input-group">
+                            <input (keydown)="false" class="form-control digits cursor-pointer" [min]="minToDate" [max]="maxToDate" formControlName="appointmentDate" id="example-datetime-local-input" type="datetime-local" value="">
+                        </div> -->
+                        <div class="input-group date--time--picker"> 
+                            <input class="form-control" [min]="minToDate" [max]="maxToDate" [owlDateTimeTrigger]="dt" readonly="true" [owlDateTime]="dt"  >
+                                <span class="trigger" [owlDateTimeTrigger]="dt">
+                                    <mat-icon class="calendar--icon">calendar_month</mat-icon>
+                                </span>
+                            <owl-date-time #dt></owl-date-time> 
+                        </div>
+                    </div>
+                    <!-- <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
+                        {{ validationMessages.required('appointment date time') }}
+                    </div>     -->
+                </div> 
+                <div class="col-12 col-lg-6 col-md-6">
+                    <div class="form-group">
                         <label class="col-form-label fw-600">Therapist <span class="clr--DF0404 ms-1"> * </span></label>
                         <select class="form-select form-control" aria-label="Default select example" formControlName="therapistId">
                             <option value="" selected>Select</option>
@@ -220,9 +238,11 @@
                             <option value="Every two weeks on {{day}}"> Every two weeks on {{day}}</option> 
                             <option value="Every Month on {{day}}"> Every Month on {{day}}</option> 
                         </select>
+                        
                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['repeatsNotes'].touched && appointmentForm.controls['repeatsNotes'].hasError('required')">
                             {{ validationMessages.requiredDropdown('Repeats') }}
-                        </div>    
+                        </div>  
+                        <p class="font-14 my-2"> <strong>Note:</strong> All appointments will repeat for a period of 3 months </p>  
                     </div>
                 </div>
             </div>

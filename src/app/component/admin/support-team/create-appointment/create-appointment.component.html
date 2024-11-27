@@ -184,8 +184,7 @@
                         <option value="Follow-up">Follow-up</option>
                         <option value="Aquatic">Aquatic</option>
                         <option value="Other">Other</option>
-                    </select>
-               
+                    </select> 
                 </div>
             </div>   
             <div class="col-12 col-lg-6 col-md-6 mt-2" *ngIf="selectedAppTypeValue == 'Other'" >
@@ -195,6 +194,21 @@
                     <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentTypeOther'].touched && appointmentForm.controls['appointmentTypeOther'].hasError('required')">
                         {{ validationMessages.required('Appointment type') }}
                     </div>
+                </div>
+            </div>  
+            <div class="col-12 col-lg-6 col-md-6 mt-2">
+                <div class="form-group w-100">
+                    <label class="col-form-label fw-600 pb-0">Repeats</label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option value="" selected>Select </option>
+                        <option value="1">Every week on Wednesday</option>
+                        <option value="2">Every two weeks on Wednesday</option>
+                        <option value="3">Every Month on Wednesday</option> 
+                    </select> 
+                    <div class="text text-danger mt-1" *ngIf="">
+                        <!-- {{ validationMessages.requiredDropdown('Repeats') }} -->
+                    </div>  
+                    <p class="font-14 my-2"> <strong>Note:</strong> All appointments will repeat for a period of 3 months </p>  
                 </div>
             </div>   
         </div>
