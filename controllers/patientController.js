@@ -19,6 +19,7 @@ var constants = require('./../config/constants')
 const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const s3Details = constants.s3Details;
 const tebraController = require('../controllers/tebraController');
+const Case = require('../models/casesModel');
 
 
 const signup = async (req, res) => {
@@ -98,6 +99,13 @@ const signup = async (req, res) => {
                         const updatePatient = { $set: request_data };
                         let optionsUpdatePatient = { returnOriginal: false };
                         result = await Patient.findOneAndUpdate(filterPatient, updatePatient, optionsUpdatePatient);
+
+                        // Register patient on Tebra (By register link)
+                        let caseOutput = await Case.find({ patientId: result._id }).lean();
+                        if(found.signupToken && !result?.patientOnTebra && caseOutput.length){   
+                            console.log("<<< Patient Register on tebra >>>>")
+                            // await tebraController.createPatient(result).catch((_err)=>false)
+                        }
                     }else{
                        // Normal patient register
                         let newPatient = new Patient(request_data);

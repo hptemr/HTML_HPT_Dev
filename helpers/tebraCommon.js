@@ -46,9 +46,19 @@ const tebraApiLog = (apiMethod,xmlRequest,xmlResponse,status,otherData,errorData
   Rinsert.save();
 }
 
+const escapeCodeString = (realText) =>{
+  if (realText) {
+    realText = realText.toString().replace("&", "&amp;");
+    realText = realText.toString().replace("<", "&lt;");
+    realText = realText.toString().replace(">", "&gt;");
+  }
+  return realText;
+}
+
 module.exports = {
   requestHeader,
   parseXMLResponse,
   changeDateFormat,
+  escapeCodeString,
   tebraApiLog
 };

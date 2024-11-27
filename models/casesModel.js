@@ -9,6 +9,12 @@ const casesSchema = new mongoose.Schema({
     caseType: { type: String, default: "" },
     appointments: { type: Array, default: [] },//appointment id
     billingType: { type: String, default: "" },
+    tebraDetails:{
+        CaseID:{ type: String },
+        PatientID:{ type: String },
+        PracticeID:{ type: String },
+        PracticeName:{ type: String }
+    },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })

@@ -8,6 +8,7 @@ const { tebraCredentials } = require('./../config/constants')
 const tebraSoapRequest = require('../helpers/tebraSoapRequest');
 let ObjectId = require('mongoose').Types.ObjectId;
 const Patient = require('../models/patientModel');
+const Case = require('../models/casesModel');
 
 // const GetPractices = async (req, res) => {
 //     try {
@@ -112,52 +113,58 @@ const getPractices = async (req, res) => {
     }
 };
 
-const createPatient = async (patientData) => {
-    try {
-        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/CreatePatient'
-        const soapRequest = tebraSoapRequest.createPatient(patientData)
-        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+const createPatient =  (patientData) => {
+    return new Promise( function (resolve, reject) {
+        try {
+            const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/CreatePatient'
+            const soapRequest = tebraSoapRequest.createPatient(patientData)
+            const requestHeaders =  tebraCommon.requestHeader(soapAction)
 
-        console.log("soapRequest>>>>",soapRequest)
+            console.log("soapRequest>>>>",soapRequest)
 
-        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+                console.log('Response >>>>>:', response);
+                console.log('Response Data>>>>:', response.data);
 
-            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
-            if(!parseError){
-                const errorResponse = parseResult['s:Envelope']['s:Body']['CreatePatientResponse']['CreatePatientResult']['ErrorResponse'];
-                if(errorResponse && errorResponse?.IsError=='false'){
-                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['CreatePatientResponse']['CreatePatientResult'];
+                let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+                console.log("parseResult>>>>",parseResult)
+                if(!parseError){
+                    const errorResponse = parseResult['s:Envelope']['s:Body']['CreatePatientResponse']['CreatePatientResult']['ErrorResponse'];
+                    if(errorResponse && errorResponse?.IsError=='false'){
+                        const patientTebraRes = parseResult['s:Envelope']['s:Body']['CreatePatientResponse']['CreatePatientResult'];
 
-                    // Save tebra response object in patient collection
-                    let insertObject ={
-                        'tebraDetails':{
-                            PatientID: patientTebraRes.PatientID,
-                            PracticeID: patientTebraRes.PracticeID,
-                            PracticeName: patientTebraRes.PracticeName
-                        },
-                        patientOnTebra: true
+                        // Save tebra response object in patient collection
+                        let insertObject ={
+                            'tebraDetails':{
+                                PatientID: patientTebraRes.PatientID,
+                                PracticeID: patientTebraRes.PracticeID,
+                                PracticeName: patientTebraRes.PracticeName
+                            },
+                            patientOnTebra: true
+                        }
+                        console.log("patientData._id>>>>",patientData._id)
+                        console.log("insertObject>>>>",insertObject)
+                        await Patient.updateOne({ _id: patientData._id }, { $set: insertObject });
+
+                        console.log('========Patient created successfully=========:',patientTebraRes);
+
                     }
-                    console.log("patientData._id>>>>",patientData._id)
-                    console.log("insertObject>>>>",insertObject)
-                    await Patient.updateOne({ _id: patientData._id }, { $set: insertObject });
-
-                    console.log('========Patient created successfully=========:',patientTebraRes);
                 }
-            }
-            // Tebra Logs
-            tebraCommon.tebraApiLog('createPatient',soapRequest,parseResult,'success',{patientId:patientData._id},'')
-        }).catch(error => {
-            console.error('========createPatient API Error=========:', error);
-            tebraCommon.tebraApiLog('createPatient',soapRequest,'','apiError',{patientId:patientData._id},error)
-        });
+                // Tebra Logs
+                tebraCommon.tebraApiLog('createPatient',soapRequest,parseResult,'success',{patientId:patientData._id},'')
+                resolve(true)
+            }).catch(error => {
+                console.error('========createPatient API Error=========:', error);
+                tebraCommon.tebraApiLog('createPatient',soapRequest,'','apiError',{patientId:patientData._id},error)
+                reject()
+            });
 
-    } catch (error) {
-        console.log("========createPatient=========:", error)
-        tebraCommon.tebraApiLog('createPatient',soapRequest,'','catchError',{patientId:patientData._id},error)
-    }
+        } catch (error) {
+            console.log("========createPatient=========:", error)
+            tebraCommon.tebraApiLog('createPatient',soapRequest,'','catchError',{patientId:patientData._id},error)
+            reject()
+        }
+    })
 };
 
 
@@ -234,6 +241,56 @@ const updatePatientAdditionalInfo = async (patientData, patient) => {
     }
 };
 
+
+const createCase = async (patientRes, caseName, caseId) => {
+    try {
+        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
+        const soapRequest = tebraSoapRequest.createCase(patientRes, caseName)
+        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+        let dataForLogs = { 'patientId': patientRes._id, 'caseId':caseId}
+
+        console.log("soapRequest>>>>",soapRequest)
+
+        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+            console.log('Response >>>>>:', response);
+            console.log('Response Data>>>>:', response.data);
+
+            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+            console.log("parseResult>>>>",parseResult)
+            if(!parseError){
+                const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
+                if(errorResponse && errorResponse?.IsError=='false'){
+                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
+                    const caseRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes'];
+
+                    // Save tebra response object in case collection
+                    let insertObject ={
+                        'tebraDetails':{
+                            CaseID: caseRes?.CaseID,
+                            PatientID: patientTebraRes?.PatientID,
+                            PracticeID: patientTebraRes?.PracticeID,
+                            PracticeName: patientTebraRes?.PracticeName
+                        }
+                    }
+                    console.log("insertObject>>>>",insertObject)
+                    console.log("caseId>>>>",caseId)
+                    await Case.updateOne({ _id: caseId }, { $set: insertObject });
+                    console.log('========Case created successfully=========:',patientTebraRes);
+                }
+            }
+            // Tebra Logs
+            tebraCommon.tebraApiLog('createCase',soapRequest,parseResult,'success',dataForLogs,'')
+        }).catch(error => {
+            console.error('========createCase API Error=========:', error);
+            tebraCommon.tebraApiLog('createCase',soapRequest,'','apiError',dataForLogs,error)
+        });
+
+    } catch (error) {
+        console.log("========createCase=========:", error)
+        tebraCommon.tebraApiLog('createCase',soapRequest,'','catchError',dataForLogs,error)
+    }
+};
+
 const testAPI = async (req, res) => {
 
     let patientData = {
@@ -277,5 +334,6 @@ module.exports = {
     createPatient,
     updatePatientPersonalInfo,
     updatePatientAdditionalInfo,
+    createCase,
     testAPI
 };

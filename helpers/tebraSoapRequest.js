@@ -47,7 +47,6 @@ const createPatient = (patientData) => {
                                     <sch:Gender>${patientData.gender}</sch:Gender>
                                     <sch:LastName>${patientData.lastName}</sch:LastName>
                                     <sch:MiddleName>${patientData.middleName?patientData.middleName:''}</sch:MiddleName>
-                                    <sch:PatientExternalID>${patientData._id}</sch:PatientExternalID>
                                     <sch:Practice>
                                         <sch:PracticeID>1</sch:PracticeID>
                                         <sch:PracticeName>Hamilton Physical Therapy</sch:PracticeName>
@@ -132,9 +131,44 @@ const createPatient = (patientData) => {
       return soapRequest
   }
 
+
+  const createCase = (patientRes, caseName) => {
+    let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
+                            <soapenv:Header/>
+                            <soapenv:Body>
+                                <sch:UpdatePatient>
+                                    <sch:UpdatePatientReq>
+                                        <sch:RequestHeader>
+                                        <sch:CustomerKey>${tebraCredentials?.customerKey}</sch:CustomerKey>
+                                        <sch:Password>${tebraCredentials?.password}</sch:Password>
+                                        <sch:User>${tebraCredentials?.user}</sch:User>
+                                        </sch:RequestHeader>
+                                        <sch:Patient>
+                                        <sch:Cases>
+                                            <sch:PatientCaseUpdateReq>
+                                                <sch:CaseName>${caseName}</sch:CaseName>
+                                                <sch:ReferringProviderFullName>Doug Martin</sch:ReferringProviderFullName>
+                                                <sch:ReferringProviderID>01</sch:ReferringProviderID>
+                                            </sch:PatientCaseUpdateReq>
+                                        </sch:Cases>
+                                        <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
+                                        <sch:Practice>
+                                            <sch:PracticeID>1</sch:PracticeID>
+                                            <sch:PracticeName>Hamilton Physical Therapy</sch:PracticeName>
+                                        </sch:Practice>
+                                        </sch:Patient>
+                                    </sch:UpdatePatientReq>
+                                </sch:UpdatePatient>
+                            </soapenv:Body>
+                        </soapenv:Envelope>`
+    
+      return soapRequest
+  }
+
 module.exports = {
   getPracice,
   createPatient,
   updatePatientPersonalInfo,
-  updatePatientAdditionalInfo
+  updatePatientAdditionalInfo,
+  createCase
 };
