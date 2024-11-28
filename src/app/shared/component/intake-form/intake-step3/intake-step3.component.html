@@ -1164,7 +1164,7 @@
                         <label class="font-14 clr--1F2F3E me-2 mt-2 mb-0 fw-600">Select your answer:</label>
                         <input type="hidden" formControlName="rateYourPain">
                         <ul class="m-0 p-0 d-flex flex-wrap">
-                            <li (click)="painRate(i)" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"
+                            <li class="{{isReadonly ? 'disabled' : ''}}" (click)="painRate(i)" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"
                                 [class.active]="clickedIndex === i">
                                 {{i}}
                             </li>

@@ -18,7 +18,7 @@ export class SidebarPatientComponent {
   public screenHeight: number;
   public currentMainMenu: any = ''
   public itemsLength: any = 0;
-  public subMenus: any = ["book-appointment", "appointment-details", "intake-form"]
+  public subMenus: any = ["book-appointment", "appointment-details","case-details", "intake-form"]
 
   constructor(public navService: PatientNavservicesService, public layout: LayoutService, private router: Router) {
     this.router.events.subscribe((event: any) => {
@@ -28,6 +28,7 @@ export class SidebarPatientComponent {
         if (this.subMenus.includes(this.currentMainMenu)) {
           this.currentMainMenu = 'appointments'
         }
+
         if(this.currentMainMenu=='edit-emergency-contact' || this.currentMainMenu=='add-emergency-contact' || this.currentMainMenu=='view-emergency-contact'){
           this.currentMainMenu = 'emergency-contact'
         }
