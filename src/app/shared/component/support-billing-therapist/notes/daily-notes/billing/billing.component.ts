@@ -118,20 +118,24 @@ export class DailyNoteBillingComponent {
       addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
-      let result = response.data
+      let result = response.data;
+      if(response.data && response.data.billingData){
+        result = response.data.billingData;
+      }
       if(result && result?.status=='Finalized'){
         this.readOnly = true
       }
-      if(response && response.message && response.message?.billingType==""){
+      if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
         this.isHold = true
       }
-      if(response && response?.message && response.message.caseType!=''){
-        this.caseType = response.message.caseType
+      if(response && response.data?.caseData && response.data.caseData.caseType!=''){
+        this.caseType = response.data?.caseData.caseType
       }
-      if(response && response?.message && response.message.billingType!=''){
-        this.billingType = response.message.billingType
+      if(response && response.data?.caseData && response.data.caseData.billingType!=''){
+        this.billingType = response.data.caseData.billingType
       }
-      if(response.data && response.data.appointmentId){
+
+      if(result && result.appointmentId){
         this.actionType = "update"
         this.totalTreatmentMinutes = result.total_treatment_minutes
         this.totalDirectMinutes = result.total_direct_minutes

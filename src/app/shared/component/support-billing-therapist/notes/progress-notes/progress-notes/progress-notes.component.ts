@@ -28,7 +28,10 @@ export class ProgressNoteComponent {
     }else{
       this.addendumUrl = this.appointmentId
     }
-    this.currentPath = this.currentUrl.split('/')[3].toString()
+
+    if(this.currentUrl.split('/')[3]){
+      this.currentPath = this.currentUrl.split('/')[3].toString()
+    }
   }
 
 
