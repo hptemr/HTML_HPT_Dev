@@ -160,7 +160,7 @@
                             [dayStartHour]="9"
                             [dayEndHour]="21"
                             [events]="events" 
-                            [refresh]="refresh"                            
+                            [refresh]="refresh"                             
                             (eventTimesChanged)="eventTimesChanged($event)">
                             <!-- (eventClicked)="handleEvent('Clicked', $event.event,'6')" -->
                         </mwl-calendar-week-view>
@@ -188,7 +188,7 @@
                             [dayStartHour]="9"
                             [dayEndHour]="21"
                             [events]="events"                             
-                            [refresh]="refresh"                            
+                            [refresh]="refresh"                    
                             (eventTimesChanged)="eventTimesChanged($event)">
                             <!-- [eventTemplate]="customEventTemplate" 
                              (eventClicked)="handleEvent('Clicked', $event.event,'7')" -->
@@ -198,16 +198,19 @@
                 </div>
             </div>  
 
-            <!-- <ng-template #customEventTemplate let-event="event">{{event.profileImage}}{{event.title}}
-                <div class="custom-event" [style.borderLeftColor]="event.color?.primary">
-                  <img [src]="event.profileImage" alt="Profile" class="profile-image" />
+            <!-- <ng-template #customEventTemplate let-event="event">
+                <div *ngIf="event; else noEvent" class="custom-event" [style.borderLeftColor]="event.color?.primary || '#ccc'">
+                  <img *ngIf="event?.profileImage" [src]="event?.profileImage" alt="Profile" class="profile-image">
                   <div class="event-details">
-                    <div class="event-title">{{ event.title }}</div>
+                    <div class="event-title">{{ event?.title }}</div>
                     <div class="event-time">
-                      {{ event.start | date: 'shortTime' }} - {{ event.end | date: 'shortTime' }}
+                      {{ event?.start | date: 'shortTime' }} - {{ event?.end | date: 'shortTime' }}
                     </div>
                   </div>
                 </div>
+                <ng-template #noEvent>
+                    <div class="custom-event">Event data not available</div>
+                  </ng-template>
             </ng-template> -->
 
             <ng-template #modalContent let-close="close"> 

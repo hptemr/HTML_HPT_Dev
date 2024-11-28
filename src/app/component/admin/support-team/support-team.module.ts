@@ -10,14 +10,15 @@ import { CreateRequestAppointmentComponent } from './requests/create-request-app
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CaseDetailsComponent } from './case-details/case-details.component';
 import { ResolvedRequestsComponent } from './requests/resolved-requests/resolved-requests.component';
-import { SchedulerComponent } from 'src/app/shared/comman/scheduler/scheduler.component';
+//import { SchedulerComponent } from 'src/app/shared/comman/scheduler/scheduler.component';
 import { CreateAppointmentModalComponent } from 'src/app/shared/comman/scheduler/create-appointment-modal/create-appointment-modal.component';
 import { EditAppointmentModalComponent } from 'src/app/shared/comman/scheduler/edit-appointment-modal/edit-appointment-modal.component';
 import { AppointmentDetailsModalComponent } from 'src/app/shared/comman/scheduler/appointment-details-modal/appointment-details-modal.component';
 import { UpcomingAppModalComponent } from 'src/app/shared/comman/scheduler/upcoming-app-modal/upcoming-app-modal.component';
 import { CollectPaymentModalComponent } from 'src/app/shared/comman/scheduler/collect-payment-modal/collect-payment-modal.component';
+
 import { CalendarModule, DateAdapter,CalendarDateFormatter  } from 'angular-calendar';
-import { CustomDateFormatter } from 'src/app/shared/comman/scheduler/calendar-moment-date-formatter.provider';
+// import { CustomDateFormatter } from 'src/app/shared/comman/scheduler/calendar-moment-date-formatter.provider';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 //import { CustomDateParserFormatter } from 'src/app/shared/comman/custom-date-parser-formatter';//CustomDateParserFormatter
@@ -33,12 +34,12 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
     CreateRequestAppointmentComponent,
     CaseDetailsComponent,
     ResolvedRequestsComponent,
-    SchedulerComponent,
-    CreateAppointmentModalComponent,
-    EditAppointmentModalComponent,
-    AppointmentDetailsModalComponent,
-    UpcomingAppModalComponent,
-    CollectPaymentModalComponent
+    //SchedulerComponent,
+    // CreateAppointmentModalComponent,
+    // EditAppointmentModalComponent,
+    // AppointmentDetailsModalComponent,
+    // UpcomingAppModalComponent,
+    // CollectPaymentModalComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +56,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
       useFactory: adapterFactory,
     }),
   ],
-  providers: [{ provide: CalendarDateFormatter, useClass: CustomDateFormatter }],
+  //providers: [{ provide: CalendarDateFormatter, useClass: CustomDateFormatter }],
  
 })
 export class SupportTeamModule { }

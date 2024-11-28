@@ -195,7 +195,7 @@ export class SubjectiveComponent implements OnInit {
         let subjectiveData = response.data.subjectiveData; 
         this.subjectiveId = subjectiveData._id;
         if(subjectiveData.note_date){          
-          this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(subjectiveData.note_date));
+          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);//this.commonService.formatUTCDate(subjectiveData.note_date)
         }        
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
@@ -217,16 +217,14 @@ export class SubjectiveComponent implements OnInit {
         this.selectedCode = this.icdCodeList.length>0 ? true : false;
       }
 
-      // if(response.data && response.data.appointmentDatesList){
-      //   this.appointment_dates = response.data.appointmentDatesList       
-      // }           
+      if(response.data && response.data.appointmentDatesList){
+        this.appointment_dates = response.data.appointmentDatesList       
+      }           
 
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
-          if(this.appointment_data.checkInDateTime){            
-            this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
-          }
-
+          //if(this.appointment_data.checkInDateTime){this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));}
+          
           if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
             this.initialName = this.appointment_data?.patientId?.firstName.charAt(0)+''+this.appointment_data?.patientId?.lastName.charAt(0)
           }

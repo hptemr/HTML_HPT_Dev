@@ -84,6 +84,17 @@ import { EFaxHistoryModalComponent } from 'src/app/shared/component/support-bill
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
+import { SchedulerComponent } from 'src/app/shared/comman/scheduler/scheduler.component';
+import { CreateAppointmentModalComponent } from 'src/app/shared/comman/scheduler/create-appointment-modal/create-appointment-modal.component';
+import { EditAppointmentModalComponent } from 'src/app/shared/comman/scheduler/edit-appointment-modal/edit-appointment-modal.component';
+import { AppointmentDetailsModalComponent } from 'src/app/shared/comman/scheduler/appointment-details-modal/appointment-details-modal.component';
+import { UpcomingAppModalComponent } from 'src/app/shared/comman/scheduler/upcoming-app-modal/upcoming-app-modal.component';
+import { CollectPaymentModalComponent } from 'src/app/shared/comman/scheduler/collect-payment-modal/collect-payment-modal.component';
+import { CalendarModule, DateAdapter,CalendarDateFormatter  } from 'angular-calendar';
+import { CustomDateFormatter } from 'src/app/shared/comman/scheduler/calendar-moment-date-formatter.provider';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -145,7 +156,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     DischargeNoteBillingComponent,
     OnePageNoteModalComponent,
     EFaxModalComponent,
-    EFaxHistoryModalComponent
+    EFaxHistoryModalComponent,
+    SchedulerComponent,
+    CreateAppointmentModalComponent,
+    EditAppointmentModalComponent,
+    AppointmentDetailsModalComponent,
+    UpcomingAppModalComponent,
+    CollectPaymentModalComponent
+
    // AdminProfileComponent
   ],
   imports: [
@@ -163,8 +181,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     DatePipe,
     NgxDocViewerModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,        
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
+  providers: [{ provide: CalendarDateFormatter, useClass: CustomDateFormatter }],
   exports: [
     CommonModule,
     FormsModule,
@@ -182,6 +207,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDocViewerModule,
     ProfileComponent,
   ],  
+  
 
 })
 

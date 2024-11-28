@@ -722,7 +722,8 @@ export class IntakeStep2Component {
               if (insuranceFiles.length > 0) {
                 Object.assign(formData, { insuranceFiles: insuranceFiles })
               }
-              if (this.selectedInsuranceFiles.length > 0) {
+          
+              if (this.selectedInsuranceFiles && this.selectedInsuranceFiles.length > 0) {
                 Object.assign(formData, { insuranceFiles: this.selectedInsuranceFiles })
               }
               let updateInfo = {}
