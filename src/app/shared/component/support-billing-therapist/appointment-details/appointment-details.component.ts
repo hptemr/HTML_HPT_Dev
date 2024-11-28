@@ -82,6 +82,7 @@ export class AppointmentDetailsComponent implements OnInit {
   fromDate: any = ''
   toDate: any = ''
   addendumLength = 0
+  actionStarted = false
   constructor(private _liveAnnouncer: LiveAnnouncer,public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, private datePipe: DatePipe) {
     //,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
@@ -121,6 +122,7 @@ export class AppointmentDetailsComponent implements OnInit {
       this.dataLoading = false
       this.dataSource.data = response.data
       this.noteList = response.data
+      this.actionStarted = false
       if(this.noteList.length>0){
         this.noteList.forEach((item:any) => {
           if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
@@ -275,23 +277,30 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   deleteNote(appointmentId:any,noteType:any,addendumId:any){
-    
+    let type = ""
+    if(addendumId){
+      type = "Addendum"
+    }
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
-        warningNote: 'Are you sure you want to delete this '+this.soapNoteType(noteType)+'?'
+        warningNote: 'Are you sure you want to delete this '+type+' '+this.soapNoteType(noteType)+'?'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
+        this.actionStarted = true
         let reqVars = {
           appointmentId:appointmentId,
           noteType:noteType,
           addendumId:addendumId
         }
+        this.commonService.showLoader();
         this.authService.apiRequest('post', 'soapNote/deleteSoapNote', reqVars).subscribe(async response => {
-          this.commonService.openSnackBar("Note Deleted Successfully", "SUCCESS")
+          this.commonService.hideLoader();
+          this.commonService.openSnackBar(type+" Note Deleted Successfully", "SUCCESS")
+          this.actionStarted = false
           this.getAppointmentNotes()
         })
       }
@@ -299,12 +308,15 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   createAddendum(appointmentId:any,noteType:any){
+    this.actionStarted = true
+    this.commonService.showLoader();
     let reqVars = {
       appointmentId:appointmentId,
       noteType:noteType,
       createBy:this.userId
     }
     this.authService.apiRequest('post', 'soapNote/createAddendum', reqVars).subscribe(async response => {
+      this.commonService.hideLoader();
       this.commonService.openSnackBar("Addendum created successfully", "SUCCESS")
       this.getAppointmentNotes()
     })

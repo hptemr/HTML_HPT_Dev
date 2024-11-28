@@ -155,6 +155,9 @@ export class EFaxModalComponent {
           this.commonService.hideLoader();
           this.commonService.openSnackBar("Fax sent successfully", "SUCCESS")
           this.dialogRef.close()
+        },(err) => {
+          this.commonService.hideLoader();
+          this.commonService.openSnackBar("Failed to sent Fax", "ERROR")
         })
       }
     }
