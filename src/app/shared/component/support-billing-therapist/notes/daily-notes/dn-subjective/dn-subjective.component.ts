@@ -85,14 +85,13 @@ export class DnSubjectiveComponent {
       if (response.data && response.data.subjectiveData) {
         let subjectiveData = response.data.subjectiveData;
         this.subjectiveId = subjectiveData._id
-        this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(subjectiveData.note_date))
+        this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date)
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
       }
       
       if (response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData;
-        if(this.appointment_data.checkInDateTime)
-        this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
+        //if(this.appointment_data.checkInDateTime)this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
       }
      
       if (response.data && response.data.appointmentDatesList){

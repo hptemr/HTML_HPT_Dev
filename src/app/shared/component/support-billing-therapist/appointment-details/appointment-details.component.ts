@@ -126,7 +126,8 @@ export class AppointmentDetailsComponent implements OnInit {
           if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
             this.dailyNoteFlag=false
             this.progressNoteFlag=false
-            this.dischargeNoteFlag=false
+            this.initialExaminationFlag=true
+            //this.dischargeNoteFlag=false
           }
         })
       }
