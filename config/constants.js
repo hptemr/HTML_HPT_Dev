@@ -32,7 +32,8 @@ var constants = {
   cometChatApikey : (process.env.BASE_URL == 'http://staging.hamiltonpt.com')?'dd11efe2e776cce14e3480d3cf720b8789485f82': (process.env.BASE_URL == 'http://dev.hamiltonpt.com')?'488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d':'488b6023fe0a9ca50778dbeea85b8fe5e8ecd34d',
   faxDetails:{
     apiKey :'ffb45e85f45fdaf795430a3d',
-    apiSecret : '50f4df9a5924fd9a06b72943'
+    apiSecret : '50f4df9a5924fd9a06b72943',
+    fromNumber:14062730993
   },
   tebraCredentials :{
     customerKey : (process.env.BASE_URL == 'http://staging.hamiltonpt.com')?'n87kg43ms26w': (process.env.BASE_URL == 'http://dev.hamiltonpt.com')?'n87kg43ms26w':'n87kg43ms26w',
