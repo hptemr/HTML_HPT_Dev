@@ -1,6 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
-@import "./assets/scss/app.scss";
  
+@import "./assets/scss/app.scss"; 
 body,.mat-primary,
 .text,select,h1,h2,h3,h4,h5,h6,
 input, p, 
@@ -10,9 +9,7 @@ input, p,
 .font-nunito, .mat-label {
     font-family: "Nunito Sans", sans-serif !important;
     
-} 
-
-// Colors 
+}  
 .dark-grey{color: $dark-gray !important;}
 .text-primary {color: $primary-color !important;;}
 .clr--DF0404{color: #DF0404;}
