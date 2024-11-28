@@ -123,6 +123,7 @@ export class AppointmentDetailsComponent implements OnInit {
       this.dataSource.data = response.data
       this.noteList = response.data
       this.actionStarted = false
+      let dischargeFlag = true
       if(this.noteList.length>0){
         this.noteList.forEach((item:any) => {
           if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
@@ -131,7 +132,19 @@ export class AppointmentDetailsComponent implements OnInit {
             this.initialExaminationFlag=true
             //this.dischargeNoteFlag=false
           }
+          if(item.soap_note_type=='daily_note' && item.status=='Finalized'){
+            dischargeFlag=true
+          }
+          if(item.soap_note_type=='progress_note' && item.status=='Finalized'){
+            dischargeFlag=true
+          }
         })
+
+        if(!this.dailyNoteFlag && !this.progressNoteFlag && !dischargeFlag){
+          this.dischargeNoteFlag=true
+        }
+
+
       }
     })
   }

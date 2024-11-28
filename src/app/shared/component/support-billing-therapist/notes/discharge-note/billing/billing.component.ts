@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-
+import { MatDialog, MatDialogRef  } from '@angular/material/dialog';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 @Component({
   selector: 'app-billing-daily-note', 
   templateUrl: './billing.component.html',
@@ -15,6 +16,7 @@ export class DischargeNoteBillingComponent {
   totalUnites = 0
   appointmentId =""
   userId =""
+  date_of_service:Date
   actionType = ""
   unitedPtList = [
     {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
@@ -93,7 +95,7 @@ export class DischargeNoteBillingComponent {
   caseType = ""
   billingType = "CMS"
   isHold = false
-  constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService) {
+  constructor(private route: ActivatedRoute,public authService: AuthService, public dialog: MatDialog, public commonService: CommonService) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
   }
@@ -116,6 +118,9 @@ export class DischargeNoteBillingComponent {
         }
         if(response && response.data?.caseData && response.data.caseData.billingType!=''){
           this.billingType = response.data.caseData.billingType
+        }
+        if(response.data && response.data.subjective_data){
+          this.date_of_service = response.data.subjective_data.note_date;
         }
   
       if(result && result.appointmentId){
@@ -465,17 +470,36 @@ export class DischargeNoteBillingComponent {
       }
     }else{
       if(!errorInCode){
-        let inputParams = {
-          appointmentId : this.appointmentId
-        }
-        this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
-          if(response.message!=''){
-            this.commonService.openSnackBar(response.message, "ERROR");
-          }else{
-          this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
-          }
-        })
+        let service_date_note = 'You can not finalize this discharge note, date of sericve is not selected in subjective form.';
+        let submitButton = true;
+          if(this.date_of_service){
+            service_date_note = 'Do you really want to finalize this discharge note? Date of sericve is "'+this.commonService.formatUTCDate(this.date_of_service)+'" for this note.'
+            submitButton = false;
+          }        
+          const dialogRef = this.dialog.open(AlertComponent,{
+            panelClass: 'custom-alert-container',
+            data : {
+              warningNote: service_date_note,
+              submitButton: submitButton
+            }
+          });
+          dialogRef.afterClosed().subscribe(res => {
+            if (!res) {
+              return;
+            } else {
+              let inputParams = {
+                appointmentId : this.appointmentId
+              }
+              this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
+                if(response.message!=''){
+                  this.commonService.openSnackBar(response.message, "ERROR");
+                }else{
+                this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+                }
+              })
+            }
+          })  
       }
     }
   }
