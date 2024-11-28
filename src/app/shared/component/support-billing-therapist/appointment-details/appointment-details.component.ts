@@ -123,14 +123,14 @@ export class AppointmentDetailsComponent implements OnInit {
       this.dataSource.data = response.data
       this.noteList = response.data
       this.actionStarted = false
-      let dischargeFlag = true
+      let dischargeFlag = false
       if(this.noteList.length>0){
+        //console.log('noteList >>>',this.noteList)
         this.noteList.forEach((item:any) => {
           if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
             this.dailyNoteFlag=false
             this.progressNoteFlag=false
             this.initialExaminationFlag=true
-            //this.dischargeNoteFlag=false
           }
           if(item.soap_note_type=='daily_note' && item.status=='Finalized'){
             dischargeFlag=true
@@ -139,11 +139,10 @@ export class AppointmentDetailsComponent implements OnInit {
             dischargeFlag=true
           }
         })
-
-        if(!this.dailyNoteFlag && !this.progressNoteFlag && !dischargeFlag){
-          this.dischargeNoteFlag=true
+        //console.log('dailyNoteFlag >>>>> ',this.dailyNoteFlag,'progressNoteFlag >>>>> ',this.progressNoteFlag,'dischargeFlag >>>>> ',dischargeFlag);
+        if(!this.dailyNoteFlag && !this.progressNoteFlag && dischargeFlag){
+          this.dischargeNoteFlag=false
         }
-
 
       }
     })

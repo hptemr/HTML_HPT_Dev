@@ -147,29 +147,40 @@ export class IntakeStep3Component {
       bodyPartBack = this.step3FormData.adminBodyPartBack ? this.step3FormData.adminBodyPartBack : this.step3FormData.bodyPartBack;
     }
     
-    const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
-      panelClass: 'custom-alert-container', 
-      data : {
-        heading: '',
-        partName:partName,
-        appId:this.appId,
-        from:from,
-        bodyPartFront:bodyPartFront,
-        bodyPartBack:bodyPartBack,
-        appointmentUpdateInfo:this.step3FormData.appointmentUpdateInfo,
-        readOnly:this.isReadonly
-      }
-    });  
-    dialogRef.afterClosed().subscribe(result => {
-      if(result && !result.error){        
-          if(from=='bodyPartFront'){
-            this.selectedPartsFront.push(partName);
-          }else if(from=='bodyPartBack'){
-            this.selectedPartsBack.push(partName);
-          }
-          this.getAppointmentDetails('DoNotLoadForm')
-      }
-    });
+    let found = false;
+    if(this.isReadonly && from=='bodyPartFront'){
+      let find = bodyPartFront.filter((item: any) => item.part === partName)
+      if(find[0])found = find[0];
+    }  else  if(this.isReadonly && from=='bodyPartBack'){
+      let find = bodyPartBack.filter((item: any) => item.part === partName)
+      if(find[0])found = find[0];
+    }
+    
+    if(found){
+      const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
+        panelClass: 'custom-alert-container', 
+        data : {
+          heading: '',
+          partName:partName,
+          appId:this.appId,
+          from:from,
+          bodyPartFront:bodyPartFront,
+          bodyPartBack:bodyPartBack,
+          appointmentUpdateInfo:this.step3FormData.appointmentUpdateInfo,
+          readOnly:this.isReadonly
+        }
+      });  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && !result.error){        
+            if(from=='bodyPartFront'){
+              this.selectedPartsFront.push(partName);
+            }else if(from=='bodyPartBack'){
+              this.selectedPartsBack.push(partName);
+            }
+            this.getAppointmentDetails('DoNotLoadForm')
+        }
+      });
+    }
   }
 
   loadForm() {
