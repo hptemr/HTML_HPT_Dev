@@ -1,116 +1,4 @@
-/*! -----------------------------------------------------------------------------------
-
-    Template Name: Cion Admin
-    Template URI: https://admin.pixelstrap.com/cion/template/
-    Description: This is Admin theme
-    Author: Pixelstrap
-    Author URI: https://themeforest.net/user/pixelstrap
-
------------------------------------------------------------------------------------
-
-    1.Base css
-        1.1 Reset CSS
-        1.2 Typography CSS
-
-    2.Components css
-        2.1 According CSS
-        2.2 Alert CSS
-        2.3 Avatars CSS
-        2.4 Badge CSS
-        2.5 Bookmark CSS
-        2.6 Breadcrumb CSS
-        2.7 Basic-card CSS
-        2.8 Builders CSS
-        2.9 Buttons CSS
-        2.10 Card CSS
-        2.11 Color CSS
-        2.12 Datatable CSS
-        2.13 Datapicker CSS
-        2.14 Dropdown CSS
-        2.15 Form-builder CSS
-        2.16 Form-input CSS
-        2.17 Form-wizard CSS
-        2.18 Forms CSS
-        2.19 Icons CSS
-        2.20 List CSS
-        2.21 Loader CSS 
-        2.22 Modal CSS
-        2.23 Popover CSS
-        2.24 Print CSS
-        2.25 Radio CSS
-        2.26 Ribbon CSS
-        2.27 Range-slider CSS
-        2.28 Switch CSS
-        2.29 Tab CSS
-        2.30 Table CSS
-        2.31 Toasts CSS
-        2.32 Touchspin CSS
-        2.33 Tour CSS
-        2.34 Tree CSS
-        2.35 Typeahead-search CSS
-        2.36 Scrollbar CSS
-
-    3. Pages
-        3.1 Blog CSS
-        3.2 Bookmark-app CSS
-        3.3 Cart CSS
-        3.4 Chart CSS
-        3.5 Chat CSS
-        3.6 Checkout CSS
-        3.7 Comingsoon CSS
-        3.8 Contacts CSS
-        3.9 Dashboard_2 CSS
-        3.10 Dashboard_3 CSS 
-        3.11 Dashboard_4 CSS
-        3.12 Dashboard_5 CSS
-        3.13 Dashboard_default CSS
-        3.14 Ecommerce CSS
-        3.15 Email-application CSS
-        3.16 Errorpage CSS
-        3.17 Faq CSS
-        3.18 File CSS
-        3.19 Gallery CSS
-        3.20 Helper CSS
-        3.21 Internationalization CSS
-        3.22 Job-search CSS
-        3.23 Jsgrid CSS
-        3.24 Kanban CSS
-        3.25 Knowledgebase CSS
-        3.26 Landing CSS
-        3.27 Language CSS
-        3.28 Learning CSS
-        3.29 Login CSS
-        3.30 Megaoption CSS
-        3.31 Order-history CSS
-        3.32 Page CSS
-        3.33 Pricing CSS
-        3.34 Progress CSS
-        3.35 Projectlist CSS
-        3.36 Rating CSS
-        3.37 Social-app CSS
-        3.38 Sweet-alert CSS
-        3.39 Task CSS
-        3.40 Timeline-v CSS
-        3.41 User-profile CSS
-        3.42 Wishlist CSS
-
-    4. Themes
-        4.1. Dark CSS
-        4.2 Theme-customizer CSS
-        4.3 Update CSS
-
-    5. Layout
-        5.1 Footer CSS
-        5.2 Grid CSS
-        5.3 Header CSS
-        5.4 Navs CSS
-        5.5 Search CSS
-        5.6 Select2 CSS
-        5.7 Sidebar CSS
-        5.8 Rtl CSS
-        5.9 Box-layout CSS
-
- */
+ 
 :root {
   --theme-default: #31B7B7;
   --theme-secondary: #FF6150;
@@ -253,9 +141,7 @@ svg.f-light {
 .p-50 {
   padding: 50px;
 }
-
-/*====== Padding css ends ======*/
-/*====== Padding-left css starts ======*/
+ 
 .p-l-0 {
   padding-left: 0px;
 }
@@ -299,9 +185,7 @@ svg.f-light {
 .p-l-50 {
   padding-left: 50px;
 }
-
-/*====== Padding-left css ends ======*/
-/*====== Padding-top css starts ======*/
+ 
 .p-t-0 {
   padding-top: 0px !important;
 }
@@ -345,9 +229,7 @@ svg.f-light {
 .p-t-50 {
   padding-top: 50px !important;
 }
-
-/*====== Padding-top css ends ======*/
-/*====== Padding-bottom css starts ======*/
+ 
 .p-b-0 {
   padding-bottom: 0px !important;
 }
@@ -391,9 +273,7 @@ svg.f-light {
 .p-b-50 {
   padding-bottom: 50px !important;
 }
-
-/*====== Padding-bottom css ends ======*/
-/*====== Padding-right css starts ======*/
+ 
 .p-r-0 {
   padding-right: 0px;
 }
@@ -437,9 +317,7 @@ svg.f-light {
 .p-r-50 {
   padding-right: 50px;
 }
-
-/*====== Padding-right css ends ======*/
-/*====== Margin css starts ======*/
+ 
 .m-0 {
   margin: 0px !important;
 }
@@ -482,10 +360,7 @@ svg.f-light {
 
 .m-50 {
   margin: 50px !important;
-}
-
-/*====== Margin css ends ======*/
-/*====== Margin-top css starts ======*/
+} 
 .m-t-0 {
   margin-top: 0px !important;
 }
@@ -529,9 +404,7 @@ svg.f-light {
 .m-t-50 {
   margin-top: 50px !important;
 }
-
-/*====== Margin-top css ends ======*/
-/*====== Margin-Bottom css starts ======*/
+ 
 .m-b-0 {
   margin-bottom: 0px !important;
 }
@@ -575,9 +448,7 @@ svg.f-light {
 .m-b-50 {
   margin-bottom: 50px !important;
 }
-
-/*====== Margin-Bottom css ends ======*/
-/*====== Margin-left css starts ======*/
+ 
 .m-l-0 {
   margin-left: 0px !important;
 }
@@ -621,9 +492,7 @@ svg.f-light {
 .m-l-50 {
   margin-left: 50px !important;
 }
-
-/*====== Margin-left css ends ======*/
-/*====== Margin-right css starts ======*/
+ 
 .m-r-0 {
   margin-right: 0px;
 }
@@ -666,10 +535,7 @@ svg.f-light {
 
 .m-r-50 {
   margin-right: 50px;
-}
-
-/*====== Margin-right css ends ======*/
-/*====== Border-radius css starts ======*/
+} 
 .b-r-0 {
   border-radius: 0px !important;
 }
@@ -773,9 +639,7 @@ svg.f-light {
 .b-r-25 {
   border-radius: 25px !important;
 }
-
-/*====== Border-radius css ends ======*/
-/*====== Font-size css starts ======*/
+ 
 .f-12 {
   font-size: 12px !important;
 }
