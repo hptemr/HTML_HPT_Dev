@@ -562,11 +562,12 @@ const getAssessment = async (req, res) => {
   try {
     const { query, fields,params } = req.body;
     let assessmentData = await AssessmentModel.findOne(query, fields);
-    if(params.addendumId!=undefined){
+    if(params && params.addendumId && params.addendumId!=undefined){
       assessmentData = assessmentData.addendums.filter(task => task.addendumId.toLocaleString() === params.addendumId.toLocaleString())[0];
     }
     commonHelper.sendResponse(res, 'success', assessmentData, '');
   } catch (error) {
+    console.log('getAssessment Error>>>>',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
