@@ -294,7 +294,7 @@ const submitSubjective = async (req, res) => {
         await subjectiveTemp.updateOne(filterPlan, update);
       }else{
         let optionsUpdatePlan = { returnOriginal: false };
-        await subjectiveTemp.findOneAndUpdate({ _id: subjectiveId }, data, optionsUpdatePlan);
+        await subjectiveTemp.findOneAndUpdate(filterPlan, data, optionsUpdatePlan);
       }
     } else {
       await subjectiveTemp.create(data)
