@@ -53,7 +53,7 @@ export class DisSubjectiveComponent implements OnInit {
 
     this.dis_subjectiveForm = this.fb.group({
       appointmentId:[this.appointmentId],
-      note_date: ['', [Validators.required]],
+      note_date: [''],
       treatment_side: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       surgery_date: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       surgery_type: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
@@ -73,8 +73,11 @@ export class DisSubjectiveComponent implements OnInit {
       
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
-        this.subjectiveId = subjectiveData._id;
-        this.dis_subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+        if (subjectiveData.status!='Finalized') this.subjectiveId = subjectiveData._id
+        if (subjectiveData.status!='Finalized' && !this.readOnly){
+          this.dis_subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date)
+        }
+        
         this.dis_subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.dis_subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
         this.dis_subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
@@ -97,8 +100,8 @@ export class DisSubjectiveComponent implements OnInit {
 
 
   dis_subjectiveSubmit(formData:any){
-    console.log('formData>>>>',formData)
     if (this.dis_subjectiveForm.invalid){
+      console.log('formData>>>>',formData)
       this.dis_subjectiveForm.markAllAsTouched();
     }else{
         this.submitted = true

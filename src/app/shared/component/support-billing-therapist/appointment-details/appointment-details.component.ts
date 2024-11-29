@@ -138,12 +138,20 @@ export class AppointmentDetailsComponent implements OnInit {
           if(item.soap_note_type=='progress_note' && item.status=='Finalized'){
             dischargeFlag=true
           }
+
+          // if(item.soap_note_type=='discharge_note' && item.status=='Finalized'){
+          //   this.dischargeNoteFlag=true
+          // }
         })
         //console.log('dailyNoteFlag >>>>> ',this.dailyNoteFlag,'progressNoteFlag >>>>> ',this.progressNoteFlag,'dischargeFlag >>>>> ',dischargeFlag);
         if(!this.dailyNoteFlag && !this.progressNoteFlag && dischargeFlag){
           this.dischargeNoteFlag=false
         }
-
+        // if(this.dischargeNoteFlag){
+        //   this.dailyNoteFlag=true
+        //   this.progressNoteFlag=true
+        //   this.initialExaminationFlag=false
+        // }
       }
     })
   }

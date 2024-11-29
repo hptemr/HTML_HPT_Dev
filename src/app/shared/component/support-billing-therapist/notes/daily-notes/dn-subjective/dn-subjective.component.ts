@@ -65,7 +65,7 @@ export class DnSubjectiveComponent {
     });
     if(this.readOnly){
       this.subjectiveForm.disable()
-  }
+    }
   }
 
   async getSubjective() {
@@ -78,17 +78,20 @@ export class DnSubjectiveComponent {
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
-      if (response.data && response.data.subjectiveData && response.data.subjectiveData.status=='Finalized'){
-        this.readOnly = true
-        this.subjectiveForm.disable()
-      }
+      //if (response.data && response.data.subjectiveData && response.data.subjectiveData.status=='Finalized'){
+        // this.readOnly = true
+        // this.subjectiveForm.disable()  // user can add multiple daily notes
+      //}
       if (response.data && response.data.subjectiveData) {
         let subjectiveData = response.data.subjectiveData;
-        this.subjectiveId = subjectiveData._id
+        if (subjectiveData.status!='Finalized') this.subjectiveId = subjectiveData._id
         if(this.addendumId!=undefined){
           this.subjectiveId = subjectiveData.addendumId;
         }
-        this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date)
+        if (subjectiveData.status!='Finalized' && !this.readOnly){
+          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date)
+        }
+       
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
       }
       
@@ -135,7 +138,9 @@ export class DnSubjectiveComponent {
         if (response.error) {
           status = "ERROR"
         }
-        this.commonService.openSnackBar(response.message, status);
+        if (response.message) {
+          this.commonService.openSnackBar(response.message, status);
+        }
         this.commonService.hideLoader();
         setTimeout(() => {
           this.submitted = false

@@ -476,13 +476,13 @@ export class DailyNoteBillingComponent {
         }
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
-            this.commonService.openSnackBar("Created Successfully", "SUCCESS")
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
+            this.commonService.openSnackBar(response.message, "SUCCESS")
+           // window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
           })
         }else{
           this.authService.apiRequest('post', 'soapNote/updateBillingNote', inputParams).subscribe(async response => {
-            this.commonService.openSnackBar("Updated Successfully", "SUCCESS")
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
+            this.commonService.openSnackBar(response.message, "SUCCESS")
+           // window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
           })
         }
       }
@@ -511,11 +511,11 @@ export class DailyNoteBillingComponent {
                   addendumId : this.addendumId
                 }
                 this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
-                  if(response.message!=''){
+                  if (response.error) {
                     this.commonService.openSnackBar(response.message, "ERROR");
                   }else{
-                  this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
-                  window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+                    this.commonService.openSnackBar(response.message, "SUCCESS")
+                    window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
                   }
                 })
               }

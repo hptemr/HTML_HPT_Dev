@@ -6,11 +6,11 @@
             </div>
             <div class="col-12 col-lg-5">
                 <div class="form-group mb-4">                    
-                    <label class="col-form-label fw-600">Date of Service <span class="clr--DF0404 ms-1"> * </span></label>
+                    <label class="col-form-label fw-600">Date of Service </label>
                     <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="note_date">
-                      <option value="" disabled>Select date</option>
-                      <option *ngFor="let d of appointment_dates"value="{{d.appointmentDate}}">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC' }}</option>
-                    </select>
+                        <option value="">Select date</option>
+                        <option *ngFor="let d of appointment_dates" value="{{d.appointment[0].appointmentDate}}" [disabled]="d.status=='Finalized'">{{d.appointment[0].appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC' }}</option>
+                      </select>
                     <!-- <input type="text" class="form-control" placeholder="Date of Service" formControlName="note_date" [readonly]="true"> -->
                     <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['note_date'].touched && subjectiveForm.controls['note_date'].hasError('required')">
                         {{ validationMessages.requiredDropdown('Initial examination date') }}

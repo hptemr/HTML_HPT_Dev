@@ -187,11 +187,11 @@ export class PnSubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData;
         this.status = subjectiveData.status;  
-        if(subjectiveData.soap_note_type=='progress_note')this.subjectiveId = subjectiveData._id;
+        if (subjectiveData.status!='Finalized') this.subjectiveId = subjectiveData._id
         if(type=='initial_examination' && subjectiveData.status=='Finalized'){
           this.status = 'Draft';
         }       
-        if(subjectiveData.note_date){          
+        if(subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){         
           this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
         }                
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
@@ -368,11 +368,11 @@ export class PnSubjectiveComponent implements OnInit {
         }       
       }    
 
-      if(this.status=='Finalized'){
-        this.readOnly = true
-        this.subjectiveForm.disable()
-        this.icd_data = []
-      }
+      // if(this.status=='Finalized'){
+      //   this.readOnly = true
+      //   this.subjectiveForm.disable()
+      //   this.icd_data = []
+      // }
     })
   }
 
