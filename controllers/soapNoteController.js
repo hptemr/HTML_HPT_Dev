@@ -50,7 +50,7 @@ const createPlanNote = async (req, res) => {
       createParams.soap_note_type = 'progress_note'
       await setPlan(createParams)
     }
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.addPlan);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -126,7 +126,7 @@ const updatePlanNote = async (req, res) => {
     }else{
       await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
     }
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.updatePlan);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -152,7 +152,7 @@ const createBillingNote = async (req, res) => {
       createdBy: new ObjectId(req.body.endUserId),
     }
     await BillingTemp.create(createParams)
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.addBilling);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -214,7 +214,7 @@ const updateBillingNote = async (req, res) => {
     }else{
       await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
     }
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.updatedBilling);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -252,28 +252,28 @@ const finalizeNote = async (req, res) => {
               await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
               await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
             }
-            commonHelper.sendResponse(res, 'success', {}, '');
+            commonHelper.sendResponse(res, 'success', {}, 'Notes Finalized Successfully');
           }else{
-            commonHelper.sendResponse(res, 'success', null, "Please fill the Plan note to Finalize note");
+            commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Plan note to Finalize note");
           }
         }else{
-          commonHelper.sendResponse(res, 'success', null, "Please fill the Assessment note to Finalize note");
+          commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Assessment note to Finalize note");
         }
       }else{
-        commonHelper.sendResponse(res, 'success', null, "Please fill the Objective note to Finalize note");
+        commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Objective note to Finalize note");
       }
     }else{
-      commonHelper.sendResponse(res, 'success', null, "Please fill the Subjective note to Finalize note");
+      commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Subjective note to Finalize note");
     }
   } catch (error) {
-    commonHelper.sendResponse(res, 'success', null, commonMessage.wentWrong);
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
 
 const submitSubjective = async (req, res) => {
   try {
     const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
-    let message = message = soapMessage.subjective
+    let message = soapMessage.subjective
     if (subjectiveId) {
       const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
       if(addendumId!=undefined){
@@ -508,9 +508,12 @@ const getSubjectiveData = async (req, res) => {
       subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === query.addendumId.toLocaleString())[0];
     }
     let appointmentDatesList = [];
-    if(appointmentData){           
-      //appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId,'subjective','daily_note');
-      appointmentDatesList = await subjectiveAppointmentsList({'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,note_date:{$ne:null},'appointmentId': { '$exists': true }})
+    if(appointmentData){         
+      if(subjectiveData){
+        appointmentDatesList = await subjectiveAppointmentsList({'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,note_date:{$ne:null},'appointmentId': { '$exists': true }})
+      }else{
+        appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+      }      
     }
     let returnData = { subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
@@ -521,24 +524,42 @@ const getSubjectiveData = async (req, res) => {
 }
 
 async function subjectiveAppointmentsList(queryMatch) {
-   let data = await subjectiveTemp.aggregate([
-      {
-        "$lookup": {
-          from: "appointments",
-          localField: "appointmentId",
-          foreignField: "_id",
-          as: "appointment"
-        }
-      },          
-      {
-        "$match": queryMatch
-      },
-      {
-        $project: {
-          '_id': 1, 'note_date': 1,'appointmentId':1,  'soap_note_type': 1, 'status': 1,'appointment.appointmentDate': 1
-        }
+  //  let data = await Appointment.aggregate([
+  //     {
+  //       "$lookup": {
+  //         from: "subjective",
+  //         localField: "_id",
+  //         foreignField: "appointmentId",
+  //         as: "obj"
+  //       }
+  //     },          
+  //     {
+  //       "$match": queryMatch
+  //     },
+  //     {
+  //       $project: {
+  //         '_id': 1, 'obj.note_date': 1,'obj.appointmentId':1, 'obj.soap_note_type': 1, 'obj.status': 1,'appointmentDate': 1
+  //       }
+  //     }
+  //   ]).sort({ createdAt: -1 });
+  let data = await subjectiveTemp.aggregate([
+    {
+      "$lookup": {
+        from: "appointments",
+        localField: "appointmentId",
+        foreignField: "_id",
+        as: "appointment"
       }
-    ]).sort({ createdAt: -1 });
+    },          
+    {
+      "$match": queryMatch
+    },
+    {
+      $project: {
+        '_id': 1, 'note_date': 1,'appointmentId':1,  'soap_note_type': 1, 'status': 1,'appointment.appointmentDate': 1
+      }
+    }
+  ]).sort({ createdAt: -1 });
 
   let appointmentDateList = [];
   if (data.length > 0) {
@@ -546,16 +567,17 @@ async function subjectiveAppointmentsList(queryMatch) {
       return moment(obj.appointmentDate).utc().format();
     });
   }
+
   return appointmentDateList;
 }
 
 async function appointmentsList(casename, patientId) {
   let data = await Appointment.find({ patientId: patientId, caseName: casename }, { _id: 1, appointmentDate: 1 }).sort({ createdAt: -1 });
-  let appointmentDateList = [];
+  let appointmentDateList = [];  
   if (data.length > 0) {
-    appointmentDateList = data.filter((obj) => {
-      return moment(obj.appointmentDate).utc().format();
-    });
+    data.map((obj) => {
+        appointmentDateList.push({'status':'','appointment' : [{'appointmentDate':moment(obj.appointmentDate).utc().format()}]})
+    })     
   }
   return appointmentDateList;
 }
