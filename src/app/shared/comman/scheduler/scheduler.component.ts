@@ -206,12 +206,12 @@ export class SchedulerComponent {
             var params = { 
               query: { _id: id },
               updateInfo: {
-                status: 'Cancelled',
+                status: 'Deleted',
                 rejectInfo: {
                   fromPatientId: this.userId,
                   fromAdminId: this.userId,
                   userRole: this.userRole,
-                  comment: '',
+                  comment: 'Deleted the appoitment from schedular',
                   rejectedDate: new Date()
                 }
               }
@@ -581,7 +581,7 @@ export class SchedulerComponent {
       } else {
         this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
       }
-      console.log('Selected Items:', this.selectedItems,' >>>  checked >>>>',event.checked);
+      //console.log('Selected Items:', this.selectedItems,' >>>  checked >>>>',event.checked);
       if(this.calenderView){
         this.getAppointmentList('search')
       }
@@ -608,7 +608,7 @@ export class SchedulerComponent {
     searchPage() {
       this.calenderView = false;
       this.searchView = true;
-       console.log('view date >>>>',this.viewDate)
+      // console.log('view date >>>>',this.viewDate)
       // const firstDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1); // First day of the month
       // const lastDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth() + 1, 1.5); // Last day of the month
       // console.log('firstDay >>>>',firstDay,'>>>>>>>>>>>>','lastDay >>>>',lastDay)
@@ -734,6 +734,9 @@ export class SchedulerComponent {
     }
     
     backToCalender(){
+      this.whereSearchCond = {};
+      this.userSearchQuery = {};
+      this.patientSearchQuery = {};
       this.getAppointmentList('search')
       this.calenderView = true;
       this.searchView = false;
