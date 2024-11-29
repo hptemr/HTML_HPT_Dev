@@ -275,8 +275,8 @@ const submitSubjective = async (req, res) => {
     const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
     let message = message = soapMessage.subjective
     if (subjectiveId) {
+      const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
       if(addendumId!=undefined){
-        const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
         subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
         data.version = subjData[0].version
