@@ -160,6 +160,7 @@ const createAppointment = async (req, res) => {
             let caseFound = await Case.findOne({ caseName: caseName, patientId: data.patientId }, { _id: 1, caseType: 1, appointments: 1 });
 
             let caseId = '';
+
             if (caseFound) {
                 caseId = caseFound._id;
                 if(caseFound.caseType!=caseType){
@@ -449,6 +450,12 @@ const createAppointmentRequest = async (req, res) => {
         const adminData = await User.findOne({ role: "support_team", status: "Active" }, { firstName: 1, lastName: 1, email: 1 });
         const patientData = await Patient.findOne({ _id: data.patientId }, { firstName: 1, lastName: 1, email: 1 });
         const link = `${process.env.BASE_URL}/support-team/create-request-appointment/${result._id}`;
+
+        // Create patient on tebra when patient book first appointment
+        const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
+        if(patientRes!=null && !patientRes?.patientOnTebra){
+            tebraController.createPatient(patientRes)
+        }
 
         triggerEmail.appointmentRequestReceivedFromPatient('appointmentRequestReceivedFromPatient', adminData, patientData, link)
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.requestCreated);

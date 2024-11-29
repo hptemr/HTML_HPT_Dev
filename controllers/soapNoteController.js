@@ -161,12 +161,15 @@ const createBillingNote = async (req, res) => {
 const getBillingNote = async (req, res) => {
   try {
     let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType });
+    let subjective_data = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType },{status:1,note_date:1});
+
     // let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1 })
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
     if(req.body.addendumId!=undefined){
       billingData = billingData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString())[0];
     }
-    commonHelper.sendResponse(res, 'success', billingData, caseData);
+    let responsedata = {billingData:billingData,caseData:caseData,subjective_data:subjective_data}
+    commonHelper.sendResponse(res, 'success', responsedata, 'Success');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -559,11 +562,12 @@ const getAssessment = async (req, res) => {
   try {
     const { query, fields,params } = req.body;
     let assessmentData = await AssessmentModel.findOne(query, fields);
-    if(params.addendumId!=undefined){
+    if(params && params.addendumId && params.addendumId!=undefined){
       assessmentData = assessmentData.addendums.filter(task => task.addendumId.toLocaleString() === params.addendumId.toLocaleString())[0];
     }
     commonHelper.sendResponse(res, 'success', assessmentData, '');
   } catch (error) {
+    console.log('getAssessment Error>>>>',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -665,7 +669,7 @@ const deleteSoapNote = async (req, res) => {
     await BillingTemp.updateOne(filterPlan, updatePlan);
     //enable the previous addendum
     let subResult = await subjectiveTemp.find(filterPlan);
-    if(subResult && subResult[0].addendums && subResult[0].addendums.length>0){
+    if(subResult && subResult.length>0 && subResult[0].addendums && subResult[0].addendums.length>0){
       let noteCount = subResult[0].addendums.length
       let recentResult = subResult[0].addendums[noteCount-1]
       const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
@@ -676,7 +680,7 @@ const deleteSoapNote = async (req, res) => {
     } 
 
     let objResult = await ObjectiveModel.find(filterPlan);
-    if(objResult && objResult[0].addendums && objResult[0].addendums.length>0){
+    if(objResult && objResult.length>0 && objResult[0].addendums && objResult[0].addendums.length>0){
       let noteCount = objResult[0].addendums.length
       let recentResult = objResult[0].addendums[noteCount-1]
       const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
@@ -687,7 +691,7 @@ const deleteSoapNote = async (req, res) => {
     }
 
     let assResult = await AssessmentModel.find(filterPlan);
-    if(assResult && assResult[0].addendums && assResult[0].addendums.length>0){
+    if(assResult && assResult.length>0 && assResult[0].addendums && assResult[0].addendums.length>0){
       let noteCount = assResult[0].addendums.length
       let recentResult = assResult[0].addendums[noteCount-1]
       const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
@@ -698,7 +702,7 @@ const deleteSoapNote = async (req, res) => {
     }
 
     let planResult = await PlanTemp.find(filterPlan);
-    if(planResult && planResult[0].addendums && planResult[0].addendums.length>0){
+    if(planResult && planResult.length>0 && planResult[0].addendums && planResult[0].addendums.length>0){
       let noteCount = planResult[0].addendums.length
       let recentResult = planResult[0].addendums[noteCount-1]
       const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
@@ -709,7 +713,7 @@ const deleteSoapNote = async (req, res) => {
     }
 
     let billResult = await BillingTemp.find(filterPlan);
-    if(billResult && billResult[0].addendums && billResult[0].addendums.length>0){
+    if(billResult && billResult.length>0 && billResult[0].addendums && billResult[0].addendums.length>0){
       let noteCount = billResult[0].addendums.length
       let recentResult = billResult[0].addendums[noteCount-1]
       const filter = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType, "addendums.addendumId": new ObjectId(recentResult.addendumId) };
@@ -721,6 +725,7 @@ const deleteSoapNote = async (req, res) => {
 
     commonHelper.sendResponse(res, 'success', 'Deleted successfully');
   } catch (error) {
+    console.log(error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -953,18 +958,42 @@ async function createTmpFax(recipientFaxNumber,senderFaxNumber) {
     "fromName": "HPT EHR",
     "subject": "",
     "message": "",
-    "companyInfo": "",
-    "fromNumber": 14062730993,
+    "companyInfo": "", 
+    "fromNumber": constants.faxDetails.fromNumber,
     "recipients": recipientFaxNumber,
     "resolution": "Fine",
     "pageSize": "Letter",
     "includeCoversheet": false,
     "uuid": "ABC-123"
   }
-  const response = await axios.post('https://api.humblefax.com/tmpFax',tmpFaxData,
-    { auth: { username: apiKey, password: apiSecret } }
-  );
-  return response.data.data.tmpFax.id; // Get the temporary fax ID
+
+  await axios.post('https://api.humblefax.com/tmpFax', tmpFaxData, { auth: { username: apiKey, password: apiSecret } })
+  .then(response => {
+    if(response.data.status==200){
+      return response.data.data.tmpFax.id
+    }else{
+      return ""
+    }
+  })
+  .catch(error => {
+    // if (error.response) {
+    //   console.error('Error response:', error.response.data.error);
+    //   console.error('Status code:', error.response.status);
+    // } else if (error.request) {
+    //   console.error('No response received:', error.request);
+    // } else {
+    //   console.error('Error setting up request:', error.message);
+    // }
+    return ""
+  });
+
+
+
+  // const response = await axios.post('https://api.humblefax.com/tmpFax',tmpFaxData,
+  //   { auth: { username: apiKey, password: apiSecret } }
+  // );
+  // console.log(response)
+  // return response.data.data.tmpFax.id; // Get the temporary fax ID
 }
 
 // Step 2: Upload attachment
@@ -1023,6 +1052,9 @@ const sendFax = async (req, res) => {
     }else if(req.body.noteType == 'progress_note'){
       templateName = "progressNoteOnePageNote"
       noteName = "Progress Note"
+    }else if(req.body.noteType == 'daily_note'){
+      templateName = "dailyNoteOnePageNote"
+      noteName = "Daily Note"
     }else if(req.body.noteType == 'discharge_note'){
       templateName = "dischargeNoteOnePageNote"
       noteName = "Discharge Note"
@@ -1073,9 +1105,22 @@ const sendFax = async (req, res) => {
           });
           console.log('The image was created successfully!')
           const tmpFaxId = await createTmpFax(req.body.faxNumbers,senderFaxNumber);
-          const filePath = fileName;
-          await uploadAttachment(tmpFaxId,filePath);
-          await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
+          if(tmpFaxId!="" && tmpFaxId!=undefined){
+            const filePath = fileName;
+            await uploadAttachment(tmpFaxId,filePath);
+            await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
+            commonHelper.sendResponse(res, 'success', {});
+          }else{
+            let createParams = {
+              appointmentId: new ObjectId(req.body.appointmentId),
+              dateOfService: req.body.subjectiveData.note_date,
+              noteType: noteName,
+              status: 'failed'
+            }
+            await faxTemp.create(createParams)
+            commonHelper.sendResponse(res, 'error', {});
+          }
+          
         // })
 
         // const pdfBuffer = await htmlPdf.generatePdf(file, options);
@@ -1085,12 +1130,11 @@ const sendFax = async (req, res) => {
         // const filePath = __dirname + '/../tmp/'+fileName;
         // await uploadAttachment(tmpFaxId,filePath);
         // await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
-        commonHelper.sendResponse(res, 'success', {});
+        
       }else{
-        commonHelper.sendResponse(res, 'success', {});
+        commonHelper.sendResponse(res, 'error', {});
       }
   } catch (error) {
-    console.log(error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
