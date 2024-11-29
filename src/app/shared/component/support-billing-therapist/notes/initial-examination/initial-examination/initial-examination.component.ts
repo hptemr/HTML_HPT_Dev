@@ -45,7 +45,6 @@ export class InitialExaminationComponent {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
     this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
-  
   }
 
   loadValue(value:any){

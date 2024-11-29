@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="note--header w-100 d-flex align-items-center justify-content-between">
                 <h1 class="mb-0 fw-600">Progress Note</h1>
-                <button class=" " mat-stroked-button color="primary" [routerLink]="['/therapist/case-details/',appointmentId]"> 
+                <button class="" mat-stroked-button color="primary" routerLink="/{{userType}}/case-details/{{appointmentId}}"> 
                     Go to Case Details
                 </button>
             </div> 
@@ -12,11 +12,11 @@
             <div class="tab--header">
                 <ul class="d-flex align-items-center p-0 m-0 flex-wrap flex-sm-nowrap">
                      
-                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('subjective')}}/{{addendumUrl}}"><a>Subjective</a></li>
-                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('objective')}}/{{addendumUrl}}"><a>Objective</a></li>
-                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('assessment')}}/{{addendumUrl}}"><a>Assessment</a></li>
-                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('plan')}}/{{addendumUrl}}"><a>Plan</a></li>
-                    <li routerLinkActive="active-link" routerLink="/therapist/progress-notes/{{loadValue('billing')}}/{{addendumUrl}}"><a>Billing</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/progress-notes/{{loadValue('subjective')}}/{{addendumUrl}}"><a>Subjective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/progress-notes/{{loadValue('objective')}}/{{addendumUrl}}"><a>Objective</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/progress-notes/{{loadValue('assessment')}}/{{addendumUrl}}"><a>Assessment</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/progress-notes/{{loadValue('plan')}}/{{addendumUrl}}"><a>Plan</a></li>
+                    <li routerLinkActive="active-link" routerLink="/{{userType}}/progress-notes/{{loadValue('billing')}}/{{addendumUrl}}"><a>Billing</a></li>
                 </ul>
             </div>
         </div>

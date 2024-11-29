@@ -12,7 +12,7 @@ export class DischargeNoteComponent {
   appointmentId: string;
   public userId: string;
   public userRole: string;
-
+  public userType: string;
   constructor(public dialog: MatDialog,  private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     this.route.firstChild?.params.subscribe(params => {
       this.appointmentId = params['appointmentId'];
@@ -23,7 +23,7 @@ export class DischargeNoteComponent {
   ngOnInit() {   
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
-  
+    this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
   }
 
 }

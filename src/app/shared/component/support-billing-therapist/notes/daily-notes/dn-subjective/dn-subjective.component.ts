@@ -88,10 +88,14 @@ export class DnSubjectiveComponent {
         if(this.addendumId!=undefined){
           this.subjectiveId = subjectiveData.addendumId;
         }
-        if (subjectiveData.status!='Finalized' && !this.readOnly){
-          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date)
+        let note_date = '';
+        if (subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){
+          note_date = subjectiveData.note_date
         }
-       
+        if (subjectiveData.note_date && this.readOnly){
+          note_date = subjectiveData.note_date
+        }
+        this.subjectiveForm.controls['note_date'].setValue(note_date)
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
       }
       

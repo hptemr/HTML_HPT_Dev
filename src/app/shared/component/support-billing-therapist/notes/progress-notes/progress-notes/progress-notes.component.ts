@@ -13,6 +13,7 @@ export class ProgressNoteComponent {
   appointmentId: string;
   public userId: string;
   public userRole: string;
+  userType: string;
   currentPath = ""
   addendumId: string;
   addendumUrl = ""
@@ -38,6 +39,7 @@ export class ProgressNoteComponent {
   ngOnInit() {   
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
+    this.userType = this.authService.getLoggedInInfo('role').replace('_','-')
   }
 
   loadValue(value:any){

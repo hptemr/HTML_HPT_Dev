@@ -191,9 +191,16 @@ export class PnSubjectiveComponent implements OnInit {
         if(type=='initial_examination' && subjectiveData.status=='Finalized'){
           this.status = 'Draft';
         }       
-        if(subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){         
-          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
-        }                
+               
+        let note_date = '';
+        if (subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){
+          note_date = subjectiveData.note_date
+        }
+        if (subjectiveData.note_date && this.readOnly){
+          note_date = subjectiveData.note_date
+        }
+        this.subjectiveForm.controls['note_date'].setValue(note_date)
+        
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
         this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);

@@ -74,10 +74,16 @@ export class DisSubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
         if (subjectiveData.status!='Finalized') this.subjectiveId = subjectiveData._id
-        if (subjectiveData.status!='Finalized' && !this.readOnly){
-          this.dis_subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date)
+       
+        let note_date = '';
+        if (subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){
+          note_date = subjectiveData.note_date
         }
-        
+        if (subjectiveData.note_date && this.readOnly){
+          note_date = subjectiveData.note_date
+        }
+        this.dis_subjectiveForm.controls['note_date'].setValue(note_date)
+
         this.dis_subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.dis_subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
         this.dis_subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
