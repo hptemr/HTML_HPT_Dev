@@ -104,7 +104,16 @@ const signup = async (req, res) => {
                         let caseOutput = await Case.find({ patientId: result._id }).lean();
                         if(found.signupToken && !result?.patientOnTebra && caseOutput.length){   
                             console.log("<<< Patient Register on tebra >>>>")
-                            // await tebraController.createPatient(result).catch((_err)=>false)
+                            let isPatientCreated = await tebraController.createPatient(result).catch((_err)=>false)
+                            if(isPatientCreated){
+                                console.log("caseOutput>>>>",caseOutput)
+                                let caseData = caseOutput[0]
+                                console.log("caseData>>>>",caseData)
+                                const patientDataAfterCreated = await Patient.findOne({ _id: pendingPatientTemp._id }).lean();
+                                if(patientDataAfterCreated!=null && patientDataAfterCreated?.patientOnTebra && !caseData?.caseCreatedOnTebra){
+                                    tebraController.createCase(patientDataAfterCreated, caseData.caseName, caseData._id)
+                                }
+                            }
                         }
                     }else{
                        // Normal patient register

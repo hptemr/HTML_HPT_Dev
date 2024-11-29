@@ -183,8 +183,17 @@ const createAppointment = async (req, res) => {
                 const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
                 if(patientType == 'Existing' && patientRes!=null && !patientRes?.patientOnTebra){
                     console.log("<<<<< Create Patient On Tebra >>>>>")
-                    // tebraController.createCase(patientRes, caseName, caseFound._id)
-                    // await tebraController.createPatient(patientRes).catch((_err)=>false)
+                    let isPatientCreated = await tebraController.createPatient(patientRes).catch((_err)=>false)
+                    if(isPatientCreated){
+                        const patientDataAfterCreated = await Patient.findOne({ _id: data.patientId }).lean();
+                        if(patientDataAfterCreated!=null && patientDataAfterCreated?.patientOnTebra){
+                            tebraController.createCase(patientDataAfterCreated, caseName, caseFound._id)
+                        }
+                    }
+                }
+                // New case create on Tebra for existing Patient
+                if(patientType == 'Existing' && patientRes!=null && patientRes?.patientOnTebra){
+                    tebraController.createCase(patientRes, caseName, caseFound._id)
                 }
             } else if (caseType == '') {
                 caseType = caseFound.caseType ? caseFound.caseType : ''
@@ -548,9 +557,10 @@ const rescheduleAppointment = async (req, res) => {
 
 const updateAppointment = async (req, res) => {
     try {
-        const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles } = req.body;
+        const { query, updateInfo, uploadedInsuranceFiles, uploadedPrescriptionFiles, userRole } = req.body;
         // console.log("********query*****", query)
         // console.log("********updateInfo*****", updateInfo)
+        
         const appointment_data = await Appointment.findOneAndUpdate(query, updateInfo);
         if (updateInfo.emergencyContact) {
             if (updateInfo.emergencyContact.ec1myContactCheckbox || updateInfo.emergencyContact.ec2myContactCheckbox) {
@@ -563,12 +573,36 @@ const updateAppointment = async (req, res) => {
 
         // Trigger email to Support Team when intake for filled by Patient
         let patientData = await userCommonHelper.patientGetById(appointment_data?.patientId) 
-        if(updateInfo?.intakeFormSubmit && patientData && patientData!=null){
+        if(userRole=='patient' && updateInfo?.intakeFormSubmit && patientData && patientData!=null){
             triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
+        }
+
+        
+        if(updateInfo?.intakeFormSubmit && appointment_data){
+            let patientDataToUpdate = appointment_data?.patientInfo
+            console.log("********patientDataToUpdate*****", patientDataToUpdate)
+            console.log("<<<<<<<<<<< patientData >>>>>>>>>>>", patientData)
+            if(appointment_data?.bookingFor=='Myself' && patientData?.patientOnTebra){
+                console.log("<<<<<<<<<<< Intake form 1 on Tebra >>>>>>>>>>>")
+                tebraController.updatePatientIntakeFormPersonalInfo(patientDataToUpdate, patientData)
+            }
+
+            let caseFound = await Case.findOne({ caseName: appointment_data?.caseName, patientId: appointment_data?.patientId }).lean();
+            // Update by Patient
+            if(userRole=='patient' && appointment_data?.payViaInsuranceInfo && appointment_data.payViaInsuranceInfo?.payVia == 'Insurance'){
+                console.log("<<<<<<<<< Pay Via Insurance >>>>>>>>>>", caseFound)
+                tebraController.addPatientInsuranceIntakeForm(appointment_data?.payViaInsuranceInfo, patientData, caseFound?.tebraDetails)
+            }
+            // Update by Support Team
+            if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo && appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
+                console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
+                tebraController.addPatientInsuranceIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails)
+            }
         }
 
         commonHelper.sendResponse(res, 'success', null, appointmentMessage.updated);
     } catch (error) {
+        console.log("error>>",error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -1073,6 +1107,13 @@ const addBillingDetails = async (req, res) => {
       const updateCaseData = { $set: { billingType : PI_billingType } };
       await Case.updateOne(filterCaseData, updateCaseData);
 
+      // Add billing details to Tebra
+      const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
+      const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
+      if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra ){
+        tebraController.addBillingTeamPatientInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData)
+      }
+      
       commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
     } catch (error) {
       console.log("addBillingDetails Error>>>",error)
@@ -1095,10 +1136,19 @@ const addBillingDetails = async (req, res) => {
   const addAuthorizationManagement = async (req, res) => {
     try {
       const { authorizationManagementData, patientId, caseName } = req.body
+
       const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
       const update = { $push: { authManagement: authorizationManagementData } }; // The data to update
       const options = { upsert: true }; // Create a new document if no match is found
       const result = await AthorizationManagementModel.updateOne(filter, update, options);
+    
+      // Send authorization data on Tebra
+      const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
+      const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
+      if(authorizationManagementData?.authorizationRequired == 'Yes' && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra ){
+        tebraController.manageAuthorization(authorizationManagementData, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData)
+      }
+
       commonHelper.sendResponse(res, 'success', null, billingMessage.authManagement);
     } catch (error) {
       console.log("addAuthorizationManagement Error>>>",error)
