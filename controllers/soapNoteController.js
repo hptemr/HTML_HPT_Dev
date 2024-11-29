@@ -273,6 +273,7 @@ const finalizeNote = async (req, res) => {
 const submitSubjective = async (req, res) => {
   try {
     const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
+    let message = message = soapMessage.subjective
     if (subjectiveId) {
       if(addendumId!=undefined){
         const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
@@ -292,17 +293,20 @@ const submitSubjective = async (req, res) => {
           $set: {"addendums.$": data}
         };
         await subjectiveTemp.updateOne(filterPlan, update);
+        message = soapMessage.subjectiveUpdated;
       }else{
         let optionsUpdatePlan = { returnOriginal: false };
         await subjectiveTemp.findOneAndUpdate(filterPlan, data, optionsUpdatePlan);
+        message = soapMessage.subjectiveUpdated;
       }
     } else {
       await subjectiveTemp.create(data)
+      message = soapMessage.subjective
       if (data.soap_note_type && data.soap_note_type != 'daily_note') {
         await setAssessment(req)
       }
     }
-    commonHelper.sendResponse(res, 'success', {}, soapMessage.subjective);
+    commonHelper.sendResponse(res, 'success', {}, message);
   } catch (error) {
     console.log("*****************error", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -489,7 +493,8 @@ const getSubjectiveData = async (req, res) => {
   try {
     const { query } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
-    let subjectiveData = await subjectiveTemp.findOne(query);
+
+    let subjectiveData = await subjectiveTemp.findOne(query).sort({ createdAt: -1 });
     if(!subjectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_query);
@@ -503,8 +508,9 @@ const getSubjectiveData = async (req, res) => {
       subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === query.addendumId.toLocaleString())[0];
     }
     let appointmentDatesList = [];
-    if(appointmentData){      
-      appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    if(appointmentData){           
+      //appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId,'subjective','daily_note');
+      appointmentDatesList = await subjectiveAppointmentsList({'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,note_date:{$ne:null},'appointmentId': { '$exists': true }})
     }
     let returnData = { subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
@@ -512,6 +518,35 @@ const getSubjectiveData = async (req, res) => {
     console.log('get subjective data error >>>>',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
+}
+
+async function subjectiveAppointmentsList(queryMatch) {
+   let data = await subjectiveTemp.aggregate([
+      {
+        "$lookup": {
+          from: "appointments",
+          localField: "appointmentId",
+          foreignField: "_id",
+          as: "appointment"
+        }
+      },          
+      {
+        "$match": queryMatch
+      },
+      {
+        $project: {
+          '_id': 1, 'note_date': 1,'appointmentId':1,  'soap_note_type': 1, 'status': 1,'appointment.appointmentDate': 1
+        }
+      }
+    ]).sort({ createdAt: -1 });
+
+  let appointmentDateList = [];
+  if (data.length > 0) {
+    appointmentDateList = data.filter((obj) => {
+      return moment(obj.appointmentDate).utc().format();
+    });
+  }
+  return appointmentDateList;
 }
 
 async function appointmentsList(casename, patientId) {
