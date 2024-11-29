@@ -1239,7 +1239,7 @@ export class ObjectiveComponent {
         })
         let reqVars = {
           query: {
-            appointmentId: this.appointmentId
+            appointmentId: this.appointmentId,soap_note_type:"initial_examination"
           },
           type:'objective',
           userId: this.userId,

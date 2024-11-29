@@ -335,7 +335,7 @@ export class DnObjectiveComponent {
         })
         let reqVars = {
           query: {
-            appointmentId: this.appointmentId
+            appointmentId: this.appointmentId,soap_note_type:"daily_note"
           },
           type:'objective',
           userId: this.userId,

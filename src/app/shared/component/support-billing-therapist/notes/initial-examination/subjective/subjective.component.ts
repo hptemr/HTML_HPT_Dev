@@ -194,6 +194,9 @@ export class SubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
         this.subjectiveId = subjectiveData._id;
+        if(this.addendumId!=undefined){
+          this.subjectiveId = subjectiveData.addendumId;
+        }
         if(subjectiveData.note_date){          
           this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);//this.commonService.formatUTCDate(subjectiveData.note_date)
         }        

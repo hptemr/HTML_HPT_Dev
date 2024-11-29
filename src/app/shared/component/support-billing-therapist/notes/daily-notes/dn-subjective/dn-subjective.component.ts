@@ -85,6 +85,9 @@ export class DnSubjectiveComponent {
       if (response.data && response.data.subjectiveData) {
         let subjectiveData = response.data.subjectiveData;
         this.subjectiveId = subjectiveData._id
+        if(this.addendumId!=undefined){
+          this.subjectiveId = subjectiveData.addendumId;
+        }
         this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date)
         this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
       }
