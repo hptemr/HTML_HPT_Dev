@@ -43,11 +43,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="text text-danger" *ngIf="caseNameFlag && appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
-                            {{ validationMessages.requiredDropdown('Case name') }}
+                        <div class="text text-danger" *ngIf="appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Case Name 1') }}
                         </div>   
-                        <div class="text text-danger" *ngIf="caseNameOtherFlag && appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
-                            {{ validationMessages.required('Case name') }}
+                        <div class="text text-danger" *ngIf="appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
+                            {{ validationMessages.required('Case Name 2') }}
                         </div> 
                     </div>                  
                 </div>
@@ -97,6 +97,9 @@
                             </div>
                             <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].hasError('endTimeAfterStartTime')">
                                 End time must be greater than start time.
+                              </div>
+                              <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].hasError('owlDateTimeMin')">
+                                Please select appointment end time.
                               </div>
                         </div>
                     </div>

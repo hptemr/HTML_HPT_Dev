@@ -72,7 +72,7 @@ export class CreateAppointmentModalComponent {
     this.appointmentForm = this.fb.group({
       patientType: ['New', [Validators.required]],
       seachByPname: [''],
-      caseName: ['', [Validators.required]],
+      caseName: [''],
       caseType: ['PT', [Validators.required]],
       caseNameOther: ['',[Validators.required]],
       firstName: ['', [Validators.required]],
@@ -136,10 +136,12 @@ export class CreateAppointmentModalComponent {
 
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
   }
 
   onDateInput(event: MatDatepickerInputEvent<Date>): void {
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
   }
 
   async createAppointment(formData:any){
@@ -188,7 +190,18 @@ export class CreateAppointmentModalComponent {
           }
         })
     }else{
-      console.log(' #### appointment Form>>>>>>',this.appointmentForm)
+      console.log(' #### appointment Form>>>>>>')
+      Object.keys(this.appointmentForm.controls).forEach(field => {
+        const control = this.appointmentForm.get(field);
+        if (control && control.errors) {
+          console.log(`Errors in ${field}:     Value: ${control.value}`);
+      
+          Object.keys(control.errors).forEach(errorKey => {
+            const errorValue = control.errors ? control.errors[errorKey] : '';
+            console.log(`'Error details:'  - ${errorKey}:`, errorValue);
+          });
+        }
+      });
         this.appointmentForm.markAllAsTouched();
         return;  
     }
@@ -216,21 +229,28 @@ export class CreateAppointmentModalComponent {
     this.selectedValue = event.value
     this.appointmentForm.controls['caseNameOther'].setValue('');
     if(this.selectedValue=='New'){
+      this.caseNameFlag = false;
+      this.caseNameOtherFlag = true;
       this.appointmentForm.controls['firstName'].setValue('');
       this.appointmentForm.controls['lastName'].setValue('');
       this.appointmentForm.controls['email'].setValue('');
       this.appointmentForm.controls['firstName'].enable();
       this.appointmentForm.controls['lastName'].enable();
       this.appointmentForm.controls['email'].enable();
-      this.caseNameFlag = false;
-      this.caseNameOtherFlag = true;
+
       this.appointmentForm.controls['caseName'].setValidators([]);
+      this.appointmentForm.controls['caseName'].reset(); 
       this.appointmentForm.controls['caseNameOther'].setValidators([Validators.required]);
+      this.appointmentForm.updateValueAndValidity();
+    
     }else{
       this.caseNameFlag = true;
       this.caseNameOtherFlag = false;
-      this.appointmentForm.controls['caseName'].setValidators([Validators.required]);
       this.appointmentForm.controls['caseNameOther'].setValidators([]);
+      this.appointmentForm.controls['caseNameOther'].reset();
+      this.appointmentForm.controls['caseName'].setValidators([Validators.required]);
+      this.appointmentForm.updateValueAndValidity();
+
     }
   }
 
