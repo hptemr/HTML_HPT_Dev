@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
-
+import { MatDialog, MatDialogRef  } from '@angular/material/dialog';
+import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 @Component({
   selector: 'app-billing', 
   templateUrl: './billing.component.html',
@@ -16,6 +17,7 @@ export class BillingComponent {
   appointmentId =""
   userId =""
   actionType = ""
+  date_of_service:Date
   unitedPtList = [
     {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
     {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
@@ -95,7 +97,7 @@ export class BillingComponent {
   readOnly = false
   isHold = false
   addendumId =""
-  constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,public router: Router) {
+  constructor(private route: ActivatedRoute,public authService: AuthService, public dialog: MatDialog, public commonService: CommonService,public router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
       this.addendumId = params['addendumId'];
@@ -118,20 +120,26 @@ export class BillingComponent {
       addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
-      let result = response.data
-      if(result && result?.status=='Finalized'){
-        this.readOnly = true
-      }
-      if(response && response.message && response.message?.billingType==""){
-        this.isHold = true
-      }
-      if(response && response?.message && response.message.caseType!=''){
-        this.caseType = response.message.caseType
-      }
-      if(response && response.message && response.message.billingType!=''){
-        this.billingType = response.message.billingType
-      }
-      if(response.data && response.data.appointmentId){
+        let result = response.data;
+        if(response.data && response.data.billingData){
+          result = response.data.billingData;
+        }
+        if(result && result?.status=='Finalized'){
+          this.readOnly = true
+        }
+        if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
+          this.isHold = true
+        }
+        if(response && response.data?.caseData && response.data.caseData.caseType!=''){
+          this.caseType = response.data?.caseData.caseType
+        }
+        if(response && response.data?.caseData && response.data.caseData.billingType!=''){
+          this.billingType = response.data.caseData.billingType
+        }
+        if(response.data && response.data.subjective_data){
+          this.date_of_service = response.data.subjective_data.note_date;
+        }
+        if(result && result.appointmentId){
         this.actionType = "update"
         this.totalTreatmentMinutes = result.total_treatment_minutes
         this.totalDirectMinutes = result.total_direct_minutes
@@ -488,19 +496,38 @@ export class BillingComponent {
       }
     }else{
       if(!errorInCode){
-        let inputParams = {
-          appointmentId : this.appointmentId,
-          soapNoteType : "initial_examination",
-          addendumId : this.addendumId
-        }
-        this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
-          if(response.message!=''){
-            this.commonService.openSnackBar(response.message, "ERROR");
-          }else{
-            this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
-          }
-        })
+        let service_date_note = 'You can not finalize this initial examination note, date of sericve is not selected in subjective form.';
+        let submitButton = true;
+          if(this.date_of_service){
+            service_date_note = 'Do you really want to finalize this initial examination note? Date of sericve is "'+this.commonService.formatUTCDate(this.date_of_service)+'" for this note.'
+            submitButton = false;
+          }        
+          const dialogRef = this.dialog.open(AlertComponent,{
+            panelClass: 'custom-alert-container',
+            data : {
+              warningNote: service_date_note,
+              submitButton: submitButton
+            }
+          });
+          dialogRef.afterClosed().subscribe(res => {
+            if (!res) {
+              return;
+            } else {
+              let inputParams = {
+                appointmentId : this.appointmentId,
+                soapNoteType : "initial_examination",
+                addendumId : this.addendumId
+              }
+              this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
+                if(response.message!=''){
+                  this.commonService.openSnackBar(response.message, "ERROR");
+                }else{
+                  this.commonService.openSnackBar("Note Finalized Successfully", "SUCCESS")
+                  window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+                }
+              })
+            }
+          })  
       }
     }
   }

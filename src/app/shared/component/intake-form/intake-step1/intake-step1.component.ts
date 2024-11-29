@@ -145,7 +145,6 @@ export class IntakeStep1Component {
     let phoneNumber = ''
     let cellPhoneNumber = ''
     let workExtensionNumber = ''
-
     let address = ''
     let city = ''
     let state = ''
@@ -160,13 +159,11 @@ export class IntakeStep1Component {
       dob = new Date(this.patientInfo.dob)
       phoneNumber = this.patientInfo.phoneNumber
       cellPhoneNumber = this.patientInfo.cellPhoneNumber ? this.patientInfo.cellPhoneNumber : ""
-      workExtensionNumber = this.patientInfo.workExtensionNumber ? this.patientInfo.workExtensionNumber : ""
-     // console.log('patientInfo >>>>',this.patientInfo)
+      workExtensionNumber = this.patientInfo.workExtensionNumber ? this.patientInfo.workExtensionNumber : ""     
       address = this.patientInfo.address1 ? this.patientInfo.address1 : ""
       city = this.patientInfo.city ? this.patientInfo.city : ""
       state = this.patientInfo.state ? this.patientInfo.state : ""
       zipcode = this.patientInfo.zipcode ? this.patientInfo.zipcode : ""
-
     } else if (this.step1FormData) {
       let patientAppInfo = this.step1FormData.patientInfo
       firstName = patientAppInfo.firstName
@@ -194,15 +191,12 @@ export class IntakeStep1Component {
     this.step1Form.controls['dob'].setValue(dob)
     this.step1Form.controls['phoneNumber'].setValue(phoneNumber)
     this.step1Form.controls['cellPhoneNumber'].setValue(cellPhoneNumber)
-    this.step1Form.controls['workExtensionNumber'].setValue(workExtensionNumber)
-   
-    this.step1Form.controls['address'].setValue(address)
+    this.step1Form.controls['workExtensionNumber'].setValue(workExtensionNumber)   
+    this.step1Form.controls['address1'].setValue(address)
     this.step1Form.controls['city'].setValue(city)
     this.step1Form.controls['state'].setValue(state)
     this.step1Form.controls['zipcode'].setValue(zipcode)
   }
-  
-  //firstName=1,middleName=1,lastName=1,dob=1,maritalStatus=1,gender=1,email=1,phoneNumber=1,cellPhoneNumber=1,workExtensionNumber=1
 
   loadForm() {
     this.onStateChange(this.step1FormData ? this.step1FormData.patientId.state : '')

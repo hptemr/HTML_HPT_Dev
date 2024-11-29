@@ -82,7 +82,6 @@ export class SchedulerComponent {
 
     onChange(event: MatRadioChange,id:string) {
       let updateInfo = {};let text = '';
-      console.log('event????>>>',event)
       if(event.value=='checkIn'){
         text = 'checked in?'
         updateInfo = { checkIn: true, checkInBy: this.userId,appointmentStatus:'checkIn'}
@@ -175,10 +174,13 @@ export class SchedulerComponent {
       });
     }
 
-    upcomingAppointmentModal(){
+    upcomingAppointmentModal(app_data:any){
       const dialogRef = this.dialog.open(UpcomingAppModalComponent,{
         width:'310px',
         panelClass: [ 'modal--wrapper'],
+        data: {
+          app_data:app_data,      
+        }
       });
     }
 
@@ -509,11 +511,11 @@ export class SchedulerComponent {
               eventArray.push(this.eventArray(element,element.appointmentStartDate,element.appointmentEndDate,true))   
           }
       });
-
       this.events = eventArray;
-      //console.log('Event Array length >>>>',eventArray.length)
-      setTimeout( () => {    
+      
+      setTimeout(() => {
         this.refresh.next();
+        this.cdr.detectChanges();
       }, 100)
     }
 
@@ -522,7 +524,12 @@ export class SchedulerComponent {
         start:new Date(appointmentStartDate),
         end: new Date(appointmentEndDate),
         title: element.caseName+' ('+element.patientName+')',//'<img src="'+element.profileImage+'" alt="Profile" class="img-fluid" />'+
-        color: { ...colors['red'] },//profileImage: element.profileImage,//'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
+        color: { ...colors['red'] },
+        // color: {
+        //   primary: '#ad2121',
+        //   secondary: '#FAE3E3'
+        // },
+        //profileImage: element.profileImage,//'https://s3.amazonaws.com/hpt.dev/profile-images/66cc4059255216407ab72e29.png',
         actions:  [
           {
             label: '<i class="fas fa-fw fa-eye"></i>',
@@ -638,8 +645,6 @@ export class SchedulerComponent {
     }
 
     onSearchDateChange(event: any) {
-     //console.log('on Search Date Change Event >>>>>>',event)
-    
      let startdDate = startOfDay(new Date(event.value));this.commonService.formatUTCDate(event.value)
      let endDate = addDays(new Date(event.value), 1)
      let obj = { $gt: startdDate, $lte: endDate }
@@ -652,8 +657,6 @@ export class SchedulerComponent {
 
     async searchPageRecords(action:string) {
       // this.commonService.showLoader()
-      // console.log('.....search Page Records >>>>>>',)
-      // console.log(this.patientSearchQuery,'.....search Page Records whereSearchCond >>>>>>',this.whereSearchCond)
       let reqVars = {
         query: this.whereSearchCond,
         userQuery: this.userSearchQuery,

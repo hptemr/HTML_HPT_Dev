@@ -448,8 +448,7 @@ export class IntakeStep2Component {
       attorneyPhone = info.attorneyPhone
       //attorneyAddress = info.attorneyAddress
       this.selectedInsuranceFiles = info.insuranceFiles;
-      
-      if(info.insuranceFiles.length>0){
+      if(info && info.insuranceFiles && info.insuranceFiles.length>0){
         let filesArr: any = []
         info.insuranceFiles.forEach((element: any) => {
           filesArr.push({
@@ -723,7 +722,8 @@ export class IntakeStep2Component {
               if (insuranceFiles.length > 0) {
                 Object.assign(formData, { insuranceFiles: insuranceFiles })
               }
-              if (this.selectedInsuranceFiles.length > 0) {
+          
+              if (this.selectedInsuranceFiles && this.selectedInsuranceFiles.length > 0) {
                 Object.assign(formData, { insuranceFiles: this.selectedInsuranceFiles })
               }
               let updateInfo = {}

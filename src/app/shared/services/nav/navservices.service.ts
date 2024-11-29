@@ -59,6 +59,16 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 2,
+          activeMenu: 'scheduler',
+          icon: 'calendar_month',
+          mainTitle: 'Scheduler',
+          headTitle1: 'Dashboard',
+          path: '/practice-admin/scheduler',
+          active: false,
+          item: []
+        },
+        {
+          id: 3,
           icon: 'person_outline',
           activeMenu: 'user-managment',
           mainTitle: 'User Management',
@@ -90,7 +100,7 @@ export class NavservicesService implements OnInit {
           ]
         },
         {
-          id: 3,
+          id: 4,
           activeMenu: 'patients',
           icon: 'group',
           mainTitle: 'Patients',
@@ -100,7 +110,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 4,
+          id: 5,
           icon: 'home',
           activeMenu: 'manage-practice',
           mainTitle: 'Manage Practice',
@@ -119,7 +129,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 5,
+          id: 6,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -129,7 +139,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 6,
+          id: 7,
           activeMenu: 'manage-documents',
           icon: 'home',
           mainTitle: 'Manage Documents',
@@ -139,7 +149,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 7,
+          id: 8,
           activeMenu: 'provider-management',
           icon: 'dashboard',
           mainTitle: 'Doctors Management',
@@ -149,7 +159,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 8,
+          id: 9,
           activeMenu: 'insurance-management',
           icon: 'dashboard',
           mainTitle: 'Insurance Management',
@@ -193,6 +203,16 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 2,
+          activeMenu: 'scheduler',
+          icon: 'calendar_month',
+          mainTitle: 'Scheduler',
+          headTitle1: 'Scheduler',
+          path: '/therapist/scheduler',
+          active: false,
+          item: []
+        },
+        {
+          id: 3,
           icon: 'accessibility',
           activeMenu: 'user-managment',
           mainTitle: 'Therapists',
@@ -213,7 +233,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 3,
+          id: 4,
           activeMenu: 'cases',
           icon: 'pending_actions',
           mainTitle: 'Cases',
@@ -253,7 +273,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 4,
+          id: 5,
           activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  
@@ -264,7 +284,7 @@ export class NavservicesService implements OnInit {
           item: [ ]
         },
         {
-          id: 5,
+          id: 6,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -306,7 +326,7 @@ export class NavservicesService implements OnInit {
       ]
     
       if (userType == 'therapist' && this.authservice.getLoggedInInfo('siteLeaderForPracLocation')!='Site Leader'){
-        this.navigationMenu.splice(1, 1);
+        this.navigationMenu.splice(2, 1);
       }
 
     } else if (userType == 'billing_team') {
@@ -321,6 +341,16 @@ export class NavservicesService implements OnInit {
           active: false,
           item: []
         },
+        {
+          id: 2,
+          activeMenu: 'scheduler',
+          icon: 'calendar_month',
+          mainTitle: 'Scheduler',
+          headTitle1: 'Dashboard',
+          path: '/billing-team/scheduler',
+          active: false,
+          item: []
+        },
         // {
         //   id: 2,
         //   icon: 'pending_actions',
@@ -332,7 +362,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 2,
+          id: 3,
           activeMenu: 'cases',
           icon: 'pending_actions',
           mainTitle: 'Cases',
@@ -353,7 +383,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 3,
+          id: 4,
           activeMenu: 'documents',
           icon: 'description',
           mainTitle: 'Documents',  
@@ -364,7 +394,7 @@ export class NavservicesService implements OnInit {
           item: [ ]
         },
         {
-          id: 4,
+          id: 5,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -536,6 +566,16 @@ export class NavservicesService implements OnInit {
         },
         {
           id: 2,
+          activeMenu: 'scheduler',
+          icon: 'calendar_month',
+          mainTitle: 'Scheduler',
+          headTitle1: 'Dashboard',
+          path: '/system-admin/scheduler',
+          active: false,
+          item: []
+        },
+        {
+          id: 3,
           activeMenu: 'user-managment',
           icon: 'person_outline',
           mainTitle: 'User Management',
@@ -574,7 +614,7 @@ export class NavservicesService implements OnInit {
           ]
         },
         {
-          id: 3,
+          id: 4,
           activeMenu: 'patients',
           icon: 'group',
           mainTitle: 'Patients',
@@ -584,7 +624,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 4,
+          id: 5,
           activeMenu: 'manage-practice',
           icon: 'home',
           mainTitle: 'Manage Practice',
@@ -604,7 +644,7 @@ export class NavservicesService implements OnInit {
         //   item: []
         // },
         {
-          id: 5,
+          id: 6,
           activeMenu: 'conversations-chat',
           icon: 'chat_bubble_outline',
           mainTitle: 'Conversations',
@@ -614,7 +654,7 @@ export class NavservicesService implements OnInit {
           item: []
         },
         {
-          id: 6,
+          id: 7,
           activeMenu: 'manage-documents',
           icon: 'home',
           mainTitle: 'Manage Documents ',

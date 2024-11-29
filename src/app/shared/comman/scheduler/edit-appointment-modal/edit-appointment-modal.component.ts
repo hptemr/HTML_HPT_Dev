@@ -191,10 +191,10 @@ export class EditAppointmentModalComponent {
             }
           } else {
             if (response.message) {       
-              this.dialogRef.close();
               //this.successModal(response.message);
               this.commonService.openSnackBar(response.message, "SUCCESS");
               this.dialogRef.close('SUCCESS');
+              this.dialogRef.close();
             }
           }
         })

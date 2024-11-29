@@ -65,9 +65,9 @@ export class CreateAppointmentModalComponent {
     this.minTime = new Date();
     this.checkToday();
     
-    if(this.userRole!='support_team'){
-      this.router.navigate([''])
-    }
+    // if(this.userRole!='support_team'){
+    //   this.router.navigate([''])
+    // }
    
     this.appointmentForm = this.fb.group({
       patientType: ['New', [Validators.required]],

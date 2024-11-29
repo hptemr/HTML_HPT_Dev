@@ -70,6 +70,6 @@
     </div>
     <div class="modal--footer w-100 d-flex align-items-center justify-content-end mt-2">
         <button mat-stroked-button color="primary" [disabled]="submitted" class="me-2" mat-dialog-close>Cancel</button> 
-        <button mat-raised-button color="primary" [disabled]="submitted" (click)="sendEFax()">Send</button>
+        <button mat-raised-button color="primary" [disabled]="submitted || (NewFaxNumbers.length==0 && selectedOptions.length==0)" (click)="sendEFax()">Send</button>
     </div>
 </div>

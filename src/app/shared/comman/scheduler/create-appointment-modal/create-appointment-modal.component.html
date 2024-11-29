@@ -132,6 +132,7 @@
                     </div>
                     </div>
                 </div>
+           
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Therapist <span class="clr--DF0404 ms-1"> * </span></label>
@@ -220,9 +221,11 @@
                             <option value="Every two weeks on {{day}}"> Every two weeks on {{day}}</option> 
                             <option value="Every Month on {{day}}"> Every Month on {{day}}</option> 
                         </select>
+                        
                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['repeatsNotes'].touched && appointmentForm.controls['repeatsNotes'].hasError('required')">
                             {{ validationMessages.requiredDropdown('Repeats') }}
-                        </div>    
+                        </div>  
+                        <p class="font-14 my-2"> <strong>Note:</strong> All appointments will repeat for a period of 3 months </p>  
                     </div>
                 </div>
             </div>

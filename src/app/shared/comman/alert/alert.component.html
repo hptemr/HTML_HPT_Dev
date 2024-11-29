@@ -3,9 +3,10 @@
         <!-- <mat-icon class="material-symbols-outlined info--icon"> help </mat-icon> -->
         <mat-icon class="material-symbols-outlined warning-icon">warning</mat-icon>
         <p class="alert--note">{{warningNote}}</p>
+
         <div class="d-flex align-items-center justify-content-center">
-            <button mat-stroked-button color="primary" class="me-3" [mat-dialog-close]="false">Cancel</button> 
-            <button mat-raised-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>Yes</button>
+            <button mat-stroked-button color="primary" class="me-3" [mat-dialog-close]="false">{{cancel_btn}}</button> 
+            <button mat-raised-button color="warn" [mat-dialog-close]="true" cdkFocusInitial [disabled]="disabled_yes">Yes</button>
         </div>
     </div>
 </div>  

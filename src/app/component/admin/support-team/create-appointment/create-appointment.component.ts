@@ -9,6 +9,8 @@ import { SuccessModalComponent } from 'src/app/shared/comman/success-modal/succe
 import { s3Details, practiceLocations } from 'src/app/config';
 import { FormBuilder, FormControl, FormGroup, Validators,AbstractControl } from '@angular/forms';
 import { validationMessages } from '../../../../utils/validation-messages';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import * as moment from 'moment';
 export class lists {
   constructor(public id: string, public firstName: string,public lastName: string,public status: string,public patientName: string, public patientEmail: string,public profileImage: string) {}
 }
@@ -53,6 +55,9 @@ export class CreateAppointmentComponent {
   //maxToDate:any  = this.commonService.displayFormatDate(this.commonService.getMaxAppoinmentFutureMonths(),true)
   minToDate: Date;
   maxToDate: Date;
+  day: string;
+  minTime: Date;
+  minEndTime: Date;
   constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService) {}
 
   ngOnInit() {    
@@ -60,6 +65,11 @@ export class CreateAppointmentComponent {
     this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
     this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
 
+    const defaultStartTime = this.getNext30MinuteMark();
+    const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
+    this.minTime = new Date();
+
+    this.checkToday();
     if(this.userRole!='support_team'){
       this.router.navigate([''])
     }
@@ -74,14 +84,68 @@ export class CreateAppointmentComponent {
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required,Validators.email]],
       appointmentDate: ['', [Validators.required]],
+      appointmentStartTime: ['', [Validators.required]],
+      appointmentEndTime: ['', [Validators.required]],
       practiceLocation: ['',[Validators.required]],
       therapistId: ['',[Validators.required]],    
       phoneNumber: ['', []],
       seachByDoctor: ['',[Validators.required]],    
       appointmentType: [''],
-      appointmentTypeOther: [''],      
-    });
+      appointmentTypeOther: [''],    
+      notes: [''],      
+      repeatsNotes: [''],        
+    },
+    { validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
+  );
+
+  this.appointmentForm.patchValue({
+    appointmentStartTime: defaultStartTime,
+    appointmentEndTime: defaultEndTime,
+  });
+
     this.getTherapistList()
+  }
+
+  checkToday(): void {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = new Date().getDay(); // Get the day index (0 = Sunday, 6 = Saturday)
+    this.day = daysOfWeek[today];
+  }
+
+  getNext30MinuteMark(): Date {
+    const currentTime = moment();
+    const minutes = currentTime.minutes();
+    const next15MinuteMark = minutes % 30 === 0 ? currentTime : currentTime.add(30 - (minutes % 30), 'minutes');
+    return next15MinuteMark.seconds(0).milliseconds(0).toDate(); // Set seconds and milliseconds to 0
+  }
+  
+  endTimeAfterStartTime(startTimeKey: string, endTimeKey: string) {
+    // const currentTime = this.appointmentForm.controls['appointmentStartTime'].value;//moment();
+    // const minutes = currentTime.minutes();
+    // this.minEndTime = currentTime.add(30 - (minutes % 30), 'minutes');
+    return (formGroup: FormGroup) => {
+      const startTime = formGroup.controls[startTimeKey];
+      const endTime = formGroup.controls[endTimeKey];
+
+      if (endTime.errors && !endTime.errors['endTimeAfterStartTime']) {
+        return;
+      }
+      // Check if endTime is after startTime
+      if (moment(endTime.value).isSameOrBefore(moment(startTime.value))) {
+        endTime.setErrors({ endTimeAfterStartTime: true });
+      } else {
+        endTime.setErrors(null);
+      }
+    };
+  }
+
+  
+  onDateChange(event: MatDatepickerInputEvent<Date>): void {
+    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+  }
+
+  onDateInput(event: MatDatepickerInputEvent<Date>): void {
+    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
   }
 
   onChange(event: MatRadioChange) {
