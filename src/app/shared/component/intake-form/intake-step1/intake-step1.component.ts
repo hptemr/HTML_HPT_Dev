@@ -268,12 +268,13 @@ export class IntakeStep1Component {
                 email: finalReqBody.email,
                 phoneNumber: finalReqBody.phoneNumber,
                 cellPhoneNumber: finalReqBody.cellPhoneNumber,
-                workExtension: finalReqBody.workExtension
+                workExtension: finalReqBody.workExtensionNumber
+                // workExtension: finalReqBody.workExtension
               },
               appointmentUpdateInfo:appointmentUpdateInfo
             }
           }
-    
+          
           await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
             this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
           })

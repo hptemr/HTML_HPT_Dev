@@ -114,7 +114,8 @@ export class IntakeStep5Component {
 
       let params = {
         query: { _id: this.appId },
-        updateInfo: formData
+        updateInfo: formData,
+        userRole:this.userRole
       }
       await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
           if(this.userRole=='patient'){
