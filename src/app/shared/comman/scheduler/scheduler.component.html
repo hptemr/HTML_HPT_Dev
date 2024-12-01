@@ -301,8 +301,8 @@
                                 <button mat-stroked-button color="primary" class="mb-2 w-100" (click)="navigateToappointmentDetails(app_data.id)">Case Details</button> 
                             </div>
                             <div class="col-12 col-md-9"> 
-                                <button mat-stroked-button color="primary" class="mb-2 me-3 sm-w-100" (click)="upcomingAppointmentModal(app_data)" >Upcoming Appointments</button>
-                                <button mat-stroked-button color="primary" class="mb-2 sm-w-100" (click)="collectPaymentModal()" >Payments</button>  
+                                <button mat-stroked-button color="primary" class="mb-2 me-3 sm-w-100" (click)="upcomingAppointmentModal(app_data)">Upcoming Appointments</button>
+                                <button mat-stroked-button color="primary" class="mb-2 sm-w-100" (click)="collectPaymentModal()">Payments</button>  
                             </div> 
                             <div class="col-12"> 
                                 <div class="form-group"> 
@@ -328,7 +328,7 @@
                             </p>
                         </div>
                         <div class="w-100 d-flex flex-column align-items-start">
-                            <div class="user--time d-flex align-items-between w-100" *ngFor="let element of elements.appointments">
+                            <div class="user--time d-flex align-items-between w-100 cursor-pointer" *ngFor="let element of elements.appointments" (click)="navigateToappointmentDetails(element.id)">
                                 <div class="d-flex align-items-center w-100">
                                     <div class="d-flex align-items-center">
                                         <div class="point m-1 red"></div><!-- orange        green      blue  -->

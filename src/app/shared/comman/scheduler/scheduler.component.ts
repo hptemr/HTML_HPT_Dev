@@ -192,7 +192,7 @@ export class SchedulerComponent {
     }
 
     deleteAppointment(id:string,app_name:string,count:any) {
-      if(id){
+      if(id){        
         const dialogRef = this.dialog.open(AlertComponent,{
           panelClass: 'custom-alert-container',
           data : {
@@ -570,7 +570,7 @@ export class SchedulerComponent {
         }      
       } else {
         this.whereTherapistCond = { role: 'therapist', status: 'Active' };
-        this.selectedItems = [];
+        //this.selectedItems = [];
       }
       this.getTherapistList()   
     }
@@ -700,10 +700,11 @@ export class SchedulerComponent {
             }
             finalData.push(newColumns)
           })
+
           finalData = this.groupAppointmentsByDate(finalData); 
           if(finalData.__zone_symbol__state){
             this.searchAppointmentsList = finalData.__zone_symbol__value;   
-          }          
+          }     
         } else {
           this.noRecordFound = true;
         }    
@@ -758,6 +759,7 @@ export class SchedulerComponent {
     }
 
     navigateToappointmentDetails(appointmentId: string) {
+      console.log('appointmentId >>>',appointmentId)
       this.modal.dismissAll()
       this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);
     }

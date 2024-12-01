@@ -45,6 +45,7 @@ export class EditAppointmentModalComponent {
   minEndTime: Date;
   title:string='';
   from:string='';
+  day: string;
   constructor(
     public dialog: MatDialog,
     private commonService: CommonService,
@@ -84,7 +85,7 @@ export class EditAppointmentModalComponent {
       appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : this.app_data.appointmentDate;     
       appointmentId = this.app_data.id;
     }
-    //console.log('appointmentDate>>>',appointmentDate,'......appointmentEndTime>>>',appointmentEndTime)
+
     this.appointmentForm = this.fb.group({
       id:[appointmentId,[]],
       patientId: [this.patientId, [Validators.required]],
@@ -107,7 +108,7 @@ export class EditAppointmentModalComponent {
       appointmentTypeOther: [''],      
       status: [this.app_data.status],
       notes: [this.app_data.notes],        
-      repeatsNotes: [this.app_data.repeatsNotes], 
+      repeatsNotes: [this.app_data.repeatsNotes],
     },{ validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
     );
     //console.log('<>>>>>>>>>>>>>>>',appointmentStartDate,'appointment date >>>',appointmentDate,'......>>>>>',appointmentEndTime)
@@ -117,13 +118,20 @@ export class EditAppointmentModalComponent {
       this.appointmentForm.controls['id'].setValidators([Validators.required])
       this.appointmentForm.updateValueAndValidity();
     }
-    
+    this.checkToday();
     this.getCaseList(this.patientId);
     this.getTherapistList();
     this.whereDocCond = { _id: this.app_data.doctorId }
     this.getDoctorsList();
    
   }
+
+  checkToday(): void {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = new Date().getDay(); // Get the day index (0 = Sunday, 6 = Saturday)
+    this.day = daysOfWeek[today];
+  }
+
 
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
