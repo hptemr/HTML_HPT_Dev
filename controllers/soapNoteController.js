@@ -51,7 +51,7 @@ const createPlanNote = async (req, res) => {
       createParams.soap_note_type = 'progress_note'
       await setPlan(createParams)
     }
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.addPlan);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -127,7 +127,7 @@ const updatePlanNote = async (req, res) => {
     }else{
       await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
     }
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.updatePlan);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -153,7 +153,7 @@ const createBillingNote = async (req, res) => {
       createdBy: new ObjectId(req.body.endUserId),
     }
     await BillingTemp.create(createParams)
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.addBilling);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -215,7 +215,7 @@ const updateBillingNote = async (req, res) => {
     }else{
       await BillingTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
     }
-    commonHelper.sendResponse(res, 'success', {}, '');
+    commonHelper.sendResponse(res, 'success', {}, soapMessage.updatedBilling);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
@@ -262,16 +262,16 @@ const finalizeNote = async (req, res) => {
 
             commonHelper.sendResponse(res, 'success', {}, '');
           }else{
-            commonHelper.sendResponse(res, 'success', null, "Please fill the Plan note to Finalize note");
+            commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Plan note to Finalize note");
           }
         }else{
-          commonHelper.sendResponse(res, 'success', null, "Please fill the Assessment note to Finalize note");
+          commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Assessment note to Finalize note");
         }
       }else{
-        commonHelper.sendResponse(res, 'success', null, "Please fill the Objective note to Finalize note");
+        commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Objective note to Finalize note");
       }
     }else{
-      commonHelper.sendResponse(res, 'success', null, "Please fill the Subjective note to Finalize note");
+      commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Subjective note to Finalize note");
     }
   } catch (error) {
     console.log("finalizeNote Error>>>",error)
@@ -282,9 +282,10 @@ const finalizeNote = async (req, res) => {
 const submitSubjective = async (req, res) => {
   try {
     const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
+    let message = soapMessage.subjective
     if (subjectiveId) {
+      const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
       if(addendumId!=undefined){
-        const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
         subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
         data.version = subjData[0].version
@@ -301,17 +302,20 @@ const submitSubjective = async (req, res) => {
           $set: {"addendums.$": data}
         };
         await subjectiveTemp.updateOne(filterPlan, update);
+        message = soapMessage.subjectiveUpdated;
       }else{
         let optionsUpdatePlan = { returnOriginal: false };
-        await subjectiveTemp.findOneAndUpdate({ _id: subjectiveId }, data, optionsUpdatePlan);
+        await subjectiveTemp.findOneAndUpdate(filterPlan, data, optionsUpdatePlan);
+        message = soapMessage.subjectiveUpdated;
       }
     } else {
       await subjectiveTemp.create(data)
+      message = soapMessage.subjective
       if (data.soap_note_type && data.soap_note_type != 'daily_note') {
         await setAssessment(req)
       }
     }
-    commonHelper.sendResponse(res, 'success', {}, soapMessage.subjective);
+    commonHelper.sendResponse(res, 'success', {}, message);
   } catch (error) {
     console.log("*****************error", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -498,7 +502,8 @@ const getSubjectiveData = async (req, res) => {
   try {
     const { query } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
-    let subjectiveData = await subjectiveTemp.findOne(query);
+
+    let subjectiveData = await subjectiveTemp.findOne(query).sort({ createdAt: -1 });
     if(!subjectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_query);
@@ -512,8 +517,12 @@ const getSubjectiveData = async (req, res) => {
       subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === query.addendumId.toLocaleString())[0];
     }
     let appointmentDatesList = [];
-    if(appointmentData){      
-      appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+    if(appointmentData){         
+      if(subjectiveData){
+        appointmentDatesList = await subjectiveAppointmentsList({'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,note_date:{$ne:null},'appointmentId': { '$exists': true }})
+      }else{
+        appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+      }      
     }
     let returnData = { subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
@@ -523,13 +532,61 @@ const getSubjectiveData = async (req, res) => {
   }
 }
 
-async function appointmentsList(casename, patientId) {
-  let data = await Appointment.find({ patientId: patientId, caseName: casename }, { _id: 1, appointmentDate: 1 }).sort({ createdAt: -1 });
+async function subjectiveAppointmentsList(queryMatch) {
+  //  let data = await Appointment.aggregate([
+  //     {
+  //       "$lookup": {
+  //         from: "subjective",
+  //         localField: "_id",
+  //         foreignField: "appointmentId",
+  //         as: "obj"
+  //       }
+  //     },          
+  //     {
+  //       "$match": queryMatch
+  //     },
+  //     {
+  //       $project: {
+  //         '_id': 1, 'obj.note_date': 1,'obj.appointmentId':1, 'obj.soap_note_type': 1, 'obj.status': 1,'appointmentDate': 1
+  //       }
+  //     }
+  //   ]).sort({ createdAt: -1 });
+  let data = await subjectiveTemp.aggregate([
+    {
+      "$lookup": {
+        from: "appointments",
+        localField: "appointmentId",
+        foreignField: "_id",
+        as: "appointment"
+      }
+    },          
+    {
+      "$match": queryMatch
+    },
+    {
+      $project: {
+        '_id': 1, 'note_date': 1,'appointmentId':1,  'soap_note_type': 1, 'status': 1,'appointment.appointmentDate': 1
+      }
+    }
+  ]).sort({ createdAt: -1 });
+
   let appointmentDateList = [];
   if (data.length > 0) {
     appointmentDateList = data.filter((obj) => {
       return moment(obj.appointmentDate).utc().format();
     });
+  }
+
+  return appointmentDateList;
+}
+
+async function appointmentsList(casename, patientId) {
+  let data = await Appointment.find({ patientId: patientId, caseName: casename }, { _id: 1, appointmentDate: 1 }).sort({ createdAt: -1 });
+  let appointmentDateList = [];  
+  if (data.length > 0) {
+    data.map((obj) => {
+        appointmentDateList.push({'status':'','appointment' : [{'appointmentDate':moment(obj.appointmentDate).utc().format()}]})
+    })     
   }
   return appointmentDateList;
 }

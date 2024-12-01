@@ -53,6 +53,7 @@ const messages = {
     appointmentMessage: {
         accepted: 'Appointment has been accepted successfully',
         cancelled: 'Appointment has been cancelled successfully',
+        deleted: 'Appointment has been deleted successfully',
         updated: 'Appointment has been updated successfully',
         rescheduled: 'Appointment has been rescheduled successfully',
         created: 'Appointment has been created successfully',
@@ -76,17 +77,22 @@ const messages = {
     },
     soapMessage: {
         assessment: 'Assessment has been updated successfully',
-        addObjective: 'Objective has been added successfully',
+        addObjective: 'Objective has been created successfully',
         updateObjective: 'Objective has been updated successfully',
-        addExercise: 'Exercise has been added successfully',
+        addExercise: 'Exercise has been created successfully',
         upadteExercise: 'Exercise has been updated successfully',
-        subjective: 'Subjective has been updated successfully',
+        subjective: 'Subjective has been created successfully',
+        subjectiveUpdated: 'Subjective has been updated successfully',
         caseNoteCreate: 'Case note has been created successfully!',
         caseNoteUpdated: 'Case note has been created successfully!',
+        addPlan: 'Plan note has been created successfully',
+        updatePlan: 'Plan note has been updated successfully',
+        addBilling:"Billing details created successfully",
+        updatedBilling:"Billing details updated successfully",
     },
     billingMessage:{
-        addDetails:"Billing details added successfully",
-        authManagement:"Authorization Management details added successfully"
+        addDetails:"Billing details created successfully",
+        authManagement:"Authorization Management details created successfully"
     }
 };
 

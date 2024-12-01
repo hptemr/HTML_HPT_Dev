@@ -44,6 +44,9 @@ const getAppointmentList = async (req, res) => {
                 query['noResults'] = true //if no records found then pass default condition just to failed query.
             }
         }
+        if(!query.status){
+            Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled'] } })
+        }
         
         let appointmentList = await Appointment.find(query, fields)
             .populate('patientId', patientFields)
@@ -503,8 +506,13 @@ const resolvedRequest = async (req, res) => {
 const cancelAppointment = async (req, res) => {//use in schedular module
     try {
         const { query, updateInfo } = req.body;
+        let resMessage = appointmentMessage.cancelled;
+        if(updateInfo.status=='Deleted'){
+            resMessage = appointmentMessage.deleted;
+        }
         await Appointment.findOneAndUpdate(query, updateInfo);
-        commonHelper.sendResponse(res, 'success', null, appointmentMessage.cancelled);
+        
+        commonHelper.sendResponse(res, 'success', null, resMessage);
     } catch (error) {
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
