@@ -23,6 +23,7 @@ const apiKey = constants.faxDetails.apiKey;
 const apiSecret = constants.faxDetails.apiSecret;
 // const nodeHtmlToImage = require('node-html-to-image')
 const User = require('../models/userModel');
+const tebraController = require('../controllers/tebraController');
 
 const createPlanNote = async (req, res) => {
   try {
@@ -252,6 +253,13 @@ const finalizeNote = async (req, res) => {
               await ObjectiveModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
               await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
             }
+
+            // Call Tebra API - Create Encounter 
+            let noteType = ['initial_examination', 'progress_note']
+            if(noteType.includes(req.body.soapNoteType)){
+              tebraController.createEncounter(req.body, subjectiveResult )
+            }
+
             commonHelper.sendResponse(res, 'success', {}, '');
           }else{
             commonHelper.sendResponse(res, 'success', null, "Please fill the Plan note to Finalize note");
@@ -266,6 +274,7 @@ const finalizeNote = async (req, res) => {
       commonHelper.sendResponse(res, 'success', null, "Please fill the Subjective note to Finalize note");
     }
   } catch (error) {
+    console.log("finalizeNote Error>>>",error)
     commonHelper.sendResponse(res, 'success', null, commonMessage.wentWrong);
   }
 }

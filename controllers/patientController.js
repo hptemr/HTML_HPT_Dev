@@ -20,6 +20,7 @@ const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const s3Details = constants.s3Details;
 const tebraController = require('../controllers/tebraController');
 const Case = require('../models/casesModel');
+const Appointment = require('../models/appointmentModel');
 
 
 const signup = async (req, res) => {
@@ -105,13 +106,18 @@ const signup = async (req, res) => {
                         if(found.signupToken && !result?.patientOnTebra && caseOutput.length){   
                             console.log("<<< Patient Register on tebra >>>>")
                             let isPatientCreated = await tebraController.createPatient(result).catch((_err)=>false)
-                            if(isPatientCreated){
-                                console.log("caseOutput>>>>",caseOutput)
+                            console.log("caseOutput>>>>",caseOutput)
+                            if(isPatientCreated && caseOutput.length){
                                 let caseData = caseOutput[0]
                                 console.log("caseData>>>>",caseData)
+                                let appointmentData = await Appointment.find({ patientId: result._id, caseName: caseData.caseName}).lean();
+                                console.log("appointmentData>>>>",appointmentData)
+                                let appointmentDt = appointmentData[0]
+                                const providerData = await Provider.findOne({ _id: appointmentDt?.doctorId },{ name: 1 }).lean();
+
                                 const patientDataAfterCreated = await Patient.findOne({ _id: pendingPatientTemp._id }).lean();
                                 if(patientDataAfterCreated!=null && patientDataAfterCreated?.patientOnTebra && !caseData?.caseCreatedOnTebra){
-                                    tebraController.createCase(patientDataAfterCreated, caseData.caseName, caseData._id)
+                                    tebraController.createCase(patientDataAfterCreated, caseData.caseName, caseData._id, providerData)
                                 }
                             }
                         }

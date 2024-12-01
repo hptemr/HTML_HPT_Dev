@@ -113,6 +113,7 @@ const getAppointmentRequestDetails = async (req, res) => {
 const createAppointment = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
+
         let alreadyFound = ''; let proceed = true;
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
@@ -182,19 +183,22 @@ const createAppointment = async (req, res) => {
 
                 // Create patient on tebra when first appoitnment of Patient accepted by Support Team
                 const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
+                const providerData = await Provider.findOne({ _id: data.doctorId },{ name: 1 }).lean();
+                console.log("providerData>>>>>",providerData)
                 if(patientType == 'Existing' && patientRes!=null && !patientRes?.patientOnTebra){
                     console.log("<<<<< Create Patient On Tebra >>>>>")
                     let isPatientCreated = await tebraController.createPatient(patientRes).catch((_err)=>false)
                     if(isPatientCreated){
                         const patientDataAfterCreated = await Patient.findOne({ _id: data.patientId }).lean();
                         if(patientDataAfterCreated!=null && patientDataAfterCreated?.patientOnTebra){
-                            tebraController.createCase(patientDataAfterCreated, caseName, caseFound._id)
+                            tebraController.createCase(patientDataAfterCreated, caseName, caseFound._id, providerData)
                         }
                     }
                 }
                 // New case create on Tebra for existing Patient
                 if(patientType == 'Existing' && patientRes!=null && patientRes?.patientOnTebra){
-                    tebraController.createCase(patientRes, caseName, caseFound._id)
+                    console.log("<<<<<<< Existing Patient Case >>>>>>>>")
+                    tebraController.createCase(patientRes, caseName, caseFound._id, providerData)
                 }
             } else if (caseType == '') {
                 caseType = caseFound.caseType ? caseFound.caseType : ''
@@ -583,7 +587,6 @@ const updateAppointment = async (req, res) => {
         if(userRole=='patient' && updateInfo?.intakeFormSubmit && patientData && patientData!=null){
             triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
         }
-
         
         if(updateInfo?.intakeFormSubmit && appointment_data){
             let patientDataToUpdate = appointment_data?.patientInfo
@@ -603,7 +606,7 @@ const updateAppointment = async (req, res) => {
             // Update by Support Team
             if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo && appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
                 console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
-                tebraController.addPatientInsuranceIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails)
+                tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData)
             }
         }
 
