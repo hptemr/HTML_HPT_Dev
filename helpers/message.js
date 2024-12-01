@@ -53,6 +53,7 @@ const messages = {
     appointmentMessage: {
         accepted: 'Appointment has been accepted successfully',
         cancelled: 'Appointment has been cancelled successfully',
+        deleted: 'Appointment has been deleted successfully',
         updated: 'Appointment has been updated successfully',
         rescheduled: 'Appointment has been rescheduled successfully',
         created: 'Appointment has been created successfully',
