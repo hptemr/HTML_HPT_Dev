@@ -44,5 +44,6 @@ router.post('/uploadInsurances', upload.single('file'), adminController.uploadIn
 router.post('/saveUploadedInsurancesData', adminController.saveUploadedInsurancesData);
 router.post('/getUploadInsuranceList', adminController.getUploadInsuranceList);
 router.post('/deleteInsurance', adminController.deleteInsurance);
+router.post('/getReports', adminController.getReports);
 
 module.exports = router;

@@ -1073,6 +1073,16 @@ const deleteInsurance = async (req, res) => {
   }
 }
 
+//Function to get reports based on type
+const getReports = async (req, res) => {
+  try {
+    commonHelper.sendResponse(res, 'success', req.body, '');
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
 module.exports = {
   invite,
   changePassword,
@@ -1105,5 +1115,6 @@ module.exports = {
   uploadInsurances,
   saveUploadedInsurancesData,
   getUploadInsuranceList,
-  deleteInsurance
+  deleteInsurance,
+  getReports
 };
