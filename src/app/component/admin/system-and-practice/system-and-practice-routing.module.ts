@@ -26,11 +26,12 @@ import { BulkUploadProvidersComponent } from './doctor-management/bulk-upload-pr
 import { UploadInsurancesComponent } from './insurance-management/upload-insurances/upload-insurances.component';
 import { ManageInsuranceComponent } from './insurance-management/manage-insurance/manage-insurance.component';
 import { SchedulerComponent } from 'src/app/shared/comman/scheduler/scheduler.component';
+import { ReportsComponent } from 'src/app/shared/comman/reports/reports.component';
 
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    component: ReportsComponent,
   },
   {
     path: 'scheduler',

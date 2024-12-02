@@ -94,6 +94,7 @@ import { CalendarModule, DateAdapter,CalendarDateFormatter  } from 'angular-cale
 import { CustomDateFormatter } from 'src/app/shared/comman/scheduler/calendar-moment-date-formatter.provider';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { ReportsComponent } from './comman/reports/reports.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -162,8 +163,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditAppointmentModalComponent,
     AppointmentDetailsModalComponent,
     UpcomingAppModalComponent,
-    CollectPaymentModalComponent
-
+    CollectPaymentModalComponent,
+    ReportsComponent
    // AdminProfileComponent
   ],
   imports: [
