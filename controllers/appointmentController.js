@@ -116,7 +116,7 @@ const getAppointmentRequestDetails = async (req, res) => {
 const createAppointment = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
-
+console.log('.... data >>>>',data)
         let alreadyFound = ''; let proceed = true;
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
