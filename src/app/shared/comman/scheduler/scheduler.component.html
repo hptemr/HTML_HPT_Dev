@@ -133,7 +133,7 @@
                             </div>
                             <div class="col-12 scroll--outer">
                                 <div class="d-flex flex-column w-100" *ngFor="let item of therapistList">
-                                    <mat-checkbox class="w-100" (change)="onCheckboxChange($event, item.id)">{{item.name}}</mat-checkbox>
+                                    <mat-checkbox class="w-100" (change)="onCheckboxChange($event, item.id)" [checked]="selectedItems.includes(item.id)">{{item.name}}</mat-checkbox>
                                 </div>                        
                             </div>
                         </div>

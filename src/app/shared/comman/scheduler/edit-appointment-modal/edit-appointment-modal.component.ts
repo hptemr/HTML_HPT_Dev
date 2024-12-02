@@ -62,10 +62,11 @@ export class EditAppointmentModalComponent {
   ngOnInit() {      
     this.patientId = this.app_data.patientId
     this.therapistId = this.app_data.therapistId
+    const now = new Date();
     if(this.from=='Update'){
-      this.minToDate = this.app_data.appointmentDate;
-    }else{
-      const now = new Date();
+      this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);      
+     //this.minToDate = this.app_data.appointmentDate;
+    }else{      
       this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);      
     }
     this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
@@ -73,8 +74,7 @@ export class EditAppointmentModalComponent {
     const defaultStartTime = this.getNext30MinuteMark();
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
-         
-    //console.log(this.app_data.id,'....app_data Appointment ',this.app_data)  
+
     let appointmentStartDate = '';
     let appointmentEndTime = '';
     let appointmentId = '';
@@ -108,12 +108,10 @@ export class EditAppointmentModalComponent {
       appointmentTypeOther: [''],      
       status: [this.app_data.status],
       notes: [this.app_data.notes],        
-    //  repeatsNotes: [this.app_data.repeatsNotes],
+    //repeatsNotes: [this.app_data.repeatsNotes],
     },{ validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
     );
-    //console.log('<>>>>>>>>>>>>>>>',appointmentStartDate,'appointment date >>>',appointmentDate,'......>>>>>',appointmentEndTime)
-    // this.appointmentForm.controls['appointmentStartTime'].setValue(appointmentDate);
-    // this.appointmentForm.controls['appointmentEndTime'].setValue(appointmentEndTime);
+
     if(this.from=='Update'){
       this.appointmentForm.controls['id'].setValidators([Validators.required])
       this.appointmentForm.updateValueAndValidity();
@@ -132,14 +130,14 @@ export class EditAppointmentModalComponent {
     this.day = daysOfWeek[today];
   }
 
-
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
   }
-
   // This function is triggered on date input
   onDateInput(event: MatDatepickerInputEvent<Date>): void {
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
   }
 
   getNext30MinuteMark(): Date {
@@ -169,6 +167,7 @@ export class EditAppointmentModalComponent {
   }
 
   async createAppointment(formData:any){    
+  
     if (this.appointmentForm.valid) {
       console.log(' #### form data >>>>>>',formData)
         this.clickOnRequestAppointment = true
@@ -194,20 +193,21 @@ export class EditAppointmentModalComponent {
         this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
           this.commonService.hideLoader();
           if (response.error) {
+            this.clickOnRequestAppointment = false
             if (response.message) {
               this.commonService.openSnackBar(response.message, "ERROR");
             }
           } else {
             if (response.message) {       
-              //this.successModal(response.message);
               this.commonService.openSnackBar(response.message, "SUCCESS");
               this.dialogRef.close('SUCCESS');
-              this.dialogRef.close();
+              //this.dialogRef.close();
+              //this.dialog.closeAll()
             }
           }
         })
     }else{
-      console.log(this.appointmentForm.controls['appointmentDate'].value,' #### appointment Form>>>>>>',this.appointmentForm)
+        console.log(this.appointmentForm.controls['appointmentDate'].value,' #### appointment Form>>>>>>',this.appointmentForm)
         this.appointmentForm.markAllAsTouched();
         Object.keys(this.appointmentForm.controls).forEach(field => {
           const control = this.appointmentForm.get(field);

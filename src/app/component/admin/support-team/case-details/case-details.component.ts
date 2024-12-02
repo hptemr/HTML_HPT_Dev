@@ -155,6 +155,7 @@ export class CaseDetailsComponent {
           this.getStCaseDetails(this.patientId, this.caseName)
           this.getPatientCheckInCount(this.patientId, this.caseName)
           this.getInitialExamination()
+          this.scrollToTop()
         }
       })
     }
@@ -436,6 +437,12 @@ export class CaseDetailsComponent {
       default:
         return soap_note_type.replace('_','-');
     }
+  }
+
+  scrollToTop() {
+    setTimeout( () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 1000)
   }
 
 }

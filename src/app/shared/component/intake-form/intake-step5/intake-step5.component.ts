@@ -101,32 +101,43 @@ export class IntakeStep5Component {
 
   async finalSubmit() {
     if (!this.isReadonly) {
-      this.finalSubmitFlag = true
-      let formData = this.step5Form.value
-      Object.assign(formData, { intakeFormSubmit: true })
-      Object.assign(formData, { status: 'Scheduled' })
-      let appointmentUpdateInfo = this.step5FormData.appointmentUpdateInfo;
-      appointmentUpdateInfo.push({
-        fromPatientId : (this.userRole=='patient') ? this.userId : '',
-        fromAdminId:(this.userRole!='patient') ? this.userId : '',
-        userRole:this.userRole,
-        updatedAt:new Date()
-      });
-      Object.assign(formData, {  appointmentUpdateInfo:appointmentUpdateInfo })
-
-      let params = {
-        query: { _id: this.appId },
-        updateInfo: formData,
-        userRole:this.userRole
-      }
-      await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
-          if(this.userRole=='patient'){
-            this.successModal()
-          }else{
-            this.commonService.openSnackBar("Intake form submit successfully", "SUCCESS")
-            this.router.navigate([this.activeUserRoute, 'case-details', this.appId])
+      if (this.step5Form.invalid){
+        console.log(this.isReadonly,' #### step5 Form>>>>>>',this.step5Form)
+        this.step5Form.markAllAsTouched();
+        Object.keys(this.step5Form.controls).forEach(field => {
+          const control = this.step5Form.get(field);
+          if (control && control.errors) {
+            console.log(`Errors in ${field}:`, control.errors);
           }
-      })
+        });
+      }else{
+        this.finalSubmitFlag = true
+        let formData = this.step5Form.value
+        Object.assign(formData, { intakeFormSubmit: true })
+        Object.assign(formData, { status: 'Scheduled' })
+        let appointmentUpdateInfo = this.step5FormData.appointmentUpdateInfo;
+        appointmentUpdateInfo.push({
+          fromPatientId : (this.userRole=='patient') ? this.userId : '',
+          fromAdminId:(this.userRole!='patient') ? this.userId : '',
+          userRole:this.userRole,
+          updatedAt:new Date()
+        });
+        Object.assign(formData, {  appointmentUpdateInfo:appointmentUpdateInfo })
+
+        let params = {
+          query: { _id: this.appId },
+          updateInfo: formData,
+          userRole:this.userRole
+        }
+        await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
+            if(this.userRole=='patient'){
+              this.successModal()
+            }else{
+              this.commonService.openSnackBar("Intake form submit successfully", "SUCCESS")
+              this.router.navigate([this.activeUserRoute, 'case-details', this.appId])
+            }
+        })
+      }
     } else {
       this.router.navigate([this.activeUserRoute, 'case-details', this.appId])
     }

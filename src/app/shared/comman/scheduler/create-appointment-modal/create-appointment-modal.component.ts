@@ -172,6 +172,7 @@ export class CreateAppointmentModalComponent {
         this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
           this.commonService.hideLoader();
           if (response.error) {
+            this.clickOnRequestAppointment = false
             if (response.message) {
               this.commonService.openSnackBar(response.message, "ERROR");
             }

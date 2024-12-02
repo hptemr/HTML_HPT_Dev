@@ -80,7 +80,11 @@ export class AppointmentRequestsComponent {
 
   searchRecords(colName: string, event: any) {
     if (event && event != '') {
-      Object.assign(this.whereCond, { [colName]: { $in: event } })
+      if(event=='Admin All'){
+        delete this.whereCond[colName];            
+      } else{
+        Object.assign(this.whereCond, { [colName]: { $in: event } })
+      }  
     } else {
       delete this.whereCond[colName];
     }
@@ -147,6 +151,7 @@ export class AppointmentRequestsComponent {
         this.dayOne = false;
       }
       this.appointmentsList = new MatTableDataSource(finalData)
+      this.scrollToTop()
     })
   }
 
@@ -185,6 +190,12 @@ export class AppointmentRequestsComponent {
     this.getAppointmentList()
   }
 
+
+  scrollToTop() {
+    setTimeout( () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 1000)
+  }
 
   navigateToappointmentDetails(appointmentId: string) {
     this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);

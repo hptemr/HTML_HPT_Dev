@@ -163,7 +163,7 @@ export class ViewEditInsuranceComponent {
       employerName: [''],
       employerPhone: [''],
       employerAddress: [''],
-      isPatientMinor: [''],
+      isPatientMinor: ['No'],
       attorney: [''],
       attorneyName: [''],
       attorneyPhone: [''],
@@ -458,7 +458,7 @@ export class ViewEditInsuranceComponent {
           icon: this.getIcon(this.getExtension(element))
         })
       });
-      this.uploadedInsuranceFiles = filesArr            
+      this.uploadedInsuranceFiles = filesArr         
     }
 
   }
@@ -574,7 +574,7 @@ export class ViewEditInsuranceComponent {
           })
           that.uploadedInsuranceFilesTotal = that.uploadedInsuranceFiles.length
           localStorage.setItem("uploadedInsuranceFiles", JSON.stringify(that.uploadedInsuranceFiles))
-        }
+        } 
       }
     }
   }
@@ -796,50 +796,49 @@ thirdSubscriberRelationShipPatient(event: any) {
   }
 
 
-async previewfile(document_temp_name:string) {
-  let req_vars = {
-    query: { _id: this.userId },
-    fileName: document_temp_name,
-    filePath:s3Details.patientInsuranceFolderPath
-  }
-  this.commonService.showLoader()
-  await this.authService.apiRequest('post', 'patients/getPreviewDocument', req_vars).subscribe(async response => {
-    this.commonService.hideLoader()
-    if (response.error) {
-      this.commonService.openSnackBar(response.message, "ERROR")
-    } else {
-      let profile = response.data;
-      let documentsLink = profile.document;
-
-      var extension = document_temp_name.substring(document_temp_name.lastIndexOf('.') + 1);
-      let fileName = document_temp_name;
-      let fileType = '';let icon = ''
-      if(extension=='png' || extension=='jpg' || extension=='jpeg' || extension=='PNG' || extension=='JPG' || extension=='JPEG'){
-        fileType = "image"
-      }else if(extension=='mp4' || extension=='webm'){
-        fileType = "video"
-      }else if(extension=='mpeg' || extension=='mp3'){
-        fileType = "audio"
-      }else{
-        fileType = "doc"
-      }      
-      icon = this.getIcon(extension)
-
-      if(documentsLink){
-        const dialogRef = this.dialog.open(FilePreviewComponent, {
-          panelClass: 'custom-alert-container',
-          data: {
-            documentsLink:documentsLink,
-            fileType:fileType,
-            fileName:fileName,
-            icon:icon
-          }
-        });
+async previewfile(document_temp_name:string,data:any) {
+    if(!data){
+      let req_vars = {
+        query: { _id: this.userId },
+        fileName: document_temp_name,
+        filePath:s3Details.patientInsuranceFolderPath
       }
+      this.commonService.showLoader()
+      await this.authService.apiRequest('post', 'patients/getPreviewDocument', req_vars).subscribe(async response => {
+        this.commonService.hideLoader()
+        if (response.error) {
+          this.commonService.openSnackBar(response.message, "ERROR")
+        } else {
+          let profile = response.data;
+          let documentsLink = profile.document;
+
+          var extension = document_temp_name.substring(document_temp_name.lastIndexOf('.') + 1);
+          let fileName = document_temp_name;
+          let fileType = '';let icon = ''
+          if(extension=='png' || extension=='jpg' || extension=='jpeg' || extension=='PNG' || extension=='JPG' || extension=='JPEG'){
+            fileType = "image"
+          }else if(extension=='mp4' || extension=='webm'){
+            fileType = "video"
+          }else if(extension=='mpeg' || extension=='mp3'){
+            fileType = "audio"
+          }else{
+            fileType = "doc"
+          }      
+          icon = this.getIcon(extension)
+
+          if(documentsLink){
+            const dialogRef = this.dialog.open(FilePreviewComponent, {
+              panelClass: 'custom-alert-container',
+              data: {
+                documentsLink:documentsLink,
+                fileType:fileType,
+                fileName:fileName,
+                icon:icon
+              }
+            });
+          }
+        }
+      })
     }
-  })
-
-
-
-}
+  }
 }
