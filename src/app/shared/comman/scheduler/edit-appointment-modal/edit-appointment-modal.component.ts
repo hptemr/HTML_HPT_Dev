@@ -108,7 +108,7 @@ export class EditAppointmentModalComponent {
       appointmentTypeOther: [''],      
       status: [this.app_data.status],
       notes: [this.app_data.notes],        
-      repeatsNotes: [this.app_data.repeatsNotes],
+    //  repeatsNotes: [this.app_data.repeatsNotes],
     },{ validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
     );
     //console.log('<>>>>>>>>>>>>>>>',appointmentStartDate,'appointment date >>>',appointmentDate,'......>>>>>',appointmentEndTime)

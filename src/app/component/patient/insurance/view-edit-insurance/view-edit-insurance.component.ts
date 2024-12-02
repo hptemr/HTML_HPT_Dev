@@ -354,7 +354,7 @@ export class ViewEditInsuranceComponent {
     attorney = info.attorney
     attorneyName = info.attorneyName
     attorneyPhone = info.attorneyPhone
-    isPatientMinor = info.isPatientMinor
+    isPatientMinor = info.isPatientMinor ? info.isPatientMinor : 'No'
     adultConsent = info.adultConsent
     minorConsent = info.minorConsent
     this.insuranceForm.controls['insuranceName'].setValue(insuranceName)

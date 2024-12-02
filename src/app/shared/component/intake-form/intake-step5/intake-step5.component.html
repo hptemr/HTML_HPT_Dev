@@ -97,7 +97,7 @@
                 [routerLink]="['/', activeUserRoute, 'case-details', appId]">
                 Back
             </button>
-            <button *ngIf="!isReadonly" [disabled]="step5Form.invalid" (click)="finalSubmit()" mat-raised-button color="primary"
+            <button *ngIf="!isReadonly" [disabled]="step5Form.invalid && finalSubmitFlag" (click)="finalSubmit()" mat-raised-button color="primary"
                 class="m-1">
                 Submit
             </button> 

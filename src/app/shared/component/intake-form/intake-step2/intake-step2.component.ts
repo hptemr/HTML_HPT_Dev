@@ -259,7 +259,7 @@ export class IntakeStep2Component {
       employerName: [typeof payViaInsuranceInfo?.employerName !== 'undefined' ? payViaInsuranceInfo?.employerName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.minLength(1), Validators.maxLength(35)]],
       employerPhone: [typeof payViaInsuranceInfo?.employerPhone !== 'undefined' ? payViaInsuranceInfo?.employerPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
       employerAddress: [typeof payViaInsuranceInfo?.employerAddress !== 'undefined' ? payViaInsuranceInfo?.employerAddress : '', []],
-      isPatientMinor: [typeof payViaInsuranceInfo?.isPatientMinor !== 'undefined' ? payViaInsuranceInfo?.isPatientMinor : '', []],
+      isPatientMinor: [typeof payViaInsuranceInfo?.isPatientMinor !== 'undefined' ? payViaInsuranceInfo?.isPatientMinor : 'no', []],
       consentCheck: [typeof payViaInsuranceInfo?.consentCheck !== 'undefined' ? payViaInsuranceInfo?.consentCheck : '', [Validators.required]],
       attorney: [attorne, []],
       attorneyName: [typeof payViaInsuranceInfo?.attorneyName !== 'undefined' ? payViaInsuranceInfo?.attorneyName : '', [Validators.pattern("^[ A-Za-z ]*$"),Validators.maxLength(35)]],
@@ -317,9 +317,7 @@ export class IntakeStep2Component {
         this.step2Form.get(control)?.clearValidators();
         this.step2Form.get(control)?.updateValueAndValidity();
       });
-    }
-
-    
+    }    
   }
 
   getInsuranceDetails(event: any) {
@@ -893,9 +891,9 @@ export class IntakeStep2Component {
 
   onInjuryChange(event: MatRadioChange): void {
     this.injurySelected = event.value;   
-    if (event.source) {
-     // console.log('Source exists:', event.source);
-    }
+    // if (event.source) {
+    //  console.log('Source exists:', event.source);
+    // }
     this.workerCompensation = false
     this.step2Form.get('carrierName')?.markAsUntouched();
     this.step2Form.get('dateOfInjury')?.markAsUntouched();

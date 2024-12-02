@@ -20,6 +20,7 @@ export class IntakeStep5Component {
   step5FormData: any
   validationMessages = validationMessages
   isReadonly = true
+  finalSubmitFlag = false
   activeUserRoute = this.commonService.getLoggedInRoute()
   short_text:string = 'Read More';
   userId = this.authService.getLoggedInInfo('_id')
@@ -100,6 +101,7 @@ export class IntakeStep5Component {
 
   async finalSubmit() {
     if (!this.isReadonly) {
+      this.finalSubmitFlag = true
       let formData = this.step5Form.value
       Object.assign(formData, { intakeFormSubmit: true })
       Object.assign(formData, { status: 'Scheduled' })

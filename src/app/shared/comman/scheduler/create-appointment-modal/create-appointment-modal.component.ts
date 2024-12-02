@@ -88,7 +88,7 @@ export class CreateAppointmentModalComponent {
       appointmentType: [''],
       appointmentTypeOther: [''],      
       notes: [''],      
-      repeatsNotes: [''],      
+     // repeatsNotes: [''],      
     },
     { validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
     );

@@ -1037,8 +1037,8 @@
                                     <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
                                         <label class="fw-700 font-16 clr--1F2F3E mb-0 me-3">Is The Patient A Minor?</label>
                                         <mat-radio-group (change)="changePatientMinor($event)" formControlName="isPatientMinor">
-                                            <mat-radio-button value="yes" class="me-3">Yes </mat-radio-button>
-                                            <mat-radio-button value="no">No</mat-radio-button>
+                                            <mat-radio-button value="yes" class="me-3" [checked]="step2Form.controls['isPatientMinor'].value">Yes </mat-radio-button>
+                                            <mat-radio-button value="no" [checked]="!step2Form.controls['isPatientMinor'].value">No</mat-radio-button>
                                         </mat-radio-group>
                                     </div>
                                     <!-- *ngIf="selectedValue == 0011" -->
