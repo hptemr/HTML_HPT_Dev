@@ -13,7 +13,7 @@
                     <div class="d-flex flex-column flex-sm-row align-items-center w-100 fw-w">
                         <select [(ngModel)]="selectedGroup" class="form-select form-control form-control-md m-1 "
                             aria-label="Default select example">
-                            <option value="sel">Select Report Type </option>
+                            <option value="sel">Select Report Type</option>
                             <option value="sr">Summry Report </option>
                             <option value="qpsp">Quarterly Patients Seen Report </option>
                             <option value="qar">Quarterly Aquatic Report</option>
@@ -23,13 +23,7 @@
                         <select class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
                             <option selected>Select Clinic </option>
-                            <option>Apollo Clinic</option>
-                            <option value="2">Ruby Hall Clinic - Sassoon Road</option>
-                            <option value="3">Dugad Hospital</option>
-                            <option value="4">Laparo Obeso Centre</option>
-                            <option value="5">Chhajed Clinic</option>
-                            <option value="6">Patil Clinic</option>
-                            <option value="7">Laparo Obeso Centre 123</option>
+                            <option value="{{element}}" *ngFor="let element of practiceLocations">{{element}}</option>
                         </select>
                         <select class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
@@ -57,10 +51,13 @@
                     </div>
                     <div
                         class="d-flex flex-column flex-sm-row align-items-center justify-content-end flex-shrink-0 repo--buttons">
-                        <button mat-raised-button class="m-1" color="primary" (click)="generateReport()">Generate
-                            Report</button>
+                        <button mat-raised-button class="m-1" color="primary" (click)="generateReport()">
+                            Generate Report
+                        </button>
                         <button mat-stroked-button class="m-1" color="primary" (click)="markDefaultReport()"
-                            *ngIf="markDefaultReports">Mark as default report</button>
+                            *ngIf="markDefaultReports">
+                            Mark as default report
+                        </button>
                     </div>
                 </div>
             </div>

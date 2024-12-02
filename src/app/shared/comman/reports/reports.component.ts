@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { CommonService } from '../../services/helper/common.service';
 import { AuthService } from '../../services/api/auth.service';
+import { practiceLocations } from 'src/app/config';
+
 // import {
 //   ChartComponent,
 //   ApexAxisChartSeries,
@@ -1169,7 +1171,7 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 
 export class ReportsComponent {
 
-  selectedGroup: any;
+  selectedGroup='sel';
 
   monthlyReport = false;
   quarterlyPatientsSeenReport = false;
@@ -1222,6 +1224,7 @@ export class ReportsComponent {
   // @ViewChild("chart") chart: ChartComponent;
   // public chartOptions: Partial<ChartOptions>;
 
+  practiceLocations = practiceLocations
 
   constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog,
     private commonService: CommonService,
