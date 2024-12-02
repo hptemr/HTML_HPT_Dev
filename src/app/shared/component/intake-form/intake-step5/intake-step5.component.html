@@ -89,16 +89,13 @@
             </div>
         </div>
         <div class="d-flex align-items-center justify-content-between w-100 footer--btns">
-            <button mat-stroked-button color="primary" class="m-1"
-                [routerLink]="['/',activeUserRoute, 'intake-form','step-4', appId]">
+            <button mat-stroked-button color="primary" class="m-1" [routerLink]="['/',activeUserRoute, 'intake-form','step-4', appId]">
                 Previous
             </button>
-            <button *ngIf="isReadonly" mat-stroked-button color="primary" class="m-1"
-                [routerLink]="['/', activeUserRoute, 'case-details', appId]">
+            <button *ngIf="isReadonly" mat-stroked-button color="primary" class="m-1" [routerLink]="['/', activeUserRoute, 'case-details', appId]">
                 Back
             </button>
-            <button *ngIf="!isReadonly" [disabled]="step5Form.invalid && finalSubmitFlag" (click)="finalSubmit()" mat-raised-button color="primary"
-                class="m-1">
+            <button *ngIf="!isReadonly" [disabled]="finalSubmitFlag" (click)="finalSubmit()" mat-raised-button color="primary" class="m-1"> <!-- step5Form.invalid -->
                 Submit
             </button> 
         </div>
