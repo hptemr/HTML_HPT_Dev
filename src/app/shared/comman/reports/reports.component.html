@@ -11,7 +11,7 @@
                 <div
                     class="col-12 d-flex flex-column flex-sm-row align-items-center justify-content-between filter--outer">
                     <div class="d-flex flex-column flex-sm-row align-items-center w-100 fw-w">
-                        <select [(ngModel)]="selectedGroup" class="form-select form-control form-control-md m-1 "
+                        <select [(ngModel)]="reportType" class="form-select form-control form-control-md m-1 "
                             aria-label="Default select example">
                             <option value="sel">Select Report Type</option>
                             <option value="sr">Summry Report </option>
@@ -20,21 +20,15 @@
                             <option value="itr">Individual Therapists Report</option>
                             <option value="qer">Quarterly EVALS Report </option>
                         </select>
-                        <select class="form-select form-control form-control-md m-1"
+                        <select [(ngModel)]="selectedLocation" class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
-                            <option selected>Select Clinic </option>
+                            <option value="" selected>Select Clinic </option>
                             <option value="{{element}}" *ngFor="let element of practiceLocations">{{element}}</option>
                         </select>
-                        <select class="form-select form-control form-control-md m-1"
+                        <select [(ngModel)]="year" class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
-                            <option selected>Select Year</option>
-                            <option>2018</option>
-                            <option value="2">2019</option>
-                            <option value="3">2020</option>
-                            <option value="4">2021</option>
-                            <option value="5">2022</option>
-                            <option value="6">2023</option>
-                            <option value="7">2024</option>
+                            <option value="" selected>Select Year</option>
+                            <option value="{{element}}" *ngFor="let element of years">{{element}}</option>
                         </select>
                         <select *ngIf="therapistName" class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">

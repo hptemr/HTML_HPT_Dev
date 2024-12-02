@@ -1171,7 +1171,11 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 
 export class ReportsComponent {
 
-  selectedGroup='sel';
+  year: any =''
+  years: any = []
+  reportType: any = 'sel';
+  selectedLocation: any = ''
+
 
   monthlyReport = false;
   quarterlyPatientsSeenReport = false;
@@ -1337,6 +1341,7 @@ export class ReportsComponent {
   }
 
   ngOnInit() {
+    this.years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
     this.getReports()
   }
 
@@ -1354,7 +1359,7 @@ export class ReportsComponent {
     this.defaultWarning = false;
     this.markDefaultReports = true;
 
-    const getval = this.selectedGroup;
+    const getval = this.reportType;
 
     if (getval === 'sr') {
       this.monthlyReport = true;
