@@ -1341,17 +1341,7 @@ export class ReportsComponent {
   }
 
   ngOnInit() {
-    this.years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
-    this.getReports()
-  }
-
-  async getReports() {
-    let reqVars = {
-      type: "summary"
-    }
-    await this.authService.apiRequest('post', 'admin/getReports', reqVars).subscribe(async response => {
-      console.log(response)
-    })
+    this.years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i); 
   }
 
 
@@ -1361,7 +1351,7 @@ export class ReportsComponent {
 
     const getval = this.reportType;
 
-    if (getval === 'sr') {
+    if (getval === 'summary') {
       this.monthlyReport = true;
       this.quarterlyPatientsSeenReport = false;
       this.quarterlyAquaticReport = false;
@@ -1401,7 +1391,20 @@ export class ReportsComponent {
       this.individualTherapistsReport = false;
       this.therapistName = false;
     }
+    this.getReports()
   }
+
+  async getReports() {
+    let reqVars = {
+      type: this.reportType,
+      year: this.year,
+      practiceLocation:this.selectedLocation
+    }
+    await this.authService.apiRequest('post', 'admin/getReports', reqVars).subscribe(async response => {
+      console.log(response)
+    })
+  }
+
 
   markDefaultReport() {
     const dialogRef = this.dialog.open(AlertComponent, {

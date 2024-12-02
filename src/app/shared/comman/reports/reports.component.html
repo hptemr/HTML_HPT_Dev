@@ -14,7 +14,7 @@
                         <select [(ngModel)]="reportType" class="form-select form-control form-control-md m-1 "
                             aria-label="Default select example">
                             <option value="sel">Select Report Type</option>
-                            <option value="sr">Summry Report </option>
+                            <option value="summary">Summary Report </option>
                             <option value="qpsp">Quarterly Patients Seen Report </option>
                             <option value="qar">Quarterly Aquatic Report</option>
                             <option value="itr">Individual Therapists Report</option>
@@ -62,7 +62,7 @@
     <!-- Monthly Report (Start here) -->
     <section class="col-12 bg--white" *ngIf="monthlyReport">
         <div class="col-12">
-            <h2 class="main--txt fw-600 ">Summary Report for Stevensville Physical Therapy 2023</h2>
+            <h2 class="main--txt fw-600 ">Summary Report for {{selectedLocation}} {{year}}</h2>
         </div>
         <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
             <mat-tab label="Monthly Values">
