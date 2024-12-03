@@ -64,218 +64,12 @@
         <div class="col-12">
             <h2 class="main--txt fw-600 ">Summary Report for {{selectedLocation}} {{year}}</h2>
         </div>
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab-group (selectedIndexChange)="summaryIndexChange($event)" mat-stretch-tabs="false" mat-align-tabs="start">
             <mat-tab label="Monthly Values">
-                <table mat-table [dataSource]="dataSource" matSort class="cust--mat--table">
-                    <ng-container matColumnDef="month">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by number">
-                            Month
-                        </th>
-                        <td mat-cell *matCellDef="let element"> {{element.month}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="evals">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by name">
-                            EVALS
-                        </th>
-                        <td mat-cell *matCellDef="let element"> {{element.evals}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="cx">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            CX
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.cx}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="cxper">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            CX%
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.cxper}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="ns">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            NS
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.ns}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="nsper">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            NS%
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.nsper}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="totalpts">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} TOTAL <br> Pts
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.totalpts}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="totalpts2">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year-1}} TOTAL <br> Pts
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.totalpts2}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="prioryear">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            DIFF. FROM <br> PRIOR YEAR
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.prioryear}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="unitsbilled">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} Total <br> units billed
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.unitsbilled}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="unitsvist">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} UNITS/ <br> VIST
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.unitsvist}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="aquatic">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} Aquatic
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.aquatic}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="aquatic2">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year-1}} Aquatic
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.aquatic2}}
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
-                </table>
+                <ng-container *ngTemplateOutlet="summaryContent"></ng-container>
             </mat-tab>
             <mat-tab label="Quarterly Values">
-                <table mat-table [dataSource]="dataSource2" matSort class="cust--mat--table">
-                    <ng-container matColumnDef="month">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by number">
-                            &nbsp;
-                        </th>
-                        <td mat-cell *matCellDef="let element"> {{element.month}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="evals">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by name">
-                            EVALS
-                        </th>
-                        <td mat-cell *matCellDef="let element"> {{element.evals}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="cx">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            CX
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.cx}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="cxper">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            CX%
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.cxper}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="ns">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            NS
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.ns}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="nsper">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            NS%
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.nsper}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="totalpts">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} TOTAL <br> Pts
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.totalpts}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="totalpts2">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year-1}} TOTAL <br> Pts
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.totalpts2}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="prioryear">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            DIFF. FROM <br> PRIOR YEAR
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.prioryear}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="unitsbilled">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} Total <br> units billed
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.unitsbilled}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="unitsvist">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} UNITS/ <br> VIST
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.unitsvist}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="aquatic">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year}} Aquatic
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.aquatic}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="aquatic2">
-                        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
-                            {{year-1}} Aquatic
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.aquatic2}}
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
+                <ng-container *ngTemplateOutlet="summaryContent"></ng-container>
             </mat-tab>
         </mat-tab-group>
     </section>
@@ -834,5 +628,113 @@
                 </div> 
             </div>
         </div>
-    </section>
+    </section> 
 </div>
+
+<!--Common template for Summary Report--->
+<ng-template #summaryContent>
+    <table mat-table [dataSource]="summaryList" matSort class="cust--mat--table">
+        <ng-container matColumnDef="month">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by number">
+                Month
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.month}} </td>
+        </ng-container>
+        <ng-container matColumnDef="evals">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by name">
+                EVALS
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.evals}} </td>
+        </ng-container>
+        <ng-container matColumnDef="cx">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                CX
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.cx}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="cxper">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                CX%
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.cxper}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="ns">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                NS
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.ns}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="nsper">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                NS%
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.nsper}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="totalpts">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                {{year}} TOTAL <br> Pts
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.totalpts}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="totalpts2">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                {{year-1}} TOTAL <br> Pts
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.totalpts2}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="prioryear">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                DIFF. FROM <br> PRIOR YEAR
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.prioryear}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="unitsbilled">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                {{year}} Total <br> units billed
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.unitsbilled}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="unitsvist">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                {{year}} UNITS/ <br> VIST
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.unitsvist}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="aquatic">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                {{year}} Aquatic
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.aquatic}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="aquatic2">
+            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
+                {{year-1}} Aquatic
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.aquatic2}}
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsSummary"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsSummary;"></tr>
+    </table>
+</ng-template>

@@ -69,187 +69,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     unitsvist: '20',
     aquatic: '84',
     aquatic2: '103',
-  },
-  {
-    month: 'February',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'March',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'April',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'May',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'June',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'July',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'August',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'September',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'October',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'November',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'December',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'TOTAL',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
+  }
 ];
 
 
@@ -283,67 +103,7 @@ const ELEMENT_DATA_2: PeriodicElement2[] = [
     unitsvist: '20',
     aquatic: '84',
     aquatic2: '103',
-  },
-  {
-    month: '2ND QTR',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: '3RD QTR',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: '4TH QTR',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
-  {
-    month: 'TOTAL',
-    evals: '111',
-    cx: '130',
-    cxper: '13.01%',
-    ns: '29',
-    nsper: '2.09%',
-    totalpts: '999',
-    totalpts2: '1218',
-    prioryear: '17.98%',
-    unitsbilled: '20',
-    unitsvist: '20',
-    aquatic: '84',
-    aquatic2: '103',
-  },
+  }
 ];
 
 export interface PeriodicElement3 {
@@ -1177,6 +937,8 @@ export class ReportsComponent {
   reportType: any = 'sel';
   selectedLocation: any = '' 
 
+  summaryList:any
+
   monthlyReport = false;
   quarterlyPatientsSeenReport = false;
   quarterlyAquaticReport = false;
@@ -1187,14 +949,8 @@ export class ReportsComponent {
   therapistName = false;
   markDefaultReports = false;
 
-
-  displayedColumns: string[] = ['month', 'evals', 'cx', 'cxper', 'ns', 'nsper', 'totalpts', 'totalpts2', 'prioryear', 'unitsbilled', 'unitsvist', 'aquatic', 'aquatic2'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-
-  displayedColumns2: string[] = ['month', 'evals', 'cx', 'cxper', 'ns', 'nsper', 'totalpts', 'totalpts2', 'prioryear', 'unitsbilled', 'unitsvist', 'aquatic', 'aquatic2'];
-  dataSource2 = new MatTableDataSource(ELEMENT_DATA_2);
-
+  displayedColumnsSummary: string[] = ['month', 'evals', 'cx', 'cxper', 'ns', 'nsper', 'totalpts', 'totalpts2', 'prioryear', 'unitsbilled', 'unitsvist', 'aquatic', 'aquatic2'];
+ 
 
   displayedColumns3: string[] = ['quarterlypatientsseen', 'firstq', 'secondq', 'thirdq', 'fourthq', 'totalq'];
   dataSource3 = new MatTableDataSource(ELEMENT_DATA_3);
@@ -1395,6 +1151,7 @@ export class ReportsComponent {
   }
 
   async getReports() {
+    this.commonService.showLoader()
     let reqVars = {
       type: this.reportType,
       year: this.year,
@@ -1402,6 +1159,12 @@ export class ReportsComponent {
       optionType:this.optionType
     }
     await this.authService.apiRequest('post', 'admin/getReports', reqVars).subscribe(async response => {
+      switch (this.reportType) {
+        case "summary":
+          this.summaryList = new MatTableDataSource(response.data);  
+          break;
+      }
+      this.commonService.hideLoader()
       console.log(response)
     })
   }
@@ -1419,5 +1182,12 @@ export class ReportsComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-
+  summaryIndexChange (event: any) {
+    if(event > 0){
+      this.optionType = 'Quarterly'
+    }else{
+      this.optionType = 'Monthly'  
+    }
+    console.log("event:", event)
+  } 
 }
