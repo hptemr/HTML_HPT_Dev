@@ -636,7 +636,7 @@
     <table mat-table [dataSource]="summaryList" matSort class="cust--mat--table">
         <ng-container matColumnDef="month">
             <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by number">
-                Month
+                {{ optionType != 'Quarterly' ? "Month" : "" }}
             </th>
             <td mat-cell *matCellDef="let element"> {{element.month}} </td>
         </ng-container>

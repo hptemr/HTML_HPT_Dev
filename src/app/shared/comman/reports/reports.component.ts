@@ -931,13 +931,13 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 
 export class ReportsComponent {
 
-  year: any =''
+  year: any = 0
   years: any = []
-  optionType:any='' //Monthly Values , Quarterly Values
+  optionType: any = 'Monthly' //Monthly Values , Quarterly Values
   reportType: any = 'sel';
-  selectedLocation: any = '' 
+  selectedLocation: any = ''
 
-  summaryList:any
+  summaryList: any
 
   monthlyReport = false;
   quarterlyPatientsSeenReport = false;
@@ -950,7 +950,7 @@ export class ReportsComponent {
   markDefaultReports = false;
 
   displayedColumnsSummary: string[] = ['month', 'evals', 'cx', 'cxper', 'ns', 'nsper', 'totalpts', 'totalpts2', 'prioryear', 'unitsbilled', 'unitsvist', 'aquatic', 'aquatic2'];
- 
+
 
   displayedColumns3: string[] = ['quarterlypatientsseen', 'firstq', 'secondq', 'thirdq', 'fourthq', 'totalq'];
   dataSource3 = new MatTableDataSource(ELEMENT_DATA_3);
@@ -1097,7 +1097,7 @@ export class ReportsComponent {
   }
 
   ngOnInit() {
-    this.years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i); 
+    this.years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
   }
 
 
@@ -1154,18 +1154,17 @@ export class ReportsComponent {
     this.commonService.showLoader()
     let reqVars = {
       type: this.reportType,
-      year: this.year,
-      practiceLocation:this.selectedLocation,
-      optionType:this.optionType
+      year: parseInt(this.year),
+      practiceLocation: this.selectedLocation,
+      optionType: this.optionType
     }
     await this.authService.apiRequest('post', 'admin/getReports', reqVars).subscribe(async response => {
+      this.commonService.hideLoader()
       switch (this.reportType) {
         case "summary":
-          this.summaryList = new MatTableDataSource(response.data);  
+          this.summaryList = new MatTableDataSource(response.data);
           break;
       }
-      this.commonService.hideLoader()
-      console.log(response)
     })
   }
 
@@ -1182,12 +1181,13 @@ export class ReportsComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  summaryIndexChange (event: any) {
-    if(event > 0){
+  summaryIndexChange(event: any) {
+    if (event > 0) {
       this.optionType = 'Quarterly'
-    }else{
-      this.optionType = 'Monthly'  
+    } else {
+      this.optionType = 'Monthly'
     }
-    console.log("event:", event)
-  } 
+    this.summaryList=[{},{},{},{},{}]
+    this.getReports()
+  }
 }
