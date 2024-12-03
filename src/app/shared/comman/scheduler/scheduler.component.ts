@@ -154,13 +154,12 @@ export class SchedulerComponent {
         }
       });
       dialogRef.afterClosed().subscribe(async resp => {
-        //console.log('********ResP*****',resp)
+        console.log(app_data.id,'********ResP*****',resp)
         if(resp=='SUCCESS'){
           setTimeout( () => {    
             this.dialog1Ref?.close();
-            this.dialog1Ref = null;
-            
-            this.getAppointmentList('')
+            this.dialog1Ref = null;            
+            this.getAppointmentList('selected_app_id')
             this.refresh.next();
           }, 100)
         }    
@@ -425,7 +424,11 @@ export class SchedulerComponent {
 
     searchRecords(colName: string, event: any) {
         if (event && event != '') {      
-          Object.assign(this.whereCond, { [colName]: { $in: [event] } })
+          if(event=='Admin All'){
+            delete this.whereCond[colName];            
+          } else{
+            Object.assign(this.whereCond, { [colName]: { $in: [event] } })
+          }         
         } else {
           delete this.whereCond[colName];
         }
@@ -494,7 +497,10 @@ export class SchedulerComponent {
             finalData.push(newColumns)
           })
         }     
-        this.appointmentsList = finalData;     
+        this.appointmentsList = finalData;  
+        if (action == "selected_app_id") {
+          this.app_data = this.appointmentsList.find((appointment:any) => appointment.id === this.app_data.id);
+        }
         this.appointmentsEventsList();
       })
     }
@@ -576,12 +582,11 @@ export class SchedulerComponent {
     }
     
     onCheckboxChange(event: any, id: string): void {      
-      if (event.checked) {
+      if (event.checked && !this.selectedItems.includes(id)) {
         this.selectedItems.push(id); // Add ID to the selected list
       } else {
         this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
       }
-      //console.log('Selected Items:', this.selectedItems,' >>>  checked >>>>',event.checked);
       if(this.calenderView){
         this.getAppointmentList('search')
       }

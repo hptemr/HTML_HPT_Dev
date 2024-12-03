@@ -151,11 +151,13 @@ export class IntakeStep3Component {
     if(this.isReadonly && from=='bodyPartFront'){
       let find = bodyPartFront.filter((item: any) => item.part === partName)
       if(find[0])found = find[0];
-    }  else  if(this.isReadonly && from=='bodyPartBack'){
+    } else if(this.isReadonly && from=='bodyPartBack'){
       let find = bodyPartBack.filter((item: any) => item.part === partName)
       if(find[0])found = find[0];
+    } else if(!this.isReadonly){
+      found = true;
     }
-    
+   
     if(found){
       const dialogRef = this.dialog.open(BodyDetailsModalComponent,{
         panelClass: 'custom-alert-container', 

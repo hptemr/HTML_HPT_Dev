@@ -216,6 +216,7 @@ export class CreateAppointmentComponent {
             this.emailError = true;
             this.invalidEmailErrorMessage = response.data.email;
           }
+          this.clickOnRequestAppointment = false
         } else {
           if (response.message) {
             this.successModal(response.message);

@@ -13,7 +13,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap'; 
 import { appointmentStatus, pageSize, pageSizeOptions, practiceLocations, s3Details } from 'src/app/config';
 import { validationMessages } from 'src/app/utils/validation-messages';
-
+import { ViewportScroller } from '@angular/common';
 export interface PeriodicElement { 
   dateAddedOn: string; 
   action: string;
@@ -45,7 +45,7 @@ export class AppointmentDetailsComponent {
   validationMessages: any = validationMessages
   orderBy: any = { createdAt: -1 }
   isShow:boolean = false;
-  constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, public commonService: CommonService) {
+  constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, public commonService: CommonService, private viewportScroller: ViewportScroller) {
     this.route.params.subscribe((params: Params) => {
       if (params['appId']) this.appId = params['appId'];
     })
@@ -64,14 +64,21 @@ export class AppointmentDetailsComponent {
      
   }
 
-    /** Announce the change in sort state for assistive technology. */
-    announceSortChange(sortState: Sort) { 
-      if (sortState.direction) {
-        this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-      } else {
-        this._liveAnnouncer.announce('Sorting cleared');
-      }
+  scrollToTop() {
+    setTimeout( () => {
+      //this.viewportScroller.scrollToPosition([-150, -80]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 1000)
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) { 
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
   displayedColumns: string[] = [ ' dateAddedOn', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
@@ -99,7 +106,7 @@ export class AppointmentDetailsComponent {
       if(this.appInfo && this.appInfo?.therapistId){
         this.therapistProfileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo?.therapistId.profileImage
       }
-      
+      this.scrollToTop()
       this.getAppointmentList()
       this.commonService.hideLoader();
     })

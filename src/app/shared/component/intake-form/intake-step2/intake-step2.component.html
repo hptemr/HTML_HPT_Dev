@@ -122,11 +122,14 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group ">
-                                <!-- <label class="col-form-label fw-600">Gender</label> -->
+                                <label class="col-form-label fw-600">Gender</label>
                                 <mat-radio-group formControlName="gender" aria-label="Select an option">
                                     <mat-radio-button value="Male" class="me-3">Male</mat-radio-button>
                                     <mat-radio-button value="Female">Female</mat-radio-button>
                                 </mat-radio-group>
+                                <div class="text text-danger mt-1" *ngIf="step2Form.controls['gender'].touched && (step2Form.controls['gender'].hasError('required') || step2Form.controls['subscriberGender'].invalid)">
+                                    {{ validationMessages.requiredDropdown('Select Gender') }}
+                               </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6">
@@ -279,7 +282,7 @@
                                         <mat-radio-button value="Female">Female</mat-radio-button>
                                     </mat-radio-group>
                                     <div class="text text-danger mt-1" *ngIf="step2Form.controls['subscriberGender'].touched && (step2Form.controls['subscriberGender'].hasError('required') || step2Form.controls['subscriberGender'].invalid)">
-                                         {{ validationMessages.required('Select Gender') }}
+                                        {{ validationMessages.radioButton }}
                                     </div>
                                 </div>
                             </div>
@@ -473,7 +476,7 @@
                                         <mat-radio-button value="Female">Female</mat-radio-button>
                                     </mat-radio-group>
                                     <div class="text text-danger mt-1" *ngIf="step2Form.controls['secondarySubscriberGender'].touched && (step2Form.controls['secondarySubscriberGender'].hasError('required') || step2Form.controls['secondarySubscriberGender'].invalid)">
-                                        {{ validationMessages.required('Select Gender') }}
+                                        {{ validationMessages.radioButton }}
                                     </div>
                                 </div>
                             </div>
@@ -671,7 +674,7 @@
                                         <mat-radio-button value="Female">Female</mat-radio-button>
                                     </mat-radio-group>
                                     <div class="text text-danger mt-1" *ngIf="step2Form.controls['thirdSubscriberGender'].touched && (step2Form.controls['thirdSubscriberGender'].hasError('required') || step2Form.controls['thirdSubscriberGender'].invalid)">
-                                        {{ validationMessages.required('Select Gender') }}
+                                        {{ validationMessages.radioButton }}
                                     </div>
                                 </div>
                             </div>
