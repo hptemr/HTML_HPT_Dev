@@ -306,7 +306,7 @@ const addPatientInsuranceIntakeForm = async (insuranceInfo, patient, tebraCaseDe
                     const caseRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes'];
                     const insuranceRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes']['Policies']['InsurancePolicyRes'];
                     console.log('========insuranceRes=========:',insuranceRes);
-                    if(insuranceRes){
+                    if(insuranceRes && insuranceRes?.InsurancePolicyCompanyID && insuranceRes?.InsurancePolicyID && insuranceRes?.InsurancePolicyPlanID){
                         // Save tebra response object in case collection
                         let insertObject = {
                             'tebraInsuranceData':{
@@ -580,48 +580,54 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                       }
                       console.log("billingData>>>",billingData)
                     
-                    //  Call Create Encounter API
-                    const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-                    const soapRequest = tebraSoapRequest.createEncounter(resultData?.patientDetails, resultData?.caseDetails, subjectiveResult, billingData, diaCode)
-                    const requestHeaders =  tebraCommon.requestHeader(soapAction)
-                    let dataForLogs = { 'finalizeNoteData': finalizeNoteData }
+                   if(billingData?.totalMinutes>0 && billingData?.totalUnits>0 && billingData?.unitCharges>0){   
+                        //  Call Create Encounter API
+                        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
+                        const soapRequest = tebraSoapRequest.createEncounter(resultData?.patientDetails, resultData?.caseDetails, subjectiveResult, billingData, diaCode)
+                        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+                        let dataForLogs = { 'finalizeNoteData': finalizeNoteData }
 
-                    console.log("soapRequest>>>",soapRequest)
-                    console.log("dataForLogs>>>",dataForLogs)
+                        console.log("soapRequest>>>",soapRequest)
+                        console.log("dataForLogs>>>",dataForLogs)
 
-                    axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-                        console.log('Response >>>>>:', response);
-                        console.log('Response Data>>>>:', response.data);
-            
-                        let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-                        console.log("parseResult>>>>",parseResult)
-                        if(!parseError){
-                            const errorResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ErrorResponse'];
-                            if(errorResponse && errorResponse?.IsError=='false'){
-                               let encounterResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult'];
-                               let serviceLine = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ServiceLinesAdded'];
-            
-                                // Save response data of Encounter
-                                let Einsert = new TebraEncounter()
-                                Einsert.soap_note_type = finalizeNoteData?.soapNoteType;
-                                Einsert.EncounterID = encounterResponse?.EncounterID;
-                                Einsert.PatientCaseID = encounterResponse?.PatientCaseID;
-                                Einsert.PatientID = encounterResponse?.PatientID;
-                                Einsert.PracticeID = encounterResponse?.PracticeID;
-                                Einsert.PracticeName = encounterResponse?.PracticeName;
-                                Einsert.RenderingProviderID = encounterResponse?.RenderingProviderID;
-                                Einsert.ServiceLineRes = serviceLine?.ServiceLineRes;
-                                Einsert.ServiceLocationID = encounterResponse?.ServiceLocationID;
-                                Einsert.save();
+                        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+                            console.log('Response >>>>>:', response);
+                            console.log('Response Data>>>>:', response.data);
+                
+                            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+                            console.log("parseResult>>>>",parseResult)
+                            if(!parseError){
+                                const errorResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ErrorResponse'];
+                                if(errorResponse && errorResponse?.IsError=='false'){
+                                let encounterResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult'];
+                                let serviceLine = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ServiceLinesAdded'];
+                
+                                if(encounterResponse){
+                                    // Save response data of Encounter
+                                    let Einsert = new TebraEncounter()
+                                    Einsert.soap_note_type = finalizeNoteData?.soapNoteType;
+                                    Einsert.EncounterID = encounterResponse?.EncounterID;
+                                    Einsert.PatientCaseID = encounterResponse?.PatientCaseID;
+                                    Einsert.PatientID = encounterResponse?.PatientID;
+                                    Einsert.PracticeID = encounterResponse?.PracticeID;
+                                    Einsert.PracticeName = encounterResponse?.PracticeName;
+                                    Einsert.RenderingProviderID = encounterResponse?.RenderingProviderID;
+                                    Einsert.ServiceLineRes = serviceLine?.ServiceLineRes;
+                                    Einsert.ServiceLocationID = encounterResponse?.ServiceLocationID;
+                                    Einsert.save();
+                                }
+                                }
                             }
-                        }
-                        // Tebra Logs
-                        tebraCommon.tebraApiLog('createEncounter',soapRequest,parseResult,'success',dataForLogs,'')
-                    }).catch(error => {
-                        console.error('========createEncounter API Error=========:', error);
-                        tebraCommon.tebraApiLog('createEncounter',soapRequest,'','apiError',dataForLogs,error)
-                    });
-              
+                            // Tebra Logs
+                            tebraCommon.tebraApiLog('createEncounter',soapRequest,parseResult,'success',dataForLogs,'')
+                        }).catch(error => {
+                            console.error('========createEncounter API Error=========:', error);
+                            tebraCommon.tebraApiLog('createEncounter',soapRequest,'','apiError',dataForLogs,error)
+                        });
+                    }else{
+                        dataForLogs['billingData'] = billingDetails
+                        tebraCommon.tebraApiLog('createEncounter',soapRequest,'','dataError',dataForLogs,error)
+                    }
                 } 
               }
             }

@@ -39,10 +39,10 @@ const tebraApiLog = (apiMethod,xmlRequest,xmlResponse,status,otherData,errorData
   let Rinsert = new TebraLogs()
   Rinsert.apiMethod = apiMethod;
   Rinsert.xmlRequest = xmlRequest;
-  Rinsert.xmlResponse = xmlResponse;
+  Rinsert.xmlResponse = JSON.stringify(xmlResponse);
   Rinsert.status = status;
-  Rinsert.otherData = otherData;
-  Rinsert.errorData = errorData;
+  Rinsert.otherData = JSON.stringify(otherData);
+  Rinsert.errorData = JSON.stringify(errorData);
   Rinsert.save();
 }
 
