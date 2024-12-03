@@ -1173,9 +1173,9 @@ export class ReportsComponent {
 
   year: any =''
   years: any = []
+  optionType:any='' //Monthly Values , Quarterly Values
   reportType: any = 'sel';
-  selectedLocation: any = ''
-
+  selectedLocation: any = '' 
 
   monthlyReport = false;
   quarterlyPatientsSeenReport = false;
@@ -1398,7 +1398,8 @@ export class ReportsComponent {
     let reqVars = {
       type: this.reportType,
       year: this.year,
-      practiceLocation:this.selectedLocation
+      practiceLocation:this.selectedLocation,
+      optionType:this.optionType
     }
     await this.authService.apiRequest('post', 'admin/getReports', reqVars).subscribe(async response => {
       console.log(response)
