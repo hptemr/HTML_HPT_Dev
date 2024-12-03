@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const { userMessage, commonMessage, infoMessage, documentMessage,billingMessage } = require('../helpers/message');
+const { userMessage, commonMessage, infoMessage, documentMessage, billingMessage } = require('../helpers/message');
 const userCommonHelper = require('../helpers/userCommon');
 const commonHelper = require('../helpers/common');
 require('dotenv').config();
@@ -20,6 +20,7 @@ const Provider = require('../models/providerModel');
 const ProviderLogs = require('../models/providerLogsModel');
 const UploadInsurancesLogs = require('../models/uploadInsurancesLogsModel');
 const UploadInsurances = require('../models/uploadInsurancesModel');
+const Appointment = require('../models/appointmentModel');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -34,11 +35,11 @@ const systemAdminSignUp = async (req, res, next) => {
     }
 
     if (!userCommonHelper.validateEmail(email)) {
-        return res.status(400).json({ error: "Invalid email format." });
+      return res.status(400).json({ error: "Invalid email format." });
     }
 
     if (!userCommonHelper.validatePassword(password)) {
-        return res.status(400).json({ error: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character." });
+      return res.status(400).json({ error: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character." });
     }
 
     let userData = await userCommonHelper.userGetByEmail(email)
@@ -60,8 +61,8 @@ const systemAdminSignUp = async (req, res, next) => {
 
     // Create in comet chat
     let fullName = `${firstName} ${lastName}`;
-    createSystemAdminInCometChat(fullName, result._id) 
-    
+    createSystemAdminInCometChat(fullName, result._id)
+
     commonHelper.sendResponse(res, 'success', result, `System admin ${commonMessage.created}`);
   } catch (error) {
     console.log("error>>>", error)
@@ -72,24 +73,24 @@ const systemAdminSignUp = async (req, res, next) => {
 // Create System Admin in comet chat
 const createSystemAdminInCometChat = async (fullName, uid) => {
   try {
-      const url = `https://${constants.cometChatAppId}.api-us.cometchat.io/v3/users`;
-      const options = {
-        method: 'POST',
-        headers: {accept: 'application/json', 'content-type': 'application/json', apikey: constants.cometChatApikey},
-        body: JSON.stringify({
-          uid: uid,
-          name: fullName,
-          role:'system_admin'
-        })
-      };
+    const url = `https://${constants.cometChatAppId}.api-us.cometchat.io/v3/users`;
+    const options = {
+      method: 'POST',
+      headers: { accept: 'application/json', 'content-type': 'application/json', apikey: constants.cometChatApikey },
+      body: JSON.stringify({
+        uid: uid,
+        name: fullName,
+        role: 'system_admin'
+      })
+    };
 
-      fetch(url, options)
-        .then(res => res.json())
-        .then(json => console.log("System admin created in comet chat : ", json))
-        .catch(err => console.log('URL call error: ' + err));
-   
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => console.log("System admin created in comet chat : ", json))
+      .catch(err => console.log('URL call error: ' + err));
+
   } catch (error) {
-    console.log("createSystemAdminInCometChat error>>>",error)
+    console.log("createSystemAdminInCometChat error>>>", error)
   }
 };
 
@@ -168,14 +169,14 @@ const updateProfile = async (req, res, next) => {
   try {
     const { userId, clickAction, status, email } = req.body
     let userData = await userCommonHelper.userGetById(userId)
-    let emailExists = await User.findOne({ email: email, _id: {$ne: userId}});
+    let emailExists = await User.findOne({ email: email, _id: { $ne: userId } });
     // Check if the new email already exists in the database
     if (emailExists) {
-        return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
+      return commonHelper.sendResponse(res, 'info', null, userMessage.emailExist);
     }
 
     // Active bloked user
-    if(clickAction=='update' && status=='Active' && userData.status=='Blocked'){
+    if (clickAction == 'update' && status == 'Active' && userData.status == 'Blocked') {
       const randomPassword = await commonHelper.generateRandomPassword()
       // Update random password
       let salt = await bcrypt.genSalt(10);
@@ -183,23 +184,23 @@ const updateProfile = async (req, res, next) => {
       req.body.hash_password = await bcrypt.hash(randomPassword, salt)
       req.body.failedAttempts = 0
       // Email 
-      triggerEmail.unblockUser('unblockUser',userData, randomPassword)
+      triggerEmail.unblockUser('unblockUser', userData, randomPassword)
     }
 
     // Update profile
     const filter = { _id: new ObjectId(userId) };
     req.body.updatedAt = Date.now()
     const updateDoc = {
-        $set: req.body
+      $set: req.body
     };
     const options = { returnOriginal: false };
-    let updateProfileData=await User.findOneAndUpdate(filter, updateDoc, options);
-    
-    let successMessage = (clickAction=='update') ? commonMessage.profileUpdate : 
-    (clickAction=='delete') ? commonMessage.profileDelete :''
+    let updateProfileData = await User.findOneAndUpdate(filter, updateDoc, options);
+
+    let successMessage = (clickAction == 'update') ? commonMessage.profileUpdate :
+      (clickAction == 'delete') ? commonMessage.profileDelete : ''
     commonHelper.sendResponse(res, 'success', updateProfileData, successMessage);
   } catch (error) {
-    console.log("error>>>",error)
+    console.log("error>>>", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 };
@@ -208,21 +209,21 @@ const updateProfile = async (req, res, next) => {
 const updateUser = async (req, res) => {
   try {
     const { query, updateInfo } = req.body
-    
+
     if (req.body.passwordReset != undefined && req.body.passwordReset == true) {
       let decryptTokenData = commonHelper.decryptData(query._id, process.env.CRYPTO_SECRET)
 
-       // Check if Sign Up User account is deleted
-       let userStatus = ['Deleted']
-       let bodyInviteToken = query._id
-       let userData = await userCommonHelper.userGetById(decryptTokenData.userId)
-       if(!userData || userData==null){
-         return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound);
-       }else if(userData!=null && (!userData.inviteToken || userData.inviteToken!=bodyInviteToken)){
+      // Check if Sign Up User account is deleted
+      let userStatus = ['Deleted']
+      let bodyInviteToken = query._id
+      let userData = await userCommonHelper.userGetById(decryptTokenData.userId)
+      if (!userData || userData == null) {
+        return commonHelper.sendResponse(res, 'info', null, userMessage.userNotFound);
+      } else if (userData != null && (!userData.inviteToken || userData.inviteToken != bodyInviteToken)) {
         return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
-       }else if (userStatus.includes(userData.status)){
-         return commonHelper.sendResponse(res, 'info', null, userMessage.deleteUser);
-       } 
+      } else if (userStatus.includes(userData.status)) {
+        return commonHelper.sendResponse(res, 'info', null, userMessage.deleteUser);
+      }
 
       query._id = decryptTokenData.userId
       let salt = await bcrypt.genSalt(10)
@@ -230,7 +231,7 @@ const updateUser = async (req, res) => {
       delete updateInfo.password
       Object.assign(updateInfo, { salt: salt, hash_password: password })
     }
-    
+
     let user = await User.findOneAndUpdate(query, updateInfo, { new: true })
     const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '1d' });
     const userObject = user.toObject();
@@ -240,7 +241,7 @@ const updateUser = async (req, res) => {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
- 
+
 const getUserDetails = async (req, res, next) => {
   try {
     const { query, params } = req.body
@@ -254,15 +255,15 @@ const getUserDetails = async (req, res, next) => {
         return commonHelper.sendResponse(res, 'info', null, infoMessage.linkExpired)
       }
     }
-    
+
     // Get user details
     const result = await User.findOne(query, params);
 
     // Check Invite Token blank and not same with db
     if (req.body.decryptUserId != undefined && req.body.decryptUserId != '') {
-        if(result!=null && (!result.inviteToken || result.inviteToken!=bodyInviteToken)){
-          return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
-        }
+      if (result != null && (!result.inviteToken || result.inviteToken != bodyInviteToken)) {
+        return commonHelper.sendResponse(res, 'info', null, infoMessage.linkInvalid)
+      }
     }
     commonHelper.sendResponse(res, 'success', result, '');
   } catch (error) {
@@ -275,15 +276,15 @@ const getUserList = async (req, res) => {
     const { query, fields, order, offset, limit } = req.body;
     fields['inviteToken'] = 1
     let userList = await User.find(query, fields).sort(order).skip(offset).limit(limit).lean();
-    userList = userList.map( (user) => ({
+    userList = userList.map((user) => ({
       ...user,
-      inviteTokenStatus: user.inviteToken? checkTokenExpire(user.inviteToken):"blank"
+      inviteTokenStatus: user.inviteToken ? checkTokenExpire(user.inviteToken) : "blank"
     }));
 
     let totalCount = await User.find(query).countDocuments()
     commonHelper.sendResponse(res, 'success', { userList, totalCount }, '');
   } catch (error) {
-    console.log('error >>> ',error)
+    console.log('error >>> ', error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -298,7 +299,7 @@ const getTherapistList = async (req, res) => {
   try {
     const { query, fields, order, limit } = req.body;
     let limitas = 100;
-    if(limit){
+    if (limit) {
       limitas = limit;
     }
     //console.log('*********** Limit >>>>',limit)
@@ -306,13 +307,13 @@ const getTherapistList = async (req, res) => {
     let totalCount = await User.find(query).countDocuments()
     let therapistData = [];
     therapist_data.forEach(element => {
-      let newValue = {id:element._id,name:element.firstName+' '+element.lastName};
+      let newValue = { id: element._id, name: element.firstName + ' ' + element.lastName };
       therapistData.push(newValue);
     });
 
     commonHelper.sendResponse(res, 'success', { therapistData, totalCount }, '');
   } catch (error) {
-    console.log('*********** getTherapistList >>>>',error)
+    console.log('*********** getTherapistList >>>>', error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -344,9 +345,9 @@ const deleteProfileImage = async (req, res) => {
 
 changeProfileImage = async (req, res) => {
   try {
-    const { userId, profileImage ,imageName} = req.body
+    const { userId, profileImage, imageName } = req.body
     var profileImagePath = constants.s3Details.profileImageFolderPath;
-    console.log('image Name>>>',imageName)
+    console.log('image Name>>>', imageName)
     var params = {
       ContentEncoding: "base64",
       ACL: "public-read-write",
@@ -371,7 +372,7 @@ changeProfileImage = async (req, res) => {
     let s3Status = await s3.uploadFileNew(params)
     if (s3Status) {
       await User.updateOne({ _id: userId }, { profileImage: filename });
-      commonHelper.sendResponse(res, 'success', filename , userMessage.profileImageChanged);
+      commonHelper.sendResponse(res, 'success', filename, userMessage.profileImageChanged);
     } else {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
@@ -383,8 +384,8 @@ changeProfileImage = async (req, res) => {
 
 const getDefaultDirectories = async (req, res) => {
   try {
-    let queryParams = {is_deleted:false,"selected-directory.role_name":req.body.userRole}
-    if(req.body.searchValue!=""){
+    let queryParams = { is_deleted: false, "selected-directory.role_name": req.body.userRole }
+    if (req.body.searchValue != "") {
       queryParams.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
     }
     let directoryList = await Directory.aggregate([
@@ -420,13 +421,13 @@ const getDefaultDirectories = async (req, res) => {
         $match: queryParams
       }
     ])
-    if(req.body.userRole=='therapist'){
+    if (req.body.userRole == 'therapist') {
       let userData = await User.find({ _id: req.body.userId });
-      if(userData[0]['siteLeaderForPracLocation'] && userData[0]['siteLeaderForPracLocation']=='Site Leader'){
+      if (userData[0]['siteLeaderForPracLocation'] && userData[0]['siteLeaderForPracLocation'] == 'Site Leader') {
         directoryList = directoryList
-      }else{
-        directoryList = directoryList.filter((item) => item.directory_name !== 
-        "Site Leaders");
+      } else {
+        directoryList = directoryList.filter((item) => item.directory_name !==
+          "Site Leaders");
       }
     }
     commonHelper.sendResponse(res, 'success', { directoryList }, '');
@@ -437,19 +438,19 @@ const getDefaultDirectories = async (req, res) => {
 
 const getDirectoryItems = async (req, res) => {
   try {
-    let directoryDetails = await Directory.find({_id: req.body.directory});
-    if(directoryDetails.length>0){
+    let directoryDetails = await Directory.find({ _id: req.body.directory });
+    if (directoryDetails.length > 0) {
 
-      let query = {is_deleted:false,parent_directory_id: directoryDetails[0]._id}
-      let fileQuery = {is_deleted:false,directory_id: directoryDetails[0]._id}
-      if(req.body.searchValue!=""){
+      let query = { is_deleted: false, parent_directory_id: directoryDetails[0]._id }
+      let fileQuery = { is_deleted: false, directory_id: directoryDetails[0]._id }
+      if (req.body.searchValue != "") {
         query.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
         fileQuery.file_name = { '$regex': req.body.searchValue, '$options': "i" }
       }
-      let directoryList =  await Directory.find(query).sort({ _id: -1 });
-      let fileList =  await File.find(fileQuery).sort({ _id: -1 });
-      commonHelper.sendResponse(res, 'success', { directoryList,fileList }, '');
-    }else{
+      let directoryList = await Directory.find(query).sort({ _id: -1 });
+      let fileList = await File.find(fileQuery).sort({ _id: -1 });
+      commonHelper.sendResponse(res, 'success', { directoryList, fileList }, '');
+    } else {
       commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
   } catch (error) {
@@ -461,8 +462,8 @@ const getDirectoryItems = async (req, res) => {
 const getDefaultDirectoriesAndItems = async (req, res) => {
   try {
 
-    let queryParams = {is_deleted:false,"selected-directory.role_name":req.body.userRole}
-    if(req.body.searchValue!=""){
+    let queryParams = { is_deleted: false, "selected-directory.role_name": req.body.userRole }
+    if (req.body.searchValue != "") {
       queryParams.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
     }
     let directoryList = await Directory.aggregate([
@@ -498,40 +499,40 @@ const getDefaultDirectoriesAndItems = async (req, res) => {
         $match: queryParams
       }
     ])
-   
-    if(req.body.userRole=='therapist'){
+
+    if (req.body.userRole == 'therapist') {
       let userData = await User.find({ _id: req.body.userId });
-      if(userData[0]['siteLeaderForPracLocation'] && userData[0]['siteLeaderForPracLocation']=='Site Leader'){
+      if (userData[0]['siteLeaderForPracLocation'] && userData[0]['siteLeaderForPracLocation'] == 'Site Leader') {
         directoryList = directoryList
-      }else{
-        directoryList = directoryList.filter((item) => item.directory_name !== 
-        "Site Leaders");
+      } else {
+        directoryList = directoryList.filter((item) => item.directory_name !==
+          "Site Leaders");
       }
 
-      let directoryItmList = '';let fileListItem = ''; let fileList = [];
+      let directoryItmList = ''; let fileListItem = ''; let fileList = [];
       let dir_cnt = directoryList.length;
-        for(i=0;i<dir_cnt;i++){
-          let directoryDetails = await Directory.find({_id: directoryList[i]._id});
-          if(directoryDetails.length>0){
-            let query = {is_deleted:false,parent_directory_id: directoryDetails[0]._id}
-            let fileQuery = {is_deleted:false,directory_id: directoryDetails[0]._id}
-            if(req.body.searchValue!=""){
-              query.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
-              fileQuery.file_name = { '$regex': req.body.searchValue, '$options': "i" }
-            }
-           // directoryItmList =  await Directory.find(query).sort({ _id: -1 });
-           fileListItem =  await File.find(fileQuery).sort({ _id: -1 });  
-           fileList.push(fileListItem);   
+      for (i = 0; i < dir_cnt; i++) {
+        let directoryDetails = await Directory.find({ _id: directoryList[i]._id });
+        if (directoryDetails.length > 0) {
+          let query = { is_deleted: false, parent_directory_id: directoryDetails[0]._id }
+          let fileQuery = { is_deleted: false, directory_id: directoryDetails[0]._id }
+          if (req.body.searchValue != "") {
+            query.directory_name = { '$regex': req.body.searchValue, '$options': "i" }
+            fileQuery.file_name = { '$regex': req.body.searchValue, '$options': "i" }
           }
+          // directoryItmList =  await Directory.find(query).sort({ _id: -1 });
+          fileListItem = await File.find(fileQuery).sort({ _id: -1 });
+          fileList.push(fileListItem);
+        }
       }
-      commonHelper.sendResponse(res, 'success', { directoryList,fileList }, '');
+      commonHelper.sendResponse(res, 'success', { directoryList, fileList }, '');
 
-    }else{
-      commonHelper.sendResponse(res, 'success', { directoryList,fileList }, '');
+    } else {
+      commonHelper.sendResponse(res, 'success', { directoryList, fileList }, '');
     }
 
   } catch (error) {
-    console.log('Error >>>>',error)
+    console.log('Error >>>>', error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -539,10 +540,10 @@ const getDefaultDirectoriesAndItems = async (req, res) => {
 
 const createDirectory = async (req, res) => {
   try {
-    let directories = await Directory.find({directory_name: req.body.directoryName,is_deleted:false})
-    if(directories.length>0){
-      commonHelper.sendResponse(res, 'error', null, "Directory"+documentMessage.exist);
-    }else{
+    let directories = await Directory.find({ directory_name: req.body.directoryName, is_deleted: false })
+    if (directories.length > 0) {
+      commonHelper.sendResponse(res, 'error', null, "Directory" + documentMessage.exist);
+    } else {
       let createParams = {
         directory_name: req.body.directoryName,
         parent_directory_id: new ObjectId(req.body.directoryId),
@@ -560,10 +561,10 @@ const createDirectory = async (req, res) => {
 
 const updateDirectory = async (req, res) => {
   try {
-    let directories = await Directory.find({directory_name: req.body.directoryName,is_deleted:false})
-    if(directories.length>0){
-      commonHelper.sendResponse(res, 'error', null, "Directory"+documentMessage.exist);
-    }else{
+    let directories = await Directory.find({ directory_name: req.body.directoryName, is_deleted: false })
+    if (directories.length > 0) {
+      commonHelper.sendResponse(res, 'error', null, "Directory" + documentMessage.exist);
+    } else {
       await Directory.updateOne({ _id: new ObjectId(req.body.directoryId) }, { directory_name: req.body.directoryName });
       commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
     }
@@ -574,11 +575,11 @@ const updateDirectory = async (req, res) => {
 
 const removeDirectoryOrFile = async (req, res) => {
   try {
-    if(req.body.sourceType == 'directory'){
+    if (req.body.sourceType == 'directory') {
       await Directory.updateOne({ _id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
       await Directory.updateMany({ parent_directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
       await File.updateMany({ directory_id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
-    }else{
+    } else {
       await File.updateOne({ _id: new ObjectId(req.body.removeItemId) }, { is_deleted: true });
     }
     commonHelper.sendResponse(res, 'success', {}, infoMessage.deleted);
@@ -589,28 +590,28 @@ const removeDirectoryOrFile = async (req, res) => {
 
 const previewDocumentFile = async (req, res) => {
   let fileDetails = await File.find({ _id: new ObjectId(req.body.fileId) })
-  let key = constants.s3Details.documentsFolderPath+fileDetails[0].directory_id+"/"+fileDetails[0].file_name
+  let key = constants.s3Details.documentsFolderPath + fileDetails[0].directory_id + "/" + fileDetails[0].file_name
   let previewUrl = await s3.previewDocumentFile(key)
   let fileName = fileDetails[0].file_name
-  commonHelper.sendResponse(res, 'success', { previewUrl,fileName }, null,'');
+  commonHelper.sendResponse(res, 'success', { previewUrl, fileName }, null, '');
 }
 
 const updateFile = async (req, res) => {
   try {
-    let fileData = await File.find({ file_name: req.body.newFileName,is_deleted:false})
-      if(fileData.length>0){
-        commonHelper.sendResponse(res, 'error', null, "File"+documentMessage.exist);
-      }else{
-        updatedData = await File.findOneAndUpdate({ _id: new ObjectId(req.body.itemId) }, { file_name: req.body.newFileName },{upsert: true, new: true});
-          let key = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.oldFileName
-          let newkey = constants.s3Details.documentsFolderPath+updatedData.directory_id+"/"+req.body.newFileName
-          await s3.renameFileInS3(key,newkey)
-          commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
-        } 
-      }catch (error) {
-        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
-      }
-    
+    let fileData = await File.find({ file_name: req.body.newFileName, is_deleted: false })
+    if (fileData.length > 0) {
+      commonHelper.sendResponse(res, 'error', null, "File" + documentMessage.exist);
+    } else {
+      updatedData = await File.findOneAndUpdate({ _id: new ObjectId(req.body.itemId) }, { file_name: req.body.newFileName }, { upsert: true, new: true });
+      let key = constants.s3Details.documentsFolderPath + updatedData.directory_id + "/" + req.body.oldFileName
+      let newkey = constants.s3Details.documentsFolderPath + updatedData.directory_id + "/" + req.body.newFileName
+      await s3.renameFileInS3(key, newkey)
+      commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+    }
+  } catch (error) {
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+
 }
 
 const uploadDocumentFile = async (req, res) => {
@@ -625,30 +626,30 @@ const uploadDocumentFile = async (req, res) => {
       newFilename = reqBodyData.documentName
       fstream = fs.createWriteStream(__dirname + '/../tmp/' + newFilename)
       file.pipe(fstream)
-      fstream.on('close', async function () {})
+      fstream.on('close', async function () { })
     });
     req.busboy.on('finish', async function () {
-      let fileData = await File.find({ file_name: reqBodyData.documentName,is_deleted:false})
-      if(fileData.length>0){
-        fs.unlink(__dirname + '/../tmp/' + newFilename, (err) => {})
-        commonHelper.sendResponse(res, 'error', null, "File"+documentMessage.exist);
-      }else{
-          let createParams = {
-            file_name: reqBodyData.documentName,
-            directory_id: reqBodyData.directory,
-            is_deleted: false,
-            create_at: new Date(),
-            created_by: new ObjectId(req.body.endUserId),
-          }
-          await File.create(createParams)
-          await s3.checkDirectoryExist(reqBodyData.directory)
-          var s3DocumentPath = constants.s3Details.documentsFolderPath+reqBodyData.directory+"/";
-          await s3.uploadDocumentToS3(reqBodyData.documentName,s3DocumentPath)
-          commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
+      let fileData = await File.find({ file_name: reqBodyData.documentName, is_deleted: false })
+      if (fileData.length > 0) {
+        fs.unlink(__dirname + '/../tmp/' + newFilename, (err) => { })
+        commonHelper.sendResponse(res, 'error', null, "File" + documentMessage.exist);
+      } else {
+        let createParams = {
+          file_name: reqBodyData.documentName,
+          directory_id: reqBodyData.directory,
+          is_deleted: false,
+          create_at: new Date(),
+          created_by: new ObjectId(req.body.endUserId),
+        }
+        await File.create(createParams)
+        await s3.checkDirectoryExist(reqBodyData.directory)
+        var s3DocumentPath = constants.s3Details.documentsFolderPath + reqBodyData.directory + "/";
+        await s3.uploadDocumentToS3(reqBodyData.documentName, s3DocumentPath)
+        commonHelper.sendResponse(res, 'success', null, documentMessage.directoryUpdated);
       }
     })
   } catch (error) {
-      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
 
@@ -684,163 +685,163 @@ const revokeInvite = async (req, res) => {
 
 
 const cometChatLog = async (req, res) => {
-    try {
-      let chatLog = new cometChatLogModel(req.body);
-      await chatLog.save();
-      commonHelper.sendResponse(res, 'success', '' , 'Log saved successfully');
-    } catch (error) {
-      console.log("*******cometChatLog******", error)
-      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
-    }
+  try {
+    let chatLog = new cometChatLogModel(req.body);
+    await chatLog.save();
+    commonHelper.sendResponse(res, 'success', '', 'Log saved successfully');
+  } catch (error) {
+    console.log("*******cometChatLog******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
+}
 
 const uploadProviders = async (req, res) => {
-    try {
-      const filePath = req.file.path;
-      // const doctors = [];
-      // const errors = [];
+  try {
+    const filePath = req.file.path;
+    // const doctors = [];
+    // const errors = [];
 
-      // fs.createReadStream(filePath)
-      //   .pipe(csv())
-      //   .on('data', (row) => {
-      //     // const error = validateRow(row);
-      //     // if (error.length > 0) {
-      //     //   errors.push({ row, error });
-      //     // } else {
-      //     //   doctors.push(row);
-      //     // }
-      //     doctors.push(row);
-      //   })
-      //   .on('end', async () => {
-      //     // await Doctor.insertMany(doctors);
-      //     // res.json({ doctors, errors });
-      //     commonHelper.sendResponse(res, 'success', { doctors, errors } , 'Upload file successfully');
-      //     fs.unlinkSync(filePath); // Delete the uploaded file after processing
-      //   });
+    // fs.createReadStream(filePath)
+    //   .pipe(csv())
+    //   .on('data', (row) => {
+    //     // const error = validateRow(row);
+    //     // if (error.length > 0) {
+    //     //   errors.push({ row, error });
+    //     // } else {
+    //     //   doctors.push(row);
+    //     // }
+    //     doctors.push(row);
+    //   })
+    //   .on('end', async () => {
+    //     // await Doctor.insertMany(doctors);
+    //     // res.json({ doctors, errors });
+    //     commonHelper.sendResponse(res, 'success', { doctors, errors } , 'Upload file successfully');
+    //     fs.unlinkSync(filePath); // Delete the uploaded file after processing
+    //   });
 
 
-      // const filePath = path.join(__dirname, req.file.path);
-      const data = [];
-      const errorsList = [];
+    // const filePath = path.join(__dirname, req.file.path);
+    const data = [];
+    const errorsList = [];
 
-      let headersValidated = false;
-      let validHeaders = true;
-      let rowNumber = 1;  // Start row number from 1
-      const npiSet = new Set();  // To track duplicate NPIs
+    let headersValidated = false;
+    let validHeaders = true;
+    let rowNumber = 1;  // Start row number from 1
+    const npiSet = new Set();  // To track duplicate NPIs
 
-      fs.createReadStream(filePath)
-        .pipe(csv())
-        .on('headers', (headers) => {
-          // Validate if all required headers are present
-          headersValidated = true;
-          validHeaders = userCommonHelper.validateUploadProviderFileHeader(headers);
-    
-          if (!validHeaders) {
-            fs.unlinkSync(filePath); // Delete the uploaded file after processing
-            commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('headers', (headers) => {
+        // Validate if all required headers are present
+        headersValidated = true;
+        validHeaders = userCommonHelper.validateUploadProviderFileHeader(headers);
+
+        if (!validHeaders) {
+          fs.unlinkSync(filePath); // Delete the uploaded file after processing
+          commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+        }
+      })
+      .on('data', (row) => {
+        if (headersValidated && validHeaders) {
+          rowNumber++;
+          // Clean up row data before validation
+          row['NPI'] = userCommonHelper.cleanNumericInput(row['NPI']);
+          row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+          row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
+
+          // const errors = userCommonHelper.validateUploadProviderFile(row);
+          const errors = userCommonHelper.validateUploadProviderFile(row, npiSet);
+          if (errors.length > 0) {
+            // errorsList.push({ row, errors });
+            errorsList.push({ ...row, errors, rowNumber });
+          } else {
+            data.push({
+              Name: row["Name"],
+              Credentials: row["Credentials"],
+              Address: row["Address"],
+              phoneNumber: row["phoneNumber"],
+              faxNumber: row["faxNumber"],
+              NPI: row["NPI"],
+              errors: [],
+              rowNumber: ''
+            });
           }
-        })
-        .on('data', (row) => {
-          if (headersValidated && validHeaders) {
-            rowNumber++;
-            // Clean up row data before validation
-            row['NPI'] = userCommonHelper.cleanNumericInput(row['NPI']);
-            row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
-            row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
-
-            // const errors = userCommonHelper.validateUploadProviderFile(row);
-            const errors = userCommonHelper.validateUploadProviderFile(row,npiSet);
-            if (errors.length > 0) {
-              // errorsList.push({ row, errors });
-              errorsList.push({ ...row, errors, rowNumber });
-            } else {
-              data.push({
-                Name: row["Name"],
-                Credentials: row["Credentials"],
-                Address: row["Address"],
-                phoneNumber: row["phoneNumber"],
-                faxNumber: row["faxNumber"],
-                NPI: row["NPI"],
-                errors: [],
-                rowNumber:''
-              });
-            }
+        }
+      })
+      .on('end', async () => {
+        if (headersValidated && validHeaders) {
+          fs.unlinkSync(filePath); // Delete the uploaded file after processing
+          let allData = [...errorsList, ...data]
+          let allList = {
+            totalRecord: allData,
+            dataWithoutError: data,
+            dataWithError: errorsList,
+            totalRecordCount: allData.length,
+            errorRecordCount: errorsList.length
           }
-        })
-        .on('end', async () => {
-          if (headersValidated && validHeaders) {
-            fs.unlinkSync(filePath); // Delete the uploaded file after processing
-            let allData = [ ...errorsList, ...data ]
-            let allList = { 
-              totalRecord: allData, 
-              dataWithoutError:data,
-              dataWithError:errorsList,
-              totalRecordCount: allData.length, 
-              errorRecordCount :errorsList.length 
-            }
 
-            if(allData.length==0){
-              commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
-            }else{
-              commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
-            }
+          if (allData.length == 0) {
+            commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
+          } else {
+            commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
           }
-        })
-    } catch (error) {
-      console.log("*******uploadProviders******", error)
-      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
-    }
+        }
+      })
+  } catch (error) {
+    console.log("*******uploadProviders******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
+}
 
-  const saveUploadedProviderData = async (req, res) => {
-    try {
-      console.log("req.body>>>>",req.body)
-      let records = req.body
-      const errorsList = [];
-      let updateCount = { count: 0 };
-      let insertCount = { count: 0 };
-      // Process records in batches of 100
-      const batchSize = 100;
-      // const batchSize = 2;
-      for (let i = 0; i < records.length; i += batchSize) {
-        const batch = records.slice(i, i + batchSize);
-        console.log("batch>>>",batch)
-        console.log("batchSize>>>",batchSize)
-        const batchErrors = await processBatch(batch,updateCount, insertCount);
-        errorsList.push(...batchErrors);
-      }
-
-      console.log("errorsList>>>",errorsList)
-      if(errorsList.length>0){
-        await ProviderLogs.insertMany(errorsList);
-      }
-
-      let reponseData = {
-        errorsCount : errorsList.length,
-        updateCount: updateCount.count,
-        insertCount: insertCount.count
-      }
-      commonHelper.sendResponse(res, 'success', reponseData , 'Data uploaded successfully');
-    } catch (error) {
-      console.log("*******saveUploadedProviderData******", error)
-      commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+const saveUploadedProviderData = async (req, res) => {
+  try {
+    console.log("req.body>>>>", req.body)
+    let records = req.body
+    const errorsList = [];
+    let updateCount = { count: 0 };
+    let insertCount = { count: 0 };
+    // Process records in batches of 100
+    const batchSize = 100;
+    // const batchSize = 2;
+    for (let i = 0; i < records.length; i += batchSize) {
+      const batch = records.slice(i, i + batchSize);
+      console.log("batch>>>", batch)
+      console.log("batchSize>>>", batchSize)
+      const batchErrors = await processBatch(batch, updateCount, insertCount);
+      errorsList.push(...batchErrors);
     }
+
+    console.log("errorsList>>>", errorsList)
+    if (errorsList.length > 0) {
+      await ProviderLogs.insertMany(errorsList);
+    }
+
+    let reponseData = {
+      errorsCount: errorsList.length,
+      updateCount: updateCount.count,
+      insertCount: insertCount.count
+    }
+    commonHelper.sendResponse(res, 'success', reponseData, 'Data uploaded successfully');
+  } catch (error) {
+    console.log("*******saveUploadedProviderData******", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
+}
 
 // Process data in batches
 async function processBatch(batch, updateCount, insertCount) {
-    const errorsList = [];
+  const errorsList = [];
 
-    // Create promises for batch processing
-    const operations = batch.map(async row => {
-      const doctorData = {
-        name: row.Name,
-        credentials: row.Credentials,
-        address: row.Address,
-        phoneNumber: row.phoneNumber,
-        faxNumber: row.faxNumber,
-        npi: row.NPI
-      };
+  // Create promises for batch processing
+  const operations = batch.map(async row => {
+    const doctorData = {
+      name: row.Name,
+      credentials: row.Credentials,
+      address: row.Address,
+      phoneNumber: row.phoneNumber,
+      faxNumber: row.faxNumber,
+      npi: row.NPI
+    };
 
     try {
       // Check if the doctor exists in the database by NPI
@@ -911,7 +912,7 @@ const uploadInsurances = async (req, res) => {
         // Validate if all required headers are present
         headersValidated = true;
         validHeaders = userCommonHelper.validateUploadInsuranceFileHeader(headers);
-  
+
         if (!validHeaders) {
           fs.unlinkSync(filePath); // Delete the uploaded file after processing
           commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
@@ -919,7 +920,7 @@ const uploadInsurances = async (req, res) => {
       })
       .on('data', (row) => {
         if (headersValidated && validHeaders) {
-          console.log("row>>>>>>>",row)
+          console.log("row>>>>>>>", row)
           rowNumber++;
           // Clean up row data before validation
           row['payerID'] = userCommonHelper.cleanNumericInput(row['payerID']);
@@ -927,8 +928,8 @@ const uploadInsurances = async (req, res) => {
           row['insuranceType'] = userCommonHelper.trimString(row['insuranceType']);
           row['billingType'] = userCommonHelper.cleanNumericInput(row['billingType']);
 
-          const errors = userCommonHelper.validateUploadInsuranceFile(row,payerIDSet);
-          console.log("errors>>>>>",errors)
+          const errors = userCommonHelper.validateUploadInsuranceFile(row, payerIDSet);
+          console.log("errors>>>>>", errors)
           if (errors.length > 0) {
             // errorsList.push({ row, errors });
             errorsList.push({ ...row, errors, rowNumber });
@@ -941,7 +942,7 @@ const uploadInsurances = async (req, res) => {
               phoneNumber: row["phoneNumber"],
               billingType: row["billingType"],
               errors: [],
-              rowNumber :''
+              rowNumber: ''
             });
           }
         }
@@ -949,19 +950,19 @@ const uploadInsurances = async (req, res) => {
       .on('end', async () => {
         if (headersValidated && validHeaders) {
           fs.unlinkSync(filePath); // Delete the uploaded file after processing
-          let allData = [ ...errorsList, ...data ]
-          let allList = { 
-            totalRecord: allData, 
-            dataWithoutError:data,
-            dataWithError:errorsList,
-            totalRecordCount: allData.length, 
-            errorRecordCount :errorsList.length 
+          let allData = [...errorsList, ...data]
+          let allList = {
+            totalRecord: allData,
+            dataWithoutError: data,
+            dataWithError: errorsList,
+            totalRecordCount: allData.length,
+            errorRecordCount: errorsList.length
           }
 
-          if(allData.length==0){
+          if (allData.length == 0) {
             commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
-          }else{
-            commonHelper.sendResponse(res, 'success', allList , 'File uploaded successfully');
+          } else {
+            commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
           }
         }
       })
@@ -974,7 +975,7 @@ const uploadInsurances = async (req, res) => {
 
 const saveUploadedInsurancesData = async (req, res) => {
   try {
-    console.log("req.body>>>>",req.body)
+    console.log("req.body>>>>", req.body)
     let records = req.body
     const errorsList = [];
     let updateCount = { count: 0 };
@@ -984,23 +985,23 @@ const saveUploadedInsurancesData = async (req, res) => {
     // const batchSize = 2;
     for (let i = 0; i < records.length; i += batchSize) {
       const batch = records.slice(i, i + batchSize);
-      console.log("batch>>>",batch)
-      console.log("batchSize>>>",batchSize)
-      const batchErrors = await processUplaodInsurancesBatch(batch,updateCount, insertCount);
+      console.log("batch>>>", batch)
+      console.log("batchSize>>>", batchSize)
+      const batchErrors = await processUplaodInsurancesBatch(batch, updateCount, insertCount);
       errorsList.push(...batchErrors);
     }
 
-    console.log("errorsList>>>",errorsList)
-    if(errorsList.length>0){
+    console.log("errorsList>>>", errorsList)
+    if (errorsList.length > 0) {
       await UploadInsurancesLogs.insertMany(errorsList);
     }
 
     let reponseData = {
-      errorsCount : errorsList.length,
+      errorsCount: errorsList.length,
       updateCount: updateCount.count,
       insertCount: insertCount.count
     }
-    commonHelper.sendResponse(res, 'success', reponseData , 'Data uploaded successfully');
+    commonHelper.sendResponse(res, 'success', reponseData, 'Data uploaded successfully');
   } catch (error) {
     console.log("*******saveUploadedInsurancesData******", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -1021,35 +1022,35 @@ async function processUplaodInsurancesBatch(batch, updateCount, insertCount) {
       billingType: row.billingType
     };
 
-  try {
-    // Check if the insurance exists in the database by payerID
-    const existingInsurance = await UploadInsurances.findOne({ payerID: row.payerID });
-    if (existingInsurance) {
-      // If insurance exists, update the record and set the updatedDate
-      insurancesData.updatedAt = new Date();
-      insurancesData.status = "Active";
-      await UploadInsurances.updateOne({ payerID: row.payerID }, insurancesData);
-      updateCount.count++;
-    } else {
-      // If insurance doesn't exist, insert a new record with createdDate
-      insurancesData.createdAt = new Date();
-      const newInsurance = new UploadInsurances(insurancesData);
-      await newInsurance.save();
-      insertCount.count++;
+    try {
+      // Check if the insurance exists in the database by payerID
+      const existingInsurance = await UploadInsurances.findOne({ payerID: row.payerID });
+      if (existingInsurance) {
+        // If insurance exists, update the record and set the updatedDate
+        insurancesData.updatedAt = new Date();
+        insurancesData.status = "Active";
+        await UploadInsurances.updateOne({ payerID: row.payerID }, insurancesData);
+        updateCount.count++;
+      } else {
+        // If insurance doesn't exist, insert a new record with createdDate
+        insurancesData.createdAt = new Date();
+        const newInsurance = new UploadInsurances(insurancesData);
+        await newInsurance.save();
+        insertCount.count++;
+      }
+    } catch (err) {
+      console.error(`Failed to update/insert record with Payer ID ${row["payerID"]}:`, err);
+      errorsList.push({
+        row,
+        error: err
+      });
     }
-  } catch (err) {
-    console.error(`Failed to update/insert record with Payer ID ${row["payerID"]}:`, err);
-    errorsList.push({
-      row,
-      error: err
-    });
-  }
-});
+  });
 
-// Wait for all operations in this batch to complete
-await Promise.all(operations);
+  // Wait for all operations in this batch to complete
+  await Promise.all(operations);
 
-return errorsList;
+  return errorsList;
 }
 
 const getUploadInsuranceList = async (req, res) => {
@@ -1076,10 +1077,24 @@ const deleteInsurance = async (req, res) => {
 //Function to get reports based on type
 const getReports = async (req, res) => {
   try {
-    commonHelper.sendResponse(res, 'success', req.body, '');
+    let results;
+    const { type } = req.body
+    switch (type) {
+      case "summary": //Summary Report
+        results = await summaryReport(req)
+        break;
+    }
+    commonHelper.sendResponse(res, 'success', results, '');
   } catch (error) {
+    console.log("*********getReports*******error*", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
+}
+
+async function summaryReport(req) {
+  const { type, year, practiceLocation, optionType } = req.body
+  let results = await Appointment.find({ practiceLocation: practiceLocation }, {});//.sort(order).skip(offset).limit(limit).lean();
+  return results
 }
 
 
