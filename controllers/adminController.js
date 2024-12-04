@@ -1084,6 +1084,9 @@ const getReports = async (req, res) => {
       case "summary": //Summary Report
         results = await summaryReport(req)
         break;
+      case "therapistReport": //Therapist Report
+        results = await TherapistReport(req)
+        break;
     }
     commonHelper.sendResponse(res, 'success', results, '');
   } catch (error) {
@@ -1217,6 +1220,12 @@ async function summaryReport(req) {
     aquatic2: aquatic2Total,
   })
   return finalResults
+}
+
+async function TherapistReport(req) {
+  const { type, year, practiceLocation, optionType } = req.body
+  const result = await User.find({role:'therapist',practiceLocation: { $in: [practiceLocation] }});
+  return result
 }
 
 
