@@ -101,6 +101,10 @@ export class CreateAppointmentModalComponent {
     this.getTherapistList()    
   }
 
+  onEmailChange(vals:string){
+      this.emailError = false;
+  }
+
   checkToday(): void {
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const today = new Date().getDay(); // Get the day index (0 = Sunday, 6 = Saturday)
