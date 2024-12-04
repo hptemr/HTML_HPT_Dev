@@ -1106,8 +1106,7 @@ async function summaryReport(req) {
     },
     practiceLocation: practiceLocation
   }
-  console.log("----query----", query)
-
+  console.log("----query----", query) 
 
   let fields = { appointmentDate: 1, status: 1, appointmentStatus: 1, appointmentType: 1, }
   let results = await Appointment.find(query, fields).sort({ appointmentDate: 1 });//.skip(offset).limit(limit).lean();
@@ -1130,12 +1129,7 @@ async function summaryReport(req) {
   let finalResults = []
   let monthsAdded = []
   let quarterAdded = []
-  results.forEach(element => {
-
-    // if (moment(element.appointmentDate).year() < year) {
-
-    // } else {
-
+  results.forEach(element => { 
       if (
         (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
         (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
@@ -1199,9 +1193,8 @@ async function summaryReport(req) {
         if (!quarterAdded.includes(quarterNumber)) {
           quarterAdded.push(quarterNumber)
         }
-      }
-    //} 
-    // console.log(element.status, '---', element.appointmentDate, monthName, '--quarter-', moment(element.appointmentDate).quarter())
+      } 
+      //console.log(element.status, '---', element.appointmentDate, monthName, '--quarter-', moment(element.appointmentDate).quarter())
   })
 
   finalResults.push({
