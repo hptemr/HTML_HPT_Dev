@@ -589,6 +589,8 @@ const updateAppointment = async (req, res) => {
         if(userRole=='patient' && updateInfo?.intakeFormSubmit && patientData && patientData!=null){
             triggerEmail.patientIntakeFormSubmitEmailToST('intakeFormFilledByPatient', appointment_data, patientData);
         }
+
+        console.log("<<<<<<<<<<< appointment_data >>>>>>>>>>>", appointment_data)
         
         if(updateInfo?.intakeFormSubmit && appointment_data){
             let patientDataToUpdate = appointment_data?.patientInfo
@@ -603,12 +605,12 @@ const updateAppointment = async (req, res) => {
             // Update by Patient
             if(userRole=='patient' && appointment_data?.payViaInsuranceInfo && appointment_data.payViaInsuranceInfo?.payVia == 'Insurance'){
                 console.log("<<<<<<<<< Pay Via Insurance >>>>>>>>>>", caseFound)
-                tebraController.addPatientInsuranceIntakeForm(appointment_data?.payViaInsuranceInfo, patientData, caseFound?.tebraDetails)
+                tebraController.addPatientInsuranceIntakeForm(appointment_data?.payViaInsuranceInfo, patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
             }
             // Update by Support Team
             if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo && appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
                 console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
-                tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData)
+                tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
             }
         }
 

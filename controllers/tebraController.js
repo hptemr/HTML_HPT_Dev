@@ -282,14 +282,15 @@ const updatePatientIntakeFormPersonalInfo = async (patientData, patient) => {
 };
 
 
-const addPatientInsuranceIntakeForm = async (insuranceInfo, patient, tebraCaseDetails) => {
+const addPatientInsuranceIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, emergencyContact) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.addPatientInsuranceIntakeForm(insuranceInfo, patient, tebraCaseDetails)
+        const soapRequest = tebraSoapRequest.addPatientInsuranceIntakeForm(insuranceInfo, patient, tebraCaseDetails, emergencyContact)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
         console.log("soapRequest>>>>",soapRequest)
+        console.log("emergencyContact>>>>",emergencyContact)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
             console.log('Response >>>>>:', response);
@@ -460,10 +461,10 @@ const createCase = async (patientRes, caseName, caseId, providerData) => {
 };
 
 
-const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData) => {
+const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, emergencyContact) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.updateSupportTeamIntakeForm(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData)
+        const soapRequest = tebraSoapRequest.updateSupportTeamIntakeForm(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, emergencyContact)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 

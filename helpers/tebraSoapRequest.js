@@ -249,7 +249,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
       return soapRequest
   }
 
-  const addPatientInsuranceIntakeForm = (insuranceInfo, patientRes, tebraCaseDetails) => {
+  const addPatientInsuranceIntakeForm = (insuranceInfo, patientRes, tebraCaseDetails, emergencyContact) => {
     let sendAdjesterData = ''
     let sendEmployerData = ''
     if(insuranceInfo?.injuryRelelatedTo && insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
@@ -305,6 +305,8 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                                 </sch:Policies>
                                             </sch:PatientCaseUpdateReq>
                                         </sch:Cases>
+                                        <sch:EmergencyName>${emergencyContact[0].ec1FirstName} ${emergencyContact[0].ec1LastName}</sch:EmergencyName>
+                                        <sch:EmergencyPhone>${tebraCommon.convertPhoneNumber(emergencyContact[0].ec1PhoneNumber)}</sch:EmergencyPhone>
                                         ${sendEmployerData}
                                         <sch:Guarantor>
                                             <sch:DifferentThanPatient>true</sch:DifferentThanPatient>
@@ -455,7 +457,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
       return soapRequest
   }
 
-  const updateSupportTeamIntakeForm = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData) => {
+  const updateSupportTeamIntakeForm = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData, emergencyContact) => {
     let sendAdjesterData = ''
     let sendEmployerData = ''
     if(insuranceInfo?.injuryRelelatedTo && insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
@@ -513,6 +515,8 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                                 </sch:Policies>
                                             </sch:PatientCaseUpdateReq>
                                         </sch:Cases>
+                                        <sch:EmergencyName>${emergencyContact[0].ec1FirstName} ${emergencyContact[0].ec1LastName}</sch:EmergencyName>
+                                        <sch:EmergencyPhone>${tebraCommon.convertPhoneNumber(emergencyContact[0].ec1PhoneNumber)}</sch:EmergencyPhone>
                                         ${sendEmployerData}
                                         <sch:Guarantor>
                                             <sch:DifferentThanPatient>true</sch:DifferentThanPatient>

@@ -55,10 +55,18 @@ const escapeCodeString = (realText) =>{
   return realText;
 }
 
+const convertPhoneNumber = (phoneNumber) =>{
+  if (phoneNumber) {
+    phoneNumber = phoneNumber.replace(/\D/g, '');
+  }
+  return phoneNumber;
+}
+
 module.exports = {
   requestHeader,
   parseXMLResponse,
   changeDateFormat,
   escapeCodeString,
-  tebraApiLog
+  tebraApiLog,
+  convertPhoneNumber
 };
