@@ -1093,7 +1093,8 @@ const getReports = async (req, res) => {
 }
 
 async function summaryReport(req) {
-  const { year, practiceLocation, optionType } = req.body 
+  const { year, practiceLocation, optionType } = req.body
+  let months = moment.months()
   let query = {
     "appointmentDate": {
       //$gte: moment(year).subtract(1, 'years').startOf('year'),
@@ -1103,8 +1104,9 @@ async function summaryReport(req) {
     practiceLocation: practiceLocation
   }
   console.log("----query----", query)
+
+
   let fields = { appointmentDate: 1, status: 1, appointmentStatus: 1, appointmentType: 1, }
-  let months = moment.months()
   let results = await Appointment.find(query, fields).sort({ appointmentDate: 1 });//.skip(offset).limit(limit).lean();
 
   let monthName = ''
@@ -1126,70 +1128,76 @@ async function summaryReport(req) {
   let monthsAdded = []
   let quarterAdded = []
   results.forEach(element => {
-    if (
-      (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
-      (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
-      finalResults.push({
-        month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
-        evals: evals,
-        cx: cx,
-        cxper: cxper + "%",
-        ns: ns,
-        nsper: nsper + "%",
-        totalpts: totalpts,
-        totalpts2: totalpts2,
-        prioryear: prioryear + "%",
-        unitsbilled: unitsbilled,
-        unitsvist: unitsvist,
-        aquatic: aquatic,
-        aquatic2: aquatic2,
-        monthName: monthName,
-        quarterNumber: quarterNumber
-      })
-      evals = 0
-      cx = 0
-      cxper = 0
-      ns = 0
-      nsper = 0
-      totalpts = 0
-      totalpts2 = 0
-      prioryear = 0
-      unitsbilled = 0
-      unitsvist = 0
-      aquatic = 0
-      aquatic2 = 0
-    }
 
-    switch (element.status) {
-      case 'Pending':
-        evals++
-        evalsTotal++
-        break
-      case 'Cancelled':
-        cx++
-        cxTotal++
-        break
-    }
-    if (element.appointmentType == 'Aquatic') {
-      aquatic++
-      aquaticTotal++
-    }
-    if (element.appointmentStatus == 'No-Show') {
-      ns++
-      nsTotal++
-    }
-    if (optionType == 'Monthly') {
-      monthName = moment(element.appointmentDate).format('MMMM');
-      if (!monthsAdded.includes(monthName)) {
-        monthsAdded.push(monthName)
-      }
-    } else {
-      quarterNumber = moment(element.appointmentDate).quarter()
-      if (!quarterAdded.includes(quarterNumber)) {
-        quarterAdded.push(quarterNumber)
-      }
-    }
+    // if (moment(element.appointmentDate).year() < year) {
 
+    // } else {
+
+      if (
+        (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
+        (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
+        finalResults.push({
+          month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
+          evals: evals,
+          cx: cx,
+          cxper: cxper + "%",
+          ns: ns,
+          nsper: nsper + "%",
+          totalpts: totalpts,
+          totalpts2: totalpts2,
+          prioryear: prioryear + "%",
+          unitsbilled: unitsbilled,
+          unitsvist: unitsvist,
+          aquatic: aquatic,
+          aquatic2: aquatic2,
+          monthName: monthName,
+          quarterNumber: quarterNumber,
+          appointmentId: element._id
+        })
+        evals = 0
+        cx = 0
+        cxper = 0
+        ns = 0
+        nsper = 0
+        totalpts = 0
+        totalpts2 = 0
+        prioryear = 0
+        unitsbilled = 0
+        unitsvist = 0
+        aquatic = 0
+        aquatic2 = 0
+      }
+
+      switch (element.status) {
+        case 'Pending':
+          evals++
+          evalsTotal++
+          break
+        case 'Cancelled':
+          cx++
+          cxTotal++
+          break
+      }
+      if (element.appointmentType == 'Aquatic') {
+        aquatic++
+        aquaticTotal++
+      }
+      if (element.appointmentStatus == 'No-Show') {
+        ns++
+        nsTotal++
+      }
+      if (optionType == 'Monthly') {
+        monthName = moment(element.appointmentDate).format('MMMM');
+        if (!monthsAdded.includes(monthName)) {
+          monthsAdded.push(monthName)
+        }
+      } else {
+        quarterNumber = moment(element.appointmentDate).quarter()
+        if (!quarterAdded.includes(quarterNumber)) {
+          quarterAdded.push(quarterNumber)
+        }
+      }
+    //} 
     // console.log(element.status, '---', element.appointmentDate, monthName, '--quarter-', moment(element.appointmentDate).quarter())
   })
 
