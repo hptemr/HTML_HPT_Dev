@@ -1019,25 +1019,25 @@ const getSchedularCaseList = async (req, res) => {
                     as: "therapistObj"
                 }
             },
-            {
-                "$lookup": {
-                    from: "appointment_events", 
-                    let: { appointmentId: "$_id" }, 
-                    pipeline: [
-                        {
-                            $match: {
-                                $expr: {
-                                    $and: [
-                                        { $eq: ["$appointmentId", "$$appointmentId"] }, 
-                                        { $eq: ["$status", "Active"] } 
-                                    ]
-                                }
-                            }
-                        }
-                    ],
-                    as: "eventsObj" // Output array name
-                }
-            },
+            // {
+            //     "$lookup": {
+            //         from: "appointment_events", 
+            //         let: { appointmentId: "$_id" }, 
+            //         pipeline: [
+            //             {
+            //                 $match: {
+            //                     $expr: {
+            //                         $and: [
+            //                             { $eq: ["$appointmentId", "$$appointmentId"] }, 
+            //                             { $eq: ["$status", "Active"] } 
+            //                         ]
+            //                     }
+            //                 }
+            //             }
+            //         ],
+            //         as: "eventsObj" // Output array name
+            //     }
+            // },
             {
                 $match: query
             },
@@ -1046,7 +1046,7 @@ const getSchedularCaseList = async (req, res) => {
                     '_id': 1, 'appointmentDate': 1,'appointmentType':1,'appointmentEndTime': 1, 'appointmentId': 1,'notes':1,'repeatsNotes':1, 'caseName': 1,'doctorId':1,'caseType':1,'checkIn': 1,'checkInBy':1,'checkInDateTime':1,'appointmentStatus':1,'patientId': 1, 'practiceLocation': 1, 'status': 1, 'therapistId': 1,'createdAt': 1, 'updatedAt': 1,
                     'patientObj._id': 1, 'patientObj.firstName': 1, 'patientObj.lastName': 1, 'patientObj.profileImage': 1, 'patientObj.email': 1,'patientObj.dob': 1, 'patientObj.gender': 1, 'patientObj.phoneNumber': 1,
                     'therapistObj._id': 1, 'therapistObj.firstName': 1, 'therapistObj.lastName': 1, 'therapistObj.profileImage': 1,
-                    'eventsObj.appointmentId': 1,'eventsObj.repeateAppointmentDate': 1,'eventsObj.repeateAppointmentEndDate': 1,
+                    //'eventsObj.appointmentId': 1,'eventsObj.repeateAppointmentDate': 1,'eventsObj.repeateAppointmentEndDate': 1,
                 }
             },
             {
@@ -1233,7 +1233,7 @@ const addBillingDetails = async (req, res) => {
       const { query, eventQuery, fields, order } = req.body
 
       let appointmentList = await Appointment.find(query, fields).sort(order)
-      let appointmentEventsList = await AppointmentEventsModel.find(eventQuery, {repeateAppointmentDate:1,repeateAppointmentEndDate:1}).sort({repeateAppointmentDate:-1});
+      //let appointmentEventsList = await AppointmentEventsModel.find(eventQuery, {repeateAppointmentDate:1,repeateAppointmentEndDate:1}).sort({repeateAppointmentDate:-1});
 
       //console.log('appointmentList >>>>',appointmentList.length)
       //console.log('appointmentEventsList >>>>',appointmentEventsList.length)
@@ -1244,10 +1244,10 @@ const addBillingDetails = async (req, res) => {
         list.push(newValue);
       });
 
-      appointmentEventsList.forEach(element => {
-        let newValue = {appointmentDate:element.repeateAppointmentDate};
-        list.push(newValue);
-      });
+    //   appointmentEventsList.forEach(element => {
+    //     let newValue = {appointmentDate:element.repeateAppointmentDate};
+    //     list.push(newValue);
+    //   });
 
       //console.log('appointmentList >>>>',list)
 
