@@ -21,6 +21,7 @@ const ProviderLogs = require('../models/providerLogsModel');
 const UploadInsurancesLogs = require('../models/uploadInsurancesLogsModel');
 const UploadInsurances = require('../models/uploadInsurancesModel');
 const Appointment = require('../models/appointmentModel');
+const moment = require('moment');
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -1083,6 +1084,9 @@ const getReports = async (req, res) => {
       case "summary": //Summary Report
         results = await summaryReport(req)
         break;
+      case "therapistReport": //Therapist Report
+        results = await TherapistReport(req)
+        break;
     }
     commonHelper.sendResponse(res, 'success', results, '');
   } catch (error) {
@@ -1092,9 +1096,129 @@ const getReports = async (req, res) => {
 }
 
 async function summaryReport(req) {
+  const { year, practiceLocation, optionType } = req.body
+  let months = moment.months()
+  let query = {
+    "appointmentDate": {
+      //$gte: moment(year).subtract(1, 'years').startOf('year'),
+      $gte: moment(year).startOf('year'),
+      $lte: moment(year).endOf('year')
+    },
+    practiceLocation: practiceLocation
+  }
+  console.log("----query----", query) 
+
+  let fields = { appointmentDate: 1, status: 1, appointmentStatus: 1, appointmentType: 1, }
+  let results = await Appointment.find(query, fields).sort({ appointmentDate: 1 });//.skip(offset).limit(limit).lean();
+
+  let monthName = ''
+  let quarterNumber = 0
+  let evals = 0, evalsTotal = 0
+  let cx = 0, cxTotal = 0
+  let cxper = 0, cxperTotal = 0
+  let ns = 0, nsTotal = 0
+  let nsper = 0, nsperTotal = 0
+  let totalpts = 0, totalptsTotal = 0
+  let totalpts2 = 0, totalpts2Total = 0
+  let prioryear = 0, prioryearTotal = 0
+  let unitsbilled = 0, unitsbilledTotal = 0
+  let unitsvist = 0, unitsvistTotal = 0
+  let aquatic = 0, aquaticTotal = 0
+  let aquatic2 = 0, aquatic2Total = 0
+
+  let finalResults = []
+  let monthsAdded = []
+  let quarterAdded = []
+  results.forEach(element => { 
+      if (
+        (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
+        (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
+        finalResults.push({
+          month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
+          evals: evals,
+          cx: cx,
+          cxper: cxper + "%",
+          ns: ns,
+          nsper: nsper + "%",
+          totalpts: totalpts,
+          totalpts2: totalpts2,
+          prioryear: prioryear + "%",
+          unitsbilled: unitsbilled,
+          unitsvist: unitsvist,
+          aquatic: aquatic,
+          aquatic2: aquatic2,
+          monthName: monthName,
+          quarterNumber: quarterNumber,
+          appointmentId: element._id
+        })
+        evals = 0
+        cx = 0
+        cxper = 0
+        ns = 0
+        nsper = 0
+        totalpts = 0
+        totalpts2 = 0
+        prioryear = 0
+        unitsbilled = 0
+        unitsvist = 0
+        aquatic = 0
+        aquatic2 = 0
+      }
+
+      switch (element.status) {
+        case 'Pending':
+          evals++
+          evalsTotal++
+          break
+        case 'Cancelled':
+          cx++
+          cxTotal++
+          break
+      }
+      if (element.appointmentType == 'Aquatic') {
+        aquatic++
+        aquaticTotal++
+      }
+      if (element.appointmentStatus == 'No-Show') {
+        ns++
+        nsTotal++
+      }
+      if (optionType == 'Monthly') {
+        monthName = moment(element.appointmentDate).format('MMMM');
+        if (!monthsAdded.includes(monthName)) {
+          monthsAdded.push(monthName)
+        }
+      } else {
+        quarterNumber = moment(element.appointmentDate).quarter()
+        if (!quarterAdded.includes(quarterNumber)) {
+          quarterAdded.push(quarterNumber)
+        }
+      } 
+      //console.log(element.status, '---', element.appointmentDate, monthName, '--quarter-', moment(element.appointmentDate).quarter())
+  })
+
+  finalResults.push({
+    month: 'TOTAL',
+    evals: evalsTotal,
+    cx: cxTotal,
+    cxper: cxperTotal + "%",
+    ns: nsTotal,
+    nsper: nsperTotal + "%",
+    totalpts: totalptsTotal,
+    totalpts2: totalpts2Total,
+    prioryear: prioryearTotal + "%",
+    unitsbilled: unitsbilledTotal,
+    unitsvist: unitsvistTotal,
+    aquatic: aquaticTotal,
+    aquatic2: aquatic2Total,
+  })
+  return finalResults
+}
+
+async function TherapistReport(req) {
   const { type, year, practiceLocation, optionType } = req.body
-  let results = await Appointment.find({ practiceLocation: practiceLocation }, {});//.sort(order).skip(offset).limit(limit).lean();
-  return results
+  const result = await User.find({role:'therapist',practiceLocation: { $in: [practiceLocation] }});
+  return result
 }
 
 
