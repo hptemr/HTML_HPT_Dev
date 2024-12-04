@@ -95,6 +95,7 @@ import { CustomDateFormatter } from 'src/app/shared/comman/scheduler/calendar-mo
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { ReportsComponent } from './comman/reports/reports.component';
+//import { NgApexchartsModule } from 'ng-apexcharts';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -181,6 +182,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     IMaskModule,
     DatePipe,
     NgxDocViewerModule,
+    //NgApexchartsModule,
     MatChipsModule,
     MatAutocompleteModule,
     OwlDateTimeModule,

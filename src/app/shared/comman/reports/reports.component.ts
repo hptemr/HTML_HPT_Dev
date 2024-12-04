@@ -434,7 +434,7 @@ const ELEMENT_DATA_6: PeriodicElement6[] = [
 ];
 
 
-export interface PeriodicElement7 {
+export interface individualTherapistReportPeriodicElement {
   provider: string;
   month: string;
   totalevals: string;
@@ -446,7 +446,7 @@ export interface PeriodicElement7 {
   totalbilledunits: string;
   unitsvisits: string;
 }
-const ELEMENT_DATA_7: PeriodicElement7[] = [
+const individualTherapistReport_ELEMENT_DATA: individualTherapistReportPeriodicElement[] = [
   {
     provider: 'Brady, Thomas',
     month: 'Jan 23',
@@ -461,7 +461,7 @@ const ELEMENT_DATA_7: PeriodicElement7[] = [
   },
   {
     provider: 'Brooker, Ben',
-    month: 'Jan 23',
+    month: 'Feb 23',
     totalevals: '10',
     totalcx: '29',
     cxper: '13.01%',
@@ -470,132 +470,12 @@ const ELEMENT_DATA_7: PeriodicElement7[] = [
     totalpts2: '200',
     totalbilledunits: '586',
     unitsvisits: '20',
-  },
-  {
-    provider: 'Martin, Doug',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Nohren, Chase',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Palacio, Ashley',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Stroppel, Sheri',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Brady, Thomas',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Brooker, Ben',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Martin, Doug',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Nohren, Chase',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Palacio, Ashley',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Stroppel, Sheri',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
+  }
 
 ];
 
 
-export interface PeriodicElement8 {
+export interface individualTherapistReportAnualPeriodicElement {
   provider: string;
   year: string;
   totalevals: string;
@@ -607,7 +487,7 @@ export interface PeriodicElement8 {
   totalbilledunits: string;
   unitsvisits: string;
 }
-const ELEMENT_DATA_8: PeriodicElement8[] = [
+const individualTherapistReportAnual_ELEMENT_DATA: individualTherapistReportAnualPeriodicElement[] = [
   {
     provider: 'Brady, Thomas',
     year: '2023',
@@ -619,140 +499,7 @@ const ELEMENT_DATA_8: PeriodicElement8[] = [
     totalpts2: '200',
     totalbilledunits: '586',
     unitsvisits: '20',
-  },
-  {
-    provider: 'Brooker, Ben',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Martin, Doug',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Nohren, Chase',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Palacio, Ashley',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Stroppel, Sheri',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Brady, Thomas',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Brooker, Ben',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Martin, Doug',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Nohren, Chase',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Palacio, Ashley',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Stroppel, Sheri',
-    year: '2023',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-
+  }
 ];
 
 export interface PeriodicElement9 {
@@ -933,9 +680,9 @@ export class ReportsComponent {
 
   year: any = 0
   years: any = []
-  optionType: any = 'Monthly' //Monthly Values , Quarterly Values
-  reportType: any = 'sel';
-  selectedLocation: any = ''
+  optionType:any='Monthly' //Monthly Values , Quarterly Values
+  reportType: any = '';
+  selectedLocation: any = '' 
 
   summaryList: any
 
@@ -966,12 +713,12 @@ export class ReportsComponent {
   displayedColumns6: string[] = ['qpatients', 'qfirst', 'qsecond', 'qthird', 'qfourth', 'qtotal',];
   dataSource6 = new MatTableDataSource(ELEMENT_DATA_6);
 
-  displayedColumns7: string[] = ['provider', 'month', 'totalevals', 'totalcx', 'cxper', 'totalns', 'nsper', 'totalpts2', 'totalbilledunits', 'unitsvisits'];
-  dataSource7 = new MatTableDataSource(ELEMENT_DATA_7);
+  individualTherapistReportColumns: string[] = ['provider', 'month', 'totalevals', 'totalcx', 'cxper', 'totalns', 'nsper', 'totalpts2', 'totalbilledunits', 'unitsvisits'];
+  individualTherapistReportData = new MatTableDataSource(individualTherapistReport_ELEMENT_DATA);
 
 
-  displayedColumns8: string[] = ['provider', 'year', 'totalevals', 'totalcx', 'cxper', 'totalns', 'nsper', 'totalpts2', 'totalbilledunits', 'unitsvisits'];
-  dataSource8 = new MatTableDataSource(ELEMENT_DATA_8);
+  individualTherapistReportAnualColumns: string[] = ['provider', 'year', 'totalevals', 'totalcx', 'cxper', 'totalns', 'nsper', 'totalpts2', 'totalbilledunits', 'unitsvisits'];
+  individualTherapistReportAnualData = new MatTableDataSource(individualTherapistReportAnual_ELEMENT_DATA);
 
   displayedColumns9: string[] = ['quarterlypatientsseen', 'firstq', 'secondq', 'thirdq', 'fourthq', 'totalq'];
   dataSource9 = new MatTableDataSource(ELEMENT_DATA_9);
@@ -1030,7 +777,7 @@ export class ReportsComponent {
     //     }
     //   },
     //   legend: {
-    //     tooltipHoverFormatter: function(val, opts) {
+    //     tooltipHoverFormatter: function(val:any, opts:any) {
     //       return (
     //         val +
     //         " - <strong>" +
@@ -1131,7 +878,7 @@ export class ReportsComponent {
       this.quarterlyEVALSReport = false;
       this.therapistName = false;
     }
-    else if (getval === 'itr') {
+    else if (getval === 'therapistReport') {
       this.individualTherapistsReport = true;
       this.monthlyReport = false;
       this.quarterlyPatientsSeenReport = false;
@@ -1164,6 +911,9 @@ export class ReportsComponent {
         case "summary":
           this.summaryList = new MatTableDataSource(response.data);
           break;
+        case "therapistReport":
+          this.individualTherapistReportData = new MatTableDataSource(response.data);  
+          break;
       }
     })
   }
@@ -1190,4 +940,13 @@ export class ReportsComponent {
     this.summaryList=[{},{},{},{},{}]
     this.getReports()
   }
+
+  therapistIndexChange (event: any) {
+    if(event > 0){
+      this.optionType = 'Anually'
+    }else{
+      this.optionType = 'Monthly'  
+    }
+    this.getReports()
+  } 
 }
