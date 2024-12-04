@@ -677,8 +677,7 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 })
 
 export class ReportsComponent {
-
-  year: any = 0
+  year: any
   years: any = []
   optionType:any='Monthly' //Monthly Values , Quarterly Values
   reportType: any = '';
@@ -901,7 +900,7 @@ export class ReportsComponent {
     this.commonService.showLoader()
     let reqVars = {
       type: this.reportType,
-      year: parseInt(this.year),
+      year: this.year,
       practiceLocation: this.selectedLocation,
       optionType: this.optionType
     }
