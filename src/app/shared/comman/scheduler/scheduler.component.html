@@ -2,7 +2,7 @@
     <div class="sc--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center" *ngIf="calenderView">
         <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center flex-shrink-0 sm-w-100">
             <div class="form-group mb-0 flex-shrink-0 pl--field">
-                <select class="form-select form-control form-control-md"  (ngModelChange)="searchRecords('practiceLocation',$event)" [(ngModel)]="practiceLocationsVal" class="form-select form-control" aria-label="Default select example">
+                <select class="form-select form-control form-control-md"  (ngModelChange)="searchRecords('practiceLocation',$event)" [(ngModel)]="practiceLocationsVal"   aria-label="Default select example">
                     <option selected value="">Practice Location</option>
                     <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}
                     </option>
@@ -37,11 +37,16 @@
                     Month
                 </div> 
             </div>
-            <div class="form-group position-relative mb-0 head--search" (click)="searchPage()" >
-                <input type="text" class="form-control form-control-md search--outer" placeholder="Search">
+            <div class="form-group position-relative mb-0 head--search">
+                <!-- <input type="text" class="form-control form-control-md search--outer" placeholder="Search">
                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                </button>
+                </button> -->
+
+                <button mat-stroked-button color="primary" class="m-1"(click)="searchPage()">
+                    <mat-icon class="m-0">filter_alt</mat-icon>
+                    Advance Search</button>
+                <button mat-raised-button class="flex-shrink-0 ms-auto m-1  " color="primary"  >Reset</button>
             </div>
         </div>
     </div>
