@@ -540,7 +540,23 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
   }
 
 
-  const createEncounter = (patientRes, caseDetails, subjectiveData, billingData, diaCode) => {
+  const createEncounter = (patientRes, caseDetails, subjectiveData, allCharges, diaCode) => {
+        const serviceLineData = allCharges.map((chargesData) => {
+            return `<sch:ServiceLineReq>
+                    <sch:DiagnosisCode1>${diaCode?.code}</sch:DiagnosisCode1>
+                    <sch:Minutes>${chargesData?.minutes}</sch:Minutes>
+                    <sch:ProcedureCode>${chargesData?.cptCode}</sch:ProcedureCode>
+                    <sch:ServiceEndDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceEndDate>
+                    <sch:ServiceStartDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceStartDate>
+                    <sch:UnitCharge>${chargesData?.totalCharge}</sch:UnitCharge>
+                    <sch:Units>${chargesData?.units}</sch:Units>
+                    </sch:ServiceLineReq>`
+                    }).join('\n');
+
+             let finalData = `<sch:ServiceLines>${serviceLineData}</sch:ServiceLines>` 
+
+        console.log("serviceLineData>>>",tebraCommon.formatXML(finalData))
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                     <soapenv:Header/>
                         <soapenv:Body>
@@ -552,44 +568,34 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                     <sch:User>${tebraCredentials?.user}</sch:User>
                                     </sch:RequestHeader>
                                     <sch:Encounter>
-                                    <sch:Case>
-                                        <sch:CaseID>${caseDetails?.tebraDetails?.CaseID}</sch:CaseID>
-                                        <sch:CaseName>${caseDetails?.caseName}</sch:CaseName>
-                                        <sch:CasePayerScenario>Insurance</sch:CasePayerScenario>
-                                    </sch:Case>
-                                    <sch:EncounterStatus>Approved</sch:EncounterStatus>
-                                    <sch:Patient>
-                                        <sch:FirstName>${patientRes?.firstName}</sch:FirstName>
-                                        <sch:LastName>${patientRes?.lastName}</sch:LastName>
-                                        <sch:PatientID>${patientRes?.tebraDetails?.PatientID}</sch:PatientID>
-                                    </sch:Patient>
-                                    <sch:PostDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:PostDate>
-                                    <sch:Practice>
-                                        <sch:PracticeID>4</sch:PracticeID>
-                                        <sch:PracticeName>Sandbox</sch:PracticeName>
-                                    </sch:Practice>
-                                    <sch:RenderingProvider>
-                                        <sch:FirstName>Douglas</sch:FirstName>
-                                        <sch:LastName>Martin</sch:LastName>
-                                        <sch:ProviderID>3243</sch:ProviderID>
-                                    </sch:RenderingProvider>
-                                    <sch:ServiceEndDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceEndDate>
-                                    <sch:ServiceLines>
-                                        <sch:ServiceLineReq>
-                                            <sch:DiagnosisCode1>${diaCode?.code}</sch:DiagnosisCode1>
-                                            <sch:Minutes>${billingData?.totalMinutes}</sch:Minutes>
-                                            <sch:ProcedureCode>0004M</sch:ProcedureCode>
-                                            <sch:ServiceEndDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceEndDate>
-                                            <sch:ServiceStartDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceStartDate>
-                                            <sch:UnitCharge>${billingData?.unitCharges}</sch:UnitCharge>
-                                            <sch:Units>${billingData?.totalUnits}</sch:Units>
-                                        </sch:ServiceLineReq>
-                                    </sch:ServiceLines>
-                                    <sch:ServiceLocation>
-                                        <sch:LocationID>13</sch:LocationID>
-                                        <sch:LocationName>Hamilton</sch:LocationName>
-                                    </sch:ServiceLocation>
-                                    <sch:ServiceStartDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceStartDate>
+                                        <sch:Case>
+                                            <sch:CaseID>${caseDetails?.tebraDetails?.CaseID}</sch:CaseID>
+                                            <sch:CaseName>${caseDetails?.caseName}</sch:CaseName>
+                                            <sch:CasePayerScenario>Insurance</sch:CasePayerScenario>
+                                        </sch:Case>
+                                        <sch:EncounterStatus>Approved</sch:EncounterStatus>
+                                        <sch:Patient>
+                                            <sch:FirstName>${patientRes?.firstName}</sch:FirstName>
+                                            <sch:LastName>${patientRes?.lastName}</sch:LastName>
+                                            <sch:PatientID>${patientRes?.tebraDetails?.PatientID}</sch:PatientID>
+                                        </sch:Patient>
+                                        <sch:PostDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:PostDate>
+                                        <sch:Practice>
+                                            <sch:PracticeID>4</sch:PracticeID>
+                                            <sch:PracticeName>Sandbox</sch:PracticeName>
+                                        </sch:Practice>
+                                        <sch:RenderingProvider>
+                                            <sch:FirstName>Douglas</sch:FirstName>
+                                            <sch:LastName>Martin</sch:LastName>
+                                            <sch:ProviderID>3243</sch:ProviderID>
+                                        </sch:RenderingProvider>
+                                        <sch:ServiceEndDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceEndDate>
+                                            ${finalData}
+                                        <sch:ServiceLocation>
+                                            <sch:LocationID>13</sch:LocationID>
+                                            <sch:LocationName>Hamilton</sch:LocationName>
+                                        </sch:ServiceLocation>
+                                        <sch:ServiceStartDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceStartDate>
                                     </sch:Encounter>
                                 </sch:request>
                             </sch:CreateEncounter>

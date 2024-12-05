@@ -598,7 +598,7 @@ const updateAppointment = async (req, res) => {
             console.log("<<<<<<<<<<< patientData >>>>>>>>>>>", patientData)
             if(appointment_data?.bookingFor=='Myself' && patientData?.patientOnTebra){
                 console.log("<<<<<<<<<<< Intake form 1 on Tebra >>>>>>>>>>>")
-                tebraController.updatePatientIntakeFormPersonalInfo(patientDataToUpdate, patientData)
+                await tebraController.updatePatientIntakeFormPersonalInfo(patientDataToUpdate, patientData).catch((_err)=>false)
             }
 
             let caseFound = await Case.findOne({ caseName: appointment_data?.caseName, patientId: appointment_data?.patientId }).lean();

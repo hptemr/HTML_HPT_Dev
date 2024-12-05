@@ -1,6 +1,7 @@
 const xml2js = require('xml2js');
 const moment = require('moment');
 const TebraLogs= require("../models/tebraLogsModel");
+const format = require('xml-formatter');
 
 const requestHeader = (soapAction) => {
   let reqHeader = {
@@ -39,10 +40,10 @@ const tebraApiLog = (apiMethod,xmlRequest,xmlResponse,status,otherData,errorData
   let Rinsert = new TebraLogs()
   Rinsert.apiMethod = apiMethod;
   Rinsert.xmlRequest = xmlRequest;
-  Rinsert.xmlResponse = JSON.stringify(xmlResponse);
+  Rinsert.xmlResponse = xmlResponse;
   Rinsert.status = status;
-  Rinsert.otherData = JSON.stringify(otherData);
-  Rinsert.errorData = JSON.stringify(errorData);
+  Rinsert.otherData = otherData;
+  Rinsert.errorData = errorData;
   Rinsert.save();
 }
 
@@ -62,11 +63,57 @@ const convertPhoneNumber = (phoneNumber) =>{
   return phoneNumber;
 }
 
+
+const calculateUnitCharges = (directCodes) =>{
+  // const result = [];
+  // for (const value of Object.values(directCodes)) {
+  //   if (value?.minutes && value?.units) {
+  //     const units = parseInt(value?.units, 10);
+  //     const chargePerUnit = parseFloat(value?.chargePerUnit);
+  //     result.push({
+  //       units: value.units,
+  //       minutes: value.minutes,
+  //       cptCode: value.cptCode,
+  //       chargePerUnit: chargePerUnit,
+  //       totalCharge: units * chargePerUnit
+  //     });
+  //   }
+  // }
+  // return result;
+
+  const result = [];
+  for (const [codeName, value] of Object.entries(directCodes)) {
+    if (value?.minutes && value?.units) {
+      const units = parseInt(value?.units, 10);
+      const chargePerUnit = parseFloat(value?.chargePerUnit);
+      result.push({
+        codeName: codeName,
+        units: value.units.toString(),
+        minutes: value.minutes.toString(),
+        cptCode: value.cptCode.toString(),
+        chargePerUnit: chargePerUnit,
+        totalCharge: (units * chargePerUnit).toString()
+      });
+    }
+  }
+  return result;
+}
+
+function formatXML(xmlString) {
+  return format(xmlString, {
+    indentation: '  ', // Two spaces
+    collapseContent: true, // Inline short tags
+  });
+}
+
+
 module.exports = {
   requestHeader,
   parseXMLResponse,
   changeDateFormat,
   escapeCodeString,
   tebraApiLog,
-  convertPhoneNumber
+  convertPhoneNumber,
+  calculateUnitCharges,
+  formatXML
 };
