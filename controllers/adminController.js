@@ -1082,7 +1082,7 @@ const getReports = async (req, res) => {
     const { type } = req.body
     switch (type) {
       case "summary": //Summary Report
-        results = await summaryReportFinal(req)
+        results = await summaryReport(req)
         break;
       case "therapistReport": //Therapist Report
         results = await TherapistReport(req)
@@ -1096,7 +1096,7 @@ const getReports = async (req, res) => {
 }
 
 
-async function summaryReportFinal(req) {
+async function summaryReport(req) {
   const { year, practiceLocation, optionType } = req.body
   let query = {
     "appointmentDate": {
@@ -1234,20 +1234,19 @@ async function summaryReportFinal(req) {
       })
     } else {
       evalsTotal = evalsTotal + row.evals
-      cxTotal = cxTotal + row.evals
+      cxTotal = cxTotal + row.cx
       aquaticTotal = aquaticTotal + row.aquatic
 
       let sumofAll = (row.initialExam + row.dailyNote + row.progressNote + row.dischargeNote + row.caseNote)
       let cxper = 0, nsper = 0
       totalptsTotal = totalptsTotal + sumofAll
 
-      prioryear = (((sumofAll - sumofAllLast) / sumofAllLast) * 100)
+      prioryear = sumofAllLast > 0 ? (((sumofAll - sumofAllLast) / sumofAllLast) * 100) : 0
       prioryearTotal = prioryearTotal + prioryear
-
       let unitsbilled = row.unitsbilled
-      if (unitsbilled > 0) {
-        unitsbilledTotal = unitsbilledTotal + unitsbilled
-      }
+      unitsbilledTotal = unitsbilledTotal + unitsbilled
+
+      let unitsvist = 0
       if (sumofAll > 0) {
         if (row.cx > 0) {
           cxper = ((row.cx / sumofAll) * 100)
@@ -1257,6 +1256,8 @@ async function summaryReportFinal(req) {
           nsper = ((row.ns / sumofAll) * 100)
           nsperTotal = nsperTotal + nsper
         }
+        unitsvist = (unitsbilled / sumofAll)
+        unitsvistTotal = unitsvistTotal + unitsvist
       }
 
       finalReportsData.push({
@@ -1269,8 +1270,8 @@ async function summaryReportFinal(req) {
         totalpts: sumofAll,
         totalpts2: sumofAllLast,
         prioryear: prioryear,
-        unitsbilled: 0,
-        unitsvist: 0,
+        unitsbilled: unitsbilled,
+        unitsvist: Number(unitsvist.toFixed(2)),
         aquatic: row.aquatic,
         aquatic2: lastAquatic
       })
@@ -1285,14 +1286,14 @@ async function summaryReportFinal(req) {
     ns: nsTotal,
     nsper: Number(nsperTotal.toFixed(2)) + "%",
     totalpts: totalptsTotal,
-    totalpts2: totalpts2Total, //last year
-    prioryear: prioryearTotal + "%", //last year
+    totalpts2: totalpts2Total,
+    prioryear: prioryearTotal + "%",
     unitsbilled: unitsbilledTotal,
-    unitsvist: unitsvistTotal,
+    unitsvist: Number(unitsvistTotal.toFixed(2)),
     aquatic: aquaticTotal,
-    aquatic2: aquatic2Total, //last year
+    aquatic2: aquatic2Total,
   })
-  return finalReportsData;// [currentYearResults, lastYearResults]
+  return finalReportsData;
 }
 
 async function summaryData(optionType, results) {
@@ -1336,19 +1337,19 @@ async function summaryData(optionType, results) {
       let case_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
 
       if (initial_bill) {
-        unitsbilled = initial_bill.total_units
+        unitsbilled = parseInt(initial_bill.total_units)
       }
       if (daily_bill) {
-        unitsbilled = unitsbilled + daily_bill.total_units
+        unitsbilled = unitsbilled + parseInt(daily_bill.total_units)
       }
       if (progress_bill) {
-        unitsbilled = unitsbilled + progress_bill.total_units
+        unitsbilled = unitsbilled + parseInt(progress_bill.total_units)
       }
       if (discharge_bill) {
-        unitsbilled = unitsbilled + discharge_bill.total_units
+        unitsbilled = unitsbilled + parseInt(discharge_bill.total_units)
       }
       if (case_bill) {
-        unitsbilled = unitsbilled + case_bill.total_units
+        unitsbilled = unitsbilled + parseInt(case_bill.total_units)
       }
     }
 
@@ -1430,476 +1431,6 @@ async function summaryData(optionType, results) {
     } else {
       quarterNumber = moment(element.appointmentDate).quarter()
     }
-  })
-  return finalResults
-}
-
-async function summaryReportFinal2(req) {
-  const { year, practiceLocation, optionType } = req.body
-  let months = moment.months()
-  let query = {
-    "appointmentDate": {
-      //$gte: moment(year).subtract(1, 'years').startOf('year'),
-      $gte: new Date(moment(year).startOf('year')),
-      $lte: new Date(moment(year).endOf('year'))
-    },
-    practiceLocation: practiceLocation
-  }
-  let aggrQuery = [
-    {
-      "$lookup": {
-        from: "subjectives",
-        localField: "_id",
-        foreignField: "appointmentId",
-        as: "subjective"
-      }
-    },
-    {
-      "$lookup": {
-        from: "billings",
-        localField: "_id",
-        foreignField: "appointmentId",
-        as: "billing"
-      }
-    },
-    {
-      $match: query
-    },
-    {
-      $project: {
-        "_id": 1, "appointmentDate": 1, "status": 1, "appointmentStatus": 1, "appointmentType": 1,
-        "subjective.soap_note_type": 1, "subjective.status": 1,
-        "billing.soap_note_type": 1, "billing.total_units": 1, "billing.status": 1,
-      }
-    },
-    {
-      $sort: { "appointmentDate": 1 }
-    }
-  ]
-
-  let results = await Appointment.aggregate(aggrQuery);
-  let monthName = ''
-  let quarterNumber = 0
-  let evals = 0, evalsTotal = 0
-  let cx = 0, cxTotal = 0
-  let cxper = 0, cxperTotal = 0
-  let ns = 0, nsTotal = 0
-  let nsper = 0, nsperTotal = 0
-  let totalpts = 0, totalptsTotal = 0
-  let totalpts2 = 0, totalpts2Total = 0
-  let prioryear = 0, prioryearTotal = 0
-  let unitsbilled = 0, unitsbilledTotal = 0
-  let unitsvist = 0, unitsvistTotal = 0
-  let aquatic = 0, aquaticTotal = 0
-  let aquatic2 = 0, aquatic2Total = 0
-  let initialExam = 0, dailyNote = 0, progressNote = 0, dischargeNote = 0, caseNote = 0, noShow = 0
-
-  let finalResults = []
-  let monthsAdded = []
-  let quarterAdded = []
-  results.forEach(element => {
-    if (
-      (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
-      (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
-      finalResults.push({
-        month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
-        evals: evals,
-        cx: cx,
-        cxper: cxper + "%",
-        ns: ns,
-        nsper: nsper + "%",
-        totalpts: totalpts,
-        totalpts2: totalpts2,
-        prioryear: prioryear + "%",
-        unitsbilled: unitsbilled,
-        unitsvist: unitsvist,
-        aquatic: aquatic,
-        aquatic2: aquatic2,
-        monthName: monthName,
-        quarterNumber: quarterNumber,
-        appointmentId: element._id,
-        noShow: noShow,
-        initialExam: initialExam,
-        dailyNote: dailyNote,
-        progressNote: progressNote,
-        dischargeNote: dischargeNote,
-        caseNote: caseNote
-      })
-      evals = 0
-      cx = 0
-      cxper = 0
-      ns = 0
-      nsper = 0
-      totalpts = 0
-      totalpts2 = 0
-      prioryear = 0
-      unitsbilled = 0
-      unitsvist = 0
-      aquatic = 0
-      aquatic2 = 0
-      initialExam = 0
-      noShow = 0
-      dailyNote = 0
-      progressNote = 0
-      dischargeNote = 0
-      caseNote = 0
-    }
-
-    if (element.status == 'Cancelled') {
-      cx++
-      cxTotal++
-    }
-    if (element.appointmentType == 'Aquatic') {
-      aquatic++
-      aquaticTotal++
-    }
-    if (element.appointmentStatus == 'No-Show') {
-      ns++
-      nsTotal++
-    }
-    if (optionType == 'Monthly') {
-      monthName = moment(element.appointmentDate).format('MMMM');
-      if (!monthsAdded.includes(monthName)) {
-        monthsAdded.push(monthName)
-      }
-    } else {
-      quarterNumber = moment(element.appointmentDate).quarter()
-      if (!quarterAdded.includes(quarterNumber)) {
-        quarterAdded.push(quarterNumber)
-      }
-    }
-  })
-
-  finalResults.push({
-    month: 'TOTAL',
-    evals: evalsTotal,
-    cx: cxTotal,
-    cxper: cxperTotal + "%",
-    ns: nsTotal,
-    nsper: nsperTotal + "%",
-    totalpts: totalptsTotal,
-    totalpts2: totalpts2Total,
-    prioryear: prioryearTotal + "%",
-    unitsbilled: unitsbilledTotal,
-    unitsvist: unitsvistTotal,
-    aquatic: aquaticTotal,
-    aquatic2: aquatic2Total,
-  })
-  return finalResults
-}
-
-async function summaryReport2(req) {
-  const { year, practiceLocation, optionType } = req.body
-  let months = moment.months()
-  let query = {
-    "appointmentDate": {
-      //$gte: moment(year).subtract(1, 'years').startOf('year'),
-      $gte: moment(year).startOf('year'),
-      $lte: moment(year).endOf('year')
-    },
-    practiceLocation: practiceLocation
-  }
-  console.log("----query----", query)
-
-  let fields = { appointmentDate: 1, status: 1, appointmentStatus: 1, appointmentType: 1, }
-  let results = await Appointment.find(query, fields).sort({ appointmentDate: 1 });//.skip(offset).limit(limit).lean();
-
-  let monthName = ''
-  let quarterNumber = 0
-  let evals = 0, evalsTotal = 0
-  let cx = 0, cxTotal = 0
-  let cxper = 0, cxperTotal = 0
-  let ns = 0, nsTotal = 0
-  let nsper = 0, nsperTotal = 0
-  let totalpts = 0, totalptsTotal = 0
-  let totalpts2 = 0, totalpts2Total = 0
-  let prioryear = 0, prioryearTotal = 0
-  let unitsbilled = 0, unitsbilledTotal = 0
-  let unitsvist = 0, unitsvistTotal = 0
-  let aquatic = 0, aquaticTotal = 0
-  let aquatic2 = 0, aquatic2Total = 0
-
-  let finalResults = []
-  let monthsAdded = []
-  let quarterAdded = []
-  results.forEach(element => {
-    if (
-      (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
-      (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
-      finalResults.push({
-        month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
-        evals: evals,
-        cx: cx,
-        cxper: cxper + "%",
-        ns: ns,
-        nsper: nsper + "%",
-        totalpts: totalpts,
-        totalpts2: totalpts2,
-        prioryear: prioryear + "%",
-        unitsbilled: unitsbilled,
-        unitsvist: unitsvist,
-        aquatic: aquatic,
-        aquatic2: aquatic2,
-        monthName: monthName,
-        quarterNumber: quarterNumber,
-        appointmentId: element._id
-      })
-      evals = 0
-      cx = 0
-      cxper = 0
-      ns = 0
-      nsper = 0
-      totalpts = 0
-      totalpts2 = 0
-      prioryear = 0
-      unitsbilled = 0
-      unitsvist = 0
-      aquatic = 0
-      aquatic2 = 0
-    }
-
-    switch (element.status) {
-      case 'Pending':
-        evals++
-        evalsTotal++
-        break
-      case 'Cancelled':
-        cx++
-        cxTotal++
-        break
-    }
-    if (element.appointmentType == 'Aquatic') {
-      aquatic++
-      aquaticTotal++
-    }
-    if (element.appointmentStatus == 'No-Show') {
-      ns++
-      nsTotal++
-    }
-    if (optionType == 'Monthly') {
-      monthName = moment(element.appointmentDate).format('MMMM');
-      if (!monthsAdded.includes(monthName)) {
-        monthsAdded.push(monthName)
-      }
-    } else {
-      quarterNumber = moment(element.appointmentDate).quarter()
-      if (!quarterAdded.includes(quarterNumber)) {
-        quarterAdded.push(quarterNumber)
-      }
-    }
-    //console.log(element.status, '---', element.appointmentDate, monthName, '--quarter-', moment(element.appointmentDate).quarter())
-  })
-
-  finalResults.push({
-    month: 'TOTAL',
-    evals: evalsTotal,
-    cx: cxTotal,
-    cxper: cxperTotal + "%",
-    ns: nsTotal,
-    nsper: nsperTotal + "%",
-    totalpts: totalptsTotal,
-    totalpts2: totalpts2Total,
-    prioryear: prioryearTotal + "%",
-    unitsbilled: unitsbilledTotal,
-    unitsvist: unitsvistTotal,
-    aquatic: aquaticTotal,
-    aquatic2: aquatic2Total,
-  })
-  return finalResults
-}
-
-async function summaryReport(req) {
-  const { year, practiceLocation, optionType } = req.body
-  let query = {
-    "appointmentDate": {
-      $gte: new Date(moment(year).subtract(1, 'years').startOf('year')),
-      $lte: new Date(moment(year).endOf('year'))
-    },
-    practiceLocation: practiceLocation
-  }
-  let aggrQuery = [
-    {
-      "$lookup": {
-        from: "subjectives",
-        localField: "_id",
-        foreignField: "appointmentId",
-        as: "subjective"
-      }
-    },
-    {
-      "$lookup": {
-        from: "billings",
-        localField: "_id",
-        foreignField: "appointmentId",
-        as: "billing"
-      }
-    },
-    {
-      $match: query
-    },
-    {
-      $project: {
-        "_id": 1, "appointmentDate": 1, "status": 1, "appointmentStatus": 1, "appointmentType": 1,
-        "subjective.soap_note_type": 1, "subjective.status": 1,
-        "billing.soap_note_type": 1, "billing.total_units": 1, "billing.status": 1,
-      }
-    },
-    {
-      $sort: { "appointmentDate": 1 }
-    }
-  ]
-
-  let results = await Appointment.aggregate(aggrQuery);
-
-  let monthName = ''
-  let quarterNumber = 0
-  let evals = 0, evalsTotal = 0
-  let cx = 0, cxTotal = 0
-  let cxper = 0, cxperTotal = 0
-  let ns = 0, nsTotal = 0
-  let nsper = 0, nsperTotal = 0
-  let totalpts = 0, totalptsTotal = 0
-  let totalpts2 = 0, totalpts2Total = 0
-  let prioryear = 0, prioryearTotal = 0
-  let unitsbilled = 0, unitsbilledTotal = 0
-  let unitsvist = 0, unitsvistTotal = 0
-  let aquatic = 0, aquaticTotal = 0
-  let aquatic2 = 0, aquatic2Total = 0
-  let initialExam = 0, dailyNote = 0, progressNote = 0, dischargeNote = 0, caseNote = 0, noShow = 0
-
-  let finalResults = []
-  let monthsAdded = []
-  let quarterAdded = []
-
-  await results.forEach(element => {
-
-    if (
-      (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
-      (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
-      finalResults.push({
-        month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
-        evals: evals,
-        cx: cx,
-        cxper: cxper + "%",
-        ns: ns,
-        nsper: nsper + "%",
-        totalpts: totalpts,
-        totalpts2: totalpts2,
-        prioryear: prioryear + "%",
-        unitsbilled: unitsbilled,
-        unitsvist: unitsvist,
-        aquatic: aquatic,
-        aquatic2: aquatic2,
-        monthName: monthName,
-        quarterNumber: quarterNumber,
-        appointmentId: element._id,
-        // noShow: noShow,
-        // initialExam: initialExam,
-        // dailyNote: dailyNote,
-        // progressNote: progressNote,
-        // dischargeNote: dischargeNote,
-        // caseNote: caseNote
-      })
-      evals = 0
-      cx = 0
-      cxper = 0
-      ns = 0
-      nsper = 0
-      totalpts = 0
-      totalpts2 = 0
-      prioryear = 0
-      unitsbilled = 0
-      unitsvist = 0
-      aquatic = 0
-      aquatic2 = 0
-      initialExam = 0
-      // noShow = 0
-      // dailyNote = 0
-      // progressNote = 0
-      // dischargeNote = 0
-      // caseNote = 0
-    }
-
-    switch (element.status) {
-      case 'Cancelled':
-        cx++
-        cxTotal++
-        break
-    }
-
-
-    if (element.subjective && element.subjective.length > 0) {
-
-
-      // switch (element.subjective[0].soap_note_type) {
-      //   case 'initial_examination':
-      //     evals++
-      //     evalsTotal++
-      //     initialExam++
-      //   case 'daily_note':
-      //     dailyNote++
-      //   case 'progress_note':
-      //     progressNote++
-      //   case 'discharge_note':
-      //     dischargeNote++
-      //   case 'case_note':
-      //     caseNote++
-      // }
-
-
-      let initial_examination = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "initial_examination"))[0];
-      let daily_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "daily_note"))[0];
-      console.log("-----subjective-", element.subjective)
-      if (initial_examination) {
-        evals++
-        evalsTotal++
-        initialExam++
-      }
-      //console.log("---_-initial_examination-", initial_examination, "-daily_note-", daily_note);//, "--soap_note_type--", element.subjective[0].soap_note_type)
-
-    }
-
-    if (element.appointmentType == 'Aquatic') {
-      aquatic++
-      aquaticTotal++
-    }
-    if (element.appointmentStatus == 'No-Show') {
-      ns++
-      nsTotal++
-      noShow++
-    }
-
-    if (optionType == 'Monthly') {
-      monthName = moment(element.appointmentDate).format('MMMM');
-      if (!monthsAdded.includes(monthName)) {
-        monthsAdded.push(monthName)
-      }
-    } else {
-      quarterNumber = moment(element.appointmentDate).quarter()
-      if (!quarterAdded.includes(quarterNumber)) {
-        quarterAdded.push(quarterNumber)
-      }
-    }
-
-
-    //console.log("---------element:", element) 
-    //console.log("---------finalResults:", finalResults) 
-  })
-
-  finalResults.push({
-    month: 'TOTAL',
-    evals: evalsTotal,
-    cx: cxTotal,
-    cxper: cxperTotal + "%",
-    ns: nsTotal,
-    nsper: nsperTotal + "%",
-    totalpts: totalptsTotal,
-    totalpts2: totalpts2Total, //last year
-    prioryear: prioryearTotal + "%", //last year
-    unitsbilled: unitsbilledTotal,
-    unitsvist: unitsvistTotal,
-    aquatic: aquaticTotal,
-    aquatic2: aquatic2Total, //last year
   })
   return finalResults
 }
