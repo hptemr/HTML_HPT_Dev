@@ -169,6 +169,11 @@ export class IntakeStep1Component {
 
     // const mockEvent: MatRadioChange = { value: this.selectedValue, source: this.radioButton! }; 
     // this.onChange(mockEvent)
+    if(this.selectedValue=='Myself'){
+      this.step1Form.controls['relationWithPatient'].setValue('')
+      this.step1Form.controls['relationWithPatientOther'].setValue('')
+      this.step1Form.controls['relationWithPatient'].disable() 
+    }
   }
 
   
@@ -286,7 +291,7 @@ export class IntakeStep1Component {
             query: { _id: this.appId },
             updateInfo: {
               practiceLocation: finalReqBody.practiceLocation,
-              appointmentDate: finalReqBody.appointmentDate,
+             // appointmentDate: finalReqBody.appointmentDate,
               bookingFor: finalReqBody.bookingFor,
               relationWithPatient: finalReqBody.relationWithPatient,
               relationWithPatientOther: finalReqBody.relationWithPatientOther,
@@ -306,7 +311,7 @@ export class IntakeStep1Component {
               appointmentUpdateInfo:appointmentUpdateInfo
             }
           }
-          console.log('params>>>',params)        
+         
           await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
             this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
           })

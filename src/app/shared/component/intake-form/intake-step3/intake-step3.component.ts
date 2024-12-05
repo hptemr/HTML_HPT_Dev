@@ -345,7 +345,7 @@ export class IntakeStep3Component {
 
     this.clickedIndex = this.step3FormData ? step3info?.rateYourPain : 0
     this.step3Form.controls['dob'].setValue((this.step3FormData?.patientInfo && this.step3FormData?.patientInfo.dob) ? this.step3FormData?.patientInfo.dob : '')
-    this.step3Form.controls['appointmentDate'].setValue(this.step3FormData.appointmentDate)
+    this.step3Form.controls['appointmentDate'].setValue(this.step3FormData.appointmentDate ? this.step3FormData.appointmentDate : '')
     this.step3Form.controls['fullName'].setValue((this.step3FormData?.patientInfo && this.step3FormData.patientInfo) ? (this.step3FormData.patientInfo.firstName + " " + this.step3FormData.patientInfo.middleName + " " + this.step3FormData.patientInfo.lastName) : '')
     let allergies = this.step3FormData ? step3info?.allergiesToMedications_AllergyArray : []
 

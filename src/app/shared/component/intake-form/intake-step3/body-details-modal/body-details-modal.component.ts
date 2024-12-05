@@ -37,8 +37,6 @@ export class BodyDetailsModalComponent {
     this.from = data.from != undefined ? data.from : this.from;
     this.bodyPartFront = data.bodyPartFront != undefined ? data.bodyPartFront : this.bodyPartFront;
     this.bodyPartBack = data.bodyPartBack != undefined ? data.bodyPartBack : this.bodyPartBack;
-
-
     this.appointmentUpdateInfo = data.appointmentUpdateInfo != undefined ? data.appointmentUpdateInfo : [];
     if(data.readOnly){
       this.readOnly= data.readOnly;
@@ -75,7 +73,16 @@ export class BodyDetailsModalComponent {
       this.submitButton = true;
       let params = {};    //        adminBodyPartBack
       if(this.from=='bodyPartFront'){
-        this.bodyPartFront.push({'part':this.partName,'concern':data.concern});
+        let found = this.bodyPartFront.filter((p: any) => p.part == this.partName);
+        if(found.length==0){
+          this.bodyPartFront.push({'part':this.partName,'concern':data.concern});
+        }else{
+          this.bodyPartFront.forEach((item: { part: string; concern: any; }) => {
+            if (item.part === this.partName) {
+                item.concern = data.concern;
+            }
+          });
+        }
 
         if(this.userRole=='patient'){
           params = { bodyPartFront: this.bodyPartFront }
@@ -83,7 +90,17 @@ export class BodyDetailsModalComponent {
           params = { adminBodyPartFront: this.bodyPartFront }
         }        
       } else if(this.from=='bodyPartBack'){
-        this.bodyPartBack.push({'part':this.partName,'concern':data.concern});
+        let found = this.bodyPartBack.filter((p: any) => p.part == this.partName);
+        if(found.length==0){
+          this.bodyPartBack.push({'part':this.partName,'concern':data.concern});
+        }else{
+          this.bodyPartBack.forEach((item: { part: string; concern: any; }) => {
+            if (item.part === this.partName) {
+                item.concern = data.concern;
+            }
+          });
+        }
+
         if(this.userRole=='patient'){
           params = { bodyPartBack: this.bodyPartBack }
         }else{
