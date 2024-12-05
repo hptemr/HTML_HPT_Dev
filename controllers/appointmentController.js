@@ -735,7 +735,6 @@ const download = async (req, res) => {
 const getPatientCaseList = async (req, res) => {
     try {
         const { query } = req.body;
-        console.log("********Appointment Request Details***error***", query.id)
         let output = await Case.find({ patientId: query.id }, { patientId: 1, caseName: 1, caseType: 1, _id: 1 });
         let caseNameList = [];
         if (output.length > 0) {
