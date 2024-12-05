@@ -740,7 +740,9 @@ const getPatientCaseList = async (req, res) => {
         let caseNameList = [];
         if (output.length > 0) {
             output.filter((obj) => {
-                caseNameList.push({ caseName: obj.caseName, caseType: obj.caseType })
+                if(obj.caseName){
+                    caseNameList.push({ caseName: obj.caseName, caseType: obj.caseType })
+                }                
             });
         }
         commonHelper.sendResponse(res, 'success', { caseNameList }, '');
