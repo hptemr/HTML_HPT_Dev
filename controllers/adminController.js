@@ -1095,129 +1095,349 @@ const getReports = async (req, res) => {
   }
 }
 
+
 async function summaryReport(req) {
   const { year, practiceLocation, optionType } = req.body
-  let months = moment.months()
   let query = {
     "appointmentDate": {
-      //$gte: moment(year).subtract(1, 'years').startOf('year'),
-      $gte: moment(year).startOf('year'),
-      $lte: moment(year).endOf('year')
+      $gte: new Date(moment(year).startOf('year')),
+      $lte: new Date(moment(year).endOf('year'))
     },
     practiceLocation: practiceLocation
   }
-  console.log("----query----", query) 
-
-  let fields = { appointmentDate: 1, status: 1, appointmentStatus: 1, appointmentType: 1, }
-  let results = await Appointment.find(query, fields).sort({ appointmentDate: 1 });//.skip(offset).limit(limit).lean();
-
-  let monthName = ''
-  let quarterNumber = 0
-  let evals = 0, evalsTotal = 0
-  let cx = 0, cxTotal = 0
-  let cxper = 0, cxperTotal = 0
-  let ns = 0, nsTotal = 0
-  let nsper = 0, nsperTotal = 0
-  let totalpts = 0, totalptsTotal = 0
-  let totalpts2 = 0, totalpts2Total = 0
-  let prioryear = 0, prioryearTotal = 0
-  let unitsbilled = 0, unitsbilledTotal = 0
-  let unitsvist = 0, unitsvistTotal = 0
-  let aquatic = 0, aquaticTotal = 0
-  let aquatic2 = 0, aquatic2Total = 0
-
-  let finalResults = []
-  let monthsAdded = []
-  let quarterAdded = []
-  results.forEach(element => { 
-      if (
-        (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
-        (optionType == 'Quarterly' && quarterNumber > 0 && quarterNumber != moment(element.appointmentDate).quarter())) {
-        finalResults.push({
-          month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
-          evals: evals,
-          cx: cx,
-          cxper: cxper + "%",
-          ns: ns,
-          nsper: nsper + "%",
-          totalpts: totalpts,
-          totalpts2: totalpts2,
-          prioryear: prioryear + "%",
-          unitsbilled: unitsbilled,
-          unitsvist: unitsvist,
-          aquatic: aquatic,
-          aquatic2: aquatic2,
-          monthName: monthName,
-          quarterNumber: quarterNumber,
-          appointmentId: element._id
-        })
-        evals = 0
-        cx = 0
-        cxper = 0
-        ns = 0
-        nsper = 0
-        totalpts = 0
-        totalpts2 = 0
-        prioryear = 0
-        unitsbilled = 0
-        unitsvist = 0
-        aquatic = 0
-        aquatic2 = 0
+  let aggrQuery = [
+    {
+      "$lookup": {
+        from: "subjectives",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "subjective"
       }
+    },
+    {
+      "$lookup": {
+        from: "billings",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "billing"
+      }
+    },
+    {
+      $match: query
+    },
+    {
+      $project: {
+        "_id": 1, "appointmentDate": 1, "status": 1, "appointmentStatus": 1, "appointmentType": 1,
+        "subjective.soap_note_type": 1, "subjective.status": 1,
+        "billing.soap_note_type": 1, "billing.total_units": 1, "billing.status": 1,
+      }
+    },
+    {
+      $sort: { "appointmentDate": 1 }
+    }
+  ]
 
-      switch (element.status) {
-        case 'Pending':
-          evals++
-          evalsTotal++
-          break
-        case 'Cancelled':
-          cx++
-          cxTotal++
-          break
+  let results = await Appointment.aggregate(aggrQuery);
+  let currentYearResults = await summaryData(optionType, results)
+
+  let queryLastYear = {
+    "appointmentDate": {
+      $gte: new Date(moment(year).subtract(1, 'years').startOf('year')),
+      $lte: new Date(moment(year).subtract(1, 'years').endOf('year')),
+    },
+    practiceLocation: practiceLocation
+  }
+  let aggrQueryLastYear = [
+    {
+      "$lookup": {
+        from: "subjectives",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "subjective"
       }
-      if (element.appointmentType == 'Aquatic') {
-        aquatic++
-        aquaticTotal++
+    },
+    {
+      "$lookup": {
+        from: "billings",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "billing"
       }
-      if (element.appointmentStatus == 'No-Show') {
-        ns++
-        nsTotal++
+    },
+    {
+      $match: queryLastYear
+    },
+    {
+      $project: {
+        "_id": 1, "appointmentDate": 1, "status": 1, "appointmentStatus": 1, "appointmentType": 1,
+        "subjective.soap_note_type": 1, "subjective.status": 1,
+        "billing.soap_note_type": 1, "billing.total_units": 1, "billing.status": 1,
       }
-      if (optionType == 'Monthly') {
-        monthName = moment(element.appointmentDate).format('MMMM');
-        if (!monthsAdded.includes(monthName)) {
-          monthsAdded.push(monthName)
+    },
+    {
+      $sort: { "appointmentDate": 1 }
+    }
+  ]
+
+  let resultsLastYear = await Appointment.aggregate(aggrQueryLastYear);
+  let lastYearResults = await summaryData(optionType, resultsLastYear)
+  let mainLoop
+  let finalReportsData = []
+  let mainTotal
+  if (optionType == 'Monthly') {
+    mainLoop = moment.months()
+    mainTotal = 12
+  } else {
+    mainTotal = 4
+    mainLoop = ['1ST QTR', '2ST QTR', '3ST QTR', '4ST QTR']
+  }
+
+  let evalsTotal = 0
+  let cxTotal = 0
+  let cxperTotal = 0
+  let nsTotal = 0
+  let nsperTotal = 0
+  let totalptsTotal = 0
+  let totalpts2Total = 0
+  let prioryearTotal = 0
+  let unitsbilledTotal = 0
+  let unitsvistTotal = 0
+  let aquaticTotal = 0
+  let aquatic2Total = 0
+
+  for (let i = 0; i < mainTotal; i++) {
+    let row = currentYearResults.filter((item) => (item.month == mainLoop[i]))[0];
+    let rowLast = lastYearResults.filter((item) => (item.month == mainLoop[i]))[0];
+    let lastAquatic = rowLast ? rowLast.aquatic : 0
+    let sumofAllLast = 0
+    if (rowLast) {
+      sumofAllLast = (rowLast.initialExam + rowLast.dailyNote + rowLast.progressNote + rowLast.dischargeNote + rowLast.caseNote)
+      aquatic2Total = aquatic2Total + lastAquatic
+    }
+    totalpts2Total = totalpts2Total + sumofAllLast
+
+    if (row == undefined) {
+      finalReportsData.push({
+        month: mainLoop[i],
+        evals: 0,
+        cx: 0,
+        cxper: 0,
+        ns: 0,
+        nsper: 0,
+        totalpts: 0,
+        totalpts2: 0,
+        prioryear: 0,
+        unitsbilled: 0,
+        unitsvist: 0,
+        aquatic: 0,
+        aquatic2: lastAquatic
+      })
+    } else {
+      evalsTotal = evalsTotal + row.evals
+      cxTotal = cxTotal + row.cx
+      aquaticTotal = aquaticTotal + row.aquatic
+
+      let sumofAll = (row.initialExam + row.dailyNote + row.progressNote + row.dischargeNote + row.caseNote)
+      let cxper = 0, nsper = 0
+      totalptsTotal = totalptsTotal + sumofAll
+
+      prioryear = sumofAllLast > 0 ? (((sumofAll - sumofAllLast) / sumofAllLast) * 100) : 0
+      prioryearTotal = prioryearTotal + prioryear
+      let unitsbilled = row.unitsbilled
+      unitsbilledTotal = unitsbilledTotal + unitsbilled
+
+      let unitsvist = 0
+      if (sumofAll > 0) {
+        if (row.cx > 0) {
+          cxper = ((row.cx / sumofAll) * 100)
+          cxperTotal = cxperTotal + cxper
         }
-      } else {
-        quarterNumber = moment(element.appointmentDate).quarter()
-        if (!quarterAdded.includes(quarterNumber)) {
-          quarterAdded.push(quarterNumber)
+        if (row.ns > 0) {
+          nsper = ((row.ns / sumofAll) * 100)
+          nsperTotal = nsperTotal + nsper
         }
-      } 
-      //console.log(element.status, '---', element.appointmentDate, monthName, '--quarter-', moment(element.appointmentDate).quarter())
-  })
+        unitsvist = (unitsbilled / sumofAll)
+        unitsvistTotal = unitsvistTotal + unitsvist
+      }
 
-  finalResults.push({
+      finalReportsData.push({
+        month: mainLoop[i],
+        evals: row.evals,
+        cx: row.cx,
+        cxper: Number(cxper.toFixed(2)),
+        ns: row.ns,
+        nsper: Number(nsper.toFixed(2)),
+        totalpts: sumofAll,
+        totalpts2: sumofAllLast,
+        prioryear: prioryear,
+        unitsbilled: unitsbilled,
+        unitsvist: Number(unitsvist.toFixed(2)),
+        aquatic: row.aquatic,
+        aquatic2: lastAquatic
+      })
+    }
+  }
+
+  finalReportsData.push({
     month: 'TOTAL',
     evals: evalsTotal,
     cx: cxTotal,
-    cxper: cxperTotal + "%",
+    cxper: Number(cxperTotal.toFixed(2)) + "%",
     ns: nsTotal,
-    nsper: nsperTotal + "%",
+    nsper: Number(nsperTotal.toFixed(2)) + "%",
     totalpts: totalptsTotal,
     totalpts2: totalpts2Total,
     prioryear: prioryearTotal + "%",
     unitsbilled: unitsbilledTotal,
-    unitsvist: unitsvistTotal,
+    unitsvist: Number(unitsvistTotal.toFixed(2)),
     aquatic: aquaticTotal,
     aquatic2: aquatic2Total,
+  })
+  return finalReportsData;
+}
+
+async function summaryData(optionType, results) {
+  let monthName = ''
+  let quarterNumber = 0
+  let evals = 0
+  let cx = 0
+  let cxper = 0
+  let ns = 0
+  let nsper = 0
+  let totalpts = 0
+  let totalpts2 = 0
+  let prioryear = 0
+  let unitsbilled = 0
+  let unitsvist = 0
+  let aquatic = 0
+  let aquatic2 = 0
+  let initialExam = 0, dailyNote = 0, progressNote = 0, dischargeNote = 0, caseNote = 0, noShow = 0
+  let finalResults = []
+  let totoalResultCounter = results.length
+  let totalCnt = 0
+  await results.forEach(element => {
+    totalCnt++
+    if (element.status == 'Cancelled' || element.appointmentStatus == 'Cancelled') {
+      cx++
+    }
+    if (element.appointmentType == 'Aquatic') {
+      aquatic++
+    }
+    if (element.appointmentStatus == 'No-Show') {
+      ns++
+      noShow++
+    }
+
+
+    if (element.billing && element.billing.length > 0) {
+      let initial_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "initial_examination"))[0];
+      let daily_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "daily_note"))[0];
+      let progress_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "progress_note"))[0];
+      let discharge_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "discharge_note"))[0];
+      let case_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
+
+      if (initial_bill) {
+        unitsbilled = parseInt(initial_bill.total_units)
+      }
+      if (daily_bill) {
+        unitsbilled = unitsbilled + parseInt(daily_bill.total_units)
+      }
+      if (progress_bill) {
+        unitsbilled = unitsbilled + parseInt(progress_bill.total_units)
+      }
+      if (discharge_bill) {
+        unitsbilled = unitsbilled + parseInt(discharge_bill.total_units)
+      }
+      if (case_bill) {
+        unitsbilled = unitsbilled + parseInt(case_bill.total_units)
+      }
+    }
+
+    if (element.subjective && element.subjective.length > 0) {
+      let initial_examination = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "initial_examination"))[0];
+      let daily_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "daily_note"))[0];
+      let progress_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "progress_note"))[0];
+      let discharge_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "discharge_note"))[0];
+      let case_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
+      if (initial_examination) {
+        evals++
+        initialExam++
+      }
+      if (daily_note) {
+        dailyNote++
+      }
+      if (progress_note) {
+        progressNote++
+      }
+      if (discharge_note) {
+        dischargeNote++
+      }
+      if (case_note) {
+        caseNote++
+      }
+    }
+
+    if (
+      (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
+      (optionType == 'Quarterly' && quarterNumber > 0 && (totoalResultCounter == totalCnt || quarterNumber != moment(element.appointmentDate).quarter()))) {
+
+      finalResults.push({
+        month: optionType == 'Monthly' ? monthName : quarterNumber + "ST QTR",
+        evals: evals,
+        cx: cx,
+        cxper: cxper + "%",
+        ns: ns,
+        nsper: nsper + "%",
+        totalpts: totalpts,
+        totalpts2: totalpts2,
+        prioryear: prioryear + "%",
+        unitsbilled: unitsbilled,
+        unitsvist: unitsvist,
+        aquatic: aquatic,
+        aquatic2: aquatic2,
+        monthName: monthName,
+        quarterNumber: quarterNumber,
+        appointmentId: element._id,
+
+        noShow: noShow,
+        initialExam: initialExam,
+        dailyNote: dailyNote,
+        progressNote: progressNote,
+        dischargeNote: dischargeNote,
+        caseNote: caseNote
+      })
+
+      evals = 0
+      cx = 0
+      cxper = 0
+      ns = 0
+      nsper = 0
+      totalpts = 0
+      totalpts2 = 0
+      prioryear = 0
+      unitsbilled = 0
+      unitsvist = 0
+      aquatic = 0
+      initialExam = 0
+      noShow = 0
+      dailyNote = 0
+      progressNote = 0
+      dischargeNote = 0
+      caseNote = 0
+    }
+
+    if (optionType == 'Monthly') {
+      monthName = moment(element.appointmentDate).format('MMMM');
+    } else {
+      quarterNumber = moment(element.appointmentDate).quarter()
+    }
   })
   return finalResults
 }
 
 async function TherapistReport(req) {
   const { type, year, practiceLocation, optionType } = req.body
-  const result = await User.find({role:'therapist',practiceLocation: { $in: [practiceLocation] }});
+  const result = await User.find({ role: 'therapist', practiceLocation: { $in: [practiceLocation] } });
   return result
 }
 
