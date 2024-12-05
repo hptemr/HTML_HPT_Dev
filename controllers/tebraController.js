@@ -246,50 +246,56 @@ const updatePatientAdditionalInfo = async (patientData, patient) => {
 
 
 const updatePatientIntakeFormPersonalInfo = async (patientData, patient) => {
-    try {
-        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.updatePatientIntakeFormPersonalInfo(patientData, patient.tebraDetails)
-        const requestHeaders =  tebraCommon.requestHeader(soapAction)
-        let patientDataForLogs = { 'patientId': patient._id , patientData: patientData}
+    return new Promise( function (resolve, reject) {
+        try {
+            const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
+            const soapRequest = tebraSoapRequest.updatePatientIntakeFormPersonalInfo(patientData, patient.tebraDetails)
+            const requestHeaders =  tebraCommon.requestHeader(soapAction)
+            let patientDataForLogs = { 'patientId': patient._id , patientData: patientData}
 
-        console.log("soapRequest>>>>",soapRequest)
+            console.log("soapRequest>>>>",soapRequest)
 
-        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+                console.log('Response >>>>>:', response);
+                console.log('Response Data>>>>:', response.data);
 
-            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
-            if(!parseError){
-                const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
-                if(errorResponse && errorResponse?.IsError=='false'){
-                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
+                let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+                console.log("parseResult>>>>",parseResult)
+                if(!parseError){
+                    const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
+                    if(errorResponse && errorResponse?.IsError=='false'){
+                        const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
 
-                    console.log('========Patient updated successfully=========:',patientTebraRes);
+                        console.log('========Patient updated successfully=========:',patientTebraRes);
+                    }
                 }
-            }
-            // Tebra Logs
-            tebraCommon.tebraApiLog('updatePatientIntakeFormPersonalInfo',soapRequest,parseResult,'success',patientDataForLogs,'')
-        }).catch(error => {
-            console.error('========updatePatientIntakeFormPersonalInfo API Error=========:', error);
-            tebraCommon.tebraApiLog('updatePatientIntakeFormPersonalInfo',soapRequest,'','apiError',patientDataForLogs,error)
-        });
+                // Tebra Logs
+                tebraCommon.tebraApiLog('updatePatientIntakeFormPersonalInfo',soapRequest,parseResult,'success',patientDataForLogs,'')
+                resolve(true)
+            }).catch(error => {
+                console.error('========updatePatientIntakeFormPersonalInfo API Error=========:', error);
+                tebraCommon.tebraApiLog('updatePatientIntakeFormPersonalInfo',soapRequest,'','apiError',patientDataForLogs,error)
+                reject()
+            });
 
-    } catch (error) {
-        console.log("========updatePatientIntakeFormPersonalInfo=========:", error)
-        tebraCommon.tebraApiLog('updatePatientIntakeFormPersonalInfo',soapRequest,'','catchError',patientDataForLogs,error)
-    }
+        } catch (error) {
+            console.log("========updatePatientIntakeFormPersonalInfo=========:", error)
+            tebraCommon.tebraApiLog('updatePatientIntakeFormPersonalInfo',soapRequest,'','catchError',patientDataForLogs,error)
+            reject()
+        }
+    })
 };
 
 
-const addPatientInsuranceIntakeForm = async (insuranceInfo, patient, tebraCaseDetails) => {
+const addPatientInsuranceIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, emergencyContact) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.addPatientInsuranceIntakeForm(insuranceInfo, patient, tebraCaseDetails)
+        const soapRequest = tebraSoapRequest.addPatientInsuranceIntakeForm(insuranceInfo, patient, tebraCaseDetails, emergencyContact)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
         console.log("soapRequest>>>>",soapRequest)
+        console.log("emergencyContact>>>>",emergencyContact)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
             console.log('Response >>>>>:', response);
@@ -460,10 +466,10 @@ const createCase = async (patientRes, caseName, caseId, providerData) => {
 };
 
 
-const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData) => {
+const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, emergencyContact) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.updateSupportTeamIntakeForm(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData)
+        const soapRequest = tebraSoapRequest.updateSupportTeamIntakeForm(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, emergencyContact)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
@@ -569,21 +575,33 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                       console.log("diagnosis_code>>>>>",diaCode.code)
                       let billingDetails = await BillingTemp.findOne({appointmentId: new ObjectId(finalizeNoteData.appointmentId), soap_note_type: finalizeNoteData.soapNoteType });
                       console.log("billingDetails>>>>>",billingDetails)
-                      let billingData = { totalMinutes: 0, totalUnits: 0, unitCharges: 0}
-                      if(billingDetails!=null){
-                        let totalUnitValue = billingDetails?.total_units ? parseInt(billingDetails?.total_units):0
-                        billingData = { 
-                          totalMinutes: billingDetails?.total_treatment_minutes ? parseInt(billingDetails?.total_treatment_minutes):0, 
-                          totalUnits: totalUnitValue, 
-                          unitCharges: totalUnitValue * 50
-                        }
-                      }
-                      console.log("billingData>>>",billingData)
+
+                      const unitedPtCharges = tebraCommon.calculateUnitCharges(billingDetails.united_pt_codes);
+                      const unitedOtCharges = tebraCommon.calculateUnitCharges(billingDetails.united_ot_codes);
+                      const unitedSlpCharges = tebraCommon.calculateUnitCharges(billingDetails.united_slp_codes);
+                      const directPtCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_pt_codes);
+                      const directOtCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_ot_codes);
+                      const directSlpCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_slp_codes);
+                      
+                      const allCharges = [...unitedPtCharges,...unitedOtCharges,...unitedSlpCharges,...directPtCharges, ...directOtCharges,...directSlpCharges];
+                      console.log("allCharges>>>",allCharges)
+
+
+                    //   let billingData = { totalMinutes: 0, totalUnits: 0, unitCharges: 0}
+                    //   if(billingDetails!=null){
+                    //     let totalUnitValue = billingDetails?.total_units ? parseInt(billingDetails?.total_units):0
+                    //     billingData = { 
+                    //       totalMinutes: billingDetails?.total_treatment_minutes ? parseInt(billingDetails?.total_treatment_minutes):0, 
+                    //       totalUnits: totalUnitValue, 
+                    //       unitCharges: totalUnitValue * 50
+                    //     }
+                    //   }
+                    //   console.log("billingData>>>",billingData)
                     
-                   if(billingData?.totalMinutes>0 && billingData?.totalUnits>0 && billingData?.unitCharges>0){   
+                   if(allCharges && allCharges.length){   
                         //  Call Create Encounter API
-                        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-                        const soapRequest = tebraSoapRequest.createEncounter(resultData?.patientDetails, resultData?.caseDetails, subjectiveResult, billingData, diaCode)
+                        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/CreateEncounter'
+                        const soapRequest = tebraSoapRequest.createEncounter(resultData?.patientDetails, resultData?.caseDetails, subjectiveResult, allCharges, diaCode)
                         const requestHeaders =  tebraCommon.requestHeader(soapAction)
                         let dataForLogs = { 'finalizeNoteData': finalizeNoteData }
 
@@ -634,7 +652,7 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
 
     } catch (error) {
         console.log("========createEncounter=========:", error)
-        tebraCommon.tebraApiLog('createEncounter',soapRequest,'','catchError',dataForLogs,error)
+        // tebraCommon.tebraApiLog('createEncounter',soapRequest,'','catchError',dataForLogs,error)
     }
 };
 
