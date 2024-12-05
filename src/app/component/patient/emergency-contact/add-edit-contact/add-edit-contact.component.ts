@@ -132,6 +132,10 @@ export class AddEditContactComponent implements OnInit {
       this.emergencyContactForm.controls['phoneNumber'].setValue(phoneNumber)
       this.emergencyContactForm.controls['myTreatmentCheckbox'].setValue(myTreatmentCheckbox)
       this.emergencyContactForm.controls['myAccountCheckbox'].setValue(myAccountCheckbox)
+
+      this.onRelationSelected(relationWithPatient)
+  
+      
   }
 
   async formSubmit(formData:any=null){
