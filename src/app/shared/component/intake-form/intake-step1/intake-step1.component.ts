@@ -117,8 +117,63 @@ export class IntakeStep1Component {
     })
   }
 
+  loadForm() {
+    this.onStateChange(this.step1FormData ? this.step1FormData.patientId.state : '')
+    this.selectedCity = (this.step1FormData ? this.step1FormData.patientId.city : '')
+    let firstName = this.step1FormData ? this.step1FormData.patientId.firstName : ''
+    let middleName = this.step1FormData ? this.step1FormData.patientId.middleName : ''
+    let lastName = this.step1FormData ? this.step1FormData.patientId.lastName : ''
+    let gender = this.step1FormData ? this.step1FormData.patientId.gender : ''
+    let maritalStatus = this.step1FormData ? this.step1FormData.patientId.maritalStatus : ''
+    let phoneNumber = this.step1FormData ? this.step1FormData.patientId.phoneNumber : ''
+    let workExtensionNumber = this.step1FormData ? this.step1FormData.patientId.workExtension : ''
+    let cellPhoneNumber = this.step1FormData ? this.step1FormData.patientId.cellPhoneNumber : ''
+    let dob = this.step1FormData ? new Date(this.step1FormData.patientId.dob) : ''
+    let email = this.step1FormData ? this.step1FormData.patientId.email : ''
+
+    if(this.step1FormData && this.step1FormData.patientInfo){
+      firstName = this.step1FormData.patientInfo.firstName;
+      middleName = this.step1FormData.patientInfo.middleName;
+      lastName = this.step1FormData.patientInfo.lastName;
+      gender = this.step1FormData.patientInfo.gender;
+      maritalStatus = this.step1FormData.patientInfo.maritalStatus;
+      phoneNumber = this.step1FormData.patientInfo.phoneNumber;
+      workExtensionNumber = this.step1FormData.patientInfo.workExtension;
+      cellPhoneNumber = this.step1FormData.patientInfo.cellPhoneNumber;
+      dob = new Date(this.step1FormData.patientInfo.dob);
+      email = this.step1FormData.patientInfo.email;
+    }
+
+    this.step1Form = new FormGroup({
+      practiceLocation: new FormControl(this.step1FormData.practiceLocation ? this.step1FormData.practiceLocation : '', Validators.compose([Validators.required])),
+      appointmentDate: new FormControl(this.step1FormData.appointmentDate ? this.step1FormData.appointmentDate : '', Validators.compose([Validators.required])),
+      bookingFor: new FormControl(this.step1FormData.bookingFor ? this.step1FormData.bookingFor : this.selectedValue),
+      relationWithPatient: new FormControl(this.step1FormData.relationWithPatient ? this.step1FormData.relationWithPatient : ''),
+      relationWithPatientOther: new FormControl(this.step1FormData ? this.step1FormData.relationWithPatientOther : ''),
+      firstName: new FormControl(firstName, Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      middleName: new FormControl(middleName),
+      lastName: new FormControl(lastName, Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
+      dob: new FormControl(dob, Validators.compose([Validators.required])),
+      maritalStatus: new FormControl(maritalStatus),
+      gender: new FormControl(gender),
+      email: new FormControl(email, Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
+      phoneNumber: new FormControl(phoneNumber, Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
+      cellPhoneNumber: new FormControl(cellPhoneNumber),
+      workExtensionNumber: new FormControl(workExtensionNumber),
+
+      address1: new FormControl((this.step1FormData ? this.step1FormData.patientId.address1 : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(100)])),
+      city: new FormControl((this.step1FormData ? this.step1FormData.patientId.city : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(25)])),
+      state: new FormControl((this.step1FormData ? this.step1FormData.patientId.state : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(25)])),
+      zipcode: new FormControl((this.step1FormData ? this.step1FormData.patientId.zipcode : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(6)]))
+    })
+
+    // const mockEvent: MatRadioChange = { value: this.selectedValue, source: this.radioButton! }; 
+    // this.onChange(mockEvent)
+  }
+
+  
   onChange(event: MatRadioChange) {
-    this.selectedValue = event.value
+    this.selectedValue = event.value;
     if (this.selectedValue == 'Myself') {
       this.setValue('Myself')
       this.isReadonly = true
@@ -134,8 +189,8 @@ export class IntakeStep1Component {
       this.step1Form.controls['dob'].enable()
       this.step1Form.controls['gender'].enable()
       this.step1Form.controls['maritalStatus'].enable()
-      this.step1Form.controls['relationWithPatient'].setValue('')
-      this.step1Form.controls['relationWithPatientOther'].setValue('')
+      // this.step1Form.controls['relationWithPatient'].setValue('')
+      // this.step1Form.controls['relationWithPatientOther'].setValue('')
       this.step1Form.controls['relationWithPatient'].enable()
     }
   }
@@ -172,6 +227,7 @@ export class IntakeStep1Component {
       zipcode = this.patientInfo.zipcode ? this.patientInfo.zipcode : ""
     } else if (this.step1FormData) {
       let patientAppInfo = this.step1FormData.patientInfo
+
       firstName = patientAppInfo.firstName
       middleName = patientAppInfo.middleName
       lastName = patientAppInfo.lastName
@@ -182,6 +238,7 @@ export class IntakeStep1Component {
       phoneNumber = patientAppInfo.phoneNumber
       cellPhoneNumber = patientAppInfo.cellPhoneNumber
       workExtensionNumber = patientAppInfo.workExtensionNumber
+     
       address = patientAppInfo.address1
       city = patientAppInfo.city
       state = patientAppInfo.state
@@ -202,62 +259,6 @@ export class IntakeStep1Component {
     this.step1Form.controls['city'].setValue(city)
     this.step1Form.controls['state'].setValue(state)
     this.step1Form.controls['zipcode'].setValue(zipcode)
-  }
-
-  loadForm() {
-    this.onStateChange(this.step1FormData ? this.step1FormData.patientId.state : '')
-    this.selectedCity = (this.step1FormData ? this.step1FormData.patientId.city : '')
-    console.log('step1 Form Data> >>>',this.step1FormData)
-
-    let firstName = this.step1FormData ? this.step1FormData.patientId.firstName : ''
-    let middleName = this.step1FormData ? this.step1FormData.patientId.middleName : ''
-    let lastName = this.step1FormData ? this.step1FormData.patientId.lastName : ''
-    let gender = this.step1FormData ? this.step1FormData.patientId.gender : ''
-    let maritalStatus = this.step1FormData ? this.step1FormData.patientId.maritalStatus : ''
-    let phoneNumber = this.step1FormData ? this.step1FormData.patientId.phoneNumber : ''
-    let workExtensionNumber = this.step1FormData ? this.step1FormData.patientId.workExtension : ''
-    let cellPhoneNumber = this.step1FormData ? this.step1FormData.patientId.cellPhoneNumber : ''
-    let dob = this.step1FormData ? new Date(this.step1FormData.patientId.dob) : ''
-    let email = this.step1FormData ? this.step1FormData.patientId.email : ''
-
-    if(this.step1FormData && this.step1FormData.patientInfo){
-      firstName = this.step1FormData.patientInfo.firstName;
-      middleName = this.step1FormData.patientInfo.middleName;
-      lastName = this.step1FormData.patientInfo.lastName;
-      gender = this.step1FormData.patientInfo.gender;
-      maritalStatus = this.step1FormData.patientInfo.maritalStatus;
-      phoneNumber = this.step1FormData.patientInfo.phoneNumber;
-      workExtensionNumber = this.step1FormData.patientInfo.workExtension;
-      cellPhoneNumber = this.step1FormData.patientInfo.cellPhoneNumber;
-      dob = new Date(this.step1FormData.patientInfo.dob);
-      email = this.step1FormData.patientInfo.email;
-    }
-
-    this.step1Form = new FormGroup({
-      practiceLocation: new FormControl((this.step1FormData ? this.step1FormData.practiceLocation : ''), Validators.compose([Validators.required])),
-      appointmentDate: new FormControl((this.step1FormData ? this.step1FormData.appointmentDate : ''), Validators.compose([Validators.required])),
-      bookingFor: new FormControl((this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue)),
-      relationWithPatient: new FormControl((this.step1FormData ? this.step1FormData.relationWithPatient : '')),
-      relationWithPatientOther: new FormControl((this.step1FormData ? this.step1FormData.relationWithPatientOther : '')),
-      firstName: new FormControl(firstName, Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
-      middleName: new FormControl(middleName),
-      lastName: new FormControl(lastName, Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
-      dob: new FormControl(dob, Validators.compose([Validators.required])),
-      maritalStatus: new FormControl(maritalStatus),
-      gender: new FormControl(gender),
-      email: new FormControl(email, Validators.compose([Validators.required, Validators.email, Validators.minLength(5), Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)])),
-      phoneNumber: new FormControl(phoneNumber, Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])),
-      cellPhoneNumber: new FormControl(cellPhoneNumber),
-      workExtensionNumber: new FormControl(workExtensionNumber),
-
-      address1: new FormControl((this.step1FormData ? this.step1FormData.patientId.address1 : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(100)])),
-      city: new FormControl((this.step1FormData ? this.step1FormData.patientId.city : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(25)])),
-      state: new FormControl((this.step1FormData ? this.step1FormData.patientId.state : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(25)])),
-      zipcode: new FormControl((this.step1FormData ? this.step1FormData.patientId.zipcode : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(6)]))
-    })
-   
-    const mockEvent: MatRadioChange = { value: this.selectedValue, source: this.radioButton! }; 
-    this.onChange(mockEvent)
   }
 
   async bookAppointmentStep1() {
