@@ -22,7 +22,7 @@
                                             This Case is in collections
                                         </span>
                                         <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Selfpay' && isSelfPay">User Selected the Self Pay Option</span>
-                                        <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Insurance' && !isSelfPay">User Selected the Insurance Option</span>
+                                        <!-- <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Insurance' && !isSelfPay">User Selected the Insurance Option</span> -->
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                         <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile/',appointmentData?.patientId._id)">View Patient Profile</button>
@@ -202,10 +202,10 @@
 
                                             <div class="col-12  mb-2">
                                                 <div class="form-group d-flex justify-content-end"> 
-                                                    <button mat-raised-button color="primary" class=" " (click)="selectInsuranceModal()">
+                                                    <button mat-raised-button color="primary" class=" " (click)="selectInsuranceModal()" [disabled]="!appointmentData?.intakeFormSubmit">
                                                         Update
                                                     </button>
-                                                    <button mat-stroked-button color="primary" class="me-3 ms-2" [disabled]="!stCaseDetailsForm.valid" (click)="saveStCaseDetails()">
+                                                    <button mat-stroked-button color="primary" class="me-3 ms-2" [disabled]="!stCaseDetailsForm.valid" (click)="saveStCaseDetails()" [disabled]="!appointmentData?.intakeFormSubmit">
                                                         Save
                                                     </button>
                                                 </div> 

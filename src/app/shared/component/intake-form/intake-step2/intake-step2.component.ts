@@ -724,12 +724,13 @@ export class IntakeStep2Component {
               if (this.selectedInsuranceFiles && this.selectedInsuranceFiles.length > 0) {
                 Object.assign(formData, { insuranceFiles: this.selectedInsuranceFiles })
               }
-              let updateInfo = {}
+              let updateInfo:any = {}
               if(this.userRole=='patient'){
               updateInfo = { payViaInsuranceInfo: formData}
               }else if(this.userRole!='patient'){
                 updateInfo = { adminPayViaInsuranceInfo: formData }
               }
+              updateInfo['payVia'] = payVia
 
               let params = {
                 query: { _id: this.appId },
@@ -737,6 +738,7 @@ export class IntakeStep2Component {
                 uploadedInsuranceFiles: JSON.parse(uploadedInsuranceFiles),
                 appointmentUpdateInfo:appointmentUpdateInfo
               }
+              
               await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
                 localStorage.removeItem('uploadedInsuranceFiles')
                 this.router.navigate([this.activeUserRoute, 'intake-form', 'step-3', this.appId])
