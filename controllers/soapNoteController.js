@@ -255,7 +255,7 @@ const finalizeNote = async (req, res) => {
             }
 
             // Call Tebra API - Create Encounter 
-            let noteType = ['initial_examination', 'progress_note']
+            let noteType = ['initial_examination', 'progress_note','daily_note','discharge_note']
             if(noteType.includes(req.body.soapNoteType)){
               tebraController.createEncounter(req.body, subjectiveResult )
             }

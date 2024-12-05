@@ -58,7 +58,7 @@ const messages = {
         rescheduled: 'Appointment has been rescheduled successfully',
         created: 'Appointment has been created successfully',
         requestCreated: 'Appointment request has been sent successfully',
-        patientEmailExist:'Your Patient account already created.',
+        patientEmailExist:'Your patient account is already created.',
         alreadyRequestCreated: 'Appointment request already sent!',
         resolved: 'Appointment request has been resolved successfully',
     },

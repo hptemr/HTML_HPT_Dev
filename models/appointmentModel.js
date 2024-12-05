@@ -42,6 +42,7 @@ const appointmentSchema = new mongoose.Schema({
         default: 'Myself'
     },
     relationWithPatient: { type: String, default: "" },
+    relationWithPatientOther: { type: String, default: "" },
     patientInfo: {
         type: Object //all the basic info will save in this object
     },
@@ -50,7 +51,7 @@ const appointmentSchema = new mongoose.Schema({
     payVia: {
         type: String,
         enum: ['Selfpay', 'Insurance'],
-        default: 'Insurance'
+        // default: 'Insurance'
     },
     payViaInsuranceInfo: {
         type: Object,
