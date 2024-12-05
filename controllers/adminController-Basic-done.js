@@ -1204,73 +1204,46 @@ async function summaryReportFinal(req) {
   let unitsvistTotal = 0
   let aquaticTotal = 0
   let aquatic2Total = 0
+  let initialExam = 0, dailyNote = 0, progressNote = 0, dischargeNote = 0, caseNote = 0, noShow = 0
 
   for (let i = 0; i < mainTotal; i++) {
     let row = currentYearResults.filter((item) => (item.month == mainLoop[i]))[0];
     let rowLast = lastYearResults.filter((item) => (item.month == mainLoop[i]))[0];
-    let lastAquatic = rowLast ? rowLast.aquatic : 0
-    let sumofAllLast = 0
-    if (rowLast) {
-      sumofAllLast = (rowLast.initialExam + rowLast.dailyNote + rowLast.progressNote + rowLast.dischargeNote + rowLast.caseNote)
-      aquatic2Total = aquatic2Total + lastAquatic
-    }
-    totalpts2Total = totalpts2Total + sumofAllLast
-
+    let lastAquatic = rowLast ? rowLast.aquatic : '0'
+    console.log("---Main---", mainLoop[i], "--------row------", row, rowLast)
     if (row == undefined) {
       finalReportsData.push({
         month: mainLoop[i],
-        evals: 0,
-        cx: 0,
-        cxper: 0,
-        ns: 0,
-        nsper: 0,
-        totalpts: 0,
-        totalpts2: 0,
-        prioryear: 0,
-        unitsbilled: 0,
-        unitsvist: 0,
-        aquatic: 0,
+        evals: '0',
+        cx: '0',
+        cxper: '0',
+        ns: '0',
+        nsper: '0',
+        totalpts: '0',
+        totalpts2: '0',
+        prioryear: '0',
+        unitsbilled: '0',
+        unitsvist: '0',
+        aquatic: '0',
         aquatic2: lastAquatic
       })
     } else {
       evalsTotal = evalsTotal + row.evals
       cxTotal = cxTotal + row.evals
       aquaticTotal = aquaticTotal + row.aquatic
-
-      let sumofAll = (row.initialExam + row.dailyNote + row.progressNote + row.dischargeNote + row.caseNote)
-      let cxper = 0, nsper = 0
-      totalptsTotal = totalptsTotal + sumofAll
-
-      prioryear = (((sumofAll - sumofAllLast) / sumofAllLast) * 100)
-      prioryearTotal = prioryearTotal + prioryear
-
-      let unitsbilled = row.unitsbilled
-      if (unitsbilled > 0) {
-        unitsbilledTotal = unitsbilledTotal + unitsbilled
-      }
-      if (sumofAll > 0) {
-        if (row.cx > 0) {
-          cxper = ((row.cx / sumofAll) * 100)
-          cxperTotal = cxperTotal + cxper
-        }
-        if (row.ns > 0) {
-          nsper = ((row.ns / sumofAll) * 100)
-          nsperTotal = nsperTotal + nsper
-        }
-      }
-
+      aquatic2Total = aquatic2Total + lastAquatic
       finalReportsData.push({
         month: mainLoop[i],
         evals: row.evals,
         cx: row.cx,
-        cxper: Number(cxper.toFixed(2)),
+        cxper: '0',
         ns: row.ns,
-        nsper: Number(nsper.toFixed(2)),
-        totalpts: sumofAll,
-        totalpts2: sumofAllLast,
-        prioryear: prioryear,
-        unitsbilled: 0,
-        unitsvist: 0,
+        nsper: '0',
+        totalpts: '0',
+        totalpts2: '0',
+        prioryear: '0',
+        unitsbilled: '0',
+        unitsvist: '0',
         aquatic: row.aquatic,
         aquatic2: lastAquatic
       })
@@ -1281,9 +1254,9 @@ async function summaryReportFinal(req) {
     month: 'TOTAL',
     evals: evalsTotal,
     cx: cxTotal,
-    cxper: Number(cxperTotal.toFixed(2)) + "%",
+    cxper: cxperTotal + "%",
     ns: nsTotal,
-    nsper: Number(nsperTotal.toFixed(2)) + "%",
+    nsper: nsperTotal + "%",
     totalpts: totalptsTotal,
     totalpts2: totalpts2Total, //last year
     prioryear: prioryearTotal + "%", //last year
@@ -1298,18 +1271,18 @@ async function summaryReportFinal(req) {
 async function summaryData(optionType, results) {
   let monthName = ''
   let quarterNumber = 0
-  let evals = 0
-  let cx = 0
-  let cxper = 0
-  let ns = 0
-  let nsper = 0
-  let totalpts = 0
-  let totalpts2 = 0
-  let prioryear = 0
-  let unitsbilled = 0
-  let unitsvist = 0
-  let aquatic = 0
-  let aquatic2 = 0
+  let evals = 0, evalsTotal = 0
+  let cx = 0, cxTotal = 0
+  let cxper = 0, cxperTotal = 0
+  let ns = 0, nsTotal = 0
+  let nsper = 0, nsperTotal = 0
+  let totalpts = 0, totalptsTotal = 0
+  let totalpts2 = 0, totalpts2Total = 0
+  let prioryear = 0, prioryearTotal = 0
+  let unitsbilled = 0, unitsbilledTotal = 0
+  let unitsvist = 0, unitsvistTotal = 0
+  let aquatic = 0, aquaticTotal = 0
+  let aquatic2 = 0, aquatic2Total = 0
   let initialExam = 0, dailyNote = 0, progressNote = 0, dischargeNote = 0, caseNote = 0, noShow = 0
   let finalResults = []
   let totoalResultCounter = results.length
@@ -1318,38 +1291,16 @@ async function summaryData(optionType, results) {
     totalCnt++
     if (element.status == 'Cancelled' || element.appointmentStatus == 'Cancelled') {
       cx++
+      cxTotal++
     }
     if (element.appointmentType == 'Aquatic') {
       aquatic++
+      aquaticTotal++
     }
     if (element.appointmentStatus == 'No-Show') {
       ns++
+      nsTotal++
       noShow++
-    }
-
-
-    if (element.billing && element.billing.length > 0) {
-      let initial_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "initial_examination"))[0];
-      let daily_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "daily_note"))[0];
-      let progress_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "progress_note"))[0];
-      let discharge_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "discharge_note"))[0];
-      let case_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
-
-      if (initial_bill) {
-        unitsbilled = initial_bill.total_units
-      }
-      if (daily_bill) {
-        unitsbilled = unitsbilled + daily_bill.total_units
-      }
-      if (progress_bill) {
-        unitsbilled = unitsbilled + progress_bill.total_units
-      }
-      if (discharge_bill) {
-        unitsbilled = unitsbilled + discharge_bill.total_units
-      }
-      if (case_bill) {
-        unitsbilled = unitsbilled + case_bill.total_units
-      }
     }
 
     if (element.subjective && element.subjective.length > 0) {
@@ -1360,6 +1311,7 @@ async function summaryData(optionType, results) {
       let case_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
       if (initial_examination) {
         evals++
+        evalsTotal++
         initialExam++
       }
       if (daily_note) {
@@ -1397,7 +1349,6 @@ async function summaryData(optionType, results) {
         monthName: monthName,
         quarterNumber: quarterNumber,
         appointmentId: element._id,
-
         noShow: noShow,
         initialExam: initialExam,
         dailyNote: dailyNote,
