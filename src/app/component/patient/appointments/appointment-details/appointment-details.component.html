@@ -51,7 +51,9 @@
                                     </div>
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3">
                                         <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Next Appointment Date and Time</h3>
-                                        <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">{{appInfo?.appointmentDate | date:"EEE, MMM d, y hh:mm a":'UTC'}}</p>
+                                        <p class="mb-1 clr--1F2F3E font-16 fw-400 min-h">
+                                            {{appInfo?.appointmentDate | date:'EEE, MMM d, y hh:mm a':'UTC'}} {{appInfo?.appointmentEndTime ? '-' : ''}} {{appInfo?.appointmentEndTime | date:'hh:mm a':'UTC'}}
+                                        </p>
                                     </div>
                                 </div>
                             </div>   

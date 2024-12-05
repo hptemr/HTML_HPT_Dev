@@ -228,6 +228,9 @@
                 .cal-week-view .cal-hour-segment.cal-after-hour-start .cal-time {
                     display: block !important;
                 }
+                .cal-week-view * { 
+                    white-space: normal;
+                }
                 // .custom-event {
                 //     display: flex;
                 //     align-items: center;
@@ -264,6 +267,7 @@
             .search--results--wrapper{ 
                 border-bottom: 1px solid #E0E0E0;
                 padding: 20px 20px 0 20px;
+                background: #fff;
                 &:first-child{
                     padding-top: 0;
                 }

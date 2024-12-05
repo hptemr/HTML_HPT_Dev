@@ -93,7 +93,7 @@ export class AppointmentDetailsComponent {
   async getAppointmentDetails() {
     const req_vars = {
       query: { _id: this.appId },
-      fields: { practiceLocation: 1, caseName:1, appointmentId: 1, appointmentDate: 1,  patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1,intakeFormSubmit:1 },
+      fields: { practiceLocation: 1, caseName:1, appointmentId: 1, appointmentDate: 1, appointmentEndTime:1, patientInfo: 1, relationWithPatient: 1, payVia: 1, payViaInsuranceInfo: 1,intakeFormSubmit:1 },
       patientFields: { _id: 1 },
       therapistFields: { _id: 1, firstName: 1, lastName: 1, profileImage:1 }
     }
@@ -121,7 +121,7 @@ export class AppointmentDetailsComponent {
         appointmentDate : { $lt: new Date() }
       },
       userQuery: {},
-      fields: { caseName:1, practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1,checkIn:1 },
+      fields: { caseName:1, practiceLocation: 1, appointmentId: 1, appointmentDate: 1,appointmentEndTime:1, status: 1,checkIn:1 },
       patientFields: { firstName: 1 },
       therapistFields: { firstName: 1, lastName: 1, profileImage: 1 },
       order: this.orderBy,
@@ -150,6 +150,7 @@ export class AppointmentDetailsComponent {
               appointmentId: element.appointmentId,
               checkIn: element.checkIn,
               appointmentDate: element.appointmentDate,
+              appointmentEndTime: element.appointmentEndTime,
               status: element.status,
               statusClass: element.status.toLowerCase(),
               practiceLocation: element.practiceLocation,

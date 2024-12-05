@@ -2,7 +2,9 @@
     <div class="sc--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center" *ngIf="calenderView">
         <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center flex-shrink-0 sm-w-100">
             <div class="form-group mb-0 flex-shrink-0 pl--field">
-                <select class="form-select form-control form-control-md"  (ngModelChange)="searchRecords('practiceLocation',$event)" [(ngModel)]="practiceLocationsVal" class="form-select form-control" aria-label="Default select example">
+                <select class="form-select form-control form-control-md"
+                    (ngModelChange)="searchRecords('practiceLocation',$event)" [(ngModel)]="practiceLocationsVal"
+                    aria-label="Default select example">
                     <option selected value="">Practice Location</option>
                     <option *ngFor="let element of practiceLocations" value="{{element}}">{{element}}
                     </option>
@@ -13,16 +15,19 @@
                     <img src="/assets/images/ark/user.png" alt="" class="img-fluid">
                 </div> 
             </div> -->
-        </div> 
-        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between  w-100"> 
+        </div>
+        <div
+            class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between  w-100">
             <div class="btn-group today--btns">
-                <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
                     <mat-icon>chevron_left</mat-icon>
                 </div>
                 <div class="btn" mwlCalendarToday [(viewDate)]="viewDate">
                     {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
                 </div>
-                <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
                     <mat-icon>chevron_right</mat-icon>
                 </div>
             </div>
@@ -35,36 +40,44 @@
                 </div>
                 <div class="btn " (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
                     Month
-                </div> 
+                </div>
             </div>
-            <div class="form-group position-relative mb-0 head--search" (click)="searchPage()" >
-                <input type="text" class="form-control form-control-md search--outer" placeholder="Search">
+            <div class="form-group position-relative mb-0 head--search">
+                <!-- <input type="text" class="form-control form-control-md search--outer" placeholder="Search">
                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                </button>
+                </button> -->
+
+                <button mat-stroked-button color="primary" class="m-1" (click)="searchPage()">
+                    <mat-icon class="m-0">filter_alt</mat-icon>
+                    Advance Search</button> 
+                <button mat-raised-button class="flex-shrink-0   m-1" color="primary" (click)="resetPage()" >Reset</button>
             </div>
         </div>
     </div>
 
-    <div class="sc--header search--filter--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center" *ngIf="searchView">
+    <div class="sc--header search--filter--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center"
+        *ngIf="searchView">
         <div class="d-flex align-items-center flex-shrink-0">
-            <button mat-stroked-button color="primary" class="m-1 back--btn" (click)="backToCalender()" >
-                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
+            <button mat-stroked-button color="primary" class="m-1 back--btn" (click)="backToCalender()">
+                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
             </button>
-            <div class="form-group position-relative head--search m-1" >
-                <input type="text" class="form-control form-control-md search--outer" placeholder="Search" (keyup)="searchPageFilters($event,'byPatientNameOrEmail')">
+            <div class="form-group position-relative head--search m-1">
+                <input type="text" class="form-control form-control-md search--outer" placeholder="Search"
+                    (keyup)="searchPageFilters($event,'byPatientNameOrEmail')">
                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                 </button>
             </div>
         </div>
-        <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start">  
+        <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start">
             <!-- <input class="form-control form-control-md w-170p m-1 flex-shrink-0" type="text"   placeholder="" value="Aug 26, 2024" />  -->
-            <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker"> 
-                <input class="" matInput [matDatepicker]="picker" placeholder="14/12/2012" (dateChange)="onSearchDateChange($event)"> 
+            <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker">
+                <input class="" matInput [matDatepicker]="picker" placeholder="Filter by Date"
+                    (dateChange)="onSearchDateChange($event)">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+            </mat-form-field>
             <!-- <div> 
                 <input placeholder="12:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
                 <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
@@ -97,7 +110,8 @@
                 <option value="3">Insurance 3 </option> 
             </select>
         </div> -->
-        <button mat-raised-button class="flex-shrink-0 ms-auto mt-1 mb-1 mr-1" color="primary" (click)="resetSearchPage()">Reset</button>
+        <button mat-raised-button class="flex-shrink-0 ms-auto mt-1 mb-1 mr-1" color="primary"
+            (click)="resetSearchPage()">Reset</button>
     </div>
 
     <div class="sc--body d-flex align-items-start">
@@ -110,7 +124,7 @@
                     <button class="ca--btn" mat-raised-button color="primary" (click)="createAppointmentModal()">
                         <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
                         Create Appointment
-                    </button> 
+                    </button>
                 </div>
                 <div class="col-12">
                     <h3 class="text-primary">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
@@ -125,16 +139,49 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group position-relative w-100">
-                                    <input type="text" class="form-control form-control-md search--outer" #searchInput placeholder="Search for Therapist" (keyup)="searchTherapist(searchInput.value,'byTname')" >
-                                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields" (click)="searchTherapist(searchInput.value,'byTname')">
+                                    <input type="text" class="form-control form-control-md search--outer" #searchInput
+                                        placeholder="Search for Therapist"
+                                        (keyup)="searchTherapist(searchInput.value,'byTname')">
+                                    <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields"
+                                        (click)="searchTherapist(searchInput.value,'byTname')">
                                         <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
                                     </button>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <mat-chip-set cdkDropList cdkDropListOrientation="horizontal">
+                                    <mat-chip class="m-1"> Alex John
+                                        <button matChipRemove >
+                                            <mat-icon>cancel</mat-icon>
+                                        </button>
+                                    </mat-chip>
+                                    <mat-chip class="m-1">Rohini
+                                        <button matChipRemove >
+                                            <mat-icon>cancel</mat-icon>
+                                        </button>
+                                    </mat-chip>
+                                    <mat-chip class="m-1"> Beadell Logan
+                                        <button matChipRemove >
+                                            <mat-icon>cancel</mat-icon>
+                                        </button>
+                                    </mat-chip>
+                                    <mat-chip class="m-1"> Pankaj Therapist
+                                        <button matChipRemove >
+                                            <mat-icon>cancel</mat-icon>
+                                        </button>
+                                    </mat-chip>
+                                    <mat-chip class="m-1">Sharonn Williams
+                                        <button matChipRemove >
+                                            <mat-icon>cancel</mat-icon>
+                                        </button>
+                                    </mat-chip>
+                                </mat-chip-set>
+                            </div>
                             <div class="col-12 scroll--outer">
                                 <div class="d-flex flex-column w-100" *ngFor="let item of therapistList">
-                                    <mat-checkbox class="w-100" (change)="onCheckboxChange($event, item.id)" [checked]="selectedItems.includes(item.id)">{{item.name}}</mat-checkbox>
-                                </div>                        
+                                    <mat-checkbox class="w-100" (change)="onCheckboxChange($event, item.id)"
+                                        [checked]="selectedItems.includes(item.id)">{{item.name}}</mat-checkbox>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,24 +191,16 @@
 
         <!-- Calender Start here -->
         <div class="sc--right--panel d-flex flex-column w-100">
-            <div class="w-100" *ngIf="calenderView"> 
+            <div class="w-100" *ngIf="calenderView">
                 <div class="col-12">
                     <div [ngSwitch]="view">
                         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
                             [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
-                            (dayClicked)="dayClicked($event.day)" 
-                            (eventTimesChanged)="eventTimesChanged($event)">
+                            (dayClicked)="dayClicked($event.day)" (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-month-view>
-                        <mwl-calendar-week-view 
-                            *ngSwitchCase="CalendarView.Week" 
-                            [viewDate]="viewDate"
-                            [hourSegments]="4"
-                            [hourDuration]="60"                             
-                            [dayStartHour]="9"
-                            [dayEndHour]="21"
-                            [events]="events" 
-                            [refresh]="refresh"                             
-                            (eventTimesChanged)="eventTimesChanged($event)">
+                        <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate"
+                            [hourSegments]="4" [hourDuration]="60" [dayStartHour]="9" [dayEndHour]="21"
+                            [events]="events" [refresh]="refresh" (eventTimesChanged)="eventTimesChanged($event)">
                             <!-- (eventClicked)="handleEvent('Clicked', $event.event,'6')" -->
                         </mwl-calendar-week-view>
                         <!-- <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
@@ -180,23 +219,16 @@
                             (eventClicked)="handleEvent('Clicked', $event.event,'7')"
                             (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-day-view> -->
-                        <mwl-calendar-day-view 
-                            *ngSwitchCase="CalendarView.Day"
-                            [viewDate]="viewDate" 
-                            [hourSegments]="4"
-                            [hourDuration]="60"                             
-                            [dayStartHour]="9"
-                            [dayEndHour]="21"
-                            [events]="events"                             
-                            [refresh]="refresh"                    
-                            (eventTimesChanged)="eventTimesChanged($event)">
+                        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [hourSegments]="4"
+                            [hourDuration]="60" [dayStartHour]="9" [dayEndHour]="21" [events]="events"
+                            [refresh]="refresh" (eventTimesChanged)="eventTimesChanged($event)">
                             <!-- [eventTemplate]="customEventTemplate" 
                              (eventClicked)="handleEvent('Clicked', $event.event,'7')" -->
                         </mwl-calendar-day-view>
-                     
+
                     </div>
                 </div>
-            </div>  
+            </div>
 
             <!-- <ng-template #customEventTemplate let-event="event">
                 <div *ngIf="event; else noEvent" class="custom-event" [style.borderLeftColor]="event.color?.primary || '#ccc'">
@@ -213,57 +245,67 @@
                   </ng-template>
             </ng-template> -->
 
-            <ng-template #modalContent let-close="close"> 
+            <ng-template #modalContent let-close="close">
                 <div class="modal--wrapper d-flex flex-column w-100 app--details--modal--wrapper">
                     <div class="modal--header w-100 d-flex justify-content-between align-items-center">
                         <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-0">
                             Appointment Details
-                        </h1> 
-                        <button class="more--opt" mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu">
+                        </h1>
+                        <button class="more--opt" mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                            aria-label="Example icon-button with a menu">
                             <mat-icon>more_vert</mat-icon>
-                          </button>
-                          <mat-menu #beforeMenu="matMenu" xPosition="before">
-                            <button mat-menu-item [disabled]="editOptionFlag" (click)="editAppointment('Update',app_data)">
-                              <span>Edit</span>
-                            </button> 
-                            <button mat-menu-item [disabled]="deleteOptionFlag" (click)="deleteAppointment(app_data.id,app_data.caseName+ ' (' + app_data.patientName + ')',this.selectedDateEventCount)">
-                              <span>Delete</span>
+                        </button>
+                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                            <button mat-menu-item [disabled]="editOptionFlag"
+                                (click)="editAppointment('Update',app_data)">
+                                <span>Edit</span>
                             </button>
-                            <button mat-menu-item (click)="editAppointment('Duplicate',app_data)"> 
+                            <button mat-menu-item [disabled]="deleteOptionFlag"
+                                (click)="deleteAppointment(app_data.id,app_data.caseName+ ' (' + app_data.patientName + ')',this.selectedDateEventCount)">
+                                <span>Delete</span>
+                            </button>
+                            <button mat-menu-item (click)="editAppointment('Duplicate',app_data)">
                                 <span>Duplicate</span>
                             </button>
-                          </mat-menu> 
+                        </mat-menu>
                     </div>
                     <div class="modal--body w-100  ">
                         <div class="row">
                             <div class="col-12 d-flex align-items-start">
                                 <div class="profile--round flex-shrink-0">
-                                    <img src="{{app_data.profileImage}}"  alt="profileImage" class="img-fluid" />
+                                    <img src="{{app_data.profileImage}}" alt="profileImage" class="img-fluid" />
                                 </div>
                                 <div class="w-100 d-flex flex-column  align-items-start">
                                     <h2 class="font-16 clr--1F2F3E mb-1 fw-500">{{app_data.patientName}}</h2>
                                     <div class="w-100 d-flex flex-column flex-sm-row align-items-start">
                                         <div class="d-flex flex-column me-4">
                                             <label class="font-14 fw-700 clr--1F2F3E mb-1">{{app_data.caseName}}</label>
-                                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"><mat-icon class="text-primary me-2">phone</mat-icon> {{app_data.phoneNumber}}</p>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E phone"><mat-icon
+                                                    class="text-primary me-2">phone</mat-icon> {{app_data.phoneNumber}}
+                                            </p>
                                         </div>
                                         <div class="d-flex flex-column">
                                             <label class="font-14 fw-700 clr--1F2F3E mb-1">Date of Birth</label>
-                                            <p class="font-14 d-flex align-items-center clr--1F2F3E">{{app_data.dob | date:'MM-dd-yyyy':'UTC' }}</p>
+                                            <p class="font-14 d-flex align-items-center clr--1F2F3E">{{app_data.dob |
+                                                date:'MM-dd-yyyy':'UTC' }}</p>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label fw-700 pb-0">Appointment Date and Start Time-End Time</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data.appointmentDate | date:'MMM d, y hh:mm a':'UTC'}} {{app_data.appointmentEndTime ? '-' : ''}} {{app_data.appointmentEndTime | date:'hh:mm a':'UTC'}}</p>
+                                    <label class="col-form-label fw-700 pb-0">Appointment Date and Start Time-End
+                                        Time</label>
+                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data.appointmentDate | date:'MMM d, y
+                                        hh:mm a':'UTC'}} {{app_data.appointmentEndTime ? '-' : ''}}
+                                        {{app_data.appointmentEndTime | date:'hh:mm a':'UTC'}}</p>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Therapist Name</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.therapistName ? app_data.therapistName : ''}}</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.therapistName ?
+                                        app_data.therapistName : ''}}</p>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
@@ -272,69 +314,85 @@
                                     <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.practiceLocation}}</p>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3"> 
+                            <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Appointment Type</label>
-                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.appointmentType ? app_data.appointmentType : ''}}</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E text-break">{{app_data.appointmentType ?
+                                        app_data.appointmentType : ''}}</p>
                                 </div>
-                            </div> 
-                            <div class="col-12 col-md-3"> 
+                            </div>
+                            <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Insurance Type</label>
                                     <p class="font-14 mb-0 clr--1F2F3E text-break">Primary Insurance</p>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-9"> 
+                            <div class="col-12 col-md-9">
                                 <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0">Patient Checked in by </label>
-                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data?.checkIn ? app_data?.checkInUser : 'N/A'}}</p>
+                                    <p class="font-14 mb-0 clr--1F2F3E">{{app_data?.checkIn ? app_data?.checkInUser :
+                                        'N/A'}}</p>
                                 </div>
-                            </div> 
-                            <div class="col-12 mb-3">                              
+                            </div>
+                            <div class="col-12 mb-3">
                                 <mat-radio-group aria-label="Select an option" (change)="onChange($event,app_data.id)">
-                                    <mat-radio-button value="checkIn" class="me-3" checked="{{app_data?.checkIn}}">Patient Check-In</mat-radio-button>
-                                    <mat-radio-button value="No-Show" class="me-3" checked="{{app_data?.appointmentStatus=='No-Show'}}">Mark as No-show</mat-radio-button>
-                                    <mat-radio-button value="Cancelled" checked="{{app_data?.appointmentStatus=='Cancelled'}}">Mark as Cancelled</mat-radio-button>
+                                    <mat-radio-button value="checkIn" class="me-3"
+                                        checked="{{app_data?.checkIn}}">Patient Check-In</mat-radio-button>
+                                    <mat-radio-button value="No-Show" class="me-3"
+                                        checked="{{app_data?.appointmentStatus=='No-Show'}}">Mark as
+                                        No-show</mat-radio-button>
+                                    <mat-radio-button value="Cancelled"
+                                        checked="{{app_data?.appointmentStatus=='Cancelled'}}">Mark as
+                                        Cancelled</mat-radio-button>
                                 </mat-radio-group>
                             </div>
-                            <div class="col-12 col-md-3"> 
-                                <button mat-stroked-button color="primary" class="mb-2 w-100" (click)="navigateToappointmentDetails(app_data.id)">Case Details</button> 
+                            <div class="col-12 col-md-3">
+                                <button mat-stroked-button color="primary" class="mb-2 w-100"
+                                    (click)="navigateToappointmentDetails(app_data.id)">Case Details</button>
                             </div>
-                            <div class="col-12 col-md-9"> 
-                                <button mat-stroked-button color="primary" class="mb-2 me-3 sm-w-100" (click)="upcomingAppointmentModal(app_data)">Upcoming Appointments</button>
-                                <button mat-stroked-button color="primary" class="mb-2 sm-w-100" (click)="collectPaymentModal()">Payments</button>  
-                            </div> 
-                            <div class="col-12"> 
-                                <div class="form-group"> 
+                            <div class="col-12 col-md-9">
+                                <button mat-stroked-button color="primary" class="mb-2 me-3 sm-w-100"
+                                    (click)="upcomingAppointmentModal(app_data)">Upcoming Appointments</button>
+                                <button mat-stroked-button color="primary" class="mb-2 sm-w-100"
+                                    (click)="collectPaymentModal()">Payments</button>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
                                     <label class="col-form-label fw-700 pb-0 mt-3">Notes</label>
                                     <p class="font-14 mb-0 clr--1F2F3E">{{app_data.notes ? app_data.notes : 'N/A'}}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0"> 
+                    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0">
                         <button mat-raised-button color="primary" (click)="close()">Close</button>
-                    </div>                     
-                </div> 
+                    </div>
+                </div>
             </ng-template>
 
             <div class="row w-100" *ngIf="searchView && searchAppointmentsList.length>0 && !noRecordFound">
-                <span class="fw-700 ms-3"> {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}, Total record : {{totalSearchPageCount}}</span>
+                <span class="fw-700 ms-3"> {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}, Total record :
+                    {{totalSearchPageCount}}</span>
                 <div class="col-12">
-                    <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100" *ngFor="let elements of searchAppointmentsList"> 
+                    <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100"
+                        *ngFor="let elements of searchAppointmentsList">
                         <div class="date flex-shrink-0">
-                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">{{elements.date | date:'d':'UTC' }} 
-                                <span class="fw-700 ms-3"> {{elements.date | date:'MMM yyyy, EEE':'UTC' }}</span>
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">{{elements.date | date:'d'}} 
+                                <span class="fw-700 ms-3"> {{elements.date | date:'MMM yyyy, EEE' }}</span>
                             </p>
                         </div>
                         <div class="w-100 d-flex flex-column align-items-start">
-                            <div class="user--time d-flex align-items-between w-100 cursor-pointer" *ngFor="let element of elements.appointments" (click)="navigateToappointmentDetails(element.id)">
+                            <div class="user--time d-flex align-items-between w-100 cursor-pointer"
+                                *ngFor="let element of elements.appointments"
+                                (click)="navigateToappointmentDetails(element.id)">
                                 <div class="d-flex align-items-center w-100">
                                     <div class="d-flex align-items-center">
                                         <div class="point m-1 red"></div><!-- orange        green      blue  -->
-                                        <p class="m-1 font-14 clr--1F2F3E">{{element.appointmentDate | date:'hh:mm a':'UTC' }} -{{element.appointmentEndTime | date:'hh:mm a':'UTC' }}</p> 
+                                        <p class="m-1 font-14 clr--1F2F3E">{{element.appointmentDate | date:'hh:mm
+                                            a':'UTC' }} -{{element.appointmentEndTime | date:'hh:mm a':'UTC' }}</p>
                                     </div>
-                                    <p class="m-1 font-14 clr--1F2F3E fw-600">{{element.patientName}}, {{element.caseName}}</p>
+                                    <p class="m-1 font-14 clr--1F2F3E fw-600">{{element.patientName}},
+                                        {{element.caseName}}</p>
                                 </div>
                                 <div class="pro--circle">
                                     <img src="{{element.profileImage}}" alt="Patient Profile" class="img-fluid">
@@ -453,14 +511,14 @@
                             <li class="page-item cursor-pointer"><a class="page-link">Next</a></li>
                         </ul>
                         </nav> -->
-                        <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalSearchPageCount"
+                    <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalSearchPageCount"
                         [pageSize]="pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions"
                         [pageIndex]="pageIndex"></mat-paginator>
                 </div>
             </div>
             <div class="row w-100" *ngIf="noRecordFound">
                 <div class="col-12">
-                    <div class="no--record--found d-flex align-items-center justify-content-center w-100" >
+                    <div class="no--record--found d-flex align-items-center justify-content-center w-100">
                         <div class="d-flex flex-column align-items-center w-100">
                             <img src="assets/images/ark/sad.png" alt="No Records found" class="mb-3 sad--img">
                             <p class="">No Records found</p>

@@ -72,7 +72,7 @@ export class AppointmentsComponent {
     let reqVars = {
       query: this.whereCond,
       userQuery: this.userQuery,
-      fields: { caseName:1, practiceLocation: 1, appointmentId: 1, appointmentDate: 1, status: 1 },
+      fields: { caseName:1, practiceLocation: 1, appointmentId: 1, appointmentDate: 1,appointmentEndTime:1, status: 1 },
       patientFields: { firstName: 1 },
       therapistFields: { firstName: 1, lastName: 1, profileImage: 1 },
       order: this.orderBy,
@@ -101,6 +101,7 @@ export class AppointmentsComponent {
           appointmentId: element.appointmentId,
           caseName: element.caseName,
           appointmentDate: element.appointmentDate,
+          appointmentEndTime: element.appointmentEndTime,
           status: element.status,
           statusClass: element.status.toLowerCase(),
           practiceLocation: element.practiceLocation,

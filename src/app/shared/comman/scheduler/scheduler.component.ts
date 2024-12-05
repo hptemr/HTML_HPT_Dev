@@ -342,6 +342,7 @@ export class SchedulerComponent {
     }
     
     handleEvent(action: string, event: CalendarEvent, app_data:any=[]): void {
+      console.log('id >> ',app_data.id)
       const eventsCount = this.events.filter((item) => {
         const eventDate = new Date(item.start).toISOString().split("T")[0]; 
         return eventDate === new Date(event.start).toISOString().split("T")[0];
@@ -434,6 +435,15 @@ export class SchedulerComponent {
         }
         this.getAppointmentList('search')
     }
+    
+    resetPage(){
+      this.whereCond = {};
+      this.userQuery = {};
+      this.patientQuery = {}
+      this.selectedItems = [];
+      this.practiceLocationsVal = '';
+      this.getAppointmentList('')
+    }
 
     async getAppointmentList(action = "") {
       if (action == "") {
@@ -492,7 +502,7 @@ export class SchedulerComponent {
               therapistName:element.therapistObj[0]?.firstName+' '+element.therapistObj[0]?.lastName,            
               therapistProfileImage:element.therapistObj[0]?.profileImage,
               therapistId:element.therapistObj[0]?._id,
-              eventsObj:element.eventsObj
+              //eventsObj:element.eventsObj
             }
             finalData.push(newColumns)
           })
@@ -508,14 +518,16 @@ export class SchedulerComponent {
     async appointmentsEventsList(){
       let eventArray: any = []
       this.appointmentsList.forEach((element:any,index:any) => {
-        if (Array.isArray(element.eventsObj) && element.eventsObj.length > 0) {
-              element.eventsObj.forEach((item:any) => {
-                delete element.eventsObj
-                eventArray.push(this.eventArray(element,moment.utc(item.repeateAppointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),moment.utc(item.repeateAppointmentEndDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),true))   
-              });
-          } else {
+        // if (element.eventsObj.length > 0 && Array.isArray(element.eventsObj)) {
+        //       element.eventsObj.forEach((item:any) => {
+        //         delete element.eventsObj
+        //         eventArray.push(this.eventArray(element,moment.utc(item.repeateAppointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),moment.utc(item.repeateAppointmentEndDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),true))   
+        //       });
+        //   } else {
+
               eventArray.push(this.eventArray(element,element.appointmentStartDate,element.appointmentEndDate,true))   
-          }
+
+          //}
       });
       this.events = eventArray;
       
@@ -707,6 +719,7 @@ export class SchedulerComponent {
           })
 
           finalData = this.groupAppointmentsByDate(finalData); 
+     
           if(finalData.__zone_symbol__state){
             this.searchAppointmentsList = finalData.__zone_symbol__value;   
           }     

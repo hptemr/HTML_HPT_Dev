@@ -46,6 +46,7 @@ export class EditAppointmentModalComponent {
   title:string='';
   from:string='';
   day: string;
+  selectedDateTime: Date = new Date();
   constructor(
     public dialog: MatDialog,
     private commonService: CommonService,
@@ -74,6 +75,14 @@ export class EditAppointmentModalComponent {
     const defaultStartTime = this.getNext30MinuteMark();
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
+
+    this.selectedDateTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      0,0,0  
+    )
+
 
     let appointmentStartDate = '';
     let appointmentEndTime = '';
@@ -131,13 +140,54 @@ export class EditAppointmentModalComponent {
   }
 
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
-    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
+   // console.log('onDateChange >>>>',event.value,'----------onDateChange UTC>>>>',this.commonService.formatDateInUTC(event.value,'MMM d, y hh:mm a'))
+    if (event.value instanceof Date) {
+      const  selectedDate = event.value
+      let newDate = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
+        9,0,0
+      );
+      this.selectedDateTime = newDate
+      console.log('onDateInput >>>>',this.selectedDateTime)
+      this.appointmentForm.controls['appointmentStartTime'].setValue(newDate);
+      this.appointmentForm.controls['appointmentEndTime'].setValue(newDate);
+      
+      // setTimeout( () => {    
+      //   console.log('onDateChange StartTime>>>>',this.appointmentForm.get('appointmentStartTime'))
+      //   console.log('onDateChange EndTime>>>>','----',this.appointmentForm.get('appointmentEndTime'))
+      // }, 100)
+    }
+   
   }
   // This function is triggered on date input
   onDateInput(event: MatDatepickerInputEvent<Date>): void {
-    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
+   // console.log('onDateInput >>>>',event.value,'----------onDateInput UTC>>>>',this.commonService.formatDateInUTC(event.value,'MMM d, y hh:mm a'))    
+    if (event.value instanceof Date) {
+      const  selectedDate = event.value
+      let newDate = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
+        9,0,0
+      );
+      this.selectedDateTime = newDate
+  
+      this.appointmentForm.controls['appointmentStartTime'].setValue(newDate);
+      this.appointmentForm.controls['appointmentEndTime'].setValue(newDate);
+  
+      // setTimeout( () => {    
+      //   console.log('onDateInput StartTime>>>>',this.appointmentForm.get('appointmentStartTime'))
+      //   console.log('onDateInput EndTime>>>>','----',this.appointmentForm.get('appointmentEndTime'))
+      // }, 100)
+    }
+  }
+
+ 
+  onDateTimeChange(updatedDateTime: any,from:string): void {
+    // const newDateTime = updatedDateTime as Date; // Cast to Date
+    // this.selectedDateTime = newDateTime;
   }
 
   getNext30MinuteMark(): Date {

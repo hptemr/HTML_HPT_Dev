@@ -126,7 +126,7 @@ export class OnePageNoteModalComponent {
           const contentDataURL = canvas.toDataURL('image/png')  
           // let pdf = new jspdf('l', 'cm', 'a4'); //Generates PDF in landscape mode
           let pdf = new jspdf('p', 'cm', 'a4');// Generates PDF in portrait mode
-          pdf.addFont("Arimo-Regular.ttf", "Arimo", "'Nunito Sans', sans-serif");
+          //pdf.addFont("Arimo-Regular.ttf", "Arimo", "'Nunito Sans', sans-serif");
           // pdf.setFont('"Nunito Sans", sans-serif', '"Nunito Sans", sans-serif');
           pdf.addImage(contentDataURL, 'PNG', 2, 2, 16.7, 18.0);  
           pdf.save('Filename.pdf');   
