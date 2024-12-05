@@ -37,7 +37,7 @@ export const protocolDirectory = protocolDirectoryValue
 export const webTitle = "HPT"
 export const serverUrl = serverUrlEnv
 export const pageSize = 10
-export const pageSizeOptions = [10, 25, 50]
+export const pageSizeOptions = [10, 25, 50, 100]
 export const maxAppoinmentFutureMonths = 9
 export const practiceLocations = [
   "Corvallis PT",

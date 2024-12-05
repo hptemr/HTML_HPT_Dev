@@ -125,7 +125,7 @@
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Email <span class="clr--DF0404 ms-1"> * </span></label>
-                    <input class="form-control" type="email" formControlName="email" placeholder="Enter Email" />
+                    <input class="form-control" type="email" formControlName="email" placeholder="Enter Email" (change)="onEmailChange(appointmentForm.controls['email'].value)"  />
 
                     <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['email'].touched && (appointmentForm.controls['email'].hasError('required') || appointmentForm.controls['email'].invalid)">
                         {{ validationMessages.required('an email address') }}

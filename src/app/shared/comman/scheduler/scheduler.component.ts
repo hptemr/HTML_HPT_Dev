@@ -342,6 +342,7 @@ export class SchedulerComponent {
     }
     
     handleEvent(action: string, event: CalendarEvent, app_data:any=[]): void {
+      console.log('id >> ',app_data.id)
       const eventsCount = this.events.filter((item) => {
         const eventDate = new Date(item.start).toISOString().split("T")[0]; 
         return eventDate === new Date(event.start).toISOString().split("T")[0];
@@ -433,6 +434,15 @@ export class SchedulerComponent {
           delete this.whereCond[colName];
         }
         this.getAppointmentList('search')
+    }
+    
+    resetPage(){
+      this.whereCond = {};
+      this.userQuery = {};
+      this.patientQuery = {}
+      this.selectedItems = [];
+      this.practiceLocationsVal = '';
+      this.getAppointmentList('')
     }
 
     async getAppointmentList(action = "") {
@@ -709,6 +719,7 @@ export class SchedulerComponent {
           })
 
           finalData = this.groupAppointmentsByDate(finalData); 
+     
           if(finalData.__zone_symbol__state){
             this.searchAppointmentsList = finalData.__zone_symbol__value;   
           }     

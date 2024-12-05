@@ -50,8 +50,8 @@
 
                 <button mat-stroked-button color="primary" class="m-1" (click)="searchPage()">
                     <mat-icon class="m-0">filter_alt</mat-icon>
-                    Advance Search</button>
-                <button mat-raised-button class="flex-shrink-0 ms-auto m-1  " color="primary">Reset</button>
+                    Advance Search</button> 
+                <button mat-raised-button class="flex-shrink-0   m-1" color="primary" (click)="resetPage()" >Reset</button>
             </div>
         </div>
     </div>
@@ -377,9 +377,8 @@
                     <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100"
                         *ngFor="let elements of searchAppointmentsList">
                         <div class="date flex-shrink-0">
-                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">{{elements.date |
-                                date:'d':'UTC' }}
-                                <span class="fw-700 ms-3"> {{elements.date | date:'MMM yyyy, EEE':'UTC' }}</span>
+                            <p class="mb-0 clr--1F2F3E fw-500 d-flex align-items-center">{{elements.date | date:'d'}} 
+                                <span class="fw-700 ms-3"> {{elements.date | date:'MMM yyyy, EEE' }}</span>
                             </p>
                         </div>
                         <div class="w-100 d-flex flex-column align-items-start">
