@@ -677,11 +677,11 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 })
 
 export class ReportsComponent {
-  year: any
+  year: any = ''
   years: any = []
-  optionType:any='Monthly' //Monthly Values , Quarterly Values
+  optionType: any = 'Monthly' //Monthly Values , Quarterly Values
   reportType: any = '';
-  selectedLocation: any = '' 
+  selectedLocation: any = ''
 
   summaryList: any
 
@@ -905,13 +905,14 @@ export class ReportsComponent {
       optionType: this.optionType
     }
     await this.authService.apiRequest('post', 'admin/getReports', reqVars).subscribe(async response => {
+      console.log(response.data)
       this.commonService.hideLoader()
       switch (this.reportType) {
         case "summary":
           this.summaryList = new MatTableDataSource(response.data);
           break;
         case "therapistReport":
-          this.individualTherapistReportData = new MatTableDataSource(response.data);  
+          this.individualTherapistReportData = new MatTableDataSource(response.data);
           break;
       }
     })
@@ -936,16 +937,16 @@ export class ReportsComponent {
     } else {
       this.optionType = 'Monthly'
     }
-    this.summaryList=[{},{},{},{},{}]
+    this.summaryList = [{}, {}, {}, {}, {}]
     this.getReports()
   }
 
-  therapistIndexChange (event: any) {
-    if(event > 0){
+  therapistIndexChange(event: any) {
+    if (event > 0) {
       this.optionType = 'Anually'
-    }else{
-      this.optionType = 'Monthly'  
+    } else {
+      this.optionType = 'Monthly'
     }
     this.getReports()
-  } 
+  }
 }
