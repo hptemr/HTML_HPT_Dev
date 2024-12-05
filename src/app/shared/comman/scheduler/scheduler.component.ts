@@ -398,11 +398,13 @@ export class SchedulerComponent {
     
     closeOpenMonthViewDay() {
         this.activeDayIsOpen = false;
-        //console.log('closeOpenMonthViewDay  >>>>>>',this.viewDate)
+        this.selected = this.viewDate;
+        this.calendar.activeDate = this.selected;
+        this.calendar.selected = this.selected;
     } 
 
     onDateChange(event: any) {
-        console.log('on Date Change Event >>>>>>',event)
+        //console.log('on Date Change Event >>>>>>',event)
         // this.viewDate = event;
         // if(this.calenderView){
         //   this.getAppointmentList('search')
@@ -414,7 +416,7 @@ export class SchedulerComponent {
 
     onMonthChanges(id:any): void {
       this.viewDate = this.calendar.activeDate;
-     // console.log(id,'*****Month navigation detected. Current active month:', this.viewDate,'....calender View>>>',this.calenderView,'....search View>>>',this.searchView);
+      //console.log(id,'*****Month navigation detected. Current active month:', this.viewDate,'....calender View>>>',this.calenderView,'....search View>>>',this.searchView);
       if(this.calenderView){
         this.getAppointmentList('search')
       }

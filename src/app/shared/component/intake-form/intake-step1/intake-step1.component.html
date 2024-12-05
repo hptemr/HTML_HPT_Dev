@@ -73,9 +73,9 @@
                             <mat-radio-button value="Myself" class="me-3">Myself</mat-radio-button>
                             <mat-radio-button value="Other">Other</mat-radio-button>
                         </mat-radio-group>
-                        <div class="form-group other--booking" *ngIf="selectedValue == 'Other'">
+                        <!-- <div class="form-group other--booking" *ngIf="selectedValue == 'Other'">
                             <input class="form-control" type="text" placeholder="Enter other booking for" />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
@@ -87,8 +87,8 @@
                             </option>
                         </select>
                     </div>
-                    <div class="form-group" *ngIf="">
-                        <input class="form-control" type="text" placeholder="Enter other relation" />
+                    <div class="form-group" *ngIf="step1Form.controls['relationWithPatient'].value=='Other'">
+                        <input class="form-control" type="text" placeholder="Enter other relation" formControlName="relationWithPatientOther"/>
                     </div>
                 </div>
 

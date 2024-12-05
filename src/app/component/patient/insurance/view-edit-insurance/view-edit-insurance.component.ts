@@ -425,6 +425,17 @@ export class ViewEditInsuranceComponent {
       const mockEvent = { target: { value: 'Other' } }; 
       this.relationShipPatient(mockEvent)
     }
+
+    if(secondarySubscriberRelationWithPatient=='Other'){
+      const mockEvent12 = { target: { value: 'Other' } }; 
+      this.secondarySubscriberRelationShipPatient(mockEvent12)
+    }
+
+    if(thirdSubscriberRelationWithPatient=='Other'){
+      const mockEvent13 = { target: { value: 'Other' } }; 
+      this.thirdSubscriberRelationShipPatient(mockEvent13)
+    }
+
     if(injuryRelelatedTo)this.injurySelected = injuryRelelatedTo;
     if(injuryRelelatedTo && injuryRelelatedTo=="Worker's Compensation (WCOMP)"){
       const mockEvent5: MatRadioChange = { value: "Worker's Compensation (WCOMP)", source: this.radioButton! }; 

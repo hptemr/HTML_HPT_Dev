@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ContactModalComponent } from 'src/app/component/patient/book-appointment/contact-modal/contact-modal.component';
@@ -44,7 +44,7 @@ export class IntakeStep1Component {
   userRole = this.authService.getLoggedInInfo('role')
   maxAppntDate = this.commonService.getMaxAppoinmentFutureMonths()
   activeUserRoute = this.commonService.getLoggedInRoute()
-  
+  @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   constructor(public dialog: MatDialog, private router: Router,
     private commonService: CommonService,
     private authService: AuthService, private route: ActivatedRoute) {
@@ -125,12 +125,18 @@ export class IntakeStep1Component {
       this.step1Form.controls['dob'].disable()
       this.step1Form.controls['gender'].disable()
       this.step1Form.controls['maritalStatus'].disable()
+      this.step1Form.controls['relationWithPatient'].setValue('')
+      this.step1Form.controls['relationWithPatientOther'].setValue('')
+      this.step1Form.controls['relationWithPatient'].disable() 
     } else {
       this.setValue('Other')
       this.isReadonly = false
       this.step1Form.controls['dob'].enable()
       this.step1Form.controls['gender'].enable()
       this.step1Form.controls['maritalStatus'].enable()
+      this.step1Form.controls['relationWithPatient'].setValue('')
+      this.step1Form.controls['relationWithPatientOther'].setValue('')
+      this.step1Form.controls['relationWithPatient'].enable()
     }
   }
 
@@ -232,6 +238,7 @@ export class IntakeStep1Component {
       appointmentDate: new FormControl((this.step1FormData ? this.step1FormData.appointmentDate : ''), Validators.compose([Validators.required])),
       bookingFor: new FormControl((this.step1FormData ? this.step1FormData.bookingFor : this.selectedValue)),
       relationWithPatient: new FormControl((this.step1FormData ? this.step1FormData.relationWithPatient : '')),
+      relationWithPatientOther: new FormControl((this.step1FormData ? this.step1FormData.relationWithPatientOther : '')),
       firstName: new FormControl(firstName, Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
       middleName: new FormControl(middleName),
       lastName: new FormControl(lastName, Validators.compose([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)])),
@@ -248,12 +255,14 @@ export class IntakeStep1Component {
       state: new FormControl((this.step1FormData ? this.step1FormData.patientId.state : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(25)])),
       zipcode: new FormControl((this.step1FormData ? this.step1FormData.patientId.zipcode : ''),Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(6)]))
     })
+   
+    const mockEvent: MatRadioChange = { value: this.selectedValue, source: this.radioButton! }; 
+    this.onChange(mockEvent)
   }
 
   async bookAppointmentStep1() {
-    //if ((this.authService.getLoggedInInfo('role') == 'patient' && this.step1FormData.status == 'Pending Intake Form') || (this.authService.getLoggedInInfo('role') == 'support_team' || this.authService.getLoggedInInfo('role') == 'billing_team')) {
-    if (this.step1Form.invalid){
-      console.log(this.isReadonly,' >>> isReadonly>>>>',this.step1Form);
+      if (this.step1Form.invalid){
+        console.log(this.isReadonly,' >>> isReadonly>>>>',this.step1Form);
         this.step1Form.markAllAsTouched();
       }else{
         let appointmentUpdateInfo = this.step1FormData.appointmentUpdateInfo;
@@ -279,6 +288,7 @@ export class IntakeStep1Component {
               appointmentDate: finalReqBody.appointmentDate,
               bookingFor: finalReqBody.bookingFor,
               relationWithPatient: finalReqBody.relationWithPatient,
+              relationWithPatientOther: finalReqBody.relationWithPatientOther,
               patientInfo: {
                 firstName: finalReqBody.firstName,
                 middleName: finalReqBody.middleName,
@@ -295,7 +305,7 @@ export class IntakeStep1Component {
               appointmentUpdateInfo:appointmentUpdateInfo
             }
           }
-          
+          console.log('params>>>',params)        
           await this.authService.apiRequest('post', 'appointment/updateAppointment', params).subscribe(async response => {
             this.router.navigate([this.activeUserRoute, 'intake-form', 'step-2', this.appId])
           })
