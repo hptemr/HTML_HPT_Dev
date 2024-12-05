@@ -228,6 +228,9 @@
                 .cal-week-view .cal-hour-segment.cal-after-hour-start .cal-time {
                     display: block !important;
                 }
+                .cal-week-view * { 
+                    white-space: normal;
+                }
                 // .custom-event {
                 //     display: flex;
                 //     align-items: center;

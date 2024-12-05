@@ -50,6 +50,16 @@ input, p,
 // To hide by defalult password icon on Edge
 input::-ms-reveal { display: none; }
 
+.mat-mdc-chip-set{
+    .mat-mdc-chip{
+        background-color: #dcecdc !important;
+        .mat-mdc-chip-action-label{
+            font-family: "Nunito Sans", sans-serif !important;
+            font-size: 12px;
+        }
+    }
+}
+
 .back--btn{
     min-width: 42px !important;
     .material-symbols-outlined{
