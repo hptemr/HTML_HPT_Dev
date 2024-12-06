@@ -74,7 +74,13 @@ export class EditAppointmentModalComponent {
 
     const defaultStartTime = this.getNext30MinuteMark();
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
-    this.minTime = new Date();
+    let minTime =new Date();
+    let minutes = minTime.getMinutes();
+    let remainder = 15 - (minutes % 15); // Time remaining to the next quarter-hour
+    minTime.setMinutes(minutes + remainder);
+    minTime.setSeconds(0); // Reset seconds to 0
+    minTime.setMilliseconds(0); // Reset milliseconds to 0
+    this.minTime = minTime;
 
     this.selectedDateTime = new Date(
       now.getFullYear(),
@@ -83,15 +89,14 @@ export class EditAppointmentModalComponent {
       0,0,0  
     )
 
-
     let appointmentStartDate = '';
     let appointmentEndTime = '';
     let appointmentId = '';
     let appointmentDate = '';
     if(this.from=='Update'){
       appointmentDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : '';
-      appointmentStartDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : defaultStartTime;
-      appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : this.app_data.appointmentDate;     
+     // appointmentStartDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : defaultStartTime;
+      //appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : this.app_data.appointmentDate;     
       appointmentId = this.app_data.id;
     }
 
@@ -130,7 +135,6 @@ export class EditAppointmentModalComponent {
     this.getTherapistList();
     this.whereDocCond = { _id: this.app_data.doctorId }
     this.getDoctorsList();
-   
   }
 
   checkToday(): void {
@@ -139,30 +143,8 @@ export class EditAppointmentModalComponent {
     this.day = daysOfWeek[today];
   }
 
-  onDateChange(event: MatDatepickerInputEvent<Date>): void {
-   // console.log('onDateChange >>>>',event.value,'----------onDateChange UTC>>>>',this.commonService.formatDateInUTC(event.value,'MMM d, y hh:mm a'))
-    if (event.value instanceof Date) {
-      const  selectedDate = event.value
-      let newDate = new Date(
-        selectedDate.getFullYear(),
-        selectedDate.getMonth(),
-        selectedDate.getDate(),
-        9,0,0
-      );
-      this.selectedDateTime = newDate
-      console.log('onDateInput >>>>',this.selectedDateTime)
-      this.appointmentForm.controls['appointmentStartTime'].setValue(newDate);
-      this.appointmentForm.controls['appointmentEndTime'].setValue(newDate);
-      
-      // setTimeout( () => {    
-      //   console.log('onDateChange StartTime>>>>',this.appointmentForm.get('appointmentStartTime'))
-      //   console.log('onDateChange EndTime>>>>','----',this.appointmentForm.get('appointmentEndTime'))
-      // }, 100)
-    }
-   
-  }
   // This function is triggered on date input
-  onDateInput(event: MatDatepickerInputEvent<Date>): void {
+  onDateInputOld(event: MatDatepickerInputEvent<Date>): void {
    // console.log('onDateInput >>>>',event.value,'----------onDateInput UTC>>>>',this.commonService.formatDateInUTC(event.value,'MMM d, y hh:mm a'))    
     if (event.value instanceof Date) {
       const  selectedDate = event.value
@@ -176,16 +158,23 @@ export class EditAppointmentModalComponent {
   
       this.appointmentForm.controls['appointmentStartTime'].setValue(newDate);
       this.appointmentForm.controls['appointmentEndTime'].setValue(newDate);
-  
-      // setTimeout( () => {    
-      //   console.log('onDateInput StartTime>>>>',this.appointmentForm.get('appointmentStartTime'))
-      //   console.log('onDateInput EndTime>>>>','----',this.appointmentForm.get('appointmentEndTime'))
-      // }, 100)
     }
   }
 
- 
-  onDateTimeChange(updatedDateTime: any,from:string): void {
+  onDateInput(event: MatDatepickerInputEvent<any>): void {
+
+    const parsedDate = new Date(event.value ? event.value : '');
+    parsedDate.setHours(10, 0, 0);
+    this.appointmentForm.controls['appointmentStartTime'].setValue(parsedDate);
+    this.appointmentForm.get('appointmentStartTime')?.setValue(parsedDate);
+
+    const parsedDate2 = new Date(event.value ? event.value : '');
+    parsedDate2.setHours(10, 15, 0);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(parsedDate2);
+  
+  }
+
+  onDateTimeChange(updatedDateTime:any,from:string): void {
     // const newDateTime = updatedDateTime as Date; // Cast to Date
     // this.selectedDateTime = newDateTime;
   }
@@ -197,17 +186,14 @@ export class EditAppointmentModalComponent {
     return next15MinuteMark.seconds(0).milliseconds(0).toDate(); // Set seconds and milliseconds to 0
   }
 
-  endTimeAfterStartTime(startTimeKey: string, endTimeKey: string) {
-    // const currentTime = this.appointmentForm.controls['appointmentStartTime'].value;//moment();
-    // const minutes = currentTime.minutes();
-    // this.minEndTime = currentTime.add(30 - (minutes % 30), 'minutes');    
+  endTimeAfterStartTime(startTimeKey: string, endTimeKey: string) {   
     return (formGroup: FormGroup) => {
       const startTime = formGroup.controls[startTimeKey];
       const endTime = formGroup.controls[endTimeKey];
       if (endTime.errors && !endTime.errors['endTimeAfterStartTime']) {
         return;
       }
-      // Check if endTime is after startTime
+
       if (moment(endTime.value).isSameOrBefore(moment(startTime.value))) {
         endTime.setErrors({ endTimeAfterStartTime: true });
       } else {
@@ -216,8 +202,7 @@ export class EditAppointmentModalComponent {
     };
   }
 
-  async createAppointment(formData:any){    
-  
+  async createAppointment(formData:any){      
     if (this.appointmentForm.valid) {
       console.log(' #### form data >>>>>>',formData)
         this.clickOnRequestAppointment = true
@@ -251,8 +236,6 @@ export class EditAppointmentModalComponent {
             if (response.message) {       
               this.commonService.openSnackBar(response.message, "SUCCESS");
               this.dialogRef.close('SUCCESS');
-              //this.dialogRef.close();
-              //this.dialog.closeAll()
             }
           }
         })

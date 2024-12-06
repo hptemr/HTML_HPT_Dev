@@ -15,6 +15,8 @@ import { AuthLayoutComponent } from './component/auth/auth-layout/auth-layout.co
 import { JwtInterceptor } from './shared/services/helper/jwt.interceptor';
 import { DatePipe } from '@angular/common';
 import { ProfilePicService } from 'src/app/shared/services/profile-pic.service';
+// import { CalendarModule, DateAdapter,CalendarDateFormatter  } from 'angular-calendar';
+// import { CustomDateAdapter } from 'src/app/shared/services/helper/CustomDateAdapter';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
  }
@@ -43,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    //{ provide: DateAdapter, useClass: CustomDateAdapter }
     DecimalPipe,
     DatePipe,
     ProfilePicService

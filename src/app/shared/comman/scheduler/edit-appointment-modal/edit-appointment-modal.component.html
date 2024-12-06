@@ -47,7 +47,7 @@
                                 <label class="col-form-label fw-600 font-16 p-0 me-3 flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
                                     <div> 
                                         <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker sm--datepicker"> 
-                                            <input class="" matInput [matDatepicker]="picker1" [min]="minToDate" [max]="maxToDate" placeholder="MM/DD/YYYY" formControlName="appointmentDate" (dateChange)="onDateChange($event)" (dateInput)="onDateInput($event)"> 
+                                            <input class="" matInput [matDatepicker]="picker1" [min]="minToDate" [max]="maxToDate" placeholder="MM/DD/YYYY" formControlName="appointmentDate" (dateInput)="onDateInput($event)"> 
                                             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>
                                         </mat-form-field>
@@ -56,16 +56,20 @@
                                         </div> 
                                     </div> 
                                     <div> 
-                                        <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4"  [min]="minTime" formControlName="appointmentStartTime">
-                                        <owl-date-time [pickerType]="'timer'" #dt4 [stepMinute]="15"  [startAt]="selectedDateTime" (ngModelChange)="onDateTimeChange($event,'Start')"></owl-date-time>
+                                        <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" [min]="minTime" formControlName="appointmentStartTime" >
+                                        <owl-date-time [pickerType]="'timer'" #dt4 [stepMinute]="15"></owl-date-time> 
+                                        <!--  [startAt]="selectedDateTime"(ngModelChange)="onDateTimeChange($event,'Start')" -->
+                                    
                                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentStartTime'].touched && appointmentForm.controls['appointmentStartTime'].hasError('required')">
                                             {{ validationMessages.required('appointment end time') }}
                                         </div>
                                     </div>
                                     <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
                                     <div> 
-                                        <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" [min]="this.appointmentForm.controls['appointmentStartTime'].value"  formControlName="appointmentEndTime">                                    
-                                        <owl-date-time [pickerType]="'timer'" #dt5 [stepMinute]="15"  [startAt]="selectedDateTime" (ngModelChange)="onDateTimeChange($event,'End')"></owl-date-time>                                
+                                        <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" [min]="this.appointmentForm.controls['appointmentStartTime'].value" formControlName="appointmentEndTime">                                    
+                                        <owl-date-time [pickerType]="'timer'" #dt5 [stepMinute]="15"></owl-date-time>
+                                        <!-- (ngModelChange)="onDateTimeChange($event,'End')" -->
+                                      
                                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].touched && appointmentForm.controls['appointmentEndTime'].hasError('required')">
                                             {{ validationMessages.required('appointment end time') }}
                                         </div>
