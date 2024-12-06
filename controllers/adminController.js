@@ -1442,11 +1442,208 @@ async function summaryData(optionType, results) {
 }
 
 async function TherapistReport(req) {
-  const { type, year, practiceLocation, optionType } = req.body
-  const result = await User.find({ role: 'therapist', practiceLocation: { $in: [practiceLocation] } });
-  return result
+  const { type, year, practiceLocation, optionType,therapistNameValue } = req.body
+  let query = {
+    "appointmentDate": {
+      $gte: new Date(moment(year).startOf('year')),
+      $lte: new Date(moment(year).endOf('year'))
+    },
+    practiceLocation: practiceLocation,
+    therapistId:{$ne:null}
+  }
+
+  if(therapistNameValue!=''){
+    query.therapistId = new ObjectId(therapistNameValue)
+  }
+
+  let aggrQuery = [
+    {
+      "$lookup": {
+        from: "subjectives",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "subjective"
+      }
+    },
+    {
+      "$lookup": {
+        from: "billings",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "billing"
+      }
+    },
+    {
+      "$lookup": {
+        from: "users",
+        localField: "therapistId",
+        foreignField: "_id",
+        as: "users"
+      }
+    },
+    {
+      $match: query
+    },
+    {
+      $project: {
+        "_id": 1, "appointmentDate": 1, "status": 1,"therapistId":1, "appointmentStatus": 1, "appointmentType": 1,
+        "subjective.soap_note_type": 1, "subjective.status": 1,
+        "billing.soap_note_type": 1, "billing.total_units": 1, "billing.status": 1,"users.firstName":1,"users.lastName":1,
+      }
+    },
+    {
+      $sort: { "appointmentDate": 1 }
+    }
+  ]
+
+  let results = await Appointment.aggregate(aggrQuery);
+  let monthName = ''
+  let yearNumber = 0
+  let evals = 0
+  let cx = 0
+  let cxper = 0
+  let ns = 0
+  let nsper = 0
+  let totalpts = 0
+  let unitsbilled = 0
+  let unitsvist = 0
+  let initialExam = 0, dailyNote = 0, progressNote = 0, dischargeNote = 0, caseNote = 0
+  let finalResults = []
+  let totoalResultCounter = results.length
+  let totalCnt = 0
+  await results.forEach(element => {
+    totalCnt++
+    if (element.status == 'Cancelled' || element.appointmentStatus == 'Cancelled') {
+      cx++
+    }
+    if (element.appointmentStatus == 'No-Show') {
+      ns++
+    }
+
+    if (element.subjective && element.subjective.length > 0) {
+      let initial_examination = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "initial_examination"))[0];
+      let daily_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "daily_note"))[0];
+      let progress_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "progress_note"))[0];
+      let discharge_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "discharge_note"))[0];
+      // let case_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
+      let billingUnits = element.billing.filter((item) => (item.status == 'Finalized'))[0];
+      if (initial_examination) {
+        evals++
+        initialExam++
+      }
+      if (daily_note) {
+        dailyNote++
+      }
+      if (progress_note) {
+        progressNote++
+      }
+      if (discharge_note) {
+        dischargeNote++
+      }
+      if(billingUnits){
+        unitsbilled += Number(billingUnits.total_units)
+      }
+      
+    }
+
+    let sumofAll = (initialExam + dailyNote + progressNote + dischargeNote)
+    unitsvist = ((Number(unitsbilled) / sumofAll).toFixed(2)!='NaN')?(Number(unitsbilled) / sumofAll).toFixed(2):0
+    if (sumofAll > 0) {
+      if (cx > 0) {
+        cxper = ((cx / sumofAll) * 100)
+      }
+      if (ns > 0) {
+        nsper = ((ns / sumofAll) * 100)
+      }
+    }
+
+    if (
+      (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
+      (optionType == 'Anually' && yearNumber > 0 && (totoalResultCounter == totalCnt || yearNumber != moment(element.appointmentDate).format('YYYY')))) {
+      totalpts = sumofAll
+      finalResults.push({
+        provider: element.users[0].firstName +' '+element.users[0].lastName,
+        duration: optionType == 'Monthly' ? moment(element.appointmentDate).format('MMM YY') : year,
+        evals: evals,
+        cx: cx,
+        cxper: Number(cxper.toFixed(2)) + "%",
+        ns: ns,
+        nsper: Number(nsper.toFixed(2)) + "%",
+        totalpts: totalpts,
+        unitsbilled: unitsbilled,
+        unitsvist: unitsvist
+      })
+
+      evals = 0
+      cx = 0
+      cxper = 0
+      ns = 0
+      nsper = 0
+      totalpts = 0
+      unitsbilled = 0
+      unitsvist = 0
+      initialExam = 0
+      dailyNote = 0
+      progressNote = 0
+      dischargeNote = 0
+      caseNote = 0
+    }
+
+    if (optionType == 'Monthly') {
+      monthName = moment(element.appointmentDate).format('MMMM');
+    } else {
+      yearNumber = moment(element.appointmentDate).format('YYYY')
+    }
+  })
+  return finalResults
 }
 
+const getGraphData = async (req, res) => {
+
+  const { year, practiceLocation, optionType } = req.body
+  let query = {
+    "appointmentDate": {
+      $gte: new Date(moment(year).startOf('year')),
+      $lte: new Date(moment(year).endOf('year'))
+    },
+    practiceLocation: practiceLocation
+  }
+  let aggrQuery = [
+    {
+      "$lookup": {
+        from: "subjectives",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "subjective"
+      }
+    },
+    {
+      "$lookup": {
+        from: "billings",
+        localField: "_id",
+        foreignField: "appointmentId",
+        as: "billing"
+      }
+    },
+    {
+      $match: query
+    },
+    {
+      $project: {
+        "_id": 1, "appointmentDate": 1, "status": 1, "appointmentStatus": 1, "appointmentType": 1,
+        "subjective.soap_note_type": 1, "subjective.status": 1,
+        "billing.soap_note_type": 1, "billing.total_units": 1, "billing.status": 1,
+      }
+    },
+    {
+      $sort: { "appointmentDate": 1 }
+    }
+  ]
+
+  let results = await Appointment.aggregate(aggrQuery);
+  
+  commonHelper.sendResponse(res, 'success', null, []);
+}
 
 module.exports = {
   invite,
@@ -1481,5 +1678,6 @@ module.exports = {
   saveUploadedInsurancesData,
   getUploadInsuranceList,
   deleteInsurance,
-  getReports
+  getReports,
+  getGraphData
 };
