@@ -301,7 +301,7 @@ const getTherapistList = async (req, res) => {
     const { query, fields, order, limit, all } = req.body;
     let limitas = 100;
     if (limit) { limitas = limit; }
-    
+
     let therapist_data = await User.find(query, fields).sort(order).limit(limitas);
     let totalCount = await User.find({status: "Active"}).countDocuments()
     let therapistData = [];
@@ -320,7 +320,7 @@ const getTherapistList = async (req, res) => {
     }
     commonHelper.sendResponse(res, 'success', { therapistData,all_therapist_data, totalCount }, '');
   } catch (error) {
-    console.log('*********** getTherapistList >>>>', error)
+    console.log('*********** get Therapist List >>>>', error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
