@@ -298,23 +298,29 @@ const checkTokenExpire = (inviteToken) => {
 
 const getTherapistList = async (req, res) => {
   try {
-    const { query, fields, order, limit } = req.body;
+    const { query, fields, order, limit, all } = req.body;
     let limitas = 100;
-    if (limit) {
-      limitas = limit;
-    }
-    //console.log('*********** Limit >>>>',limit)
+    if (limit) { limitas = limit; }
+
     let therapist_data = await User.find(query, fields).sort(order).limit(limitas);
-    let totalCount = await User.find(query).countDocuments()
+    let totalCount = await User.find({status: "Active"}).countDocuments()
     let therapistData = [];
     therapist_data.forEach(element => {
       let newValue = { id: element._id, name: element.firstName + ' ' + element.lastName };
       therapistData.push(newValue);
     });
 
-    commonHelper.sendResponse(res, 'success', { therapistData, totalCount }, '');
+    let all_therapist_data = [];
+    if(all){
+      let therapist_all_data = await User.find({status: "Active"}, fields).sort(order);
+      therapist_all_data.forEach(element => {
+        let newValue = { id: element._id, name: element.firstName + ' ' + element.lastName };
+        all_therapist_data.push(newValue);
+      });
+    }
+    commonHelper.sendResponse(res, 'success', { therapistData,all_therapist_data, totalCount }, '');
   } catch (error) {
-    console.log('*********** getTherapistList >>>>', error)
+    console.log('*********** get Therapist List >>>>', error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
