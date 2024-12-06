@@ -16,6 +16,7 @@ import { CollectPaymentModalComponent } from './collect-payment-modal/collect-pa
 import { AlertComponent } from '../alert/alert.component';
 import { tr } from 'date-fns/locale';
 import { MatRadioChange } from '@angular/material/radio';
+//import { MatCheckboxChange } from '@angular/material/checkbox';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
@@ -33,6 +34,7 @@ import * as moment from 'moment';
 })
 export class SchedulerComponent {
   @ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
+  //@ViewChild(MatCheckboxChange) checkboxButton: MatCheckboxChange | undefined;
   editOptionFlag:boolean = true;   
   deleteOptionFlag:boolean = true;  
   calenderView = true;
@@ -54,7 +56,9 @@ export class SchedulerComponent {
   totalSearchPageCount = 0
   appointmentsList: any
   selected: Date | null;
+  therapistListAll:any=[];
   therapistList:any=[];
+  selectedtherapistList:any=[];
   whereTherapistCond: any = { role: 'therapist', status: 'Active' }
   selectedItems: string[] = [];
   activeDayIsOpen: boolean = false; 
@@ -595,12 +599,14 @@ export class SchedulerComponent {
       this.getTherapistList()   
     }
     
-    onCheckboxChange(event: any, id: string): void {      
-      if (event.checked && !this.selectedItems.includes(id)) {
-        this.selectedItems.push(id); // Add ID to the selected list
+    onCheckboxChange(event: any, id: string): void {     
+       if (event.checked && !this.selectedItems.includes(id)) {
+        this.selectedItems.push(id); 
       } else {
-        this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); // Remove ID from the selected list
+        this.selectedItems = this.selectedItems.filter(itemId => itemId !== id); 
       }
+      this.selectedtherapistList = this.therapistListAll.filter((item: any) => this.selectedItems.includes(item.id));
+    
       if(this.calenderView){
         this.getAppointmentList('search')
       }
@@ -608,17 +614,23 @@ export class SchedulerComponent {
         this.searchPageRecords('')
       }
     }
+
+    removeTherapist(id: string): void {      
+        this.onCheckboxChange({checked:false},id)
+    }
       
     async getTherapistList() {
       const reqVars = {     
         query: this.whereTherapistCond,
         fields: { _id: 1, firstName: 1, lastName: 1 },
-        limit: 20,
+        limit: 1000,
         order: this.orderTherapistBy,
+        all:true
       }
       await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
         if (response.data && response.data.therapistData) {
           this.therapistList = response.data.therapistData;
+          this.therapistListAll = response.data.all_therapist_data;
           this.cdr.detectChanges();
         }
       })

@@ -149,33 +149,13 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <mat-chip-set cdkDropList cdkDropListOrientation="horizontal">
-                                    <mat-chip class="m-1"> Alex John
-                                        <button matChipRemove >
+                                <mat-chip-set cdkDropList cdkDropListOrientation="horizontal" *ngIf="selectedtherapistList.length>0">
+                                    <mat-chip class="m-1" *ngFor="let ele of selectedtherapistList">{{ele.name}}
+                                        <button matChipRemove (click)="removeTherapist(ele.id)">
                                             <mat-icon>cancel</mat-icon>
                                         </button>
                                     </mat-chip>
-                                    <mat-chip class="m-1">Rohini
-                                        <button matChipRemove >
-                                            <mat-icon>cancel</mat-icon>
-                                        </button>
-                                    </mat-chip>
-                                    <mat-chip class="m-1"> Beadell Logan
-                                        <button matChipRemove >
-                                            <mat-icon>cancel</mat-icon>
-                                        </button>
-                                    </mat-chip>
-                                    <mat-chip class="m-1"> Pankaj Therapist
-                                        <button matChipRemove >
-                                            <mat-icon>cancel</mat-icon>
-                                        </button>
-                                    </mat-chip>
-                                    <mat-chip class="m-1">Sharonn Williams
-                                        <button matChipRemove >
-                                            <mat-icon>cancel</mat-icon>
-                                        </button>
-                                    </mat-chip>
-                                </mat-chip-set>
+                                </mat-chip-set>                               
                             </div>
                             <div class="col-12 scroll--outer">
                                 <div class="d-flex flex-column w-100" *ngFor="let item of therapistList">
