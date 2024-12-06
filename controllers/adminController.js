@@ -1520,7 +1520,30 @@ async function TherapistReport(req) {
       let progress_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "progress_note"))[0];
       let discharge_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "discharge_note"))[0];
       // let case_note = element.subjective.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
-      let billingUnits = element.billing.filter((item) => (item.status == 'Finalized'))[0];
+      if (element.billing && element.billing.length > 0) {
+        let initial_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "initial_examination"))[0];
+        let daily_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "daily_note"))[0];
+        let progress_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "progress_note"))[0];
+        let discharge_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "discharge_note"))[0];
+        let case_bill = element.billing.filter((item) => (item.status == 'Finalized' && item.soap_note_type == "case_note"))[0];
+  
+        if (initial_bill) {
+          unitsbilled = parseInt(initial_bill.total_units)
+        }
+        if (daily_bill) {
+          unitsbilled = unitsbilled + parseInt(daily_bill.total_units)
+        }
+        if (progress_bill) {
+          unitsbilled = unitsbilled + parseInt(progress_bill.total_units)
+        }
+        if (discharge_bill) {
+          unitsbilled = unitsbilled + parseInt(discharge_bill.total_units)
+        }
+        if (case_bill) {
+          unitsbilled = unitsbilled + parseInt(case_bill.total_units)
+        }
+      }
+
       if (initial_examination) {
         evals++
         initialExam++
@@ -1533,9 +1556,6 @@ async function TherapistReport(req) {
       }
       if (discharge_note) {
         dischargeNote++
-      }
-      if(billingUnits){
-        unitsbilled += Number(billingUnits.total_units)
       }
       
     }
@@ -1592,52 +1612,6 @@ async function TherapistReport(req) {
   return finalResults
 }
 
-const getGraphData = async (req, res) => {
-
-  const { year, practiceLocation, optionType } = req.body
-  let query = {
-    "appointmentDate": {
-      $gte: new Date(moment(year).startOf('year')),
-      $lte: new Date(moment(year).endOf('year'))
-    },
-    practiceLocation: practiceLocation
-  }
-  let aggrQuery = [
-    {
-      "$lookup": {
-        from: "subjectives",
-        localField: "_id",
-        foreignField: "appointmentId",
-        as: "subjective"
-      }
-    },
-    {
-      "$lookup": {
-        from: "billings",
-        localField: "_id",
-        foreignField: "appointmentId",
-        as: "billing"
-      }
-    },
-    {
-      $match: query
-    },
-    {
-      $project: {
-        "_id": 1, "appointmentDate": 1, "status": 1, "appointmentStatus": 1, "appointmentType": 1,
-        "subjective.soap_note_type": 1, "subjective.status": 1,
-        "billing.soap_note_type": 1, "billing.total_units": 1, "billing.status": 1,
-      }
-    },
-    {
-      $sort: { "appointmentDate": 1 }
-    }
-  ]
-
-  let results = await Appointment.aggregate(aggrQuery);
-  
-  commonHelper.sendResponse(res, 'success', null, []);
-}
 
 module.exports = {
   invite,
@@ -1672,6 +1646,5 @@ module.exports = {
   saveUploadedInsurancesData,
   getUploadInsuranceList,
   deleteInsurance,
-  getReports,
-  getGraphData
+  getReports
 };
