@@ -229,13 +229,14 @@ const appointmentCreatedByAdminReplyPatient = async (templateName, patientData, 
                 "{link}": link,
                 "{BASE_URL}":process.env.BASE_URL
                 }
+                console.log("appointmentCreatedByAdminReplyPatient params >>>>",params)
                 var mailOptions = {
                     to: [patientData.email],
                     cc: ['rohini+1002@arkenea.com'],
                     subject: template.mail_subject,
                     html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
                 }
-                
+              
                 sendEmailServices.sendEmail(mailOptions)
             } else {
                 console.log("Templete not found >>>>")

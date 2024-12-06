@@ -112,11 +112,42 @@ const getAppointmentRequestDetails = async (req, res) => {
     }
 }
 
+const createAppointmenttest = async (req, res) => {
+    try {
+        const { data, userId, requestId, patientType } = req.body; 
+        let appointmentDate = data.appointmentDate;
+        console.log('appointmentDate >>> ',appointmentDate,'=====',data.appointmentStartTime,'=====',data.appointmentEndTime)
+        if(data.appointmentStartTime){
+            appointmentDate = data.appointmentStartTime;
+        }
+        //local start time conversion
+        const localDate = new Date(appointmentDate);  
+        localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
+        data.appointmentDate = localDate;
+
+        if(data.appointmentEndTime){
+            const localEndDate = new Date(data.appointmentEndTime);  
+            localEndDate.setMinutes(localEndDate.getMinutes() - localEndDate.getTimezoneOffset());       
+            data.appointmentEndTime = localEndDate;
+        }            
+        console.log('data >>> ',data)
+        let start_date_time = commonHelper.dateModify(data.appointmentDate);
+        let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
+        // start_date_time+' To '+endtime;
+
+        console.log(data.appointmentDate,' >>>>>> appointment date time >>>>',start_date_time+' To '+endtime)
+
+
+        commonHelper.sendResponse(res, 'success', {}, 'done');
+    } catch (error) {
+        console.log("********Appointment Request Details***error***", error)
+    }
+}
 
 const createAppointment = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
-console.log('.... data >>>>',data)
+
         let alreadyFound = ''; let proceed = true;
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
@@ -207,8 +238,6 @@ console.log('.... data >>>>',data)
                 caseType = caseFound.caseType ? caseFound.caseType : ''
             }
 
-            // appointmentStartTime
-            // appointmentEndTime
             let appointmentDate = data.appointmentDate;
             //console.log('appointmentDate >>> ',appointmentDate)
             if(data.appointmentStartTime){
@@ -218,14 +247,14 @@ console.log('.... data >>>>',data)
             const localDate = new Date(appointmentDate);  
             localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
             data.appointmentDate = localDate;
-           // console.log(' data appointmentDate >>> ',data.appointmentDate)
-            let appointmentEndTime = '';
+      
             //local end time conversion
             if(data.appointmentEndTime){
                 const localEndDate = new Date(data.appointmentEndTime);  
                 localEndDate.setMinutes(localEndDate.getMinutes() - localEndDate.getTimezoneOffset());       
-                appointmentEndTime = localEndDate;
+                data.appointmentEndTime = localEndDate;
             }            
+
  
             let appointmentData = {
                 appointmentId: appointmentId,
@@ -234,7 +263,7 @@ console.log('.... data >>>>',data)
                 appointmentType: data.appointmentType,
                 appointmentTypeOther: data.appointmentTypeOther,
                 appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
-                appointmentEndTime: appointmentEndTime,
+                appointmentEndTime: data.appointmentEndTime ? data.appointmentEndTime : data.appointmentDate,
                 notes:data.notes ? data.notes : '',
                 repeatsNotes:data.repeatsNotes ? data.repeatsNotes : '',
                 practiceLocation: data.practiceLocation,
@@ -245,7 +274,7 @@ console.log('.... data >>>>',data)
                 acceptInfo: { fromAdminId: userId },
                 status: appointment_status
             }
-
+            console.log('insert appointment data >>>',appointmentData)
             if (appointmentData.requestId == '') {
                 delete appointmentData['requestId'];
             }
@@ -290,16 +319,20 @@ console.log('.... data >>>>',data)
                 }
             }
 
-            if(data.repeatsNotes){
-                createAppointmentEvents(appId)
-            }
+            // if(data.repeatsNotes){
+            //     createAppointmentEvents(appId)
+            // }
 
-            let appointment_date = commonHelper.dateModify(data.appointmentDate);
+            
+            let start_date_time = commonHelper.dateModify(data.appointmentDate);
+            let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
+            let appointment_date_time = '"'+start_date_time+' To ' +endtime+'"';
+
+            console.log(data.appointmentDate,' >> appointment_date >>>>',appointment_date_time)
 
             const therapistData = await User.findOne({ _id: data.therapistId }, { firstName: 1, lastName: 1 });
-            const patientData = { appointment_date: appointment_date, firstName: data.firstName, lastName: data.lastName, email: data.email, phoneNumber: data.phoneNumber, practice_location: data.practiceLocation, therapistId: data.therapistId, therapist_name: therapistData.firstName + ' ' + therapistData.lastName, caseId: caseId, appId: appId };
-            //console.log(patientType,' >> patient Data>>>>',patientData)
-
+            const patientData = { appointment_date: appointment_date_time, firstName: data.firstName, lastName: data.lastName, email: data.email, phoneNumber: data.phoneNumber, practice_location: data.practiceLocation, therapistId: data.therapistId, therapist_name: therapistData.firstName + ' ' + therapistData.lastName, caseId: caseId, appId: appId };
+     
             if (patientType == 'New') {
                 patientAppointmentSignupEmail(patientData)
             } else if (!requestId && patientType == 'Existing') {
