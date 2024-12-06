@@ -735,12 +735,13 @@ const download = async (req, res) => {
 const getPatientCaseList = async (req, res) => {
     try {
         const { query } = req.body;
-        console.log("********Appointment Request Details***error***", query.id)
         let output = await Case.find({ patientId: query.id }, { patientId: 1, caseName: 1, caseType: 1, _id: 1 });
         let caseNameList = [];
         if (output.length > 0) {
             output.filter((obj) => {
-                caseNameList.push({ caseName: obj.caseName, caseType: obj.caseType })
+                if(obj.caseName){
+                    caseNameList.push({ caseName: obj.caseName, caseType: obj.caseType })
+                }                
             });
         }
         commonHelper.sendResponse(res, 'success', { caseNameList }, '');
