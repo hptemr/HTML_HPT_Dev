@@ -30,16 +30,10 @@
                             <option value="" selected>Select Year</option>
                             <option value="{{element}}" *ngFor="let element of years">{{element}}</option>
                         </select>
-                        <select *ngIf="therapistName" class="form-select form-control form-control-md m-1"
+                        <select *ngIf="therapistName" [(ngModel)]="therapistNameValue" class="form-select form-control form-control-md m-1"
                             aria-label="Default select example">
-                            <option selected>Therapist Name</option>
-                            <option>Emily Blunt</option>
-                            <option value="2">John Doe</option>
-                            <option value="3">Martin Heidi</option>
-                            <option value="4">Brooker Ben</option>
-                            <option value="5">Nohren White</option>
-                            <option value="6">Ashley Doe</option>
-                            <option value="7">Emily White</option>
+                            <option value="">Therapist Name</option>
+                            <option value="{{element.id}}" *ngFor="let element of therapistList">{{element.name}}</option>
                         </select>
 
                     </div>
@@ -442,9 +436,9 @@
         </mat-tab-group>
     </section>
 
-    <section class="col-12 " *ngIf="monthlyReport">
+    <section class="col-12 " *ngIf="monthlyReport && summaryList">
         <div class="row">
-            <!-- <div class="col-12 col-lg-6 ">
+            <div class="col-12 col-lg-6 ">
                 <div class="graph--wrapper bg--white">
                     <div id="chart">
                         <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
@@ -458,14 +452,14 @@
             <div class="col-12 col-lg-6 ">
                 <div class="graph--wrapper bg--white">
                     <div id="chart">
-                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-                            [stroke]="chartOptions.stroke" [tooltip]="chartOptions.tooltip"
-                            [dataLabels]="chartOptions.dataLabels" [legend]="chartOptions.legend"
-                            [markers]="chartOptions.markers" [grid]="chartOptions.grid" [yaxis]="chartOptions.yaxis"
-                            [title]="chartOptions.title"></apx-chart>
+                        <apx-chart [series]="aquaticChartOptions.series" [chart]="aquaticChartOptions.chart" [xaxis]="aquaticChartOptions.xaxis"
+                            [stroke]="aquaticChartOptions.stroke" [tooltip]="aquaticChartOptions.tooltip"
+                            [dataLabels]="aquaticChartOptions.dataLabels" [legend]="aquaticChartOptions.legend"
+                            [markers]="aquaticChartOptions.markers" [grid]="aquaticChartOptions.grid" [yaxis]="aquaticChartOptions.yaxis"
+                            [title]="aquaticChartOptions.title"></apx-chart>
                     </div>
                 </div> 
-            </div> -->
+            </div>
         </div>
     </section>
 </div>
@@ -586,20 +580,20 @@
             <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by number">
                 Provider
             </th>
-            <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
         </ng-container>
         <ng-container matColumnDef="month">
             <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by name">
                 {{optionType!='Anually'? "Month":"Year"}}
             </th>
-            <td mat-cell *matCellDef="let element"> {{element.month}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
         </ng-container>
         <ng-container matColumnDef="totalevals">
             <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
                 Total Evals
             </th>
             <td mat-cell *matCellDef="let element">
-                {{element.totalevals}}
+                {{element.evals}}
             </td>
         </ng-container>
         <ng-container matColumnDef="totalcx">
@@ -607,7 +601,7 @@
                 Total CX
             </th>
             <td mat-cell *matCellDef="let element">
-                {{element.totalcx}}
+                {{element.cx}}
             </td>
         </ng-container>
         <ng-container matColumnDef="cxper">
@@ -623,7 +617,7 @@
                 Total NS
             </th>
             <td mat-cell *matCellDef="let element">
-                {{element.totalns}}
+                {{element.ns}}
             </td>
         </ng-container>
         <ng-container matColumnDef="nsper">
@@ -634,12 +628,12 @@
                 {{element.nsper}}
             </td>
         </ng-container>
-        <ng-container matColumnDef="totalpts2">
+        <ng-container matColumnDef="totalpts">
             <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by symbol">
                 Total Pts Seen
             </th>
             <td mat-cell *matCellDef="let element">
-                {{element.totalpts2}}
+                {{element.totalpts}}
             </td>
         </ng-container>
         <ng-container matColumnDef="totalbilledunits">
@@ -647,7 +641,7 @@
                 Total Billed Units
             </th>
             <td mat-cell *matCellDef="let element">
-                {{element.totalbilledunits}}
+                {{element.unitsbilled}}
             </td>
         </ng-container>
         <ng-container matColumnDef="unitsvisits">
@@ -655,7 +649,7 @@
                 Units/Visit
             </th>
             <td mat-cell *matCellDef="let element">
-                {{element.unitsvisits}}
+                {{element.unitsvist}}
             </td>
         </ng-container>
 

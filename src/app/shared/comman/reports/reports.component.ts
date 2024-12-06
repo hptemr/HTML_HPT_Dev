@@ -8,34 +8,23 @@ import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { CommonService } from '../../services/helper/common.service';
 import { AuthService } from '../../services/api/auth.service';
 import { practiceLocations } from 'src/app/config';
+import * as moment from 'moment';
 
-// import {
-//   ChartComponent,
-//   ApexAxisChartSeries,
-//   ApexChart,
-//   ApexXAxis,
-//   ApexDataLabels,
-//   ApexStroke,
-//   ApexMarkers,
-//   ApexYAxis,
-//   ApexGrid,
-//   ApexTitleSubtitle,
-//   ApexLegend
-// } from "ng-apexcharts";
+import {ChartComponent,ApexAxisChartSeries,  ApexChart,  ApexXAxis,  ApexDataLabels,  ApexStroke,  ApexMarkers,  ApexYAxis,  ApexGrid,  ApexTitleSubtitle,  ApexLegend} from "ng-apexcharts";
 
-// export type ChartOptions = {
-//   series: ApexAxisChartSeries;
-//   chart: ApexChart;
-//   xaxis: ApexXAxis;
-//   stroke: ApexStroke;
-//   dataLabels: ApexDataLabels;
-//   markers: ApexMarkers;
-//   tooltip: any; // ApexTooltip;
-//   yaxis: ApexYAxis;
-//   grid: ApexGrid;
-//   legend: ApexLegend;
-//   title: ApexTitleSubtitle;
-// };
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  tooltip: any; // ApexTooltip;
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
 
 
 
@@ -442,37 +431,11 @@ export interface individualTherapistReportPeriodicElement {
   cxper: string;
   totalns: string;
   nsper: string;
-  totalpts2: string;
+  totalpts: string;
   totalbilledunits: string;
   unitsvisits: string;
 }
-const individualTherapistReport_ELEMENT_DATA: individualTherapistReportPeriodicElement[] = [
-  {
-    provider: 'Brady, Thomas',
-    month: 'Jan 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  },
-  {
-    provider: 'Brooker, Ben',
-    month: 'Feb 23',
-    totalevals: '10',
-    totalcx: '29',
-    cxper: '13.01%',
-    totalns: '6',
-    nsper: '3.00%',
-    totalpts2: '200',
-    totalbilledunits: '586',
-    unitsvisits: '20',
-  }
-
-];
+const individualTherapistReport_ELEMENT_DATA: individualTherapistReportPeriodicElement[] = [];
 
 
 export interface individualTherapistReportAnualPeriodicElement {
@@ -677,7 +640,7 @@ const ELEMENT_DATA_10: PeriodicElement10[] = [
 })
 
 export class ReportsComponent {
-  year: any
+  year:any = ''
   years: any = []
   optionType:any='Monthly' //Monthly Values , Quarterly Values
   reportType: any = '';
@@ -712,7 +675,7 @@ export class ReportsComponent {
   displayedColumns6: string[] = ['qpatients', 'qfirst', 'qsecond', 'qthird', 'qfourth', 'qtotal',];
   dataSource6 = new MatTableDataSource(ELEMENT_DATA_6);
 
-  individualTherapistReportColumns: string[] = ['provider', 'month', 'totalevals', 'totalcx', 'cxper', 'totalns', 'nsper', 'totalpts2', 'totalbilledunits', 'unitsvisits'];
+  individualTherapistReportColumns: string[] = ['provider', 'month', 'totalevals', 'totalcx', 'cxper', 'totalns', 'nsper', 'totalpts', 'totalbilledunits', 'unitsvisits'];
   individualTherapistReportData = new MatTableDataSource(individualTherapistReport_ELEMENT_DATA);
 
 
@@ -727,123 +690,38 @@ export class ReportsComponent {
   dataSource10 = new MatTableDataSource(ELEMENT_DATA_10);
 
 
-  // @ViewChild("chart") chart: ChartComponent;
-  // public chartOptions: Partial<ChartOptions>;
+  @ViewChild("chart") chart: ChartComponent;
+  public chartOptions: Partial<ChartOptions>;
+  public aquaticChartOptions: Partial<ChartOptions>;
 
   practiceLocations = practiceLocations
-
+  therapistList:any = []
+  orderBy: any = { firstName: 1 }
+  therapistNameValue = ""
   constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog,
     private commonService: CommonService,
     private authService: AuthService,
 
   ) {
-    // this.chartOptions = { 
-    //   series: [
-    //     {
-    //       name: "2023",
-    //       data: [45, 52, 38, 24, 33, 26, 21, 20, 60, 18, 40, 100],
-    //     },
-    //     {
-    //       name: "2024",
-    //       data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35],
-    //     }, 
-    //   ], 
-    //   chart: {
-    //     height: 400,
-    //     type: "line",
-    //      fontFamily: 'Nunito Sans', 
-    //      toolbar: {
-    //       show: false
-    //     },
-    //     zoom: {
-    //       enabled: false,
-    //     }
-    //   },
-
-    //   dataLabels: {
-    //     enabled: false
-    //   },
-    //   stroke: {
-    //     width: 2,
-    //     curve: "straight",
-    //     dashArray: [0, 8, 5]
-    //   },
-    //   title: {
-    //     text: "Total Patients Seen Comparison",
-    //     style: { 
-    //       fontWeight: "700",
-    //       fontSize: "18px",
-    //     }
-    //   },
-    //   legend: {
-    //     tooltipHoverFormatter: function(val:any, opts:any) {
-    //       return (
-    //         val +
-    //         " - <strong>" +
-    //         opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-    //         "</strong>"
-    //       );
-    //     }
-    //   },
-    //   markers: {
-    //     size: 0,
-    //     hover: {
-    //       sizeOffset: 6
-    //     },
-    //     colors: ['#000', '#f1f1f1',  ]
-    //   },
-    //   xaxis: {
-    //     labels: {
-    //       trim: false
-    //     },
-    //     categories: [
-    //       "Jan",
-    //       "Feb",
-    //       "Mar",
-    //       "Apr",
-    //       "May",
-    //       "Jun",
-    //       "Jul",
-    //       "Aug",
-    //       "Sep",
-    //       "Oct",
-    //       "Nov",
-    //       "Dec"
-    //     ]
-    //   },
-    //   tooltip: {
-    //     y: [
-    //       {
-    //         title: {
-    //           formatter: function(val: string) {
-    //             return val + " (mins)";
-    //           }
-    //         }
-    //       },
-    //       {
-    //         title: {
-    //           formatter: function(val: string) {
-    //             return val + " per session";
-    //           }
-    //         }
-    //       },
-    //       {
-    //         title: {
-    //           formatter: function(val: any) {
-    //             return val;
-    //           }
-    //         }
-    //       }
-    //     ]
-    //   },
-    //   grid: {
-    //     borderColor: "#f1f1f1"
-    //   }
-    // };
+    
   }
 
   ngOnInit() {
     this.years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
+    this.getTherapistList()
+  }
+
+  async getTherapistList() {
+    const reqVars = {
+      query: { role: 'therapist', status: 'Active' },
+      fields: { _id: 1, firstName: 1, lastName: 1 },
+      order: this.orderBy,
+    }
+    await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
+      if (response.data && response.data.therapistData) {
+        this.therapistList = response.data.therapistData;
+      }
+    })
   }
 
 
@@ -902,13 +780,225 @@ export class ReportsComponent {
       type: this.reportType,
       year: this.year,
       practiceLocation: this.selectedLocation,
-      optionType: this.optionType
+      optionType: this.optionType,
+      therapistNameValue:this.therapistNameValue
     }
     await this.authService.apiRequest('post', 'admin/getReports', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
       switch (this.reportType) {
         case "summary":
           this.summaryList = new MatTableDataSource(response.data);
+          const pts = response.data.map((obj:any) => obj.totalpts); 
+          const pts2 = response.data.map((obj:any) => obj.totalpts2); 
+          const aquatic = response.data.map((obj:any) => obj.aquatic); 
+          const aquatic2 = response.data.map((obj:any) => obj.aquatic2); 
+          this.chartOptions = { 
+            series: [
+              {
+                name: this.year,
+                data: pts,
+              }, 
+              {
+                name: this.year - 1,
+                data: pts2,
+              },
+            ], 
+            chart: {
+              height: 400,
+              type: "line",
+               fontFamily: 'Nunito Sans', 
+               toolbar: {
+                show: false
+              },
+              zoom: {
+                enabled: false,
+              }
+            },
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              width: 2,
+              curve: "straight",
+              dashArray: [0, 8, 5]
+            },
+            title: {
+              text: "Total Patients Seen Comparison",
+              style: { 
+                fontWeight: "700",
+                fontSize: "18px",
+              }
+            },
+            legend: {
+              tooltipHoverFormatter: function(val:any, opts:any) {
+                return (
+                  val +
+                  " - <strong>" +
+                  opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+                  "</strong>"
+                );
+              }
+            },
+            markers: {
+              size: 0,
+              hover: {
+                sizeOffset: 6
+              },
+              colors: ['#000', '#f1f1f1',  ]
+            },
+            xaxis: {
+              labels: {
+                trim: false
+              },
+              categories: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+              ]
+            },
+            tooltip: {
+              y: [
+                {
+                  title: {
+                    formatter: function(val: string) {
+                      return val + " (patients)";
+                    }
+                  }
+                },
+                {
+                  title: {
+                    formatter: function(val: string) {
+                      return val + " (patients)";
+                    }
+                  }
+                },
+                {
+                  title: {
+                    formatter: function(val: any) {
+                      return val;
+                    }
+                  }
+                }
+              ]
+            },
+            grid: {
+              borderColor: "#f1f1f1"
+            }
+          };
+
+          this.aquaticChartOptions = { 
+            series: [
+              {
+                name: this.year,
+                data: aquatic,
+              }, 
+              {
+                name: this.year - 1,
+                data: aquatic2,
+              },
+            ], 
+            chart: {
+              height: 400,
+              type: "line",
+               fontFamily: 'Nunito Sans', 
+               toolbar: {
+                show: false
+              },
+              zoom: {
+                enabled: false,
+              }
+            },
+      
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              width: 2,
+              curve: "straight",
+              dashArray: [0, 8, 5]
+            },
+            title: {
+              text: "Aquatic Visit Comparison",
+              style: { 
+                fontWeight: "700",
+                fontSize: "18px",
+              }
+            },
+            legend: {
+              tooltipHoverFormatter: function(val:any, opts:any) {
+                return (
+                  val +
+                  " - <strong>" +
+                  opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+                  "</strong>"
+                );
+              }
+            },
+            markers: {
+              size: 0,
+              hover: {
+                sizeOffset: 6
+              },
+              colors: ['#000', '#f1f1f1',  ]
+            },
+            xaxis: {
+              labels: {
+                trim: false
+              },
+              categories: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+              ]
+            },
+            tooltip: {
+              y: [
+                {
+                  title: {
+                    formatter: function(val: string) {
+                      return val + " (aquatic)";
+                    }
+                  }
+                },
+                {
+                  title: {
+                    formatter: function(val: string) {
+                      return val + " (aquatic)";
+                    }
+                  }
+                },
+                {
+                  title: {
+                    formatter: function(val: any) {
+                      return val;
+                    }
+                  }
+                }
+              ]
+            },
+            grid: {
+              borderColor: "#f1f1f1"
+            }
+          };
+
           break;
         case "therapistReport":
           this.individualTherapistReportData = new MatTableDataSource(response.data);  
@@ -948,4 +1038,8 @@ export class ReportsComponent {
     }
     this.getReports()
   } 
+
+  dateFormat(createdAt:any){
+    return moment(createdAt).format('MMM YY')
+  }
 }
