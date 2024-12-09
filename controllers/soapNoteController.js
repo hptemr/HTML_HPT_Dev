@@ -372,7 +372,7 @@ const getObjectiveData = async (req, res) => {
       let app_subjective_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_subjective_query,query.soap_note_type);
       if(getData && getData[0]){subjectiveData = getData[0];
-        if(subjectiveData.status=='Finalized' || objectiveData.status=='Finalize'){
+        if(subjectiveData && subjectiveData.status=='Finalized' || objectiveData.status=='Finalize'){
           subjectiveData.status='Draft';
         }      
       }
