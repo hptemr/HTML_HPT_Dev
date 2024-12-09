@@ -20,8 +20,8 @@
                             <label class="col-form-label fw-600">{{pointIndex+1}}.Problem <span class="clr--DF0404 ms-1"> * </span></label>
                             <div class="d-flex flex-row align-items-center">
                                 <input [disabled]="isDisabled || readOnly" class="form-control me-2" type="text" placeholder="Enter Your Problem" formControlName="problem" (blur)="checkGroupSpace(assessment_icd_info.at(pointIndex).get('problem'), $event)"/>
-                                <button mat-icon-button [disabled]="readOnly" color="primary" >
-                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer" (click)="removeNewProblem(pointIndex)" >cancel</mat-icon>
+                                <button mat-icon-button [disabled]="readOnly" color="primary" type="button" (click)="removeNewProblem(pointIndex)">
+                                <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-danger cursor-pointer">cancel</mat-icon>
                                 </button>
                             </div>
                             <div class="text text-danger mt-1" *ngIf="assessment_icd_info.at(pointIndex).get('problem')?.touched && assessment_icd_info.at(pointIndex).get('problem')?.hasError('required')">                   
@@ -42,7 +42,7 @@
             </div>
 
             <div class="col-12 d-flex align-items-center justify-content-end" *ngIf="assessment_icd_info && assessment_icd_info.length < assessment_icd_length">
-                <button [disabled]="isDisabled || readOnly" mat-raised-button color="primary" class="flex-shrink-0 mt-2" (click)="addAssessmentGroup()">
+                <button [disabled]="isDisabled || readOnly" mat-raised-button color="primary" class="flex-shrink-0 mt-2" type="button" (click)="addAssessmentGroup()">
                     <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
                     Add New Problem & Goal
                 </button>
