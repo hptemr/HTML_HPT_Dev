@@ -132,7 +132,7 @@ export class PnObjectiveComponent {
       ot: ['', [Validators.minLength(1), Validators.maxLength(500)]],
       treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(500)]],     
       outcome_measures : this.fb.group({
-        name: ['',],
+        name:['',[Validators.required]],
         neck_rate_your_pain: [''],
         pain_intensity: [''],
         personal_care: [''],
@@ -240,10 +240,10 @@ export class PnObjectiveComponent {
     if(this.readOnly){
       this.objectiveForm.disable()
     }
-    //this.initializeFormValidation();
-    this.onFlagChange();
-    this.getObjectiveRecord();  
-    this.onMctsibChange()    
+console.log('>>>>',this.objectiveForm)
+    // this.onFlagChange();
+    // this.getObjectiveRecord();  
+    // this.onMctsibChange()    
   }
 
 
@@ -758,7 +758,7 @@ export class PnObjectiveComponent {
       control?.clearValidators();
       control?.updateValueAndValidity();
     });
-   
+    outcome_measures_group.get('name')?.setValidators(Validators.required)
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
       outcome_measures_group.get('pain_intensity')?.setValue(null)

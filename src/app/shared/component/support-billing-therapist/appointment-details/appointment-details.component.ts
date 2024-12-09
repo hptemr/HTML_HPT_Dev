@@ -320,7 +320,7 @@ export class AppointmentDetailsComponent implements OnInit {
         this.commonService.showLoader();
         this.authService.apiRequest('post', 'soapNote/deleteSoapNote', reqVars).subscribe(async response => {
           this.commonService.hideLoader();
-          this.commonService.openSnackBar(type+" Note Deleted Successfully", "SUCCESS")
+          this.commonService.openSnackBar(type+" Notes Deleted Successfully", "SUCCESS")
           this.actionStarted = false
           this.getAppointmentNotes()
         })

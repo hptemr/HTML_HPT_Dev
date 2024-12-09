@@ -95,6 +95,7 @@ export class ProgressNoteBillingComponent {
   caseType = ""
   billingType = "CMS"
   isHold = false
+  draftFlag:boolean = true
   constructor(private route: ActivatedRoute,public authService: AuthService, public dialog: MatDialog, public commonService: CommonService) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
@@ -112,6 +113,9 @@ export class ProgressNoteBillingComponent {
       }
       if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
         this.isHold = true
+      }
+      if(result && result?.status=='Draft'){
+        this.draftFlag = false
       }
       if(response && response.data?.caseData && response.data.caseData.caseType!=''){
         this.caseType = response.data?.caseData.caseType
@@ -456,11 +460,13 @@ export class ProgressNoteBillingComponent {
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
+            this.draftFlag = false
            // window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
           })
         }else{
           this.authService.apiRequest('post', 'soapNote/updateBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
+            this.draftFlag = false
             //window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
           })
         }

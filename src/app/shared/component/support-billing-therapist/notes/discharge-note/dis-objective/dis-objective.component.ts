@@ -751,7 +751,7 @@ export class DisObjectiveComponent implements OnInit {
       control?.clearValidators();
       control?.updateValueAndValidity();
     });
-   
+    outcome_measures_group.get('name')?.setValidators(Validators.required)
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
       outcome_measures_group.get('pain_intensity')?.setValue(null)
