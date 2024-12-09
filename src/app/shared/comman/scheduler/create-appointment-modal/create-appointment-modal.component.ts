@@ -138,14 +138,29 @@ export class CreateAppointmentModalComponent {
     };
   }
 
-  onDateChange(event: MatDatepickerInputEvent<Date>): void {
+  onDateChange(event: MatDatepickerInputEvent<any>): void { //NOT IN USE
+    const parsedDate = new Date(event.value ? event.value : '');
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
     this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
   }
 
-  onDateInput(event: MatDatepickerInputEvent<Date>): void {
-    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
+  onDateInput(event: MatDatepickerInputEvent<any>): void {
+    const parsedDate = new Date(event.value ? event.value : '');
+    parsedDate.setHours(10, 0, 0);
+
+    const parsedDate2 = new Date(event.value ? event.value : '');
+    parsedDate2.setHours(10, 15, 0);
+
+    this.appointmentForm.controls['appointmentStartTime'].setValue(parsedDate);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(parsedDate2);
+
+
+    // setTimeout( () => {    
+    //   console.log('appointmentDate 1 >>>>>',this.appointmentForm.controls['appointmentDate'])
+    //     console.log('appointmentStartTime 1 >>>>>',this.appointmentForm.controls['appointmentStartTime'])
+    //     console.log('appointmentEndTime 1 >>>>>',this.appointmentForm.controls['appointmentEndTime'])
+    // }, 1000)
+
   }
 
   async createAppointment(formData:any){
@@ -172,6 +187,9 @@ export class CreateAppointmentModalComponent {
           data: formData,
           patientType:formData.patientType
         }
+        // console.log('appointmentDate >>>>>',this.appointmentForm.controls['appointmentDate'])
+        // console.log('appointmentStartTime>>>>>',this.appointmentForm.controls['appointmentStartTime'])
+        // console.log('appointmentEndTime>>>>>',this.appointmentForm.controls['appointmentEndTime'])
         this.emailError = false; this.invalidEmailErrorMessage = '';   
         this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
           this.commonService.hideLoader();
@@ -188,8 +206,7 @@ export class CreateAppointmentModalComponent {
             }
           } else {
             if (response.message) {       
-              this.dialogRef.close();
-              this.successModal(response.message);
+              this.dialogRef.close();this.successModal(response.message);
               this.commonService.openSnackBar(response.message, "SUCCESS");
             }
           }

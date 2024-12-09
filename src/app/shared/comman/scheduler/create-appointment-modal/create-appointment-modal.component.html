@@ -44,10 +44,10 @@
                     </div>
                     <div class="form-group">
                         <div class="text text-danger" *ngIf="appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
-                            {{ validationMessages.requiredDropdown('Case Name 1') }}
+                            {{ validationMessages.requiredDropdown('Case Name') }}
                         </div>   
                         <div class="text text-danger" *ngIf="appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
-                            {{ validationMessages.required('Case Name 2') }}
+                            {{ validationMessages.required('Case Name') }}
                         </div> 
                     </div>                  
                 </div>
@@ -72,7 +72,7 @@
                         <label class="col-form-label fw-600 font-16 p-0 me-3  flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
                         <div>
                             <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker"> 
-                                <input class="" matInput [matDatepicker]="picker" [min]="minToDate" [max]="maxToDate" placeholder="MM/DD/YYYY" readonly="true" formControlName="appointmentDate" (dateChange)="onDateChange($event)" (dateInput)="onDateInput($event)"> 
+                                <input class="" matInput [matDatepicker]="picker" [min]="minToDate" [max]="maxToDate" placeholder="MM/DD/YYYY" readonly="true" formControlName="appointmentDate" (dateInput)="onDateInput($event)"> 
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>

@@ -97,7 +97,7 @@ export class EFaxModalComponent {
       this.authService.apiRequest('post', 'appointment/getDoctorList', reqVars).subscribe(async response => {
         let finalData: any = []
         if (response.data && response.data.doctorList && response.data.doctorList.length > 0) {
-          response.data.doctorList.map((element: any) => {
+          await response.data.doctorList.map((element: any) => {
             let newColumns = {
              id: element._id,
              name: element.name,
@@ -106,7 +106,13 @@ export class EFaxModalComponent {
             finalData.push(newColumns)
           })
         }
-        this.allOptions = finalData;    
+         this.allOptions = finalData; 
+        let option:any = {
+          id: this.appointmentData.doctorId._id,
+          name: this.appointmentData.doctorId.name,
+          faxNumber: this.appointmentData.doctorId.faxNumber,
+        }   
+        await this.selectedOptions.push(option);
         this.myControl.setValue('')
       })
     }
