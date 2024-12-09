@@ -21,7 +21,7 @@
                                         <span class="font-14 fw-400 ml-3 badge" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">
                                             This Case is in collections
                                         </span>
-                                        <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Selfpay' && isSelfPay">User Selected the Self Pay Option</span>
+                                        <span class="font-14 fw-600 m-1 p-1" *ngIf="appointmentData?.payVia == 'Selfpay' && isSelfPay">User Selected the Self Pay Option</span>
                                         <!-- <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Insurance' && !isSelfPay">User Selected the Insurance Option</span> -->
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
