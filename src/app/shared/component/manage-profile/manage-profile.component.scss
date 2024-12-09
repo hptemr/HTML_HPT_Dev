@@ -1,14 +1,13 @@
-.signature--box{
-    width: 200px;
-    height: 72px;
-    border-radius: 6px;
-    border: 1px solid rgba(49, 183, 183, 0.40);
-    background: #FFF;
-    box-shadow: 0px 6.879px 14px 0px rgba(18, 18, 18, 0.10);
-    overflow: hidden;
-    padding: 5px; 
-    font-size: 21px;
-
-    font-family: "Great Vibes", cursive;
-    font-weight: 600; 
+.ui--button{
+    cursor: pointer;
+    input[type=file]{
+        z-index: 999999;
+        opacity: 0;
+        position: absolute;
+        left: -38px;
+        top: -6px;
+        height: 36px;
+        width: 173px;
+        cursor: pointer;
+    } 
 }
