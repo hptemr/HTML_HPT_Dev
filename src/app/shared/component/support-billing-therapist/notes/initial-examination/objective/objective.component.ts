@@ -267,7 +267,7 @@ export class ObjectiveComponent {
       if(response.data){
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;
-        this.objectiveId = objectiveData?._id;
+        if(objectiveData.appointmentId==this.appointmentId)this.objectiveId = objectiveData?._id;
         this.land_exercise_list = objectiveData?.land_exercise;
         this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};

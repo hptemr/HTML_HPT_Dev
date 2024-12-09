@@ -126,7 +126,7 @@ export class AppointmentDetailsComponent {
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;
           this.app_data[this.appointmentId] = this.appointmentData;
-console.log('appointmentData>>>',this.appointmentData?.payVia)
+
           this.isSelfPay = (this.appointmentData?.payVia == 'Selfpay')? true :false
           this.insuranceInfo = response.data.appointmentData?.payViaInsuranceInfo   
           this.patientId = response.data.appointmentData?.patientId._id
