@@ -145,7 +145,7 @@
                             <option value="mCTSIB">mCTSIB</option>
                             <option value="30 sec STS">30 sec STS</option>
                         </select>
-                        <div class="text text-danger mt-1" *ngIf="objectiveForm.controls['outcome_measures'].touched && objectiveForm.controls['outcome_measures'].hasError('required')">
+                        <div class="text text-danger mt-1"  *ngIf="objectiveForm.get('outcome_measures.name')?.hasError('required')">
                             {{ validationMessages.required('Outcome Measures') }}
                         </div>
                     </div>
@@ -175,9 +175,9 @@
                                 </ul>
                                 <p class="m-0 font-14 text-lowercase">10=very severe pain</p>
                             </div>
-                            <div class="text text-danger mt-1" *ngIf="objectiveForm.get('outcome_measures.neck_rate_your_pain')?.hasError('required') && objectiveForm.get('outcome_measures.neck_rate_your_pain')?.touched">
-                                {{ validationMessages.openValidation('Please rate the pain of the Patient') }}
-                            </div>
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="objectiveForm.get('outcome_measures.neck_rate_your_pain')?.hasError('required') && objectiveForm.get('outcome_measures.neck_rate_your_pain')?.touched">
+                            {{ validationMessages.openValidation('Please rate the pain of the Patient') }}
                         </div>
                         <div class="col-12">
                             <div class="row">
