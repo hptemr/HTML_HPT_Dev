@@ -18,7 +18,7 @@
                                 <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
                                     Basic Information <span class="font-14 fw-600 ms-auto" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">This Case is in Collections</span>
                                     <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Selfpay' && isSelfPay">User Selected the Self Pay Option</span>
-                                    <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Insurance' && !isSelfPay">User Selected the Insurance Option</span>
+                                    <!-- <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Insurance' && !isSelfPay">User Selected the Insurance Option</span> -->
                                 </mat-panel-title>
                                 <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                     <button mat-stroked-button color="primary" [routerLink]="['/billing-team/patients/patient-profile/',patientId]" >View Patient Profile</button>
