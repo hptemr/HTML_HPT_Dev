@@ -63,14 +63,36 @@ const decryptData = (data, key) =>{
 }
 
 
-const dateModify = (dateVal) =>{
-  const date = new Date(dateVal);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');  // getMonth() is 0-indexed, so add 1
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0'); // Format the date as 'MM-DD-YYYY HH:mm'
-  const formattedDate = `${month}-${day}-${year} ${hours}:${minutes}`;
+const dateModify = (appointmentDate) =>{
+  console.log(typeof appointmentDate,'.....appointmentDate val>>>>',appointmentDate)
+  //const date = new Date(dateVal);
+  // const year = date.getFullYear();
+  // const month = String(date.getMonth() + 1).padStart(2, '0');  // getMonth() is 0-indexed, so add 1
+  // const day = String(date.getDate()).padStart(2, '0');
+  // const hours = String(date.getHours()).padStart(2, '0');
+  // const minutes = String(date.getMinutes()).padStart(2, '0'); // Format the date as 'MM-DD-YYYY HH:mm'
+  // const formattedDate = `${month}-${day}-${year} ${hours}:${minutes}`;
+  // return formattedDate;
+
+  const formattedDate = appointmentDate.toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'UTC',
+  });
+  return formattedDate;
+}
+
+const getDateMinutes = (appointmentDate) =>{
+  const formattedDate = appointmentDate.toLocaleString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'UTC',
+  });
   return formattedDate;
 }
 
@@ -80,5 +102,6 @@ module.exports = {
     generateRandomPassword,
     encryptData,
     decryptData,
-    dateModify
+    dateModify,
+    getDateMinutes
 };
