@@ -52,7 +52,7 @@ export class ViewInsuranceComponent {
       this.commonService.showLoader();
       let reqVars = {
         query: { _id: this.appointmentId },
-        fields: { payViaInsuranceInfo: 1 }
+        fields: { payViaInsuranceInfo: 1,adminPayViaInsuranceInfo:1 }
       }
 
       await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
@@ -60,6 +60,9 @@ export class ViewInsuranceComponent {
         if (response.data && response.data.appointmentData) {
           this.appointmentData = response.data.appointmentData;
           this.insuranceInfo = response.data.appointmentData?.payViaInsuranceInfo
+          if(response.data.appointmentData?.adminPayViaInsuranceInfo){
+            this.insuranceInfo = response.data.appointmentData?.adminPayViaInsuranceInfo
+          }
           console.log("this.insuranceInfo>>>",this.insuranceInfo)
          
           this.loadInsuranceData(this.insuranceInfo)

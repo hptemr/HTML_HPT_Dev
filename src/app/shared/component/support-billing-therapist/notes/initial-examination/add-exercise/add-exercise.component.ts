@@ -48,12 +48,13 @@ export class AddExerciseComponent {
   }
 
   async addExerciseFormSubmit(formData: any){
-    console.log('Add Exercise Form  >>>>',this.addExerciseForm)
+  
     if (this.addExerciseForm.invalid){
       this.addExerciseForm.markAllAsTouched();
     }else{
       Object.assign(formData, {
         createdBy: this.userId,
+        soap_note_type:this.soap_note_type
       })
       this.isSubmit = true
       let reqVars = {

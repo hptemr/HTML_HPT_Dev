@@ -1101,6 +1101,7 @@ export class PnObjectiveComponent {
       outcome_measures_group.get('sts_score')?.setValidators([Validators.required, Validators.min(0), Validators.max(200)])      
       outcome_measures_group.get('sts_score')?.updateValueAndValidity(); 
     }
+    outcome_measures_group.get('name')?.updateValueAndValidity();
   }
 
   onFlagChange() {

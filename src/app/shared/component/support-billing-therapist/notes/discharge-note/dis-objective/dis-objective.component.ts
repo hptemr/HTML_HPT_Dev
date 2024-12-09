@@ -125,7 +125,7 @@ export class DisObjectiveComponent implements OnInit {
       ot: ['', [Validators.minLength(1), Validators.maxLength(500)]],
       treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(500)]],     
       outcome_measures : this.fb.group({
-        name: ['',],
+        name:['',Validators.required],
         neck_rate_your_pain: [''],
         pain_intensity: [''],
         personal_care: [''],
@@ -1094,6 +1094,7 @@ export class DisObjectiveComponent implements OnInit {
       outcome_measures_group.get('sts_score')?.setValidators([Validators.required, Validators.min(0), Validators.max(200)])      
       outcome_measures_group.get('sts_score')?.updateValueAndValidity(); 
     }
+    outcome_measures_group.get('name')?.updateValueAndValidity();
   }
 
   onFlagChange() {
