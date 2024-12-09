@@ -592,6 +592,7 @@ const updateAppointment = async (req, res) => {
 
         console.log("<<<<<<<<<<< appointment_data >>>>>>>>>>>", appointment_data)
         
+        // Send data to Tebra of Intake Form
         if(updateInfo?.intakeFormSubmit && appointment_data){
             let patientDataToUpdate = appointment_data?.patientInfo
             console.log("********patientDataToUpdate*****", patientDataToUpdate)

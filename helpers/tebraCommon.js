@@ -81,15 +81,32 @@ const calculateUnitCharges = (directCodes) =>{
   // }
   // return result;
 
+  // const result = [];
+  // for (const [codeName, value] of Object.entries(directCodes)) {
+  //   if (value?.minutes && value?.units) {
+  //     const units = parseInt(value?.units, 10);
+  //     const chargePerUnit = parseFloat(value?.chargePerUnit);
+  //     result.push({
+  //       codeName: codeName,
+  //       units: value.units.toString(),
+  //       minutes: value.minutes.toString(),
+  //       cptCode: value.cptCode.toString(),
+  //       chargePerUnit: chargePerUnit,
+  //       totalCharge: (units * chargePerUnit).toString()
+  //     });
+  //   }
+  // }
+  // return result;
+
   const result = [];
   for (const [codeName, value] of Object.entries(directCodes)) {
-    if (value?.minutes && value?.units) {
+    if (value?.units) {
       const units = parseInt(value?.units, 10);
       const chargePerUnit = parseFloat(value?.chargePerUnit);
       result.push({
         codeName: codeName,
         units: value.units.toString(),
-        minutes: value.minutes.toString(),
+        minutes: (value?.minutes) ? value.minutes.toString():'',
         cptCode: value.cptCode.toString(),
         chargePerUnit: chargePerUnit,
         totalCharge: (units * chargePerUnit).toString()

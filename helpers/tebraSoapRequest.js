@@ -45,6 +45,7 @@ const createPatient = (patientData) => {
                                     <sch:EmailAddress>${patientData.email?patientData.email:''}</sch:EmailAddress>
                                     <sch:FirstName>${patientData.firstName}</sch:FirstName>
                                     <sch:Gender>${patientData.gender}</sch:Gender>
+                                    <sch:HomePhone>${patientData.phoneNumber?tebraCommon.convertPhoneNumber(patientData.phoneNumber):''}</sch:HomePhone>
                                     <sch:LastName>${patientData.lastName}</sch:LastName>
                                     <sch:MiddleName>${patientData.middleName?patientData.middleName:''}</sch:MiddleName>
                                     <sch:Practice>
@@ -52,7 +53,6 @@ const createPatient = (patientData) => {
                                         <sch:PracticeName>Sandbox</sch:PracticeName>
                                     </sch:Practice>
                                     <sch:State>${patientData.state?patientData.state:''}</sch:State>
-                                    <sch:WorkPhone>${patientData.phoneNumber?patientData.phoneNumber:''}</sch:WorkPhone>
                                     <sch:ZipCode>${patientData.zipcode?patientData.zipcode:''}</sch:ZipCode>
                                     </sch:Patient>
                                 </sch:request>
@@ -65,6 +65,24 @@ const createPatient = (patientData) => {
 
 
   const updatePatientPersonalInfo = (patientData, tebraDetails) => {
+    let mobilePhone =''
+    let workPhone =''
+    let middleName =''
+    if(patientData?.cellPhoneNumber){
+        const mobilePhoneXML = `<sch:MobilePhone>${tebraCommon.convertPhoneNumber(patientData?.cellPhoneNumber)}</sch:MobilePhone>`
+        mobilePhone = mobilePhoneXML
+    }
+
+    if(patientData?.workExtensionNumber){
+        const workPhoneXML = `<sch:WorkPhone>${tebraCommon.convertPhoneNumber(patientData?.workExtensionNumber)}</sch:WorkPhone>`
+        workPhone = workPhoneXML
+    }
+
+    if(patientData?.middleName){
+        const middleNameXML = `<sch:MiddleName>${patientData?.middleName}</sch:MiddleName>`
+        middleName = middleNameXML
+    }
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                         <soapenv:Header/>
                         <soapenv:Body>
@@ -79,17 +97,17 @@ const createPatient = (patientData) => {
                                     <sch:DateofBirth>${tebraCommon.changeDateFormat(patientData.dob)}</sch:DateofBirth>
                                     <sch:FirstName>${patientData.firstName}</sch:FirstName>
                                     <sch:Gender>${patientData.gender}</sch:Gender>
-                                    <sch:HomePhone>${patientData.phoneNumber?patientData.phoneNumber:''}</sch:HomePhone>
+                                    <sch:HomePhone>${patientData.phoneNumber?tebraCommon.convertPhoneNumber(patientData.phoneNumber):''}</sch:HomePhone>
                                     <sch:LastName>${patientData.lastName}</sch:LastName>
                                     <sch:MaritalStatus>${patientData.maritalStatus=='Married'?'M':'S'}</sch:MaritalStatus>
-                                    <sch:MiddleName>${patientData.middleName?patientData.middleName:''}</sch:MiddleName>
-                                    <sch:MobilePhone>${patientData.cellPhoneNumber?patientData.cellPhoneNumber:''}</sch:MobilePhone>
+                                    ${middleName}
+                                    ${mobilePhone}
                                     <sch:PatientID>${tebraDetails?.PatientID}</sch:PatientID>
                                     <sch:Practice>
                                         <sch:PracticeID>4</sch:PracticeID>
                                         <sch:PracticeName>Sandbox</sch:PracticeName>
                                     </sch:Practice>
-                                    <sch:WorkPhone>${patientData.workExtensionNumber?patientData.workExtensionNumber:''}</sch:WorkPhone>
+                                    ${workPhone}
                                     </sch:Patient>
                                 </sch:UpdatePatientReq>
                             </sch:UpdatePatient>
@@ -175,6 +193,24 @@ const createPatient = (patientData) => {
 
 
 const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
+    let mobilePhone =''
+    let workPhone =''
+    let middleName =''
+    if(patientData?.cellPhoneNumber){
+        const mobilePhoneXML = `<sch:MobilePhone>${tebraCommon.convertPhoneNumber(patientData?.cellPhoneNumber)}</sch:MobilePhone>`
+        mobilePhone = mobilePhoneXML
+    }
+
+    if(patientData?.workExtension){
+        const workPhoneXML = `<sch:WorkPhone>${tebraCommon.convertPhoneNumber(patientData?.workExtension)}</sch:WorkPhone>`
+        workPhone = workPhoneXML
+    }
+
+    if(patientData?.middleName){
+        const middleNameXML = `<sch:MiddleName>${patientData?.middleName}</sch:MiddleName>`
+        middleName = middleNameXML
+    }
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                         <soapenv:Header/>
                         <soapenv:Body>
@@ -186,20 +222,24 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                     <sch:User>${tebraCredentials?.user}</sch:User>
                                     </sch:RequestHeader>
                                     <sch:Patient>
+                                    <sch:AddressLine1>${patientData.address1?patientData.address1:''}</sch:AddressLine1>
+                                    <sch:City>${patientData.city?patientData.city:''}</sch:City>
                                     <sch:DateofBirth>${tebraCommon.changeDateFormat(patientData.dob)}</sch:DateofBirth>
                                     <sch:FirstName>${patientData.firstName}</sch:FirstName>
                                     <sch:Gender>${patientData.gender}</sch:Gender>
-                                    <sch:HomePhone>${patientData.phoneNumber?patientData.phoneNumber:''}</sch:HomePhone>
+                                    <sch:HomePhone>${patientData.phoneNumber?tebraCommon.convertPhoneNumber(patientData?.phoneNumber):''}</sch:HomePhone>
                                     <sch:LastName>${patientData.lastName}</sch:LastName>
                                     <sch:MaritalStatus>${patientData.maritalStatus=='Married'?'M':'S'}</sch:MaritalStatus>
-                                    <sch:MiddleName>${patientData.middleName?patientData.middleName:''}</sch:MiddleName>
-                                    <sch:MobilePhone>${patientData.cellPhoneNumber?patientData.cellPhoneNumber:''}</sch:MobilePhone>
+                                    ${middleName}
+                                    ${mobilePhone}
                                     <sch:PatientID>${tebraDetails?.PatientID}</sch:PatientID>
                                     <sch:Practice>
                                         <sch:PracticeID>4</sch:PracticeID>
                                         <sch:PracticeName>Sandbox</sch:PracticeName>
                                     </sch:Practice>
-                                    <sch:WorkPhone>${patientData.workExtension?patientData.workExtension:''}</sch:WorkPhone>
+                                    <sch:State>${patientData.state?patientData.state:''}</sch:State>
+                                    ${workPhone}
+                                    <sch:ZipCode>${patientData.zipcode?patientData.zipcode:''}</sch:ZipCode>
                                     </sch:Patient>
                                 </sch:UpdatePatientReq>
                             </sch:UpdatePatient>
@@ -268,6 +308,10 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         sendEmployerData = employer
     }
 
+    let relatedToAutoAccident = (insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)")?true:false
+    let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+    let relatedToOther = (insuranceInfo?.injuryRelelatedTo=="Other Personal Injury")?true:false
+
 
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>
@@ -283,6 +327,11 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                         <sch:Cases>
                                             <sch:PatientCaseUpdateReq>
                                                 <sch:CaseID>${tebraCaseDetails?.CaseID}</sch:CaseID>
+                                                <sch:Condition>
+                                                    <sch:RelatedToAutoAccident>${relatedToAutoAccident}</sch:RelatedToAutoAccident>
+                                                    <sch:RelatedToEmployment>${relatedToEmployment}</sch:RelatedToEmployment>
+                                                    <sch:RelatedToOther>${relatedToOther}</sch:RelatedToOther>
+                                                </sch:Condition>
                                                 <sch:PayerScenario>Insurance</sch:PayerScenario>
                                                 <sch:Policies>
                                                     <sch:InsurancePolicyUpdateReq>
@@ -402,6 +451,10 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         highDeductableData = highDeductable
     }
 
+    let relatedToAutoAccident = (insuranceInfo?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)")?true:false
+    let relatedToEmployment = (insuranceInfo?.RP_injuryRelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+    let relatedToOther = (insuranceInfo?.RP_injuryRelatedTo=="Other Personal Injury")?true:false
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>
                             <soapenv:Body>
@@ -416,6 +469,11 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                         <sch:Cases>
                                             <sch:PatientCaseUpdateReq>
                                                 <sch:CaseID>${tebraCaseDetails?.CaseID}</sch:CaseID>
+                                                <sch:Condition>
+                                                    <sch:RelatedToAutoAccident>${relatedToAutoAccident}</sch:RelatedToAutoAccident>
+                                                    <sch:RelatedToEmployment>${relatedToEmployment}</sch:RelatedToEmployment>
+                                                    <sch:RelatedToOther>${relatedToOther}</sch:RelatedToOther>
+                                                </sch:Condition>
                                                 <sch:PayerScenario>Insurance</sch:PayerScenario>
                                                 <sch:Policies>
                                                     <sch:InsurancePolicyUpdateReq>
@@ -476,6 +534,10 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         sendEmployerData = employer
     }
 
+    let relatedToAutoAccident = (insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)")?true:false
+    let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+    let relatedToOther = (insuranceInfo?.injuryRelelatedTo=="Other Personal Injury")?true:false
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>
                             <soapenv:Body>
@@ -490,6 +552,11 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                         <sch:Cases>
                                             <sch:PatientCaseUpdateReq>
                                                 <sch:CaseID>${tebraCaseDetails?.CaseID}</sch:CaseID>
+                                                <sch:Condition>
+                                                    <sch:RelatedToAutoAccident>${relatedToAutoAccident}</sch:RelatedToAutoAccident>
+                                                    <sch:RelatedToEmployment>${relatedToEmployment}</sch:RelatedToEmployment>
+                                                    <sch:RelatedToOther>${relatedToOther}</sch:RelatedToOther>
+                                                </sch:Condition>
                                                 <sch:PayerScenario>Insurance</sch:PayerScenario>
                                                 <sch:Policies>
                                                     <sch:InsurancePolicyUpdateReq>
@@ -542,9 +609,13 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
 
   const createEncounter = (patientRes, caseDetails, subjectiveData, allCharges, diaCode) => {
         const serviceLineData = allCharges.map((chargesData) => {
+            let minutesData = ''
+            if(chargesData?.minutes){
+                minutesData = `<sch:Minutes>${chargesData?.minutes}</sch:Minutes>`
+            }
             return `<sch:ServiceLineReq>
                     <sch:DiagnosisCode1>${diaCode?.code}</sch:DiagnosisCode1>
-                    <sch:Minutes>${chargesData?.minutes}</sch:Minutes>
+                    ${minutesData}
                     <sch:ProcedureCode>${chargesData?.cptCode}</sch:ProcedureCode>
                     <sch:ServiceEndDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceEndDate>
                     <sch:ServiceStartDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceStartDate>
