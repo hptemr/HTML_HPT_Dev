@@ -102,7 +102,7 @@ export class SchedulerComponent {
     });
   }
  
-    @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+    @ViewChild('modalContent1', { static: true }) modalContent1: TemplateRef<any>;
   
     view: CalendarView = CalendarView.Month;
   
@@ -212,7 +212,7 @@ export class SchedulerComponent {
   
     handleEvent(action: string, event: CalendarEvent): void {
       this.modalData = { event, action };
-      this.modal.open(this.modalContent, { size: 'lg' });
+      this.modal.open(this.modalContent1, { size: 'lg' });
     }
   
     addEvent(): void {

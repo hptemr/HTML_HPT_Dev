@@ -281,6 +281,7 @@
             }
         }
     }
+
 }
  
 
@@ -312,7 +313,21 @@
             }
         }
     }
+    &.all--app--table{
+       table{
+            thead{
+                tr{
+                    th{
+                        &:last-child{
+                            width: 130px;
+                        }
+                    }
+                }
+            }
+       }
+    }
 }
+
 
 ::ng-deep{ 
     .mat-mdc-menu-item{

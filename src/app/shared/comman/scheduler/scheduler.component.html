@@ -205,7 +205,7 @@
                 <div class="modal--wrapper d-flex flex-column w-100 app--details--modal--wrapper">
                     <div class="modal--header w-100 d-flex justify-content-between align-items-center">
                         <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-0">
-                            Appointment Details
+                            Appointment Details 
                         </h1> 
                         <button class="more--opt" mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu">
                             <mat-icon>more_vert</mat-icon>
@@ -441,6 +441,218 @@
              <!-- No Record Found (End here) -->
 
 
+             <!-- view appointment's -->
+             <ng-template #modalContent1 let-close="close"> 
+                <div class="modal--wrapper d-flex flex-column w-100 app--details--modal--wrapper all--app--table">
+                    <div class="modal--header w-100 d-flex justify-content-between align-items-center">
+                        <h1 class="mb-0 font-22 fw-600  d-flex align-items-center border-0 pb-0">
+                            All Appointment's
+                        </h1>  
+                    </div>
+                    <div class="modal--body w-100  ">
+                        <div class="row">
+                           <div class="col-12">
+                            <table class="table ">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Appointment desc</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Actions</th> 
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">1</th>
+                                    <td>Arthritis (Reva Khairnar)</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">2</th>
+                                    <td>UAT_OT_Case (John Disuza)</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">3</th>
+                                    <td>Chest pain (Stuart Little) </td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">4</th>
+                                    <td>Neck (John Disuza)</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">5</th>
+                                    <td>Shoulder dislocation (Vaishnav Misal</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">6</th>
+                                    <td>Demo_Case_1 (John Disuza)</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">7</th>
+                                    <td>Shoulder Pain (Sammy Lara)</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">8</th>
+                                    <td> Head Pain (Wooten Evan) </td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">9</th>
+                                    <td>Neck Pain (Jewell Esteban) </td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">10</th>
+                                    <td>L-Bow (Riya Patil) </td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                  <tr>
+                                    <th scope="row">11</th>
+                                    <td>new pain (aaa bbb)</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr>  
+                                  <tr>
+                                    <th scope="row">12</th>
+                                    <td>Head (Adam)</td>
+                                    <td>18/12/2000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20">visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button>
+                                                <mat-icon class="font-20 clr--DF0404">delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> 
+                                  </tr> 
+                                </tbody>
+                              </table>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="modal--footer w-100 d-flex align-items-center justify-content-end pt-0"> 
+                        <button mat-raised-button color="primary"  (click)="close()">Close</button>
+                    </div>
+                     
+                </div> 
+            </ng-template>
 
         </div>
         <!-- Calender End's here -->
