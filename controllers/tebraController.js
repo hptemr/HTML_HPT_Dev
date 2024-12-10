@@ -582,8 +582,10 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                       const directPtCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_pt_codes);
                       const directOtCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_ot_codes);
                       const directSlpCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_slp_codes);
+                      const dmeCptCodes = tebraCommon.calculateQuantityCharges(billingDetails?.dme_cpt_codes);
+                      console.log("dmeCptCodes>>>",dmeCptCodes)
                       
-                      const allCharges = [...unitedPtCharges,...unitedOtCharges,...unitedSlpCharges,...directPtCharges, ...directOtCharges,...directSlpCharges];
+                      const allCharges = [...unitedPtCharges,...unitedOtCharges,...unitedSlpCharges,...directPtCharges, ...directOtCharges,...directSlpCharges, ...dmeCptCodes];
                       console.log("allCharges>>>",allCharges)
 
 

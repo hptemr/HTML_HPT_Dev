@@ -116,6 +116,25 @@ const calculateUnitCharges = (directCodes) =>{
   return result;
 }
 
+const calculateQuantityCharges = (directCodes) =>{
+  const result = [];
+  for (const [codeName, value] of Object.entries(directCodes)) {
+    if (value?.quantity && value?.cptCode && value?.chargePerUnit) {
+      const quantity = parseInt(value?.quantity, 10);
+      const chargePerUnit = parseFloat(value?.chargePerUnit);
+      result.push({
+        codeName: codeName,
+        units: value.quantity.toString(),
+        minutes: (value?.minutes) ? value.minutes.toString():'',
+        cptCode: value.cptCode.toString(),
+        chargePerUnit: chargePerUnit,
+        totalCharge: (quantity * chargePerUnit).toString()
+      });
+    }
+  }
+  return result;
+}
+
 function formatXML(xmlString) {
   return format(xmlString, {
     indentation: '  ', // Two spaces
@@ -132,5 +151,6 @@ module.exports = {
   tebraApiLog,
   convertPhoneNumber,
   calculateUnitCharges,
-  formatXML
+  formatXML,
+  calculateQuantityCharges
 };
