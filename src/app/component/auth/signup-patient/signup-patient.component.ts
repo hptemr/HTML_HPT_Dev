@@ -88,6 +88,7 @@ export class SignupPatientComponent implements OnInit {
   signUpToken:any = ""
   patientGetByToken:any = null
   public tokenId: any;
+  patient_email: string='';
   constructor( private route: ActivatedRoute,private router: Router,private fb: FormBuilder,public dialog: MatDialog, breakpointObserver: BreakpointObserver, private authService: AuthService, private commonService:CommonService,private ngbDateParserFormatter: NgbDateParserFormatter,private datePipe: DatePipe,private activateRoute: ActivatedRoute) {
     this.route.params.subscribe((params: Params) => {
       this.tokenId = params['tokenId'];
@@ -218,7 +219,10 @@ export class SignupPatientComponent implements OnInit {
   goToNext(steps:any, userData:any,stepper:MatStepper) {
     this.mainHeadTxt="Create your account";
     if (steps==1 && !this.firstFormGroup.invalid){
-      const emailValue = this.firstFormGroup.get('email')?.value
+      let emailValue = this.firstFormGroup.get('email')?.value;
+      if(emailValue==undefined && this.patient_email!=''){
+        emailValue = this.patient_email
+      }
       let first_form_data:any = {
         "firstName":userData.firstName,
         "middleName": userData.middleName,
@@ -631,6 +635,7 @@ export class SignupPatientComponent implements OnInit {
           this.firstFormGroup.controls['firstName'].setValue(response.data.firstName);
           this.firstFormGroup.controls['lastName'].setValue(response.data.lastName);
           this.firstFormGroup.controls['email'].setValue(response.data.email);
+          this.patient_email = response.data.email;
           this.firstFormGroup.get('email')?.disable();
           if(response.data.phoneNumber){
             this.firstFormGroup.controls['phoneNumber'].setValue(response.data.phoneNumber);
