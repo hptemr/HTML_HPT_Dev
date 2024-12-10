@@ -312,6 +312,11 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
     let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
     let relatedToOther = (insuranceInfo?.injuryRelelatedTo=="Other Personal Injury")?true:false
 
+    let relationToGuarantor = ''
+    if(insuranceInfo?.relationWithPatient){
+        let relationToGuarantorData = `<sch:RelationshiptoGuarantor>${insuranceInfo?.relationWithPatient}</sch:RelationshiptoGuarantor>`
+        relationToGuarantor = relationToGuarantorData
+    }
 
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>
@@ -345,7 +350,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                                             <sch:Gender>${insuranceInfo?.subscriberGender ? insuranceInfo?.subscriberGender:''}</sch:Gender>
                                                             <sch:LastName>${insuranceInfo?.subscriberLastName}</sch:LastName>
                                                             <sch:MiddleName>${insuranceInfo?.subscriberMiddleName? insuranceInfo?.subscriberMiddleName:''}</sch:MiddleName>
-                                                            <sch:PatientRelationshipToInsured>Self</sch:PatientRelationshipToInsured>
+                                                            <sch:PatientRelationshipToInsured>${insuranceInfo?.subscriberRelationWithPatient? insuranceInfo?.subscriberRelationWithPatient:''}</sch:PatientRelationshipToInsured>
                                                         </sch:Insured>
                                                         <sch:PlanName>${insuranceInfo?.primaryInsuranceCompany}</sch:PlanName>
                                                         <sch:PolicyGroupNumber>${insuranceInfo?.primaryInsuranceGroup}</sch:PolicyGroupNumber>
@@ -362,7 +367,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                             <sch:FirstName>${insuranceInfo?.firstName}</sch:FirstName>
                                             <sch:LastName>${insuranceInfo?.lastName}</sch:LastName>
                                             <sch:MiddleName>${insuranceInfo?.middleName ? insuranceInfo?.middleName:''}</sch:MiddleName>
-                                            <sch:RelationshiptoGuarantor>Spouse</sch:RelationshiptoGuarantor>
+                                            ${relationToGuarantor}
                                         </sch:Guarantor>
                                         <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
                                         <sch:Practice>
@@ -455,6 +460,12 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
     let relatedToEmployment = (insuranceInfo?.RP_injuryRelatedTo=="Motar Vehicle Accident (MVA)")?true:false
     let relatedToOther = (insuranceInfo?.RP_injuryRelatedTo=="Other Personal Injury")?true:false
 
+    let relationToGuarantor = ''
+    if(insuranceInfo?.RP_relationWithPatient){
+        let relationToGuarantorData = `<sch:RelationshiptoGuarantor>${insuranceInfo?.RP_relationWithPatient}</sch:RelationshiptoGuarantor>`
+        relationToGuarantor = relationToGuarantorData
+    }
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>
                             <soapenv:Body>
@@ -499,7 +510,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                             <sch:FirstName>${insuranceInfo?.RP_firstName}</sch:FirstName>
                                             <sch:LastName>${insuranceInfo?.RP_lastName}</sch:LastName>
                                             <sch:MiddleName>${insuranceInfo?.RP_middleName ? insuranceInfo?.RP_middleName:''}</sch:MiddleName>
-                                            <sch:RelationshiptoGuarantor>Spouse</sch:RelationshiptoGuarantor>
+                                            ${relationToGuarantor}
                                         </sch:Guarantor>
                                         <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
                                         <sch:Practice>
@@ -538,6 +549,12 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
     let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
     let relatedToOther = (insuranceInfo?.injuryRelelatedTo=="Other Personal Injury")?true:false
 
+    let relationToGuarantor = ''
+    if(insuranceInfo?.relationWithPatient){
+        let relationToGuarantorData = `<sch:RelationshiptoGuarantor>${insuranceInfo?.relationWithPatient}</sch:RelationshiptoGuarantor>`
+        relationToGuarantor = relationToGuarantorData
+    }
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>
                             <soapenv:Body>
@@ -572,7 +589,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                                             <sch:Gender>${insuranceInfo?.subscriberGender ? insuranceInfo?.subscriberGender:''}</sch:Gender>
                                                             <sch:LastName>${insuranceInfo?.subscriberLastName}</sch:LastName>
                                                             <sch:MiddleName>${insuranceInfo?.subscriberMiddleName? insuranceInfo?.subscriberMiddleName:''}</sch:MiddleName>
-                                                            <sch:PatientRelationshipToInsured>Self</sch:PatientRelationshipToInsured>
+                                                            <sch:PatientRelationshipToInsured>${insuranceInfo?.subscriberRelationWithPatient? insuranceInfo?.subscriberRelationWithPatient:''}</sch:PatientRelationshipToInsured>
                                                         </sch:Insured>
                                                         <sch:PlanID>${tebraInsuranceData?.InsurancePolicyPlanID}</sch:PlanID>
                                                         <sch:PlanName>${insuranceInfo?.primaryInsuranceCompany}</sch:PlanName>
@@ -590,7 +607,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                             <sch:FirstName>${insuranceInfo?.firstName}</sch:FirstName>
                                             <sch:LastName>${insuranceInfo?.lastName}</sch:LastName>
                                             <sch:MiddleName>${insuranceInfo?.middleName ? insuranceInfo?.middleName:''}</sch:MiddleName>
-                                            <sch:RelationshiptoGuarantor>Spouse</sch:RelationshiptoGuarantor>
+                                            ${relationToGuarantor}
                                         </sch:Guarantor>
                                         <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
                                         <sch:Practice>
