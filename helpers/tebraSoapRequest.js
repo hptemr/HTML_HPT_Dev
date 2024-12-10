@@ -693,6 +693,42 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         return soapRequest
   }
 
+
+  const addPatientSelfPayIntakeForm = (insuranceInfo, patientRes, tebraCaseDetails, emergencyContact) => {
+
+    let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
+                            <soapenv:Header/>
+                            <soapenv:Body>
+                                <sch:UpdatePatient>
+                                    <sch:UpdatePatientReq>
+                                        <sch:RequestHeader>
+                                        <sch:CustomerKey>${tebraCredentials?.customerKey}</sch:CustomerKey>
+                                        <sch:Password>${tebraCredentials?.password}</sch:Password>
+                                        <sch:User>${tebraCredentials?.user}</sch:User>
+                                        </sch:RequestHeader>
+                                        <sch:Patient>
+                                        <sch:Cases>
+                                            <sch:PatientCaseUpdateReq>
+                                                <sch:CaseID>${tebraCaseDetails?.CaseID}</sch:CaseID>
+                                                <sch:PayerScenario>Self Pay</sch:PayerScenario>
+                                            </sch:PatientCaseUpdateReq>
+                                        </sch:Cases>
+                                        <sch:EmergencyName>${emergencyContact[0].ec1FirstName} ${emergencyContact[0].ec1LastName}</sch:EmergencyName>
+                                        <sch:EmergencyPhone>${tebraCommon.convertPhoneNumber(emergencyContact[0].ec1PhoneNumber)}</sch:EmergencyPhone>
+                                        <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
+                                        <sch:Practice>
+                                            <sch:PracticeID>4</sch:PracticeID>
+                                            <sch:PracticeName>Sandbox</sch:PracticeName>
+                                        </sch:Practice>
+                                        </sch:Patient>
+                                    </sch:UpdatePatientReq>
+                                </sch:UpdatePatient>
+                            </soapenv:Body>
+                        </soapenv:Envelope>`
+    
+      return soapRequest
+  }
+
 module.exports = {
   getPracice,
   createPatient,
@@ -704,5 +740,6 @@ module.exports = {
   manageAuthorization,
   addBillingTeamPatientInsurance,
   updateSupportTeamIntakeForm,
-  createEncounter
+  createEncounter,
+  addPatientSelfPayIntakeForm
 };

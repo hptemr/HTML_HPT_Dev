@@ -659,6 +659,43 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
 };
 
 
+const addPatientSelfPayIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, emergencyContact) => {
+    try {
+        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
+        const soapRequest = tebraSoapRequest.addPatientSelfPayIntakeForm(insuranceInfo, patient, tebraCaseDetails, emergencyContact)
+        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+        let patientDataForLogs = { 'patientId': patient._id }
+
+        console.log("soapRequest>>>>",soapRequest)
+        console.log("emergencyContact>>>>",emergencyContact)
+
+        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+            console.log('Response >>>>>:', response);
+            console.log('Response Data>>>>:', response.data);
+            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+            console.log("parseResult>>>>",parseResult)
+            if(!parseError){
+                const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
+                if(errorResponse && errorResponse?.IsError=='false'){
+                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
+
+                    console.log('========Self Pay Added successfully=========:',patientTebraRes);
+                }
+            }
+            // Tebra Logs
+            tebraCommon.tebraApiLog('addPatientSelfPayIntakeForm',soapRequest,parseResult,'success',patientDataForLogs,'')
+        }).catch(error => {
+            console.error('========addPatientSelfPayIntakeForm API Error=========:', error);
+            tebraCommon.tebraApiLog('addPatientSelfPayIntakeForm',soapRequest,'','apiError',patientDataForLogs,error)
+        });
+
+    } catch (error) {
+        console.log("========addPatientSelfPayIntakeForm=========:", error)
+        tebraCommon.tebraApiLog('addPatientSelfPayIntakeForm',soapRequest,'','catchError',patientDataForLogs,error)
+    }
+};
+
+
 const testAPI = async (req, res) => {
 
     let patientData = {
@@ -709,5 +746,6 @@ module.exports = {
     updateSupportTeamIntakeForm,
     createCase,
     createEncounter,
+    addPatientSelfPayIntakeForm,
     testAPI
 };
