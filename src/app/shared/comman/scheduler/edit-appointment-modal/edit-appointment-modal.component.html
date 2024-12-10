@@ -21,7 +21,7 @@
                             <div class="text text-danger mt-1" *ngIf="caseNameFlag && appointmentForm.controls['caseName'].touched && appointmentForm.controls['caseName'].hasError('required')">
                                 {{ validationMessages.requiredDropdown('Case name') }}
                             </div>  
-                            <input class="form-control" type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
+                            <input class="form-control  form-control-md" type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
                             <div class="text text-danger mt-1" *ngIf="caseNameOtherFlag && appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
                                 {{ validationMessages.required('Case name') }}
                             </div>             
@@ -43,8 +43,8 @@
                             </div>
                         </div>
                         <div class="col-12 col-lg-8">
-                            <div class="form-group d-flex align-items-sm-center flex-column flex-sm-row align-items-start"> 
-                                <label class="col-form-label fw-600 font-16 p-0 me-3 flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
+                            <div class="form-group d-flex   flex-column flex-sm-row align-items-start"> 
+                                <label class="col-form-label fw-600 font-16 p-0 me-3 mt--cust flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
                                     <div> 
                                         <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker sm--datepicker"> 
                                             <input class="" matInput [matDatepicker]="picker1" [min]="minToDate" [max]="maxToDate" placeholder="MM/DD/YYYY" formControlName="appointmentDate" (dateInput)="onDateInput($event)"> 
@@ -64,7 +64,7 @@
                                             {{ validationMessages.required('appointment end time') }}
                                         </div>
                                     </div>
-                                    <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0">To </label>
+                                    <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 flex-shrink-0 mt--cust">To </label>
                                     <div> 
                                         <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" [min]="this.appointmentForm.controls['appointmentStartTime'].value" formControlName="appointmentEndTime">                                    
                                         <owl-date-time [pickerType]="'timer'" #dt5 [stepMinute]="15"></owl-date-time>

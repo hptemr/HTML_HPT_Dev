@@ -187,7 +187,7 @@ export class PnSubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData;
         this.status = subjectiveData.status;  
-        if (subjectiveData.status!='Finalized') this.subjectiveId = subjectiveData._id
+        if (subjectiveData.status!='Finalized' &&  type=='progress_note' && this.appointmentId==subjectiveData.appointmentId) this.subjectiveId = subjectiveData._id
         if(type=='initial_examination' && subjectiveData.status=='Finalized'){
           this.status = 'Draft';
         }       
@@ -218,6 +218,8 @@ export class PnSubjectiveComponent implements OnInit {
           this.icdCodeList.push(item);
         })
         this.selectedCode = this.icdCodeList.length>0 ? true : false;
+        
+        
       }else{
         if(type=='progress_note'){
           this.selectedPartsFront = [];
@@ -226,10 +228,9 @@ export class PnSubjectiveComponent implements OnInit {
         }
       }
 
-      if(response.data && response.data.appointmentDatesList){
+      if(type=='progress_note' && response.data && response.data.appointmentDatesList){
         this.appointment_dates = response.data.appointmentDatesList       
       }
-
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
 

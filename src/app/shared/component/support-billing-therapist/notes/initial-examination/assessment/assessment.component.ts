@@ -168,6 +168,7 @@ export class AssessmentComponent {
       long_term_goal: ['', Validators.required],
     }));
     this.assessmentForm.controls['assessment_icd_info'].markAsUntouched();
+
     if(this.readOnly){
       this.assessmentForm.disable()
     }
@@ -193,6 +194,7 @@ export class AssessmentComponent {
   }
 
   removeNewProblem(i: any) {
+    console.log('><>>>>>>>>>>',i)
     this.addNewProblemField = true;
     const control = <FormArray>this.assessmentForm.controls['assessment_icd'];
     if (control.controls[i].get('problem')?.value || control.controls[i].get('long_term_goal')?.value) {

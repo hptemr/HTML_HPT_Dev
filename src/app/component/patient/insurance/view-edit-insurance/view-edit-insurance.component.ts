@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component,AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
@@ -14,6 +14,7 @@ import { states_data } from 'src/app/state';
 import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { FilePreviewComponent}  from 'src/app/shared/component/file-preview-model/file-preview-model.component'
+import { MatCheckbox } from '@angular/material/checkbox';
 interface State {
   state: string;
   state_code: string;
@@ -56,7 +57,12 @@ export class ViewEditInsuranceComponent {
   uploadedInsuranceFilesTotal = 0
   isMinorFlag:boolean=false
   attorneyFlag:boolean=false
+  myCheckboxFlag:boolean=false
+  minorCheckboxFlag:boolean=false
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
+  @ViewChild('MyCheckbox') myCheckbox!: MatCheckbox;
+  @ViewChild('MinorCheckbox') minorCheckbox!: MatCheckbox;
+
   constructor(public dialog: MatDialog,private fb: FormBuilder,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
       const locationArray = location.href.split('/')
@@ -81,6 +87,16 @@ export class ViewEditInsuranceComponent {
 
     this.loadForm();
     this.getInsuranceDetail();
+  }
+
+  ngAfterViewInit() {
+    if(this.myCheckbox==undefined){
+      this.myCheckboxFlag = false;
+    }
+
+    if(this.minorCheckbox==undefined){
+      this.minorCheckboxFlag = false;
+    }
   }
   
   async getInsuranceDetail(){
@@ -421,6 +437,9 @@ export class ViewEditInsuranceComponent {
     this.insuranceForm.controls['minorConsent'].setValue(minorConsent)
 
     this.isMinorFlag = (isPatientMinor=='Yes') ? true : false; 
+    
+
+
     if(subscriberRelationWithPatient=='Other'){
       const mockEvent = { target: { value: 'Other' } }; 
       this.relationShipPatient(mockEvent)
@@ -471,6 +490,18 @@ export class ViewEditInsuranceComponent {
       });
       this.uploadedInsuranceFiles = filesArr         
     }
+
+    this.myCheckboxFlag = adultConsent;
+  
+    if(this.myCheckbox!=undefined){
+      this.myCheckbox.checked = adultConsent;
+    }
+    setTimeout( () => {
+      this.minorCheckboxFlag = minorConsent;
+      if(this.minorCheckbox!=undefined){
+        this.minorCheckbox.checked = minorConsent;
+      }
+    },1000)
 
   }
   
@@ -708,8 +739,27 @@ export class ViewEditInsuranceComponent {
       const dialogRef = this.dialog.open(CmsModalComponent,{
         panelClass: 'cms--container', 
       });
+
+      dialogRef.afterClosed().subscribe(async flag_response => {
+        if (!flag_response) {
+          if(from=='adultConsent'){            
+          this.myCheckbox.checked = false;
+          }else if(from=='minorConsent'){
+            this.minorCheckbox.checked = false;
+          }
+        }else{
+          if(from=='adultConsent')this.myCheckboxFlag = true;
+          if(from=='minorConsent')this.minorCheckboxFlag = true;
+        }
+      })
+
     } else{ 
       console.log('ELSE')
+      if(from=='adultConsent'){
+        this.myCheckbox.checked = false;
+      }else if(from=='adultConsent'){
+        this.minorCheckbox.checked = false;
+      }
       // if(from=='adultConsent'){
       //     this.insuranceForm.controls['adultConsent'].setValue(false)
       // }else if(from=='minorConsent'){

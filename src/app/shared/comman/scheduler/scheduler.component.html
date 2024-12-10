@@ -58,12 +58,12 @@
 
     <div class="sc--header search--filter--header d-flex flex-column flex-sm-row align-items-start align-items-sm-center"
         *ngIf="searchView">
-        <div class="d-flex align-items-center flex-shrink-0">
+        <div class="d-flex align-items-center flex-shrink-0 cust--width">
             <button mat-stroked-button color="primary" class="m-1 back--btn" (click)="backToCalender()">
                 <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon>
             </button>
-            <div class="form-group position-relative head--search m-1">
-                <input type="text" class="form-control form-control-md search--outer" placeholder="Search"
+            <div class="form-group position-relative head--search m-1 w-100">
+                <input type="text" class="form-control form-control-md search--outer" placeholder="Search by Patient Name & Email Id"
                     (keyup)="searchPageFilters($event,'byPatientNameOrEmail')">
                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
@@ -351,7 +351,7 @@
             </ng-template>
 
             <div class="row w-100" *ngIf="searchView && searchAppointmentsList.length>0 && !noRecordFound">
-                <span class="fw-700 ms-3"> {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}, Total record :
+                <span class="fw-700 ms-3 font-18 mb-3"> {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}, Total record :
                     {{totalSearchPageCount}}</span>
                 <div class="col-12">
                     <div class="search--results--wrapper d-flex flex-column flex-sm-row align-items-start w-100"

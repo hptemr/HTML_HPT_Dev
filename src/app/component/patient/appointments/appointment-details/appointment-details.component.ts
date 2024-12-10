@@ -45,6 +45,7 @@ export class AppointmentDetailsComponent {
   validationMessages: any = validationMessages
   orderBy: any = { createdAt: -1 }
   isShow:boolean = false;
+  isSelfPay:boolean = false;
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, public commonService: CommonService, private viewportScroller: ViewportScroller) {
     this.route.params.subscribe((params: Params) => {
       if (params['appId']) this.appId = params['appId'];
@@ -99,6 +100,10 @@ export class AppointmentDetailsComponent {
     }
     await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', req_vars).subscribe(async response => {
       this.appInfo = response.data.appointmentData
+      if(this.appInfo && this.appInfo.payViaInsuranceInfo){
+       this.isSelfPay = this.appInfo.payViaInsuranceInfo.payVia=='Selfpay' ? true : false
+      }
+
       // this.appointmentData = response.data.appointmentData;
       // this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
       // this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appInfo.patientId.profileImage

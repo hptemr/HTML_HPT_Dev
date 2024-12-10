@@ -139,7 +139,7 @@ export class ObjectiveComponent {
       ot: ['', [Validators.minLength(1), Validators.maxLength(500)]],
       treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(500)]],     
       outcome_measures : this.fb.group({
-        name: ['',],
+        name:['',Validators.required],
         neck_rate_your_pain: [''],
         pain_intensity: [''],
         personal_care: [''],
@@ -247,12 +247,11 @@ export class ObjectiveComponent {
     if(this.readOnly){
       this.objectiveForm.disable()
     }
-    //this.initializeFormValidation();
+    
     this.onFlagChange();
     this.getObjectiveRecord();  
     this.onMctsibChange()    
   }
-
 
  async getObjectiveRecord(){
     let reqVars = {
@@ -268,7 +267,7 @@ export class ObjectiveComponent {
       if(response.data){
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;
-        this.objectiveId = objectiveData?._id;
+        if(objectiveData.appointmentId==this.appointmentId)this.objectiveId = objectiveData?._id;
         this.land_exercise_list = objectiveData?.land_exercise;
         this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};
@@ -611,7 +610,7 @@ export class ObjectiveComponent {
 
 
       const mockEvent = { target: { value: objectiveData?.outcome_measures?.name ? objectiveData?.outcome_measures?.name : '' } }; 
-      this.outcomeMeasuresChange(mockEvent)
+      this.outcomeMeasuresChange(mockEvent)      
   }
 
   painRate(id:string,val:number,i: any) {  
@@ -765,7 +764,7 @@ export class ObjectiveComponent {
       control?.clearValidators();
       control?.updateValueAndValidity();
     });
-   
+    outcome_measures_group.get('name')?.setValidators(Validators.required)
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
       outcome_measures_group.get('pain_intensity')?.setValue(null)
@@ -1108,6 +1107,8 @@ export class ObjectiveComponent {
       outcome_measures_group.get('sts_score')?.setValidators([Validators.required, Validators.min(0), Validators.max(200)])      
       outcome_measures_group.get('sts_score')?.updateValueAndValidity(); 
     }
+
+    outcome_measures_group.get('name')?.updateValueAndValidity();
   }
 
   onFlagChange() {
@@ -1227,7 +1228,15 @@ export class ObjectiveComponent {
 
   async objectiveSubmit(formData: any){
     if (this.objectiveForm.invalid){      
+      this.scrollToTop();
       this.objectiveForm.markAllAsTouched();
+      console.log('objectiveForm>>>>>>>>',this.objectiveForm);
+      Object.keys(this.objectiveForm.controls).forEach(field => {
+        const control = this.objectiveForm.get(field);
+        if (control && control.errors) {
+          console.log(`Errors in ${field}:`, control.errors);
+        }
+      });
     }else{
       if (this.objectiveForm.invalid){
         this.objectiveForm.markAllAsTouched();
@@ -1323,6 +1332,13 @@ export class ObjectiveComponent {
     //     fileId:id
     //    }
     // });
+  }
+ 
+  scrollToTop() {
+    setTimeout( () => {
+      //this.viewportScroller.scrollToPosition([-150, -80]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 1000)
   }
 
 }

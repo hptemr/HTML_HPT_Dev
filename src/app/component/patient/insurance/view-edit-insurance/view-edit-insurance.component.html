@@ -799,10 +799,10 @@
 
                         <div class="col-12 d-flex flex-column concent--box">
                             <label class="fw-700 font-16 clr--1F2F3E mb-1 mt-2">Consent</label>
-                            <mat-checkbox (change)="openCMSmodal($event,'adultConsent')" formControlName="adultConsent" >I have read and agree to the Hamilton Physical Therapy's <a target="_blank" [routerLink]="['/terms-of-services']" class="fw-700 text-decoration-underline font-16"> Terms of Service </a> and <a [routerLink]="['/privacy-policy']" target="_blank" class="fw-700 text-decoration-underline font-16">Privacy Policy. </a></mat-checkbox>
+                            <mat-checkbox #MyCheckbox (change)="openCMSmodal($event,'adultConsent')" formControlName="adultConsent" >I have read and agree to the Hamilton Physical Therapy's <a target="_blank" [routerLink]="['/terms-of-services']" class="fw-700 text-decoration-underline font-16"> Terms of Service </a> and <a [routerLink]="['/privacy-policy']" target="_blank" class="fw-700 text-decoration-underline font-16">Privacy Policy. </a></mat-checkbox>
                         </div>
                         <div class="col-12 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-start justify-content-sm-between">
-                            <div class="signature--box d-flex align-items-center justify-content-center" *ngIf="fullNameForSign">
+                            <div class="signature--box d-flex align-items-center justify-content-center" *ngIf="fullNameForSign && myCheckboxFlag && myCheckbox.checked">
                                 {{fullNameForSign}}
                             </div>  
                         </div> 
@@ -818,11 +818,22 @@
                                 </div> 
                                 <div class="col-12 minor--consent mb-4" *ngIf="isMinorFlag"> 
                                     <label class="fw-700 font-16 clr--1F2F3E mb-1">Minor Consent</label>
-                                    <mat-checkbox (change)="openCMSmodal($event,'minorConsent')" formControlName="minorConsent"> 
+                                    <mat-checkbox #MinorCheckbox (change)="openCMSmodal($event,'minorConsent')" formControlName="minorConsent"> 
                                     <p class="font-16 clr--1F2F3E lh-24 mb-0">{{fullNameForSign}} - I hereby authorize this PT clinic and/or it's Individual Therapists and Assistants to evaluate and administer PT treatments to the minor patient listed above. This authorization is in effect as of the date this form is
                                         signed. This authorization shall remain valid for current and future PT cases until written notice is given by me revoking said authorization. I understand that I am financially responsible for all services rendered to the above patient whether I am present at the time of
                                         treatment or not.</p>
                                     </mat-checkbox>
+                                </div>
+            
+                                <div class="col-12 d-flex  align-items-center justify-content-between mt-3" *ngIf="isMinorFlag && minorCheckboxFlag">
+                                    <div class="signature--box d-flex align-items-center justify-content-center" *ngIf="fullNameForSign && minorCheckboxFlag && minorCheckbox.checked">
+                                        {{fullNameForSign}}
+                                    </div>  
+                                </div>
+        
+                                <div class="col-12 d-flex" *ngIf="isMinorFlag">
+                                    <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must
+                                        sign for minors)</p>
                                 </div>
                             </div>
                         </div>

@@ -193,7 +193,8 @@ export class SubjectiveComponent implements OnInit {
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {      
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
-        this.subjectiveId = subjectiveData._id;
+        if(subjectiveData.appointmentId==this.appointmentId)this.subjectiveId = subjectiveData._id;
+        
         if(this.addendumId!=undefined){
           this.subjectiveId = subjectiveData.addendumId;
         }

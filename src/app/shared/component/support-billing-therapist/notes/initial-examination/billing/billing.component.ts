@@ -97,6 +97,7 @@ export class BillingComponent {
   readOnly = false
   isHold = false
   addendumId =""
+  draftFlag:boolean = true
   constructor(private route: ActivatedRoute,public authService: AuthService, public dialog: MatDialog, public commonService: CommonService,public router: Router) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -127,6 +128,9 @@ export class BillingComponent {
         if(result && result?.status=='Finalized'){
           this.readOnly = true
         }
+        if(result && result?.status=='Draft'){
+          this.draftFlag = false
+        }
         if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
           this.isHold = true
         }
@@ -139,6 +143,7 @@ export class BillingComponent {
         if(response.data && response.data.subjective_data){
           this.date_of_service = response.data.subjective_data.note_date;
         }
+        
         if(result && result.appointmentId){
         this.actionType = "update"
         this.totalTreatmentMinutes = result.total_treatment_minutes
@@ -485,11 +490,13 @@ export class BillingComponent {
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
+            this.draftFlag = false;
             //window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
           })
         }else{
           this.authService.apiRequest('post', 'soapNote/updateBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
+            this.draftFlag = false;
             //window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
           })
         }

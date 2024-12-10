@@ -464,8 +464,7 @@
 }
 @media only screen and (min-width: 1280px) and (max-width: 1440px){
     .exp-class{ 
-        .mat-expansion-panel-header-title{
-            flex-grow: 1 !important;
+        .mat-expansion-panel-header-title{ 
             font-family: 'Nunito Sans';
         }  
         .max-width-box{width: 84% !important;} 
