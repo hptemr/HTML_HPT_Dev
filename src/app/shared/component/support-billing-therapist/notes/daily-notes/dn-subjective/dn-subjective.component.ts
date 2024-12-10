@@ -38,6 +38,7 @@ export class DnSubjectiveComponent {
   readOnly = false
   appointment_data:any=[];
   addendumId =""
+  subjectiveData:any=[];
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService, public datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -49,7 +50,7 @@ export class DnSubjectiveComponent {
       const locationArray = location.href.split('/')
       if(locationArray[locationArray.length - lengthVal] == 'subjective-view'){
         this.readOnly = true
-      }
+      }      
     })
   }
 
@@ -74,7 +75,8 @@ export class DnSubjectiveComponent {
         appointmentId: this.appointmentId,
         soap_note_type: 'daily_note',
         addendumId:this.addendumId
-      }
+      },
+      soap_note_type:'daily_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
       this.commonService.hideLoader()
@@ -83,20 +85,20 @@ export class DnSubjectiveComponent {
         // this.subjectiveForm.disable()  // user can add multiple daily notes
       //}
       if (response.data && response.data.subjectiveData) {
-        let subjectiveData = response.data.subjectiveData;
-        if (subjectiveData.status!='Finalized') this.subjectiveId = subjectiveData._id
+        this.subjectiveData = response.data.subjectiveData;
+        if (this.subjectiveData.status!='Finalized') this.subjectiveId = this.subjectiveData._id
         if(this.addendumId!=undefined){
-          this.subjectiveId = subjectiveData.addendumId;
+          this.subjectiveId = this.subjectiveData.addendumId;
         }
         let note_date = '';
-        if (subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){
-          note_date = subjectiveData.note_date
+        if (this.subjectiveData.note_date && this.subjectiveData.status!='Finalized' && !this.readOnly){
+          note_date = this.subjectiveData.note_date
         }
-        if (subjectiveData.note_date && this.readOnly){
-          note_date = subjectiveData.note_date
+        if (this.subjectiveData.note_date && this.readOnly){
+          note_date = this.subjectiveData.note_date
         }
         this.subjectiveForm.controls['note_date'].setValue(note_date)
-        this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note)
+        this.subjectiveForm.controls['subjective_note'].setValue(this.subjectiveData.subjective_note)
       }
       
       if (response.data && response.data.appointmentData){
@@ -105,7 +107,7 @@ export class DnSubjectiveComponent {
       }
      
       if (response.data && response.data.appointmentDatesList){
-        this.appointment_dates = response.data.appointmentDatesList       
+        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'daily_note')
       }
     })
   }
@@ -144,11 +146,17 @@ export class DnSubjectiveComponent {
         }
         if (response.message) {
           this.commonService.openSnackBar(response.message, status);
-        }
+        }  
         this.commonService.hideLoader();
         setTimeout(() => {
           this.submitted = false
         }, 3000)
+
+        if (status=='SUCCESS') {
+          setTimeout(() => {
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/objective/"+this.appointmentId, "_self");
+          }, 2000)
+        }
       })
     }
   }
@@ -159,5 +167,20 @@ export class DnSubjectiveComponent {
 
   onChange(event: MatRadioChange) {
     console.log(this.selectedValue = event.value)
+  }
+
+
+  appointmentChange(app:any) {
+    if(app.target.value){
+      const find = this.appointment_dates.filter((item: any) => item.appointmentDate === app.target.value);
+      if(find[0]){
+        this.appointmentId = find[0]._id;
+        if(this.subjectiveData.note_date && this.subjectiveData.note_date==app.target.value){
+          this.subjectiveId = this.subjectiveData._id;
+        }else{
+          this.subjectiveId = '';
+        }        
+      }
+    }
   }
 }

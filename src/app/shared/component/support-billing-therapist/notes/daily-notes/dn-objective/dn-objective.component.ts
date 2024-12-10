@@ -353,6 +353,9 @@ export class DnObjectiveComponent {
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
+            setTimeout(() => {
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/assessment/"+this.appointmentId, "_self");
+            }, 2000)
           }        
         })
       }

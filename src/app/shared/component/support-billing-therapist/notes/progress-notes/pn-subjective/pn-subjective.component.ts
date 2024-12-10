@@ -181,6 +181,7 @@ export class PnSubjectiveComponent implements OnInit {
   getSubjectiveRecord(type:string='progress_note'){
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:type},     
+      soap_note_type:'progress_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
       
@@ -229,8 +230,9 @@ export class PnSubjectiveComponent implements OnInit {
       }
 
       if(type=='progress_note' && response.data && response.data.appointmentDatesList){
-        this.appointment_dates = response.data.appointmentDatesList       
+        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'progress_note')    
       }
+
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
 

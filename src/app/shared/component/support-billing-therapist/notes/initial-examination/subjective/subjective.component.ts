@@ -188,7 +188,8 @@ export class SubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId},  
+      soap_note_type:'initial_examination'   
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {      
       if(response.data && response.data.subjectiveData){
@@ -222,7 +223,7 @@ export class SubjectiveComponent implements OnInit {
       }
 
       if(response.data && response.data.appointmentDatesList){
-        this.appointment_dates = response.data.appointmentDatesList       
+        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'initial_examination')     
       }           
 
       if(response.data && response.data.appointmentData){

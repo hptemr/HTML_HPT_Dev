@@ -266,4 +266,24 @@ export class CommonService {
     });
   }
 
+  checkappointmentDatesList(list: any,soap_note_type:string) {
+    let finalList: { _id: any; appointmentDate: any; status: string; }[] = [];
+    let app_status = 'Draft'
+    if(list.length>0){
+      list.forEach((item:any,index:any) => {
+        app_status = 'Draft';
+        if(item.obj && item.obj.length>0){
+          const find = item.obj.filter((o: any) => (o.note_date === item.appointmentDate && o.status=='Finalized' && o.soap_note_type==soap_note_type));
+          if(find){
+            app_status = 'Finalized'
+          }        
+          finalList.push({_id:item._id,appointmentDate:item.appointmentDate,status:app_status})
+        }else{
+          finalList.push({_id:item._id,appointmentDate:item.appointmentDate,status:'Draft'})
+        }
+      })
+    }
+    return finalList;
+  }
+
 }

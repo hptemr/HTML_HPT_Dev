@@ -68,6 +68,7 @@ export class DisSubjectiveComponent implements OnInit {
   getSubjectiveRecord(){
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note'},     
+      soap_note_type:'discharge_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
       
@@ -90,8 +91,8 @@ export class DisSubjectiveComponent implements OnInit {
         this.dis_subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note); 
       }
 
-      if(response.data && response.data.appointmentDatesList){
-        this.appointment_dates = response.data.appointmentDatesList       
+      if(response.data && response.data.appointmentDatesList){  
+        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'discharge_note')      
       }
 
       if(response.data && response.data.appointmentData){

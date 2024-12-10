@@ -102,13 +102,20 @@ export class AppointmentDetailsComponent implements OnInit {
     // } else {
     //   this.appoitmentForm.disable()
     // }
-     this.getAppointmentDetails()
-    // this.getTherapistList()
-    this.getAppointmentNotes()
+
+    // this.getTherapistList()        
+     this.getAppointmentDetails()    
+     this.getAppointmentNotes()
     this.todayDate = this.datePipe.transform(new Date(this.todayDate), 'MM/dd/yyyy')!;
   }
 
-  getAppointmentNotes(){
+  ngAfterViewInit() {
+    this.commonService.moveScrollToTop()
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+ 
+  getAppointmentNotesOLD(){
     let reqVars = {
       appointmentId:this.appointmentId,
       caseType:this.caseType,
@@ -156,12 +163,44 @@ export class AppointmentDetailsComponent implements OnInit {
     })
   }
 
-  ngAfterViewInit() {
-    this.commonService.moveScrollToTop()
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  getAppointmentNotes(){
+      let reqVars = {
+        app_query: { _id: this.appointmentId },
+        appointmentId:this.appointmentId,
+        caseType:this.caseType,
+        searchValue:this.searchValue,
+        status:this.status,
+        fromDate:this.fromDate,
+        toDate:this.toDate
+      } 
+      this.dataLoading = true
+      this.authService.apiRequest('post', 'appointment/getAppointmentsAllCaseLists', reqVars).subscribe(async response => {
+        this.dataLoading = false
+        this.dataSource.data = response.data
+        this.noteList = response.data
+        this.actionStarted = false
+        let dischargeFlag = false
+        if(this.noteList.length>0){
+          this.noteList.forEach((item:any) => {
+            if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
+              this.dailyNoteFlag=false
+              this.progressNoteFlag=false
+              this.initialExaminationFlag=true
+            }
+            if(item.soap_note_type=='daily_note' && item.status=='Finalized'){
+              dischargeFlag=true
+            }
+            if(item.soap_note_type=='progress_note' && item.status=='Finalized'){
+              dischargeFlag=true
+            }
+          })
+          if(!this.dailyNoteFlag && !this.progressNoteFlag && dischargeFlag){
+            this.dischargeNoteFlag=false
+          }
+        }
+      })
   }
- 
+
   async getAppointmentDetails() {
     if (this.appointmentId) {
       this.commonService.showLoader();

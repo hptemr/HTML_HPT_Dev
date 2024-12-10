@@ -105,6 +105,11 @@ export class DnAssessmentComponent {
         }
         this.commonService.openSnackBar(response.message, status);
         this.getAssessment()
+        if(status=='SUCCESS'){
+          setTimeout(() => {
+           window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/plan/"+this.appointmentId, "_self");
+          }, 2000)
+         }
       })
     }
 

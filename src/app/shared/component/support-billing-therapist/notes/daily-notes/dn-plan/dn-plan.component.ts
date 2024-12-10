@@ -82,13 +82,17 @@ export class DnPlanComponent {
     }
     if(this.actionType=='create'){
       this.authService.apiRequest('post', 'soapNote/createPlanNote', planPlans).subscribe(async response => {
-        this.commonService.openSnackBar("Created Successfully", "SUCCESS")
-        window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/plan/"+this.appointmentId, "_self");
+        this.commonService.openSnackBar(response.message, "SUCCESS")
+        setTimeout(() => {
+         window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
+        }, 2000)
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', planPlans).subscribe(async response => {
-        this.commonService.openSnackBar("Updated Successfully", "SUCCESS")
-        window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/plan/"+this.appointmentId, "_self");
+        this.commonService.openSnackBar(response.message, "SUCCESS")
+        setTimeout(() => {
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
+        }, 2000)
       })
     }
   }
