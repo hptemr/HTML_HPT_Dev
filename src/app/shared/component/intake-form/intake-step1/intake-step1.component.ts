@@ -181,7 +181,8 @@ export class IntakeStep1Component {
     this.selectedValue = event.value;
     if (this.selectedValue == 'Myself') {
       this.setValue('Myself')
-      this.isReadonly = true
+      // this.isReadonly = true
+      this.isReadonly = false
       this.step1Form.controls['dob'].disable()
       this.step1Form.controls['gender'].disable()
       this.step1Form.controls['maritalStatus'].disable()
@@ -233,21 +234,23 @@ export class IntakeStep1Component {
     } else if (this.step1FormData) {
       let patientAppInfo = this.step1FormData.patientInfo
 
-      firstName = patientAppInfo.firstName
-      middleName = patientAppInfo.middleName
-      lastName = patientAppInfo.lastName
-      maritalStatus = patientAppInfo.maritalStatus
-      gender = patientAppInfo.gender
-      email = patientAppInfo.email
-      dob = new Date(patientAppInfo.dob)
-      phoneNumber = patientAppInfo.phoneNumber
-      cellPhoneNumber = patientAppInfo.cellPhoneNumber
-      workExtensionNumber = patientAppInfo.workExtensionNumber
-     
-      address = patientAppInfo.address1
-      city = patientAppInfo.city
-      state = patientAppInfo.state
-      zipcode = patientAppInfo.zipcode
+      if(patientAppInfo){
+        firstName = patientAppInfo.firstName
+        middleName = patientAppInfo.middleName
+        lastName = patientAppInfo.lastName
+        maritalStatus = patientAppInfo.maritalStatus
+        gender = patientAppInfo.gender
+        email = patientAppInfo.email
+        dob = new Date(patientAppInfo.dob)
+        phoneNumber = patientAppInfo.phoneNumber
+        cellPhoneNumber = patientAppInfo.cellPhoneNumber
+        workExtensionNumber = patientAppInfo.workExtensionNumber
+      
+        address = patientAppInfo.address1
+        city = patientAppInfo.city
+        state = patientAppInfo.state
+        zipcode = patientAppInfo.zipcode
+      }
     }
     this.step1Form.controls['bookingFor'].setValue(this.selectedValue)
     this.step1Form.controls['firstName'].setValue(firstName)

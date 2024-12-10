@@ -445,4 +445,8 @@ export class CaseDetailsComponent {
     }, 1000)
   }
 
+  navigateToShedular() {
+    this.router.navigate([this.activeUserRoute+'/scheduler']);
+  }
+
 }
