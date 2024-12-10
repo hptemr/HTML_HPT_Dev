@@ -68,8 +68,8 @@
                     <div class="divider"></div>
                 </div>
                 <div class="col-12">
-                    <mat-chip-grid #chipGrid aria-label="Fruit selection">
-                        <mat-chip-row *ngIf="totalRecordFound>0">
+                    <mat-chip-grid #chipGrid aria-label="Fruit selection" *ngIf="totalRecordFound>0">
+                        <mat-chip-row>
                             <label class="fw-600 mb-0">Total Records Found: {{totalRecordFound}}</label>
                         </mat-chip-row>
                         <mat-chip-row *ngIf="isSaveUploadedData">
