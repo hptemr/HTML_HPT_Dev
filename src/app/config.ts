@@ -94,12 +94,18 @@ export const maritalStatus = [
   'Married',
   'Unmarried',
 ]
+// export const relationWithPatient = [
+//   'Friend',
+//   'Father',
+//   'Mother',
+//   'Wife',
+//   'Husband',
+//   'Other'
+// ]
 export const relationWithPatient = [
-  'Friend',
-  'Father',
-  'Mother',
-  'Wife',
-  'Husband',
+  'Child',
+  'Spouse',
+  'Self',
   'Other'
 ]
 export const carrierNameList = [

@@ -61,6 +61,7 @@ export class BillingDetailsComponent {
   isReportedToEmployer: boolean=false
   isInsuranceTypeMedicare: boolean=false
   // SIAsPrimaryInsurance:boolean=false
+  relationWithPatient = relationWithPatient
 
   constructor(
     public dialog: MatDialog,

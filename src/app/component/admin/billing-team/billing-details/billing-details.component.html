@@ -766,12 +766,13 @@
                                 <label class="col-form-label fw-600">Relationship with Patient</label>
                                 <select class="form-select form-control" aria-label="Default select example" formControlName="RP_relationWithPatient">
                                     <option value="" selected>Select</option>
-                                    <option value="Friend">Friend</option>
+                                    <option value="{{element}}" *ngFor="let element of relationWithPatient">{{element}}</option>
+                                    <!-- <option value="Friend">Friend</option>
                                     <option value="Father">Father</option>
                                     <option value="Mother">Mother</option>
                                     <option value="Wife">Wife</option>
                                     <option value="Husband">Husband</option>
-                                    <option value="Other">Other</option>
+                                    <option value="Other">Other</option> -->
                                 </select>
                                 <!-- <div class="text text-danger mt-1">Error here</div> -->
                             </div>
