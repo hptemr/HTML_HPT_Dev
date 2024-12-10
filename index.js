@@ -16,12 +16,13 @@ app.use(compress());
 app.set('view engine', 'jade');
 app.use(logger('dev'))
 app.use(cookieParser())
-//88 app.use(busboy({ immediate: true })); //bulk upload file is not working because of this
+
+app.use(busboy({ immediate: true })); //bulk upload file is not working because of this
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}))
 //app.use(cors({}))
-//app.use(cors({credentials: true, origin: constants.clientUrl}))
-app.use(cors({credentials: true, origin: true}))
+app.use(cors({credentials: true, origin: constants.clientUrl}))
+//app.use(cors({credentials: true, origin: true}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

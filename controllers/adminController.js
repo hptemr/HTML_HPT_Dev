@@ -905,7 +905,6 @@ const deleteProvider = async (req, res) => {
 const uploadInsurances = async (req, res) => {
   try {
     const filePath = req.file.path;
-
     const data = [];
     const errorsList = [];
 
