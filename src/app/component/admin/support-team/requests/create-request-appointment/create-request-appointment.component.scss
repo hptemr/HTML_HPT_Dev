@@ -42,6 +42,26 @@
             color: #1F2F3E;
         }
     }
+
+    ::ng-deep{
+        .am--datepicker.sm--datepicker{
+            width: 180px;
+        }
+        .am--datepicker.sm--datepicker .mat-mdc-form-field-infix{
+            min-height: 20px !important;
+            padding-top: 6px !important;
+            padding-bottom: 5px !important;
+            font-size: 14px; 
+        }
+        .am--datepicker.sm--datepicker .mat-mdc-icon-button.mat-mdc-button-base {
+            height: 35px;
+            width: 40px;
+            padding: 3px; 
+        }
+        // .am--datepicker.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper{
+        //     background-color: #F4F4F5  !important;
+        // }
+    }
 }
 
  
