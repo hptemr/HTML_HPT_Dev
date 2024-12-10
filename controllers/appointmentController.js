@@ -19,6 +19,7 @@ const BillingDetailsModel = require('../models/btBillingDetailsModel');
 const AthorizationManagementModel = require('../models/btAthorizationManagementModel');
 const STCaseDetailsModel = require('../models/stCaseDetailsModel');
 const AppointmentEventsModel = require('../models/appointmentEventsModel');
+const subjectiveTemp = require('../models/subjectiveModel');
 const moment = require('moment');
 const userCommonHelper = require('../helpers/userCommon');
 const tebraController = require('../controllers/tebraController');
@@ -1311,6 +1312,73 @@ const addBillingDetails = async (req, res) => {
     }
   }   
 
+  const getAppointmentsAllCaseLists = async (req, res) => {
+        try {
+            //console.log('query>>>',req.body.app_query)
+            let app_data = await Appointment.findOne(req.body.app_query, { patientId: 1, caseName: 1 });
+            if(app_data){
+                let cases = await Case.findOne({ patientId: app_data.patientId,caseName:app_data.caseName }, { patientId: 1, caseName: 1, caseType: 1, _id: 1,appointments:1 });
+               // console.log("casesAppointments >>>",cases.appointments)
+                let query = {};
+                if(cases && cases.appointments && cases.appointments.length>0){
+                    query['appointmentId'] = { $in: cases.appointments }
+                } 
+                //console.log('query>>>',query)
+          
+                if(req.body.searchValue!=""){
+                    query.soap_note_type = { '$regex': req.body.searchValue, '$options': "i" }
+                }
+                if(req.body.status){
+                    query.status = req.body.status
+                }
+                if(req.body.caseType){
+                query.soap_note_type = req.body.caseType
+                }
+                if (req.body.fromDate && req.body.toDate) {
+                    query.createdAt = {
+                        $gte: new Date(req.body.fromDate),
+                        $lte: new Date(req.body.toDate)
+                    }
+                } else {
+                    if (req.body.fromDate) {
+                        query.createdAt = { $gte: new Date(req.body.fromDate) }
+                    }
+                    if (req.body.toDate) {
+                        query.createdAt = { $lte: new Date(req.body.toDate) }
+                    }
+                }
+            
+                let aggrQuery = [
+                {
+                    "$lookup": {
+                        from: "users",
+                        localField: "createdBy",
+                        foreignField: "_id",
+                        as: "userObj"
+                    }
+                },
+                {
+                    "$match": query
+                },
+                {
+                    $project: {
+                        '_id': 1, 'note_date': 1,'appointmentId':1, 'soap_note_type': 1, 'status': 1, 'createdBy': 1, 'createdAt': 1,'is_disabled':1,'version':1,'addendums':1, 'updatedAt': 1, 'userObj._id': 1, 'userObj.firstName': 1, 'userObj.lastName': 1
+                    }
+                },
+                { "$sort": { "createdAt": -1 } }
+               ]
+
+                let subjectiveData = await subjectiveTemp.aggregate(aggrQuery)
+                commonHelper.sendResponse(res, 'success', subjectiveData);
+            }else{
+                commonHelper.sendResponse(res, 'success', []);
+            }
+    } catch (error) {
+        console.log("********get Patient Case List ***error***", error)
+        commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+    }
+}
+
 module.exports = {
     getAppointmentList,
     updatePatientCheckIn,
@@ -1337,5 +1405,6 @@ module.exports = {
     addStCaseDetails,
     getStCaseDetails,
     getPatientCheckInCount,
-    getUpcomingAppointments
+    getUpcomingAppointments,
+    getAppointmentsAllCaseLists
 };

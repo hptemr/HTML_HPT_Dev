@@ -34,4 +34,4 @@ const subjectiveSchema = new mongoose.Schema({
     addendumId: { type: mongoose.Schema.ObjectId},
 })
 
-module.exports = mongoose.model('subjective', subjectiveSchema)
+module.exports = mongoose.model('subjectives', subjectiveSchema)

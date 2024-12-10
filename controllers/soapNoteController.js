@@ -260,7 +260,7 @@ const finalizeNote = async (req, res) => {
               tebraController.createEncounter(req.body, subjectiveResult )
             }
 
-            commonHelper.sendResponse(res, 'success', {}, '');
+            commonHelper.sendResponse(res, 'success', {}, "Note are finalized successfully");
           }else{
             commonHelper.sendResponse(res, 'errorValidation', null, "Please fill the Plan note to Finalize note");
           }
@@ -283,8 +283,9 @@ const submitSubjective = async (req, res) => {
   try {
     const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
     let message = soapMessage.subjective
+    let filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
     if (subjectiveId) {
-      const filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
+      filterPlan = { _id: new ObjectId(subjectiveId) };
       if(addendumId!=undefined){
         let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
         subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
@@ -500,7 +501,7 @@ async function getPreviousSubjectiveData(queryMatch) {
 
 const getSubjectiveData = async (req, res) => {
   try {
-    const { query } = req.body;
+    const { query,soap_note_type } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
 
     let subjectiveData = await subjectiveTemp.findOne(query).sort({ createdAt: -1 });
@@ -518,12 +519,15 @@ const getSubjectiveData = async (req, res) => {
     }
     let appointmentDatesList = [];
     if(appointmentData){         
-      if(subjectiveData){
-        appointmentDatesList = await subjectiveAppointmentsList({'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,note_date:{$ne:null},'appointmentId': { '$exists': true }})
-      }else{
-        appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
-      }      
+      // if(subjectiveData){
+      //   //appointmentDatesList = await subjectiveAppointmentsList({'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,note_date:{$ne:null},'appointmentId': { '$exists': true }})//soap_note_type:query.soap_note_type,
+      //   appointmentDatesList = await subjectiveAppointmentsList({'patientId':appointmentData.patientId._id,'caseName':appointmentData.caseName},soap_note_type);//,'obj.soap_note_type':query.soap_note_type
+      // }else{
+      //   appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
+      // }   
+      appointmentDatesList = await subjectiveAppointmentsList({'patientId':appointmentData.patientId._id,'caseName':appointmentData.caseName},soap_note_type)   
     }
+     //console.log('Appointment Dates List >>>',appointmentDatesList)
     let returnData = { subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
@@ -532,51 +536,47 @@ const getSubjectiveData = async (req, res) => {
   }
 }
 
-async function subjectiveAppointmentsList(queryMatch) {
-  //  let data = await Appointment.aggregate([
-  //     {
-  //       "$lookup": {
-  //         from: "subjective",
-  //         localField: "_id",
-  //         foreignField: "appointmentId",
-  //         as: "obj"
-  //       }
-  //     },          
-  //     {
-  //       "$match": queryMatch
-  //     },
-  //     {
-  //       $project: {
-  //         '_id': 1, 'obj.note_date': 1,'obj.appointmentId':1, 'obj.soap_note_type': 1, 'obj.status': 1,'appointmentDate': 1
-  //       }
-  //     }
-  //   ]).sort({ createdAt: -1 });
-  let data = await subjectiveTemp.aggregate([
-    {
-      "$lookup": {
-        from: "appointments",
-        localField: "appointmentId",
-        foreignField: "_id",
-        as: "appointment"
-      }
-    },          
-    {
-      "$match": queryMatch
-    },
-    {
-      $project: {
-        '_id': 1, 'note_date': 1,'appointmentId':1,  'soap_note_type': 1, 'status': 1,'appointment.appointmentDate': 1
-      }
+async function subjectiveAppointmentsList(queryMatch,soap_note_type) {
+   //console.log('queryMatch >>>>',queryMatch)
+    const query = [
+      {
+        $match: queryMatch,
+      },
+      {
+        $lookup: {
+          from: 'subjectives', 
+          let: { appointmentId: '$_id' }, 
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$appointmentId', '$$appointmentId'] }, 
+                    { $eq: ['$soap_note_type', soap_note_type] },  
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'obj', 
+        },
+      },
+      {
+        $project: {
+          '_id': 1, 'obj.note_date': 1,'obj.appointmentId':1, 'obj.soap_note_type': 1, 'obj.status': 1,'appointmentDate': 1
+        },
+      },
+    ];
+
+    const data = await Appointment.aggregate(query).sort({ appointmentDate: -1 });;
+ 
+    let appointmentDateList = [];
+    if (data.length > 0) {
+      appointmentDateList = data.filter((item) => {
+        return moment(item.appointmentDate).utc().format();
+      });
     }
-  ]).sort({ createdAt: -1 });
-
-  let appointmentDateList = [];
-  if (data.length > 0) {
-    appointmentDateList = data.filter((obj) => {
-      return moment(obj.appointmentDate).utc().format();
-    });
-  }
-
+  //console.log('appointmentDateList >>>>',appointmentDateList)
   return appointmentDateList;
 }
 
@@ -669,7 +669,7 @@ async function setAssessment(req) {
 }
 
 const getAppointmentNoteList = async (req, res) => {
-  try {
+  try {    
     let query = {appointmentId: new ObjectId(req.body.appointmentId)}
     if(req.body.searchValue!=""){
       query.soap_note_type = { '$regex': req.body.searchValue, '$options': "i" }
@@ -693,6 +693,7 @@ const getAppointmentNoteList = async (req, res) => {
             query.createdAt = { $lte: new Date(req.body.toDate) }
         }
     }
+
     let aggrQuery = [
      {
           "$lookup": {
@@ -712,6 +713,7 @@ const getAppointmentNoteList = async (req, res) => {
       },
       { "$sort": { "createdAt": -1 } }
   ]
+  console.log('query >>>',query)
   let subjectiveData = await subjectiveTemp.aggregate(aggrQuery)
     commonHelper.sendResponse(res, 'success', subjectiveData);
   } catch (error) {
