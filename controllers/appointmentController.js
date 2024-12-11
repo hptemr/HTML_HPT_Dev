@@ -227,6 +227,7 @@ const createAppointment = async (req, res) => {
                 // const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
                 // const providerData = await Provider.findOne({ _id: data.doctorId },{ name: 1 }).lean();
                 // console.log("providerData>>>>>",providerData)
+                // console.log("patientType>>>>>",patientType)
                 // if(patientType == 'Existing' && patientRes!=null && !patientRes?.patientOnTebra){
                 //     console.log("<<<<< Create Patient On Tebra >>>>>")
                 //     let isPatientCreated = await tebraController.createPatient(patientRes).catch((_err)=>false)
@@ -642,14 +643,28 @@ const updateAppointment = async (req, res) => {
 
             let caseFound = await Case.findOne({ caseName: appointment_data?.caseName, patientId: appointment_data?.patientId }).lean();
             // Update by Patient
-            if(userRole=='patient' && appointment_data?.payViaInsuranceInfo && appointment_data.payViaInsuranceInfo?.payVia == 'Insurance'){
+            if(userRole=='patient' && appointment_data?.payViaInsuranceInfo){
                 console.log("<<<<<<<<< Pay Via Insurance >>>>>>>>>>", caseFound)
-                tebraController.addPatientInsuranceIntakeForm(appointment_data?.payViaInsuranceInfo, patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                if(appointment_data.payViaInsuranceInfo?.payVia == 'Insurance'){
+                    tebraController.addPatientInsuranceIntakeForm(appointment_data?.payViaInsuranceInfo, patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                }
+
+                if(appointment_data.payViaInsuranceInfo?.payVia == 'Selfpay'){
+                    tebraController.addPatientSelfPayIntakeForm(patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                }
             }
+
+
             // Update by Support Team
             if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo && appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
                 console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
-                tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
+                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
+                    tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
+                }
+                
+                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Selfpay'){
+                    tebraController.addPatientSelfPayIntakeForm(patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                }
             }
         }
 

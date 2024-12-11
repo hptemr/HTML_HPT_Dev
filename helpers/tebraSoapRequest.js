@@ -624,7 +624,14 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
   }
 
 
-  const createEncounter = (patientRes, caseDetails, subjectiveData, allCharges, diaCode) => {
+  const createEncounter = (resultData, subjectiveData, allCharges, diaCode) => {
+        let patientRes = resultData?.patientDetails
+        let caseDetails = resultData?.caseDetails
+        let payVia = 'Insurance'
+        if(resultData?.payVia == 'Selfpay') { 
+            payVia = 'Self Pay' 
+        }
+
         const serviceLineData = allCharges.map((chargesData) => {
             let minutesData = ''
             if(chargesData?.minutes){
@@ -659,7 +666,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                         <sch:Case>
                                             <sch:CaseID>${caseDetails?.tebraDetails?.CaseID}</sch:CaseID>
                                             <sch:CaseName>${caseDetails?.caseName}</sch:CaseName>
-                                            <sch:CasePayerScenario>Insurance</sch:CasePayerScenario>
+                                            <sch:CasePayerScenario>${payVia}</sch:CasePayerScenario>
                                         </sch:Case>
                                         <sch:EncounterStatus>Approved</sch:EncounterStatus>
                                         <sch:Patient>
@@ -694,7 +701,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
   }
 
 
-  const addPatientSelfPayIntakeForm = (insuranceInfo, patientRes, tebraCaseDetails, emergencyContact) => {
+  const addPatientSelfPayIntakeForm = (patientRes, tebraCaseDetails, emergencyContact) => {
 
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>

@@ -503,6 +503,7 @@ const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDeta
 
 
 const createEncounter = async (finalizeNoteData, subjectiveResult) => {
+    let dataForLogs = { 'finalizeNoteData': finalizeNoteData }
     try {
         console.log("finalizeNoteData>>>",finalizeNoteData)
         console.log("subjectiveResult>>>",subjectiveResult)
@@ -552,6 +553,7 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                 status: 1,
                 appointmentType: 1,
                 caseName: 1,
+                payVia: 1,
                 "patientDetails.firstName": 1,
                 "patientDetails.lastName": 1,
                 "patientDetails.tebraDetails": 1,
@@ -603,9 +605,9 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                    if(allCharges && allCharges.length){   
                         //  Call Create Encounter API
                         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/CreateEncounter'
-                        const soapRequest = tebraSoapRequest.createEncounter(resultData?.patientDetails, resultData?.caseDetails, subjectiveResult, allCharges, diaCode)
+                        const soapRequest = tebraSoapRequest.createEncounter(resultData, subjectiveResult, allCharges, diaCode)
                         const requestHeaders =  tebraCommon.requestHeader(soapAction)
-                        let dataForLogs = { 'finalizeNoteData': finalizeNoteData }
+                        
 
                         console.log("soapRequest>>>",soapRequest)
                         console.log("dataForLogs>>>",dataForLogs)
@@ -625,6 +627,7 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                                 if(encounterResponse){
                                     // Save response data of Encounter
                                     let Einsert = new TebraEncounter()
+                                    Einsert.appointmentId = finalizeNoteData?.appointmentId;
                                     Einsert.soap_note_type = finalizeNoteData?.soapNoteType;
                                     Einsert.EncounterID = encounterResponse?.EncounterID;
                                     Einsert.PatientCaseID = encounterResponse?.PatientCaseID;
@@ -639,14 +642,19 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                                 }
                             }
                             // Tebra Logs
+                            dataForLogs['billingData'] = billingDetails
+                            dataForLogs['appointmentData'] = resultData
                             tebraCommon.tebraApiLog('createEncounter',soapRequest,parseResult,'success',dataForLogs,'')
                         }).catch(error => {
+                            dataForLogs['billingData'] = billingDetails
+                            dataForLogs['appointmentData'] = resultData
                             console.error('========createEncounter API Error=========:', error);
                             tebraCommon.tebraApiLog('createEncounter',soapRequest,'','apiError',dataForLogs,error)
                         });
                     }else{
                         dataForLogs['billingData'] = billingDetails
-                        tebraCommon.tebraApiLog('createEncounter',soapRequest,'','dataError',dataForLogs,error)
+                        dataForLogs['appointmentData'] = resultData
+                        tebraCommon.tebraApiLog('createEncounter','','','dataError',dataForLogs,error)
                     }
                 } 
               }
@@ -654,15 +662,15 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
 
     } catch (error) {
         console.log("========createEncounter=========:", error)
-        // tebraCommon.tebraApiLog('createEncounter',soapRequest,'','catchError',dataForLogs,error)
+        tebraCommon.tebraApiLog('createEncounter','','','catchError',dataForLogs,error)
     }
 };
 
 
-const addPatientSelfPayIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, emergencyContact) => {
+const addPatientSelfPayIntakeForm = async (patient, tebraCaseDetails, emergencyContact) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.addPatientSelfPayIntakeForm(insuranceInfo, patient, tebraCaseDetails, emergencyContact)
+        const soapRequest = tebraSoapRequest.addPatientSelfPayIntakeForm(patient, tebraCaseDetails, emergencyContact)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
