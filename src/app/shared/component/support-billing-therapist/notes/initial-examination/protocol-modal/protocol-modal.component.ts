@@ -73,7 +73,6 @@ export class ProtocolModalComponent {
 
   submit() {
     console.log('<<<<<  protocolForm form >>>>',this.protocolForm)
-
     if (this.protocolForm.valid && this.isAtLeastOneChecked()) {
       console.log('Form Submitted', this.protocolForm.value);
       const selectedCheckboxes = this.protocolForm.value.selectedElements
@@ -104,29 +103,43 @@ export class ProtocolModalComponent {
       await this.authService.apiRequest('post', 'admin/getDefaultDirectoriesAndItems', searchParams).subscribe(async response => {    
         this.commonService.hideLoader()    
         let finalData: any = []
+
+        const find = response.data.directoryList.filter((o: any) => (o.directory_name === 'Protocol'));
+        let directory_id = '';
+        if(find.length>0){
+          directory_id = find[0]._id;
+        }
+
         if(response.data.fileList && response.data.fileList[0]){
           this.data_not_found = true;
-          await response.data.fileList[0].map((element: any) => {
-            var extn = element.file_name.split('.').pop();
-            var icon = "";var color = "";
-            if(extn=='pdf'){
-              icon = "picture_as_pdf"; color = "pdf";
-            }else if(extn=='png' || extn=='jpg' || extn=='jpeg'){
-              icon = "photo";color = "photo";
-            }else{
-              icon = "description"; color = "description";
-            }
-
-            let newColumns = {
-              id: element._id,   
-              file_name: element.file_name,   
-              icon:icon,
-              color:color,        
-            }
-            finalData.push(newColumns)
+          let fileList: any[] = [];
+          response.data.fileList.forEach((item:any,index:any) => {
+              fileList.push(item.filter((o: any) => (o.directory_id === directory_id)));
           })
-          this.directoryItmList = new MatTableDataSource(finalData)
-          this.lodForm();
+          const filteredArray = fileList.filter(subArray => subArray.length > 0);
+          if(filteredArray[0]){
+            await filteredArray[0].map((element: any) => {
+              var extn = element.file_name.split('.').pop();
+              var icon = "";var color = "";
+              if(extn=='pdf'){
+                icon = "picture_as_pdf"; color = "pdf";
+              }else if(extn=='png' || extn=='jpg' || extn=='jpeg'){
+                icon = "photo";color = "photo";
+              }else{
+                icon = "description"; color = "description";
+              }
+
+              let newColumns = {
+                id: element._id,   
+                file_name: element.file_name,   
+                icon:icon,
+                color:color,        
+              }
+              finalData.push(newColumns)
+            })
+            this.directoryItmList = new MatTableDataSource(finalData)
+            this.lodForm();
+          }
         }
         // this.arrLength = directories.length
         // this.dataSource.data = directories

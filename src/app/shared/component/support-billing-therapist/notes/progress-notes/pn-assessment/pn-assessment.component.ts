@@ -128,6 +128,9 @@ export class PnAssessmentComponent {
           status = 'ERROR'
         }
         this.commonService.openSnackBar(response.message, status);
+        setTimeout(() => {
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
+        }, 2000)
         this.getAssessment()
       })
     }

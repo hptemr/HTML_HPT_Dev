@@ -267,7 +267,7 @@ export class ObjectiveComponent {
       if(response.data){
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;
-        if(objectiveData.appointmentId==this.appointmentId)this.objectiveId = objectiveData?._id;
+        if(objectiveData && objectiveData.appointmentId==this.appointmentId)this.objectiveId = objectiveData?._id;
         this.land_exercise_list = objectiveData?.land_exercise;
         this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};
@@ -281,7 +281,6 @@ export class ObjectiveComponent {
               }
             });
             this.land_exercises_names = groupedExercisesNames;
-        
           
             this.land_exercise_list.forEach((element:any,index:number) => {
                 if(element.exercise_date) {
@@ -1229,6 +1228,7 @@ export class ObjectiveComponent {
   async objectiveSubmit(formData: any){
     if (this.objectiveForm.invalid){      
       this.scrollToTop();
+      this.commonService.moveScrollToTop()
       this.objectiveForm.markAllAsTouched();
       console.log('objectiveForm>>>>>>>>',this.objectiveForm);
       Object.keys(this.objectiveForm.controls).forEach(field => {
@@ -1266,6 +1266,10 @@ export class ObjectiveComponent {
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
+
+            setTimeout(() => {
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/assessment/"+this.appointmentId, "_self");
+            }, 2000)
           }        
         })
       }

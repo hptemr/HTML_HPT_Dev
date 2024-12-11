@@ -1243,6 +1243,9 @@ export class DisObjectiveComponent implements OnInit {
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
+            setTimeout(() => {
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/assessment/"+this.appointmentId, "_self");
+            }, 2000)
           }        
         })
       }

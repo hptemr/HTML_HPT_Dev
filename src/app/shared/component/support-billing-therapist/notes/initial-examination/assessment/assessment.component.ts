@@ -152,6 +152,9 @@ export class AssessmentComponent {
           status = 'ERROR'
         }
         this.commonService.openSnackBar(response.message, status);
+        setTimeout(() => {
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
+        }, 2000)
         this.getAssessment()
       })
     }
@@ -194,7 +197,6 @@ export class AssessmentComponent {
   }
 
   removeNewProblem(i: any) {
-    console.log('><>>>>>>>>>>',i)
     this.addNewProblemField = true;
     const control = <FormArray>this.assessmentForm.controls['assessment_icd'];
     if (control.controls[i].get('problem')?.value || control.controls[i].get('long_term_goal')?.value) {

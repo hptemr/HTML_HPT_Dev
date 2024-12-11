@@ -131,9 +131,12 @@ export class BillingComponent {
         if(result && result?.status=='Draft'){
           this.draftFlag = false
         }
-        if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
-          this.isHold = true
-        }
+        if(response && response.data?.appointmentData && response.data?.appointmentData?.payVia){
+          //intakeFormSubmit      payVia
+        }        
+        // if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
+        //   this.isHold = true
+        // }
         if(response && response.data?.caseData && response.data.caseData.caseType!=''){
           this.caseType = response.data?.caseData.caseType
         }
@@ -513,7 +516,7 @@ export class BillingComponent {
             panelClass: 'custom-alert-container',
             data : {
               warningNote: service_date_note,
-              submitButton: submitButton
+              submitdisabled: submitButton
             }
           });
           dialogRef.afterClosed().subscribe(res => {

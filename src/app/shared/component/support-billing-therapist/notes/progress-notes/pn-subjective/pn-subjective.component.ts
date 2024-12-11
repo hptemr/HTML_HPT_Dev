@@ -429,6 +429,10 @@ export class PnSubjectiveComponent implements OnInit {
               //this.successModal(response.message);
               this.commonService.openSnackBar(response.message, "SUCCESS");
             }
+
+            setTimeout(() => {
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/objective/"+this.appointmentId, "_self");
+            }, 2000)
           }
           this.commonService.hideLoader();
           setTimeout(() => {

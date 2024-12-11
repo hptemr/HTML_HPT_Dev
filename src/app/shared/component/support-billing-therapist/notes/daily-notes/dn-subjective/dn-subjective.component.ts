@@ -139,6 +139,7 @@ export class DnSubjectiveComponent {
         appointmentId:this.appointmentId,
         soap_note_type:'daily_note'
       }
+
       this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {
         let status = 'SUCCESS'
         if (response.error) {
