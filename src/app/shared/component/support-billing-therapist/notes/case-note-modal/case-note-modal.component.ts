@@ -24,48 +24,57 @@ export class CaseNoteModalComponent implements OnInit {
   caseNoteId: string = '';
   appointment_data: any = null
   readOnly:boolean=false;
-
+  id: string;
+  caseNoteDataList:any
   constructor(private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public dialog: MatDialog, public commonService: CommonService, public authService: AuthService,public dialogRef: MatDialogRef<CaseNoteModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
+    this.id = data.id;    
   } 
 
   ngOnInit() {
     this.caseNoteForm = this.fb.group({
        appointmentId:[this.appointmentId],
-       case_note_date:['', [Validators.minLength(1), Validators.maxLength(500)]],  
+       soap_note_type:['case_note'],
+       note_date:['', [Validators.minLength(1), Validators.maxLength(500)]],  
        case_comment:['', [Validators.required, Validators.minLength(1), Validators.maxLength(1000)]],       
     });
     this.getCaseNoteRecord();
   }
 
   getCaseNoteRecord(){
-    let reqVars = {
-      query: {appointmentId:this.appointmentId},     
+    let reqVars = {}
+    if(this.id){
+       reqVars = { 
+        query: { appointmentId:this.appointmentId,soap_note_type:'case_note',_id:this.id}
+      }         
+    }else{
+      reqVars = {
+        query: {appointmentId:this.appointmentId,soap_note_type:'case_note'},     
+      }
     }
+
     this.authService.apiRequest('post', 'soapNote/getCaseNoteData', reqVars).subscribe(async response => {
       if(response.data && response.data.caseNoteData){
-        let caseNoteData = response.data.caseNoteData; 
-        this.caseNoteId = caseNoteData._id;
-        this.caseNoteForm.controls['case_note_date'].setValue(caseNoteData.case_note_date);
-        this.caseNoteForm.controls['case_comment'].setValue(caseNoteData.case_comment);      
+        this.caseNoteDataList = response.data.caseNoteData;       
+        if(this.id){
+          this.fillupData(response.data.caseNoteData[0]);
+        }
       }
 
-      if(response.data && response.data.appointmentDatesList){
-        this.appointment_dates = response.data.appointmentDatesList       
+      if(response.data && response.data.appointmentDatesList){  
+        if(this.id){
+          let appointmentDatesList = response.data.appointmentDatesList.filter((p:any) => p.appointmentDate === response.data.caseNoteData[0].note_date);
+          this.appointment_dates = this.commonService.checkappointmentDatesList(appointmentDatesList,'case_note')     
+        }else{
+          this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'case_note')     
+        }
       }
 
       if(response.data && response.data.appointmentData){
         this.appointment_data = response.data.appointmentData
-        // if(this.appointment_data.checkInDateTime){            
-        //   this.caseNoteForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
-        // }
       }       
-
-      if(response.data.caseNoteData && response.data.caseNoteData.status=='Finalized'){
-        this.readOnly = true
-        this.caseNoteForm.disable()
-      }
+     
     })
   }
   
@@ -101,9 +110,8 @@ export class CaseNoteModalComponent implements OnInit {
             }           
           } else {         
             if (response.message) {
-              this.dialogRef.close();
-              this.successModal();
-              //this.commonService.openSnackBar(response.message, "SUCCESS");
+              this.commonService.openSnackBar(response.message, "SUCCESS");
+              this.dialogRef.close('SUCCESS');//this.successModal();      
             }
           }
           this.commonService.hideLoader();
@@ -116,7 +124,32 @@ export class CaseNoteModalComponent implements OnInit {
 
   }
 
+  onAppointmentDateChange(event: any) {
+    console.log('value>>>',event.target.value)
+    console.log('appointment_dates>>>',this.appointment_dates)
+    console.log('caseNoteDataList>>>',this.caseNoteDataList)
+    if(event.target.value){
+      let caseNoteData = this.caseNoteDataList.filter((p: { note_date: any; }) => p.note_date === event.target.value);
+      if(caseNoteData[0]){
+        this.fillupData(caseNoteData[0]);
+      }  
+    }
+ 
+    
+  }
 
+  fillupData(caseNoteData:any){
+    console.log('case Not eData>>>',caseNoteData)
+    if(caseNoteData){
+      this.caseNoteId = caseNoteData._id;
+      this.caseNoteForm.controls['note_date'].setValue(caseNoteData.note_date);
+      this.caseNoteForm.controls['case_comment'].setValue(caseNoteData.case_comment);      
+      if(caseNoteData.status=='Finalized'){
+        this.readOnly = true
+        this.caseNoteForm.disable()
+      }
+    } 
+  }
 
   successModal() {
     const dialogRef = this.dialog.open(SuccessModalComponent,{

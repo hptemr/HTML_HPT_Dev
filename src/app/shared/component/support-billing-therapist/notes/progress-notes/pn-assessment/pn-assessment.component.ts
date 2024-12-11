@@ -129,7 +129,7 @@ export class PnAssessmentComponent {
         }
         this.commonService.openSnackBar(response.message, status);
         setTimeout(() => {
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/plan/"+this.appointmentId, "_self");
         }, 2000)
         this.getAssessment()
       })

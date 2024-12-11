@@ -268,13 +268,20 @@ export class AppointmentDetailsComponent implements OnInit {
     });
   }
 
-  caseNoteModal() {
+  caseNoteModal(id:string) {
     const dialogRef = this.dialog.open(CaseNoteModalComponent,{
        panelClass: [ 'custom-alert-container','modal--wrapper'],
       data : {
-        appointmentId:this.appointmentId
+        appointmentId:this.appointmentId,
+        id:id
       }
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('result>>>',result)
+      if(result=='SUCCESS'){
+        this.getAppointmentNotes()
+      }
+    })
 
   }
 

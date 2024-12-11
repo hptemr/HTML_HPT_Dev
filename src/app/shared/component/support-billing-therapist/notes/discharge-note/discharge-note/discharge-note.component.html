@@ -3,19 +3,19 @@
         <div class="col-12">
             <div class="note--header w-100 d-flex align-items-center justify-content-between">
                 <h1 class="mb-0 fw-600">Discharge Note</h1>
-                <button class="" mat-stroked-button color="primary" routerLink="/{{userType}}/case-details/{{appointmentId}}"> 
+                <button class="" mat-stroked-button color="primary" (click)="navigatation('case-details')"> 
                     Go to Case Details
                 </button>
             </div> 
         </div>
         <div class="col-12">
             <div class="tab--header">
-                <ul class="d-flex align-items-center p-0 m-0 flex-wrap flex-sm-nowrap">
-                    <li routerLinkActive="active-link" [routerLink]="['/{{userType}}/discharge-notes/subjective/',appointmentId]"><a>Subjective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/{{userType}}/discharge-notes/objective/',appointmentId]"><a>Objective</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/{{userType}}/discharge-notes/assessment/',appointmentId]"><a>Assessment</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/{{userType}}/discharge-notes/plan/',appointmentId]"><a>Plan</a></li>
-                    <li routerLinkActive="active-link" [routerLink]="['/{{userType}}/discharge-notes/billing/',appointmentId]"><a>Billing</a></li>
+                <ul class="d-flex align-items-center p-0 m-0 flex-wrap flex-sm-nowrap">                    
+                    <li routerLinkActive="active-link" (click)="navigatation('subjective')"><a>Subjective</a></li>
+                    <li routerLinkActive="active-link" (click)="navigatation('objective')"><a>Objective</a></li>
+                    <li routerLinkActive="active-link" (click)="navigatation('assessment')"><a>Assessment</a></li>
+                    <li routerLinkActive="active-link" (click)="navigatation('plan')"><a>Plan</a></li>
+                    <li routerLinkActive="active-link" (click)="navigatation('billing')"><a>Billing</a></li>
                 </ul>
             </div>
         </div>
