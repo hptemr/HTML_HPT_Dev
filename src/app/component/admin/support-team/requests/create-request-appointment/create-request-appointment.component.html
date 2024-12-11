@@ -188,6 +188,19 @@
 
                 <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                     <div class="form-group">
+                        <label class="col-form-label fw-600">Therapist <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="therapistId">
+                            <option value="" selected>Select</option>
+                            <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['therapistId'].touched && appointmentForm.controls['therapistId'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Therapist') }}
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
                         <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
                         <select class="form-select form-control" aria-label="Default select example" formControlName="practiceLocation" readonly="readonlyFlag">
                             <option value="" selected>Select Practice Location</option>
@@ -198,29 +211,6 @@
                         </div>
                     </div>
                 </div>   
-
-                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Therapist <span class="clr--DF0404 ms-1"> * </span></label>
-                        <select class="form-select form-control" aria-label="Default select example" formControlName="therapistId">
-                            <option value="" selected>Select</option>
-                            <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
-                        </select>
-                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['therapistId'].touched && appointmentForm.controls['therapistId'].hasError('required')">
-                            {{ validationMessages.requiredDropdown('Therapist') }}
-                        </div>
-                    </div>
-                </div>  
-
-                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Phone</label>
-                        <input class="form-control" type="text" formControlName="phoneNumber" placeholder="Enter Phone Number" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="14"/>
-                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['phoneNumber'].touched && appointmentForm.controls['phoneNumber'].hasError('required')">
-                            {{ validationMessages.required('Phone') }}
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                     <div class="form-group">
@@ -237,6 +227,18 @@
                         </div>
                       </div>
                 </div>
+
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
+                        <label class="col-form-label fw-600">Phone</label>
+                        <input class="form-control" type="text" formControlName="phoneNumber" placeholder="Enter Phone Number" (input)="onPhoneInputChange($event)" [value]="convertPhoneNumber" maxlength="14"/>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['phoneNumber'].touched && appointmentForm.controls['phoneNumber'].hasError('required')">
+                            {{ validationMessages.required('Phone') }}
+                        </div>
+                    </div>
+                </div>
+
+                
 
                 <div class="col-12 col-sm-6 col-lg-6 mt-2">
                     <div class="form-group w-100">
