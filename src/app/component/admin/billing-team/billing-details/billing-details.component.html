@@ -51,7 +51,7 @@
                                 </label>
                                 <div class="d-flex w-100 position-relative primary--insu">
                                     <input class="form-control " type="text" placeholder="Primary Insurance" formControlName="primaryInsurance" />
-                                    <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal('primary')">
+                                    <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal('primary')" [disabled]="isSupportTeamUser" >
                                         Update
                                     </button>
                                     </div>
@@ -303,7 +303,7 @@
                                     </span></label>
                                     <div class="d-flex w-100 position-relative primary--insu">
                                         <input class="form-control" type="text" placeholder="Secondary Insurance" formControlName="secondaryInsurance" />
-                                        <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal('secondary')">
+                                        <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal('secondary')" [disabled]="isSupportTeamUser" >
                                             Update
                                         </button>
                                     </div>

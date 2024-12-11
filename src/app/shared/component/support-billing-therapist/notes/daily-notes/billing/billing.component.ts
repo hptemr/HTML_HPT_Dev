@@ -131,9 +131,10 @@ export class DailyNoteBillingComponent {
       if(result && result?.status=='Draft'){
         this.draftFlag = false
       }
-      if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
-        this.isHold = true
-      }
+      // This code comment because we are not restrict to show billing. If billing type get or not. By default It will take CMS.
+      // if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
+      //   this.isHold = true
+      // }
       if(response && response.data?.caseData && response.data.caseData.caseType!=''){
         this.caseType = response.data?.caseData.caseType
       }
