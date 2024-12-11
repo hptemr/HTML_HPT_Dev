@@ -80,6 +80,10 @@ const getPlanNote = async (req, res) => {
     if(req.body.addendumId!=undefined){
       planData = planData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString())[0];
     }
+    // console.log('caseData>>>',caseData)
+    // console.log('planData>>>',planData)
+    // let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1, payVia:1, payViaInsuranceInfo:1, adminPayViaInsuranceInfo:1, intakeFormSubmit:1 })
+    // let returnData = { caseData: caseData, planData: planData, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', planData,caseData);
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -162,7 +166,10 @@ const createBillingNote = async (req, res) => {
 const getBillingNote = async (req, res) => {
   try {
     let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType });
-    let subjective_data = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType },{status:1,note_date:1});
+    let subjective_data = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType, note_date : {$ne:null} },{status:1,note_date:1});
+    if(!subjective_data){
+      subjective_data = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType },{status:1,note_date:1});
+    }
 
     let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1,payVia:1, payViaInsuranceInfo:1, adminPayViaInsuranceInfo:1, intakeFormSubmit:1 })
    
