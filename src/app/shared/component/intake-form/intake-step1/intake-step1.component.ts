@@ -356,4 +356,6 @@ export class IntakeStep1Component {
     this.step1Form.get('email')?.setValue(emailInput.toLowerCase(), { emitEvent: false });
   }
 
+ 
+
 }

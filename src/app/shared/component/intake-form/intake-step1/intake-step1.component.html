@@ -26,7 +26,7 @@
     <form *ngIf="step1Form" [formGroup]="step1Form">
         <div class="card m-0">
             <div class="row justify-content-between align-items-center">
-                <h4 class="text-center clr--212529 font-16 fw-400"><b>*Note</b> If you need immediate assistance please <a class="clr--31B7B7 fw-700">contact</a> our office</h4>
+                <h4 class="text-center clr--212529 font-16 fw-400"><b>*Note</b> If you need immediate assistance please <a class="clr--31B7B7 fw-700 font-16 cursor-pointer" (click)="contactModal()">contact</a> our office</h4>
             </div>
             <div class="row mt-3">               
                 <div class="col-12 col-lg-6 col-md-6  ">
