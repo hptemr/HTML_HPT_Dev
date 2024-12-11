@@ -75,7 +75,7 @@
             </div>
             <div class="col-12 mt-3">
                 <div class="d-flex flex-row align-items-start flex-wrap unlimited-codes-unit-wrapper">
-                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
+                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4" *ngIf="caseType=='PT'">
                         <div class="row">
                             <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
                                 <h3 class="mb-0 clr--1F2F3E font-14 fw-700">PT</h3>
@@ -87,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
+                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4" *ngIf="caseType=='OT'">
                         <div class="row">
                             <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
                                 <h3 class="mb-0 clr--1F2F3E font-14 fw-700">OT</h3>
@@ -100,7 +100,7 @@
 
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4">
+                    <div class="col-12 col-sm-12 col-lg-6 col-xl-4" *ngIf="caseType=='SLP'">
                         <div class="row">
                             <div class="d-flex flex-row align-items-center justify-content-start mb-2 col-12">
                                 <h3 class="mb-0 clr--1F2F3E font-14 fw-700">SLP</h3>

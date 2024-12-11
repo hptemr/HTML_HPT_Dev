@@ -55,6 +55,7 @@ export class PnPlanComponent {
   actionType = ""
   submitted = false
   minDate = new Date();
+  caseType:string=''
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
@@ -95,6 +96,9 @@ export class PnPlanComponent {
         })
       } else {
         this.actionType = "create"
+      }
+      if(response && response?.message && response.message.caseType!=''){
+        this.caseType = response.message.caseType
       }
     })
 
