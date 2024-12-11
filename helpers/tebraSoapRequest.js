@@ -308,8 +308,8 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         sendEmployerData = employer
     }
 
-    let relatedToAutoAccident = (insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)")?true:false
-    let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+    let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)")?true:false
+    let relatedToAutoAccident = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
     let relatedToOther = (insuranceInfo?.injuryRelelatedTo=="Other Personal Injury")?true:false
 
     let relationToGuarantor = ''
@@ -456,8 +456,8 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         highDeductableData = highDeductable
     }
 
-    let relatedToAutoAccident = (insuranceInfo?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)")?true:false
-    let relatedToEmployment = (insuranceInfo?.RP_injuryRelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+    let relatedToEmployment = (insuranceInfo?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)")?true:false
+    let relatedToAutoAccident = (insuranceInfo?.RP_injuryRelatedTo=="Motar Vehicle Accident (MVA)")?true:false
     let relatedToOther = (insuranceInfo?.RP_injuryRelatedTo=="Other Personal Injury")?true:false
 
     let relationToGuarantor = ''
@@ -545,8 +545,8 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         sendEmployerData = employer
     }
 
-    let relatedToAutoAccident = (insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)")?true:false
-    let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+    let relatedToEmployment = (insuranceInfo?.injuryRelelatedTo=="Worker's Compensation (WCOMP)")?true:false
+    let relatedToAutoAccident = (insuranceInfo?.injuryRelelatedTo=="Motar Vehicle Accident (MVA)")?true:false
     let relatedToOther = (insuranceInfo?.injuryRelelatedTo=="Other Personal Injury")?true:false
 
     let relationToGuarantor = ''
