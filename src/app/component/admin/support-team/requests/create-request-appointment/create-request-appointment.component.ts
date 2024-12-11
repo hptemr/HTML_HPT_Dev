@@ -8,9 +8,11 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { FormBuilder, FormControl, FormGroup, Validators,AbstractControl } from '@angular/forms';
 //import { CustomValidators  } from '../../../../../shared/services/helper/custom-validator';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { validationMessages } from '../../../../../utils/validation-messages';
 import { DatePipe } from '@angular/common';
 import { practiceLocations, s3Details } from 'src/app/config';
+import * as moment from 'moment';
 export class doctorlists {
   constructor(public id: string, public name: string,public npi: string) {}
 }
@@ -55,6 +57,9 @@ export class CreateRequestAppointmentComponent {
   casenameList:any = [];
   doctorId:string='';
   whereDocCond: any = {status:"Active"}
+  day: string;
+  minTime: Date;
+  minEndTime: Date;
   constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,private datePipe: DatePipe) {
     this.route.params.subscribe((params: Params) => {
       this.requestId = params['requestId'];
@@ -69,6 +74,11 @@ export class CreateRequestAppointmentComponent {
     this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
     this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
 
+    const defaultStartTime = this.getNext30MinuteMark();
+    const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
+    this.minTime = new Date();
+    this.checkToday();
+
     this.appointmentForm = this.fb.group({
       caseName: ['', [Validators.required]],
       caseNameOther: [''],
@@ -79,13 +89,57 @@ export class CreateRequestAppointmentComponent {
       phoneNumber: ['', [Validators.required]],
       seachByDoctor: ['',[Validators.required]],  
       appointmentDate: ['', [Validators.required]],
+      appointmentStartTime: ['', [Validators.required]],
+      appointmentEndTime: ['', [Validators.required]],
       appointmentType: [''],
       appointmentTypeOther: [''],
       practiceLocation: ['',[Validators.required]],
       therapistId: ['',[Validators.required]],     
-    });
+      notes: [''],   
+    }, { validator: this.endTimeAfterStartTime('appointmentStartTime', 'appointmentEndTime') }
+  );
     this.getAppointmentRequestDetails();
     this.getTherapistList()
+  }
+
+  checkToday(): void {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = new Date().getDay(); // Get the day index (0 = Sunday, 6 = Saturday)
+    this.day = daysOfWeek[today];
+  }
+
+  getNext30MinuteMark(): Date {
+    const currentTime = moment();
+    const minutes = currentTime.minutes();
+    const next15MinuteMark = minutes % 30 === 0 ? currentTime : currentTime.add(30 - (minutes % 30), 'minutes');
+    return next15MinuteMark.seconds(0).milliseconds(0).toDate(); // Set seconds and milliseconds to 0
+  }
+
+  endTimeAfterStartTime(startTimeKey: string, endTimeKey: string) {
+    return (formGroup: FormGroup) => {
+      const startTime = formGroup.controls[startTimeKey];
+      const endTime = formGroup.controls[endTimeKey];
+
+      if (endTime.errors && !endTime.errors['endTimeAfterStartTime']) {
+        return;
+      }
+      if (moment(endTime.value).isSameOrBefore(moment(startTime.value))) {
+        endTime.setErrors({ endTimeAfterStartTime: true });
+      } else {
+        endTime.setErrors(null);
+      }
+    };
+  }
+
+  onDateInput(event: MatDatepickerInputEvent<any>): void {
+    const parsedDate = new Date(event.value ? event.value : '');
+    parsedDate.setHours(10, 0, 0);
+
+    const parsedDate2 = new Date(event.value ? event.value : '');
+    parsedDate2.setHours(10, 15, 0);
+
+    this.appointmentForm.controls['appointmentStartTime'].setValue(parsedDate);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(parsedDate2);
   }
 
   async createAppointment(formData:any){

@@ -99,39 +99,41 @@
                         <label class="col-form-label fw-600 font-16 p-0 me-3 mt--cust flex-shrink-0">Date & Time <span class="clr--DF0404 ms-1"> * </span> </label>
                         <div>
                             <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker sm--datepicker"> 
-                                <input class="" matInput [matDatepicker]="picker"   placeholder="MM/DD/YYYY" readonly="true"   > 
-                                <!-- (dateChange)="onDateChange($event)"  -->
+                                <input class="" matInput [matDatepicker]="picker" [min]="minToDate" [max]="maxToDate" placeholder="MM/DD/YYYY" readonly="true" formControlName="appointmentDate" (dateInput)="onDateInput($event)"> 
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
-                            <!-- <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
                                 {{ validationMessages.required('appointment date time') }}
-                            </div> -->
+                            </div>
                         </div> 
+
                         <div> 
-                            <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4"  [owlDateTime]="dt4"   >
-                            <owl-date-time [pickerType]="'timer'" #dt4  ></owl-date-time>
-                            <!-- <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentStartTime'].touched && appointmentForm.controls['appointmentStartTime'].hasError('required')">
+                            <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0" [owlDateTimeTrigger]="dt4" readonly="true" [owlDateTime]="dt4" [min]="minTime" formControlName="appointmentStartTime">
+                            <owl-date-time [pickerType]="'timer'" #dt4 [stepMinute]="15"></owl-date-time>
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentStartTime'].touched && appointmentForm.controls['appointmentStartTime'].hasError('required')">
                                 {{ validationMessages.required('appointment end time') }}
-                            </div> -->
+                            </div>
                         </div>
+
                         <label class="col-form-label fw-600 font-16 p-0 m-1 mx-2 ms-3 flex-shrink-0 mt--cust">To </label>
                         <div> 
-                            <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0"  [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5"   >
-                            <owl-date-time [pickerType]="'timer'" #dt5  ></owl-date-time>
+                            <input placeholder="00:00 AM" class="form-control form-control-md w-100p m-1 flex-shrink-0"  [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" readonly="true" [min]="this.appointmentForm.controls['appointmentStartTime'].value" formControlName="appointmentEndTime">
+                            <owl-date-time [pickerType]="'timer'" #dt5 [stepMinute]="15"></owl-date-time>
                             
-                            <!-- <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].touched && appointmentForm.controls['appointmentEndTime'].hasError('required')">
+                            <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].touched && appointmentForm.controls['appointmentEndTime'].hasError('required')">
                                 {{ validationMessages.required('appointment end time') }}
                             </div>
                             <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].hasError('endTimeAfterStartTime')">
                                 End time must be greater than start time.
-                              </div> -->
+                              </div>
+                              <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentEndTime'].hasError('owlDateTimeMin')">
+                                Please select appointment end time.
+                              </div>
                         </div>
+
                     </div>
                 </div>
-
-                
-
                 <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
@@ -159,16 +161,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 col-md-6 mt-2">
+                <!-- <div class="col-12 col-lg-6 col-md-6 mt-2">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Appointment Date & Time <span class="clr--DF0404 ms-1"> * </span></label> 
+                        <label class="col-form-label fw-600">Appointment Date & Time <span class="clr--DF0404 ms-1"> * </span></label>--> 
 
                         <!-- Added New Date and Time Picker
                         <div class="input-group">
                             <input (keydown)="false" class="form-control digits cursor-pointer" id="example-datetime-local-input" type="datetime-local"  [min]="minToDate" [max]="maxToDate" formControlName="appointmentDate" placeholder="Select Date" onfocus="this.showPicker()" >
                         </div> -->
 
-                        <div class="input-group date--time--picker"> 
+                         <!--   <div class="input-group date--time--picker"> 
                             <input class="form-control" [min]="minToDate" [max]="maxToDate" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" formControlName="appointmentDate">
                                 <span class="trigger" [owlDateTimeTrigger]="dt">
                                     <mat-icon class="calendar--icon">calendar_month</mat-icon>
@@ -182,7 +184,8 @@
                     <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['appointmentDate'].touched && appointmentForm.controls['appointmentDate'].hasError('required')">
                         {{ validationMessages.required('Appointment Date & Time') }}
                     </div>
-                </div> 
+                </div>  -->
+
                 <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
@@ -268,10 +271,10 @@
                 <div class="col-12 col-lg-6 col-md-6 mt-2">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Notes</label>
-                        <input class="form-control" type="text"   placeholder="Enter Notes" rows="4"/>
-                            <!-- <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['lastName'].touched && appointmentForm.controls['lastName'].hasError('required')">
-                                {{ validationMessages.required('Notes') }}
-                            </div>     -->
+                        <input class="form-control" type="text" formControlName="notes" placeholder="Enter Notes" rows="4"/>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['lastName'].touched && appointmentForm.controls['lastName'].hasError('required')">
+                            {{ validationMessages.required('Notes') }}
+                        </div>    
                     </div>
                 </div>
             </div>
