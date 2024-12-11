@@ -589,13 +589,13 @@ async function subjectiveAppointmentsList(queryMatch,soap_note_type) {
 }
 
 async function appointmentsList(casename, patientId) {
-  let data = await Appointment.find({ patientId: patientId, caseName: casename }, { _id: 1, appointmentDate: 1 }).sort({ createdAt: -1 });
-  let appointmentDateList = [];  
-  if (data.length > 0) {
-    data.map((obj) => {
-        appointmentDateList.push({'status':'','appointment' : [{'appointmentDate':moment(obj.appointmentDate).utc().format()}]})
-    })     
-  }
+  let appointmentDateList = await Appointment.find({ patientId: patientId, caseName: casename }, { _id: 1, appointmentDate: 1 }).sort({ createdAt: -1 });
+  // let appointmentDateList = [];  
+  // if (data.length > 0) {
+  //   data.map((obj) => {
+  //       appointmentDateList.push({'status':'','appointment' : [{'appointmentDate':moment(obj.appointmentDate).utc().format()}]})
+  //   })     
+  // }
   return appointmentDateList;
 }
 
@@ -978,15 +978,16 @@ const getInitialExamination = async (req, res) => {
 const getCaseNoteData = async (req, res) => {
   try {
     const { query } = req.body;
-    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })  
-    let caseNoteData = await caseNotes.findOne(query);
+    let appointmentData = await Appointment.findOne({ _id: query.appointmentId },{_id:1,caseName:1,patientId:1,appointmentDate:1});//.populate('patientId', { firstName: 1, lastName: 1 })  
+    let caseNoteData = await subjectiveTemp.find(query,{_id:1,note_date:1,case_comment:1}).sort({ _id: -1 });
   
     let appointmentDatesList = [];
     if(appointmentData){      
-      appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
-    }
-  
-    let returnData = { caseNoteData: caseNoteData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
+      //appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
+      appointmentDatesList = await subjectiveAppointmentsList({'patientId':appointmentData.patientId,'caseName':appointmentData.caseName},'case_note')  
+    } 
+
+    let returnData = { caseNoteData: caseNoteData, appointmentDatesList: appointmentDatesList }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
     console.log('get case notes data error >>>>',error)
@@ -995,6 +996,46 @@ const getCaseNoteData = async (req, res) => {
 }
 
 const submitCaseNote = async (req, res) => {
+  try {
+    const { data, caseNoteId } = req.body;
+    let message = '';
+    if (caseNoteId) {
+      let optionsUpdatePlan = { returnOriginal: false };
+      await subjectiveTemp.findOneAndUpdate({ _id: caseNoteId }, data, optionsUpdatePlan);
+      message = soapMessage.caseNoteUpdated;
+    } else {
+       await subjectiveTemp.create(data)
+      message = soapMessage.caseNoteCreate;
+    }
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log("*****************error", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
+
+const getCaseNoteDataOLd = async (req, res) => {
+  try {
+    const { query } = req.body;
+    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })  
+    let caseNoteData = await caseNotes.findOne(query);
+  
+    let appointmentDatesList = [];
+    if(appointmentData){      
+      appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
+    }
+  //  appointmentDatesList = await subjectiveAppointmentsList({'patientId':appointmentData.patientId._id,'caseName':appointmentData.caseName},soap_note_type)   
+    let returnData = { caseNoteData: caseNoteData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
+    commonHelper.sendResponse(res, 'success', returnData);
+  } catch (error) {
+    console.log('get case notes data error >>>>',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const submitCaseNoteOLD = async (req, res) => {
   try {
     const { data, caseNoteId } = req.body;
     let message = '';
