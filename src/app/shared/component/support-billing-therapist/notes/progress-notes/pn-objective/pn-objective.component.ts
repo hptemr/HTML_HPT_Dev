@@ -1250,6 +1250,9 @@ console.log('>>>>',this.objectiveForm)
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
+            setTimeout(() => {
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/assessment/"+this.appointmentId, "_self");
+            }, 2000)
           }        
         })
       }

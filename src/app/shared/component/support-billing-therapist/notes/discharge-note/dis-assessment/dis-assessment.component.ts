@@ -126,6 +126,9 @@ export class DisAssessmentComponent {
         }
         this.commonService.openSnackBar(response.message, status);
         this.getAssessment()
+        setTimeout(() => {
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/plan/"+this.appointmentId, "_self");
+        }, 2000)
       })
     }
   }

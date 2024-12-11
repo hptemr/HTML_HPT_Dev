@@ -72,7 +72,7 @@ export class CreateAppointmentModalComponent {
     this.appointmentForm = this.fb.group({
       patientType: ['New', [Validators.required]],
       seachByPname: [''],
-      caseName: [''],
+      caseName: ['Other'],
       caseType: ['PT', [Validators.required]],
       caseNameOther: ['',[Validators.required]],
       firstName: ['', [Validators.required]],
@@ -164,7 +164,7 @@ export class CreateAppointmentModalComponent {
   }
 
   async createAppointment(formData:any){
-    
+    console.log('appointmentDate >>>>>',formData)
     if (this.appointmentForm.valid) {
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
@@ -187,7 +187,7 @@ export class CreateAppointmentModalComponent {
           data: formData,
           patientType:formData.patientType
         }
-        // console.log('appointmentDate >>>>>',this.appointmentForm.controls['appointmentDate'])
+         console.log('appointmentDate >>>>>',formData)
         // console.log('appointmentStartTime>>>>>',this.appointmentForm.controls['appointmentStartTime'])
         // console.log('appointmentEndTime>>>>>',this.appointmentForm.controls['appointmentEndTime'])
         this.emailError = false; this.invalidEmailErrorMessage = '';   

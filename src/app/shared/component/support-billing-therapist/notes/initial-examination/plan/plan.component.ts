@@ -170,13 +170,17 @@ export class PlanComponent {
       this.authService.apiRequest('post', 'soapNote/createPlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
         if(response.message)this.commonService.openSnackBar(response.message, "SUCCESS")
-      //window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
+        setTimeout(() => {
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+        }, 2000)
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
         if(response.message)this.commonService.openSnackBar(response.message, "SUCCESS")
-        //window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
+          setTimeout(() => {
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+          }, 2000)
       })
     }
   }

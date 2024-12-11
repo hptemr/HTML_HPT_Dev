@@ -55,6 +55,7 @@ export class PnPlanComponent {
   actionType = ""
   submitted = false
   minDate = new Date();
+  caseType:string=''
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
@@ -95,6 +96,9 @@ export class PnPlanComponent {
         })
       } else {
         this.actionType = "create"
+      }
+      if(response && response?.message && response.message.caseType!=''){
+        this.caseType = response.message.caseType
       }
     })
 
@@ -145,13 +149,18 @@ export class PnPlanComponent {
       this.authService.apiRequest('post', 'soapNote/createPlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
         this.commonService.openSnackBar(response.message, "SUCCESS")
-        //window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/plan/"+this.appointmentId, "_self");
+        setTimeout(() => {
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
+        }, 2000)
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
         this.commonService.openSnackBar(response.message, "SUCCESS")
-       // window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/plan/"+this.appointmentId, "_self");
+        
+        setTimeout(() => {
+          window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
+        }, 2000)
       })
     }
   }

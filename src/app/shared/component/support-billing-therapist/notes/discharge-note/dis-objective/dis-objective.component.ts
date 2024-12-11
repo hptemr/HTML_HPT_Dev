@@ -1213,8 +1213,7 @@ export class DisObjectiveComponent implements OnInit {
   }
 
   async objectiveSubmit(formData: any){
-    if (this.objectiveForm.invalid){
-      
+    if (this.objectiveForm.invalid){      
     console.log('<<<<<  objective form >>>>',this.objectiveForm)
       this.objectiveForm.markAllAsTouched();
     }else{
@@ -1243,6 +1242,9 @@ export class DisObjectiveComponent implements OnInit {
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
+            setTimeout(() => {
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/assessment/"+this.appointmentId, "_self");
+            }, 2000)
           }        
         })
       }

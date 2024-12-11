@@ -487,7 +487,7 @@ export class DischargeNoteBillingComponent {
             panelClass: 'custom-alert-container',
             data : {
               warningNote: service_date_note,
-              submitButton: submitButton
+              submitdisabled: submitButton
             }
           });
           dialogRef.afterClosed().subscribe(res => {

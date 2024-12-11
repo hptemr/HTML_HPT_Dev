@@ -274,7 +274,7 @@ export class CommonService {
         app_status = 'Draft';
         if(item.obj && item.obj.length>0){
           const find = item.obj.filter((o: any) => (o.note_date === item.appointmentDate && o.status=='Finalized' && o.soap_note_type==soap_note_type));
-          if(find){
+          if(find.length>0){
             app_status = 'Finalized'
           }        
           finalList.push({_id:item._id,appointmentDate:item.appointmentDate,status:app_status})
