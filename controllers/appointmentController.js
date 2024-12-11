@@ -145,10 +145,26 @@ const createAppointmenttest = async (req, res) => {
     }
 }
 
+
+const createAppointmentte2st = async (req, res) => {
+    try {
+        const { data, userId, requestId, patientType } = req.body; 
+        let alreadyFound = ''; let proceed = true;
+        console.log('data>>>>',data)
+
+        commonHelper.sendResponse(res, 'success', {}, 'done');
+    } catch (error) {
+        console.log("********Appointment Request Details***error***", error)
+    }
+}
+
+
+
 const createAppointment = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
         let alreadyFound = ''; let proceed = true;
+        console.log('data>>>>',data)
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
             if (alreadyPatient) {
@@ -193,7 +209,7 @@ const createAppointment = async (req, res) => {
             let caseType = data.caseType ? data.caseType : '';
             let caseName = data.caseName == 'Other' ? data.caseNameOther : data.caseName
             let caseFound = '';
-        
+            console.log('case name >>>>',caseName)
             if(data.patientId) {
                 caseFound = await Case.findOne({ caseName: caseName, patientId: data.patientId }, { _id: 1, caseType: 1, appointments: 1 });
             }           
