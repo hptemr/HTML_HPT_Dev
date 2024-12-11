@@ -164,12 +164,13 @@ const getBillingNote = async (req, res) => {
     let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType });
     let subjective_data = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType },{status:1,note_date:1});
 
-    // let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1 })
+    let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1,payVia:1, payViaInsuranceInfo:1, adminPayViaInsuranceInfo:1, intakeFormSubmit:1 })
+   
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
     if(req.body.addendumId!=undefined){
       billingData = billingData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString())[0];
     }
-    let responsedata = {billingData:billingData,caseData:caseData,subjective_data:subjective_data}
+    let responsedata = {billingData:billingData,caseData:caseData,subjective_data:subjective_data,appointmentData:appointmentData}
     commonHelper.sendResponse(res, 'success', responsedata, 'Success');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
