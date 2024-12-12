@@ -241,24 +241,27 @@ const createAppointment = async (req, res) => {
                 caseId = caseFound._id;
 
                 //Create patient on tebra when first appoitnment of Patient accepted by Support Team
-                // const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
-                // const providerData = await Provider.findOne({ _id: data.doctorId },{ name: 1 }).lean();
-                // console.log("providerData>>>>>",providerData)
-                // console.log("patientType>>>>>",patientType)
-                // if(patientType == 'Existing' && patientRes!=null && !patientRes?.patientOnTebra){
-                //     console.log("<<<<< Create Patient On Tebra >>>>>")
-                //     let isPatientCreated = await tebraController.createPatient(patientRes).catch((_err)=>false)
-                //     if(isPatientCreated){
-                //         const patientDataAfterCreated = await Patient.findOne({ _id: data.patientId }).lean();
-                //         if(patientDataAfterCreated!=null && patientDataAfterCreated?.patientOnTebra){
-                //             tebraController.createCase(patientDataAfterCreated, caseName, caseFound._id, providerData)
-                //         }
-                //     }
-                // }
-                // New case create on Tebra for existing Patient
-                if(patientType == 'Existing' && patientRes!=null && patientRes?.patientOnTebra){
-                    const patientRes = await Patient.findOne({ _id: data.patientId }).lean();        
-                    tebraController.createCase(patientRes, caseName, caseFound._id, providerData)
+                console.log("<<<<<<< data >>>>>>", data)
+                if(data?.patientId && data?.doctorId){
+                    const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
+                    const providerData = await Provider.findOne({ _id: data.doctorId },{ name: 1 }).lean();
+                    console.log("providerData>>>>>",providerData)
+                    console.log("patientType>>>>>",patientType)
+                    if(patientType == 'Existing' && patientRes!=null && !patientRes?.patientOnTebra){
+                        console.log("<<<<< Create Patient On Tebra >>>>>")
+                        let isPatientCreated = await tebraController.createPatient(patientRes).catch((_err)=>false)
+                        if(isPatientCreated){
+                            const patientDataAfterCreated = await Patient.findOne({ _id: data.patientId }).lean();
+                            if(patientDataAfterCreated!=null && patientDataAfterCreated?.patientOnTebra){
+                                tebraController.createCase(patientDataAfterCreated, caseName, caseFound._id, providerData)
+                            }
+                        }
+                    }
+                    // New case create on Tebra for existing Patient
+                    if(patientType == 'Existing' && patientRes!=null && patientRes?.patientOnTebra){
+                        const patientRes = await Patient.findOne({ _id: data.patientId }).lean();        
+                        tebraController.createCase(patientRes, caseName, caseFound._id, providerData)
+                    }
                 }
             } else if (caseType == '') {
                 caseType = caseFound.caseType ? caseFound.caseType : ''
