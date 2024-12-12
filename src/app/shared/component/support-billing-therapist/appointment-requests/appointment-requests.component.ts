@@ -118,7 +118,7 @@ export class AppointmentRequestsComponent {
     let reqVars = {
       query: this.whereCond,
       userQuery: '',
-      fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1 },
+      fields: { _id: 1, patientId: 1, therapistId: 1, appointmentId: 1, status: 1, createdAt: 1, updatedAt: 1, practiceLocation: 1, appointmentDate: 1,appointmentEndTime:1 },
       patientFields: { firstName: 1, lastName: 1, email: 1, profileImage: 1, status: 1, practiceLocation: 1 },
       order: this.orderBy,
       limit: this.pageSize,
@@ -136,6 +136,7 @@ export class AppointmentRequestsComponent {
             practiceLocation: element.practiceLocation,
             createdAt: element.updatedAt,
             appointmentDate: element.appointmentDate,
+            appointmentEndTime: element.appointmentEndTime,
             status: element.status,
             statusFlag: element.status.charAt(0).toLowerCase() + element.status.slice(1),
             patientName: element.patientId?.firstName + " " + element.patientId?.lastName,
