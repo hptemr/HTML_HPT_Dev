@@ -61,41 +61,65 @@
                             &:hover{
                                 background-color: #FFF !important;
                             }
-                        }
-                        .form-control{
-                            border: 1px solid #CCC;
-                            background-color: #fff !important;
-                            padding: 3px 10px;
-                            height:34px;
-                        }
+                        } 
                         .badge{
                             background-color: #F2F2F2; 
                             padding: 4px 8px;
-                            text-align: center;
-                            border-radius: 5px;
+                            text-align: center; 
                             color: #DF0404; 
                             border-radius: 0px;
                             font-family: "Nunito Sans", sans-serif !important;
-                        }
-
-                        .select-info{ 
-                            .form-control{ 
-                                width: 140px !important;
-                             } 
-                        }
-                        .doctor-filed{
-                            ::ng-deep{
-                                .mat-mdc-text-field-wrapper {
-                                  width: 160px !important;
+                            white-space: normal;
+                        } 
+                        .profile--wrapper{
+                            .profile--img--box{
+                                .img--box{
+                                    width: 80px;
+                                    height: 80px;
+                                    border-radius: 100%;
+                                    overflow: hidden;
+                                    margin-right: 15px;
+                                    border: 1px solid #31B7B7;
+                                }
+                            }
+                            .scedule--btn{
+                                width: 125px;
+                            }
+                            .ass--therapist--box{
+                                .cust--col{
+                                    width: 13%;
+                                    padding: 0 14px;
+                                    &:first-child{
+                                        padding-left: 0;
+                                    }
+                                    .cust--w{
+                                        width: 85%;
+                                    }
+                                    &.primary--insu{
+                                        width: 26%;
+                                        padding-right: 0;
+                                        .cust--w{
+                                            width: 100%;
+                                            padding-right: 90px;
+                                            pointer-events: none;
+                                        }
+                                        .updt--btn{
+                                            position: absolute;
+                                            right: 3px;
+                                            top: 3px;
+                                            height: 30px; 
+                                        }
+                                    }
                                 }
                             }
                         }
+                        
                     .exp-class{
                         ::ng-deep{ 
                             .mat-expansion-panel-body{
                                 padding: 5px 24px 5px 24px !important;
                                  .last--col{
-                                    gap: 9px; 
+                                    gap: 9px;
                                  }
                             }
                             .mat-expansion-indicator::after{
@@ -104,33 +128,21 @@
                             }
                         }
                         .mat-expansion-panel-header{
-                            padding: 18px 24px 11px 24px;
+                            padding: 5px 24px 15px 24px;
                             &:hover{
                                 background-color: #fff !important;
                             }
                         }
                         .mat-expansion-panel-header-title{
                             flex-grow: 4;
-                            font-family: 'Nunito Sans';
-                            span{
-                                color: #DF0404;
-                                background-color: #F2F2F2;
-                            }
+                            font-family: 'Nunito Sans'; 
                         }
                         .mat-expansion-panel-header-description{
                             flex-grow: 6;
                             gap: 10px;
                             justify-content: end;
-                        }
-                        .profile--img--box{
-                            .img--box{
-                                width: 80px;
-                                height: 80px;
-                                border-radius: 100%;
-                                overflow: hidden;
-                                margin-right: 5px;
-                            }
-                        }
+                        } 
+                        
                     }
 
                     ::ng-deep{
@@ -358,13 +370,12 @@
             }
         }
         .max-width{width: 90%;}
-        .max-width-box{width: 85%; height: 30px;}
-        .max-width-box-c{width: 100%;}
+        .max-width-box{width: 85%; height: 30px;} 
         .input-group.prefix--field .input-group-prepend .input-group-text{
             border: 1px solid #CCC;
             background-color: #F5F6F9 !important;
             padding: 3px 10px;
-            height: 34px;
+            height: 30px;
         }
     }
     .mdc-button--outlined{
@@ -391,31 +402,40 @@
         margin-left: 0 !important; 
         padding-left: 0 !important;
         .appointment-information-header-wrapper .exp-class {
-            .profile--img--box{
-                gap: 10px;
-            }
+             
             .mat-expansion-panel-header{
                 height: auto;
+                align-items: flex-start;
                 ::ng-deep{
+                    .mat-expansion-indicator{
+                        margin-top: 9px;
+                    }
                     .mat-content{
                         flex-direction: column !important;
                         gap: 10px;
                     }
                 }
             }
-            .mat-expansion-panel-header-description{
-                flex-grow: 3;
-                flex-direction: column;
-                align-items: start !important;
-                gap: 10px;
+            .intake-btn,
+            .mat-primary{
+                font-size: 13px !important;
+                height: 30px;
+                width: 100% !important;
             }
-            // .mat-expansion-panel-header-description .intake-btn {
-            //     margin-right: 0px !important;
-            // }
+            .mat-expansion-panel-header-description{ 
+                align-items: start !important;
+                gap: 5px;
+                justify-content: flex-start !important;
+                flex-wrap: wrap; 
+            } 
             .mat-mdc-checkbox {
                 margin-left: -10px !important;
             }
         }
+    }
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .profile--img--box .img--box{
+        width: 50px;
+        height: 50px;
     }
     .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
         padding: 5px 5px 0px 0 !important;
@@ -441,10 +461,58 @@
     }
     .min-h{min-height: 0px !important;}
     .form-group{margin-bottom: 15px !important;}
-    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .exp-class ::ng-deep .mat-expansion-panel-body .last--col{
-        flex-direction: column !important;
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col{
+        width: 100%;
+        padding: 0;
+    }
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col .cust--w{
+        width: 93%;
+    }
+    .update--btn{
+        margin-bottom: 25px;
+    }
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col.primary--insu .updt--btn{
+        width: 30px !important;
+    }
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col.primary--insu{
+        width: 100% !important;
     }
 
+}
+@media only screen and (min-width: 1020px) and (max-width: 979px){
+    .cust--mat--table--wrapper{
+        overflow: auto;
+        .cust--mat--table{
+            width: 906px;
+        }
+    }
+    .app--details--wrapper.profile--right--wrapper .profile--right {
+        margin-left: 0 !important; 
+        padding-left: 0 !important;
+        .appointment-information-header-wrapper .exp-class {
+             
+            .mat-expansion-panel-header{
+                height: auto;
+                ::ng-deep{
+                    .mat-content{
+                        flex-direction: column !important;
+                        gap: 10px;
+                    }
+                }
+            }
+            .mat-expansion-panel-header-description{
+                flex-grow: 3;
+                flex-direction: column;
+                align-items: start !important;
+                gap: 10px;
+            } 
+            .mat-mdc-checkbox {
+                margin-left: -10px !important;
+            }
+        }
+    }
+    .min-h{min-height: 0px !important;}
+    .form-group{margin-bottom: 15px !important;}
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){
     .cust--mat--table--wrapper{
@@ -453,28 +521,99 @@
             width: 906px;
         }
     }
+    .app--details--wrapper.profile--right--wrapper .profile--right {
+        margin-left: 0 !important; 
+        padding-left: 0 !important;
+        .appointment-information-header-wrapper .exp-class {
+            
+            .mat-expansion-panel-header{
+                height: auto;
+                ::ng-deep{
+                    .mat-content{
+                        flex-direction: column !important;
+                        gap: 10px;
+                    }
+                }
+            }
+            .mat-expansion-panel-header-description{ 
+                flex-direction: row;  
+                flex-wrap: wrap;
+                justify-content: flex-start !important;
+            } 
+            .mat-mdc-checkbox {
+                margin-left: -10px !important;
+            }
+        }
+    }
     .min-h{min-height: 0px !important;}
     .form-group{margin-bottom: 15px !important;}
-    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .exp-class ::ng-deep .mat-expansion-panel-body .last--col{
-        flex-direction: column !important;
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col{
+        width: 37%;
+        padding: 0 25px 0 0;
     }
 }
+
+@media only screen and (min-width: 1024px) and (max-width: 1366px){
+    .cust--mat--table--wrapper{
+        overflow: auto;
+        .cust--mat--table{
+            width: 906px;
+        }
+    }
+    .app--details--wrapper.profile--right--wrapper .profile--right {
+        margin-left: 0 !important; 
+        padding-left: 0 !important;
+        .appointment-information-header-wrapper .exp-class {
+            
+            .mat-expansion-panel-header{
+                height: auto;
+                ::ng-deep{
+                    .mat-content{
+                        flex-direction: column !important;
+                        gap: 10px;
+                    }
+                }
+            }
+            .mat-expansion-panel-header-description{
+                flex-grow: 3; 
+                align-items: start !important; 
+                justify-content: flex-start !important;
+            } 
+            .mat-mdc-checkbox {
+                margin-left: -10px !important;
+            }
+        }
+    }
+    .min-h{min-height: 0px !important;}
+    .form-group{margin-bottom: 15px !important;}
+}
+
 @media only screen and (min-width: 980px) and (max-width: 1279px){
     .form-group{margin-bottom: 15px !important;}
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col{
+        width: 25%;
+        padding: 0 25px 0 0;
+    }
 }
 @media only screen and (min-width: 1280px) and (max-width: 1440px){
     .exp-class{ 
-        .mat-expansion-panel-header-title{ 
+        .mat-expansion-panel-header-title{
+            flex-grow: 3 !important;
             font-family: 'Nunito Sans';
         }  
         .max-width-box{width: 84% !important;} 
-    }      
+         
+    }   
+    .app--details--wrapper.profile--right--wrapper .card .profile--right .appointment-information-header-wrapper .profile--wrapper .ass--therapist--box .cust--col{
+        width: 18%;
+        padding: 0 10px;
+    }   
 }
 
-@media only screen and (min-width: 1441px) and (max-width: 1550px){
-    .max-width-box-c{width: 94% !important;} 
-    .max-width-box{width: 80% !important;} 
-}
+@media only screen and (min-width: 1441px) and (max-width: 1550px){ 
+    .max-width-box{width: 80% !important;}  
+} 
+
 @media screen and (orientation:landscape) and (max-width: 850px){
     .app--details--wrapper.profile--right--wrapper .profile--right .protocol--links li {
         padding: 5px 5px 0px 0 !important;
@@ -488,8 +627,10 @@
 .wb-ba-field{
     word-break: break-all;
     width: 250px;
+} 
+.reject-case-btn{
+    background-color: #DF0404;
 }
-
 .auth-text-danger{
     color: #DF0404 !important;
 }

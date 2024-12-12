@@ -14,17 +14,19 @@
                 <div class="profile--right d-flex flex-column w-100">
                     <div class="w-100 mb-0"> 
                         <mat-accordion class="appointment-information-header-wrapper">
-                            <mat-expansion-panel class="exp-class" expanded="true">
+                            <mat-expansion-panel class="exp-class" expanded="true"> 
+
                                 <mat-expansion-panel-header>
-                                    <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600" (click)="$event.stopPropagation();">
-                                        Basic Information
-                                        <div class="d-flex  flex-wrap ms-3">
-                                            <span class="font-14 fw-600 m-1 p-1" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">
+                                    <mat-panel-title class="text-primary clr--31B7B7 font-18 fw-600"
+                                        (click)="$event.stopPropagation();">
+                                        <label class="flex-shrink-0"> Basic Information </label> 
+                                        <div class="d-flex flex-wrap ms-3">
+                                            <span class="font-14 fw-600 m-1 badge" *ngIf="isBillingDetailsData && billingDetailsData?.inCollection=='Yes'">
                                                 This Case is in collections
                                             </span>
-                                            <span class="font-14 fw-600 m-1 p-1" *ngIf="appointmentData?.payVia == 'Selfpay' && isSelfPay">User Selected the Self Pay Option</span>
-                                        </div>
-                                        <!-- <span class="font-14 fw-600 ms-auto" *ngIf="appointmentData?.payVia == 'Insurance' && !isSelfPay">User Selected the Insurance Option</span> -->
+                                            <span class="font-14 fw-600 m-1 badge" *ngIf="appointmentData?.payVia == 'Selfpay' && isSelfPay">User Selected the Self Pay Option</span>
+                                            <span class="font-14 fw-400 m-1 badge" *ngIf="!appointmentData?.intakeFormSubmit">Patient hasn't filled in the intake form yet.</span>
+                                        </div> 
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
                                         <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile/',appointmentData?.patientId._id)">View Patient Profile</button>
@@ -33,53 +35,53 @@
                                         <button mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
                                             View Intake Form
                                         </button>
-                                    </mat-panel-description>                                   
+                                    </mat-panel-description> 
                                 </mat-expansion-panel-header>
-                                <span class="font-14 fw-400 ml-3 badge pull-right" *ngIf="!appointmentData?.intakeFormSubmit">Patient hasn't filled in the intake form yet.</span>
-                                <div class="col-12">    
-                                    <div class="col-12 mt-2">
-                                        <div class="d-flex flex-wrap justify-content-between align-items-baseline w-100">
-                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
-                                                <div class="w-100 mb-2">
-                                                    <div class="d-flex flex-row   align-items-center profile--img--box">
-                                                        <div class="img--box flex-shrink-0">
-                                                            <img src="{{profileImage}}" alt="profileImage" class="img-fluid" />
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <h3 class="mb-1 clr--1F2F3E font-18 fw-700">{{appointmentData?.patientId.firstName }} {{appointmentData?.patientId.lastName}}</h3>
-                                                            <div class="mb-1 mt-1 d-flex align-items-center">
-                                                                <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail </mat-icon>
-                                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">{{appointmentData?.patientId.email }}</p>
-                                                            </div>
-                                                            <div class="mb-1 d-flex align-items-center">
-                                                                <mat-icon class="material-symbols-outlined flex-shrink-0 text-primary me-2">call </mat-icon>
-                                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 {{appointmentData?.patientId.phoneNumber}}</p>
-                                                            </div>
-                                        
-                                                        </div>
+
+
+                                <div class="profile--wrapper d-flex flex-column w-100">
+                                    <div class="row w-100 gx-0">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mb-2">
+                                            <div class="d-flex flex-row  align-items-start profile--img--box">
+                                                    <div class="img--box flex-shrink-0">
+                                                        <img src="{{profileImage}}" alt=""
+                                                            class="img-fluid" />
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
-                                                <p class="mb-1 clr--1F2F3E font-16 fw-400 ">{{appointmentData?.practiceLocation}}</p>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-2">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
-                                                <p class="mb-1 clr--1F2F3E font-16 fw-400"> {{patientCheckInCount}} </p>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
-                                                <p class="mb-1 clr--1F2F3E font-16 wb-bafield fw-400">Preferred: {{appointmentData?.appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC'  }} {{appointmentData?.appointmentEndTime ? '-' : ''}} {{appointmentData?.appointmentEndTime | date:'hh:mm a':'UTC'}}</p>
-                                                <p class="mb-1 clr--1F2F3E font-16 fw-400 ">Final: Please Schedule</p>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-1">
-                                                <button mat-stroked-button color="primary" class="mt-3" (click)="navigateToShedular()">
-                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 " > calendar_today </mat-icon>  Schedule</button>
+                                                    <div class="d-flex flex-column">
+                                                        <h3 class="mb-0 clr--1F2F3E font-18 fw-700">{{appointmentData?.patientId.firstName }} {{appointmentData?.patientId.lastName}}</h3>
+                                                        <div class="mb-0 mt-1 d-flex align-items-start">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined flex-shrink-0 text-primary me-2">mail
+                                                            </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">{{appointmentData?.patientId.email }}</p>
+                                                        </div>
+                                                        <div class="mb-0 d-flex align-items-start">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined flex-shrink-0 text-primary me-2">call
+                                                            </mat-icon>
+                                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 wb-ba">+1 {{appointmentData?.patientId.phoneNumber}}</p>
+                                                        </div> 
+                                                    </div>
                                             </div>
                                         </div>
+                                        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Practice Location</h3>
+                                            <p class="mb-1 clr--1F2F3E  font-16 fw-400 ">{{appointmentData?.practiceLocation}}</p>
+                                        </div>
+                                        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-2 mb-2 ">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Visit Number</h3>
+                                            <p class="mb-1 clr--1F2F3E  font-16 fw-400">{{patientCheckInCount}}</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-3 col-lg-6 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Appointment Date and Time</h3>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 ">Preferred: {{appointmentData?.appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC'  }} {{appointmentData?.appointmentEndTime ? '-' : ''}} {{appointmentData?.appointmentEndTime | date:'hh:mm a':'UTC'}}</p>
+                                            <p class="mb-1 clr--1F2F3E font-16 fw-400 ">Final: Please Schedule</p>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-md-3 col-lg-6 col-xl-2 mb-4 d-flex justify-content-end">
+                                            <button mat-stroked-button color="primary" class="scedule--btn"  (click)="navigateToShedular()">
+                                                <mat-icon class="material-symbols-outlined flex-shrink-0 me-1 "> calendar_today </mat-icon> Schedule</button>
+                                        </div>
                                     </div>
-                                    
                                     <div class="row w-100 gx-0">
                                         <div class="col-12 col-sm-6 col-lg-4 col-xl-2 mb-2">
                                             <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Payment Mode</h3>
@@ -94,170 +96,119 @@
                                             <mat-checkbox class=" " [(ngModel)]="isPatientCheckedIn" (change)="patientCheckIn($event)">Patient Checked-in</mat-checkbox>
                                         </div>
                                     </div>
-                                
-                                    <div class="col-12 mt-2">
-                                        <div class="d-flex flex-row flex-wrap">
-                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 ">{{ appointmentData && appointmentData?.doctorId ? appointmentData?.doctorId?.name : 'NA'}}</p>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-2 mb-2">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3>
-                                                <!-- <p class="mb-0 clr--1F2F3E font-16 fw-400 ">12/1/24 - 12/10/2024</p> -->
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 {{isPOCExpire?'auth-text-danger':''}}">
-                                                    <span *ngIf="hasInitialExamPlanData"> {{initialExamPlanData.plan_start_date | date: 'MM/dd/yyyy'}} - {{initialExamPlanData.plan_end_date | date: 'MM/dd/yyyy'}} </span>
-                                                    <span *ngIf="!hasInitialExamPlanData"> NA </span>
-                                                </p>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-3 mb-2">
-                                                <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
-                                                <!-- <p class="mb-0 clr--1F2F3E font-16 fw-400 ">1 of 12 visits, expires 12/1/24</p> -->
-                                                <p class="mb-1 font-16 fw-600" *ngIf="!isAuthManagmentHistory">NA</p>
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400" *ngIf="isAuthManagmentHistory && authManagementHistory?.authorizationRequired=='No'">No Authorization</p>
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 {{isAuthDateExpire?'auth-text-danger':''}}" *ngIf="isAuthManagmentHistory && authManagementHistory?.authorizationRequired=='Yes'">{{isBillingDetailsData? +patientCheckInCount +' of '+ authVisits+' visits, expires '+authExpireDate :'NA'}}</p>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-lg-4 col-xl-5 mb-2">
-                                                <div class="form-group d-flex align-items-center">
-                                                    <label class="col-form-label fw-700 font-16 p-0 me-3 label--width flex-shrink-0">Hard Cap/ Soft Cap</label>
-                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder="" value="{{billingDetailsData?.PI_hardSoftCapText}}" disabled/>
-                                                </div>
+                                    <div class="row w-100 gx-0">
+                                        <div class="col-6 col-sm-6 col-lg-4 col-xl-2 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Referred By</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400">{{ appointmentData && appointmentData?.doctorId ? appointmentData?.doctorId?.name : 'NA'}}</p>
+                                        </div>
+                                        <div class="col-6 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">POC Dates</h3> 
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 {{isPOCExpire?'auth-text-danger':''}}">
+                                                <span *ngIf="hasInitialExamPlanData"> {{initialExamPlanData.plan_start_date | date: 'MM/dd/yyyy'}} - {{initialExamPlanData.plan_end_date | date: 'MM/dd/yyyy'}} </span>
+                                                <span *ngIf="!hasInitialExamPlanData"> NA </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                                            <h3 class="mb-1 clr--1F2F3E font-16 fw-700">Authorization</h3>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400" *ngIf="!isAuthManagmentHistory">NA</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400" *ngIf="isAuthManagmentHistory && authManagementHistory?.authorizationRequired=='No'">No Authorization</p>
+                                            <p class="mb-0 clr--1F2F3E font-16 fw-400 {{isAuthDateExpire?'auth-text-danger':''}}" *ngIf="isAuthManagmentHistory && authManagementHistory?.authorizationRequired=='Yes'">{{isBillingDetailsData? +patientCheckInCount +' of '+ authVisits+' visits, expires '+authExpireDate :'NA'}}</p>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-4 mb-2">
+                                            <div class="form-group d-flex align-items-center">
+                                                <label
+                                                    class="col-form-label fw-700 font-16 p-0 me-3 label--width flex-shrink-0">Hard
+                                                    Cap/ Soft Cap</label>
+                                                <input  class="form-control form-control-md max-width-box" type="text" disabled
+                                                    placeholder=" " value="{{billingDetailsData?.PI_hardSoftCapText}}" />
                                             </div>
                                         </div>
                                     </div>
-    
-                                <form class="row" [formGroup]="stCaseDetailsForm">  
-                                    <div class="col-12 mt-2">
-                                        <div class="d-flex flex-row flex-wrap last--col">
-                                            <div class="col mb-2 form-group"> 
-                                                <div class="select-info">
-                                                    <label class="col-form-label fw-600">Assign Therapist <span class="clr--DF0404 ms-1"> * </span></label>
-                                                    <select class="form-select form-control" aria-label="Default select example" [(ngModel)]="selectedTherapistId" formControlName="therapistId">
-                                                        <!-- <option selected>Select Therapist</option> 
-                                                        <option value="1">Elizabeth</option>
-                                                        <option value="2">Elizabeth 2</option>  -->
-                                                        <option value="" selected>Select Therapist</option>
-                                                        <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
-                                                    </select>
-                                                    <div class="text text-danger mt-1" *ngIf="stCaseDetailsForm.controls['therapistId'].touched && stCaseDetailsForm.controls['therapistId'].hasError('required')">
-                                                        {{ validationMessages.required('Therapist') }}
+                                    <form class="ass--therapist--box w-100 d-flex align-items-center flex-wrap" [formGroup]="stCaseDetailsForm">
+                                        <div class="cust--col">
+                                            <div class="form-group  ">
+                                                <label class="col-form-label fw-600">Assign Therapist <span
+                                                        class="clr--DF0404 ms-1"> * </span></label> 
+                                                <select class="form-select form-control form-control-md cust--w" aria-label="Default select example" [(ngModel)]="selectedTherapistId" formControlName="therapistId">
+                                                    <option value="" selected>Select Therapist</option>
+                                                    <option *ngFor="let therapist of therapistList" [value]="therapist.id">{{ therapist.name }}</option>
+                                                </select>
+                                                <div class="text text-danger mt-1" *ngIf="stCaseDetailsForm.controls['therapistId'].touched && stCaseDetailsForm.controls['therapistId'].hasError('required')">
+                                                    {{ validationMessages.required('Therapist') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cust--col">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">Case Name <span
+                                                        class="clr--DF0404 ms-1"> * </span></label>
+                                                <input class="form-control form-control-md cust--w" type="text"
+                                                 placeholder="Search Case Name" value="{{appointmentData?.caseName}}"  disabled/>
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                            </div>
+                                        </div>
+                                        <div class="cust--col">
+                                            <div class="form-group doctor-filed">
+                                                <label class="col-form-label fw-600">Return to Doctor </label> 
+                                                <mat-form-field class="w-100 am--datepicker" appearance="outline">
+                                                    <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()" [min]="appointmentData?.appointmentDate" formControlName="returnToDoctor">
+                                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                                </mat-form-field>
+                                                <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
+                                            </div>
+                                        </div>
+                                        <div class="cust--col">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">Copay Amount</label>
+                                                <div class="input-group prefix--field max-width-box-c">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">$</span>
                                                     </div>
+                                                    <input type="text" class="form-control form-control-md" value="{{isBillingDetailsData && billingDetailsData?.PI_copayAmt? billingDetailsData?.PI_copayAmt:'NA'}}"  disabled>
                                                 </div>
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div>
-                                            <div class="col  mb-2  ">
-                                                <div class="form-group">
-                                                    <label class="col-form-label fw-600">Case Name</label>
-                                                    <input class="form-control form-control-md max-width-box" type="text" placeholder="Search Case Name" value="{{appointmentData?.caseName}}"  disabled/>
-                                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
+                                        </div>
+                                        <div class="cust--col">
+                                            <div class="form-group">
+                                                <label class="col-form-label fw-600">High Deductibles</label>
+                                                <div class="input-group prefix--field max-width-box-c">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-md" value="{{isBillingDetailsData && billingDetailsData?.PI_highDeductible ? billingDetailsData?.PI_highDeductible :'NA'}}" disabled>
                                                 </div>
+                                                <!-- <div class="text text-danger mt-1">Error here</div> -->
                                             </div>
-
-                                            <div class="col  mb-2 form-group">
-                                                <div class="doctor-filed">
-                                                    <label class="col-form-label fw-600">Return to Doctor </label>                                                   
-                                                    <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                                                        <input matInput [matDatepicker]="picker" placeholder="From Date" (focus)="picker.open()" [min]="appointmentData?.appointmentDate" formControlName="returnToDoctor">
-                                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                                        <mat-datepicker #picker></mat-datepicker>
-                                                    </mat-form-field>
-                                                    <!-- <div class="text text-danger mt-1"> Middle Last required</div> -->
-                                                </div>
-                                            </div>                         
-
-                                           
-                                            <div class="col  mb-2">
-                                                <div class="form-group">
-                                                    <label class="col-form-label fw-600">Copay Amount</label>
-                                                    <div class="input-group prefix--field max-width-box-c">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">$</span>
-                                                        </div>
-                                                        <input type="text" class="form-control form-control-md"value="{{isBillingDetailsData && billingDetailsData?.PI_copayAmt? billingDetailsData?.PI_copayAmt:'NA'}}"  disabled>
-                                                    </div>  
-                                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                                </div>
-                                            </div>
- 
-
-                                            <div class="col mb-2">
-                                                <div class="form-group"> 
-                                                    <label class="col-form-label fw-600">High Deductibles</label>
-                                                    <div class="input-group prefix--field max-width-box-c">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">$</span>
-                                                        </div>
-                                                        <input type="text" class="form-control form-control-md" value="{{isBillingDetailsData && billingDetailsData?.PI_highDeductible ? billingDetailsData?.PI_highDeductible :'NA'}}" disabled>
-                                                    </div>  
-                                                    <!-- <div class="text text-danger mt-1">Error here</div> -->
-                                                </div> 
-                                            </div>
- 
-
-                                            <div class="col mb-2">
-                                                <div class="form-group select-info">
-                                                    <label class="col-form-label fw-600">Primary Insurance</label>
-                                                     <div class="d-flex w-100 position-relative">
-                                                        <input class="form-control form-control-md cust--w" type="text" placeholder="Primary Insurance"  formControlName="primaryInsurance"/>
-                                                      
-                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12  mb-2">
-                                                <div class="form-group d-flex justify-content-end"> 
-                                                    <button mat-raised-button color="primary" class=" " (click)="selectInsuranceModal()" [disabled]="!appointmentData?.intakeFormSubmit">
+                                        </div>
+                                        <div class="cust--col  primary--insu">
+                                            <div class="form-group select-info">
+                                                <label class="col-form-label fw-600">Primary Insurance</label>
+                                                 <div class="d-flex w-100 position-relative"> 
+                                                    <input class="form-control form-control-md cust--w" type="text" placeholder="Primary Insurance"  formControlName="primaryInsurance"/>
+                                                    <button mat-raised-button color="primary" class="updt--btn" (click)="selectInsuranceModal()">
                                                         Update
                                                     </button>
-                                                    <button mat-stroked-button color="primary" class="me-3 ms-2" [disabled]="!stCaseDetailsForm.valid" (click)="saveStCaseDetails()" [disabled]="!appointmentData?.intakeFormSubmit">
-                                                        Save
-                                                    </button>
-                                                </div> 
+                                                 </div>
                                             </div>
-                                           
-
-
-                                        </div>
-                                    </div>
-                                 </form>   
-
-                                    <!-- <div class="col-12 mt-1 mb-3">
-                                        <div class="d-flex align-items-center justify-content-end w-100 footer--btns"> 
-                                           <button mat-raised-button color="primary" >
+                                        </div> 
+                                        <div class="form-group d-flex justify-content-end w-100"> 
+                                            <button mat-raised-button color="primary" class="ms-auto update--btn" (click)="selectInsuranceModal()" [disabled]="!appointmentData?.intakeFormSubmit">
+                                                Update
+                                            </button>
+                                            <button mat-stroked-button color="primary" class=" ms-2" [disabled]="!stCaseDetailsForm.valid" (click)="saveStCaseDetails()" [disabled]="!appointmentData?.intakeFormSubmit">
                                                 Save
-                                            </button> 
-                                        </div>
-                                    </div> -->
-    
-                                </div>
+                                            </button>
+                                        </div> 
+                                    </form>
+                                </div> 
                             </mat-expansion-panel>
                         </mat-accordion>
                     </div>
                 </div>
-            </div>
-
-            <!-- <div class="card-body d-flex flex-column flex-sm-row" >  
-                <div class=" d-flex flex-column w-100 share-point-wrapper">
-                    <div class="w-100 mb-0 exp-class"> 
-                                <div class="col-12">  
-                                    <div class="col-12">
-                                        <div class="d-flex flex-row flex-wrap align-items-baseline mt-3" *ngIf="!showShare"> 
-                                                 <p class="mb-0 clr--1F2F3E font-16 fw-400 me-3">Share Case Details with Billing Team</p>
-                                                 <button mat-raised-button color="primary" class="m-1 " (click)="shareModal()"  >
-                                                    Share
-                                                </button> 
-                                        </div>
-
-                                            <div class="d-flex flex-row flex-wrap   mt-3"  *ngIf="showShare"> 
-                                                <img class="green-icon" src="assets/images/ark/green-check-icon.svg" alt="" width="20px">
-                                                <p class="mb-0 clr--1F2F3E font-16 fw-400 me-3 mt-2">Details are shared with Billing Team </p> 
-                                                 </div>
-
-
-                                    </div> 
-                                </div> 
-                    </div>
-                </div>
-            </div> -->
-
+            </div> 
+            
             <div class="card-body mt-2">
                 <div class="row">
                     <div class="col-12">
