@@ -441,17 +441,43 @@ const submitObjective = async (req, res) => {
 
 const submitObjectiveExercise = async (req, res) => {
   try {
-    const { data, query, exerciseType, userId, type } = req.body;
+    const { data, query, exerciseType,addendumId, userId, type } = req.body;
     let objective_exercise_data = await ObjectiveModel.findOne(query);
 
     let message = '';
     if (objective_exercise_data) {
-      if (exerciseType == 'Land Flowsheet') {
-        objective_exercise_data.land_exercise.push(data);
-      } else if (exerciseType == 'Aquatic Flowsheet') {
-        objective_exercise_data.aquatic_exercise.push(data);
+      if(addendumId!=undefined){
+        const filterPlan = { appointmentId: new ObjectId(query.appointmentId),soap_note_type:query.soap_note_type };
+        let objData = await ObjectiveModel.findOne(filterPlan, { addendums: 1})
+        objData = objData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
+      
+        if (exerciseType == 'Land Flowsheet') {
+          objData[0].land_exercise.push(data);
+        } else if (exerciseType == 'Aquatic Flowsheet') {
+          objData[0].aquatic_exercise.push(data);
+        }
+        // objData.land_exercise = objData[0].land_exercise;
+        // objData.aquatic_exercise = objData[0].aquatic_exercise;
+        // objData.version = objData[0].version;
+        // objData.is_disabled = objData[0].is_disabled;
+        // objData.createUser = objData[0].createUser;
+        // objData.status = objData[0].status;
+        // objData.createdBy = objData[0].createdBy;
+        // objData.addendumId = objData[0].addendumId;
+        filterPlan["addendums.addendumId"] = new ObjectId(addendumId)
+        const update = {
+          $set: {"addendums.$": objData[0]}
+        };
+       await ObjectiveModel.updateOne(filterPlan, update);
+      }else{
+        if (exerciseType == 'Land Flowsheet') {
+          objective_exercise_data.land_exercise.push(data);
+        } else if (exerciseType == 'Aquatic Flowsheet') {
+          objective_exercise_data.aquatic_exercise.push(data);
+        }
+        await ObjectiveModel.findOneAndUpdate(query, objective_exercise_data);
       }
-      await ObjectiveModel.findOneAndUpdate(query, objective_exercise_data);
+   
       message = soapMessage.upadteExercise;
     } else {
       let insert_data = {
@@ -466,7 +492,6 @@ const submitObjectiveExercise = async (req, res) => {
         Object.assign(insert_data, { aquatic_exercise: data })
       }
 
-      //console.log(' ***************** ',insert_data)
       await ObjectiveModel.create(insert_data)
       message = soapMessage.addExercise;
     }
