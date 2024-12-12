@@ -353,8 +353,12 @@ export class DnObjectiveComponent {
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
-            setTimeout(() => {
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/assessment/"+this.appointmentId, "_self");
+            setTimeout(() => {              
+              if(this.addendumId && this.addendumId!=undefined){
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/assessment/"+this.appointmentId+'/'+this.addendumId, "_self");
+              }else{
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/assessment/"+this.appointmentId, "_self");
+              }
             }, 2000)
           }        
         })

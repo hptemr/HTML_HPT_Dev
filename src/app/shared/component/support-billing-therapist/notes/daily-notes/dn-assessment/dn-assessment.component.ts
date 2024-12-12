@@ -107,7 +107,11 @@ export class DnAssessmentComponent {
         this.getAssessment()
         if(status=='SUCCESS'){
           setTimeout(() => {
-           window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/plan/"+this.appointmentId, "_self");
+            if(this.addendumId && this.addendumId!=undefined){
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/plan/"+this.appointmentId+'/'+this.addendumId, "_self");
+            }else{
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/plan/"+this.appointmentId, "_self");
+            }
           }, 2000)
          }
       })

@@ -278,7 +278,6 @@ export class AppointmentDetailsComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('result>>>',result)
       if(result=='SUCCESS'){
         this.getAppointmentNotes()
       }

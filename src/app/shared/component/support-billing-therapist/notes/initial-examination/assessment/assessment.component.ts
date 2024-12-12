@@ -153,7 +153,11 @@ export class AssessmentComponent {
         }
         this.commonService.openSnackBar(response.message, status);
         setTimeout(() => {
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
+          if(this.addendumId && this.addendumId!=undefined){
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId+'/'+this.addendumId, "_self");
+          }else{
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/plan/"+this.appointmentId, "_self");
+          }
         }, 2000)
         this.getAssessment()
       })

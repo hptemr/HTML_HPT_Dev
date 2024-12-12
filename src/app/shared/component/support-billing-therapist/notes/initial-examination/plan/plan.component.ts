@@ -171,7 +171,11 @@ export class PlanComponent {
         this.submitted = false
         if(response.message)this.commonService.openSnackBar(response.message, "SUCCESS")
         setTimeout(() => {
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+          if(this.addendumId && this.addendumId!=undefined){
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId+'/'+this.addendumId, "_self");
+          }else{
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+          }
         }, 2000)
       })
     }else{
@@ -179,7 +183,11 @@ export class PlanComponent {
         this.submitted = false
         if(response.message)this.commonService.openSnackBar(response.message, "SUCCESS")
           setTimeout(() => {
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+            if(this.addendumId && this.addendumId!=undefined){
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId+'/'+this.addendumId, "_self");
+            }else{
+              window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+            }
           }, 2000)
       })
     }
