@@ -194,7 +194,8 @@ export class BillingDetailsComponent {
     let billingDetailsObj:any = {
       billingDetails : this.billingDetailsForm.value,
       patientId : this.patientId,
-      caseName : this.caseName
+      caseName : this.caseName,
+      adminPayViaInsuranceInfo : this.adminPayViaInsuranceInfo
     }
    
     this.authService.apiRequest('post', 'appointment/addBillingDetails', billingDetailsObj).subscribe(async response => {  
