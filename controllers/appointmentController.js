@@ -239,6 +239,7 @@ const createAppointment = async (req, res) => {
                 let newCaseRecord = new Case(caseData)
                 caseFound = await newCaseRecord.save();
                 caseId = caseFound._id;
+
                 //Create patient on tebra when first appoitnment of Patient accepted by Support Team
                 // const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
                 // const providerData = await Provider.findOne({ _id: data.doctorId },{ name: 1 }).lean();
@@ -255,10 +256,10 @@ const createAppointment = async (req, res) => {
                 //     }
                 // }
                 // New case create on Tebra for existing Patient
-                // if(patientType == 'Existing' && patientRes!=null && patientRes?.patientOnTebra){
-                //     const patientRes = await Patient.findOne({ _id: data.patientId }).lean();        
-                //     tebraController.createCase(patientRes, caseName, caseFound._id, providerData)
-                // }
+                if(patientType == 'Existing' && patientRes!=null && patientRes?.patientOnTebra){
+                    const patientRes = await Patient.findOne({ _id: data.patientId }).lean();        
+                    tebraController.createCase(patientRes, caseName, caseFound._id, providerData)
+                }
             } else if (caseType == '') {
                 caseType = caseFound.caseType ? caseFound.caseType : ''
             }
