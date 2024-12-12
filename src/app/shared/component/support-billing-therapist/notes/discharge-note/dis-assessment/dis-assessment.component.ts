@@ -138,11 +138,11 @@ export class DisAssessmentComponent {
         this.getAssessment()
         setTimeout(() => {
           if(this.addendumId && this.addendumId!=undefined){
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/plan/"+this.appointmentId+'/'+this.addendumId, "_self");
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/discharge-notes/plan/'+this.appointmentId+'/'+this.addendumId]);
           }else{
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/plan/"+this.appointmentId, "_self");
-          }
-        }, 2000)
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/discharge-notes/plan/'+this.appointmentId]);
+          } 
+        }, 1000)
       })
     }
   }

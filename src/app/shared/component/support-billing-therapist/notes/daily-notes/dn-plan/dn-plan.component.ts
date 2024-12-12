@@ -84,15 +84,23 @@ export class DnPlanComponent {
       this.authService.apiRequest('post', 'soapNote/createPlanNote', planPlans).subscribe(async response => {
         this.commonService.openSnackBar(response.message, "SUCCESS")
         setTimeout(() => {
-         window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
-        }, 2000)
+          if(this.addendumId && this.addendumId!=undefined){
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/daily-notes/billing/'+this.appointmentId+'/'+this.addendumId]);
+          }else{
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/daily-notes/billing/'+this.appointmentId]);
+          } 
+        }, 1000)
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', planPlans).subscribe(async response => {
         this.commonService.openSnackBar(response.message, "SUCCESS")
         setTimeout(() => {
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/billing/"+this.appointmentId, "_self");
-        }, 2000)
+          if(this.addendumId && this.addendumId!=undefined){
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/daily-notes/billing/'+this.appointmentId+'/'+this.addendumId]);
+          }else{
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/daily-notes/billing/'+this.appointmentId]);
+          } 
+        }, 1000)
       })
     }
   }

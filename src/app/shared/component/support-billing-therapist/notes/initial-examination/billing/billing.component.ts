@@ -497,13 +497,11 @@ export class BillingComponent {
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
             this.draftFlag = false;
-            //window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
           })
         }else{
           this.authService.apiRequest('post', 'soapNote/updateBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
             this.draftFlag = false;
-            //window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
           })
         }
       }
@@ -536,7 +534,7 @@ export class BillingComponent {
                   this.commonService.openSnackBar(response.message, "ERROR");
                 }else{
                   this.commonService.openSnackBar(response.message, "SUCCESS")
-                  window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+                  this.router.navigate([this.commonService.getLoggedInRoute()+'/case-details/'+this.appointmentId]);
                 }
               })
             }

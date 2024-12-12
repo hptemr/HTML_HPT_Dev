@@ -1250,10 +1250,10 @@ export class DisObjectiveComponent implements OnInit {
             this.commonService.openSnackBar(response.message,"SUCCESS");
             setTimeout(() => {
               if(this.addendumId && this.addendumId!=undefined){
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/assessment/"+this.appointmentId+'/'+this.addendumId, "_self");
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/discharge-notes/assessment/'+this.appointmentId+'/'+this.addendumId]);
               }else{
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/assessment/"+this.appointmentId, "_self");
-              }
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/discharge-notes/assessment/'+this.appointmentId]);
+              } 
             }, 2000)
           }        
         })

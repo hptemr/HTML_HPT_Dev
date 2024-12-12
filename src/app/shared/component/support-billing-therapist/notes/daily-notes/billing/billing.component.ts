@@ -523,7 +523,7 @@ export class DailyNoteBillingComponent {
                     this.commonService.openSnackBar(response.message, "ERROR");
                   }else{
                     this.commonService.openSnackBar(response.message, "SUCCESS")
-                    window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+                    this.router.navigate([this.commonService.getLoggedInRoute()+'/case-details/'+this.appointmentId]);                   
                   }
                 })
               }

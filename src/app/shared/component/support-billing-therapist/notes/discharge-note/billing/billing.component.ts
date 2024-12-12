@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { MatDialog, MatDialogRef  } from '@angular/material/dialog';
@@ -96,7 +96,7 @@ export class DischargeNoteBillingComponent {
   billingType = "CMS"
   isHold = false
   draftFlag:boolean = true
-  constructor(private route: ActivatedRoute,public authService: AuthService, public dialog: MatDialog, public commonService: CommonService) {
+  constructor(private route: ActivatedRoute,private router: Router, public authService: AuthService, public dialog: MatDialog, public commonService: CommonService) {
     this.appointmentId = this.route.snapshot.params['appointmentId'];
     this.userId = this.authService.getLoggedInInfo('_id')
   }
@@ -465,13 +465,11 @@ export class DischargeNoteBillingComponent {
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
             this.draftFlag = false
-            //window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/billing/"+this.appointmentId, "_self");
           })
         }else{
           this.authService.apiRequest('post', 'soapNote/updateBillingNote', inputParams).subscribe(async response => {
             this.commonService.openSnackBar(response.message, "SUCCESS")
             this.draftFlag = false
-            //window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/billing/"+this.appointmentId, "_self");
           })
         }
       }
@@ -503,7 +501,7 @@ export class DischargeNoteBillingComponent {
                   this.commonService.openSnackBar(response.message, "ERROR");
                 }else{
                   this.commonService.openSnackBar(response.message, "SUCCESS")
-                  window.open(`${this.commonService.getLoggedInRoute()}`+"/case-details/"+this.appointmentId, "_self");
+                  this.router.navigate([this.commonService.getLoggedInRoute()+'/case-details/'+this.appointmentId]);                  
                 }
               })
             }

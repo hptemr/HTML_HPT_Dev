@@ -1266,13 +1266,13 @@ export class ObjectiveComponent {
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
-            setTimeout(() => {
+            setTimeout(() => {                 
               if(this.addendumId && this.addendumId!=undefined){
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/assessment/"+this.appointmentId+'/'+this.addendumId, "_self");
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/assessment/'+this.appointmentId+'/'+this.addendumId]);
               }else{
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/assessment/"+this.appointmentId, "_self");
-              }
-            }, 2000)
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/assessment/'+this.appointmentId]);
+              } 
+            }, 1000)
           }        
         })
       }

@@ -1254,11 +1254,11 @@ console.log('>>>>',this.objectiveForm)
             this.commonService.openSnackBar(response.message,"SUCCESS");
             setTimeout(() => {
               if(this.addendumId && this.addendumId!=undefined){
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/assessment/"+this.appointmentId+'/'+this.addendumId, "_self");
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/progress-notes/assessment/'+this.appointmentId+'/'+this.addendumId]);
               }else{
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/assessment/"+this.appointmentId, "_self");
-              }
-            }, 2000)
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/progress-notes/assessment/'+this.appointmentId]);
+              } 
+            }, 1000)
           }        
         })
       }

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
 @Component({
   selector: 'app-pn-plan', 
   templateUrl: './pn-plan.component.html',
@@ -56,8 +55,12 @@ export class PnPlanComponent {
   submitted = false
   minDate = new Date();
   caseType:string=''
+  addendumId:string=''
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
-    this.appointmentId = this.route.snapshot.params['appointmentId'];
+    this.route.params.subscribe((params: Params) => {
+      this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];     
+    })
     this.userId = this.authService.getLoggedInInfo('_id')
   }
 
@@ -150,17 +153,24 @@ export class PnPlanComponent {
         this.submitted = false
         this.commonService.openSnackBar(response.message, "SUCCESS")
         setTimeout(() => {
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
-        }, 2000)
+          if(this.addendumId && this.addendumId!=undefined){
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/progress-notes/billing/'+this.appointmentId+'/'+this.addendumId]);
+          }else{
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/progress-notes/billing/'+this.appointmentId]);
+          } 
+        }, 1000)
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', this.planNoteForm.value).subscribe(async response => {
         this.submitted = false
-        this.commonService.openSnackBar(response.message, "SUCCESS")
-        
+        this.commonService.openSnackBar(response.message, "SUCCESS")        
         setTimeout(() => {
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/billing/"+this.appointmentId, "_self");
-        }, 2000)
+          if(this.addendumId && this.addendumId!=undefined){
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/progress-notes/billing/'+this.appointmentId+'/'+this.addendumId]);
+          }else{
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/progress-notes/billing/'+this.appointmentId]);
+          } 
+        }, 1000)
       })
     }
   }

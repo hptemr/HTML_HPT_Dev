@@ -172,11 +172,11 @@ export class PlanComponent {
         if(response.message)this.commonService.openSnackBar(response.message, "SUCCESS")
         setTimeout(() => {
           if(this.addendumId && this.addendumId!=undefined){
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId+'/'+this.addendumId, "_self");
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/billing/'+this.appointmentId+'/'+this.addendumId]);
           }else{
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
+            this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/billing/'+this.appointmentId]);
           }
-        }, 2000)
+        }, 1000)
       })
     }else{
       this.authService.apiRequest('post', 'soapNote/updatePlanNote', this.planNoteForm.value).subscribe(async response => {
@@ -184,11 +184,11 @@ export class PlanComponent {
         if(response.message)this.commonService.openSnackBar(response.message, "SUCCESS")
           setTimeout(() => {
             if(this.addendumId && this.addendumId!=undefined){
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId+'/'+this.addendumId, "_self");
+              this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/billing/'+this.appointmentId+'/'+this.addendumId]);
             }else{
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/billing/"+this.appointmentId, "_self");
-            }
-          }, 2000)
+              this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/billing/'+this.appointmentId]);
+            }                    
+          }, 1000)
       })
     }
   }

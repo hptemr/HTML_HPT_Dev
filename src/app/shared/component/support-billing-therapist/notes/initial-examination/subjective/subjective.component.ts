@@ -35,6 +35,7 @@ export class SubjectiveComponent implements OnInit {
   public userId: string;
   public userRole: string;
   selectedCode:any;
+  selectedICDCode: string | null = null;
   icdCodeList:any = [];
   public subjectiveForm: FormGroup;
   validationMessages = validationMessages; 
@@ -424,11 +425,11 @@ export class SubjectiveComponent implements OnInit {
             }
             setTimeout(() => {              
               if(this.addendumId && this.addendumId!=undefined){
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/objective/"+this.appointmentId+'/'+this.addendumId, "_self");
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/objective/'+this.appointmentId+'/'+this.addendumId]);
               }else{
-                window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/objective/"+this.appointmentId, "_self");
-              }
-            }, 2000)
+                this.router.navigate([this.commonService.getLoggedInRoute()+'/initial-examination/objective/'+this.appointmentId]);
+              } 
+            }, 1000)
           }
           this.commonService.hideLoader();
           setTimeout(() => {
@@ -443,20 +444,23 @@ export class SubjectiveComponent implements OnInit {
   }
 
   onCodeChange(event: any) {
-    let selectedData =  icd_data.filter(city => city.code === event.code);
-    if(selectedData[0]){
-      let item = {'code':selectedData[0].code,'name':selectedData[0].name};      
-      if(this.icdCodeList.length==0){
-        const ctrls = this.subjectiveForm.get('diagnosis_code') as FormArray;
-        ctrls.removeAt(0)  
-      }      
-      this.diagnosisCodeInfo.push(this.fb.group({
-        code: [selectedData[0].code, Validators.required],
-        name: [selectedData[0].name, Validators.required],
-      }));
-      this.icdCodeList.push(item);
-    }    
-    this.selectedCode = this.icdCodeList.length>0 ? true : false;
+    if(event && event.code){
+      let selectedData =  icd_data.filter(p => p.code === event.code);
+      if(selectedData[0]){
+        let item = {'code':selectedData[0].code,'name':selectedData[0].name};      
+        if(this.icdCodeList.length==0){
+          const ctrls = this.subjectiveForm.get('diagnosis_code') as FormArray;
+          ctrls.removeAt(0)  
+        }      
+        this.diagnosisCodeInfo.push(this.fb.group({
+          code: [selectedData[0].code, Validators.required],
+          name: [selectedData[0].name, Validators.required],
+        }));
+        this.icdCodeList.push(item);
+      }    
+      this.selectedCode = this.icdCodeList.length>0 ? true : false;
+      this.selectedICDCode = null; 
+    }
   }
 
   removeIcd(index:number) {

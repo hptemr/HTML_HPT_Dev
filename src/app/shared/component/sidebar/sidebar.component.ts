@@ -28,7 +28,7 @@ export class SidebarComponent {
           this.currentMainMenu = 'requests'
         }
         
-        if(this.currentMainMenu=='case-details' || this.currentMainMenu=='initial-examination' || this.currentMainMenu=='daily-notes' || this.currentMainMenu=='progress-notes' || this.currentMainMenu=='discharge-notes' || this.currentMainMenu=='intake-form'){
+        if(this.currentMainMenu=='case-details' || this.currentMainMenu=='create-appointment' || this.currentMainMenu=='initial-examination' || this.currentMainMenu=='daily-notes' || this.currentMainMenu=='progress-notes' || this.currentMainMenu=='discharge-notes' || this.currentMainMenu=='intake-form'){
            this.currentMainMenu = 'cases'
         }
         if(this.currentMainMenu=='file-preview'){

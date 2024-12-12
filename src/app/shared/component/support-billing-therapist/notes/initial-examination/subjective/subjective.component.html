@@ -27,9 +27,10 @@
                                 <!-- <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchTerm" (input)="onSearchTermChange()" >
                                 <button mat-button class="p-0 flex-shrink-0 min-width-unset search--fields">
                                     <mat-icon class="material-symbols-outlined flex-shrink-0">search </mat-icon>
-                                </button> -->
-                                <ng-select [attr.disabled]="readOnly" class="form-control" [items]="icd_data" bindLabel="name" bindValue="code"
-                                [searchable]="true" placeholder="Select a code" [clearable]="true" (change)="onCodeChange($event)" >
+                                </button>
+                                [(ngModel)]="selectedICDCode" -->
+                                <ng-select  [attr.disabled]="readOnly" class="form-control" [items]="icd_data" bindValue="code"  bindLabel="name" [searchable]="true" placeholder="Select a code"
+                                 [clearable]="true" (change)="onCodeChange($event)" >
                                         <ng-template ng-option-tmp let-item="item" *ngIf="!readOnly">
                                             <div>{{ item.code }} ({{ item.name }})</div>
                                         </ng-template>

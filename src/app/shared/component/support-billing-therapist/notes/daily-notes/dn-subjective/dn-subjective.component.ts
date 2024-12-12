@@ -155,13 +155,13 @@ export class DnSubjectiveComponent {
         }, 3000)
 
         if (status=='SUCCESS') {
-          setTimeout(() => {
-           if(this.addendumId && this.addendumId!=undefined){
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/objective/"+this.appointmentId+'/'+this.addendumId, "_self");
-           }else{
-            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/objective/"+this.appointmentId, "_self");
-           }
-          }, 2000)
+          setTimeout(() => {              
+            if(this.addendumId && this.addendumId!=undefined){
+              this.router.navigate([this.commonService.getLoggedInRoute()+'/daily-notes/objective/'+this.appointmentId+'/'+this.addendumId]);
+            }else{
+              this.router.navigate([this.commonService.getLoggedInRoute()+'/daily-notes/objective/'+this.appointmentId]);
+            } 
+          }, 1000)
         }
       })
     }
