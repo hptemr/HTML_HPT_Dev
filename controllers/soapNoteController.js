@@ -77,7 +77,7 @@ const getPlanNote = async (req, res) => {
       }
     }
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
-    if(req.body.addendumId!=undefined){
+    if(planData && req.body.addendumId!=undefined){
       planData = planData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString())[0];
     }
     // console.log('caseData>>>',caseData)
@@ -86,6 +86,7 @@ const getPlanNote = async (req, res) => {
     // let returnData = { caseData: caseData, planData: planData, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', planData,caseData);
   } catch (error) {
+    console.log('get Plan Note error>>>',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -289,12 +290,12 @@ const finalizeNote = async (req, res) => {
 
 const submitSubjective = async (req, res) => {
   try {
-    const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
+    const { data,subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
     let message = soapMessage.subjective
     let filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
     if (subjectiveId) {
-      filterPlan = { _id: new ObjectId(subjectiveId) };
       if(addendumId!=undefined){
+        filterPlan = { _id:new ObjectId(subjectiveId),appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
         subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
         data.version = subjData[0].version
@@ -313,6 +314,7 @@ const submitSubjective = async (req, res) => {
         await subjectiveTemp.updateOne(filterPlan, update);
         message = soapMessage.subjectiveUpdated;
       }else{
+        filterPlan = { _id:new ObjectId(subjectiveId),appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let optionsUpdatePlan = { returnOriginal: false };
         await subjectiveTemp.findOneAndUpdate(filterPlan, data, optionsUpdatePlan);
         message = soapMessage.subjectiveUpdated;
@@ -441,17 +443,43 @@ const submitObjective = async (req, res) => {
 
 const submitObjectiveExercise = async (req, res) => {
   try {
-    const { data, query, exerciseType, userId, type } = req.body;
+    const { data, query, exerciseType,addendumId, userId, type } = req.body;
     let objective_exercise_data = await ObjectiveModel.findOne(query);
 
     let message = '';
     if (objective_exercise_data) {
-      if (exerciseType == 'Land Flowsheet') {
-        objective_exercise_data.land_exercise.push(data);
-      } else if (exerciseType == 'Aquatic Flowsheet') {
-        objective_exercise_data.aquatic_exercise.push(data);
+      if(addendumId!=undefined){
+        const filterPlan = { appointmentId: new ObjectId(query.appointmentId),soap_note_type:query.soap_note_type };
+        let objData = await ObjectiveModel.findOne(filterPlan, { addendums: 1})
+        objData = objData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
+      
+        if (exerciseType == 'Land Flowsheet') {
+          objData[0].land_exercise.push(data);
+        } else if (exerciseType == 'Aquatic Flowsheet') {
+          objData[0].aquatic_exercise.push(data);
+        }
+        // objData.land_exercise = objData[0].land_exercise;
+        // objData.aquatic_exercise = objData[0].aquatic_exercise;
+        // objData.version = objData[0].version;
+        // objData.is_disabled = objData[0].is_disabled;
+        // objData.createUser = objData[0].createUser;
+        // objData.status = objData[0].status;
+        // objData.createdBy = objData[0].createdBy;
+        // objData.addendumId = objData[0].addendumId;
+        filterPlan["addendums.addendumId"] = new ObjectId(addendumId)
+        const update = {
+          $set: {"addendums.$": objData[0]}
+        };
+       await ObjectiveModel.updateOne(filterPlan, update);
+      }else{
+        if (exerciseType == 'Land Flowsheet') {
+          objective_exercise_data.land_exercise.push(data);
+        } else if (exerciseType == 'Aquatic Flowsheet') {
+          objective_exercise_data.aquatic_exercise.push(data);
+        }
+        await ObjectiveModel.findOneAndUpdate(query, objective_exercise_data);
       }
-      await ObjectiveModel.findOneAndUpdate(query, objective_exercise_data);
+   
       message = soapMessage.upadteExercise;
     } else {
       let insert_data = {
@@ -466,7 +494,6 @@ const submitObjectiveExercise = async (req, res) => {
         Object.assign(insert_data, { aquatic_exercise: data })
       }
 
-      //console.log(' ***************** ',insert_data)
       await ObjectiveModel.create(insert_data)
       message = soapMessage.addExercise;
     }
@@ -509,10 +536,10 @@ async function getPreviousSubjectiveData(queryMatch) {
 
 const getSubjectiveData = async (req, res) => {
   try {
-    const { query,soap_note_type } = req.body;
+    const { query,addendumId,soap_note_type } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
-
     let subjectiveData = await subjectiveTemp.findOne(query).sort({ createdAt: -1 });
+    
     if(!subjectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_query);
@@ -522,8 +549,10 @@ const getSubjectiveData = async (req, res) => {
           }      
       }
     }
-    if(query.addendumId!=undefined){
-      subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === query.addendumId.toLocaleString())[0];
+    if(addendumId!=undefined){
+      let _id = subjectiveData._id
+      subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString())[0];
+      subjectiveData._id = _id;
     }
     let appointmentDatesList = [];
     if(appointmentData){         
@@ -634,11 +663,14 @@ const submitAssessment = async (req, res) => {
 //get Assessment data for initial exam
 const getAssessment = async (req, res) => {
   try {
-    const { query, fields,params } = req.body;
+    const { query, fields, params } = req.body;
     let assessmentData = await AssessmentModel.findOne(query, fields);
-    if(params && params.addendumId && params.addendumId!=undefined){
+    if(assessmentData && params && params.addendumId && params.addendumId!=undefined){
+      let _id = assessmentData._id
       assessmentData = assessmentData.addendums.filter(task => task.addendumId.toLocaleString() === params.addendumId.toLocaleString())[0];
+      assessmentData._id = _id;
     }
+
     commonHelper.sendResponse(res, 'success', assessmentData, '');
   } catch (error) {
     console.log('getAssessment Error>>>>',error)
