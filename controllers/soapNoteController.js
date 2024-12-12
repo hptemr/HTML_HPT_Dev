@@ -77,7 +77,7 @@ const getPlanNote = async (req, res) => {
       }
     }
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
-    if(req.body.addendumId!=undefined){
+    if(planData && req.body.addendumId!=undefined){
       planData = planData.addendums.filter(task => task.addendumId.toLocaleString() === req.body.addendumId.toLocaleString())[0];
     }
     // console.log('caseData>>>',caseData)
@@ -86,6 +86,7 @@ const getPlanNote = async (req, res) => {
     // let returnData = { caseData: caseData, planData: planData, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', planData,caseData);
   } catch (error) {
+    console.log('get Plan Note error>>>',error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -289,12 +290,12 @@ const finalizeNote = async (req, res) => {
 
 const submitSubjective = async (req, res) => {
   try {
-    const { data, subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
+    const { data,subjectiveId,addendumId,appointmentId,soap_note_type } = req.body;
     let message = soapMessage.subjective
     let filterPlan = { appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
     if (subjectiveId) {
-      filterPlan = { _id: new ObjectId(subjectiveId) };
       if(addendumId!=undefined){
+        filterPlan = { _id:new ObjectId(subjectiveId),appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
         subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
         data.version = subjData[0].version
@@ -313,6 +314,7 @@ const submitSubjective = async (req, res) => {
         await subjectiveTemp.updateOne(filterPlan, update);
         message = soapMessage.subjectiveUpdated;
       }else{
+        filterPlan = { _id:new ObjectId(subjectiveId),appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let optionsUpdatePlan = { returnOriginal: false };
         await subjectiveTemp.findOneAndUpdate(filterPlan, data, optionsUpdatePlan);
         message = soapMessage.subjectiveUpdated;
@@ -534,10 +536,10 @@ async function getPreviousSubjectiveData(queryMatch) {
 
 const getSubjectiveData = async (req, res) => {
   try {
-    const { query,soap_note_type } = req.body;
+    const { query,addendumId,soap_note_type } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1 })
-
     let subjectiveData = await subjectiveTemp.findOne(query).sort({ createdAt: -1 });
+    
     if(!subjectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_query);
@@ -547,8 +549,10 @@ const getSubjectiveData = async (req, res) => {
           }      
       }
     }
-    if(query.addendumId!=undefined){
-      subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === query.addendumId.toLocaleString())[0];
+    if(addendumId!=undefined){
+      let _id = subjectiveData._id
+      subjectiveData = subjectiveData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString())[0];
+      subjectiveData._id = _id;
     }
     let appointmentDatesList = [];
     if(appointmentData){         
@@ -659,11 +663,14 @@ const submitAssessment = async (req, res) => {
 //get Assessment data for initial exam
 const getAssessment = async (req, res) => {
   try {
-    const { query, fields,params } = req.body;
+    const { query, fields, params } = req.body;
     let assessmentData = await AssessmentModel.findOne(query, fields);
-    if(params && params.addendumId && params.addendumId!=undefined){
+    if(assessmentData && params && params.addendumId && params.addendumId!=undefined){
+      let _id = assessmentData._id
       assessmentData = assessmentData.addendums.filter(task => task.addendumId.toLocaleString() === params.addendumId.toLocaleString())[0];
+      assessmentData._id = _id;
     }
+
     commonHelper.sendResponse(res, 'success', assessmentData, '');
   } catch (error) {
     console.log('getAssessment Error>>>>',error)

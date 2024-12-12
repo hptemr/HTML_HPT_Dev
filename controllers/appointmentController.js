@@ -200,7 +200,7 @@ const createAppointment = async (req, res) => {
                 existingAppointmentData = await Appointment.findOne({}, { _id: 1, appointmentId: 1 }).sort({ createdAt: -1 }).limit(1)
             }
             
-            appointmentId = existingAppointmentData.appointmentId + 1;
+            if(existingAppointmentData)appointmentId = existingAppointmentData.appointmentId + 1;
             
             if (alreadyFound && alreadyFound.appointmentId) {
                 appointmentId = alreadyFound.appointmentId;
@@ -952,8 +952,10 @@ const getCaseList = async (req, res) => {
             }
         }
             
-        Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled'] } })
-       // console.log('*****************query*****************',query);
+        Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled']}})
+        Object.assign(query, { 'patientObj.status': 'Active'})
+         
+        console.log('*****************query*****************',query);
         let aggrQuery = [   
             {
                 $group: {
@@ -1080,6 +1082,7 @@ const getSchedularCaseList = async (req, res) => {
         }
             
         Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled'] } })
+        Object.assign(query, { 'patientObj.status': 'Active'})
         //console.log('*****************query*****************',query);
         let aggrQuery = [   
             // {
