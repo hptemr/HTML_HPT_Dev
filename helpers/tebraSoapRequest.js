@@ -426,7 +426,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
 
 
 
-  const addBillingTeamPatientInsurance = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData) => {
+  const addBillingTeamPatientInsurance = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo) => {
     let sendAdjesterData = ''
     let sendEmployerData = ''
     let copayData = ''
@@ -466,6 +466,14 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
         relationToGuarantor = relationToGuarantorData
     }
 
+    let insuredData = ''
+    if(adminPayViaInsuranceInfo && adminPayViaInsuranceInfo?.subscriberRelationWithPatient){
+        let insuredDataXML =`<sch:Insured>
+							<sch:PatientRelationshipToInsured>${adminPayViaInsuranceInfo?.subscriberRelationWithPatient}</sch:PatientRelationshipToInsured>
+						</sch:Insured>`
+        insuredData = insuredDataXML           
+    }
+
     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
                             <soapenv:Header/>
                             <soapenv:Body>
@@ -496,6 +504,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                                         <sch:EffectiveEndDate>${insuranceInfo?.PI_endDate ? tebraCommon.changeDateFormat(insuranceInfo?.PI_endDate):''}</sch:EffectiveEndDate>
                                                         <sch:EffectiveStartDate>${insuranceInfo?.PI_effectiveDate ? tebraCommon.changeDateFormat(insuranceInfo?.PI_effectiveDate):''}</sch:EffectiveStartDate>
                                                         <sch:InsurancePolicyID>${tebraInsuranceData?.InsurancePolicyID}</sch:InsurancePolicyID>
+                                                        ${insuredData}
                                                         <sch:PlanID>${tebraInsuranceData?.InsurancePolicyPlanID}</sch:PlanID>
                                                         <sch:PlanName>${insuranceInfo?.primaryInsurance}</sch:PlanName>
                                                         <sch:PolicyGroupNumber>${insuranceInfo?.PI_group}</sch:PolicyGroupNumber>

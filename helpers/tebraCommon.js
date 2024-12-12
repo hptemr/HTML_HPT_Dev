@@ -109,7 +109,8 @@ const calculateUnitCharges = (directCodes) =>{
         minutes: (value?.minutes) ? value.minutes.toString():'',
         cptCode: value.cptCode.toString(),
         chargePerUnit: chargePerUnit,
-        totalCharge: (units * chargePerUnit).toString()
+        // totalCharge: (units * chargePerUnit).toString()
+        totalCharge: chargePerUnit.toString()
       });
     }
   }
@@ -128,7 +129,8 @@ const calculateQuantityCharges = (directCodes) =>{
         minutes: (value?.minutes) ? value.minutes.toString():'',
         cptCode: value.cptCode.toString(),
         chargePerUnit: chargePerUnit,
-        totalCharge: (quantity * chargePerUnit).toString()
+        // totalCharge: (quantity * chargePerUnit).toString()
+        totalCharge:  chargePerUnit.toString()
       });
     }
   }

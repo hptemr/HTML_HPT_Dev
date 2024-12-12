@@ -378,10 +378,10 @@ const manageAuthorization = async (authorizationData, patient, tebraCaseDetails,
 };
 
 
-const addBillingTeamPatientInsurance = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData) => {
+const addBillingTeamPatientInsurance = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.addBillingTeamPatientInsurance(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData)
+        const soapRequest = tebraSoapRequest.addBillingTeamPatientInsurance(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 

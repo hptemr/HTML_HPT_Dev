@@ -1196,7 +1196,7 @@ function getMonthRange(selectedDate) {
 
 const addBillingDetails = async (req, res) => {
     try {
-      const { billingDetails, patientId, caseName } = req.body
+      const { billingDetails, patientId, caseName, adminPayViaInsuranceInfo } = req.body
       const { PI_billingType}  = billingDetails
 
       const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
@@ -1213,7 +1213,7 @@ const addBillingDetails = async (req, res) => {
       const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
       const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
       if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra ){
-        tebraController.addBillingTeamPatientInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData)
+        tebraController.addBillingTeamPatientInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo)
       }
       
       commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
