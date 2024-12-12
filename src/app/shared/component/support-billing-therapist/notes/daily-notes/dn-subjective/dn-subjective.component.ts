@@ -74,8 +74,8 @@ export class DnSubjectiveComponent {
       query: {
         appointmentId: this.appointmentId,
         soap_note_type: 'daily_note',
-        addendumId:this.addendumId
       },
+      addendumId:this.addendumId,
       soap_note_type:'daily_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
@@ -88,8 +88,9 @@ export class DnSubjectiveComponent {
         this.subjectiveData = response.data.subjectiveData;
         if (this.subjectiveData.status!='Finalized') this.subjectiveId = this.subjectiveData._id
         if(this.addendumId!=undefined){
-          this.subjectiveId = this.subjectiveData.addendumId;
+          this.subjectiveId = this.subjectiveData._id;
         }
+      
         let note_date = '';
         if (this.subjectiveData.note_date && this.subjectiveData.status!='Finalized' && !this.readOnly){
           note_date = this.subjectiveData.note_date
@@ -155,7 +156,11 @@ export class DnSubjectiveComponent {
 
         if (status=='SUCCESS') {
           setTimeout(() => {
+           if(this.addendumId && this.addendumId!=undefined){
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/objective/"+this.appointmentId+'/'+this.addendumId, "_self");
+           }else{
             window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/objective/"+this.appointmentId, "_self");
+           }
           }, 2000)
         }
       })

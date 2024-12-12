@@ -37,9 +37,15 @@ export class DisSubjectiveComponent implements OnInit {
   appointment_dates:any=[];
   appointment_data:any=[];
   submitted:boolean=false;
+  addendumId:string=''
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }   
       const locationArray = location.href.split('/')
       if(locationArray[locationArray.length - 2] == 'subjective-view'){
         this.readOnly = true
@@ -141,7 +147,11 @@ export class DisSubjectiveComponent implements OnInit {
               this.commonService.openSnackBar(response.message, "SUCCESS");
             }
             setTimeout(() => {
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/objective/"+this.appointmentId, "_self");
+              if(this.addendumId && this.addendumId!=undefined){
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/objective/"+this.appointmentId+'/'+this.addendumId, "_self");
+              }else{
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/discharge-notes/objective/"+this.appointmentId, "_self");
+              }
             }, 2000)
           }
           this.commonService.hideLoader();

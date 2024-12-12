@@ -145,9 +145,15 @@ export class PnSubjectiveComponent implements OnInit {
   diagnosisClicked = false
   readOnly = false
   status:string = 'Draft';
+  addendumId:string=''
   constructor( private router: Router,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
       const locationArray = location.href.split('/')
       if(locationArray[locationArray.length - 2] == 'subjective-view'){
         this.readOnly = true
@@ -431,7 +437,11 @@ export class PnSubjectiveComponent implements OnInit {
             }
 
             setTimeout(() => {
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/objective/"+this.appointmentId, "_self");
+              if(this.addendumId && this.addendumId!=undefined){
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/objective/"+this.appointmentId+'/'+this.addendumId, "_self");
+              }else{
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/objective/"+this.appointmentId, "_self");
+              }
             }, 2000)
           }
           this.commonService.hideLoader();

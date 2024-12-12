@@ -422,8 +422,12 @@ export class SubjectiveComponent implements OnInit {
               //this.successModal(response.message);
               this.commonService.openSnackBar(response.message, "SUCCESS");
             }
-            setTimeout(() => {
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/objective/"+this.appointmentId, "_self");
+            setTimeout(() => {              
+              if(this.addendumId && this.addendumId!=undefined){
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/objective/"+this.appointmentId+'/'+this.addendumId, "_self");
+              }else{
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/initial-examination/objective/"+this.appointmentId, "_self");
+              }
             }, 2000)
           }
           this.commonService.hideLoader();

@@ -353,8 +353,12 @@ export class DnObjectiveComponent {
           } else {
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
-            setTimeout(() => {
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/assessment/"+this.appointmentId, "_self");
+            setTimeout(() => {              
+              if(this.addendumId && this.addendumId!=undefined){
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/assessment/"+this.appointmentId+'/'+this.addendumId, "_self");
+              }else{
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/daily-notes/assessment/"+this.appointmentId, "_self");
+              }
             }, 2000)
           }        
         })
@@ -392,6 +396,7 @@ export class DnObjectiveComponent {
       panelClass:[ 'custom-alert-container','modal--wrapper'],
       data : {
         appointmentId:this.appointmentId,
+        addendumId:this.addendumId,
         type:type,
         soap_note_type:"daily_note",
        }

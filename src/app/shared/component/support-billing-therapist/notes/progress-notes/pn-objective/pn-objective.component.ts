@@ -99,12 +99,14 @@ export class PnObjectiveComponent {
   surgery_type:string=''
   mctsib_total: number = 0;
   todayDate = new Date()
+  addendumId:string=''
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
   readOnly = false
   constructor( private router: Router,private datePipe: DatePipe,private fb: FormBuilder, private route: ActivatedRoute, public authService: AuthService, public commonService: CommonService,public dialog: MatDialog) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
       const locationArray = location.href.split('/')
       if(locationArray[locationArray.length - 2] == 'objective-view'){
         this.readOnly = true
@@ -1251,7 +1253,11 @@ console.log('>>>>',this.objectiveForm)
             this.isSubmit = false;
             this.commonService.openSnackBar(response.message,"SUCCESS");
             setTimeout(() => {
-              window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/assessment/"+this.appointmentId, "_self");
+              if(this.addendumId && this.addendumId!=undefined){
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/assessment/"+this.appointmentId+'/'+this.addendumId, "_self");
+              }else{
+                window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/assessment/"+this.appointmentId, "_self");
+              }
             }, 2000)
           }        
         })

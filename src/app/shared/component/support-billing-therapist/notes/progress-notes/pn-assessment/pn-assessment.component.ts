@@ -30,10 +30,20 @@ export class PnAssessmentComponent {
   validationMessages = validationMessages;
   appointment: any = null
   isUpdate: any = true
-
+  addendumId:string=''
+  readOnly = false
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, public dialog: MatDialog, public authService: AuthService, private datePipe: DatePipe, public commonService: CommonService) {//,private appointmentService: AppointmentService
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - lengthVal] == 'assessment-view'){
+        this.readOnly = true
+      }
     })
   }
 
@@ -129,7 +139,11 @@ export class PnAssessmentComponent {
         }
         this.commonService.openSnackBar(response.message, status);
         setTimeout(() => {
-          window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/plan/"+this.appointmentId, "_self");
+          if(this.addendumId && this.addendumId!=undefined){
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/plan/"+this.appointmentId+'/'+this.addendumId, "_self");
+          }else{
+            window.open(`${this.commonService.getLoggedInRoute()}`+"/progress-notes/plan/"+this.appointmentId, "_self");
+          }
         }, 2000)
         this.getAssessment()
       })
