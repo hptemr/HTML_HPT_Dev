@@ -58,9 +58,27 @@ const createPlanNote = async (req, res) => {
 }
 
 async function setPlan(req) {
-  let planData = await PlanTemp.findOne({ appointmentId: req.appointmentId, soap_note_type: req.soap_note_type });
-  if (!planData) {
-    await PlanTemp.create(req)
+  try {
+    let planData = await PlanTemp.findOne({ appointmentId: req.appointmentId, soap_note_type: req.soap_note_type });
+    if (!planData) {
+      await PlanTemp.create(req)
+    }
+
+    let dailyPlanData = await PlanTemp.findOne({ appointmentId: req.appointmentId, soap_note_type:'daily_note', status:'Draft' });
+
+    if (!dailyPlanData) {
+     let createPlan = {
+        appointmentId: new ObjectId(req.appointmentId),
+        soap_note_type: 'daily_note',
+        plan_start_date: req.plan_start_date,
+        plan_end_date:req.plan_end_date,
+        createdBy: new ObjectId(req.endUserId),
+      }
+      await PlanTemp.create(createPlan)
+    }
+  } catch (error) {
+    console.log('SET Plan Note error>>>',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
 
@@ -650,9 +668,15 @@ const submitAssessment = async (req, res) => {
       }else{
         let optionsUpdatePlan = { returnOriginal: false };
         await AssessmentModel.findOneAndUpdate(query, data, optionsUpdatePlan);
+        if (data.soap_note_type && data.soap_note_type == 'initial_examination') {
+          setAssessmentDailyNote(req)
+        }
       }
     } else {
       await AssessmentModel.create(data)
+      if (data.soap_note_type && data.soap_note_type == 'initial_examination') {
+        setAssessmentDailyNote(req)
+      }
     }
     commonHelper.sendResponse(res, 'success', {}, soapMessage.assessment);
   } catch (error) {
@@ -701,6 +725,30 @@ async function setAssessment(req) {
       soap_note_type: data.soap_note_type,
       appointmentId: data.appointmentId,
       assessment_icd: assessment_icd,
+      assessment_text: "Thank you for referring " + patientName + " to our practice, " + patientName + " received  an initial evaluation and treatment today " + todayDate + ". As per your referral, we will see " + patientName + " ___ times per week for ___ weeks with a focus on *first 3 treatments to be added*. I will update you on " + patientName + " progress as appropriate, thank you for the opportunity to assist with their rehabilitation.",
+      supporting_documentation_text: "1. Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities. =Neuromuscular Re-Education, 97112 \n 2.Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's= Therapeutic Activity, 97530 \n 3. Patient is unable to complete physical therapy on land. = Aquatic Exercise, 97113 \n 4. Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation and / or used as contrast or thermotherapy to improve circulation, modulate pain, and improve functional range of motion = Vasopneumatic Device 97016 \n 5. If any item from the DME section is selected then the following data is shown in the Supporting Documentation Page with a space between any content present above, if it is present.Text to be added: DME was issued today with instructions on wear, care, and use required for full rehabilitation potential",
+    }
+    await AssessmentModel.create(assessmentInsert)
+  }
+}
+
+async function setAssessmentDailyNote(req) {
+  const { data } = req.body;
+  let assessmentData = await AssessmentModel.findOne({ appointmentId: data.appointmentId, soap_note_type: 'daily_note',status:'Draft' }).sort({ createdAt: -1 });
+
+  if (!assessmentData && data.assessment_icd && data.assessment_icd.length > 0) {
+    let appointmentData = await Appointment.findOne({ _id: data.appointmentId }, { patientId: 1, appointmentDate: 1 }).populate('patientId', { firstName: 1, lastName: 1 })
+    let patientName = appointmentData.patientId.firstName + " " + appointmentData.patientId.lastName
+    let todayDate = new Date(appointmentData.appointmentDate).toLocaleString('en-US', {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
+   
+    let assessmentInsert = {
+      soap_note_type: 'daily_note',
+      appointmentId: data.appointmentId,
+      assessment_icd: data.assessment_icd,
       assessment_text: "Thank you for referring " + patientName + " to our practice, " + patientName + " received  an initial evaluation and treatment today " + todayDate + ". As per your referral, we will see " + patientName + " ___ times per week for ___ weeks with a focus on *first 3 treatments to be added*. I will update you on " + patientName + " progress as appropriate, thank you for the opportunity to assist with their rehabilitation.",
       supporting_documentation_text: "1. Neuromuscular Re-education completed to assist with reactive and postural responses, and improving anticipatory responses for dynamic activities. =Neuromuscular Re-Education, 97112 \n 2.Therapeutic Activity completed for improving functional transitioning performance to assist in performance of ADL's= Therapeutic Activity, 97530 \n 3. Patient is unable to complete physical therapy on land. = Aquatic Exercise, 97113 \n 4. Vasopneumatic device required to assist with reduction in effusion in combination with cryotherapy to improve functional performance through reduced effusion and improved range of motion and motor facilitation and / or used as contrast or thermotherapy to improve circulation, modulate pain, and improve functional range of motion = Vasopneumatic Device 97016 \n 5. If any item from the DME section is selected then the following data is shown in the Supporting Documentation Page with a space between any content present above, if it is present.Text to be added: DME was issued today with instructions on wear, care, and use required for full rehabilitation potential",
     }
@@ -961,7 +1009,7 @@ const createAddendum = async (req, res) => {
       await PlanTemp.updateOne(filterPlan, Planupdate);
     }
 
-//<=============================Plan note ==============================================>
+//<=============================Billing note ==============================================>
   let billResult = await BillingTemp.find(filterPlan);
   if(billResult.length>0){
     let billNoteCount = 0
