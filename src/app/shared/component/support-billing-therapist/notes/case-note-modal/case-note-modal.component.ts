@@ -22,6 +22,7 @@ export class CaseNoteModalComponent implements OnInit {
   appointment: any = null
   submitted:boolean=false;
   caseNoteId: string = '';
+  action: string = '';
   appointment_data: any = null
   readOnly:boolean=false;
   id: string;
@@ -30,6 +31,7 @@ export class CaseNoteModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
     this.id = data.id;    
+    this.action = data.action
   } 
 
   ngOnInit() {
@@ -40,6 +42,12 @@ export class CaseNoteModalComponent implements OnInit {
        case_comment:['', [Validators.required, Validators.minLength(1), Validators.maxLength(1000)]],       
     });
     this.getCaseNoteRecord();
+
+    if(this.action=='View'){
+      this.readOnly = true;
+      this.caseNoteForm.disable()
+      
+    }      
   }
 
   getCaseNoteRecord(){
@@ -125,9 +133,6 @@ export class CaseNoteModalComponent implements OnInit {
   }
 
   onAppointmentDateChange(event: any) {
-    console.log('value>>>',event.target.value)
-    console.log('appointment_dates>>>',this.appointment_dates)
-    console.log('caseNoteDataList>>>',this.caseNoteDataList)
     if(event.target.value){
       let caseNoteData = this.caseNoteDataList.filter((p: { note_date: any; }) => p.note_date === event.target.value);
       if(caseNoteData[0]){
@@ -139,7 +144,6 @@ export class CaseNoteModalComponent implements OnInit {
   }
 
   fillupData(caseNoteData:any){
-    console.log('case Not eData>>>',caseNoteData)
     if(caseNoteData){
       this.caseNoteId = caseNoteData._id;
       this.caseNoteForm.controls['note_date'].setValue(caseNoteData.note_date);

@@ -18,6 +18,7 @@ import { exercisesOptionsList } from 'src/app/config';
 export class AddExerciseComponent {
   addExerciseForm: FormGroup;
   appointmentId:string;
+  addendumId:string;
   exerciseType:string;
   soap_note_type:string;
   public userId: string = this.authService.getLoggedInInfo('_id');
@@ -30,7 +31,8 @@ export class AddExerciseComponent {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
     this.exerciseType = data.type;
-    this.soap_note_type = data.soap_note_type;    
+    this.soap_note_type = data.soap_note_type;   
+    this.addendumId = data.addendumId;
   } 
   
   ngOnInit() {
@@ -61,6 +63,7 @@ export class AddExerciseComponent {
         query: {
           appointmentId: this.appointmentId,soap_note_type:this.soap_note_type
         },
+        addendumId:this.addendumId,
         userId:this.userId,
         type:'exercise',        
         exerciseType:this.exerciseType,

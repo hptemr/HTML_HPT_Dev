@@ -392,6 +392,7 @@ export class DnObjectiveComponent {
       panelClass:[ 'custom-alert-container','modal--wrapper'],
       data : {
         appointmentId:this.appointmentId,
+        addendumId:this.addendumId,
         type:type,
         soap_note_type:"daily_note",
        }
