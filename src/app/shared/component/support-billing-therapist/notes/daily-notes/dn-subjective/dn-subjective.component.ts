@@ -87,9 +87,10 @@ export class DnSubjectiveComponent {
       if (response.data && response.data.subjectiveData) {
         this.subjectiveData = response.data.subjectiveData;
         if (this.subjectiveData.status!='Finalized') this.subjectiveId = this.subjectiveData._id
-        // if(this.addendumId!=undefined){
-        //   this.subjectiveId = this.subjectiveData.addendumId;
-        // }
+        if(this.addendumId!=undefined){
+          this.subjectiveId = this.subjectiveData._id;
+        }
+      
         let note_date = '';
         if (this.subjectiveData.note_date && this.subjectiveData.status!='Finalized' && !this.readOnly){
           note_date = this.subjectiveData.note_date
