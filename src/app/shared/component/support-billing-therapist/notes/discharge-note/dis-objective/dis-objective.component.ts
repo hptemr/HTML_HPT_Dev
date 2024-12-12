@@ -1213,8 +1213,7 @@ export class DisObjectiveComponent implements OnInit {
   }
 
   async objectiveSubmit(formData: any){
-    if (this.objectiveForm.invalid){
-      
+    if (this.objectiveForm.invalid){      
     console.log('<<<<<  objective form >>>>',this.objectiveForm)
       this.objectiveForm.markAllAsTouched();
     }else{

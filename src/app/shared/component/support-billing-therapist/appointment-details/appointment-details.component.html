@@ -128,11 +128,11 @@
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Progress Note
                         </button>
-                        <button class="flex-shrink-0 {{dischargeNoteFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="dischargeNoteFlag" [routerLink]="['/therapist/discharge-notes/subjective/',appointmentId]">
+                        <button class="flex-shrink-0 " mat-stroked-button color="primary" [routerLink]="['/therapist/discharge-notes/subjective/',appointmentId]">
                             <mat-icon class="material-symbols-outlined flex-shrink-0 me-1"> add_circle_outline </mat-icon>
                             Discharge Note
                         </button>
-                        <button class="flex-shrink-0 {{caseNoteFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="caseNoteFlag" (click)="caseNoteModal()">
+                        <button class="flex-shrink-0 {{caseNoteFlag ? 'disabled' : ''}}" mat-stroked-button color="primary" [disabled]="caseNoteFlag" (click)="caseNoteModal('')">
                             <mat-icon class="material-symbols-outlined flex-shrink-0"> add_circle_outline </mat-icon>
                             Case Note
                         </button>
@@ -250,7 +250,11 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element">  
                                             <div class="w-100 d-flex align-items-center">
-                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="element.status=='Finalized'" [routerLink]="['/',activeUserRoute,loadValue(element.soap_note_type),'subjective',appointmentId]">
+                                                
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="element.status=='Finalized'" (click)="caseNoteModal(element._id)" *ngIf="element.soap_note_type=='case_note'">
+                                                    <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
+                                                </button>
+                                                <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="Edit Note" [disabled]="element.status=='Finalized'" [routerLink]="['/',activeUserRoute,loadValue(element.soap_note_type),'subjective',appointmentId]" *ngIf="element.soap_note_type!='case_note'">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">edit </mat-icon>
                                                 </button>
                                                 <button mat-button class="flex-shrink-0 min-width-unset" style="cursor: pointer;" matTooltip="Create Addendum" matTooltipPosition="above" [disabled]="element.status!='Finalized' || loadDataLength(element)>0 || actionStarted" (click)="createAddendum(appointmentId,element.soap_note_type)">
@@ -279,6 +283,8 @@
                                                         <img src="assets/images/ark/a-disabled-icon.png" *ngIf="addendum.status!='Finalized' || addendum.is_disabled || actionStarted" alt="" class="img-fluid" />
                                                     </div>
                                                 </button>
+
+                                                
                                                 <button mat-button class="flex-shrink-0 min-width-unset" matTooltip="View Note" matTooltipPosition="above" [routerLink]="['/',activeUserRoute,loadValue(element.soap_note_type),'subjective-view',appointmentId,addendum.addendumId]">
                                                     <mat-icon class="material-symbols-outlined flex-shrink-0 m-0 text-primary">visibility </mat-icon>
                                                 </button>

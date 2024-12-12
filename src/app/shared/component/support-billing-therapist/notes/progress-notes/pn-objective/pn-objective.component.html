@@ -146,7 +146,7 @@
                             <option value="30 sec STS">30 sec STS</option>
                         </select>
                         <div class="text text-danger mt-1"  *ngIf="objectiveForm.get('outcome_measures.name')?.hasError('required')">
-                            {{ validationMessages.required('Outcome Measures') }}
+                            {{ validationMessages.requiredDropdown('Outcome Measures') }}
                         </div>
                     </div>
                 </div>
