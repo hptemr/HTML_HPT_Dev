@@ -11,6 +11,7 @@ var constants = require('./config/constants')
 const db = require('./config/database'); 
 var compress = require('compression');
 let { checkUserDeleted } = require('./middlewares/commonMiddleware ');
+require('./controllers/cronJob');
 
 app.use(compress());
 app.set('view engine', 'jade');
