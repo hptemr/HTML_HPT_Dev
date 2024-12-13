@@ -70,5 +70,5 @@ const notifyPatientAppoitmentEmail = async () => {
 
 nodeCron.schedule('*/1 * * * *', () => {
     //notify patient for an appoitment schedule email, Email should be trigger 24 hrs and 5 hrs before the appoitment.
-    notifyPatientAppoitmentEmail();    
+    //notifyPatientAppoitmentEmail();    
 });
