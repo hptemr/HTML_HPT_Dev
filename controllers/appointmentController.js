@@ -652,11 +652,16 @@ const updateAppointment = async (req, res) => {
         console.log("<<<<<<<<<<< appointment_data >>>>>>>>>>>", appointment_data)
         
         // Send data to Tebra of Intake Form
-        if(updateInfo?.intakeFormSubmit && appointment_data){
+        if(updateInfo?.intakeFormSubmit && appointment_data && appointment_data?.bookingFor=='Myself'){
             let patientDataToUpdate = appointment_data?.patientInfo
             console.log("********patientDataToUpdate*****", patientDataToUpdate)
             console.log("<<<<<<<<<<< patientData >>>>>>>>>>>", patientData)
-            if(appointment_data?.bookingFor=='Myself' && patientData?.patientOnTebra){
+            // if(appointment_data?.bookingFor=='Myself' && patientData?.patientOnTebra){
+            //     console.log("<<<<<<<<<<< Intake form 1 on Tebra >>>>>>>>>>>")
+            //     await tebraController.updatePatientIntakeFormPersonalInfo(patientDataToUpdate, patientData).catch((_err)=>false)
+            // }
+
+            if(patientData?.patientOnTebra){
                 console.log("<<<<<<<<<<< Intake form 1 on Tebra >>>>>>>>>>>")
                 await tebraController.updatePatientIntakeFormPersonalInfo(patientDataToUpdate, patientData).catch((_err)=>false)
             }
@@ -676,7 +681,7 @@ const updateAppointment = async (req, res) => {
 
 
             // Update by Support Team
-            if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo && appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
+            if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo){
                 console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
                 if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
                     tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
