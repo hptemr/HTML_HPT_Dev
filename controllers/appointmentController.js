@@ -146,7 +146,7 @@ const createAppointmenttest = async (req, res) => {
 }
 
 
-const createAppointmentOld = async (req, res) => {
+const createAppointment12 = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
   
@@ -503,9 +503,9 @@ const createAppointmentRequest = async (req, res) => {
         // }else{
 
         //Timezone issue Start
-        const localDate = new Date(data.appointmentDate);  
-        localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
-        data.appointmentDate = localDate;
+        // const localDate = new Date(data.appointmentDate);  
+        // localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
+        // data.appointmentDate = localDate;
         //Timezone issue END
 
         let newAppointmentRequest = new AppointmentRequest(data);
