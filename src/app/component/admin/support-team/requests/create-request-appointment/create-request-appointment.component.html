@@ -188,6 +188,19 @@
 
                 <div class="col-12 col-lg-6 col-md-6 mt-2 ">
                     <div class="form-group">
+                        <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
+                        <select class="form-select form-control" aria-label="Default select example" formControlName="practiceLocation" readonly="readonlyFlag" #practiceLocationTy (change)='onPracticeLocationTyChange(practiceLocationTy.value)'>
+                            <option value="" selected>Select Practice Location</option>
+                            <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
+                        </select>
+                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['practiceLocation'].touched && appointmentForm.controls['practiceLocation'].hasError('required')">
+                            {{ validationMessages.requiredDropdown('Practice Location') }}
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
+                    <div class="form-group">
                         <label class="col-form-label fw-600">Therapist <span class="clr--DF0404 ms-1"> * </span></label>
                         <select class="form-select form-control" aria-label="Default select example" formControlName="therapistId">
                             <option value="" selected>Select</option>
@@ -195,19 +208,6 @@
                         </select>
                         <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['therapistId'].touched && appointmentForm.controls['therapistId'].hasError('required')">
                             {{ validationMessages.requiredDropdown('Therapist') }}
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="col-12 col-lg-6 col-md-6 mt-2 ">
-                    <div class="form-group">
-                        <label class="col-form-label fw-600">Practice Location <span class="clr--DF0404 ms-1"> * </span></label>
-                        <select class="form-select form-control" aria-label="Default select example" formControlName="practiceLocation" readonly="readonlyFlag">
-                            <option value="" selected>Select Practice Location</option>
-                            <option *ngFor="let location of practiceLocationData" [value]="location">{{ location }}</option>
-                        </select>
-                        <div class="text text-danger mt-1" *ngIf="appointmentForm.controls['practiceLocation'].touched && appointmentForm.controls['practiceLocation'].hasError('required')">
-                            {{ validationMessages.requiredDropdown('Practice Location') }}
                         </div>
                     </div>
                 </div>   

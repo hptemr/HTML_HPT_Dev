@@ -53,14 +53,15 @@ export class CreateAppointmentModalComponent {
   minTime: Date;
   minEndTime: Date;
   day: string;
+  selectedDate: Date | null = null;
   constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router,public authService: AuthService,public commonService: CommonService,private dialogRef: MatDialogRef<CreateAppointmentModalComponent>) {}
 
   ngOnInit() {    
     const now = new Date();
     this.minToDate = new Date(now.getTime() + 30 * 60 * 1000);
     this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
-
-    const defaultStartTime = this.getNext30MinuteMark();
+    const currentTime = moment();
+    const defaultStartTime = this.getNext30MinuteMark(currentTime);
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     this.minTime = new Date();
     this.checkToday();
@@ -98,7 +99,6 @@ export class CreateAppointmentModalComponent {
       appointmentEndTime: defaultEndTime,
     });
 
-    this.getTherapistList()    
   }
 
   onEmailChange(vals:string){
@@ -111,17 +111,13 @@ export class CreateAppointmentModalComponent {
     this.day = daysOfWeek[today];
   }
 
-  getNext30MinuteMark(): Date {
-    const currentTime = moment();
+  getNext30MinuteMark(currentTime:any): Date { 
     const minutes = currentTime.minutes();
     const next15MinuteMark = minutes % 30 === 0 ? currentTime : currentTime.add(30 - (minutes % 30), 'minutes');
     return next15MinuteMark.seconds(0).milliseconds(0).toDate(); // Set seconds and milliseconds to 0
   }
 
   endTimeAfterStartTime(startTimeKey: string, endTimeKey: string) {
-    // const currentTime = this.appointmentForm.controls['appointmentStartTime'].value;//moment();
-    // const minutes = currentTime.minutes();
-    // this.minEndTime = currentTime.add(30 - (minutes % 30), 'minutes');
     return (formGroup: FormGroup) => {
       const startTime = formGroup.controls[startTimeKey];
       const endTime = formGroup.controls[endTimeKey];
@@ -138,29 +134,29 @@ export class CreateAppointmentModalComponent {
     };
   }
 
-  onDateChange(event: MatDatepickerInputEvent<any>): void { //NOT IN USE
-    const parsedDate = new Date(event.value ? event.value : '');
+  onDateInput(event: MatDatepickerInputEvent<any>): void {
+    this.selectedDate = new Date(event.value);
+
+    const startOfDay = new Date(this.selectedDate);
+    startOfDay.setHours(0, 0, 0, 0); 
+
+    const endOfDay = new Date(this.selectedDate);
+    endOfDay.setHours(23, 59, 59, 999); 
+
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
+    const currentTime = moment(event.value);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(this.getNext30MinuteMark(currentTime));
   }
 
-  onDateInput(event: MatDatepickerInputEvent<any>): void {
-    const parsedDate = new Date(event.value ? event.value : '');
-    parsedDate.setHours(10, 0, 0);
-
-    const parsedDate2 = new Date(event.value ? event.value : '');
-    parsedDate2.setHours(10, 15, 0);
-
-    this.appointmentForm.controls['appointmentStartTime'].setValue(parsedDate);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(parsedDate2);
-
-
-    // setTimeout( () => {    
-    //   console.log('appointmentDate 1 >>>>>',this.appointmentForm.controls['appointmentDate'])
-    //     console.log('appointmentStartTime 1 >>>>>',this.appointmentForm.controls['appointmentStartTime'])
-    //     console.log('appointmentEndTime 1 >>>>>',this.appointmentForm.controls['appointmentEndTime'])
-    // }, 1000)
-
+  async calculateEndDate(date1:Date,date2:Date){
+      const year = date1.getFullYear();
+      const month = date1.getMonth();
+      const day = date1.getDate();
+      
+      const hours = date2.getHours();
+      const minutes = date2.getMinutes();
+      const seconds = date2.getSeconds();      
+      return new Date(year, month, day, hours, minutes, seconds);
   }
 
   async createAppointment(formData:any){
@@ -169,6 +165,14 @@ export class CreateAppointmentModalComponent {
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
        
+        const appointmentStartTime = await this.calculateEndDate(formData.appointmentDate,formData.appointmentStartTime)
+        if(appointmentStartTime) {
+          formData.appointmentStartTime = appointmentStartTime;
+        }
+
+        const appointmentEndTime = await this.calculateEndDate(formData.appointmentDate,formData.appointmentEndTime)
+          formData.appointmentEndTime = appointmentEndTime;
+
         if(formData.patientType=='Existing'){
           Object.assign(formData, {patientId: this.patientId})
         }
@@ -371,13 +375,27 @@ export class CreateAppointmentModalComponent {
       })
     }
    }
+
+   onPracticeLocationTyChange(value: any) {
+    this.getTherapistList(value)
+  }
    
-  async getTherapistList() {
-    const reqVars = {
-      query: { role: 'therapist', status: 'Active' },
+  async getTherapistList(location:any) {
+    interface Query {
+      role: string;
+      status: string;
+      practiceLocation?: { $in: any[] }; // Marked optional with '?'
+    }
+
+    const reqVars:{ query: Query; fields: object; order: any } = {
+      query: { role: 'therapist', status: 'Active',practiceLocation:{ $in: [location] } },
       fields: { _id: 1, firstName: 1, lastName: 1 },
       order: this.orderBy,
     }
+    if(location=='Admin All'){
+      delete reqVars.query.practiceLocation;
+    }
+    
     await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
       if (response.data && response.data.therapistData) {
         this.therapistList = response.data.therapistData;
