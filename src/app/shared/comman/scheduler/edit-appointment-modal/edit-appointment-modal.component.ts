@@ -47,6 +47,7 @@ export class EditAppointmentModalComponent {
   from:string='';
   day: string;
   selectedDateTime: Date = new Date();
+  selectedDate: Date | null = null;
   constructor(
     public dialog: MatDialog,
     private commonService: CommonService,
@@ -72,7 +73,8 @@ export class EditAppointmentModalComponent {
     }
     this.maxToDate = this.commonService.getMaxAppoinmentFutureMonths();
 
-    const defaultStartTime = this.getNext30MinuteMark();
+    const currentTime = moment();
+    const defaultStartTime = this.getNext30MinuteMark(currentTime);
     const defaultEndTime = moment(defaultStartTime).add(15, 'minutes').toDate();
     let minTime =new Date();
     let minutes = minTime.getMinutes();
@@ -95,9 +97,13 @@ export class EditAppointmentModalComponent {
     let appointmentDate = '';
     if(this.from=='Update'){
       appointmentDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : '';
-     // appointmentStartDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : defaultStartTime;
-      //appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : this.app_data.appointmentDate;     
+      appointmentStartDate = this.app_data.appointmentDate ? this.app_data.appointmentDate : defaultStartTime;
+      appointmentEndTime = this.app_data.appointmentEndTime ? this.app_data.appointmentEndTime : this.app_data.appointmentDate;     
       appointmentId = this.app_data.id;
+    }
+
+    if(this.app_data.practiceLocation){
+      this.onPracticeLocationTyChange(this.app_data.practiceLocation)
     }
 
     this.appointmentForm = this.fb.group({
@@ -132,7 +138,6 @@ export class EditAppointmentModalComponent {
     }
     this.checkToday();
     this.getCaseList(this.patientId);
-    this.getTherapistList();
     this.whereDocCond = { _id: this.app_data.doctorId }
     this.getDoctorsList();
   }
@@ -143,44 +148,44 @@ export class EditAppointmentModalComponent {
     this.day = daysOfWeek[today];
   }
 
-  // This function is triggered on date input
-  onDateInputOld(event: MatDatepickerInputEvent<Date>): void {
-   // console.log('onDateInput >>>>',event.value,'----------onDateInput UTC>>>>',this.commonService.formatDateInUTC(event.value,'MMM d, y hh:mm a'))    
-    if (event.value instanceof Date) {
-      const  selectedDate = event.value
-      let newDate = new Date(
-        selectedDate.getFullYear(),
-        selectedDate.getMonth(),
-        selectedDate.getDate(),
-        9,0,0
-      );
-      this.selectedDateTime = newDate
+  // onDateInput(event: MatDatepickerInputEvent<any>): void {
+  //   const parsedDate = new Date(event.value ? event.value : '');
+  //   parsedDate.setHours(10, 0, 0);
+  //   this.appointmentForm.controls['appointmentStartTime'].setValue(parsedDate);
+  //   this.appointmentForm.get('appointmentStartTime')?.setValue(parsedDate);
+  //   const parsedDate2 = new Date(event.value ? event.value : '');
+  //   parsedDate2.setHours(10, 15, 0);
+  //   this.appointmentForm.controls['appointmentEndTime'].setValue(parsedDate2);
+  // }
+
+   onDateInput(event: MatDatepickerInputEvent<any>): void {
+      this.selectedDate = new Date(event.value);
   
-      this.appointmentForm.controls['appointmentStartTime'].setValue(newDate);
-      this.appointmentForm.controls['appointmentEndTime'].setValue(newDate);
+      const startOfDay = new Date(this.selectedDate);
+      startOfDay.setHours(0, 0, 0, 0); 
+  
+      const endOfDay = new Date(this.selectedDate);
+      endOfDay.setHours(23, 59, 59, 999); 
+  
+      this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+      const currentTime = moment(event.value);
+      this.appointmentForm.controls['appointmentEndTime'].setValue(this.getNext30MinuteMark(currentTime));
     }
-  }
-
-  onDateInput(event: MatDatepickerInputEvent<any>): void {
-
-    const parsedDate = new Date(event.value ? event.value : '');
-    parsedDate.setHours(10, 0, 0);
-    this.appointmentForm.controls['appointmentStartTime'].setValue(parsedDate);
-    this.appointmentForm.get('appointmentStartTime')?.setValue(parsedDate);
-
-    const parsedDate2 = new Date(event.value ? event.value : '');
-    parsedDate2.setHours(10, 15, 0);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(parsedDate2);
   
-  }
+    async calculateEndDate(date1:Date,date2:Date){
+        const year = date1.getFullYear();
+        const month = date1.getMonth();
+        const day = date1.getDate();
+        
+        const hours = date2.getHours();
+        const minutes = date2.getMinutes();
+        const seconds = date2.getSeconds();      
+        return new Date(year, month, day, hours, minutes, seconds);
+    }
 
-  onDateTimeChange(updatedDateTime:any,from:string): void {
-    // const newDateTime = updatedDateTime as Date; // Cast to Date
-    // this.selectedDateTime = newDateTime;
-  }
 
-  getNext30MinuteMark(): Date {
-    const currentTime = moment();
+
+  getNext30MinuteMark(currentTime:any): Date { 
     const minutes = currentTime.minutes();
     const next15MinuteMark = minutes % 30 === 0 ? currentTime : currentTime.add(30 - (minutes % 30), 'minutes');
     return next15MinuteMark.seconds(0).milliseconds(0).toDate(); // Set seconds and milliseconds to 0
@@ -207,6 +212,14 @@ export class EditAppointmentModalComponent {
       console.log(' #### form data >>>>>>',formData)
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
+        const appointmentStartTime = await this.calculateEndDate(formData.appointmentDate,formData.appointmentStartTime)
+        if(appointmentStartTime) {
+          formData.appointmentStartTime = appointmentStartTime;
+        }
+
+        const appointmentEndTime = await this.calculateEndDate(formData.appointmentDate,formData.appointmentEndTime)
+          formData.appointmentEndTime = appointmentEndTime;
+
         if(formData.patientType=='Existing'){
           Object.assign(formData, {patientId: this.patientId})
         }
@@ -252,12 +265,26 @@ export class EditAppointmentModalComponent {
     }
   }
 
-  async getTherapistList() {
-    const reqVars = {
-      query: { role: 'therapist', status: 'Active' },
+
+  onPracticeLocationTyChange(value: any) {
+    this.getTherapistList(value)
+  }
+
+   async getTherapistList(location:any) {
+    interface Query {
+      role: string;
+      status: string;
+      practiceLocation?: { $in: any[] }; // Marked optional with '?'
+    }
+
+    const reqVars:{ query: Query; fields: object; order: any } = {
+      query: { role: 'therapist', status: 'Active',practiceLocation:{ $in: [location] } },
       fields: { _id: 1, firstName: 1, lastName: 1 },
       order: this.orderBy,
     }
+    if(location=='Admin All'){
+      delete reqVars.query.practiceLocation;
+    }  
     await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
       if (response.data && response.data.therapistData) {
         this.therapistList = response.data.therapistData;

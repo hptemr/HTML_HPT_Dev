@@ -410,8 +410,6 @@ export class CreateAppointmentComponent {
     this.getTherapistList(value)
   }
 
-
-
    async getTherapistList(location:any) {
     interface Query {
       role: string;
@@ -426,8 +424,7 @@ export class CreateAppointmentComponent {
     }
     if(location=='Admin All'){
       delete reqVars.query.practiceLocation;
-    }
-   
+    }   
     await this.authService.apiRequest('post', 'admin/getTherapistList', reqVars).subscribe(async response => {
       if (response.data && response.data.therapistData) {
         this.therapistList = response.data.therapistData;

@@ -158,7 +158,6 @@ export class SchedulerComponent {
         }
       });
       dialogRef.afterClosed().subscribe(async resp => {
-        console.log(app_data.id,'********ResP*****',resp)
         if(resp=='SUCCESS'){
           setTimeout( () => {    
             this.dialog1Ref?.close();
@@ -306,7 +305,6 @@ export class SchedulerComponent {
       ];
         
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-        //console.log('active Day Is Open>>>>',this.activeDayIsOpen,' ######>>>>',this.viewDate)
         if (isSameMonth(date, this.viewDate)) {
           if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0) {
             this.activeDayIsOpen = false;
@@ -315,7 +313,6 @@ export class SchedulerComponent {
           }
           this.viewDate = date;
         } 
-        //console.log(this.activeDayIsOpen,'viewDate>>>>',this.viewDate)
     }
     
     eventTimesChanged({
@@ -346,7 +343,6 @@ export class SchedulerComponent {
     }
     
     handleEvent(action: string, event: CalendarEvent, app_data:any=[]): void {
-      console.log('id >> ',app_data.id)
       const eventsCount = this.events.filter((item) => {
         const eventDate = new Date(item.start).toISOString().split("T")[0]; 
         return eventDate === new Date(event.start).toISOString().split("T")[0];
@@ -408,7 +404,6 @@ export class SchedulerComponent {
     } 
 
     onDateChange(event: any) {
-        //console.log('on Date Change Event >>>>>>',event)
         // this.viewDate = event;
         // if(this.calenderView){
         //   this.getAppointmentList('search')
@@ -420,7 +415,6 @@ export class SchedulerComponent {
 
     onMonthChanges(id:any): void {
       this.viewDate = this.calendar.activeDate;
-      //console.log(id,'*****Month navigation detected. Current active month:', this.viewDate,'....calender View>>>',this.calenderView,'....search View>>>',this.searchView);
       if(this.calenderView){
         this.getAppointmentList('search')
       }
@@ -471,8 +465,7 @@ export class SchedulerComponent {
         if (action == "") {
           this.commonService.hideLoader()
         }
-        this.totalCount = response.data.totalCount
-        //console.log('length>>>',response.data.appointmentList.length,'>>>>>totalCount>>>>>>>>>>>>>',this.totalCount,'>>>>>>> WhereCond >>>>',this.whereCond)
+        this.totalCount = response.data.totalCount        
         let finalData: any = []
         if (response.data.appointmentList.length > 0) {
           await response.data.appointmentList.map((element: any) => {
@@ -639,18 +632,14 @@ export class SchedulerComponent {
     searchPage() {
       this.calenderView = false;
       this.searchView = true;
-      // console.log('view date >>>>',this.viewDate)
       // const firstDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1); // First day of the month
       // const lastDay = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth() + 1, 1.5); // Last day of the month
-      // console.log('firstDay >>>>',firstDay,'>>>>>>>>>>>>','lastDay >>>>',lastDay)
       // let obj = { $gte: firstDay, $lte: lastDay }
-      // console.log('obj >>>>',obj);
       // Object.assign(this.whereSearchCond, { appointmentDate: obj })
       this.searchPageRecords('')
     }
 
     searchPageFilters(event: any, colName: string) {
-      console.log('search Page Filters Event >>>>>>',event)
       let searchStr = event.target.value.trim()
       if (searchStr != '') {
         searchStr = searchStr.replace("+", "\\+");
@@ -778,7 +767,6 @@ export class SchedulerComponent {
     handlePageEvent(event: any) {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
-      console.log('handle Page Event')
       this.searchPageRecords('')
     }
 
@@ -791,11 +779,9 @@ export class SchedulerComponent {
     }
 
     navigateToappointmentDetails(appointmentId: string) {
-      console.log('appointmentId >>>',appointmentId)
       this.modal.dismissAll()
       this.router.navigate([this.commonService.getLoggedInRoute(), 'case-details', appointmentId]);
     }
-
 
 
 }
