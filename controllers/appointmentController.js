@@ -146,7 +146,7 @@ const createAppointmenttest = async (req, res) => {
 }
 
 
-const createAppointment12 = async (req, res) => {
+const createAppointmenttesting = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
   
@@ -156,6 +156,12 @@ const createAppointment12 = async (req, res) => {
             appointmentDate = data.appointmentStartTime;
         }
         console.log('appointment date >>>>',appointmentDate)
+         
+        let start_date_time = commonHelper.dateModify(data.appointmentStartTime);
+        let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
+
+        let appointment_date_time = '"'+start_date_time+' To ' +endtime+'"';
+        console.log('appointment_date_time_____>>>>',appointment_date_time)
 
         commonHelper.sendResponse(res, 'success', {}, 'done');
     } catch (error) {
