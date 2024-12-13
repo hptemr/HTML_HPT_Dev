@@ -957,7 +957,7 @@ const getCaseList = async (req, res) => {
             }
         }
             
-        Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled']}})
+        // Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled']}})
         Object.assign(query, { 'patientObj.status': 'Active'})
          
         console.log('*****************query*****************',query);
