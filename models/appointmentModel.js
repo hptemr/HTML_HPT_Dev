@@ -113,6 +113,9 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    notification_5hrs_sent: { type: Boolean, default: false },
+    notification_24hrs_sent: { type: Boolean, default: false },
+
     appointmentUpdateInfo: { type: Array, default: [] },//keys will be ==> "fromPatientId , fromAdminId, updatedAt, userRole"
     intakeFormSubmit: { type: Boolean, default: false }, 
     createdAt: { type: Date, default: Date.now },

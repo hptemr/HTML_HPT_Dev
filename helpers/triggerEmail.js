@@ -300,6 +300,29 @@ const patientIntakeFormSubmitEmailToST = async (templateName,appointment_data, p
 }
 
 
+const appointmentNotificationPatient = async (templateName,appointment_data,patientData) => {
+    try {
+        if(appointment_data && appointment_data!=null && patientData && patientData!=null){
+            let template = await sendEmailServices.getEmailTemplateByCode(templateName)
+            if(template!=null){
+                let params = {
+                    "{firstName}": patientData.firstName,
+                    "{appointment_date}": `${appointment_data.appointmentDate}`,
+                }
+                var mailOptions = {
+                    to: [patientData.email],
+                    subject: template.mail_subject,
+                    cc: ['pankajk+51@arkenea.com'],
+                    html: sendEmailServices.generateContentFromTemplate(template.mail_body, params)
+                }
+                sendEmailServices.sendEmail(mailOptions)
+                return true;
+            }
+        }        
+    } catch (error) {
+        console.log("Appointment Notification Patient Error>>>>",error)
+    }
+}
 
 module.exports = {
     inviteAdmin,
@@ -311,5 +334,6 @@ module.exports = {
     appointmentRequestReceivedFromPatient,
     appointmentRequestReplyFromAdmin,
     appointmentCreatedByAdminReplyPatient,
-    patientIntakeFormSubmitEmailToST
+    patientIntakeFormSubmitEmailToST,
+    appointmentNotificationPatient
 };
