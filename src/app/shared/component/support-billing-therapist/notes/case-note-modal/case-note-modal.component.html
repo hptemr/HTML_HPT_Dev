@@ -10,8 +10,8 @@
                     <label class="col-form-label fw-700 font-16">Creation Date <span class="clr--DF0404 ms-1"> * </span></label>
                     <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="note_date" (change)="onAppointmentDateChange($event)">
                       <option value="" disabled>Select date</option>                      
-                      <!-- <option *ngFor="let d of appointment_dates"value="{{d.appointmentDate}}">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC' }}</option> -->
-                      <option *ngFor="let d of appointment_dates" value="{{d.appointmentDate}}" [disabled]="d.status=='Finalized'">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC' }}</option>
+                      <!-- <option *ngFor="let d of appointment_dates"value="{{d.appointmentDate}}">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a' }}</option> -->
+                      <option *ngFor="let d of appointment_dates" value="{{d.appointmentDate}}" [disabled]="d.status=='Finalized'">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a' }}</option>
                     </select>
                     <div class="text text-danger mt-1" *ngIf="caseNoteForm.controls['note_date'].touched && caseNoteForm.controls['note_date'].hasError('required')">
                         {{ validationMessages.requiredDropdown('Creation date') }}</div>

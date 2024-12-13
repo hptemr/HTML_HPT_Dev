@@ -222,8 +222,8 @@
                                             Date of Service
                                         </th>
                                         <td mat-cell *matCellDef="let element"> 
-                                            {{element.note_date | date: 'EEE, MMM d, y hh:mm a':'UTC'}} 
-                                            <p class="mt-1 " *ngFor="let addendum of element.addendums"> <span class="fw-700"> Addendum:</span> {{addendum.createdAt | date: 'EEE, MMM d, y hh:mm a':'UTC'}} </p>
+                                            {{element.note_date | date: 'EEE, MMM d, y hh:mm a'}} 
+                                            <p class="mt-1 " *ngFor="let addendum of element.addendums"> <span class="fw-700"> Addendum:</span> {{addendum.createdAt | date: 'EEE, MMM d, y hh:mm a'}} </p>
                                         </td>
                                     </ng-container> 
                                     <ng-container matColumnDef="createdBy">

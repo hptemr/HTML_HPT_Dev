@@ -142,23 +142,24 @@ export class CreateAppointmentComponent {
   
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
   }
 
   onDateInput(event: MatDatepickerInputEvent<any>): void {
-    const parsedDate = new Date(event.value ? event.value : '');
-    parsedDate.setHours(10, 0, 0);
+    // const parsedDate = new Date(event.value ? event.value : '');
+    // parsedDate.setHours(10, 0, 0);
 
-    const parsedDate2 = new Date(event.value ? event.value : '');
-    parsedDate2.setHours(10, 15, 0);
+    // const parsedDate2 = new Date(event.value ? event.value : '');
+    // parsedDate2.setHours(10, 15, 0);
 
-    this.appointmentForm.controls['appointmentStartTime'].setValue(parsedDate);
-    this.appointmentForm.controls['appointmentEndTime'].setValue(parsedDate2);
+    this.appointmentForm.controls['appointmentStartTime'].setValue(event.value);
+    this.appointmentForm.controls['appointmentEndTime'].setValue(event.value);
 
-    // setTimeout( () => {    
-    //     console.log('appointmentDate 1 >>>>>',this.appointmentForm.controls['appointmentDate'])
-    //     console.log('appointmentStartTime 1 >>>>>',this.appointmentForm.controls['appointmentStartTime'])
-    //     console.log('appointmentEndTime 1 >>>>>',this.appointmentForm.controls['appointmentEndTime'])
-    // }, 1000)
+    setTimeout( () => {    
+        console.log('appointmentDate 1 >>>>>',this.appointmentForm.controls['appointmentDate'])
+        console.log('appointmentStartTime 1 >>>>>',this.appointmentForm.controls['appointmentStartTime'])
+        console.log('appointmentEndTime 1 >>>>>',this.appointmentForm.controls['appointmentEndTime'])
+    }, 1000)
   }
 
   onChange(event: MatRadioChange) {

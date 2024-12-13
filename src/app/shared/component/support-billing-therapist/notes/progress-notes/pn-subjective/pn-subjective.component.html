@@ -9,7 +9,7 @@
                     <label class="col-form-label fw-600">Date of Service </label>
                     <select class="form-select form-control form-control-md" aria-label="Default select example" formControlName="note_date">
                         <option value="">Select date</option>
-                        <option *ngFor="let d of appointment_dates" value="{{d.appointmentDate}}" [disabled]="d.status=='Finalized'">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a':'UTC' }}</option>
+                        <option *ngFor="let d of appointment_dates" value="{{d.appointmentDate}}" [disabled]="d.status=='Finalized'">{{d.appointmentDate | date:'MM-dd-yyyy hh:mm a' }}</option>
                     </select>
                     <!-- <input type="text" class="form-control" placeholder="Date of Service" formControlName="note_date" [readonly]="true"> -->
                     <div class="text text-danger mt-1" *ngIf="subjectiveForm.controls['note_date'].touched && subjectiveForm.controls['note_date'].hasError('required')">
@@ -1335,7 +1335,7 @@
                                         <div class="col-12 mt-3">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
-                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">{{appointment_data?.appointmentDate | date:'MM-dd-yyyy':'UTC' }}</span></p>
+                                                    <p class="font-16 fw-600 clr--1F2F3E mb-0"> Date Updated: <span class="fw-400">{{appointment_data?.appointmentDate | date:'MM-dd-yyyy' }}</span></p>
                                                 </div>
                                                 <div class="col-12 col-sm-6 d-flex align-items-center justify-content-sm-end justify-content-start">
                                                     <p class="font-16 fw-600 clr--1F2F3E mb-0"> Patient Initials:<span class="fw-400 ms-2">{{initialName}}</span></p>
