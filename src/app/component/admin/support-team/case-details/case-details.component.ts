@@ -14,13 +14,13 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 // import { ShareModalComponent } from 'src/app/shared/comman/share-modal/share-modal.component';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { s3Details } from 'src/app/config';
 import { SelectPrimaryInsuModalComponent } from 'src/app/shared/comman/select-primary-insu-modal/select-primary-insu-modal.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validationMessages } from '../../../../utils/validation-messages';
 import { DatePipe } from '@angular/common';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-
 export interface PeriodicElement {
   soap_note_type: string;  
   note_date: string;   
@@ -84,6 +84,7 @@ export class CaseDetailsComponent {
   activeUserRoute = this.commonService.getLoggedInRoute()
   userId = this.authService.getLoggedInInfo('_id')
   userRole = this.authService.getLoggedInInfo('role')
+  previousUrl: string | null = null;
   constructor(
     public dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer,
@@ -92,7 +93,8 @@ export class CaseDetailsComponent {
     public commonService: CommonService,
     public authService:AuthService,
     private fb: FormBuilder, 
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private navigationService: NavigationService
   ) {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
@@ -100,6 +102,7 @@ export class CaseDetailsComponent {
   }
 
   ngOnInit() {
+    this.navigationService.getPreviousUrl()
     this.initializeStCaseDetailsForm()
     this.getAppointmentDetails()
     this.getTherapistList()
@@ -230,7 +233,12 @@ export class CaseDetailsComponent {
     
   
   navigateToappointmentDetails(path: string,id:string) {
-    this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+    this.previousUrl = this.navigationService.getPreviousUrl();
+    if(this.previousUrl){
+      this.router.navigate([this.previousUrl]);
+    }else{
+      this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+    }
   }
 
   selectInsuranceModal() {

@@ -21,6 +21,7 @@ import { AuthService } from 'src/app/shared/services/api/auth.service';
 import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { ChangeDetectorRef } from '@angular/core';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { s3Details, pageSize, pageSizeOptions, appointmentStatus, practiceLocations } from 'src/app/config';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { debounceTime } from 'rxjs/operators';
@@ -71,7 +72,7 @@ export class SchedulerComponent {
   searchAppointmentsList: any = []
   public userId: string = this.authService.getLoggedInInfo('_id');
   userRole = this.authService.getLoggedInInfo('role')
-  constructor(private router: Router,private cdr: ChangeDetectorRef, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService) { }
+  constructor(private router: Router,private cdr: ChangeDetectorRef, public dialog: MatDialog, private modal: NgbModal,public authService: AuthService,public commonService: CommonService,private navigationService: NavigationService) { }
 
     ngOnInit() {
       this.getAppointmentList('');
