@@ -29,6 +29,8 @@ export class ViewInsuranceComponent {
   fullNameForSign: string = '';
   isInjuryRelatedToWorkers:boolean=false
   isOtherPersonalInjury:boolean=false
+  isBillingDetailsData:boolean=false
+  billingDetailsData : any;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +54,7 @@ export class ViewInsuranceComponent {
       this.commonService.showLoader();
       let reqVars = {
         query: { _id: this.appointmentId },
-        fields: { payViaInsuranceInfo: 1,adminPayViaInsuranceInfo:1 }
+        fields: { payViaInsuranceInfo: 1,adminPayViaInsuranceInfo:1, patientId:1, caseName:1 }
       }
 
       await this.authService.apiRequest('post', 'appointment/getAppointmentDetails', reqVars).subscribe(async response => {
@@ -64,11 +66,37 @@ export class ViewInsuranceComponent {
             this.insuranceInfo = response.data.appointmentData?.adminPayViaInsuranceInfo
           }
           console.log("this.insuranceInfo>>>",this.insuranceInfo)
-         
-          this.loadInsuranceData(this.insuranceInfo)
+
+          console.log("this.appointmentData>>>",this.appointmentData)
+          await this.getBillingDetails(this.appointmentData?.patientId?._id,this.appointmentData?.caseName).catch(_err=>false)
+          if(this.isBillingDetailsData){
+            this.loadBillingInsuranceData(this.billingDetailsData)
+          }else{
+            this.loadInsuranceData(this.insuranceInfo)
+          }
         }
       })
     }
+  }
+
+  getBillingDetails(patientId:any, caseName:string){
+      this.isBillingDetailsData = false
+      return new Promise(async (resolve, reject) => {
+        let billingDetailsQuery:any = {
+          patientId : patientId,
+          caseName : caseName
+        }
+        this.authService.apiRequest('post', 'appointment/getBillingDetails', billingDetailsQuery).subscribe(async response => {  
+          let { error, data } = response
+          if(data && data!=null ){
+            this.isBillingDetailsData = true
+            this.billingDetailsData = data
+          }
+          resolve(true)
+        },(err) => {
+          reject()
+        })
+      })
   }
 
   loadInsuranceForm(){
@@ -154,6 +182,55 @@ export class ViewInsuranceComponent {
     this.insuranceForm.controls['attorneyPhone'].setValue(insuranceInfo ? insuranceInfo?.attorneyPhone : '');
     
   }
+
+
+  loadBillingInsuranceData(insuranceInfo:any){
+    this.insuranceForm.controls['subscriberFirstName'].setValue(insuranceInfo ? insuranceInfo?.subscriberFirstName : '');
+    this.insuranceForm.controls['subscriberMiddleName'].setValue(insuranceInfo ? insuranceInfo?.subscriberMiddleName : '');
+    this.insuranceForm.controls['subscriberLastName'].setValue(insuranceInfo ? insuranceInfo?.subscriberLastName : '');
+    this.insuranceForm.controls['subscriberDob'].setValue(insuranceInfo ? insuranceInfo?.subscriberDob : '');
+    this.insuranceForm.controls['subscriberRelationWithPatient'].setValue(insuranceInfo ? insuranceInfo?.subscriberRelationWithPatient : '');
+
+    this.insuranceForm.controls['primaryInsuranceCompany'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.primaryInsurance : '');
+    this.insuranceForm.controls['primaryInsuranceIdPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_idPolicy : '');
+    this.insuranceForm.controls['primaryInsuranceGroup'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_group : '');
+    this.insuranceForm.controls['primaryInsuranceCustomerServicePh'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_customerServicePhNo : '');
+    this.insuranceForm.controls['primaryInsuranceFromDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_effectiveDate : '');
+    this.insuranceForm.controls['primaryInsuranceToDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.PI_effectiveDate : '');
+
+    this.insuranceForm.controls['secondaryInsuranceCompany'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.secondaryInsurance : '');
+    this.insuranceForm.controls['secondaryInsuranceIdPolicy'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_idPolicy : '');
+    this.insuranceForm.controls['secondaryInsuranceGroup'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_group : '');
+    this.insuranceForm.controls['secondaryInsuranceCustomerServicePh'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_customerServicePhNo : '');
+    this.insuranceForm.controls['secondaryInsuranceFromDate'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.SI_effectiveDate : '');
+    this.insuranceForm.controls['secondaryInsuranceToDate'].setValue(this.isBillingDetailsData? this.billingDetailsData?.SI_endDate : '');
+
+    this.insuranceForm.controls['injuryRelelatedTo'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_injuryRelatedTo : '');
+
+    if(this.billingDetailsData?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)"){
+      this.isInjuryRelatedToWorkers = true
+      this.insuranceForm.controls['carrierName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_carrierName : '');
+      this.insuranceForm.controls['dateOfInjury'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_dateOfInjury : '');
+      this.insuranceForm.controls['insuranceState'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_state : '');
+      this.insuranceForm.controls['claim'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_claim : '');
+      this.insuranceForm.controls['adjusterName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterName : '');
+      this.insuranceForm.controls['adjusterPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_adjusterPhone : '');
+      this.insuranceForm.controls['reportedEmployer'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.RP_reportedToEmployer : '');
+      this.insuranceForm.controls['employerName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerName : '');
+      this.insuranceForm.controls['employerPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerPhone : '');
+      this.insuranceForm.controls['employerAddress'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.EI_employerAddress : '');
+    }
+
+    // if(this.billingDetailsData?.RP_injuryRelatedTo=="Other Personal Injury"){
+    //   this.isOtherPersonalInjury = true
+    //   this.insuranceForm.controls['otherPersonalInjury'].setValue(this.isBillingDetailsData ? insuranceInfo?.otherPersonalInjury : '');
+    // }
+
+    this.insuranceForm.controls['attorneyName'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyName : '');
+    this.insuranceForm.controls['attorneyPhone'].setValue(this.isBillingDetailsData ? this.billingDetailsData?.AI_attorneyPhone : '');
+    
+  }
+
 
 
 }
