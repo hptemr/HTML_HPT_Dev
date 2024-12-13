@@ -13,6 +13,7 @@ import { carrierNameList, maritalStatus, practiceLocations, relationWithPatient 
 import { states_data } from 'src/app/state';
 import { s3Details } from 'src/app/config';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { addDays} from 'date-fns';
 interface State {
   state: string;
   state_code: string;
@@ -32,10 +33,12 @@ export class BillingDetailsComponent {
   selectedThirdInsuranceData:any
   billingDetailsForm: FormGroup;
   PICustServPhoneNumber: string = '';
-  effectiveSelectedDate: any = ''
+  // effectiveSelectedDate: any = ''
+  effectiveSelectedDate: any = addDays(new Date(), 1)
   SICustServPhoneNumber: string = '';
   SIAuthFromDate: any = ''
-  SIEffectiveSelectedDate: any = ''
+  // SIEffectiveSelectedDate: any = ''
+   SIEffectiveSelectedDate: any = addDays(new Date(), 1)
   todayDate = new Date()
   RPPhoneNumber: string = '';
   RPCellPhoneNumber: string = '';
@@ -410,7 +413,15 @@ export class BillingDetailsComponent {
   // ==== Other supported functions =====
   onEffectiveDateChange(event: any) {
     let selectedDate = new Date(event.value);
-    this.effectiveSelectedDate = selectedDate;
+    // this.effectiveSelectedDate = selectedDate;
+
+    let normalizedSelectedDate = selectedDate.setHours(0, 0, 0, 0)
+    let normalizedTodayDate = this.todayDate.setHours(0, 0, 0, 0)
+    if(normalizedSelectedDate > normalizedTodayDate){
+      this.effectiveSelectedDate = selectedDate;
+    } else {
+      this.effectiveSelectedDate = addDays(new Date(), 1)
+    }
 
     const PIEndDate = new Date(this.billingDetailsForm.get('PI_endDate')?.value);
     if (PIEndDate && selectedDate > PIEndDate) {
@@ -431,6 +442,14 @@ export class BillingDetailsComponent {
   onSIEffectiveDateChange(event: any) {
     let selectedDate = new Date(event.value);
     this.SIEffectiveSelectedDate = selectedDate;
+
+    let normalizedSelectedDate = selectedDate.setHours(0, 0, 0, 0)
+    let normalizedTodayDate = this.todayDate.setHours(0, 0, 0, 0)
+    if(normalizedSelectedDate > normalizedTodayDate){
+      this.SIEffectiveSelectedDate = selectedDate;
+    } else {
+      this.SIEffectiveSelectedDate = addDays(new Date(), 1)
+    }
 
     const SIEndDate = new Date(this.billingDetailsForm.get('SI_endDate')?.value);
     if (SIEndDate && selectedDate > SIEndDate) {
