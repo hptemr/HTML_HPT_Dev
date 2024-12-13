@@ -1384,7 +1384,7 @@ async function summaryData(optionType, results) {
     }
 
     if (
-      (optionType == 'Monthly' && monthName != '' && monthName != moment(element.appointmentDate).format('MMMM')) ||
+      (optionType == 'Monthly' && monthName != '' && (totoalResultCounter == totalCnt || monthName != moment(element.appointmentDate).format('MMMM'))) ||
       (optionType == 'Quarterly' && quarterNumber > 0 && (totoalResultCounter == totalCnt || quarterNumber != moment(element.appointmentDate).quarter()))) {
 
       finalResults.push({
