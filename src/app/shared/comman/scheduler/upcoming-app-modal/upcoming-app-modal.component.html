@@ -8,7 +8,7 @@
         <div class="modal--body w-100">
             <div class="font-16" *ngIf="waitFlag">Please wait....</div> 
             <ul *ngIf="!waitFlag">
-                <li class="font-16" *ngFor="let elements of upcomingAppointmentsList"> {{elements.appointmentDate | date:'EEE, MMM dd, yyyy hh:mm a':'UTC'}}  </li>
+                <li class="font-16" *ngFor="let elements of upcomingAppointmentsList"> {{elements.appointmentDate | date:'EEE, MMM dd, yyyy hh:mm a'}}  </li>
                 <li class="font-16" *ngIf="noRecordsFlag">No Upcoming Appointments</li> 
             </ul>
         </div>

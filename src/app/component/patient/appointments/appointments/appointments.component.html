@@ -107,7 +107,7 @@
                             Appointment Date & Time 
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            {{element.appointmentDate | date:'EEE, MMM d, y hh:mm a':'UTC'}} {{element.appointmentEndTime ? '-' : ''}} {{element.appointmentEndTime | date:'hh:mm a':'UTC'}}
+                            {{element.appointmentDate | date:'EEE, MMM d, y hh:mm a'}} {{element.appointmentEndTime ? '-' : ''}} {{element.appointmentEndTime | date:'hh:mm a'}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="status">
