@@ -681,12 +681,24 @@ const updateAppointment = async (req, res) => {
             // Update by Support Team
             if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo){
                 console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
-                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
+                let insurancePresentData = caseFound?.tebraInsuranceData
+                let isInsurancePresentData = false
+                if(insurancePresentData && insurancePresentData?.InsurancePolicyCompanyID && insurancePresentData?.InsurancePolicyID && insurancePresentData?.InsurancePolicyPlanID){
+                    isInsurancePresentData = true
+                }
+                console.log("<<<< isInsurancePresentData >>>>>",isInsurancePresentData)
+                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance' && isInsurancePresentData){
                     tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
+                }
+
+                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance' && !isInsurancePresentData){
+                    // tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
+                    tebraController.addPatientInsuranceIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
                 }
                 
                 if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Selfpay'){
-                    tebraController.addPatientSelfPayIntakeForm(patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                    // tebraController.addPatientSelfPayIntakeForm(patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                    tebraController.addSupportTeamSelfPayIntakeForm(patientData, caseFound, appointment_data?.emergencyContact)
                 }
             }
         }
