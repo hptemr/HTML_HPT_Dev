@@ -1,5 +1,6 @@
 const CryptoJS = require('crypto-js');
 const _ = require('lodash');
+const moment = require('moment');
 
 const sendResponse = (res, type, data, message) => {
     switch (type) {
@@ -62,8 +63,19 @@ const decryptData = (data, key) =>{
   return decryptedtString;
 }
 
-
 const dateModify = (appointmentDate) =>{
+    const now = moment(appointmentDate);
+    const formattedDate = now.format('ddd, MMM D, YYYY hh:mm A');
+    return formattedDate
+}
+
+const getDateMinutes = (appointmentDate) =>{
+  const now = moment(appointmentDate);
+  const formattedDate = now.format('hh:mm a');
+  return formattedDate
+}
+
+const dateModifyOld = (appointmentDate) =>{
   console.log(typeof appointmentDate,'.....appointmentDate val>>>>',appointmentDate)
   //const date = new Date(dateVal);
   // const year = date.getFullYear();
@@ -86,7 +98,7 @@ const dateModify = (appointmentDate) =>{
   return formattedDate;
 }
 
-const getDateMinutes = (appointmentDate) =>{
+const getDateMinutesOLd = (appointmentDate) =>{
   const formattedDate = appointmentDate.toLocaleString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
