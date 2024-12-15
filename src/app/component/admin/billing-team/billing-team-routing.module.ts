@@ -34,6 +34,13 @@ import { DnAssessmentComponent } from 'src/app/shared/component/support-billing-
 import { DnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/dn-plan/dn-plan.component';
 import { DailyNoteBillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/daily-notes/billing/billing.component';
 import { SchedulerComponent } from 'src/app/shared/comman/scheduler/scheduler.component';
+import { ProgressNoteBillingComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/billing/billing.component';
+import { ProgressNoteComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/progress-notes/progress-notes.component';
+import { PnSubjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-subjective/pn-subjective.component';
+import { PnObjectiveComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-objective/pn-objective.component';
+import { PnAssessmentComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-assessment/pn-assessment.component';
+import { PnPlanComponent } from 'src/app/shared/component/support-billing-therapist/notes/progress-notes/pn-plan/pn-plan.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -254,6 +261,52 @@ const routes: Routes = [
       {
         path: 'billing-view/:appointmentId/:addendumId',
         component: DailyNoteBillingComponent, 
+      },
+    ]
+  },
+  {
+    path: 'progress-notes',
+    component:ProgressNoteComponent ,
+    children: [ 
+      {
+        path: 'subjective-view/:appointmentId',
+        component: PnSubjectiveComponent, 
+      }, 
+      {
+        path: 'subjective-view/:appointmentId/:addendumId',
+        component: PnSubjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId',
+        component: PnObjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId/:addendumId',
+        component: PnObjectiveComponent, 
+      },
+      {
+        path: 'assessment-view/:appointmentId',
+        component: PnAssessmentComponent, 
+      },
+      {
+        path: 'assessment-view/:appointmentId/:addendumId',
+        component: PnAssessmentComponent, 
+      },
+      {
+        path: 'plan-view/:appointmentId',
+        component: PnPlanComponent, 
+      },
+      {
+        path: 'plan-view/:appointmentId/:addendumId',
+        component: PnPlanComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId',
+        component: ProgressNoteBillingComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId/:addendumId',
+        component: ProgressNoteBillingComponent, 
       },
     ]
   },

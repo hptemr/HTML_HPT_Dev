@@ -96,20 +96,37 @@ export class ProgressNoteBillingComponent {
   billingType = "CMS"
   isHold = false
   draftFlag:boolean = true
+  readOnly = false
+  addendumId =""
   constructor(private router: Router,private route: ActivatedRoute,public authService: AuthService, public dialog: MatDialog, public commonService: CommonService) {
-    this.appointmentId = this.route.snapshot.params['appointmentId'];
+    this.route.params.subscribe((params: Params) => {
+      this.appointmentId = params['appointmentId'];
+      this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }
+      const locationArray = location.href.split('/')
+      if(locationArray[locationArray.length - lengthVal] == 'billing-view'){
+        this.readOnly = true
+      }
+    })
     this.userId = this.authService.getLoggedInInfo('_id')
   }
 
   ngOnInit() { 
     var params = {
       appointmentId:this.appointmentId,
-      noteType:"progress_note"
+      noteType:"progress_note",
+      addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data;
       if(response.data && response.data.billingData){
         result = response.data.billingData;
+      }
+      if(result && result?.status=='Finalized'){
+        this.readOnly = true
       }
       // This code comment because we are not restrict to show billing. If billing type get or not. By default It will take CMS.
       // if(response && response.data?.caseData && response.data?.caseData?.billingType==""){
@@ -456,7 +473,8 @@ export class ProgressNoteBillingComponent {
           dmeCptList:tempDmeCptList,
           appointmentId : this.appointmentId,
           soapNoteType : "progress_note",
-          additionalCodes:this.additionalCodes
+          additionalCodes:this.additionalCodes,
+          addendumId : this.addendumId
         }
         if(this.actionType=='create'){
           this.authService.apiRequest('post', 'soapNote/createBillingNote', inputParams).subscribe(async response => {
@@ -492,6 +510,7 @@ export class ProgressNoteBillingComponent {
               let inputParams = {
                 appointmentId : this.appointmentId,
                 soapNoteType : "progress_note",
+                addendumId : this.addendumId
               }
               this.authService.apiRequest('post', 'soapNote/finalizeNote', inputParams).subscribe(async response => {
                 if (response.error) {

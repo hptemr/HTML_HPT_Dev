@@ -47,7 +47,7 @@ export class DisSubjectiveComponent implements OnInit {
         lengthVal = 3
       }   
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'subjective-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'subjective-view'){
         this.readOnly = true
       }
     })
@@ -73,7 +73,7 @@ export class DisSubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note'},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note',addendumId:this.addendumId},     
       soap_note_type:'discharge_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
@@ -81,7 +81,11 @@ export class DisSubjectiveComponent implements OnInit {
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
         if (subjectiveData.status!='Finalized') this.subjectiveId = subjectiveData._id
-       
+        
+        if(this.addendumId!=undefined){
+          this.subjectiveId = subjectiveData.addendumId;
+        } 
+
         let note_date = '';
         if (subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){
           note_date = subjectiveData.note_date
@@ -134,7 +138,10 @@ export class DisSubjectiveComponent implements OnInit {
         let reqVars = {
           userId: this.userId,
           data: formData,
-          subjectiveId:this.subjectiveId
+          subjectiveId:this.subjectiveId,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId,
+          soap_note_type:'dicharge_note'
         }        
         this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
           if (response.error) {

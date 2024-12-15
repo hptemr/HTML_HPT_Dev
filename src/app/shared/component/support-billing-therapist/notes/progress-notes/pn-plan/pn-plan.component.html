@@ -23,7 +23,7 @@
             <div class="col-12 select--ans d-flex align-items-center flex-wrap">
                 <label class="col-form-label fw-600 me-3 lw">Frequency Per Week <span class="clr--DF0404 ms-1"> * </span></label>
                 <ul class="m-0 p-0 d-flex flex-wrap">
-                    <li *ngFor="let i of [1,2,3,4,5]" [class.active]="clickedIndex === i" (click)="clickedIndex = i;clickFrequency()">
+                    <li *ngFor="let i of [1,2,3,4,5]" [class.active]="clickedIndex === i" (click)="clickedIndex = i;clickFrequency()" [ngClass]="{'disabled': readOnly == true}">
                         {{i}}
                     </li>
                 </ul>
@@ -34,7 +34,7 @@
             <div class="col-12 select--ans d-flex align-items-center flex-wrap">
                 <label class="col-form-label fw-600 me-3 lw">Duration (In Weeks) <span class="clr--DF0404 ms-1"> * </span></label>
                 <ul class="m-0 p-0 d-flex flex-wrap">
-                    <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" [class.active]="clickedIndex2 === i" (click)="clickedIndex2 = i;clickDuraction()">
+                    <li *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" [class.active]="clickedIndex2 === i" (click)="clickedIndex2 = i;clickDuraction()" [ngClass]="{'disabled': readOnly == true}">
                         {{i}}
                     </li>
                 </ul>
@@ -82,7 +82,7 @@
                             </div>
                             <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3" *ngFor="let ptcode of ptList;let i=index">
                                 <div class="me-2">
-                                    <mat-checkbox [checked]="ptcode.selected" class="" (change)="showOptions($event,i,'ptCode')">{{ptcode.name}}</mat-checkbox>
+                                    <mat-checkbox [checked]="ptcode.selected" class="" (change)="showOptions($event,i,'ptCode')" [disabled]="readOnly">{{ptcode.name}}</mat-checkbox>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3" *ngFor="let otcode of otList; let i=index">
                                 <div class="me-2">
-                                    <mat-checkbox [checked]="otcode.selected" class="" (change)="showOptions($event,i,'otCode')">{{otcode.name}}</mat-checkbox>
+                                    <mat-checkbox [checked]="otcode.selected" class="" (change)="showOptions($event,i,'otCode')" [disabled]="readOnly">{{otcode.name}}</mat-checkbox>
                                 </div>
                             </div>
 
@@ -107,7 +107,7 @@
                             </div>
                             <div class="d-flex flex-row align-items-center justify-content-start col-12 px-0 mb-3" *ngFor="let slpcode of slpList;let i=index">
                                 <div class="me-2">
-                                    <mat-checkbox [checked]="slpcode.selected" class="" (change)="showOptions($event,i,'slpCode')">{{slpcode.name}}</mat-checkbox>
+                                    <mat-checkbox [checked]="slpcode.selected" class="" (change)="showOptions($event,i,'slpCode')" [disabled]="readOnly">{{slpcode.name}}</mat-checkbox>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
 
         </div>
         <div class="d-flex align-items-center justify-content-end  notes--footer--btns">
-            <button mat-raised-button color="primary" class="m-1" (click)="saveDraft()">
+            <button mat-raised-button color="primary" class="m-1" (click)="saveDraft()" [disabled]="readOnly">
                 Save as Draft
             </button>
         </div>

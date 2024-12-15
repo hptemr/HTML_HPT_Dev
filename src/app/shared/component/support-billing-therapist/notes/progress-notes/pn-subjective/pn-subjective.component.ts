@@ -155,7 +155,7 @@ export class PnSubjectiveComponent implements OnInit {
         lengthVal = 3
       }
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'subjective-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'subjective-view'){
         this.readOnly = true
       }
     })
@@ -186,7 +186,7 @@ export class PnSubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(type:string='progress_note'){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:type},     
+      query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId},     
       soap_note_type:'progress_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
@@ -197,7 +197,10 @@ export class PnSubjectiveComponent implements OnInit {
         if (subjectiveData.status!='Finalized' &&  type=='progress_note' && this.appointmentId==subjectiveData.appointmentId) this.subjectiveId = subjectiveData._id
         if(type=='initial_examination' && subjectiveData.status=='Finalized'){
           this.status = 'Draft';
-        }       
+        }  
+        if(this.addendumId!=undefined){
+          this.subjectiveId = subjectiveData.addendumId;
+        }     
                
         let note_date = '';
         if (subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){
@@ -423,7 +426,10 @@ export class PnSubjectiveComponent implements OnInit {
         let reqVars = {
           userId: this.userId,
           data: formData,
-          subjectiveId:this.subjectiveId
+          subjectiveId:this.subjectiveId,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId,
+          soap_note_type:'progress_note'
         }        
         this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
           if (response.error) {
