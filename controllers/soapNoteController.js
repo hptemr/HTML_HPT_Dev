@@ -1166,7 +1166,7 @@ async function createTmpFax(recipientFaxNumber,senderFaxNumber) {
 
   await axios.post('https://api.humblefax.com/tmpFax', tmpFaxData, { auth: { username: apiKey, password: apiSecret } })
   .then(response => {
-    if(response.data.status==200){
+    if(response.data.result=='success'){
       return response.data.data.tmpFax.id
     }else{
       return ""
@@ -1209,11 +1209,12 @@ async function uploadAttachment(tmpFaxId,filePath) {
 }
 
 // Step 3: Send the fax
-async function sendFaxData(tmpFaxId,dateOfService,appointmentId,noteName) {
+async function sendFaxData(tmpFaxId,dateOfService,appointmentId,noteName,caseId) {
   try {
     console.log("sendFaxData")
     await axios.post(`https://api.humblefax.com/tmpFax/${tmpFaxId}/send`,{},{ auth: { username: apiKey, password: apiSecret } }).then(async response => {
       let status = ""
+      console.log("======",response)
       if(response.data.result == 'success'){
         status = "success"
       }else{
@@ -1223,7 +1224,8 @@ async function sendFaxData(tmpFaxId,dateOfService,appointmentId,noteName) {
         appointmentId: new ObjectId(appointmentId),
         dateOfService: dateOfService,
         noteType: noteName,
-        status: status
+        status: status,
+        caseId:new ObjectId(caseId)
       }
       await faxTemp.create(createParams)
     });
@@ -1232,7 +1234,8 @@ async function sendFaxData(tmpFaxId,dateOfService,appointmentId,noteName) {
       appointmentId: new ObjectId(appointmentId),
       dateOfService: dateOfService,
       noteType: noteName,
-      status: 'failed'
+      status: 'failed',
+      caseId:new ObjectId(caseId)
     }
     await faxTemp.create(createParams)
   } 
@@ -1301,18 +1304,20 @@ const sendFax = async (req, res) => {
             stream.end(html);
           });
           console.log('The image was created successfully!')
+          let caseNoteData = await Case.findOne({appointments:{$in:[new ObjectId(req.body.appointmentId)]}});
           const tmpFaxId = await createTmpFax(req.body.faxNumbers,senderFaxNumber);
           if(tmpFaxId!="" && tmpFaxId!=undefined){
             const filePath = fileName;
             await uploadAttachment(tmpFaxId,filePath);
-            await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName);
+            await sendFaxData(tmpFaxId,req.body.subjectiveData.note_date,req.body.appointmentId,noteName,caseNoteData._id);
             commonHelper.sendResponse(res, 'success', {});
           }else{
             let createParams = {
               appointmentId: new ObjectId(req.body.appointmentId),
               dateOfService: req.body.subjectiveData.note_date,
               noteType: noteName,
-              status: 'failed'
+              status: 'failed',
+              caseId:new ObjectId(caseNoteData._id)
             }
             await faxTemp.create(createParams)
             commonHelper.sendResponse(res, 'error', {});
@@ -1338,10 +1343,10 @@ const sendFax = async (req, res) => {
 
 const getFaxHistory = async (req, res) => {
   try {
-    let faxData = await faxTemp.find({appointmentId:req.body.appointmentId}).sort({ _id: -1 }).limit(10)
+    let caseNoteData = await Case.findOne({appointments:{$in:[new ObjectId(req.body.appointmentId)]}});
+    let faxData = await faxTemp.find({caseId:new ObjectId(caseNoteData._id)}).sort({ _id: -1 }).limit(10)
     commonHelper.sendResponse(res, 'success', faxData);
   } catch (error) {
-    console.log(error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }

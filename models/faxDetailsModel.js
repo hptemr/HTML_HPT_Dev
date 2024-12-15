@@ -5,6 +5,10 @@ const faxDetailsSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "appointments"
     },
+    caseId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "cases"
+    },
     dateOfService: { type: Date, default: Date.now },
     noteType: { type: String, default: "" },
     status: { type: String, default: "" },
