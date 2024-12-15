@@ -210,7 +210,7 @@ export class IntakeStep2Component {
       subscriberRelationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberRelationWithPatient : '', [Validators.required]],
       subscriberOtherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberOtherRelation : [Validators.required]],
       subscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberGender : [Validators.required]],
-      primaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      primaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceCompany : '', [Validators.pattern("^[^0-9]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       primaryInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceIdPolicy : '', [Validators.required]],
       primaryInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceGroup : '', [Validators.required]],
       primaryInsuranceCustomerServicePh: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
@@ -224,7 +224,7 @@ export class IntakeStep2Component {
       secondarySubscriberRelationWithPatient: [typeof payViaInsuranceInfo?.secondarySubscriberRelationWithPatient !== 'undefined' ? payViaInsuranceInfo?.secondarySubscriberRelationWithPatient : '', [Validators.required]],
       secondarySubscriberOtherRelation: [typeof payViaInsuranceInfo?.secondarySubscriberOtherRelation !== 'undefined' ? payViaInsuranceInfo?.secondarySubscriberOtherRelation : [Validators.required]],
       secondarySubscriberGender: [typeof payViaInsuranceInfo?.secondarySubscriberGender !== 'undefined' ? payViaInsuranceInfo?.secondarySubscriberGender : '', [Validators.required]],
-      secondaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceCompany : '', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      secondaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceCompany : '', [Validators.pattern("^[^0-9]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondaryInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceIdPolicy : '', [Validators.required]],
       secondaryInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceGroup : '', [Validators.required]],
       secondaryInsuranceCustomerServicePh: [payViaInsuranceInfo ? payViaInsuranceInfo?.secondaryInsuranceCustomerServicePh : '', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
@@ -662,7 +662,7 @@ export class IntakeStep2Component {
       this.step2Form.controls['thirdSubscriberOtherRelation'].setValidators([])
       this.step2Form.controls['thirdSubscriberGender'].setValidators([Validators.required])
 
-      this.step2Form.controls['thirdInsuranceCompany'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]);
+      this.step2Form.controls['thirdInsuranceCompany'].setValidators([Validators.pattern("^[^0-9]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]);
       this.step2Form.controls['thirdInsuranceIdPolicy'].setValidators([Validators.required])
       this.step2Form.controls['thirdInsuranceGroup'].setValidators([Validators.required])
       this.step2Form.controls['thirdInsuranceCustomerServicePh'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])

@@ -132,7 +132,7 @@ export class ViewEditInsuranceComponent {
       subscriberGender: ['',[Validators.required]],
       subscriberRelationWithPatient: ['', [Validators.required]],
       subscriberOtherRelation: [''],
-      primaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      primaryInsuranceCompany: ['', [Validators.pattern("^[^0-9]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       primaryInsuranceIdPolicy: ['', [Validators.required]],
       primaryInsuranceGroup: ['', [Validators.required]],
       primaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
@@ -146,7 +146,7 @@ export class ViewEditInsuranceComponent {
       secondarySubscriberRelationWithPatient: ['', [Validators.required]],
       secondarySubscriberOtherRelation: [''],
       secondarySubscriberGender: ['', [Validators.required]],
-      secondaryInsuranceCompany: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],      
+      secondaryInsuranceCompany: ['', [Validators.pattern("^[^0-9]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],      
       secondaryInsuranceIdPolicy: ['', [Validators.required]],
       secondaryInsuranceGroup: ['', [Validators.required]],
       secondaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
@@ -725,7 +725,7 @@ export class ViewEditInsuranceComponent {
       this.insuranceForm.controls['thirdSubscriberOtherRelation'].setValidators([Validators.required])
       this.insuranceForm.controls['thirdSubscriberGender'].setValidators([Validators.required])
       
-      this.insuranceForm.controls['thirdInsuranceCompany'].setValidators([Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]);
+      this.insuranceForm.controls['thirdInsuranceCompany'].setValidators([Validators.pattern("^[^0-9]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]);
       this.insuranceForm.controls['thirdInsuranceIdPolicy'].setValidators([Validators.required])
       this.insuranceForm.controls['thirdInsuranceGroup'].setValidators([Validators.required])
       this.insuranceForm.controls['thirdInsuranceCustomerServicePh'].setValidators([Validators.required, Validators.minLength(14), Validators.maxLength(14)])
