@@ -123,7 +123,8 @@ export class AppointmentsComponent {
       if(event=='Admin All'){
         delete this.whereCond[colName];            
       } else{
-        Object.assign(this.whereCond, { [colName]: { $in: [event] } })
+        // Object.assign(this.whereCond, { [colName]: { $in: [event] } })
+        Object.assign(this.whereCond, { [colName]: event })
       }  
     } else {
       delete this.whereCond[colName];

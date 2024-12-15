@@ -15,7 +15,7 @@ export class AppointmentDetailsModalComponent {
 
 
   ngOnInit() {  
-    console.log('asdasd  AppointmentDetailsModalComponent asd sd')
+ 
   }
 
   upcomingAppointmentModal(){
@@ -31,7 +31,6 @@ export class AppointmentDetailsModalComponent {
     });
   }
   editAppointment(){
-    console.log('^^^^^^^&&&&&&&&&&&&')
     const dialogRef = this.dialog.open(EditAppointmentModalComponent,{
       width:'1260px',
       panelClass: [ 'modal--wrapper'],
