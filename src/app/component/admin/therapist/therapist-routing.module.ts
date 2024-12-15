@@ -283,7 +283,31 @@ const routes: Routes = [
         component: DisSubjectiveComponent, 
       }, 
       {
+        path: 'subjective/:appointmentId/:addendumId',
+        component: DisSubjectiveComponent, 
+      }, 
+      {
+        path: 'subjective-view/:appointmentId',
+        component: DisSubjectiveComponent, 
+      }, 
+      {
+        path: 'subjective-view/:appointmentId/:addendumId',
+        component: DisSubjectiveComponent, 
+      }, 
+      {
         path: 'objective/:appointmentId',
+        component: DisObjectiveComponent, 
+      },
+      {
+        path: 'objective/:appointmentId/:addendumId',
+        component: DisObjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId',
+        component: DisObjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId/:addendumId',
         component: DisObjectiveComponent, 
       },
       {
@@ -291,11 +315,47 @@ const routes: Routes = [
         component: DisAssessmentComponent, 
       },
       {
+        path: 'assessment/:appointmentId/:addendumId',
+        component: DisAssessmentComponent, 
+      },
+      {
+        path: 'assessment-view/:appointmentId',
+        component: DisAssessmentComponent, 
+      },
+      {
+        path: 'assessment-view/:appointmentId/:addendumId',
+        component: DisAssessmentComponent, 
+      },
+      {
         path: 'plan/:appointmentId',
         component: DisPlanComponent, 
       },
       {
+        path: 'plan/:appointmentId/:addendumId',
+        component: DisPlanComponent, 
+      },
+      {
+        path: 'plan-view/:appointmentId',
+        component: DisPlanComponent, 
+      },
+      {
+        path: 'plan-view/:appointmentId/:addendumId',
+        component: DisPlanComponent, 
+      },
+      {
         path: 'billing/:appointmentId',
+        component: DischargeNoteBillingComponent, 
+      },
+      {
+        path: 'billing/:appointmentId/:addendumId',
+        component: DischargeNoteBillingComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId',
+        component: DischargeNoteBillingComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId/:addendumId',
         component: DischargeNoteBillingComponent, 
       },
     ]
@@ -309,7 +369,31 @@ const routes: Routes = [
         component: PnSubjectiveComponent, 
       }, 
       {
+        path: 'subjective/:appointmentId/:addendumId',
+        component: PnSubjectiveComponent, 
+      },
+      {
+        path: 'subjective-view/:appointmentId',
+        component: PnSubjectiveComponent, 
+      },
+      {
+        path: 'subjective-view/:appointmentId/:addendumId',
+        component: PnSubjectiveComponent, 
+      },
+      {
         path: 'objective/:appointmentId',
+        component: PnObjectiveComponent, 
+      },
+      {
+        path: 'objective/:appointmentId/:addendumId',
+        component: PnObjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId',
+        component: PnObjectiveComponent, 
+      },
+      {
+        path: 'objective-view/:appointmentId/:addendumId',
         component: PnObjectiveComponent, 
       },
       {
@@ -317,11 +401,47 @@ const routes: Routes = [
         component: PnAssessmentComponent, 
       },
       {
+        path: 'assessment/:appointmentId/:addendumId',
+        component: PnAssessmentComponent, 
+      },
+      {
+        path: 'assessment-view/:appointmentId',
+        component: PnAssessmentComponent, 
+      },
+      {
+        path: 'assessment-view/:appointmentId/:addendumId',
+        component: PnAssessmentComponent, 
+      },
+      {
         path: 'plan/:appointmentId',
         component: PnPlanComponent, 
       },
       {
+        path: 'plan/:appointmentId/:addendumId',
+        component: PnPlanComponent, 
+      },
+      {
+        path: 'plan-view/:appointmentId',
+        component: PnPlanComponent, 
+      },
+      {
+        path: 'plan-view/:appointmentId/:addendumId',
+        component: PnPlanComponent, 
+      },
+      {
         path: 'billing/:appointmentId',
+        component: ProgressNoteBillingComponent, 
+      },
+      {
+        path: 'billing/:appointmentId/:addendumId',
+        component: ProgressNoteBillingComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId',
+        component: ProgressNoteBillingComponent, 
+      },
+      {
+        path: 'billing-view/:appointmentId/:addendumId',
         component: ProgressNoteBillingComponent, 
       },
     ]

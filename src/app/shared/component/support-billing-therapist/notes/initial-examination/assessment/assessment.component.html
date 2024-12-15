@@ -5,7 +5,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Assessment<span class="clr--DF0404 ms-1"> * </span></label>
-                   <textarea placeholder="Please enter assessment" [disabled]="isDisabled" class="form-control text-left" type="text" rows="5" maxlength="500" formControlName="assessment_text"  (blur)="checkSpace('assessment_text', $event)"></textarea>
+                   <textarea placeholder="Please enter assessment" [disabled]="isDisabled || readOnly" class="form-control text-left" type="text" rows="5" maxlength="500" formControlName="assessment_text"  (blur)="checkSpace('assessment_text', $event)"></textarea>
                     <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['assessment_text'].touched && assessmentForm.controls['assessment_text'].hasError('required')">
                         {{ validationMessages.required('assessment') }}
                       </div>
@@ -51,7 +51,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label fw-600">Supporting Documentation<span class="clr--DF0404 ms-1"> * </span></label>
-                    <textarea placeholder="Please enter supporting documentation" [disabled]="isDisabled" class="form-control text-left fw-400 clr--828282" type="text" rows="7" maxlength="2500" formControlName="supporting_documentation_text" (blur)="checkSpace('supporting_documentation_text', $event)"></textarea> 
+                    <textarea placeholder="Please enter supporting documentation" [disabled]="isDisabled || readOnly" class="form-control text-left fw-400 clr--828282" type="text" rows="7" maxlength="2500" formControlName="supporting_documentation_text" (blur)="checkSpace('supporting_documentation_text', $event)"></textarea> 
                     <div class="text text-danger mt-1" *ngIf="assessmentForm.controls['supporting_documentation_text'].touched && assessmentForm.controls['supporting_documentation_text'].hasError('required')">
                         {{ validationMessages.required('supporting documentation') }}
                       </div>

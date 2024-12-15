@@ -61,6 +61,9 @@ export class DisAssessmentComponent {
       },
       fields: {
         updatedAt: 0
+      },
+      params:{
+        addendumId:this.addendumId
       }
     }
     await this.authService.apiRequest('post', 'soapNote/getAssessment', reqVars).subscribe(async (response) => {
@@ -103,12 +106,19 @@ export class DisAssessmentComponent {
           ]),
           supporting_documentation_text: [that.supporting_documentation_text, [Validators.required, Validators.minLength(1)]],
         });
+        if(that.readOnly){
+          that.assessmentForm.disable()
+        }
 
         const ctrls = that.assessmentForm.get('assessment_icd') as FormArray;
         ctrls.removeAt(0)
         that.assessment_icd.forEach((item: any) => {
           ctrls.push(that.editAssessmentGroup(item));
         })
+        if(assessmentData && assessmentData.status=='Finalized'){
+          that.assessmentForm.disable()
+          that.readOnly = true
+        }
       }, 700);
     })
   }
@@ -126,7 +136,8 @@ export class DisAssessmentComponent {
         query: {
           soap_note_type: "discharge_note",
           appointmentId: this.appointmentId
-        }
+        },
+        addendumId:this.addendumId
       }
       this.authService.apiRequest('post', 'soapNote/submitAssessment', reqVars).subscribe(async (response) => {
         this.commonService.hideLoader();
@@ -154,6 +165,9 @@ export class DisAssessmentComponent {
       long_term_goal: ['', Validators.required],
     }));
     this.assessmentForm.controls['assessment_icd_info'].markAsUntouched();
+    if(this.readOnly){
+      this.assessmentForm.disable()
+    }
   }
 
   get assessment_icd_info() {

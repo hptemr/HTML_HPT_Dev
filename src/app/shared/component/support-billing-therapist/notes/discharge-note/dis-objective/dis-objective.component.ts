@@ -105,7 +105,7 @@ export class DisObjectiveComponent implements OnInit {
         lengthVal = 3
       }   
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'objective-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'objective-view'){
         this.readOnly = true
       }
     })
@@ -248,7 +248,7 @@ export class DisObjectiveComponent implements OnInit {
 
  async getObjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note'},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note',addendumId:this.addendumId},     
     }
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
@@ -1238,6 +1238,9 @@ export class DisObjectiveComponent implements OnInit {
           type:'objective',
           userId: this.userId,
           data: formData,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId,
+          soap_note_type:'discharge_note'
         }
         await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
           let assessmentData = response.data

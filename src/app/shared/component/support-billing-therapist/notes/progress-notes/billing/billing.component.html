@@ -69,14 +69,14 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="ptcode.units"
                                     (keyup)="onKey($event,i,'ptCode','directCode','units')"
-                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';">
+                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="readOnly">
                             </div>
                         </div>
                         <div class="col-2 col-lg-1">
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="ptcode.minutes"
                                     (keyup)="onKey($event,i,'ptCode','directCode','minutes');validateMinute($event,i,'ptCode','directCode')"
-                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="ptcode.units==''">
+                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="ptcode.units=='' || readOnly">
                             </div>
                         </div>
                         <div class="col-8 col-lg-10" *ngIf="ptcode.isError" >
@@ -99,14 +99,14 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="otcode.units"
                                     (keyup)="onKey($event,i,'otCode','directCode','units')"
-                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';">
+                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="readOnly">
                             </div>
                         </div>
                         <div class="col-2 col-lg-1">
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="otcode.minutes"
                                     (keyup)="onKey($event,i,'otCode','directCode','minutes');validateMinute($event,i,'otCode','directCode')"
-                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="otcode.units==''">
+                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="otcode.units=='' || readOnly">
                             </div>
                         </div>
                         <div class="col-8 col-lg-10" *ngIf="otcode.isError" >
@@ -130,14 +130,14 @@
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="slpcode.units"
                                     (keyup)="onKey($event,i,'slpCode','directCode','units')"
-                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';">
+                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="readOnly">
                             </div>
                         </div>
                         <div class="col-2 col-lg-1">
                             <div class="form-group d-flex align-items-center justify-content-center">
                                 <input type="text" [value]="slpcode.minutes"
                                     (keyup)="onKey($event,i,'slpCode','directCode','minutes');validateMinute($event,i,'slpCode','directCode')"
-                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="slpcode.units==''">
+                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="slpcode.units=='' || readOnly">
                             </div>
                         </div>
                         <div class="col-8 col-lg-10" *ngIf="slpcode.isError" >
@@ -181,7 +181,7 @@
                                 <div class="col-12 col-lg-4">
                                     <div class="me-2">
                                         <mat-checkbox [checked]="ptcode.selected" class=""
-                                            (change)="showOptions($event,i,'ptCode','unitedCode')">{{ptcode.name}}</mat-checkbox>
+                                            (change)="showOptions($event,i,'ptCode','unitedCode')" [disabled]="readOnly">{{ptcode.name}}</mat-checkbox>
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-8">
@@ -197,7 +197,7 @@
                                             <div class="form-group d-flex align-items-center justify-content-center">
                                                 <input type="text" [value]="ptcode.minutes"
                                                     (keyup)="onKey($event,i,'ptCode','unitedCode','minutes')"
-                                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="i<4 || !ptcode.selected">
+                                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="i<4 || !ptcode.selected || readOnly">
                                             </div>
                                         </div>
                                         <div class="col-8 col-lg-10" *ngIf="billingType=='CMS' && ptcode.isError" >
@@ -236,7 +236,7 @@
                                 <div class="col-12 col-lg-4">
                                     <div class="me-2">
                                         <mat-checkbox [checked]="otcode.selected" class=""
-                                            (change)="showOptions($event,i,'otCode','unitedCode')">{{otcode.name}}</mat-checkbox>
+                                            (change)="showOptions($event,i,'otCode','unitedCode')" [disabled]="readOnly">{{otcode.name}}</mat-checkbox>
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-8">
@@ -252,7 +252,7 @@
                                             <div class="form-group d-flex align-items-center justify-content-center">
                                                 <input type="text" [value]="otcode.units"
                                                     (keyup)="onKey($event,i,'otCode','unitedCode','minutes')"
-                                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="i<4 || !otcode.selected">
+                                                    class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="i<4 || !otcode.selected || readOnly">
                                             </div>
                                         </div>
                                         <div class="col-8 col-lg-10" *ngIf="billingType=='CMS' && otcode.isError">
@@ -289,7 +289,7 @@
                         <div class="col-12 col-lg-4">
                             <div class="me-2">
                                 <mat-checkbox [checked]="slpcode.selected" class=""
-                                    (change)="showOptions($event,i,'slpCode','unitedCode')">{{slpcode.name}}</mat-checkbox>
+                                    (change)="showOptions($event,i,'slpCode','unitedCode')" [disabled]="readOnly">{{slpcode.name}}</mat-checkbox>
                             </div>
                         </div>
                         <div class="col-12 col-lg-8">
@@ -305,7 +305,7 @@
                                     <div class="form-group d-flex align-items-center justify-content-center">
                                         <input type="text" [value]="slpcode.units"
                                             (keyup)="onKey($event,i,'slpCode','unitedCode','minutes')"
-                                            class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="!slpcode.selected">
+                                            class="form-control width-50" maxlength="4" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="!slpcode.selected || readOnly">
                                     </div>
                                 </div>
                                 <div class="col-8 col-lg-10" *ngIf="billingType=='CMS' && slpcode.isError">
@@ -337,7 +337,7 @@
                             <div class="form-group">
                                 <input [value]="code.quantity" type="text"
                                     (keyup)="onKey($event,i,'ptCode','dmeCode','quantity')"
-                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';">
+                                    class="form-control width-50" maxlength="2" pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" [disabled]="readOnly">
                             </div>
                         </div>
                     </div>
@@ -353,19 +353,19 @@
                         <div class="d-flex flex-row align-items-center col-12 col-sm-6 col-lg-5 col-xl-5 mb-3">
                             <div class="form-group w-100">
                                 <input type="text" [(ngModel)]="cptDesc" class="form-control box-height"
-                                    placeholder="Custom CPT Description">
+                                    placeholder="Custom CPT Description" [disabled]="readOnly">
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center col-12 col-sm-6 col-lg-6 col-xl-6 mb-3">
                             <div class="form-group me-2">
                                 <input type="text" [(ngModel)]="cptCode" class="form-control box-height width-60"
-                                    placeholder="CPT #" maxlength="10">
+                                    placeholder="CPT #" maxlength="10" [disabled]="readOnly">
                             </div>
                             <div class="form-group me-2">
                                 <input type="text" [(ngModel)]="quantity" class="form-control width-50 mb-0" placeholder=""
-                                pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" maxlength="2">
+                                pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" maxlength="2" [disabled]="readOnly">
                             </div>
-                            <button mat-raised-button color="primary" class="" (click)="addNewCode()">
+                            <button mat-raised-button color="primary" class="" (click)="addNewCode()" [disabled]="readOnly">
                                 Add
                             </button>
                         </div>
@@ -377,16 +377,16 @@
 
         <div class="col-12 mt-1">
             <div class="last-check-div">
-                <mat-checkbox class="" [(ngModel)]="noVisitCharge">No Charges This Visit</mat-checkbox>
+                <mat-checkbox class="" [(ngModel)]="noVisitCharge" [disabled]="readOnly">No Charges This Visit</mat-checkbox>
             </div>
         </div>
 
     </div>
     <div class="d-flex align-items-center justify-content-end  notes--footer--btns" *ngIf="!isHold">
-        <button mat-stroked-button color="primary" class="me-2 m-1" (click)="submit('draft')">
+        <button mat-stroked-button color="primary" class="me-2 m-1" (click)="submit('draft')" [disabled]="readOnly">
             Save as Draft
         </button>
-        <button mat-raised-button color="primary" class="m-1" (click)="submit('finalize')" [disabled]="draftFlag">
+        <button mat-raised-button color="primary" class="m-1" (click)="submit('finalize')" [disabled]="draftFlag || readOnly">
             Finalize Note
         </button>
     </div>

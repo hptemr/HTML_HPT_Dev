@@ -56,12 +56,21 @@ export class PnPlanComponent {
   minDate = new Date();
   caseType:string=''
   addendumId:string=''
+  readOnly = false
   constructor(private route: ActivatedRoute,public authService: AuthService, public commonService: CommonService,private fb: FormBuilder,private router: Router) {
     this.route.params.subscribe((params: Params) => {
-      this.appointmentId = params['appointmentId'];
-      this.addendumId = params['addendumId'];     
-    })
-    this.userId = this.authService.getLoggedInInfo('_id')
+          this.appointmentId = params['appointmentId'];
+          this.addendumId = params['addendumId'];
+          let lengthVal = 2
+          if(this.addendumId!=undefined){
+            lengthVal = 3
+          }
+          const locationArray = location.href.split('/')
+          if(locationArray[locationArray.length - lengthVal] == 'plan-view'){
+            this.readOnly = true
+          }
+        })
+        this.userId = this.authService.getLoggedInInfo('_id')
   }
 
   ngOnInit() {   
@@ -73,11 +82,18 @@ export class PnPlanComponent {
       planStartDate: ['',Validators.required],
       planEndDate: ['',Validators.required],
     })
+    if(this.readOnly){
+      this.planNoteForm.disable()
+    }
     var params = {
       appointmentId:this.appointmentId,
-      soapNoteType:'progress_note'
+      soapNoteType:'progress_note',
+      addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
+      if(response.data && response.data.status=='Finalized'){
+        this.readOnly = true
+      }
       if(response.data && response.data.appointmentId){
         this.actionType = "update"
         this.planNoteForm.controls['planType'].setValue(response.data.plan_note_type);

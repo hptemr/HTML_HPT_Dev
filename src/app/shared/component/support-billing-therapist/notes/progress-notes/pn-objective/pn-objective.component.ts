@@ -107,8 +107,12 @@ export class PnObjectiveComponent {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
       this.addendumId = params['addendumId'];
+      let lengthVal = 2
+      if(this.addendumId!=undefined){
+        lengthVal = 3
+      }   
       const locationArray = location.href.split('/')
-      if(locationArray[locationArray.length - 2] == 'objective-view'){
+      if(locationArray[locationArray.length - lengthVal] == 'objective-view'){
         this.readOnly = true
       }
     })
@@ -251,7 +255,7 @@ console.log('>>>>',this.objectiveForm)
 
  async getObjectiveRecord(type:string='progress_note'){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:type},     
+      query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId},     
     }
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
@@ -1242,6 +1246,9 @@ console.log('>>>>',this.objectiveForm)
           type:'objective',
           userId: this.userId,
           data: formData,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId,
+          soap_note_type:'initial_examination'
         }
         await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
           let assessmentData = response.data

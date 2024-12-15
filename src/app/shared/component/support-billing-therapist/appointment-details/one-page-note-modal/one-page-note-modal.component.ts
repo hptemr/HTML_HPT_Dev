@@ -4,6 +4,7 @@ import { EFaxModalComponent } from '../e-fax-modal/e-fax-modal.component';
 import  jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-one-page-note-modal', 
@@ -124,11 +125,12 @@ export class OnePageNoteModalComponent {
       if(data!=null){
         html2canvas(data).then(canvas => {
           const contentDataURL = canvas.toDataURL('image/png')  
+          const pdf = new jsPDF();
           // let pdf = new jspdf('l', 'cm', 'a4'); //Generates PDF in landscape mode
-          let pdf = new jspdf('p', 'cm', 'a4');// Generates PDF in portrait mode
+          // let pdf = new jspdf('p', 'cm', 'a4');// Generates PDF in portrait mode
           //pdf.addFont("Arimo-Regular.ttf", "Arimo", "'Nunito Sans', sans-serif");
           // pdf.setFont('"Nunito Sans", sans-serif', '"Nunito Sans", sans-serif');
-          pdf.addImage(contentDataURL, 'PNG', 2, 2, 16.7, 18.0);  
+          pdf.addImage(contentDataURL, 'PNG', 8, 6, 195, 280);  
           pdf.save('Filename.pdf');   
         }); 
       }

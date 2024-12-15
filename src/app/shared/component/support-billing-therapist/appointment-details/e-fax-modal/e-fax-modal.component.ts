@@ -52,7 +52,7 @@ export class EFaxModalComponent {
         startWith(''),
         map(value => {
           const filterValue = value;
-          return this.allOptions.filter((option: any | any[]) => option.name.includes(filterValue));
+          return this.allOptions.filter((option: any | any[]) => option.name.toLowerCase().includes(filterValue.toLowerCase()));
         })
       );
       this.allOptions  = []
@@ -162,6 +162,7 @@ export class EFaxModalComponent {
           this.commonService.openSnackBar("Fax sent successfully", "SUCCESS")
           this.dialogRef.close()
         },(err) => {
+          this.submitted = false
           this.commonService.hideLoader();
           this.commonService.openSnackBar("Failed to sent Fax", "ERROR")
         })

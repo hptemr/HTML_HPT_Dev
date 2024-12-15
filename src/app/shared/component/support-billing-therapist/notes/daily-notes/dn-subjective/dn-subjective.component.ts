@@ -84,6 +84,9 @@ export class DnSubjectiveComponent {
         // this.readOnly = true
         // this.subjectiveForm.disable()  // user can add multiple daily notes
       //}
+      if (response.data && response.data.appointmentDatesList){
+        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'daily_note')
+      }
       if (response.data && response.data.subjectiveData) {
         this.subjectiveData = response.data.subjectiveData;
         if (this.subjectiveData.status!='Finalized') this.subjectiveId = this.subjectiveData._id
@@ -107,9 +110,7 @@ export class DnSubjectiveComponent {
         //if(this.appointment_data.checkInDateTime)this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
       }
      
-      if (response.data && response.data.appointmentDatesList){
-        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'daily_note')
-      }
+      
     })
   }
 
