@@ -379,10 +379,10 @@ const manageAuthorization = async (authorizationData, patient, tebraCaseDetails,
 };
 
 
-const addBillingTeamPatientInsurance = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo) => {
+const addBillingTeamPatientExistingInsurance = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData) => {
     try {
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
-        const soapRequest = tebraSoapRequest.addBillingTeamPatientInsurance(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo)
+        const soapRequest = tebraSoapRequest.addBillingTeamPatientExistingInsurance(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
@@ -402,17 +402,73 @@ const addBillingTeamPatientInsurance = async (insuranceInfo, patient, tebraCaseD
                 }
             }
             // Tebra Logs
-            tebraCommon.tebraApiLog('addBillingTeamPatientInsurance',soapRequest,parseResult,'success',patientDataForLogs,'')
+            tebraCommon.tebraApiLog('addBillingTeamPatientExistingInsurance',soapRequest,parseResult,'success',patientDataForLogs,'')
         }).catch(error => {
-            console.error('========addBillingTeamPatientInsurance API Error=========:', error);
-            tebraCommon.tebraApiLog('addBillingTeamPatientInsurance',soapRequest,'','apiError',patientDataForLogs,error)
+            console.error('========addBillingTeamPatientExistingInsurance API Error=========:', error);
+            tebraCommon.tebraApiLog('addBillingTeamPatientExistingInsurance',soapRequest,'','apiError',patientDataForLogs,error)
         });
 
     } catch (error) {
-        console.log("========addBillingTeamPatientInsurance=========:", error)
-        tebraCommon.tebraApiLog('addBillingTeamPatientInsurance',soapRequest,'','catchError',patientDataForLogs,error)
+        console.log("========addBillingTeamPatientExistingInsurance=========:", error)
+        tebraCommon.tebraApiLog('addBillingTeamPatientExistingInsurance',soapRequest,'','catchError',patientDataForLogs,error)
     }
 };
+
+
+const addBillingTeamPatientNewInsurance = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData) => {
+    try {
+        const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
+        const soapRequest = tebraSoapRequest.addBillingTeamPatientNewInsurance(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo)
+        const requestHeaders =  tebraCommon.requestHeader(soapAction)
+        let patientDataForLogs = { 'patientId': patient._id }
+
+        console.log("soapRequest>>>>",soapRequest)
+
+        axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
+            console.log('Response >>>>>:', response);
+            console.log('Response Data>>>>:', response.data);
+            let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
+            console.log("parseResult>>>>",parseResult)
+            if(!parseError){
+                const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
+                if(errorResponse && errorResponse?.IsError=='false'){
+                    const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
+
+                    console.log('========Patient updated successfully=========:',patientTebraRes);
+
+                    const caseRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes'];
+                    const insuranceRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes']['Policies']['InsurancePolicyRes'];
+
+                    if(insuranceRes && insuranceRes?.InsurancePolicyCompanyID && insuranceRes?.InsurancePolicyID && insuranceRes?.InsurancePolicyPlanID){
+                        // Save tebra response object in case collection
+                        let insertObject = {
+                            'tebraInsuranceData':{
+                                InsurancePolicyCompanyID: insuranceRes?.InsurancePolicyCompanyID,
+                                InsurancePolicyID: insuranceRes?.InsurancePolicyID,
+                                InsurancePolicyPlanID: insuranceRes?.InsurancePolicyPlanID,
+                                InsuranceName : insuranceInfo?.primaryInsurance
+                            },
+                            insuranceAddedOnTebra: true
+                        }
+                        console.log("insertObject>>>>",insertObject)
+                        console.log("caseId>>>>",caseRes?.CaseID)
+                        await Case.updateOne({ 'tebraDetails.CaseID': caseRes?.CaseID }, { $set: insertObject });
+                    }
+                }
+            }
+            // Tebra Logs
+            tebraCommon.tebraApiLog('addBillingTeamPatientNewInsurance',soapRequest,parseResult,'success',patientDataForLogs,'')
+        }).catch(error => {
+            console.error('========addBillingTeamPatientNewInsurance API Error=========:', error);
+            tebraCommon.tebraApiLog('addBillingTeamPatientNewInsurance',soapRequest,'','apiError',patientDataForLogs,error)
+        });
+
+    } catch (error) {
+        console.log("========addBillingTeamPatientNewInsurance=========:", error)
+        tebraCommon.tebraApiLog('addBillingTeamPatientNewInsurance',soapRequest,'','catchError',patientDataForLogs,error)
+    }
+};
+
 
 
 
@@ -486,16 +542,16 @@ const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDeta
                 if(errorResponse && errorResponse?.IsError=='false'){
 
                     // Save tebra response object in case collection
-                    let caseRes = tebraCaseDetails
-                    let insertObject = {
-                        'tebraInsuranceData':{
-                            InsuranceName : insuranceInfo?.primaryInsuranceCompany
-                        },
-                        insuranceAddedOnTebra: true
-                    }
-                    console.log("insertObject>>>>",insertObject)
-                    console.log("caseId>>>>",caseRes?.CaseID)
-                    await Case.updateOne({ 'tebraDetails.CaseID': caseRes?.CaseID }, { $set: insertObject });
+                    // let caseRes = tebraCaseDetails
+                    // let insertObject = {
+                    //     'tebraInsuranceData':{
+                    //         InsuranceName : insuranceInfo?.primaryInsuranceCompany
+                    //     },
+                    //     insuranceAddedOnTebra: true
+                    // }
+                    // console.log("insertObject>>>>",insertObject)
+                    // console.log("caseId>>>>",caseRes?.CaseID)
+                    // await Case.updateOne({ 'tebraDetails.CaseID': caseRes?.CaseID }, { $set: insertObject });
 
                     const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
 
@@ -812,7 +868,8 @@ module.exports = {
     updatePatientIntakeFormPersonalInfo,
     addPatientInsuranceIntakeForm,
     manageAuthorization,
-    addBillingTeamPatientInsurance,
+    addBillingTeamPatientExistingInsurance,
+    addBillingTeamPatientNewInsurance,
     updateSupportTeamIntakeForm,
     createCase,
     createEncounter,

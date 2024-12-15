@@ -689,7 +689,11 @@ const updateAppointment = async (req, res) => {
                 console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
                 let insurancePresentData = caseFound?.tebraInsuranceData
                 let isInsurancePresentData = false
-                if(insurancePresentData && insurancePresentData?.InsurancePolicyCompanyID && insurancePresentData?.InsurancePolicyID && insurancePresentData?.InsurancePolicyPlanID){
+                console.log("adminPayViaInsuranceInfo?.primaryInsuranceCompany>>>",appointment_data?.adminPayViaInsuranceInfo?.primaryInsuranceCompany)
+                console.log("insurancePresentData?.InsuranceName>>>",insurancePresentData?.InsuranceName)
+                let primaryInsuranceName = (appointment_data.adminPayViaInsuranceInfo?.primaryInsuranceCompany)? appointment_data.adminPayViaInsuranceInfo?.primaryInsuranceCompany.trim():'';
+                
+                if(insurancePresentData && insurancePresentData?.InsurancePolicyCompanyID && insurancePresentData?.InsurancePolicyID && insurancePresentData?.InsurancePolicyPlanID && insurancePresentData?.InsuranceName == primaryInsuranceName){
                     isInsurancePresentData = true
                 }
                 console.log("<<<< isInsurancePresentData >>>>>",isInsurancePresentData)
@@ -698,7 +702,6 @@ const updateAppointment = async (req, res) => {
                 }
 
                 if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance' && !isInsurancePresentData){
-                    // tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
                     tebraController.addPatientInsuranceIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
                 }
                 
@@ -1236,9 +1239,31 @@ const addBillingDetails = async (req, res) => {
       // Add billing details to Tebra
       const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
       const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
-      if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra ){
-        tebraController.addBillingTeamPatientInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo)
-      }
+      let isInsurancePresentData = false  
+      let insurancePresentData = caseFound?.tebraInsuranceData
+      let primaryInsurance = billingDetails?.primaryInsurance
+
+      console.log("insurancePresentData>>>",insurancePresentData)
+      console.log("primaryInsurance>>>",primaryInsurance)
+
+        if(insurancePresentData && insurancePresentData?.InsurancePolicyCompanyID && insurancePresentData?.InsurancePolicyID && insurancePresentData?.InsurancePolicyPlanID && insurancePresentData?.InsuranceName == primaryInsurance){
+            isInsurancePresentData = true
+        }
+
+        console.log("isInsurancePresentData>>>",isInsurancePresentData)
+
+        if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra && isInsurancePresentData){
+            tebraController.addBillingTeamPatientExistingInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData)
+        }
+
+        if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra && !isInsurancePresentData){
+            tebraController.addBillingTeamPatientNewInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData)
+        }
+
+
+    //   if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra ){
+    //     tebraController.addBillingTeamPatientInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo)
+    //   }
       
       commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
     } catch (error) {

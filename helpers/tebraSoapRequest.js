@@ -426,7 +426,228 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
 
 
 
-  const addBillingTeamPatientInsurance = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo) => {
+//   const addBillingTeamPatientInsurance = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo) => {
+//     let sendAdjesterData = ''
+//     let sendEmployerData = ''
+//     let copayData = ''
+//     let highDeductableData = ''
+//     if(insuranceInfo?.RP_injuryRelatedTo && insuranceInfo?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)"){
+//         const adjuster = `<sch:Adjuster>
+//                             <sch:FirstName>${insuranceInfo?.RP_adjusterName}</sch:FirstName>
+//                             <sch:PhoneNumber>${insuranceInfo?.RP_adjusterPhone}</sch:PhoneNumber>
+//                         </sch:Adjuster>`
+//         sendAdjesterData = adjuster
+//     }
+
+//     if(insuranceInfo?.RP_reportedToEmployer && insuranceInfo?.RP_reportedToEmployer=="Yes"){
+//         const employer = `<sch:Employer>
+//                             <sch:AddressLine1>${insuranceInfo?.EI_employerAddress}</sch:AddressLine1>
+//                             <sch:EmployerName>${insuranceInfo?.EI_employerName}</sch:EmployerName>
+//                         </sch:Employer>`
+//         sendEmployerData = employer
+//     }
+//     if(insuranceInfo?.PI_copayAmt){
+//         const copay = `<sch:Copay>${insuranceInfo?.PI_copayAmt}</sch:Copay>`
+//         copayData = copay
+//     }
+
+//     if(insuranceInfo?.PI_highDeductible){
+//         const highDeductable = `<sch:Deductible>${insuranceInfo?.PI_highDeductible}</sch:Deductible>`
+//         highDeductableData = highDeductable
+//     }
+
+//     let relatedToEmployment = (insuranceInfo?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)")?true:false
+//     let relatedToAutoAccident = (insuranceInfo?.RP_injuryRelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+//     let relatedToOther = (insuranceInfo?.RP_injuryRelatedTo=="Other Personal Injury")?true:false
+
+//     let relationToGuarantor = ''
+//     if(insuranceInfo?.RP_relationWithPatient){
+//         let relationToGuarantorData = `<sch:RelationshiptoGuarantor>${insuranceInfo?.RP_relationWithPatient}</sch:RelationshiptoGuarantor>`
+//         relationToGuarantor = relationToGuarantorData
+//     }
+
+//     let insuredData = ''
+//     if(adminPayViaInsuranceInfo && adminPayViaInsuranceInfo?.subscriberRelationWithPatient){
+//         let insuredDataXML =`<sch:Insured>
+// 							<sch:PatientRelationshipToInsured>${adminPayViaInsuranceInfo?.subscriberRelationWithPatient}</sch:PatientRelationshipToInsured>
+// 						</sch:Insured>`
+//         insuredData = insuredDataXML           
+//     }
+
+//     let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
+//                             <soapenv:Header/>
+//                             <soapenv:Body>
+//                                 <sch:UpdatePatient>
+//                                     <sch:UpdatePatientReq>
+//                                         <sch:RequestHeader>
+//                                         <sch:CustomerKey>${tebraCredentials?.customerKey}</sch:CustomerKey>
+//                                         <sch:Password>${tebraCredentials?.password}</sch:Password>
+//                                         <sch:User>${tebraCredentials?.user}</sch:User>
+//                                         </sch:RequestHeader>
+//                                         <sch:Patient>
+//                                         <sch:Cases>
+//                                             <sch:PatientCaseUpdateReq>
+//                                                 <sch:CaseID>${tebraCaseDetails?.CaseID}</sch:CaseID>
+//                                                 <sch:Condition>
+//                                                     <sch:RelatedToAutoAccident>${relatedToAutoAccident}</sch:RelatedToAutoAccident>
+//                                                     <sch:RelatedToEmployment>${relatedToEmployment}</sch:RelatedToEmployment>
+//                                                     <sch:RelatedToOther>${relatedToOther}</sch:RelatedToOther>
+//                                                 </sch:Condition>
+//                                                 <sch:PayerScenario>Insurance</sch:PayerScenario>
+//                                                 <sch:Policies>
+//                                                     <sch:InsurancePolicyUpdateReq>
+//                                                         <sch:Active>${true}</sch:Active>
+//                                                         ${sendAdjesterData}
+//                                                         <sch:CompanyID>${tebraInsuranceData?.InsurancePolicyCompanyID}</sch:CompanyID>
+//                                                         ${copayData}
+//                                                         ${highDeductableData}
+//                                                         <sch:EffectiveEndDate>${insuranceInfo?.PI_endDate ? tebraCommon.changeDateFormat(insuranceInfo?.PI_endDate):''}</sch:EffectiveEndDate>
+//                                                         <sch:EffectiveStartDate>${insuranceInfo?.PI_effectiveDate ? tebraCommon.changeDateFormat(insuranceInfo?.PI_effectiveDate):''}</sch:EffectiveStartDate>
+//                                                         <sch:InsurancePolicyID>${tebraInsuranceData?.InsurancePolicyID}</sch:InsurancePolicyID>
+//                                                         ${insuredData}
+//                                                         <sch:PlanID>${tebraInsuranceData?.InsurancePolicyPlanID}</sch:PlanID>
+//                                                         <sch:PlanName>${insuranceInfo?.primaryInsurance}</sch:PlanName>
+//                                                         <sch:PolicyGroupNumber>${insuranceInfo?.PI_group}</sch:PolicyGroupNumber>
+//                                                         <sch:PolicyNumber>${insuranceInfo?.PI_idPolicy}</sch:PolicyNumber>
+//                                                     </sch:InsurancePolicyUpdateReq>
+//                                                 </sch:Policies>
+//                                             </sch:PatientCaseUpdateReq>
+//                                         </sch:Cases>
+//                                         ${sendEmployerData}
+//                                         <sch:Guarantor>
+//                                             <sch:DifferentThanPatient>true</sch:DifferentThanPatient>
+//                                             <sch:FirstName>${insuranceInfo?.RP_firstName}</sch:FirstName>
+//                                             <sch:LastName>${insuranceInfo?.RP_lastName}</sch:LastName>
+//                                             <sch:MiddleName>${insuranceInfo?.RP_middleName ? insuranceInfo?.RP_middleName:''}</sch:MiddleName>
+//                                             ${relationToGuarantor}
+//                                         </sch:Guarantor>
+//                                         <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
+//                                         <sch:Practice>
+//                                             <sch:PracticeID>4</sch:PracticeID>
+//                                             <sch:PracticeName>Sandbox</sch:PracticeName>
+//                                         </sch:Practice>
+//                                         </sch:Patient>
+//                                     </sch:UpdatePatientReq>
+//                                 </sch:UpdatePatient>
+//                             </soapenv:Body>
+//                         </soapenv:Envelope>`
+    
+//       return soapRequest
+//   }
+
+
+
+const  addBillingTeamPatientNewInsurance = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo) => {
+    let sendAdjesterData = ''
+    let sendEmployerData = ''
+    let copayData = ''
+    let highDeductableData = ''
+    if(insuranceInfo?.RP_injuryRelatedTo && insuranceInfo?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)"){
+        const adjuster = `<sch:Adjuster>
+                            <sch:FirstName>${insuranceInfo?.RP_adjusterName}</sch:FirstName>
+                            <sch:PhoneNumber>${insuranceInfo?.RP_adjusterPhone}</sch:PhoneNumber>
+                        </sch:Adjuster>`
+        sendAdjesterData = adjuster
+    }
+
+    if(insuranceInfo?.RP_reportedToEmployer && insuranceInfo?.RP_reportedToEmployer=="Yes"){
+        const employer = `<sch:Employer>
+                            <sch:AddressLine1>${insuranceInfo?.EI_employerAddress}</sch:AddressLine1>
+                            <sch:EmployerName>${insuranceInfo?.EI_employerName}</sch:EmployerName>
+                        </sch:Employer>`
+        sendEmployerData = employer
+    }
+    if(insuranceInfo?.PI_copayAmt){
+        const copay = `<sch:Copay>${insuranceInfo?.PI_copayAmt}</sch:Copay>`
+        copayData = copay
+    }
+
+    if(insuranceInfo?.PI_highDeductible){
+        const highDeductable = `<sch:Deductible>${insuranceInfo?.PI_highDeductible}</sch:Deductible>`
+        highDeductableData = highDeductable
+    }
+
+    let relatedToEmployment = (insuranceInfo?.RP_injuryRelatedTo=="Worker's Compensation (WCOMP)")?true:false
+    let relatedToAutoAccident = (insuranceInfo?.RP_injuryRelatedTo=="Motar Vehicle Accident (MVA)")?true:false
+    let relatedToOther = (insuranceInfo?.RP_injuryRelatedTo=="Other Personal Injury")?true:false
+
+    let relationToGuarantor = ''
+    if(insuranceInfo?.RP_relationWithPatient){
+        let relationToGuarantorData = `<sch:RelationshiptoGuarantor>${insuranceInfo?.RP_relationWithPatient}</sch:RelationshiptoGuarantor>`
+        relationToGuarantor = relationToGuarantorData
+    }
+
+    let insuredData = ''
+    if(adminPayViaInsuranceInfo && adminPayViaInsuranceInfo?.subscriberRelationWithPatient){
+        let insuredDataXML =`<sch:Insured>
+							<sch:PatientRelationshipToInsured>${adminPayViaInsuranceInfo?.subscriberRelationWithPatient}</sch:PatientRelationshipToInsured>
+						</sch:Insured>`
+        insuredData = insuredDataXML           
+    }
+
+    let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
+                            <soapenv:Header/>
+                            <soapenv:Body>
+                                <sch:UpdatePatient>
+                                    <sch:UpdatePatientReq>
+                                        <sch:RequestHeader>
+                                        <sch:CustomerKey>${tebraCredentials?.customerKey}</sch:CustomerKey>
+                                        <sch:Password>${tebraCredentials?.password}</sch:Password>
+                                        <sch:User>${tebraCredentials?.user}</sch:User>
+                                        </sch:RequestHeader>
+                                        <sch:Patient>
+                                        <sch:Cases>
+                                            <sch:PatientCaseUpdateReq>
+                                                <sch:CaseID>${tebraCaseDetails?.CaseID}</sch:CaseID>
+                                                <sch:Condition>
+                                                    <sch:RelatedToAutoAccident>${relatedToAutoAccident}</sch:RelatedToAutoAccident>
+                                                    <sch:RelatedToEmployment>${relatedToEmployment}</sch:RelatedToEmployment>
+                                                    <sch:RelatedToOther>${relatedToOther}</sch:RelatedToOther>
+                                                </sch:Condition>
+                                                <sch:PayerScenario>Insurance</sch:PayerScenario>
+                                                <sch:Policies>
+                                                    <sch:InsurancePolicyUpdateReq>
+                                                        <sch:Active>${true}</sch:Active>
+                                                        ${sendAdjesterData}
+                                                        ${copayData}
+                                                        ${highDeductableData}
+                                                        <sch:EffectiveEndDate>${insuranceInfo?.PI_endDate ? tebraCommon.changeDateFormat(insuranceInfo?.PI_endDate):''}</sch:EffectiveEndDate>
+                                                        <sch:EffectiveStartDate>${insuranceInfo?.PI_effectiveDate ? tebraCommon.changeDateFormat(insuranceInfo?.PI_effectiveDate):''}</sch:EffectiveStartDate>
+                                                        ${insuredData}
+                                                        <sch:PlanName>${insuranceInfo?.primaryInsurance}</sch:PlanName>
+                                                        <sch:PolicyGroupNumber>${insuranceInfo?.PI_group}</sch:PolicyGroupNumber>
+                                                        <sch:PolicyNumber>${insuranceInfo?.PI_idPolicy}</sch:PolicyNumber>
+                                                    </sch:InsurancePolicyUpdateReq>
+                                                </sch:Policies>
+                                            </sch:PatientCaseUpdateReq>
+                                        </sch:Cases>
+                                        ${sendEmployerData}
+                                        <sch:Guarantor>
+                                            <sch:DifferentThanPatient>true</sch:DifferentThanPatient>
+                                            <sch:FirstName>${insuranceInfo?.RP_firstName}</sch:FirstName>
+                                            <sch:LastName>${insuranceInfo?.RP_lastName}</sch:LastName>
+                                            <sch:MiddleName>${insuranceInfo?.RP_middleName ? insuranceInfo?.RP_middleName:''}</sch:MiddleName>
+                                            ${relationToGuarantor}
+                                        </sch:Guarantor>
+                                        <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
+                                        <sch:Practice>
+                                            <sch:PracticeID>4</sch:PracticeID>
+                                            <sch:PracticeName>Sandbox</sch:PracticeName>
+                                        </sch:Practice>
+                                        </sch:Patient>
+                                    </sch:UpdatePatientReq>
+                                </sch:UpdatePatient>
+                            </soapenv:Body>
+                        </soapenv:Envelope>`
+    
+      return soapRequest
+  }
+
+
+
+  
+
+  const addBillingTeamPatientExistingInsurance = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData, adminPayViaInsuranceInfo) => {
     let sendAdjesterData = ''
     let sendEmployerData = ''
     let copayData = ''
@@ -534,6 +755,10 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
     
       return soapRequest
   }
+
+
+
+  
 
   const updateSupportTeamIntakeForm = (insuranceInfo, patientRes, tebraCaseDetails, tebraInsuranceData, emergencyContact) => {
     let sendAdjesterData = ''
@@ -805,7 +1030,8 @@ module.exports = {
   addPatientInsuranceIntakeForm,
   updatePatientIntakeFormPersonalInfo,
   manageAuthorization,
-  addBillingTeamPatientInsurance,
+  addBillingTeamPatientExistingInsurance,
+  addBillingTeamPatientNewInsurance,
   updateSupportTeamIntakeForm,
   createEncounter,
   addPatientSelfPayIntakeForm,
