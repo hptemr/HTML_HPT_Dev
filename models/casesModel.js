@@ -20,7 +20,8 @@ const casesSchema = new mongoose.Schema({
     tebraInsuranceData:{
         InsurancePolicyCompanyID:{ type: String },
         InsurancePolicyID:{ type: String },
-        InsurancePolicyPlanID:{ type: String }
+        InsurancePolicyPlanID:{ type: String },
+        InsuranceName : { type: String }
     },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

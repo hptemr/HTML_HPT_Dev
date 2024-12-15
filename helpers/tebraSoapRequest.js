@@ -745,6 +745,57 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
       return soapRequest
   }
 
+
+  const addSupportTeamSelfPayIntakeForm = (patientRes, caseFound, emergencyContact) => {
+    let tebraCaseDetails = caseFound?.tebraDetails
+    let tebraInsuranceDetails = caseFound?.tebraInsuranceData
+    let insuranceData = ''
+    if(caseFound?.insuranceAddedOnTebra){
+        let insuranceXMLData = `<sch:Policies>
+                                    <sch:InsurancePolicyUpdateReq>
+                                        <sch:Active>false</sch:Active>
+                                        <sch:CompanyID>${tebraInsuranceDetails?.InsurancePolicyCompanyID}</sch:CompanyID>
+                                        <sch:InsurancePolicyID>${tebraInsuranceDetails?.InsurancePolicyID}</sch:InsurancePolicyID>
+                                        <sch:PlanID>${tebraInsuranceDetails?.InsurancePolicyPlanID}</sch:PlanID>
+                                    </sch:InsurancePolicyUpdateReq>
+                                </sch:Policies>`
+        insuranceData = insuranceXMLData
+    }
+
+    let soapRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.kareo.com/api/schemas/">
+                            <soapenv:Header/>
+                            <soapenv:Body>
+                                <sch:UpdatePatient>
+                                    <sch:UpdatePatientReq>
+                                        <sch:RequestHeader>
+                                        <sch:CustomerKey>${tebraCredentials?.customerKey}</sch:CustomerKey>
+                                        <sch:Password>${tebraCredentials?.password}</sch:Password>
+                                        <sch:User>${tebraCredentials?.user}</sch:User>
+                                        </sch:RequestHeader>
+                                        <sch:Patient>
+                                        <sch:Cases>
+                                            <sch:PatientCaseUpdateReq>
+                                                <sch:CaseID>${tebraCaseDetails?.CaseID}</sch:CaseID>
+                                                <sch:PayerScenario>Self Pay</sch:PayerScenario>
+                                                ${insuranceData}
+                                            </sch:PatientCaseUpdateReq>
+                                        </sch:Cases>
+                                        <sch:EmergencyName>${emergencyContact[0].ec1FirstName} ${emergencyContact[0].ec1LastName}</sch:EmergencyName>
+                                        <sch:EmergencyPhone>${tebraCommon.convertPhoneNumber(emergencyContact[0].ec1PhoneNumber)}</sch:EmergencyPhone>
+                                        <sch:PatientID>${patientRes?.tebraDetails.PatientID}</sch:PatientID>
+                                        <sch:Practice>
+                                            <sch:PracticeID>4</sch:PracticeID>
+                                            <sch:PracticeName>Sandbox</sch:PracticeName>
+                                        </sch:Practice>
+                                        </sch:Patient>
+                                    </sch:UpdatePatientReq>
+                                </sch:UpdatePatient>
+                            </soapenv:Body>
+                        </soapenv:Envelope>`
+    
+      return soapRequest
+  }
+
 module.exports = {
   getPracice,
   createPatient,
@@ -757,5 +808,6 @@ module.exports = {
   addBillingTeamPatientInsurance,
   updateSupportTeamIntakeForm,
   createEncounter,
-  addPatientSelfPayIntakeForm
+  addPatientSelfPayIntakeForm,
+  addSupportTeamSelfPayIntakeForm
 };

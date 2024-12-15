@@ -146,11 +146,22 @@ const createAppointmenttest = async (req, res) => {
 }
 
 
-const createAppointmentte2st = async (req, res) => {
+const createAppointmenttesting = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
-        let alreadyFound = ''; let proceed = true;
+  
         console.log('data>>>>',data)
+        let appointmentDate = data.appointmentDate;
+        if(data.appointmentStartTime){
+            appointmentDate = data.appointmentStartTime;
+        }
+        console.log('appointment date >>>>',appointmentDate)
+         
+        let start_date_time = commonHelper.dateModify(data.appointmentStartTime);
+        let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
+
+        let appointment_date_time = '"'+start_date_time+' To ' +endtime+'"';
+        console.log('appointment_date_time_____>>>>',appointment_date_time)
 
         commonHelper.sendResponse(res, 'success', {}, 'done');
     } catch (error) {
@@ -158,13 +169,10 @@ const createAppointmentte2st = async (req, res) => {
     }
 }
 
-
-
 const createAppointment = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
         let alreadyFound = ''; let proceed = true;
-        console.log('data>>>>',data)
         if (patientType == 'New') {
             alreadyPatient = await Patient.findOne({ email: data.email, status: { $ne: 'Deleted' } });
             if (alreadyPatient) {
@@ -209,7 +217,7 @@ const createAppointment = async (req, res) => {
             let caseType = data.caseType ? data.caseType : '';
             let caseName = data.caseName == 'Other' ? data.caseNameOther : data.caseName
             let caseFound = '';
-            console.log('case name >>>>',caseName)
+  
             if(data.patientId) {
                 caseFound = await Case.findOne({ caseName: caseName, patientId: data.patientId }, { _id: 1, caseType: 1, appointments: 1 });
             }           
@@ -241,7 +249,6 @@ const createAppointment = async (req, res) => {
                 caseId = caseFound._id;
 
                 //Create patient on tebra when first appoitnment of Patient accepted by Support Team
-                console.log("<<<<<<< data >>>>>>", data)
                 if(data?.patientId && data?.doctorId){
                     const patientRes = await Patient.findOne({ _id: data.patientId }).lean();
                     const providerData = await Provider.findOne({ _id: data.doctorId },{ name: 1 }).lean();
@@ -266,23 +273,20 @@ const createAppointment = async (req, res) => {
             } else if (caseType == '') {
                 caseType = caseFound.caseType ? caseFound.caseType : ''
             }
-
-            let appointmentDate = data.appointmentDate;
-          
+     
             if(data.appointmentStartTime){
-                appointmentDate = data.appointmentStartTime;
+                data.appointmentDate = data.appointmentStartTime;
             }
             //local start time conversion
-            const localDate = new Date(appointmentDate);  
-            localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
-            data.appointmentDate = localDate;
-      
-            //local end time conversion
-            if(data.appointmentEndTime){
-                const localEndDate = new Date(data.appointmentEndTime);  
-                localEndDate.setMinutes(localEndDate.getMinutes() - localEndDate.getTimezoneOffset());       
-                data.appointmentEndTime = localEndDate;
-            }            
+            // const localDate = new Date(appointmentDate);  
+            // localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
+            // data.appointmentDate = localDate;      
+            // //local end time conversion
+            // if(data.appointmentEndTime){
+            //     const localEndDate = new Date(data.appointmentEndTime);  
+            //     localEndDate.setMinutes(localEndDate.getMinutes() - localEndDate.getTimezoneOffset());       
+            //     data.appointmentEndTime = localEndDate;
+            // }            
  
             let appointmentData = {
                 appointmentId: appointmentId,
@@ -291,7 +295,7 @@ const createAppointment = async (req, res) => {
                 appointmentType: data.appointmentType,
                 appointmentTypeOther: data.appointmentTypeOther,
                 appointmentDate: data.appointmentDate,//data.appointmentDate.year+'-'+data.appointmentDate.month+'-'+data.appointmentDate.day,
-                appointmentEndTime: data.appointmentEndTime ? data.appointmentEndTime : data.appointmentDate,
+                appointmentEndTime: data.appointmentEndTime,// ? data.appointmentEndTime : data.appointmentDate,
                 notes:data.notes ? data.notes : '',
                 repeatsNotes:data.repeatsNotes ? data.repeatsNotes : '',
                 practiceLocation: data.practiceLocation,
@@ -505,9 +509,9 @@ const createAppointmentRequest = async (req, res) => {
         // }else{
 
         //Timezone issue Start
-        const localDate = new Date(data.appointmentDate);  
-        localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
-        data.appointmentDate = localDate;
+        // const localDate = new Date(data.appointmentDate);  
+        // localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
+        // data.appointmentDate = localDate;
         //Timezone issue END
 
         let newAppointmentRequest = new AppointmentRequest(data);
@@ -683,12 +687,24 @@ const updateAppointment = async (req, res) => {
             // Update by Support Team
             if(userRole=='support_team' && appointment_data?.adminPayViaInsuranceInfo){
                 console.log("<<<<<<<<< Admin Pay Via Insurance >>>>>>>>>>", caseFound)
-                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance'){
+                let insurancePresentData = caseFound?.tebraInsuranceData
+                let isInsurancePresentData = false
+                if(insurancePresentData && insurancePresentData?.InsurancePolicyCompanyID && insurancePresentData?.InsurancePolicyID && insurancePresentData?.InsurancePolicyPlanID){
+                    isInsurancePresentData = true
+                }
+                console.log("<<<< isInsurancePresentData >>>>>",isInsurancePresentData)
+                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance' && isInsurancePresentData){
                     tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
+                }
+
+                if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Insurance' && !isInsurancePresentData){
+                    // tebraController.updateSupportTeamIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, appointment_data?.emergencyContact)
+                    tebraController.addPatientInsuranceIntakeForm(appointment_data?.adminPayViaInsuranceInfo, patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
                 }
                 
                 if(appointment_data.adminPayViaInsuranceInfo?.payVia == 'Selfpay'){
-                    tebraController.addPatientSelfPayIntakeForm(patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                    // tebraController.addPatientSelfPayIntakeForm(patientData, caseFound?.tebraDetails, appointment_data?.emergencyContact)
+                    tebraController.addSupportTeamSelfPayIntakeForm(patientData, caseFound, appointment_data?.emergencyContact)
                 }
             }
         }
@@ -957,7 +973,7 @@ const getCaseList = async (req, res) => {
             }
         }
             
-        Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled']}})
+        // Object.assign(query, { status:  { $in: ['Pending Intake Form','Scheduled']}})
         Object.assign(query, { 'patientObj.status': 'Active'})
          
         console.log('*****************query*****************',query);
