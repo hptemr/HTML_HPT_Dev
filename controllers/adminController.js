@@ -22,6 +22,7 @@ const UploadInsurancesLogs = require('../models/uploadInsurancesLogsModel');
 const UploadInsurances = require('../models/uploadInsurancesModel');
 const Appointment = require('../models/appointmentModel');
 const moment = require('moment');
+let path = require('path')
 
 const systemAdminSignUp = async (req, res, next) => {
   try {
@@ -702,32 +703,84 @@ const cometChatLog = async (req, res) => {
   }
 }
 
+// const uploadProviders = async (req, res) => {
+//   try {
+//     const filePath = req.file.path;
+//     const data = [];
+//     const errorsList = [];
+
+//     let headersValidated = false;
+//     let validHeaders = true;
+//     let rowNumber = 1;  // Start row number from 1
+//     const npiSet = new Set();  // To track duplicate NPIs
+
+//     fs.createReadStream(filePath)
+//       .pipe(csv())
+//       .on('headers', (headers) => {
+//         // Validate if all required headers are present
+//         headersValidated = true;
+//         validHeaders = userCommonHelper.validateUploadProviderFileHeader(headers);
+
+//         if (!validHeaders) {
+//           fs.unlinkSync(filePath); // Delete the uploaded file after processing
+//           commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+//         }
+//       })
+//       .on('data', (row) => {
+//         if (headersValidated && validHeaders) {
+//           rowNumber++;
+//           // Clean up row data before validation
+//           row['NPI'] = userCommonHelper.cleanNumericInput(row['NPI']);
+//           row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+//           row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
+
+//           // const errors = userCommonHelper.validateUploadProviderFile(row);
+//           const errors = userCommonHelper.validateUploadProviderFile(row, npiSet);
+//           if (errors.length > 0) {
+//             // errorsList.push({ row, errors });
+//             errorsList.push({ ...row, errors, rowNumber });
+//           } else {
+//             data.push({
+//               Name: row["Name"],
+//               Credentials: row["Credentials"],
+//               Address: row["Address"],
+//               phoneNumber: row["phoneNumber"],
+//               faxNumber: row["faxNumber"],
+//               NPI: row["NPI"],
+//               errors: [],
+//               rowNumber: ''
+//             });
+//           }
+//         }
+//       })
+//       .on('end', async () => {
+//         if (headersValidated && validHeaders) {
+//           fs.unlinkSync(filePath); // Delete the uploaded file after processing
+//           let allData = [...errorsList, ...data]
+//           let allList = {
+//             totalRecord: allData,
+//             dataWithoutError: data,
+//             dataWithError: errorsList,
+//             totalRecordCount: allData.length,
+//             errorRecordCount: errorsList.length
+//           }
+
+//           if (allData.length == 0) {
+//             commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
+//           } else {
+//             commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
+//           }
+//         }
+//       })
+//   } catch (error) {
+//     console.log("*******uploadProviders******", error)
+//     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+//   }
+// }
+
+
 const uploadProviders = async (req, res) => {
   try {
-    const filePath = req.file.path;
-    // const doctors = [];
-    // const errors = [];
-
-    // fs.createReadStream(filePath)
-    //   .pipe(csv())
-    //   .on('data', (row) => {
-    //     // const error = validateRow(row);
-    //     // if (error.length > 0) {
-    //     //   errors.push({ row, error });
-    //     // } else {
-    //     //   doctors.push(row);
-    //     // }
-    //     doctors.push(row);
-    //   })
-    //   .on('end', async () => {
-    //     // await Doctor.insertMany(doctors);
-    //     // res.json({ doctors, errors });
-    //     commonHelper.sendResponse(res, 'success', { doctors, errors } , 'Upload file successfully');
-    //     fs.unlinkSync(filePath); // Delete the uploaded file after processing
-    //   });
-
-
-    // const filePath = path.join(__dirname, req.file.path);
     const data = [];
     const errorsList = [];
 
@@ -735,67 +788,98 @@ const uploadProviders = async (req, res) => {
     let validHeaders = true;
     let rowNumber = 1;  // Start row number from 1
     const npiSet = new Set();  // To track duplicate NPIs
+    
+    req.pipe(req.busboy); // Pipe the request to busboy
+    
+    req.busboy.on('file', (fieldname, file, filename) => {
+      console.log('Filename:', filename);
+        // Define a temporary path to save the file
+        const saveTo = path.join(__dirname, '/../uploads/', filename.filename);
+        console.log('Saving file to:', saveTo);
+    
+        // Stream the file into the server (you can skip this step if you don't need to save it)
+        const fileStream = fs.createWriteStream(saveTo);
+        file.pipe(fileStream);
 
-    fs.createReadStream(filePath)
-      .pipe(csv())
-      .on('headers', (headers) => {
-        // Validate if all required headers are present
-        headersValidated = true;
-        validHeaders = userCommonHelper.validateUploadProviderFileHeader(headers);
+        // Process the CSV file while saving it
+        file.pipe(csv()) // Pipe the file through csv-parser
+            .on('headers', (headers) => {
+              console.log("headers>>>",headers)
+              // Validate if all required headers are present
+              headersValidated = true;
+              validHeaders = userCommonHelper.validateUploadProviderFileHeader(headers);
 
-        if (!validHeaders) {
-          fs.unlinkSync(filePath); // Delete the uploaded file after processing
-          commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
-        }
-      })
-      .on('data', (row) => {
-        if (headersValidated && validHeaders) {
-          rowNumber++;
-          // Clean up row data before validation
-          row['NPI'] = userCommonHelper.cleanNumericInput(row['NPI']);
-          row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
-          row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
-
-          // const errors = userCommonHelper.validateUploadProviderFile(row);
-          const errors = userCommonHelper.validateUploadProviderFile(row, npiSet);
-          if (errors.length > 0) {
-            // errorsList.push({ row, errors });
-            errorsList.push({ ...row, errors, rowNumber });
-          } else {
-            data.push({
-              Name: row["Name"],
-              Credentials: row["Credentials"],
-              Address: row["Address"],
-              phoneNumber: row["phoneNumber"],
-              faxNumber: row["faxNumber"],
-              NPI: row["NPI"],
-              errors: [],
-              rowNumber: ''
+              if (!validHeaders) {
+                fs.unlink(saveTo, (err) => {
+                  if(err){ console.error('Error deleting file validHeaders:', err)}
+                }) 
+                commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+              }
+            })
+            .on('data', (row) => {
+                // console.log('Row:', row);
+                if (headersValidated && validHeaders) {
+                  rowNumber++;
+                  // Clean up row data before validation
+                  row['NPI'] = userCommonHelper.cleanNumericInput(row['NPI']);
+                  row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+                  row['faxNumber'] = userCommonHelper.cleanNumericInput(row['faxNumber']);
+        
+                  // const errors = userCommonHelper.validateUploadProviderFile(row);
+                  const errors = userCommonHelper.validateUploadProviderFile(row, npiSet);
+                  if (errors.length > 0) {
+                    // errorsList.push({ row, errors });
+                    errorsList.push({ ...row, errors, rowNumber });
+                  } else {
+                    data.push({
+                      Name: row["Name"],
+                      Credentials: row["Credentials"],
+                      Address: row["Address"],
+                      phoneNumber: row["phoneNumber"],
+                      faxNumber: row["faxNumber"],
+                      NPI: row["NPI"],
+                      errors: [],
+                      rowNumber: ''
+                    });
+                  }
+                }
+            })
+            .on('end', () => {
+              if (headersValidated && validHeaders) {
+                fs.unlink(saveTo, (err) => {
+                  if (err) {
+                      console.error('Error deleting file:', err);
+                  }
+                }) // Delete the uploaded file after processing
+                let allData = [...errorsList, ...data]
+                let allList = {
+                  totalRecord: allData,
+                  dataWithoutError: data,
+                  dataWithError: errorsList,
+                  totalRecordCount: allData.length,
+                  errorRecordCount: errorsList.length
+                }
+      
+                if (allData.length == 0) {
+                  commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
+                } else {
+                  commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
+                }
+              }
+            })
+            .on('error', (error) => {
+                console.error('Error processing CSV file:', error);
+                commonHelper.sendResponse(res, 'error', null, 'Error processing file');
             });
-          }
-        }
-      })
-      .on('end', async () => {
-        if (headersValidated && validHeaders) {
-          fs.unlinkSync(filePath); // Delete the uploaded file after processing
-          let allData = [...errorsList, ...data]
-          let allList = {
-            totalRecord: allData,
-            dataWithoutError: data,
-            dataWithError: errorsList,
-            totalRecordCount: allData.length,
-            errorRecordCount: errorsList.length
-          }
+    });
 
-          if (allData.length == 0) {
-            commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
-          } else {
-            commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
-          }
-        }
-      })
+    req.busboy.on('error', (err) => {
+        console.error('Busboy error:', err);
+        commonHelper.sendResponse(res, 'error', null, 'File Upload Failed!');
+    });
+
   } catch (error) {
-    console.log("*******uploadProviders******", error)
+    console.log("*******uploadInsurances******", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
@@ -902,9 +986,87 @@ const deleteProvider = async (req, res) => {
   }
 }
 
+// const uploadInsurances = async (req, res) => {
+//   try {
+//     const filePath = req.file.path;
+//     const data = [];
+//     const errorsList = [];
+
+//     let headersValidated = false;
+//     let validHeaders = true;
+//     let rowNumber = 1;  // Start row number from 1
+//     const payerIDSet = new Set();  // To track duplicate Payer Ids
+
+//     fs.createReadStream(filePath)
+//       .pipe(csv())
+//       .on('headers', (headers) => {
+//         console.log("headers>>>",headers)
+//         // Validate if all required headers are present
+//         headersValidated = true;
+//         validHeaders = userCommonHelper.validateUploadInsuranceFileHeader(headers);
+//         console.log("validHeaders>>",validHeaders)
+
+//         if (!validHeaders) {
+//           fs.unlinkSync(filePath); // Delete the uploaded file after processing
+//           commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+//         }
+//       })
+//       .on('data', (row) => {
+//         if (headersValidated && validHeaders) {
+//           console.log("row>>>>>>>", row)
+//           rowNumber++;
+//           // Clean up row data before validation
+//           row['payerID'] = userCommonHelper.cleanNumericInput(row['payerID']);
+//           row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+//           row['insuranceType'] = userCommonHelper.trimString(row['insuranceType']);
+//           row['billingType'] = userCommonHelper.cleanNumericInput(row['billingType']);
+
+//           const errors = userCommonHelper.validateUploadInsuranceFile(row, payerIDSet);
+//           console.log("errors>>>>>", errors)
+//           if (errors.length > 0) {
+//             // errorsList.push({ row, errors });
+//             errorsList.push({ ...row, errors, rowNumber });
+//           } else {
+//             data.push({
+//               insuranceName: row["insuranceName"],
+//               insuranceType: row["insuranceType"],
+//               insuranceAddress: row["insuranceAddress"],
+//               payerID: row["payerID"],
+//               phoneNumber: row["phoneNumber"],
+//               billingType: row["billingType"],
+//               errors: [],
+//               rowNumber: ''
+//             });
+//           }
+//         }
+//       })
+//       .on('end', async () => {
+//         if (headersValidated && validHeaders) {
+//           fs.unlinkSync(filePath); // Delete the uploaded file after processing
+//           let allData = [...errorsList, ...data]
+//           let allList = {
+//             totalRecord: allData,
+//             dataWithoutError: data,
+//             dataWithError: errorsList,
+//             totalRecordCount: allData.length,
+//             errorRecordCount: errorsList.length
+//           }
+
+//           if (allData.length == 0) {
+//             commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
+//           } else {
+//             commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
+//           }
+//         }
+//       })
+//   } catch (error) {
+//     console.log("*******uploadInsurances******", error)
+//     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+//   }
+// }
+
 const uploadInsurances = async (req, res) => {
   try {
-    const filePath = req.file.path;
     const data = [];
     const errorsList = [];
 
@@ -912,73 +1074,167 @@ const uploadInsurances = async (req, res) => {
     let validHeaders = true;
     let rowNumber = 1;  // Start row number from 1
     const payerIDSet = new Set();  // To track duplicate Payer Ids
+    
+    req.pipe(req.busboy); // Pipe the request to busboy
+    
+    req.busboy.on('file', (fieldname, file, filename) => {
+      console.log('Filename:', filename);
+        // Define a temporary path to save the file
+        const saveTo = path.join(__dirname, '/../uploads/', filename.filename);
+        console.log('Saving file to:', saveTo);
+    
+        // Stream the file into the server (you can skip this step if you don't need to save it)
+        const fileStream = fs.createWriteStream(saveTo);
+        file.pipe(fileStream);
 
-    fs.createReadStream(filePath)
-      .pipe(csv())
-      .on('headers', (headers) => {
-        // Validate if all required headers are present
-        headersValidated = true;
-        validHeaders = userCommonHelper.validateUploadInsuranceFileHeader(headers);
+        // Process the CSV file while saving it
+        file.pipe(csv()) // Pipe the file through csv-parser
+            .on('headers', (headers) => {
+              console.log("headers>>>",headers)
+              // Validate headers
+              headersValidated = true;
+              validHeaders = userCommonHelper.validateUploadInsuranceFileHeader(headers);
+              if (!validHeaders) {
+                // fs.unlink(saveTo); // Delete the uploaded file after processing
+                fs.unlink(saveTo, (err) => {
+                  if(err){ console.error('Error deleting file validHeaders:', err)}
+                }) 
+                commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
+              }
+            })
+            .on('data', (row) => {
+                // console.log('Row:', row);
+                if (headersValidated && validHeaders) {
+                  console.log("row>>>>>>>", row)
+                  rowNumber++;
+                  // Clean up row data before validation
+                  row['payerID'] = userCommonHelper.cleanNumericInput(row['payerID']);
+                  row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
+                  row['insuranceType'] = userCommonHelper.trimString(row['insuranceType']);
+                  row['billingType'] = userCommonHelper.cleanNumericInput(row['billingType']);
 
-        if (!validHeaders) {
-          fs.unlinkSync(filePath); // Delete the uploaded file after processing
-          commonHelper.sendResponse(res, 'info', null, infoMessage.csvFileHeaderMissing);
-        }
-      })
-      .on('data', (row) => {
-        if (headersValidated && validHeaders) {
-          console.log("row>>>>>>>", row)
-          rowNumber++;
-          // Clean up row data before validation
-          row['payerID'] = userCommonHelper.cleanNumericInput(row['payerID']);
-          row['phoneNumber'] = userCommonHelper.cleanNumericInput(row['phoneNumber']);
-          row['insuranceType'] = userCommonHelper.trimString(row['insuranceType']);
-          row['billingType'] = userCommonHelper.cleanNumericInput(row['billingType']);
+                  const errors = userCommonHelper.validateUploadInsuranceFile(row, payerIDSet);
+                  console.log("errors>>>>>", errors)
+                  if (errors.length > 0) {
+                    // errorsList.push({ row, errors });
+                    errorsList.push({ ...row, errors, rowNumber });
+                  } else {
+                    data.push({
+                      insuranceName: row["insuranceName"],
+                      insuranceType: row["insuranceType"],
+                      insuranceAddress: row["insuranceAddress"],
+                      payerID: row["payerID"],
+                      phoneNumber: row["phoneNumber"],
+                      billingType: row["billingType"],
+                      errors: [],
+                      rowNumber: ''
+                    });
+                  }
+                }
+            })
+            .on('end', () => {
+                if (headersValidated && validHeaders) {
+                  fs.unlink(saveTo, (err) => {
+                    if (err) {
+                        console.error('Error deleting file:', err);
+                    }
+                  }) // Delete the uploaded file after processing
 
-          const errors = userCommonHelper.validateUploadInsuranceFile(row, payerIDSet);
-          console.log("errors>>>>>", errors)
-          if (errors.length > 0) {
-            // errorsList.push({ row, errors });
-            errorsList.push({ ...row, errors, rowNumber });
-          } else {
-            data.push({
-              insuranceName: row["insuranceName"],
-              insuranceType: row["insuranceType"],
-              insuranceAddress: row["insuranceAddress"],
-              payerID: row["payerID"],
-              phoneNumber: row["phoneNumber"],
-              billingType: row["billingType"],
-              errors: [],
-              rowNumber: ''
+                  let allData = [...errorsList, ...data]
+                  let allList = {
+                    totalRecord: allData,
+                    dataWithoutError: data,
+                    dataWithError: errorsList,
+                    totalRecordCount: allData.length,
+                    errorRecordCount: errorsList.length
+                  }
+        
+                  if (allData.length == 0) {
+                    commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
+                  } else {
+                    commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
+                  }
+                }
+            })
+            .on('error', (error) => {
+                console.error('Error processing CSV file:', error);
+                commonHelper.sendResponse(res, 'error', null, 'Error processing file');
             });
-          }
-        }
-      })
-      .on('end', async () => {
-        if (headersValidated && validHeaders) {
-          fs.unlinkSync(filePath); // Delete the uploaded file after processing
-          let allData = [...errorsList, ...data]
-          let allList = {
-            totalRecord: allData,
-            dataWithoutError: data,
-            dataWithError: errorsList,
-            totalRecordCount: allData.length,
-            errorRecordCount: errorsList.length
-          }
+    });
 
-          if (allData.length == 0) {
-            commonHelper.sendResponse(res, 'info', null, infoMessage.noRecordFoundInFile);
-          } else {
-            commonHelper.sendResponse(res, 'success', allList, 'File uploaded successfully');
-          }
-        }
-      })
+    req.busboy.on('error', (err) => {
+        console.error('Busboy error:', err);
+        commonHelper.sendResponse(res, 'error', null, 'File Upload Failed!');
+    });
+
   } catch (error) {
     console.log("*******uploadInsurances******", error)
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
 
+
+// const uploadInsurances = async (req, res) => {
+//   try {
+
+//     console.log("<<<<<<<< uploadInsurances1 >>>>>>>")
+//     console.log("<< req.headers >>>",req.headers)
+
+//     const results = []; // Store parsed CSV data
+    
+//     req.pipe(req.busboy); // Pipe the request to busboy
+    
+//     req.busboy.on('file', (fieldname, file, filename) => {
+//       console.log('Fieldname:', fieldname);
+//       console.log('Filename:', filename);
+//       console.log('Type of filename:', typeof filename);
+        
+//         // Define a temporary path to save the file
+//         // const saveTo = path.join(__dirname, '/../tmp/', filename);
+//         // const safeFilename = filename || `upload_${Date.now()}.csv`;
+//         const saveTo = path.join(__dirname, '/../uploads/', filename.filename);
+//         console.log('Saving file to:', saveTo);
+    
+
+//         // Stream the file into the server (you can skip this step if you don't need to save it)
+//         const fileStream = fs.createWriteStream(saveTo);
+//         file.pipe(fileStream);
+
+//         // Process the CSV file while saving it
+//         file.pipe(csv()) // Pipe the file through csv-parser
+//             .on('data', (data) => {
+//                 console.log('Row:', data);
+//                 results.push(data); // Push each row to results
+//             })
+//             .on('end', () => {
+//                 console.log('CSV file successfully processed.');
+//                 fs.unlink(saveTo, (err) => {
+//                   if (err) {
+//                       console.error('Error deleting file:', err);
+//                   }
+//                 })  
+                
+//                 res.status(200).json({
+//                     message: 'File uploaded and parsed successfully!',
+//                     data: results // Send parsed CSV data
+//                 });
+//             })
+//             .on('error', (error) => {
+//                 console.error('Error processing CSV file:', error);
+//                 res.status(500).send({ message: 'Error processing file', error });
+//             });
+//     });
+
+//     req.busboy.on('error', (err) => {
+//         console.error('Busboy error:', err);
+//         res.status(500).send({ message: 'Upload failed', error: err });
+//     });
+
+//   } catch (error) {
+//     console.log("*******uploadInsurances******", error)
+//     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+//   }
+// }
 
 const saveUploadedInsurancesData = async (req, res) => {
   try {

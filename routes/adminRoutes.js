@@ -35,12 +35,14 @@ router.post('/revokeInvite', adminController.revokeInvite);
 // Comet chat log url
 router.post('/cometChatLog', adminController.cometChatLog);
 // Provider and Insurance Management
-router.post('/uploadProviders', upload.single('file'), adminController.uploadProviders);
+// router.post('/uploadProviders', upload.single('file'), adminController.uploadProviders);
+router.post('/uploadProviders', adminController.uploadProviders);
 router.post('/saveUploadedProviderData', adminController.saveUploadedProviderData);
 router.post('/getProviderList', adminController.getProviderList);
 router.post('/deleteProvider', adminController.deleteProvider);
 
-router.post('/uploadInsurances', upload.single('file'), adminController.uploadInsurances);
+// router.post('/uploadInsurances', upload.single('file'), adminController.uploadInsurances);
+router.post('/uploadInsurances', adminController.uploadInsurances);
 router.post('/saveUploadedInsurancesData', adminController.saveUploadedInsurancesData);
 router.post('/getUploadInsuranceList', adminController.getUploadInsuranceList);
 router.post('/deleteInsurance', adminController.deleteInsurance);
