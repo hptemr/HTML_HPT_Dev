@@ -477,8 +477,8 @@ export class SchedulerComponent {
               appointmentType: element.appointmentType ? element.appointmentType : 'N/A',
               checkIn: element.checkIn,
               createdAt: element.updatedAt,
-              appointmentStartDate: element.appointmentStartDate,
-              appointmentEndDate: element.appointmentEndDate,
+              // appointmentStartDate: element.appointmentDate,
+              // appointmentEndDate: element.appointmentEndDate,
               appointmentDate: element.appointmentDate,
               appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
               status: element.status,
@@ -525,7 +525,7 @@ export class SchedulerComponent {
         //       });
         //   } else {
 
-              eventArray.push(this.eventArray(element,element.appointmentStartDate,element.appointmentEndDate,true))   
+              eventArray.push(this.eventArray(element,element.appointmentDate,element.appointmentEndTime,true))   
 
           //}
       });
@@ -538,9 +538,16 @@ export class SchedulerComponent {
     }
 
     eventArray(element:any,appointmentStartDate:any,appointmentEndDate:any,flag:boolean){
+      const utcDate = new Date(appointmentStartDate);
+     // const localStarDate = new Date(utcDate.toLocaleString());
+     
+      const utcDate2 = new Date(appointmentEndDate); 
+    //  const localEndDate = new Date(utcDate2.toLocaleString());
+
+
       let newColumns = {
-        start:new Date(appointmentStartDate),
-        end: new Date(appointmentEndDate),
+        start:utcDate,//new Date(appointmentStartDate),
+        end: utcDate2,
         title: element.caseName+' ('+element.patientName+')',//'<img src="'+element.profileImage+'" alt="Profile" class="img-fluid" />'+
         color: { ...colors['red'] },
         // color: {
@@ -700,10 +707,10 @@ export class SchedulerComponent {
             let newColumns = {
               id: element._id,             
               appointmentId: element.appointmentId,             
-              appointmentStartDate: element.appointmentStartDate,
-              appointmentEndDate: element.appointmentEndDate,
+              // appointmentStartDate: element.appointmentStartDate,
+              // appointmentEndDate: element.appointmentEndDate,
               appointmentDate: element.appointmentDate,
-              appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : '',
+              appointmentEndTime: element.appointmentEndTime ? element.appointmentEndTime : element.appointmentDate,
               practiceLocation: element.practiceLocation,
               checkIn: element.checkIn,
               status: element.status,
