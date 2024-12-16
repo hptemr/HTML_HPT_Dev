@@ -1184,11 +1184,11 @@ const getSchedularCaseList = async (req, res) => {
         
         let appointmentList = await Appointment.aggregate(totalQuery);//.sort(order).skip(offset).limit(limit);
             
-        appointmentList = appointmentList.map(item => ({
-        ...item,
-        appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
-        appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
-        }));
+        // appointmentList = appointmentList.map(item => ({
+        // ...item,
+        // appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
+        // appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
+        // }));
 
         // appointmentStartDate: moment.utc((item.eventsObj && item.eventsObj.repeateAppointmentDate) ? item.eventsObj && item.eventsObj.repeateAppointmentDate : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
         // appointmentEndDate: moment.utc((item.eventsObj && item.eventsObj.repeateAppointmentEndDate) ? item.eventsObj && item.eventsObj.repeateAppointmentEndDate : (item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate)).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
