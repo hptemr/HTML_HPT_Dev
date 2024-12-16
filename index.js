@@ -4,7 +4,7 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var app = express()
-var busboy = require('connect-busboy');
+// var busboy = require('connect-busboy');
 var cors = require('cors')
 var routesApi = require('./routes')
 var constants = require('./config/constants')
@@ -19,7 +19,7 @@ app.use(logger('dev'))
 app.use(cookieParser())
 
 // app.use(busboy({ immediate: true })); //bulk upload file is not working because of this
-app.use(busboy());
+// app.use(busboy());
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}))
 //app.use(cors({}))
