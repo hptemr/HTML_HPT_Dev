@@ -18,7 +18,8 @@ app.set('view engine', 'jade');
 app.use(logger('dev'))
 app.use(cookieParser())
 
-app.use(busboy({ immediate: true })); //bulk upload file is not working because of this
+// app.use(busboy({ immediate: true })); //bulk upload file is not working because of this
+app.use(busboy());
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}))
 //app.use(cors({}))
