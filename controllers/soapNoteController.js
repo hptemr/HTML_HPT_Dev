@@ -809,6 +809,18 @@ const getAppointmentNoteList = async (req, res) => {
   }
 }
 
+const deleteCaseSoapNote = async (req, res) => {
+  try {
+    const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType };
+    let updatePlan =  { $set: { is_deleted: true }}
+    await Case.updateOne(filterPlan, updatePlan);
+    commonHelper.sendResponse(res, 'success', 'Deleted successfully');
+  } catch (error) {
+    console.log('delete Case Soap Note Error >>>> ',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 const deleteSoapNote = async (req, res) => {
   try {
     const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.noteType };
@@ -1370,6 +1382,7 @@ module.exports = {
   submitCaseNote,
   getCaseNoteData,
   deleteSoapNote,
+  deleteCaseSoapNote,
   createAddendum,
   getInitialExamination,
   sendFax,

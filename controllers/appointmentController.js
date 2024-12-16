@@ -1406,8 +1406,8 @@ const addBillingDetails = async (req, res) => {
                 let query = {};
                 if(cases && cases.appointments && cases.appointments.length>0){
                     query['appointmentId'] = { $in: cases.appointments }
+                    query['is_deleted'] = false
                 } 
-                //console.log('query>>>',query)
           
                 if(req.body.searchValue!=""){
                     query.soap_note_type = { '$regex': req.body.searchValue, '$options': "i" }

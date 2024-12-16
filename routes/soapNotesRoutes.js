@@ -21,6 +21,7 @@ router.post('/submitAssessment', soapController.submitAssessment);
 router.post('/getAssessment', soapController.getAssessment);
 router.post('/getAppointmentNoteList', soapController.getAppointmentNoteList);
 router.post('/deleteSoapNote', soapController.deleteSoapNote);
+router.post('/deleteCaseSoapNote', soapController.deleteCaseSoapNote);
 router.post('/createAddendum', soapController.createAddendum);
 router.post('/getInitialExamination', soapController.getInitialExamination);
 router.post('/submitCaseNote', soapController.submitCaseNote);

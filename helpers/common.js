@@ -71,7 +71,7 @@ const dateModify = (appointmentDate) =>{
 
 const getDateMinutes = (appointmentDate) =>{
   const now = moment(appointmentDate);
-  const formattedDate = now.format('hh:mm a');
+  const formattedDate = now.format('hh:mm A');
   return formattedDate
 }
 
