@@ -376,7 +376,7 @@ const createAppointment = async (req, res) => {
             commonHelper.sendResponse(res, 'success', result, msg);
         }
     } catch (error) {
-        console.log("error>>>", error)
+        console.log("error >>>", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -390,7 +390,7 @@ const getAppointmentDetails = async (req, res) => {
             .populate('doctorId', doctorFields);
         commonHelper.sendResponse(res, 'success', { appointmentData }, '');
     } catch (error) {
-        console.log("********Appointment***error***", error)
+        console.log("******** Appointment *** Error ***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
