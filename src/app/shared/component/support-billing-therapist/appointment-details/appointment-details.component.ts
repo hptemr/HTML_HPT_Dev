@@ -355,6 +355,11 @@ export class AppointmentDetailsComponent implements OnInit {
       }
     });
 
+    let reqUrl = 'soapNote/deleteSoapNote';
+    if(noteType=='case_note'){
+        reqUrl = 'soapNote/deleteCaseSoapNote';
+    }
+
     dialogRef.afterClosed().subscribe(result => {
       if(result && !result.error){
         this.actionStarted = true
@@ -364,7 +369,7 @@ export class AppointmentDetailsComponent implements OnInit {
           addendumId:addendumId
         }
         this.commonService.showLoader();
-        this.authService.apiRequest('post', 'soapNote/deleteSoapNote', reqVars).subscribe(async response => {
+        this.authService.apiRequest('post', reqUrl, reqVars).subscribe(async response => {
           this.commonService.hideLoader();
           this.commonService.openSnackBar(type+" Notes Deleted Successfully", "SUCCESS")
           this.actionStarted = false

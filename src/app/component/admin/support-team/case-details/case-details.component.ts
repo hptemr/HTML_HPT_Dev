@@ -241,6 +241,10 @@ export class CaseDetailsComponent {
     }
   }
 
+  navigateintakeformDetails(path: string,id:string) {
+    this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+  }
+
   selectInsuranceModal() {
     const dialogRef = this.dialog.open(SelectPrimaryInsuModalComponent,{
       disableClose: true,

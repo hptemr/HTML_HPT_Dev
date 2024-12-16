@@ -29,7 +29,7 @@
                                         <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile/',appointmentData?.patientId._id)">View Patient Profile</button>
                                         <!-- <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button> -->
                                         <button  mat-raised-button color="primary" class="intake-btn" [disabled]="!isBillingDetailsData || isSelfPay" [routerLink]="['/support-team/case-details/billing-details',appointmentId]">View Billing Details</button>
-                                        <button mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" (click)="navigateToappointmentDetails('/intake-form/step-1/',appointmentId)">
+                                        <button mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" (click)="navigateintakeformDetails('/intake-form/step-1/',appointmentId)">
                                             View Intake Form
                                         </button>
                                     </mat-panel-description> 
