@@ -12,6 +12,7 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { states_data } from 'src/app/state';
 import { validationMessages } from 'src/app/utils/validation-messages';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { addDays} from 'date-fns';
 interface State {
   state: string;
   state_code: string;
@@ -65,6 +66,8 @@ export class IntakeStep2Component {
   payViaSelectedFlag:boolean=false
   employerSelected:string=''
   myCheckboxFlag:boolean=false
+  insuranceEndDate: any = addDays(new Date(), 1)
+
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router, private commonService: CommonService,

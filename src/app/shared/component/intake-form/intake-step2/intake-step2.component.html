@@ -375,7 +375,7 @@
                                     </span></label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [min]="todayDate" formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            <input [min]="insuranceEndDate" formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker4" (focus)="picker4.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                                             <mat-datepicker #picker4></mat-datepicker>
@@ -567,7 +567,7 @@
                                     </span></label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [min]="todayDate" formControlName="secondaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            <input [min]="insuranceEndDate" formControlName="secondaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker6" (focus)="picker6.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
                                             <mat-datepicker #picker6></mat-datepicker>
@@ -760,7 +760,7 @@
                                     </span></label>
                                     <div class="input-group">
                                         <mat-form-field class="w-100 am--datepicker">
-                                            <input [min]="todayDate" formControlName="thirdInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                            <input [min]="insuranceEndDate" formControlName="thirdInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                                 matInput [matDatepicker]="picker6" (focus)="picker6.open()">
                                             <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
                                             <mat-datepicker #picker6></mat-datepicker>
