@@ -4,132 +4,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table'; 
 import { MatDialog } from '@angular/material/dialog';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { CommonService } from '../../../../../shared/services/helper/common.service';
 import { AuthService } from 'src/app/shared/services/api/auth.service';
-import { pageSize, pageSizeOptions, practiceLocations } from 'src/app/config';
-
-// export interface PeriodicElement {
-//   docCredentials: string; 
-//   npi: string;
-//   docName: string;
-//   address: string;  
-//   phoneNumber: string;
-//   faxNumber: string; 
-//   errorText: string;
-// }
-
-// const ELEMENT_DATA: ProviderList[] = [
-//   {
-//     Name: 'Doc 1 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 2 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 3 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 4 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 1 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 2 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 3 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 4 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 1 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 2 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 3 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   },
-//   {
-//     Name: 'Doc 4 Test',
-//     Credentials:'123',
-//     NPI: '1888945196',
-//     phoneNumber: '9933556677',
-//     faxNumber: '9933556677',
-//     Address: '674 Nader Ridge, Murraybury, Pennsylvania - 60218, Jordan',
-//     errors: [],
-//   }
-// ]
 
 export interface ProviderList {
   Name: string; 
@@ -140,10 +17,7 @@ export interface ProviderList {
   NPI: string; 
   errors: Array<string>;
 }
-
-// const PROVIDER_DATA: ProviderList[] = ELEMENT_DATA
 const PROVIDER_DATA: ProviderList[] = []
-
 @Component({
   selector: 'app-bulk-upload-providers',
   templateUrl: './bulk-upload-providers.component.html',

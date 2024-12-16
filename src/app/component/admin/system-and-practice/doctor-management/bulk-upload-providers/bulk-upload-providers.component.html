@@ -64,11 +64,11 @@
                         Save Uploaded Data
                     </button>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="totalRecordFound>0 || isSaveUploadedData || errorRecordFound>0">
                     <div class="divider"></div>
                 </div>
                 <div class="col-12">
-                    <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                    <mat-chip-grid #chipGrid aria-label="Fruit selection" *ngIf="totalRecordFound>0 || isSaveUploadedData || errorRecordFound>0">
                         <mat-chip-row *ngIf="totalRecordFound>0">
                             <label class="fw-600 mb-0">Total Records Found: {{totalRecordFound}}</label>
                         </mat-chip-row>
@@ -78,9 +78,10 @@
                         <mat-chip-row *ngIf="errorRecordFound>0">
                             <label class="fw-600 mb-0">Error Found In: {{errorRecordFound}} records</label>
                         </mat-chip-row>
+             
                     </mat-chip-grid>
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="totalRecordFound>0 || isSaveUploadedData || errorRecordFound>0">
                     <div class="divider"></div>
                 </div>
                 <div class="col-12 bulk--upload--provider--wrapper overflow-auto" >
