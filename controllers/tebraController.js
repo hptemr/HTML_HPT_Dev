@@ -86,16 +86,16 @@ const getPractices = async (req, res) => {
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(response => {
             // console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            // console.log('Response Data>>>>:', response.data);
 
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['ErrorResponse'];
-                console.log('errorResponse:', errorResponse);
+                //console.log('errorResponse:', errorResponse);
                 if(errorResponse && errorResponse?.IsError=='false'){
                     const Practices = parseResult['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['Practices'];
                     const practicesAuthorized = parseResult['s:Envelope']['s:Body']['GetPracticesResponse']['GetPracticesResult']['SecurityResponse']['PracticesAuthorized'];
-                    console.log("practicesAuthorized>>>",practicesAuthorized)
+                    //console.log("practicesAuthorized>>>",practicesAuthorized)
                     const aInt = practicesAuthorized.PracticeID["a:int"];
                     let practiceData = {
                         Practices,
@@ -123,14 +123,14 @@ const createPatient =  (patientData) => {
             const soapRequest = tebraSoapRequest.createPatient(patientData)
             const requestHeaders =  tebraCommon.requestHeader(soapAction)
 
-            console.log("soapRequest>>>>",soapRequest)
+            //console.log("soapRequest>>>>",soapRequest)
 
             axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-                console.log('Response >>>>>:', response);
-                console.log('Response Data>>>>:', response.data);
+                //console.log('Response >>>>>:', response);
+                //console.log('Response Data>>>>:', response.data);
 
                 let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-                console.log("parseResult>>>>",parseResult)
+                //console.log("parseResult>>>>",parseResult)
                 if(!parseError){
                     const errorResponse = parseResult['s:Envelope']['s:Body']['CreatePatientResponse']['CreatePatientResult']['ErrorResponse'];
                     if(errorResponse && errorResponse?.IsError=='false'){
@@ -145,11 +145,11 @@ const createPatient =  (patientData) => {
                             },
                             patientOnTebra: true
                         }
-                        console.log("patientData._id>>>>",patientData._id)
-                        console.log("insertObject>>>>",insertObject)
+                        //console.log("patientData._id>>>>",patientData._id)
+                        //console.log("insertObject>>>>",insertObject)
                         await Patient.updateOne({ _id: patientData._id }, { $set: insertObject });
 
-                        console.log('========Patient created successfully=========:',patientTebraRes);
+                        //console.log('========Patient created successfully=========:',patientTebraRes);
 
                     }
                 }
@@ -178,20 +178,20 @@ const updatePatientPersonalInfo = async (patientData, patient) => {
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id}
 
-        console.log("soapRequest>>>>",soapRequest)
+        //console.log("soapRequest>>>>",soapRequest)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
 
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
                     const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
 
-                    console.log('========Patient updated successfully=========:',patientTebraRes);
+                    //console.log('========Patient updated successfully=========:',patientTebraRes);
                 }
             }
             // Tebra Logs
@@ -215,20 +215,20 @@ const updatePatientAdditionalInfo = async (patientData, patient) => {
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id}
 
-        console.log("soapRequest>>>>",soapRequest)
+        //console.log("soapRequest>>>>",soapRequest)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
 
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
                     const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
 
-                    console.log('========Patient updated successfully=========:',patientTebraRes);
+                    //console.log('========Patient updated successfully=========:',patientTebraRes);
                 }
             }
             // Tebra Logs
@@ -253,20 +253,20 @@ const updatePatientIntakeFormPersonalInfo = async (patientData, patient) => {
             const requestHeaders =  tebraCommon.requestHeader(soapAction)
             let patientDataForLogs = { 'patientId': patient._id , patientData: patientData}
 
-            console.log("soapRequest>>>>",soapRequest)
+            //console.log("soapRequest>>>>",soapRequest)
 
             axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-                console.log('Response >>>>>:', response);
-                console.log('Response Data>>>>:', response.data);
+                //console.log('Response >>>>>:', response);
+                //console.log('Response Data>>>>:', response.data);
 
                 let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-                console.log("parseResult>>>>",parseResult)
+                //console.log("parseResult>>>>",parseResult)
                 if(!parseError){
                     const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                     if(errorResponse && errorResponse?.IsError=='false'){
                         const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
 
-                        console.log('========Patient updated successfully=========:',patientTebraRes);
+                        //console.log('========Patient updated successfully=========:',patientTebraRes);
                     }
                 }
                 // Tebra Logs
@@ -294,24 +294,24 @@ const addPatientInsuranceIntakeForm = async (insuranceInfo, patient, tebraCaseDe
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
-        console.log("soapRequest>>>>",soapRequest)
-        console.log("emergencyContact>>>>",emergencyContact)
+        //console.log("soapRequest>>>>",soapRequest)
+        //console.log("emergencyContact>>>>",emergencyContact)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
                     const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
 
-                    console.log('========Patient updated successfully=========:',patientTebraRes);
+                    //console.log('========Patient updated successfully=========:',patientTebraRes);
 
                     const caseRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes'];
                     const insuranceRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes']['Policies']['InsurancePolicyRes'];
-                    console.log('========insuranceRes=========:',insuranceRes);
+                    //console.log('========insuranceRes=========:',insuranceRes);
                     if(insuranceRes && insuranceRes?.InsurancePolicyCompanyID && insuranceRes?.InsurancePolicyID && insuranceRes?.InsurancePolicyPlanID){
                         // Save tebra response object in case collection
                         let insertObject = {
@@ -350,13 +350,13 @@ const manageAuthorization = async (authorizationData, patient, tebraCaseDetails,
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
-        console.log("soapRequest>>>>",soapRequest)
+        //console.log("soapRequest>>>>",soapRequest)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
@@ -386,13 +386,13 @@ const addBillingTeamPatientExistingInsurance = async (insuranceInfo, patient, te
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
-        console.log("soapRequest>>>>",soapRequest)
+        //console.log("soapRequest>>>>",soapRequest)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
@@ -422,19 +422,19 @@ const addBillingTeamPatientNewInsurance = async (insuranceInfo, patient, tebraCa
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
-        console.log("soapRequest>>>>",soapRequest)
+        //console.log("soapRequest>>>>",soapRequest)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
                     const patientTebraRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult'];
 
-                    console.log('========Patient updated successfully=========:',patientTebraRes);
+                    //console.log('========Patient updated successfully=========:',patientTebraRes);
 
                     const caseRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes'];
                     const insuranceRes = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['Cases']['PatientCaseRes']['Policies']['InsurancePolicyRes'];
@@ -479,14 +479,14 @@ const createCase = async (patientRes, caseName, caseId, providerData) => {
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let dataForLogs = { 'patientId': patientRes._id, 'caseId':caseId}
 
-        console.log("soapRequest>>>>",soapRequest)
+        //console.log("soapRequest>>>>",soapRequest)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
 
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
@@ -530,13 +530,13 @@ const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDeta
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
-        console.log("soapRequest>>>>",soapRequest)
+        //console.log("soapRequest>>>>",soapRequest)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
@@ -637,7 +637,7 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
       
             let resultData = result[0]
             console.log("result1>>>>",resultData)
-            console.log("result2>>>>",resultData?.patientDetails?.tebraDetails)
+            //console.log("result2>>>>",resultData?.patientDetails?.tebraDetails)
       
             if(resultData && resultData?.patientDetails && resultData?.caseDetails){
               if(resultData?.patientDetails?.tebraDetails && resultData?.caseDetails?.tebraDetails){
@@ -646,7 +646,7 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                       let diaCode = subjectiveResult?.diagnosis_code[0]
                       console.log("diagnosis_code>>>>>",diaCode.code)
                       let billingDetails = await BillingTemp.findOne({appointmentId: new ObjectId(finalizeNoteData.appointmentId), soap_note_type: finalizeNoteData.soapNoteType });
-                      console.log("billingDetails>>>>>",billingDetails)
+                      //console.log("billingDetails>>>>>",billingDetails)
 
                       const unitedPtCharges = tebraCommon.calculateUnitCharges(billingDetails.united_pt_codes);
                       const unitedOtCharges = tebraCommon.calculateUnitCharges(billingDetails.united_ot_codes);
@@ -655,7 +655,7 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                       const directOtCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_ot_codes);
                       const directSlpCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_slp_codes);
                       const dmeCptCodes = tebraCommon.calculateQuantityCharges(billingDetails?.dme_cpt_codes);
-                      console.log("dmeCptCodes>>>",dmeCptCodes)
+                      //console.log("dmeCptCodes>>>",dmeCptCodes)
                       
                       const allCharges = [...unitedPtCharges,...unitedOtCharges,...unitedSlpCharges,...directPtCharges, ...directOtCharges,...directSlpCharges, ...dmeCptCodes];
                       console.log("allCharges>>>",allCharges)
@@ -679,15 +679,15 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                         const requestHeaders =  tebraCommon.requestHeader(soapAction)
                         
 
-                        console.log("soapRequest>>>",soapRequest)
-                        console.log("dataForLogs>>>",dataForLogs)
+                        //console.log("soapRequest>>>",soapRequest)
+                        //console.log("dataForLogs>>>",dataForLogs)
 
                         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-                            console.log('Response >>>>>:', response);
-                            console.log('Response Data>>>>:', response.data);
+                            //console.log('Response >>>>>:', response);
+                            //console.log('Response Data>>>>:', response.data);
                 
                             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-                            console.log("parseResult>>>>",parseResult)
+                            //console.log("parseResult>>>>",parseResult)
                             if(!parseError){
                                 const errorResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ErrorResponse'];
                                 if(errorResponse && errorResponse?.IsError=='false'){
@@ -744,14 +744,14 @@ const addPatientSelfPayIntakeForm = async (patient, tebraCaseDetails, emergencyC
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
-        console.log("soapRequest>>>>",soapRequest)
-        console.log("emergencyContact>>>>",emergencyContact)
+        //console.log("soapRequest>>>>",soapRequest)
+        //console.log("emergencyContact>>>>",emergencyContact)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
@@ -781,14 +781,14 @@ const addSupportTeamSelfPayIntakeForm = async (patient, caseFound, emergencyCont
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
         let patientDataForLogs = { 'patientId': patient._id }
 
-        console.log("soapRequest>>>>",soapRequest)
-        console.log("emergencyContact>>>>",emergencyContact)
+        //console.log("soapRequest>>>>",soapRequest)
+        //console.log("emergencyContact>>>>",emergencyContact)
 
         axios.post(tebraCredentials?.wsdlUrl, soapRequest, requestHeaders ).then(async response => {
-            console.log('Response >>>>>:', response);
-            console.log('Response Data>>>>:', response.data);
+            //console.log('Response >>>>>:', response);
+            //console.log('Response Data>>>>:', response.data);
             let { parseError, parseResult} = tebraCommon.parseXMLResponse(response.data)
-            console.log("parseResult>>>>",parseResult)
+            //console.log("parseResult>>>>",parseResult)
             if(!parseError){
                 const errorResponse = parseResult['s:Envelope']['s:Body']['UpdatePatientResponse']['UpdatePatientResult']['ErrorResponse'];
                 if(errorResponse && errorResponse?.IsError=='false'){
