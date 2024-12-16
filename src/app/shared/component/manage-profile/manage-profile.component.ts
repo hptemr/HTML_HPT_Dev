@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/comman/change-password-modal/change-password-modal.component';
@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
   styleUrl: './manage-profile.component.scss'
 })
 export class ManageProfileComponent {
+  @ViewChild('insuranceFileInput') insuranceFileInput: any
   validationMessages = validationMessages
   updateProfileForm: FormGroup;
   userType: any;
@@ -30,6 +31,12 @@ export class ManageProfileComponent {
   isDefaultImage:boolean = true
   activeUserRoute = this.commonService.getLoggedInRoute()
 
+  uploadedSignatureFileTotal = 0
+  allowedFileTypes = ['png', 'jpg', 'jpeg', 'webp', 'pdf', 'doc', 'docx']
+  therapistSignatureImg:string=''
+  fileError: any = ''
+  fileName:string=''
+  uploadedSignatureFile: any = []
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
@@ -77,7 +84,7 @@ export class ManageProfileComponent {
   getProfile() {
     let bodyData = {
       query: { _id: this.userId },
-      params: { firstName: 1, lastName: 1, email: 1, phoneNumber: 1, status: 1, practiceLocation: 1, NPI: 1, SSN: 1, licenceNumber: 1 }
+      params: { firstName: 1, lastName: 1, email: 1, phoneNumber: 1, status: 1, practiceLocation: 1, NPI: 1, SSN: 1,role:1, licenceNumber: 1,therapistSignature:1 }
     }
     this.adminService.profile(bodyData).subscribe({
       next: (res) => {
@@ -92,6 +99,10 @@ export class ManageProfileComponent {
             this.updateProfileForm.controls['NPI'].setValue((res.data && res.data.NPI) ? res.data.NPI : '');
             this.updateProfileForm.controls['SSN'].setValue((res.data && res.data.SSN) ? res.data.SSN : '');
             this.updateProfileForm.controls['licenceNumber'].setValue((res.data && res.data.licenceNumber) ? res.data.licenceNumber : '');
+            if(res.data && res.data.therapistSignature){
+              this.therapistSignatureImg = res.data.therapistSignature;
+            }
+
           }
         }
       }, error: (err) => {
@@ -105,7 +116,17 @@ export class ManageProfileComponent {
       this.commonService.showLoader()
       this.updateProfileForm.value['userId'] = this.userId
       this.updateProfileForm.value['clickAction'] = 'update'
-      this.adminService.updateProfile(this.updateProfileForm.value).subscribe({
+
+      let req_vars = this.updateProfileForm.value;
+      let uploadedSignatureFile: any = localStorage.getItem('uploadedSignatureFile')
+
+      if(uploadedSignatureFile){
+        Object.assign(req_vars, {
+          uploadedSignatureFile: JSON.parse(uploadedSignatureFile),
+        })
+      }
+      
+      this.adminService.updateProfile(req_vars).subscribe({
         next: (res) => { 
           this.commonService.openSnackBar(res.message, "SUCCESS")
           this.updateAdminInLocalStorage(res.data)
@@ -123,9 +144,9 @@ export class ManageProfileComponent {
     localStorage.setItem('user', JSON.stringify(localSorageUserData)); 
     let fullName = `${updateProfileData.firstName} ${updateProfileData.lastName}`
     await this.userService.updateUser(updateProfileData._id, fullName).catch((_res)=>false) // Update user in comet chat
-    this.router.navigate([this.activeUserRoute, 'dashboard']).then(() => {
+     this.router.navigate([this.activeUserRoute, 'dashboard']).then(() => {
       window.location.reload();
-    })
+     })
   }
 
   async changePhoto() {
@@ -169,7 +190,6 @@ export class ManageProfileComponent {
 
   }
 
-
   editProfile() {
     this.editOptions = !this.editOptions;
   }
@@ -182,7 +202,6 @@ export class ManageProfileComponent {
         warningNote: 'Do you really want to remove this image?'
       }
     })
-
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         let reqVars = {
@@ -213,7 +232,6 @@ export class ManageProfileComponent {
         userRole: this.userType
       }
     })
-
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         this.authService.logout(this.userType)
@@ -231,7 +249,6 @@ export class ManageProfileComponent {
   }
   
   updateUserInCometChat(user:any){
-    console.log("updateUserInCometChat>>>",user)
     let fullName = `${user.firstName} ${user.lastName}`
     this.userService.updateUser(user._id, fullName)
   }
@@ -247,4 +264,50 @@ export class ManageProfileComponent {
     await this.userService.updateUserProfilePic(this.userId, avatarPic).catch((_res)=>false)
   }
 
+  uploadSignature($event: any) {
+    if($event.target.files[0]){
+      let file: File = $event.target.files[0]
+      let fileType = this.getExtension(file.name)
+      let datenow = Date.now()
+      if (!this.allowedFileTypes.includes(fileType)) {
+        this.fileError = "File type should be image only"
+      } else if (file.size / (1024 * 1024) >= 5) {
+        this.fileError = 'File max size should be less than 5MB'
+      } else {
+        this.fileError = ""
+        let myReader: FileReader = new FileReader()
+        myReader.readAsDataURL(file)
+        let that = this
+        myReader.onloadend = function (loadEvent: any) {
+          that.uploadedSignatureFile = that.uploadedSignatureFile || [];
+          that.uploadedSignatureFile.push({
+            //size: file.size,
+            name: datenow + "." + fileType,
+            data: loadEvent.target.result,
+            icon: that.getIcon(fileType)
+          })
+          that.uploadedSignatureFileTotal = that.uploadedSignatureFile.length
+          localStorage.setItem("uploadedSignatureFile", JSON.stringify(that.uploadedSignatureFile))
+        } 
+        this.fileName = file.name;
+      }
+    }
+  }
+
+  getExtension(fileName: any) {
+    if (fileName && fileName != undefined) {
+      return fileName.split(/[#?]/)[0].split('.').pop().trim();
+    }
+  }
+
+  getIcon(fileType: any) {
+    let icon = ''
+    if (['png','PNG', 'jpg','JPG', 'jpeg','JPEG', 'webp'].includes(fileType)) {
+      icon = 'image'
+    }
+    return icon
+  }
+
+
+  
 }
