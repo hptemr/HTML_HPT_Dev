@@ -162,7 +162,7 @@ const uploadFileNew = (params) => {
         console.log("*********uploadFileNew Error********", err)
         resolve(false);
       } else {
-        console.log("*********uploadFileNew Done********")
+        console.log("*********uploadFileNew Done********",data)
         resolve(true);
       }
     })

@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: { type: String },
   inviteToken: { type: String },
   profileImage: { type: String, default: 'default.png' },
+  therapistSignature: { type: String, default: 'default.png' },
   therapistCredentials: { type: String },
   invitedBy: { type: Schema.Types.Mixed },
   createdAt: { type: Date, default: Date.now },

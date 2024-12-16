@@ -9,6 +9,7 @@ var constants = {
     patientDocumentFolderPath: "patient-documents/",
     profileImageFolderPath: "profile-images/",
     patientInsuranceFolderPath: "patient-insurance/",
+    therapistFolderPath: "therapist-documents/",
     patientPrescriptionFolderPath: "patient-prescription/",
     documentsFolderPath: "manage-documents/",
   },
