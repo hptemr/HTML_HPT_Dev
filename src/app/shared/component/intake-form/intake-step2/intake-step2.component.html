@@ -837,9 +837,8 @@
                                 <div class="form-group">
                                     <label class="col-form-label fw-600">State <span class="clr--DF0404 ms-1"> *
                                         </span></label>
-                                    <select formControlName="insuranceState" class="form-select form-control"
-                                        aria-label="Default select example">
-                                        <option value="">Select State</option>
+                                    <select formControlName="insuranceState" class="form-select form-control" aria-label="Default select example">
+                                        <option selected value="">Select State</option>
                                         <option *ngFor="let item of states" value="{{item.state}}">
                                             {{item.state}}
                                         </option>

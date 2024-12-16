@@ -118,13 +118,15 @@ export class IntakeStep1Component {
   }
 
   loadForm() {
+    let maritalStatus = '';
     this.onStateChange(this.step1FormData ? this.step1FormData.patientId.state : '')
     this.selectedCity = (this.step1FormData ? this.step1FormData.patientId.city : '')
     let firstName = this.step1FormData ? this.step1FormData.patientId.firstName : ''
     let middleName = this.step1FormData ? this.step1FormData.patientId.middleName : ''
     let lastName = this.step1FormData ? this.step1FormData.patientId.lastName : ''
     let gender = this.step1FormData ? this.step1FormData.patientId.gender : ''
-    let maritalStatus = this.step1FormData ? this.step1FormData.patientId.maritalStatus : ''
+    if(this.step1FormData.patientId && this.step1FormData.patientId?.maritalStatus)
+        maritalStatus = this.step1FormData ? this.step1FormData.patientId.maritalStatus : ''
     let phoneNumber = this.step1FormData ? this.step1FormData.patientId.phoneNumber : ''
     let workExtensionNumber = this.step1FormData ? this.step1FormData.patientId.workExtension : ''
     let cellPhoneNumber = this.step1FormData ? this.step1FormData.patientId.cellPhoneNumber : ''
