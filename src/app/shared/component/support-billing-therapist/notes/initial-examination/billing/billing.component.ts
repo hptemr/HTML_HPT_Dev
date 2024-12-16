@@ -29,10 +29,10 @@ export class BillingComponent {
     {name:"E-Stim Unattended for Medicate/UHC",value:"e_stim_unattended",units:"",minutes:"",selected:false,isError:false,errorMsg:""}
   ]
   unitedOtList = [
-    {name:"PT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
-    {name:"PT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
-    {name:"PT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
-    {name:"PT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"OT Evaluation: Low Complexity",value:"low_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"OT Evaluation: Moderate Complexity",value:"moderate_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"OT Evaluation: High Complexity",value:"high_complexity",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
+    {name:"OT Re-Evaluation",value:"re_evaluation",units:"",minutes:"",selected:true,isError:false,errorMsg:""},
     {name:"Paraffin Bath",value:"paraffin_bath",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
     {name:"Vasopneumatic device",value:"vasopneumatic_device",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
     {name:"Mechanical traction",value:"mechanical_traction",units:"",minutes:"",selected:false,isError:false,errorMsg:""},
