@@ -543,7 +543,7 @@ export class BillingDetailsComponent {
   }
 
   addReportedToEmployerFieldsControls() {
-    this.billingDetailsForm.addControl('EI_employerName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabetic)]));
+    this.billingDetailsForm.addControl('EI_employerName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabeticWithSpace)]));
     this.billingDetailsForm.addControl('EI_employerPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
     this.billingDetailsForm.addControl('EI_employerAddress', this.fb.control('', [Validators.required]));
 
@@ -563,7 +563,7 @@ export class BillingDetailsComponent {
     this.billingDetailsForm.addControl('RP_dateOfInjury', this.fb.control('', [Validators.required]));
     this.billingDetailsForm.addControl('RP_state', this.fb.control('', [Validators.required]));
     this.billingDetailsForm.addControl('RP_claim', this.fb.control('', [Validators.required]));
-    this.billingDetailsForm.addControl('RP_adjusterName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabetic)]));
+    this.billingDetailsForm.addControl('RP_adjusterName', this.fb.control('', [Validators.required,Validators.pattern(regex.alphabeticWithSpace)]));
     this.billingDetailsForm.addControl('RP_adjusterPhone', this.fb.control('', [Validators.required,Validators.pattern(regex.usPhoneNumber)]));
     
 
