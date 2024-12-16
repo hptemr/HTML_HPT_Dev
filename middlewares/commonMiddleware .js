@@ -111,7 +111,6 @@ const checkLoginValidation = async (req, res, next) =>{
         let userId = decoded._id;
         const statusesToCheck = ['Deleted'];
         let userExist = await User.findOne({ _id: userId, status: { $in: statusesToCheck }});
-        console.log("userExist>>>",userExist)
         if(userExist && userExist!=null){
             return commonHelper.sendResponse(res, 'unauthorized', null, userMessage.inactiveUser);
         }

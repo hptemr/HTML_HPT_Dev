@@ -161,6 +161,11 @@ const profile = async (req, res, next) => {
   try {
     const { query, params } = req.body
     const result = await User.findOne(query, params);
+    if(result && result.role=='therapist' && result.therapistSignature!=''){
+      let key = constants.s3Details.therapistFolderPath + result.therapistSignature
+      let previewUrl = await s3.previewDocumentFile(key);
+      if(previewUrl)result.therapistSignature = previewUrl;
+    }
     commonHelper.sendResponse(res, 'success', result, '');
   } catch (error) {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
@@ -190,6 +195,15 @@ const updateProfile = async (req, res, next) => {
     }
 
     // Update profile
+    if(req.body.uploadedSignatureFile && req.body.uploadedSignatureFile[0]){
+      let therapist = await User.findOne({_id: userId },{ therapistSignature: 1 });
+      let therapistSignature = new Date().getTime()+'-'+req.body.uploadedSignatureFile[0].name;
+      let therapistSignatures = await s3UploadTherapistSignature(req, res,therapistSignature,therapist.therapistSignature)
+      console.log('therapistSignature>>>>',therapistSignatures)
+      if(therapistSignature){
+        req.body.therapistSignature = therapistSignature
+      }
+    }
     const filter = { _id: new ObjectId(userId) };
     req.body.updatedAt = Date.now()
     const updateDoc = {
@@ -198,8 +212,7 @@ const updateProfile = async (req, res, next) => {
     const options = { returnOriginal: false };
     let updateProfileData = await User.findOneAndUpdate(filter, updateDoc, options);
 
-    let successMessage = (clickAction == 'update') ? commonMessage.profileUpdate :
-      (clickAction == 'delete') ? commonMessage.profileDelete : ''
+    let successMessage = (clickAction == 'update') ? commonMessage.profileUpdate : (clickAction == 'delete') ? commonMessage.profileDelete : ''
     commonHelper.sendResponse(res, 'success', updateProfileData, successMessage);
   } catch (error) {
     console.log("error>>>", error)
@@ -207,6 +220,46 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
+
+async function s3UploadTherapistSignature(req, res,fileName,oldfile) {
+  var s3SignaturePath = constants.s3Details.therapistFolderPath;
+    console.log(' Old File>>>>>',oldfile,' File Name>>>',fileName)
+    let uploadedSignatureFile = req.body.uploadedSignatureFile[0];
+    if (uploadedSignatureFile) {
+          if (uploadedSignatureFile.data && uploadedSignatureFile.data != '') {
+              let fileSelected = uploadedSignatureFile.data
+              const fileBuffer = Buffer.from(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
+              let params = {
+                  ContentEncoding: "base64",
+                  ACL: "bucket-owner-full-control",
+                  ContentType: fileSelected.split(";")[0],
+                  Bucket: constants.s3Details.bucketName,
+                  Body: fileBuffer,
+                  Key: `${s3SignaturePath}${fileName}`,
+              };
+              await s3.uploadFileNew(params)
+              if (oldfile) {
+                await s3.deleteFile(s3SignaturePath + oldfile);
+              }
+          }
+    }
+  return fileName;
+}
+
+function isExtension(ext, extnArray) {
+  var result = false;
+  var i;
+  if (ext) {
+      ext = ext.toLowerCase();
+      for (i = 0; i < extnArray.length; i++) {
+          if (extnArray[i].toLowerCase() === ext) {
+              result = true;
+              break;
+          }
+      }
+  }
+  return result;
+}
 
 const updateUser = async (req, res) => {
   try {

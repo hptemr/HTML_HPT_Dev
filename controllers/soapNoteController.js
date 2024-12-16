@@ -1069,10 +1069,14 @@ const getInitialExamination = async (req, res) => {
 
 const getCaseNoteData = async (req, res) => {
   try {
-    const { query } = req.body;
+    const { query,addendumId } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId },{_id:1,caseName:1,patientId:1,appointmentDate:1});//.populate('patientId', { firstName: 1, lastName: 1 })  
-    let caseNoteData = await subjectiveTemp.find(query,{_id:1,note_date:1,case_comment:1}).sort({ _id: -1 });
-  
+    let caseNoteData = await subjectiveTemp.findOne(query,{_id:1,note_date:1,case_comment:1,addendums:1}).sort({ _id: -1 });
+    if(addendumId!=undefined && addendumId!='' && caseNoteData.addendums.length>0){
+      let _id = caseNoteData._id
+      caseNoteData = caseNoteData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString())[0];
+      caseNoteData._id = _id;
+    }
     let appointmentDatesList = [];
     if(appointmentData){      
       //appointmentDatesList = await appointmentsList(appointmentData.caseName,appointmentData.patientId);
@@ -1089,11 +1093,36 @@ const getCaseNoteData = async (req, res) => {
 
 const submitCaseNote = async (req, res) => {
   try {
-    const { data, caseNoteId } = req.body;
+    const { data, appointmentId,caseNoteId, addendumId } = req.body;
     let message = '';
     if (caseNoteId) {
-      let optionsUpdatePlan = { returnOriginal: false };
-      await subjectiveTemp.findOneAndUpdate({ _id: caseNoteId }, data, optionsUpdatePlan);
+      console.log('caseNoteId  <<<<<',caseNoteId,'..........addendumId >>>>>',addendumId,'..........caseNoteId >>>>>',caseNoteId)
+      if(addendumId!=undefined){
+        let filterPlan = { _id:new ObjectId(caseNoteId),appointmentId: new ObjectId(appointmentId),soap_note_type:'case_note' };
+
+        let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
+        
+        subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
+       
+        data.version = subjData[0].version
+        data.is_disabled = subjData[0].is_disabled
+        data.createUser = subjData[0].createUser
+        data.status = subjData[0].status
+        data.createdBy = subjData[0].createdBy
+        data.addendumId = subjData[0].addendumId
+        data.soap_note_type = subjData[0].soap_note_type
+        data.updatedAt = new Date()
+        data.createdAt = subjData[0].createdAt
+        filterPlan["addendums.addendumId"] = new ObjectId(addendumId)
+        const update = {
+          $set: {"addendums.$": data}
+        };
+        console.log(' update <<<<<',data)
+        await subjectiveTemp.updateOne(filterPlan, update);
+      }else{
+        let optionsUpdatePlan = { returnOriginal: false };
+        await subjectiveTemp.findOneAndUpdate({ _id: caseNoteId }, data, optionsUpdatePlan);
+      }
       message = soapMessage.caseNoteUpdated;
     } else {
        await subjectiveTemp.create(data)

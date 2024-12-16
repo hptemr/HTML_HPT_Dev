@@ -376,7 +376,7 @@ const createAppointment = async (req, res) => {
             commonHelper.sendResponse(res, 'success', result, msg);
         }
     } catch (error) {
-        console.log("error>>>", error)
+        console.log("error >>>", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -390,7 +390,7 @@ const getAppointmentDetails = async (req, res) => {
             .populate('doctorId', doctorFields);
         commonHelper.sendResponse(res, 'success', { appointmentData }, '');
     } catch (error) {
-        console.log("********Appointment***error***", error)
+        console.log("******** Appointment *** Error ***", error)
         commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
     }
 }
@@ -1184,11 +1184,11 @@ const getSchedularCaseList = async (req, res) => {
         
         let appointmentList = await Appointment.aggregate(totalQuery);//.sort(order).skip(offset).limit(limit);
             
-        appointmentList = appointmentList.map(item => ({
-        ...item,
-        appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
-        appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
-        }));
+        // appointmentList = appointmentList.map(item => ({
+        // ...item,
+        // appointmentStartDate: moment.utc(item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
+        // appointmentEndDate: moment.utc(item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
+        // }));
 
         // appointmentStartDate: moment.utc((item.eventsObj && item.eventsObj.repeateAppointmentDate) ? item.eventsObj && item.eventsObj.repeateAppointmentDate : item.appointmentDate).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',',''),//'Fri Nov 29 2024 17:15:24',
         // appointmentEndDate: moment.utc((item.eventsObj && item.eventsObj.repeateAppointmentEndDate) ? item.eventsObj && item.eventsObj.repeateAppointmentEndDate : (item.appointmentEndTime ? item.appointmentEndTime : item.appointmentDate)).format('ddd MMM DD YYYY HH:mm:ss').replace(',','').replace(',','')
