@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Error
+  p=error.message
+  if error.status
+    p Status: #{error.status}
+  else
+    p Something went wrong.
