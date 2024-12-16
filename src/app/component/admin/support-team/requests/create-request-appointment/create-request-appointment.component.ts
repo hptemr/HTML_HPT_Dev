@@ -146,6 +146,16 @@ export class CreateRequestAppointmentComponent {
   }
 
   async calculateEndDate(date1:Date,date2:Date){
+    // console.log('date1 OBJ >>>',typeof date1,' >>>>> date2 OBJ >>>',typeof date2)
+    // console.log('date1 >>>',date1,' >>>>> date2 >>>',date2)
+
+    if (!(date1 instanceof Date) || isNaN(date1.getTime())) {
+       date1 = new Date(date1);
+    }
+    if (!(date2 instanceof Date) || isNaN(date2.getTime())) {
+        date2 = new Date(date2);
+    }
+
       const year = date1.getFullYear();
       const month = date1.getMonth();
       const day = date1.getDate();
@@ -153,7 +163,8 @@ export class CreateRequestAppointmentComponent {
       const hours = date2.getHours();
       const minutes = date2.getMinutes();
       const seconds = date2.getSeconds();      
-      return new Date(year, month, day, hours, minutes, seconds);
+      let returnDate = new Date(year, month, day, hours, minutes, seconds);
+      return returnDate;
   }
 
   async createAppointment(formData:any){
@@ -180,7 +191,7 @@ export class CreateRequestAppointmentComponent {
           data: formData,
           patientType:'Existing'
         }
-   
+       
         await this.authService.apiRequest('post', 'appointment/createAppointment',reqVars).subscribe(async response => { 
           this.clickOnRequestAppointment = false
           this.commonService.hideLoader();
@@ -196,6 +207,7 @@ export class CreateRequestAppointmentComponent {
           }
         })
     }else{
+      console.log('appointmentForm >>>',this.appointmentForm)
         this.appointmentForm.markAllAsTouched();
         return;  
     }

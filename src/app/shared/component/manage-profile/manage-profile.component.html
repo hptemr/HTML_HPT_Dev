@@ -109,16 +109,24 @@
                                     </div>
                                 </div>
                                  
-                                <div class="col-12 my-2 d-flex align-items:center   mt-3 ">
+                                <div class="col-12 my-2 d-flex align-items:center mt-3" *ngIf="userType=='therapist'">
                                     <div class="d-flex align-items-center">
-                                        <div class="signature--box img--sign d-flex align-items-center justify-content-center">
-                                            <img src="assets/images/ark/M.S.Johnson.png" class="img-fluid" alt=" ">
+                                        <div class="signature--box img--sign d-flex align-items-center justify-content-center" *ngIf="therapistSignatureImg">
+                                            <img src="{{therapistSignatureImg}}" class="img-fluid" alt="Signature">
                                         </div>
                                         <button mat-raised-button color="primary" class="flex-shrink-0 ms-2  ui--button cursor-pointer">
-                                            <input type="file">
+                                            <input #insuranceFileInput accept="image/*, application/png,.jpg,.PNG,.JPG,.jpeg,.JPEG,.webp" (change)="uploadSignature($event)" type="file">
                                             <mat-icon class="material-symbols-outlined flex-shrink-0"> upload </mat-icon>
                                             Update Signature
                                         </button>  
+                                        <div class="text-end mt-1 w-100"> 
+                                            <div class="text mt-1" *ngIf="fileName !=''">
+                                                {{ fileName }}
+                                            </div>
+                                            <div class="text text-danger mt-1" *ngIf="fileError !=''">
+                                                {{ fileError }}
+                                            </div>
+                                        </div> 
                                     </div>
                                  </div>
 

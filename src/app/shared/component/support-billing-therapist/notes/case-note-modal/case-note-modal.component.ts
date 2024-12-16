@@ -25,12 +25,14 @@ export class CaseNoteModalComponent implements OnInit {
   action: string = '';
   appointment_data: any = null
   readOnly:boolean=false;
-  id: string;
+  id: string='';
+  addendumId: string='';
   caseNoteDataList:any
   constructor(private router: Router,private fb: FormBuilder, private route: ActivatedRoute,public dialog: MatDialog, public commonService: CommonService, public authService: AuthService,public dialogRef: MatDialogRef<CaseNoteModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointmentId = data.appointmentId;
     this.id = data.id;    
+    this.addendumId = data.addendumId;    
     this.action = data.action
   } 
 
@@ -54,11 +56,13 @@ export class CaseNoteModalComponent implements OnInit {
     let reqVars = {}
     if(this.id){
        reqVars = { 
-        query: { appointmentId:this.appointmentId,soap_note_type:'case_note',_id:this.id}
+        query: { appointmentId:this.appointmentId,soap_note_type:'case_note',_id:this.id},
+        addendumId:this.addendumId
       }         
     }else{
       reqVars = {
-        query: {appointmentId:this.appointmentId,soap_note_type:'case_note'},     
+        query: {appointmentId:this.appointmentId,soap_note_type:'case_note'}, 
+        addendumId:this.addendumId    
       }
     }
 
@@ -66,13 +70,13 @@ export class CaseNoteModalComponent implements OnInit {
       if(response.data && response.data.caseNoteData){
         this.caseNoteDataList = response.data.caseNoteData;       
         if(this.id){
-          this.fillupData(response.data.caseNoteData[0]);
+          this.fillupData(response.data.caseNoteData);
         }
       }
 
       if(response.data && response.data.appointmentDatesList){  
         if(this.id){
-          let appointmentDatesList = response.data.appointmentDatesList.filter((p:any) => p.appointmentDate === response.data.caseNoteData[0].note_date);
+          let appointmentDatesList = response.data.appointmentDatesList.filter((p:any) => p.appointmentDate === response.data.caseNoteData.note_date);
           this.appointment_dates = this.commonService.checkappointmentDatesList(appointmentDatesList,'case_note')     
         }else{
           this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'case_note')     
@@ -102,14 +106,16 @@ export class CaseNoteModalComponent implements OnInit {
         });
 
         if(this.caseNoteId){
-          Object.assign(formData, {updateInfo:updateInfo,status:from})
+          Object.assign(formData, {updateInfo:updateInfo,status:from,appointmentId:this.appointmentId,})
         }else{
           Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,status:from,createdBy:this.userId})
         }        
         let reqVars = {
           userId: this.userId,
           data: formData,
-          caseNoteId:this.caseNoteId
+          caseNoteId:this.caseNoteId,
+          addendumId:this.addendumId,
+          appointmentId:this.appointmentId
         }        
         this.authService.apiRequest('post', 'soapNote/submitCaseNote', reqVars).subscribe(async (response) => {    
           if (response.error) {
@@ -135,8 +141,8 @@ export class CaseNoteModalComponent implements OnInit {
   onAppointmentDateChange(event: any) {
     if(event.target.value){
       let caseNoteData = this.caseNoteDataList.filter((p: { note_date: any; }) => p.note_date === event.target.value);
-      if(caseNoteData[0]){
-        this.fillupData(caseNoteData[0]);
+      if(caseNoteData){
+        this.fillupData(caseNoteData);
       }  
     }
  

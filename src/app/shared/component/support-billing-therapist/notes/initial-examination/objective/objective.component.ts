@@ -139,7 +139,7 @@ export class ObjectiveComponent {
       ot: ['', [Validators.minLength(1), Validators.maxLength(500)]],
       treatment_provided: ['', [Validators.minLength(1), Validators.maxLength(500)]],     
       outcome_measures : this.fb.group({
-        name:['',Validators.required],
+        name:['', [Validators.required]],
         neck_rate_your_pain: [''],
         pain_intensity: [''],
         personal_care: [''],
@@ -249,11 +249,11 @@ export class ObjectiveComponent {
     }
     
     this.onFlagChange();
-    this.getObjectiveRecord();  
+    this.getObjectiveRecord('');  
     this.onMctsibChange()    
   }
 
- async getObjectiveRecord(){
+ async getObjectiveRecord(from:String){
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId},     
     }
@@ -267,7 +267,7 @@ export class ObjectiveComponent {
       if(response.data){
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;
-        if(objectiveData && objectiveData.appointmentId==this.appointmentId)this.objectiveId = objectiveData?._id;
+        if(objectiveData && objectiveData.appointmentId==this.appointmentId)this.objectiveId = objectiveData?._id;        
         this.land_exercise_list = objectiveData?.land_exercise;
         this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};
@@ -387,8 +387,9 @@ export class ObjectiveComponent {
           if(response.data && response.data.appointmentData){
             this.appointment_data = response.data.appointmentData    
           }       
-    
-          this.loadForm(objectiveData,subjectiveData,this.appointment_data);
+          if(from==''){
+            this.loadForm(objectiveData,subjectiveData,this.appointment_data);  
+          }          
       }
           this.commonService.hideLoader();
     })
@@ -1324,7 +1325,7 @@ export class ObjectiveComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
-        this.getObjectiveRecord();
+        this.getObjectiveRecord('exersice');
       } else {
         console.log('Modal closed without saving data.');
       }

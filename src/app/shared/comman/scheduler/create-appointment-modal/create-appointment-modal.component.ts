@@ -160,7 +160,7 @@ export class CreateAppointmentModalComponent {
   }
 
   async createAppointment(formData:any){
-    console.log('appointmentDate >>>>>',formData)
+    console.log('appointment dta >>>>>',formData)
     if (this.appointmentForm.valid) {
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
@@ -191,30 +191,28 @@ export class CreateAppointmentModalComponent {
           data: formData,
           patientType:formData.patientType
         }
-         console.log('appointmentDate >>>>>',formData)
-        // console.log('appointmentStartTime>>>>>',this.appointmentForm.controls['appointmentStartTime'])
-        // console.log('appointmentEndTime>>>>>',this.appointmentForm.controls['appointmentEndTime'])
-        this.emailError = false; this.invalidEmailErrorMessage = '';   
-        this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
-          this.commonService.hideLoader();
-          if (response.error) {
-            this.clickOnRequestAppointment = false
-            if (response.message) {
-              this.commonService.openSnackBar(response.message, "ERROR");
-            }
-            if(response.data.email){
-              this.appointmentForm.controls["email"].markAsTouched();
-              //this.appointmentForm.controls['email'].setValue('');
-              this.emailError = true;
-              this.invalidEmailErrorMessage = response.data.email;
-            }
-          } else {
-            if (response.message) {       
-              this.dialogRef.close();this.successModal(response.message);
-              this.commonService.openSnackBar(response.message, "SUCCESS");
-            }
-          }
-        })
+        console.log('reqVars >>>>>',reqVars)
+        // this.emailError = false; this.invalidEmailErrorMessage = '';   
+        // this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
+        //   this.commonService.hideLoader();
+        //   if (response.error) {
+        //     this.clickOnRequestAppointment = false
+        //     if (response.message) {
+        //       this.commonService.openSnackBar(response.message, "ERROR");
+        //     }
+        //     if(response.data.email){
+        //       this.appointmentForm.controls["email"].markAsTouched();
+        //       //this.appointmentForm.controls['email'].setValue('');
+        //       this.emailError = true;
+        //       this.invalidEmailErrorMessage = response.data.email;
+        //     }
+        //   } else {
+        //     if (response.message) {       
+        //       this.dialogRef.close();this.successModal(response.message);
+        //       this.commonService.openSnackBar(response.message, "SUCCESS");
+        //     }
+        //   }
+        // })
     }else{
       console.log(' #### appointment Form>>>>>>')
       Object.keys(this.appointmentForm.controls).forEach(field => {
@@ -243,8 +241,7 @@ export class CreateAppointmentModalComponent {
     dialogRef.afterClosed().subscribe(async id => {
       this.dialogRef.close('SUCCESS');
       //this.router.navigate(['/support-team/cases'])
-    });
-    
+    });    
   }
 
   onAppointmentTypeChange(value: any) {
@@ -263,20 +260,15 @@ export class CreateAppointmentModalComponent {
       this.appointmentForm.controls['firstName'].enable();
       this.appointmentForm.controls['lastName'].enable();
       this.appointmentForm.controls['email'].enable();
-
       this.appointmentForm.controls['caseName'].setValidators([]);
-      this.appointmentForm.controls['caseName'].reset(); 
       this.appointmentForm.controls['caseNameOther'].setValidators([Validators.required]);
-      this.appointmentForm.updateValueAndValidity();
-    
+      this.appointmentForm.updateValueAndValidity();    
     }else{
       this.caseNameFlag = true;
       this.caseNameOtherFlag = false;
       this.appointmentForm.controls['caseNameOther'].setValidators([]);
-      this.appointmentForm.controls['caseNameOther'].reset();
       this.appointmentForm.controls['caseName'].setValidators([Validators.required]);
       this.appointmentForm.updateValueAndValidity();
-
     }
   }
 
