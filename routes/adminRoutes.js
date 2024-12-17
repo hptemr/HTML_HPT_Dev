@@ -48,5 +48,5 @@ router.post('/saveUploadedInsurancesData', adminController.saveUploadedInsurance
 router.post('/getUploadInsuranceList', adminController.getUploadInsuranceList);
 router.post('/deleteInsurance', adminController.deleteInsurance);
 router.post('/getReports', adminController.getReports);
-
+router.post('/updateSignature', adminController.updateSignature);
 module.exports = router;

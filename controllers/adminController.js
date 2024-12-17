@@ -199,7 +199,6 @@ const updateProfile = async (req, res, next) => {
       let therapist = await User.findOne({_id: userId },{ therapistSignature: 1 });
       let therapistSignature = new Date().getTime()+'-'+req.body.uploadedSignatureFile[0].name;
       let therapistSignatures = await s3UploadTherapistSignature(req, res,therapistSignature,therapist.therapistSignature)
-      console.log('therapistSignature>>>>',therapistSignatures)
       if(therapistSignature){
         req.body.therapistSignature = therapistSignature
       }
@@ -221,6 +220,40 @@ const updateProfile = async (req, res, next) => {
 };
 
 
+//work in process
+const updateSignature = async (req, res, next) => {
+  try {
+    let previewUrl = '';
+    const userId = req.body.userId;
+    if(req.body.uploadedSignatureFile && req.body.uploadedSignatureFile[0]){
+      let therapist = await User.findOne({_id: userId },{ therapistSignature: 1 });
+      let therapistSignature = new Date().getTime()+'-'+req.body.uploadedSignatureFile[0].name;
+      let therapistSignatures = await s3UploadTherapistSignature(req, res,therapistSignature,therapist.therapistSignature)
+
+      if(therapistSignatures){
+          req.body.therapistSignature = therapistSignature
+   
+          const filter = { _id: new ObjectId(userId) };
+          req.body.updatedAt = Date.now()
+          const updateDoc = {
+            $set: req.body
+          };
+          const options = { returnOriginal: false };
+          await User.findOneAndUpdate(filter, updateDoc, options);
+
+          if(therapistSignature!=''){
+            let key = constants.s3Details.therapistFolderPath + therapistSignature;
+            previewUrl = await s3.previewDocumentFile(key);       
+          }
+      }
+    }
+    commonHelper.sendResponse(res, 'success', previewUrl, '');
+  } catch (error) {
+    console.log("error updateSignature >>>", error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+};
+
 async function s3UploadTherapistSignature(req, res,fileName,oldfile) {
   var s3SignaturePath = constants.s3Details.therapistFolderPath;
     console.log(' Old File>>>>>',oldfile,' File Name>>>',fileName)
@@ -229,6 +262,7 @@ async function s3UploadTherapistSignature(req, res,fileName,oldfile) {
           if (uploadedSignatureFile.data && uploadedSignatureFile.data != '') {
               let fileSelected = uploadedSignatureFile.data
               const fileBuffer = Buffer.from(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
+              //let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
               let params = {
                   ContentEncoding: "base64",
                   ACL: "bucket-owner-full-control",
@@ -238,6 +272,10 @@ async function s3UploadTherapistSignature(req, res,fileName,oldfile) {
                   Key: `${s3SignaturePath}${fileName}`,
               };
               await s3.uploadFileNew(params)
+
+              // var s3DocumentPath = constants.s3Details.therapistFolderPath + "/";
+              // await s3.uploadDocumentToS3(fileName, s3DocumentPath)
+
               if (oldfile) {
                 await s3.deleteFile(s3SignaturePath + oldfile);
               }
@@ -1961,5 +1999,6 @@ module.exports = {
   saveUploadedInsurancesData,
   getUploadInsuranceList,
   deleteInsurance,
-  getReports
+  getReports,
+  updateSignature
 };

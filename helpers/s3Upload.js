@@ -132,6 +132,7 @@ const deleteFile = async (path, filename) => {
     await s3.headObject(params).promise()
     try {
       s3.deleteObject(params).promise()
+      console.log("File Deleted from S3 "+filePath )
       resMsg = true;
     } catch (err) {
       resMsg = false;//"ERROR in file Deleting : " + JSON.stringify(err);
@@ -155,6 +156,7 @@ const getFile = (path, callback) => {
 
 //upload file to s3 by manoj
 const uploadFileNew = (params) => {
+  console.log("*********uploadFileNew params********",params)
   return new Promise(function (resolve, reject) {
     var options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
     s3.upload(params, options, async (err, data) => {
