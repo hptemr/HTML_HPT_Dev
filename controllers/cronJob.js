@@ -90,7 +90,7 @@ nodeCron.schedule('1 0 * * *', () => {
 });
 
 //notify patient for an appoitment schedule email, Email should be trigger 5 hrs before the appoitment.
-nodeCron.schedule('0 */5 * * *', () => {
+nodeCron.schedule('0 */1 * * *', () => {
     console.log("********5******")
     notifyPatientAppoitmentEmail(5,'notification_5hrs_sent');    
 });
