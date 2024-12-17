@@ -54,7 +54,7 @@
                                 {{ validationMessages.requiredDropdown('Case name') }}
                             </div>  
 
-                            <input class="form-control " type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
+                            <input class="form-control mt-2" type="text" formControlName="caseNameOther" *ngIf="caseNameOtherFlag" placeholder="Enter Case Name"/>
                             <div class="text text-danger mt-1" *ngIf="caseNameOtherFlag && appointmentForm.controls['caseNameOther'].touched && appointmentForm.controls['caseNameOther'].hasError('required')">
                                 {{ validationMessages.required('Case name') }}
                             </div>    
