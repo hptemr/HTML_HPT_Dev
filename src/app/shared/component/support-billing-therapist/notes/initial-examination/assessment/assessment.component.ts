@@ -59,7 +59,7 @@ export class AssessmentComponent {
     let reqVars = {
       query: {
         appointmentId: this.appointmentId,
-        soap_note_type: "initial_examination"
+        soap_note_type: "initial_examination",is_deleted:false
       },
       fields: {
         updatedAt: 0

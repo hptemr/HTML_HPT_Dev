@@ -118,7 +118,8 @@ export class DailyNoteBillingComponent {
     var params = {
       appointmentId:this.appointmentId,
       noteType:"daily_note",
-      addendumId:this.addendumId
+      addendumId:this.addendumId,
+      is_deleted:false
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
       let result = response.data;

@@ -73,7 +73,7 @@ export class DisSubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note',addendumId:this.addendumId},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note',addendumId:this.addendumId,is_deleted:false},     
       soap_note_type:'discharge_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {

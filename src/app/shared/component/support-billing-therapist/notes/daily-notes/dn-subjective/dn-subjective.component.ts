@@ -74,6 +74,7 @@ export class DnSubjectiveComponent {
       query: {
         appointmentId: this.appointmentId,
         soap_note_type: 'daily_note',
+        is_deleted:false
       },
       addendumId:this.addendumId,
       soap_note_type:'daily_note'

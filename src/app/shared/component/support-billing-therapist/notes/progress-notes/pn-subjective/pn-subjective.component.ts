@@ -186,7 +186,7 @@ export class PnSubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(type:string='progress_note'){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId},     
+      query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId,is_deleted:false},     
       soap_note_type:'progress_note'
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {

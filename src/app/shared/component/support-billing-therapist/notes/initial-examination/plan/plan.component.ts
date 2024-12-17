@@ -89,7 +89,7 @@ export class PlanComponent {
     var params = {
       appointmentId:this.appointmentId,
       soapNoteType:'initial_examination',
-      addendumId:this.addendumId
+      addendumId:this.addendumId,is_deleted:false
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
       if(response.data && response.data.status=='Finalized'){

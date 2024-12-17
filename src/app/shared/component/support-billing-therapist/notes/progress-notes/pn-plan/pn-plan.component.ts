@@ -88,7 +88,7 @@ export class PnPlanComponent {
     var params = {
       appointmentId:this.appointmentId,
       soapNoteType:'progress_note',
-      addendumId:this.addendumId
+      addendumId:this.addendumId,is_deleted:false
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
       if(response.data && response.data.status=='Finalized'){

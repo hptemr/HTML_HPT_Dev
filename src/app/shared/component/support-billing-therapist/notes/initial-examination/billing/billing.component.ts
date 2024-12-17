@@ -118,7 +118,7 @@ export class BillingComponent {
     var params = {
       appointmentId:this.appointmentId,
       noteType:"initial_examination",
-      addendumId:this.addendumId
+      addendumId:this.addendumId,is_deleted:false
     }
     this.authService.apiRequest('post', 'soapNote/getBillingNote', params).subscribe(async response => {
         let result = response.data;

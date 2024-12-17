@@ -59,6 +59,7 @@ export class DnAssessmentComponent {
       query: {
         appointmentId: this.appointmentId,
         soap_note_type: "daily_note",
+        is_deleted:false
       },
       fields: {
         updatedAt: 0

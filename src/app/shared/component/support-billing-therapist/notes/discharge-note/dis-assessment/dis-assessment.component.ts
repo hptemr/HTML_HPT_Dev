@@ -57,7 +57,7 @@ export class DisAssessmentComponent {
     let reqVars = {
       query: {
         appointmentId: this.appointmentId,
-        soap_note_type: "discharge_note",
+        soap_note_type: "discharge_note",is_deleted:false
       },
       fields: {
         updatedAt: 0

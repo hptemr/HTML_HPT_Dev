@@ -93,6 +93,7 @@ export class DisObjectiveComponent implements OnInit {
   mctsib_total: number = 0;
   todayDate = new Date()
   addendumId:string=''
+  outcome_measures_name:boolean=false;
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
   readOnly = false
@@ -241,14 +242,14 @@ export class DisObjectiveComponent implements OnInit {
     }
     //this.initializeFormValidation();
     this.onFlagChange();
-    this.getObjectiveRecord();  
+    this.getObjectiveRecord('');  
     this.onMctsibChange()    
   }
 
 
- async getObjectiveRecord(){
+ async getObjectiveRecord(from:string){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note',addendumId:this.addendumId},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'discharge_note',addendumId:this.addendumId,is_deleted:false},     
     }
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
@@ -382,7 +383,9 @@ export class DisObjectiveComponent implements OnInit {
           if(response.data && response.data.appointmentData){
             this.appointment_data = response.data.appointmentData    
           }           
-          this.loadForm(objectiveData,subjectiveData,this.appointment_data);
+          if(from==''){
+            this.loadForm(objectiveData,subjectiveData,this.appointment_data);
+          }          
       }
           this.commonService.hideLoader();
     })
@@ -750,6 +753,7 @@ export class DisObjectiveComponent implements OnInit {
 
   outcomeMeasuresChange(e:any) {
     const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+    this.outcome_measures_name = false;
     Object.keys(outcome_measures_group.controls).forEach(key => {
       const control = outcome_measures_group.get(key);
       //control?.reset();
@@ -1222,11 +1226,18 @@ export class DisObjectiveComponent implements OnInit {
     if (this.objectiveForm.invalid){      
     console.log('<<<<<  objective form >>>>',this.objectiveForm)
       this.objectiveForm.markAllAsTouched();
+      const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+      Object.keys(outcome_measures_group.controls).forEach(key => {
+        const control = outcome_measures_group.get(key);
+        if(key=='name' && control?.errors){
+          console.log(key,' control form >>>>',control?.errors)
+          control?.markAsUntouched();
+          this.outcome_measures_name = true;
+        }
+      });
     }else{
-      if (this.objectiveForm.invalid){
-        this.objectiveForm.markAllAsTouched();
-      }else{
         this.isSubmit = true
+        this.outcome_measures_name = false;
         Object.assign(formData, {
           soap_note_type:"discharge_note",
           createdBy: this.userId,
@@ -1260,7 +1271,7 @@ export class DisObjectiveComponent implements OnInit {
             }, 2000)
           }        
         })
-      }
+      
     }
   }
 
@@ -1309,7 +1320,7 @@ export class DisObjectiveComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
-        this.getObjectiveRecord();
+        this.getObjectiveRecord('exersice');
       } else {
         console.log('Modal closed without saving data.');
       }

@@ -56,12 +56,12 @@ export class CaseNoteModalComponent implements OnInit {
     let reqVars = {}
     if(this.id){
        reqVars = { 
-        query: { appointmentId:this.appointmentId,soap_note_type:'case_note',_id:this.id},
+        query: { appointmentId:this.appointmentId,soap_note_type:'case_note',_id:this.id,is_deleted:false},
         addendumId:this.addendumId
       }         
     }else{
       reqVars = {
-        query: {appointmentId:this.appointmentId,soap_note_type:'case_note'}, 
+        query: {appointmentId:this.appointmentId,soap_note_type:'case_note',is_deleted:false}, 
         addendumId:this.addendumId    
       }
     }

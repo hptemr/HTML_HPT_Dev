@@ -255,7 +255,7 @@ export class ObjectiveComponent {
 
  async getObjectiveRecord(from:String){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId,is_deleted:false},     
     }
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {

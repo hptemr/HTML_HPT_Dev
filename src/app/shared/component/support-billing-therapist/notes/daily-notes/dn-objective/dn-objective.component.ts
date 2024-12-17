@@ -146,7 +146,7 @@ export class DnObjectiveComponent {
 
   async getObjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'daily_note',addendumId:this.addendumId},     
+      query: {appointmentId:this.appointmentId,soap_note_type:'daily_note',addendumId:this.addendumId,is_deleted:false},     
     }
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
       let subjectiveData: never[] = []; let objectiveData = [];

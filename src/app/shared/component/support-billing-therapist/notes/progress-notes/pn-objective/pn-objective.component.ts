@@ -257,7 +257,7 @@ export class PnObjectiveComponent {
 
  async getObjectiveRecord(type:string='progress_note',from:String){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId},     
+      query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId,is_deleted:false},     
     }
     this.commonService.showLoader()
    await this.authService.apiRequest('post', 'soapNote/getObjectiveData', reqVars).subscribe(async response => {
