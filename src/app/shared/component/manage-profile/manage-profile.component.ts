@@ -118,8 +118,8 @@ export class ManageProfileComponent {
       this.updateProfileForm.value['clickAction'] = 'update'
 
       let req_vars = this.updateProfileForm.value;
-      let uploadedSignatureFile: any = localStorage.getItem('uploadedSignatureFile')
 
+      let uploadedSignatureFile: any = localStorage.getItem('uploadedSignatureFile')
       if(uploadedSignatureFile){
         Object.assign(req_vars, {
           uploadedSignatureFile: JSON.parse(uploadedSignatureFile),
@@ -129,6 +129,7 @@ export class ManageProfileComponent {
       this.adminService.updateProfile(req_vars).subscribe({
         next: (res) => { 
           this.commonService.openSnackBar(res.message, "SUCCESS")
+          this.commonService.hideLoader()
           this.updateAdminInLocalStorage(res.data)
         }, error: (err) => {
           err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
@@ -144,9 +145,12 @@ export class ManageProfileComponent {
     localStorage.setItem('user', JSON.stringify(localSorageUserData)); 
     let fullName = `${updateProfileData.firstName} ${updateProfileData.lastName}`
     await this.userService.updateUser(updateProfileData._id, fullName).catch((_res)=>false) // Update user in comet chat
-     this.router.navigate([this.activeUserRoute, 'dashboard']).then(() => {
-      window.location.reload();
-     })
+    localStorage.removeItem('uploadedSignatureFile');
+    this.fileError = '';this.fileName = '';
+    this.getProfile()
+    //  this.router.navigate([this.activeUserRoute, 'dashboard']).then(() => {
+    //   window.location.reload();
+    //  })
   }
 
   async changePhoto() {
@@ -290,9 +294,33 @@ export class ManageProfileComponent {
           localStorage.setItem("uploadedSignatureFile", JSON.stringify(that.uploadedSignatureFile))
         } 
         this.fileName = file.name;
+        //this.updateSignature()
       }
     }
   }
+
+  //this fucntion is in process
+  updateSignature() {
+    let uploadedSignatureFile: any = localStorage.getItem('uploadedSignatureFile')
+    if(uploadedSignatureFile){
+      this.commonService.showLoader()
+      let req_vars = {
+        uploadedSignatureFile: JSON.parse(uploadedSignatureFile),
+        userId:this.userId
+      }
+    
+      this.authService.apiRequest('post', 'admin/updateSignature', req_vars).subscribe(async response => {  
+        this.commonService.hideLoader()
+          if(response && response.data){
+            this.therapistSignatureImg = response.data;
+            localStorage.removeItem('uploadedSignatureFile');
+            this.fileError = '';
+            this.fileName = '';
+          }
+      });
+    }
+  }
+
 
   getExtension(fileName: any) {
     if (fileName && fileName != undefined) {
