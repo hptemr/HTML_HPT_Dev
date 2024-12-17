@@ -92,6 +92,7 @@ export class PnObjectiveComponent {
   validationMessages = validationMessages; 
   chaperoneFlag:boolean=false;
   isSubmit:boolean=false;
+  outcome_measures_name:boolean=false;
   appointment_dates:any=[];
   appointment_data:any=[];
   objectiveId:string='';
@@ -243,17 +244,18 @@ export class PnObjectiveComponent {
 
       }),
     });
+
     if(this.readOnly){
       this.objectiveForm.disable()
     }
-console.log('>>>>',this.objectiveForm)
-    // this.onFlagChange();
-    // this.getObjectiveRecord();  
-    // this.onMctsibChange()    
+   // console.log('>>>>',this.objectiveForm)
+    this.onFlagChange();
+    this.getObjectiveRecord('progress_note','');  
+    this.onMctsibChange()    
   }
 
 
- async getObjectiveRecord(type:string='progress_note'){
+ async getObjectiveRecord(type:string='progress_note',from:String){
     let reqVars = {
       query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId},     
     }
@@ -385,10 +387,12 @@ console.log('>>>>',this.objectiveForm)
             this.appointment_data = response.data.appointmentData    
           }       
     
-          this.loadForm(objectiveData,subjectiveData,this.appointment_data);
+          if(from==''){            
+            this.loadForm(objectiveData,subjectiveData,this.appointment_data);
+          }
       }else {
         if(type=='progress_note'){
-          this.getObjectiveRecord('initial_examination')
+          this.getObjectiveRecord('initial_examination','')
         }
       }
           this.commonService.hideLoader();
@@ -764,6 +768,7 @@ console.log('>>>>',this.objectiveForm)
       control?.clearValidators();
       control?.updateValueAndValidity();
     });
+    this.outcome_measures_name = false;
     outcome_measures_group.get('name')?.setValidators(Validators.required)
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
@@ -1227,14 +1232,19 @@ console.log('>>>>',this.objectiveForm)
 
   async objectiveSubmit(formData: any){
     if (this.objectiveForm.invalid){
-      
-    console.log('<<<<<  objective form >>>>',this.objectiveForm)
       this.objectiveForm.markAllAsTouched();
+      const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+      Object.keys(outcome_measures_group.controls).forEach(key => {
+        const control = outcome_measures_group.get(key);
+        if(key=='name' && control?.errors){
+          console.log(key,' control form >>>>',control?.errors)
+          control?.markAsUntouched();
+          this.outcome_measures_name = true;
+        }
+      });
     }else{
-      if (this.objectiveForm.invalid){
-        this.objectiveForm.markAllAsTouched();
-      }else{
         this.isSubmit = true
+        this.outcome_measures_name = false;
         Object.assign(formData, {
           soap_note_type:"progress_note",
           createdBy: this.userId,
@@ -1267,8 +1277,7 @@ console.log('>>>>',this.objectiveForm)
               } 
             }, 1000)
           }        
-        })
-      }
+        })      
     }
   }
 
@@ -1317,7 +1326,7 @@ console.log('>>>>',this.objectiveForm)
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
-        this.getObjectiveRecord();
+        this.getObjectiveRecord('progress_note','exersice');
       } else {
         console.log('Modal closed without saving data.');
       }

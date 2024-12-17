@@ -47,12 +47,15 @@
                 <div class="d-flex flex-wrap align-items-center date-pick">
                     <div class="form-group">
                         <mat-form-field class="w-100 am--datepicker" appearance="outline">
-                            <input matInput [matDatepicker]="picker"  formControlName="planStartDate" placeholder="From Date" [min]="minDate" (focus)="picker.open()">
+                            <input matInput [matDatepicker]="picker" formControlName="planStartDate" placeholder="From Date" [min]="minDate" (focus)="picker.open()">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                         <div class="text text-danger mt-1" *ngIf="submitted && planNoteForm.controls['planStartDate'].hasError('required')">
                             Please select start date
+                        </div>
+                        <div class="text text-danger mt-1" *ngIf="submitted && planNoteForm.get('planStartDate')?.hasError('matDatepickerMin')">
+                            Date must be after {{ minDate | date: 'longDate' }}.
                         </div>
                     </div>
                     <div class="form-group">
