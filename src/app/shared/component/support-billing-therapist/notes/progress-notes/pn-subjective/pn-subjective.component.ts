@@ -186,11 +186,11 @@ export class PnSubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(type:string='progress_note'){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:type,addendumId:this.addendumId,is_deleted:false},     
-      soap_note_type:'progress_note'
+      query: {appointmentId:this.appointmentId,soap_note_type:type,is_deleted:false},     
+      soap_note_type:'progress_note',
+      addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {
-      
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData;
         this.status = subjectiveData.status;  
@@ -198,9 +198,9 @@ export class PnSubjectiveComponent implements OnInit {
         if(type=='initial_examination' && subjectiveData.status=='Finalized'){
           this.status = 'Draft';
         }  
-        if(this.addendumId!=undefined){
-          this.subjectiveId = subjectiveData.addendumId;
-        }     
+        // if(this.addendumId!=undefined){
+        //   this.subjectiveId = subjectiveData.addendumId;
+        // }     
                
         let note_date = '';
         if (subjectiveData.note_date && subjectiveData.status!='Finalized' && !this.readOnly){
@@ -243,9 +243,8 @@ export class PnSubjectiveComponent implements OnInit {
       }
 
       if(response.data && response.data.appointmentData){
-        this.appointment_data = response.data.appointmentData
-
-          //if(this.appointment_data.checkInDateTime){ this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));}
+          this.appointment_data = response.data.appointmentData
+          
           if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
             this.initialName = this.appointment_data?.patientId?.firstName.charAt(0)+''+this.appointment_data?.patientId?.lastName.charAt(0)
           }

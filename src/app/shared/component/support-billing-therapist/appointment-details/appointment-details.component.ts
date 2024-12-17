@@ -385,19 +385,14 @@ export class AppointmentDetailsComponent implements OnInit {
   }
 
   createAddendum(appointmentId:any,noteType:any){
-
     const dialogRef = this.dialog.open(AlertComponent, {
       panelClass: 'custom-alert-container',
       data: {
         warningNote: 'Are you sure you want create addendum notes for "'+this.soapNoteType(noteType)+'"?'
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('result>>>',result)
-      if(result && !result.error){
-     
-
+    dialogRef.afterClosed().subscribe(result => {      
+      if(result && !result.error) {     
         this.actionStarted = true
         this.commonService.showLoader();
         let reqVars = {
@@ -410,8 +405,6 @@ export class AppointmentDetailsComponent implements OnInit {
           this.commonService.openSnackBar("Addendum created successfully", "SUCCESS")
           this.getAppointmentNotes()
         })
-
-
       }
     })
   }

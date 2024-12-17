@@ -189,8 +189,8 @@ export class SubjectiveComponent implements OnInit {
 
   getSubjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',addendumId:this.addendumId},  
-      soap_note_type:'initial_examination',is_deleted:false   
+      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',is_deleted:false},  
+      soap_note_type:'initial_examination',addendumId:this.addendumId
     }
     this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {      
       if(response.data && response.data.subjectiveData){
@@ -201,7 +201,7 @@ export class SubjectiveComponent implements OnInit {
           this.subjectiveId = subjectiveData.addendumId;
         }
         if(subjectiveData.note_date){          
-          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);//this.commonService.formatUTCDate(subjectiveData.note_date)
+          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
         }        
         this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
         this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
@@ -228,8 +228,7 @@ export class SubjectiveComponent implements OnInit {
       }           
 
       if(response.data && response.data.appointmentData){
-        this.appointment_data = response.data.appointmentData
-          //if(this.appointment_data.checkInDateTime){this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));}
+          this.appointment_data = response.data.appointmentData;
           
           if(this.appointment_data?.patientId && this.appointment_data?.patientId.firstName && this.appointment_data?.patientId.lastName){
             this.initialName = this.appointment_data?.patientId?.firstName.charAt(0)+''+this.appointment_data?.patientId?.lastName.charAt(0)

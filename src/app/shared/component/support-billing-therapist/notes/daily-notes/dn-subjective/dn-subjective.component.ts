@@ -107,8 +107,7 @@ export class DnSubjectiveComponent {
       }
       
       if (response.data && response.data.appointmentData){
-        this.appointment_data = response.data.appointmentData;
-        //if(this.appointment_data.checkInDateTime)this.subjectiveForm.controls['note_date'].setValue(this.commonService.formatUTCDate(this.appointment_data.checkInDateTime));
+        this.appointment_data = response.data.appointmentData;      
       }
      
       

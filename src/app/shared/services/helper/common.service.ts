@@ -48,7 +48,7 @@ export class CommonService {
     return formattedNumber;
   }
 
-  public formatDate(date: Date) {
+  public formatDateOLd(date: Date) {
     if (date && date != undefined) {
       const d = new Date(date)
       const month = "Jan,Feb,Mar,Apr,May,June,July,Aug,Sept,Oct,Nov,Dec".split(",")[d.getMonth()]
@@ -57,10 +57,9 @@ export class CommonService {
       return 'NA'
     }
   }
-
   
-  formatUTCDate(date: Date): string | null {
-    return this.datePipe.transform(date, 'MM-dd-yyyy hh:mm a', 'UTC');
+  formatDate(date: Date): string | null {
+    return this.datePipe.transform(date, 'MM-dd-yyyy hh:mm a', '');
   }
 
   public capitalize = function (str: any) {
