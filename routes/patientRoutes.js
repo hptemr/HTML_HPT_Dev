@@ -5,10 +5,11 @@ var cors = require('cors')
 const patientController = require('../controllers/patientController');
 //const commonMiddleware = require('../middlewares/commonMiddleware');
 var constants = require('./../config/constants')
+const busboy = require('connect-busboy');
 
 router.post('/signup',patientController.signup);
 router.post('/getPatientList',patientController.getPatientList);
-router.post('/patientDocument',cors({credentials: true, origin: constants.clientUrl}),patientController.uploadPatientDocument);
+router.post('/patientDocument',busboy({ immediate: true }),cors({credentials: true, origin: constants.clientUrl}),patientController.uploadPatientDocument);
 router.post('/getPreviewDocument',patientController.previewDocument);
 router.post('/deleteDocument',patientController.deleteDocument);
 router.post('/getPatientData',patientController.getPatientData);
