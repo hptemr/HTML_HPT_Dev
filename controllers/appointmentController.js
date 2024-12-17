@@ -1404,11 +1404,12 @@ const addBillingDetails = async (req, res) => {
                 let cases = await Case.findOne({ patientId: app_data.patientId,caseName:app_data.caseName }, { patientId: 1, caseName: 1, caseType: 1, _id: 1,appointments:1 });
                // console.log("casesAppointments >>>",cases.appointments)
                 let query = {};
+                console.log(cases.appointments.length,' >>>>>>>>',cases.appointments)
                 if(cases && cases.appointments && cases.appointments.length>0){
                     query['appointmentId'] = { $in: cases.appointments }
                     query['is_deleted'] = false
                 } 
-          
+          console.log('query>>>',query)
                 if(req.body.searchValue!=""){
                     query.soap_note_type = { '$regex': req.body.searchValue, '$options': "i" }
                 }
