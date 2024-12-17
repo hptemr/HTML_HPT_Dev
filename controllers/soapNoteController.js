@@ -1096,14 +1096,14 @@ const submitCaseNote = async (req, res) => {
     const { data, appointmentId,caseNoteId, addendumId } = req.body;
     let message = '';
     if (caseNoteId) {
-      console.log('caseNoteId  <<<<<',caseNoteId,'..........addendumId >>>>>',addendumId,'..........caseNoteId >>>>>',caseNoteId)
+     
       if(addendumId!=undefined){
         let filterPlan = { _id:new ObjectId(caseNoteId),appointmentId: new ObjectId(appointmentId),soap_note_type:'case_note' };
 
         let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
         
         subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
-       
+      
         data.version = subjData[0].version
         data.is_disabled = subjData[0].is_disabled
         data.createUser = subjData[0].createUser
