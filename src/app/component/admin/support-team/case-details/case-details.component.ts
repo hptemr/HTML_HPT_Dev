@@ -232,13 +232,20 @@ export class CaseDetailsComponent {
   }
     
   
-  navigateToappointmentDetails(path: string,id:string) {
-    this.previousUrl = this.navigationService.getPreviousUrl();
-    if(this.previousUrl){
-      this.router.navigate([this.previousUrl]);
-    }else{
-      this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
-    }
+  // navigateToappointmentDetails(path: string,id:string) {
+  //   if(this.previousUrl){
+  //     this.router.navigate([this.previousUrl]);
+  //   }else{
+  //     this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
+  //   }
+  // }
+
+  navigateToCaseListing(path: string){
+    this.router.navigate([this.commonService.getLoggedInRoute()+''+path]);
+  }
+
+  navigateToPatientDetails(path: string,id:string){
+    this.router.navigate([this.commonService.getLoggedInRoute()+''+path+id]);
   }
 
   navigateintakeformDetails(path: string,id:string) {

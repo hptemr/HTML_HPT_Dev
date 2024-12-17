@@ -185,9 +185,9 @@ export class IntakeStep1Component {
       this.setValue('Myself')
       // this.isReadonly = true
       this.isReadonly = false
-      this.step1Form.controls['dob'].disable()
-      this.step1Form.controls['gender'].disable()
-      this.step1Form.controls['maritalStatus'].disable()
+      // this.step1Form.controls['dob'].disable()
+      // this.step1Form.controls['gender'].disable()
+      // this.step1Form.controls['maritalStatus'].disable()
       this.step1Form.controls['relationWithPatient'].setValue('')
       this.step1Form.controls['relationWithPatientOther'].setValue('')
       this.step1Form.controls['relationWithPatient'].disable() 

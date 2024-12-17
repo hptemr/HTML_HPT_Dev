@@ -2,7 +2,7 @@
         <div class="card">
             <div class="card-header pb-0">
                 <div class="col-12 d-flex align-items-center">
-                    <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="navigateToappointmentDetails('/cases','')">
+                    <button mat-stroked-button color="primary" class="me-3 back--btn" (click)="navigateToCaseListing('/cases')">
                         <mat-icon class="material-symbols-outlined flex-shrink-0 m-0"> keyboard_backspace </mat-icon> 
                     </button>
                     <h3 class="mb-0 clr--1F2F3E fw-600">Case Details</h3>                    
@@ -26,7 +26,7 @@
                                         </div> 
                                     </mat-panel-title>
                                     <mat-panel-description class="align-items-center" (click)="$event.stopPropagation();">
-                                        <button mat-stroked-button color="primary"  (click)="navigateToappointmentDetails('/patients/patient-profile/',appointmentData?.patientId._id)">View Patient Profile</button>
+                                        <button mat-stroked-button color="primary"  (click)="navigateToPatientDetails('/patients/patient-profile/',appointmentData?.patientId._id)">View Patient Profile</button>
                                         <!-- <button mat-stroked-button color="primary" (click)="systemFollowup()" >Appointment Reminders</button> -->
                                         <button  mat-raised-button color="primary" class="intake-btn" [disabled]="!isBillingDetailsData || isSelfPay" [routerLink]="['/support-team/case-details/billing-details',appointmentId]">View Billing Details</button>
                                         <button mat-raised-button color="primary" class="intake-btn" [disabled]="!appointmentData?.intakeFormSubmit" (click)="navigateintakeformDetails('/intake-form/step-1/',appointmentId)">
