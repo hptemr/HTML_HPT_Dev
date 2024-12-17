@@ -148,7 +148,7 @@ const updatePlanNote = async (req, res) => {
       };
       await PlanTemp.updateOne(filterPlan, update);
     }else{
-      await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
+      await PlanTemp.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan)
     }
     commonHelper.sendResponse(res, 'success', {}, soapMessage.updatePlan);
   } catch (error) {
@@ -185,11 +185,12 @@ const createBillingNote = async (req, res) => {
 const getBillingNote = async (req, res) => {
   try {
     let billingData = await BillingTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType });
+
     let subjective_data = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType, note_date : {$ne:null} },{status:1,note_date:1});
+
     if(!subjective_data){
       subjective_data = await subjectiveTemp.findOne({ appointmentId: req.body.appointmentId, soap_note_type: req.body.noteType },{status:1,note_date:1});
     }
-
     let appointmentData = await Appointment.findOne({ _id: req.body.appointmentId }, { caseType: 1, caseName: 1, status: 1,payVia:1, payViaInsuranceInfo:1, adminPayViaInsuranceInfo:1, intakeFormSubmit:1 })
    
     let caseData = await Case.findOne({ appointments: { $in: [new ObjectId(req.body.appointmentId)] } }, { caseType: 1, billingType: 1, caseName: 1 })
@@ -262,7 +263,7 @@ const finalizeNote = async (req, res) => {
               status: 'Finalized',
               updatedAt: new Date()
             }
-            const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.soapNoteType };
+            const filterPlan = { appointmentId: new ObjectId(req.body.appointmentId),soap_note_type:req.body.soapNoteType,status: 'Draft' };
             const updatePlan = { $set: updateParams };
             let optionsUpdatePlan = { returnOriginal: false };
             if(req.body.addendumId!=undefined){
@@ -315,22 +316,26 @@ const submitSubjective = async (req, res) => {
       if(addendumId!=undefined){
         filterPlan = { _id:new ObjectId(subjectiveId),appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let subjData = await subjectiveTemp.findOne(filterPlan, { addendums: 1})
-        subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
-        data.version = subjData[0].version
-        data.is_disabled = subjData[0].is_disabled
-        data.createUser = subjData[0].createUser
-        data.status = subjData[0].status
-        data.createdBy = subjData[0].createdBy
-        data.addendumId = subjData[0].addendumId
-        data.soap_note_type = subjData[0].soap_note_type
-        data.updatedAt = new Date()
-        data.createdAt = subjData[0].createdAt
-        filterPlan["addendums.addendumId"] = new ObjectId(addendumId)
-        const update = {
-          $set: {"addendums.$": data}
-        };
-        await subjectiveTemp.updateOne(filterPlan, update);
-        message = soapMessage.subjectiveUpdated;
+        if(subjData){
+          subjData = subjData.addendums.filter(task => task.addendumId.toLocaleString() === addendumId.toLocaleString());
+          data.version = subjData[0].version
+          data.is_disabled = subjData[0].is_disabled
+          data.createUser = subjData[0].createUser
+          data.status = subjData[0].status
+          data.createdBy = subjData[0].createdBy
+          data.addendumId = subjData[0].addendumId
+          data.soap_note_type = subjData[0].soap_note_type
+          data.updatedAt = new Date()
+          data.createdAt = subjData[0].createdAt
+          filterPlan["addendums.addendumId"] = new ObjectId(addendumId)
+          const update = {
+            $set: {"addendums.$": data}
+          };
+          await subjectiveTemp.updateOne(filterPlan, update);
+          message = soapMessage.subjectiveUpdated;
+        }else{
+          message = 'Record not found';
+        }
       }else{
         filterPlan = { _id:new ObjectId(subjectiveId),appointmentId: new ObjectId(appointmentId),soap_note_type:soap_note_type };
         let optionsUpdatePlan = { returnOriginal: false };
@@ -386,7 +391,11 @@ const getObjectiveData = async (req, res) => {
     const { query } = req.body;
     let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1,patientId:1 })
 
-    let objectiveData = await ObjectiveModel.findOne(query);
+    let objectiveData = await ObjectiveModel.findOne({ ...query, status: "Draft" });
+    if (!objectiveData) {
+      objectiveData = await ObjectiveModel.findOne(query);
+    }
+
     if(!objectiveData && appointmentData){
       let app_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getObjData = await getPreviousObjectiveData(app_query);
@@ -396,7 +405,11 @@ const getObjectiveData = async (req, res) => {
         }      
       }
     }
-    let subjectiveData = await subjectiveTemp.findOne(query);
+
+    let subjectiveData = await subjectiveTemp.findOne({ ...query, status: "Draft" });
+    if (!subjectiveData) {
+      subjectiveData = await subjectiveTemp.findOne(query);
+    }
     if(!subjectiveData && appointmentData){      
       let app_subjective_query = {'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,soap_note_type:query.soap_note_type,'appointmentId': { '$exists': true }}
       const getData = await getPreviousSubjectiveData(app_subjective_query,query.soap_note_type);
@@ -574,15 +587,9 @@ const getSubjectiveData = async (req, res) => {
     }
     let appointmentDatesList = [];
     if(appointmentData){         
-      // if(subjectiveData){
-      //   //appointmentDatesList = await subjectiveAppointmentsList({'appointment.patientId':appointmentData.patientId._id,'appointment.caseName':appointmentData.caseName,note_date:{$ne:null},'appointmentId': { '$exists': true }})//soap_note_type:query.soap_note_type,
-      //   appointmentDatesList = await subjectiveAppointmentsList({'patientId':appointmentData.patientId._id,'caseName':appointmentData.caseName},soap_note_type);//,'obj.soap_note_type':query.soap_note_type
-      // }else{
-      //   appointmentDatesList = await appointmentsList(appointmentData.caseName, appointmentData.patientId);
-      // }   
       appointmentDatesList = await subjectiveAppointmentsList({'patientId':appointmentData.patientId._id,'caseName':appointmentData.caseName},soap_note_type)   
     }
-     //console.log('Appointment Dates List >>>',appointmentDatesList)
+   
     let returnData = { subjectiveData: subjectiveData, appointmentDatesList: appointmentDatesList, appointmentData: appointmentData }
     commonHelper.sendResponse(res, 'success', returnData);
   } catch (error) {
@@ -687,8 +694,13 @@ const submitAssessment = async (req, res) => {
 //get Assessment data for initial exam
 const getAssessment = async (req, res) => {
   try {
+    
     const { query, fields, params } = req.body;
-    let assessmentData = await AssessmentModel.findOne(query, fields);
+    let assessmentData = await AssessmentModel.findOne({ ...query, status: "Draft" },fields);
+    if (!assessmentData) {
+      assessmentData = await AssessmentModel.findOne(query, fields);
+    }
+
     if(assessmentData && params && params.addendumId && params.addendumId!=undefined){
       let _id = assessmentData._id
       assessmentData = assessmentData.addendums.filter(task => task.addendumId.toLocaleString() === params.addendumId.toLocaleString())[0];
