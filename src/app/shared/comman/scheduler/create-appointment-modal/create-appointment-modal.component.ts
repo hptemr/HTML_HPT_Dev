@@ -160,7 +160,6 @@ export class CreateAppointmentModalComponent {
   }
 
   async createAppointment(formData:any){
-    console.log('appointment dta >>>>>',formData)
     if (this.appointmentForm.valid) {
         this.clickOnRequestAppointment = true
         this.commonService.showLoader();
@@ -191,30 +190,28 @@ export class CreateAppointmentModalComponent {
           data: formData,
           patientType:formData.patientType
         }
-        console.log('reqVars >>>>>',reqVars)
-        // this.emailError = false; this.invalidEmailErrorMessage = '';   
-        // this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
-        //   this.commonService.hideLoader();
-        //   if (response.error) {
-        //     this.clickOnRequestAppointment = false
-        //     if (response.message) {
-        //       this.commonService.openSnackBar(response.message, "ERROR");
-        //     }
-        //     if(response.data.email){
-        //       this.appointmentForm.controls["email"].markAsTouched();
-        //       //this.appointmentForm.controls['email'].setValue('');
-        //       this.emailError = true;
-        //       this.invalidEmailErrorMessage = response.data.email;
-        //     }
-        //   } else {
-        //     if (response.message) {       
-        //       this.dialogRef.close();this.successModal(response.message);
-        //       this.commonService.openSnackBar(response.message, "SUCCESS");
-        //     }
-        //   }
-        // })
+        this.emailError = false; this.invalidEmailErrorMessage = '';   
+        this.authService.apiRequest('post', 'appointment/createAppointment', reqVars).subscribe(async (response) => {    
+          this.commonService.hideLoader();
+          if (response.error) {
+            this.clickOnRequestAppointment = false
+            if (response.message) {
+              this.commonService.openSnackBar(response.message, "ERROR");
+            }
+            if(response.data.email){
+              this.appointmentForm.controls["email"].markAsTouched();
+              //this.appointmentForm.controls['email'].setValue('');
+              this.emailError = true;
+              this.invalidEmailErrorMessage = response.data.email;
+            }
+          } else {
+            if (response.message) {       
+              this.dialogRef.close();this.successModal(response.message);
+              this.commonService.openSnackBar(response.message, "SUCCESS");
+            }
+          }
+        })
     }else{
-      console.log(' #### appointment Form>>>>>>')
       Object.keys(this.appointmentForm.controls).forEach(field => {
         const control = this.appointmentForm.get(field);
         if (control && control.errors) {
