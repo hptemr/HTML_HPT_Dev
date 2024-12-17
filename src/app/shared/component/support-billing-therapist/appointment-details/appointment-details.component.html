@@ -108,10 +108,10 @@
         <div class="card-body mt-0 mb-0 pb-0">
             <div class="divider"> </div>
         </div> 
-        <div class="card-body mt-0">
+        <div class="card-body mt-0" *ngIf="!hideNoteToUser">
             <div class="row">
                 <div class="col-12">
-                    <h3 class="mb-3 clr--1F2F3E fw-600 font-22">Notes</h3>
+                    <h3 class="mb-3 clr--1F2F3E fw-600 font-22">Notes {{userRole}}</h3>
                 </div>
                 <div class="col-12 col-sm-10 col-lg-10 mb-2">
                     <div class="d-flex flex-row flex-wrap gap-10">

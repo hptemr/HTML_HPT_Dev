@@ -71,6 +71,7 @@ export class AppointmentDetailsComponent implements OnInit {
   progressNoteFlag:boolean=true
   dischargeNoteFlag:boolean=true
   caseNoteFlag:boolean=false
+  hideNoteToUser:boolean=false
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -107,6 +108,9 @@ export class AppointmentDetailsComponent implements OnInit {
      this.getAppointmentDetails()    
      this.getAppointmentNotes()
     this.todayDate = this.datePipe.transform(new Date(this.todayDate), 'MM/dd/yyyy')!;
+
+    let adminRole = ['system_admin']
+    this.hideNoteToUser = (this.userRole && adminRole.includes(this.userRole))?true:false
   }
 
   ngAfterViewInit() {
