@@ -142,7 +142,9 @@ export class PnPlanComponent {
 
   saveDraft(){
     this.submitted = true
+    console.log('this.planNoteForm>>>',this.planNoteForm)
     if(this.planNoteForm.invalid){
+      this.planNoteForm.markAllAsTouched();
       return
     }
     this.planNoteForm.controls['frequencyPerWeek'].setValue(this.clickedIndex);

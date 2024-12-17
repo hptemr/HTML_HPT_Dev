@@ -92,6 +92,7 @@ export class PnObjectiveComponent {
   validationMessages = validationMessages; 
   chaperoneFlag:boolean=false;
   isSubmit:boolean=false;
+  outcome_measures_name:boolean=false;
   appointment_dates:any=[];
   appointment_data:any=[];
   objectiveId:string='';
@@ -767,6 +768,7 @@ export class PnObjectiveComponent {
       control?.clearValidators();
       control?.updateValueAndValidity();
     });
+    this.outcome_measures_name = false;
     outcome_measures_group.get('name')?.setValidators(Validators.required)
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
@@ -1230,23 +1232,19 @@ export class PnObjectiveComponent {
 
   async objectiveSubmit(formData: any){
     if (this.objectiveForm.invalid){
-      
-    console.log(' objective form >>>>',this.objectiveForm)
       this.objectiveForm.markAllAsTouched();
-
-    
       const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
       Object.keys(outcome_measures_group.controls).forEach(key => {
         const control = outcome_measures_group.get(key);
-        console.log(' objective form >>>>',control)
-        // control?.markAsUntouched();
-        // control?.clearValidators();
-        // control?.updateValueAndValidity();
+        if(key=='name' && control?.errors){
+          console.log(key,' control form >>>>',control?.errors)
+          control?.markAsUntouched();
+          this.outcome_measures_name = true;
+        }
       });
-
-      console.log(' outcome_measures_group >>>>',outcome_measures_group)
     }else{
         this.isSubmit = true
+        this.outcome_measures_name = false;
         Object.assign(formData, {
           soap_note_type:"progress_note",
           createdBy: this.userId,
