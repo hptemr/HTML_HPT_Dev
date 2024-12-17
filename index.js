@@ -4,28 +4,32 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var app = express()
-var busboy = require('connect-busboy');
+// var busboy = require('connect-busboy');
 var cors = require('cors')
 var routesApi = require('./routes')
 var constants = require('./config/constants')
 const db = require('./config/database'); 
 var compress = require('compression');
+let { checkUserDeleted } = require('./middlewares/commonMiddleware ');
+require('./controllers/cronJob');
 
 app.use(compress());
 app.set('view engine', 'jade');
 app.use(logger('dev'))
 app.use(cookieParser())
-app.use(busboy({ immediate: true }));
+
+// app.use(busboy({ immediate: true })); //bulk upload file is not working because of this
+// app.use(busboy());
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}))
 //app.use(cors({}))
-//app.use(cors({credentials: true, origin: constants.clientUrl}))
-app.use(cors({credentials: true, origin: true}))
+app.use(cors({credentials: true, origin: constants.clientUrl}))
+//app.use(cors({credentials: true, origin: true}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('tmp'))
-app.use('/api', routesApi);
+app.use('/api', checkUserDeleted, routesApi);
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', express.static(path.join(__dirname, 'dist')))
 app.get('/*', (req, res) => {

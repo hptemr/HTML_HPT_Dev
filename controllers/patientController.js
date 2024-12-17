@@ -11,6 +11,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const PatientTemp = require('../models/patientTempModel');
 const Patient = require('../models/patientModel');
+const Provider = require('../models/providerModel');
+
 let ObjectId = require('mongoose').Types.ObjectId;
 const triggerEmail = require('../helpers/triggerEmail');
 var fs = require('fs')
@@ -18,6 +20,9 @@ const s3 = require('./../helpers/s3Upload')
 var constants = require('./../config/constants')
 const patientFilePath = constants.s3Details.patientDocumentFolderPath;
 const s3Details = constants.s3Details;
+const tebraController = require('../controllers/tebraController');
+const Case = require('../models/casesModel');
+const Appointment = require('../models/appointmentModel');
 
 
 const signup = async (req, res) => {
@@ -97,6 +102,22 @@ const signup = async (req, res) => {
                         const updatePatient = { $set: request_data };
                         let optionsUpdatePatient = { returnOriginal: false };
                         result = await Patient.findOneAndUpdate(filterPatient, updatePatient, optionsUpdatePatient);
+
+                        // Register patient on Tebra (By register link)
+                        let caseOutput = await Case.find({ patientId: result._id }).lean();
+                        if(found.signupToken && !result?.patientOnTebra && caseOutput.length){   
+                            let isPatientCreated = await tebraController.createPatient(result).catch((_err)=>false)
+                            if(isPatientCreated && caseOutput.length){
+                                let caseData = caseOutput[0]
+                                let appointmentData = await Appointment.find({ patientId: result._id, caseName: caseData.caseName}).lean();
+                                let appointmentDt = appointmentData[0]
+                                const providerData = await Provider.findOne({ _id: appointmentDt?.doctorId },{ name: 1 }).lean();
+                               const patientDataAfterCreated = await Patient.findOne({ _id: pendingPatientTemp._id }).lean();
+                                if(patientDataAfterCreated!=null && patientDataAfterCreated?.patientOnTebra && !caseData?.caseCreatedOnTebra){
+                                    tebraController.createCase(patientDataAfterCreated, caseData.caseName, caseData._id, providerData)
+                                }
+                            }
+                        }
                     }else{
                        // Normal patient register
                         let newPatient = new Patient(request_data);
@@ -408,12 +429,18 @@ const getPatientData = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
-        const { query, data } = req.body;
+        const { query, data, steps } = req.body;
         let found = await Patient.findOne(query);
         console.log('patient  data  >>>', data)
         if (found) {
             let res = await Patient.updateOne({ _id: found._id }, { $set: data });
             //console.log('*** res **** ',res)
+
+            // Update patient information on Tebra
+            if(found?.patientOnTebra && found?.tebraDetails){
+                if(steps==0) { tebraController.updatePatientPersonalInfo(data, found) }
+                if(steps==1) { tebraController.updatePatientAdditionalInfo(data, found) }
+            }
         }
 
         commonHelper.sendResponse(res, 'success', { found }, '');

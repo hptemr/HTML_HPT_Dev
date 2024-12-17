@@ -9,6 +9,7 @@ const insuranceRoutes = require('./routes/insuranceRoutes');
 const emergencyContactRoutes = require('./routes/emergencyContactRoutes');
 const referralRoutes = require('./routes/referralRoutes');
 const soapRoutes = require('./routes/soapNotesRoutes');
+const tebraRoutes = require('./routes/tebraRoutes');
 
 router.use('/auth', authRoutes);
 router.use('/admin', adminRoutes);
@@ -19,5 +20,6 @@ router.use('/appointment', appointmentRoutes);
 router.use('/emergencyContact', emergencyContactRoutes);
 router.use('/referral', referralRoutes);
 router.use('/soapNote', soapRoutes);
+router.use('/tebra', tebraRoutes);
 
 module.exports = router

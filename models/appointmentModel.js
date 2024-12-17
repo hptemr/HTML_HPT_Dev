@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const appointmentSchema = new mongoose.Schema({
-    status: { type: String, enum: ['Pending', 'Active', 'Rescheduled', 'Accepted', 'Declined', 'Approved', 'Cancelled', 'Completed','Scheduled','Not Scheduled','Pending Intake Form'], default: 'Pending' },
+    status: { type: String, enum: ['Pending', 'Active', 'Rescheduled', 'Accepted', 'Declined', 'Approved', 'Cancelled', 'Completed','Scheduled','Not Scheduled','Pending Intake Form', 'Deleted'], default: 'Pending' },
     requestId: {
         type: mongoose.Schema.ObjectId,
         ref: "appointment_requests",
@@ -25,15 +25,24 @@ const appointmentSchema = new mongoose.Schema({
     caseName: { type: String, default: "" },
     caseType: { type: String, default: "" },
     appointmentDate: { type: Date, default: Date.now },
+    appointmentEndTime:  { type: Date, default: "" },
     practiceLocation: { type: String, default: "" },
+    notes: { type: String, default: "" },
+    repeatsNotes: { type: String, default: "" },
     checkIn: { type: Boolean, default: false },
     checkInDateTime: { type: Date },
+    appointmentStatus: { type: String, default: "" },
+    checkInBy:  {
+        type: mongoose.Schema.ObjectId,
+        ref: "users"
+    },
     bookingFor: {
         type: String,
         enum: ['Myself', 'Other'],
         default: 'Myself'
     },
     relationWithPatient: { type: String, default: "" },
+    relationWithPatientOther: { type: String, default: "" },
     patientInfo: {
         type: Object //all the basic info will save in this object
     },
@@ -42,7 +51,7 @@ const appointmentSchema = new mongoose.Schema({
     payVia: {
         type: String,
         enum: ['Selfpay', 'Insurance'],
-        default: 'Insurance'
+        // default: 'Insurance'
     },
     payViaInsuranceInfo: {
         type: Object,
@@ -104,6 +113,9 @@ const appointmentSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    notification_5hrs_sent: { type: Boolean, default: false },
+    notification_24hrs_sent: { type: Boolean, default: false },
+
     appointmentUpdateInfo: { type: Array, default: [] },//keys will be ==> "fromPatientId , fromAdminId, updatedAt, userRole"
     intakeFormSubmit: { type: Boolean, default: false }, 
     createdAt: { type: Date, default: Date.now },

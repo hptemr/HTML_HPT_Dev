@@ -58,7 +58,12 @@ const planSchema = new mongoose.Schema({
     ref: "users"
   },
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  updatedAt: { type: Date, default: Date.now },
+  version: { type: String, default: 'v1' },
+  is_disabled:{ type: Boolean,default:false },
+  addendums:{ type: Array, default: [] },
+  createUser: { type: String, default: '' },
+  addendumId: { type: mongoose.Schema.ObjectId},
 });
 
 module.exports = mongoose.model('plans', planSchema);

@@ -18,6 +18,7 @@ const subjectiveSchema = new mongoose.Schema({
     surgery_date:  { type: Date },
     surgery_type: { type: String },
     subjective_note: { type: String },
+    case_comment: { type: String },
     updateInfo: { type: Array, default: [] },//keys will be ==> "fromAdminId, updatedAt, userRole"
     status: { type: String, enum: ['Draft', 'Finalized'], default: 'Draft' },
     is_deleted:{ type: Boolean,default:false },
@@ -26,7 +27,12 @@ const subjectiveSchema = new mongoose.Schema({
         ref: "users"
     },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    updatedAt: { type: Date, default: Date.now },
+    version: { type: String, default: 'v1' },
+    is_disabled:{ type: Boolean,default:false },
+    addendums:{ type: Array, default: [] },
+    createUser: { type: String, default: '' },
+    addendumId: { type: mongoose.Schema.ObjectId},
 })
 
-module.exports = mongoose.model('subjective', subjectiveSchema)
+module.exports = mongoose.model('subjectives', subjectiveSchema)

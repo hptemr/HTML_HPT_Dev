@@ -38,6 +38,12 @@ const patientSchema = new mongoose.Schema({
   profileImage: { type: String, default: 'default.png' },
   ssn:{ type: String },
   status: { type: String, enum: ['Pending','Active','Deleted','Blocked'], default: 'Pending'},
+  patientOnTebra:{ type: Boolean, default: false },
+  tebraDetails:{
+    PatientID:{ type: String },
+    PracticeID:{ type: String },
+    PracticeName:{ type: String }
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

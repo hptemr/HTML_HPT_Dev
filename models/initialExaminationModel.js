@@ -35,7 +35,9 @@ const initialExaminationSchema = new mongoose.Schema({
     ref: "users"
   },
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  updatedAt: { type: Date, default: Date.now },
+  version: { type: String, default: 'v1' },
+  is_disabled:{ type: Boolean,default:false },
 });
 
 module.exports = mongoose.model('initial_examinations', initialExaminationSchema);
