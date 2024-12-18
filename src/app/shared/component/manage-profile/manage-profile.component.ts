@@ -129,9 +129,10 @@ export class ManageProfileComponent {
       this.adminService.updateProfile(req_vars).subscribe({
         next: (res) => { 
           this.commonService.openSnackBar(res.message, "SUCCESS")
-          this.commonService.hideLoader()
+          // this.commonService.hideLoader()
           this.updateAdminInLocalStorage(res.data)
         }, error: (err) => {
+          this.commonService.hideLoader()
           err.error?.error ? this.commonService.openSnackBar(err.error?.message, "ERROR") : ''
         }
       });
@@ -151,6 +152,10 @@ export class ManageProfileComponent {
     //  this.router.navigate([this.activeUserRoute, 'dashboard']).then(() => {
     //   window.location.reload();
     //  })
+    setTimeout(function () {
+      location.reload();
+    });
+    this.commonService.hideLoader()
   }
 
   async changePhoto() {

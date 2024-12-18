@@ -73,7 +73,7 @@
         <div class="form-group mb-0 d-flex align-items-sm-center flex-column flex-sm-row align-items-start">
             <!-- <input class="form-control form-control-md w-170p m-1 flex-shrink-0" type="text"   placeholder="" value="Aug 26, 2024" />  -->
             <mat-form-field class="w-170p m-1 flex-shrink-0 am--datepicker">
-                <input class="" matInput [matDatepicker]="picker" placeholder="Filter by Date"
+                <input class="" matInput [matDatepicker]="picker" placeholder="Filter by DOB"
                     (dateChange)="onSearchDateChange($event)">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -179,8 +179,9 @@
                             (dayClicked)="dayClicked($event.day)" (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-month-view>
                         <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate"
-                            [hourSegments]="4" [hourDuration]="60" [dayStartHour]="9" [dayEndHour]="21"
+                            [hourSegments]="4" [hourDuration]="60" 
                             [events]="events" [refresh]="refresh" (eventTimesChanged)="eventTimesChanged($event)">
+                            <!-- [dayStartHour]="9" [dayEndHour]="21" -->
                             <!-- (eventClicked)="handleEvent('Clicked', $event.event,'6')" -->
                         </mwl-calendar-week-view>
                         <!-- <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
@@ -200,8 +201,9 @@
                             (eventTimesChanged)="eventTimesChanged($event)">
                         </mwl-calendar-day-view> -->
                         <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [hourSegments]="4"
-                            [hourDuration]="60" [dayStartHour]="9" [dayEndHour]="21" [events]="events"
+                            [hourDuration]="60" [events]="events"
                             [refresh]="refresh" (eventTimesChanged)="eventTimesChanged($event)">
+                            <!-- [dayStartHour]="9" [dayEndHour]="21" -->
                             <!-- [eventTemplate]="customEventTemplate" 
                              (eventClicked)="handleEvent('Clicked', $event.event,'7')" -->
                         </mwl-calendar-day-view>
