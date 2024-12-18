@@ -646,7 +646,10 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                       let diaCode = subjectiveResult?.diagnosis_code[0]
                       console.log("diagnosis_code>>>>>",diaCode.code)
                       let billingDetails = await BillingTemp.findOne({appointmentId: new ObjectId(finalizeNoteData.appointmentId), soap_note_type: finalizeNoteData.soapNoteType });
-                      //console.log("billingDetails>>>>>",billingDetails)
+
+                        // Data use for log
+                        dataForLogs['billingData'] = billingDetails
+                        dataForLogs['appointmentData'] = resultData
 
                       const unitedPtCharges = tebraCommon.calculateUnitCharges(billingDetails.united_pt_codes);
                       const unitedOtCharges = tebraCommon.calculateUnitCharges(billingDetails.united_ot_codes);
@@ -656,8 +659,12 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                       const directSlpCharges = tebraCommon.calculateUnitCharges(billingDetails.direct_slp_codes);
                       const dmeCptCodes = tebraCommon.calculateQuantityCharges(billingDetails?.dme_cpt_codes);
                       //console.log("dmeCptCodes>>>",dmeCptCodes)
+                      let additionalCptCode =[]
+                      if(billingDetails?.additional_cpt_code && billingDetails?.additional_cpt_code.length){
+                        additionalCptCode = tebraCommon.calculateAdditionalCptCodeCharges(billingDetails?.additional_cpt_code);
+                      }
                       
-                      const allCharges = [...unitedPtCharges,...unitedOtCharges,...unitedSlpCharges,...directPtCharges, ...directOtCharges,...directSlpCharges, ...dmeCptCodes];
+                      const allCharges = [...unitedPtCharges,...unitedOtCharges,...unitedSlpCharges,...directPtCharges, ...directOtCharges,...directSlpCharges, ...dmeCptCodes, ...additionalCptCode];
                       console.log("allCharges>>>",allCharges)
 
 
@@ -691,39 +698,48 @@ const createEncounter = async (finalizeNoteData, subjectiveResult) => {
                             if(!parseError){
                                 const errorResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ErrorResponse'];
                                 if(errorResponse && errorResponse?.IsError=='false'){
-                                let encounterResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult'];
-                                let serviceLine = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ServiceLinesAdded'];
-                
-                                if(encounterResponse){
-                                    // Save response data of Encounter
-                                    let Einsert = new TebraEncounter()
-                                    Einsert.appointmentId = finalizeNoteData?.appointmentId;
-                                    Einsert.soap_note_type = finalizeNoteData?.soapNoteType;
-                                    Einsert.EncounterID = encounterResponse?.EncounterID;
-                                    Einsert.PatientCaseID = encounterResponse?.PatientCaseID;
-                                    Einsert.PatientID = encounterResponse?.PatientID;
-                                    Einsert.PracticeID = encounterResponse?.PracticeID;
-                                    Einsert.PracticeName = encounterResponse?.PracticeName;
-                                    Einsert.RenderingProviderID = encounterResponse?.RenderingProviderID;
-                                    Einsert.ServiceLineRes = serviceLine?.ServiceLineRes;
-                                    Einsert.ServiceLocationID = encounterResponse?.ServiceLocationID;
-                                    Einsert.save();
+                                    let encounterResponse = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult'];
+                                    let serviceLine = parseResult['s:Envelope']['s:Body']['CreateEncounterResponse']['CreateEncounterResult']['ServiceLinesAdded'];
+                    
+                                    if(encounterResponse){
+                                        // Save response data of Encounter
+                                        let Einsert = new TebraEncounter()
+                                        Einsert.appointmentId = finalizeNoteData?.appointmentId;
+                                        Einsert.soap_note_type = finalizeNoteData?.soapNoteType;
+                                        Einsert.EncounterID = encounterResponse?.EncounterID;
+                                        Einsert.PatientCaseID = encounterResponse?.PatientCaseID;
+                                        Einsert.PatientID = encounterResponse?.PatientID;
+                                        Einsert.PracticeID = encounterResponse?.PracticeID;
+                                        Einsert.PracticeName = encounterResponse?.PracticeName;
+                                        Einsert.RenderingProviderID = encounterResponse?.RenderingProviderID;
+                                        Einsert.ServiceLineRes = serviceLine?.ServiceLineRes;
+                                        Einsert.ServiceLocationID = encounterResponse?.ServiceLocationID;
+                                        Einsert.save();
+                                    }
+                                    // Tebra Logs
+                                    // dataForLogs['billingData'] = billingDetails
+                                    // dataForLogs['appointmentData'] = resultData
+                                    tebraCommon.tebraApiLog('createEncounter',soapRequest,parseResult,'success',dataForLogs,'')
+                                }else{
+                                    // dataForLogs['billingData'] = billingDetails
+                                    // dataForLogs['appointmentData'] = resultData
+                                    tebraCommon.tebraApiLog('createEncounter',soapRequest,parseResult,'tebraResError',dataForLogs,'')
                                 }
-                                }
+                            }else{
+                                // dataForLogs['billingData'] = billingDetails
+                                // dataForLogs['appointmentData'] = resultData
+                                tebraCommon.tebraApiLog('createEncounter',soapRequest,parseResult,'parseResultError',dataForLogs,'')
                             }
-                            // Tebra Logs
-                            dataForLogs['billingData'] = billingDetails
-                            dataForLogs['appointmentData'] = resultData
-                            tebraCommon.tebraApiLog('createEncounter',soapRequest,parseResult,'success',dataForLogs,'')
+                            
                         }).catch(error => {
-                            dataForLogs['billingData'] = billingDetails
-                            dataForLogs['appointmentData'] = resultData
+                            // dataForLogs['billingData'] = billingDetails
+                            // dataForLogs['appointmentData'] = resultData
                             console.error('========createEncounter API Error=========:', error);
                             tebraCommon.tebraApiLog('createEncounter',soapRequest,'','apiError',dataForLogs,error)
                         });
                     }else{
-                        dataForLogs['billingData'] = billingDetails
-                        dataForLogs['appointmentData'] = resultData
+                        // dataForLogs['billingData'] = billingDetails
+                        // dataForLogs['appointmentData'] = resultData
                         tebraCommon.tebraApiLog('createEncounter','','','dataError',dataForLogs,error)
                     }
                 } 
