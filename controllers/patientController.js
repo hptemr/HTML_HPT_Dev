@@ -310,7 +310,8 @@ const uploadPatientDocument = async function (req, res) {
                             fstream = fs.createWriteStream(__dirname + '/../tmp/' + newFilename)
                             file.pipe(fstream);
                             fstream.on('close', async function () {
-                                let s3Response = await s3.uploadPrivateFile(newFilename, patientFilePath, mimetype);
+                                let s3Response = await s3.uploadFile(newFilename, patientFilePath, mimetype);
+                                //let s3Response = await s3.uploadPrivateFile(newFilename, patientFilePath, mimetype);
                                 if (s3Response.size) {
                                     fileSize = await bytesToMB(s3Response.size);
                                 }
@@ -355,30 +356,33 @@ async function previewDocument(req, res) {
     let { query,filePath } = req.body;
     let { fileName } = req.body;
 
-    let documentLink = ''; let fileSize = '';
+    let documentLink = ''; let fileSize = '';const size = '';
     if (fileName) {
 
         let path = patientFilePath + fileName;
+        documentLink = constants.s3Details.url+path
         if(filePath){
             path = filePath + fileName;
+            documentLink = constants.s3Details.url+path
         }
         try {
-            const url = await s3.s3.getSignedUrl('getObject', {
-                Bucket: constants.s3Details.bucketName,
-                Key: path,
-                Expires: 100,
-            });
-
-            const params = {
-                Bucket: constants.s3Details.bucketName,
-                Key: path
-            };
-            const size = await s3.s3.headObject(params).promise();
-            if (size.ContentLength) {
-                fileSize = await bytesToMB(size.ContentLength);
-            }
-            documentLink = url;
+            // const url = await s3.s3.getSignedUrl('getObject', {
+            //     Bucket: constants.s3Details.bucketName,
+            //     Key: path,
+            //     Expires: 100,
+            // });
+            //     console.log('url>?>>>',url)
+            // const params = {
+            //     Bucket: constants.s3Details.bucketName,
+            //     Key: path
+            // };
+            // const size = await s3.s3.headObject(params).promise();
+            // if (size.ContentLength) {
+            //     fileSize = await bytesToMB(size.ContentLength);
+            // }
+            //documentLink = url;
         } catch (error) {
+            console.log('error >>>',error)
             documentLink = ''; fileSize = '';
         }
     }
