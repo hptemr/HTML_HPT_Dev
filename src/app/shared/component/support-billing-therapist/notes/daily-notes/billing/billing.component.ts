@@ -499,7 +499,7 @@ export class DailyNoteBillingComponent {
         let service_date_note = 'You can not finalize this daily note, date of sericve is not selected in subjective form.';
         let submitButton = true;
           if(this.date_of_service){
-            service_date_note = 'Do you really want to finalize this daily note? Date of sericve is "'+this.commonService.formatUTCDate(this.date_of_service)+'" for this note.'
+            service_date_note = 'Do you really want to finalize this daily note? Date of sericve is "'+this.commonService.formatDate(this.date_of_service)+'" for this note.'
             submitButton = false;
           }        
           const dialogRef = this.dialog.open(AlertComponent,{

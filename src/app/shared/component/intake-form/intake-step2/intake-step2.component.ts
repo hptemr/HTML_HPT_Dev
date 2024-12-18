@@ -269,7 +269,12 @@ export class IntakeStep2Component {
       attorneyPhone: [typeof payViaInsuranceInfo?.attorneyPhone !== 'undefined' ? payViaInsuranceInfo?.attorneyPhone : '', [Validators.minLength(14), Validators.maxLength(14)]],
       //attorneyAddress: [payViaInsuranceInfo ? payViaInsuranceInfo?.attorneyAddress : '', [Validators.required]],
     });
-    this.isMinorFlag = payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor=='yes' ? true : false : false    
+    this.isMinorFlag = payViaInsuranceInfo ? payViaInsuranceInfo?.isPatientMinor=='yes' ? true : false : false   
+    if(this.isMinorFlag){
+      setTimeout(() => {  
+        this.minorCheckbox.checked = true;
+      }, 2000)
+    } 
 
     let thirdInsuranceCompany = typeof payViaInsuranceInfo?.thirdInsuranceCompany !== 'undefined' ? payViaInsuranceInfo?.thirdInsuranceCompany : ''
     if(thirdInsuranceCompany){

@@ -666,7 +666,7 @@
                             </div>                             
                             <div class="col-12 minor--consent mb-4" *ngIf="isPatientMinor"> 
                                 <label class="fw-700 font-16 clr--1F2F3E mb-1">Minor Consent</label>
-                                <mat-checkbox disabled (change)="openCMSmodal($event)"> 
+                                <mat-checkbox disabled [checked]="isPatientMinor"  (change)="openCMSmodal($event)"> 
                                 <p class="font-16 clr--1F2F3E lh-24 mb-0">{{info.firstName}} {{info.lastName}} - I hereby authorize this PT
                                     clinic
                                     and/or it's

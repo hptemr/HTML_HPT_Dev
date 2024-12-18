@@ -673,10 +673,10 @@ export class SchedulerComponent {
     }
 
     onSearchDateChange(event: any) {
-     let startdDate = startOfDay(new Date(event.value));this.commonService.formatUTCDate(event.value)
+     let startdDate = startOfDay(new Date(event.value));
      let endDate = addDays(new Date(event.value), 1)
      let obj = { $gt: startdDate, $lte: endDate }
-      Object.assign(this.patientSearchQuery, { dob: obj })//this.commonService.formatUTCDate(event.value)
+      Object.assign(this.patientSearchQuery, { dob: obj })
 
       if(this.searchView){
         this.searchPageRecords('')

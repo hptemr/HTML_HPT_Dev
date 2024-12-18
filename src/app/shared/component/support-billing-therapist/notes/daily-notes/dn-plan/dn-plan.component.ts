@@ -46,11 +46,11 @@ export class DnPlanComponent {
       is_deleted:false
     }
     this.authService.apiRequest('post', 'soapNote/getPlanNote', params).subscribe(async response => {
-      if(response.data && response.data.status=='Finalized'){
+      if(response.data && response.data.status=='Finalized' && response.data.appointmentId==this.appointmentId){
         this.readOnly = true
       }
       if(response.data && response.data.appointmentId){
-        this.actionType = "update"
+        if(response.data.appointmentId==this.appointmentId)this.actionType = "update"
         this.processPatient = response.data.process_patient
         this.anticipatDC = response.data.anticipat_DC
         this.typeHere = response.data.plan_note
