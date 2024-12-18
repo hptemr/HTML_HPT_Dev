@@ -169,6 +169,7 @@ div.mat-mdc-autocomplete-panel{
     font-size: 21px; 
     font-family: "Great Vibes", cursive;
     font-weight: 600; 
+    flex-shrink: 0;
     &.img--sign{
         img{
             max-height: 100%;
@@ -1255,6 +1256,9 @@ ngb-datepicker{
     }
     ngb-datepicker.dropdown-menu .ngb-dp-header {
         padding: 10px 5px 25px 5px;
+    }
+    .signature--box{
+        width: 110px;
     }
 }
 @media only screen and (min-width: 600px) and (max-width: 979px){}
