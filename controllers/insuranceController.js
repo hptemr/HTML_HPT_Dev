@@ -76,7 +76,8 @@ async function s3UploadDocuments(req, res) {
                 let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
                 let params = {
                     ContentEncoding: "base64",
-                    ACL: "bucket-owner-full-control",
+                    //ACL: "bucket-owner-full-control",
+                    ACL: "public-read",
                     ContentType: fileSelected.split(";")[0],
                     Bucket: constants.s3Details.bucketName,
                     Body: fileBuffer,

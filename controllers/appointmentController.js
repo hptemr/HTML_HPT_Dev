@@ -146,21 +146,24 @@ const createAppointmenttest = async (req, res) => {
 }
 
 
-const createAppointmenttesting = async (req, res) => {
+const createAppointmrtent = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
   
         console.log('data>>>>',data)
         let appointmentDate = data.appointmentDate;
+       
+
         if(data.appointmentStartTime){
-            appointmentDate = data.appointmentStartTime;
+            data.appointmentDate = data.appointmentStartTime;
         }
         console.log('appointment date >>>>',appointmentDate)
-         
-        let start_date_time = commonHelper.dateModify(data.appointmentStartTime);
-        let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
 
+        let start_date_time = commonHelper.dateModify(data.appointmentDate);
+        let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
         let appointment_date_time = '"'+start_date_time+' To ' +endtime+'"';
+
+
         console.log('appointment_date_time_____>>>>',appointment_date_time)
 
         commonHelper.sendResponse(res, 'success', {}, 'done');
@@ -360,6 +363,7 @@ const createAppointment = async (req, res) => {
             let start_date_time = commonHelper.dateModify(data.appointmentDate);
             let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
             let appointment_date_time = '"'+start_date_time+' To ' +endtime+'"';
+            console.log('appointment_date_time_____>>>>',appointment_date_time)
             const therapistData = await User.findOne({ _id: data.therapistId }, { firstName: 1, lastName: 1 });
             const patientData = { appointment_date: appointment_date_time, firstName: data.firstName, lastName: data.lastName, email: data.email, phoneNumber: data.phoneNumber, practice_location: data.practiceLocation, therapistId: data.therapistId, therapist_name: therapistData.firstName + ' ' + therapistData.lastName, caseId: caseId, appId: appId,doctorId:data.doctorId,caseName:caseName };
      
