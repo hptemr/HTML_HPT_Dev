@@ -162,9 +162,9 @@ const profile = async (req, res, next) => {
     const { query, params } = req.body
     const result = await User.findOne(query, params);
     if(result && result.role=='therapist' && result.therapistSignature!=''){
-      let key = constants.s3Details.therapistFolderPath + result.therapistSignature
-      let previewUrl = await s3.previewDocumentFile(key);
-      if(previewUrl)result.therapistSignature = previewUrl;
+      result.therapistSignature = constants.s3Details.url+constants.s3Details.therapistFolderPath + result.therapistSignature
+      //let previewUrl = await s3.previewDocumentFile(key);
+      //if(previewUrl)result.therapistSignature = previewUrl;
     }
     commonHelper.sendResponse(res, 'success', result, '');
   } catch (error) {
@@ -199,7 +199,7 @@ const updateProfile = async (req, res, next) => {
       let therapist = await User.findOne({_id: userId },{ therapistSignature: 1 });
       let therapistSignature = new Date().getTime()+'-'+req.body.uploadedSignatureFile[0].name;
       let therapistSignatures = await s3UploadTherapistSignature(req, res,therapistSignature,therapist.therapistSignature)
-      if(therapistSignature){
+      if(therapistSignatures){
         req.body.therapistSignature = therapistSignature
       }
     }
@@ -265,7 +265,8 @@ async function s3UploadTherapistSignature(req, res,fileName,oldfile) {
               //let fileBuffer = new Buffer(fileSelected.replace(fileSelected.split(",")[0], ""), "base64");
               let params = {
                   ContentEncoding: "base64",
-                  ACL: "bucket-owner-full-control",
+                  //ACL: "bucket-owner-full-control",
+                  ACL: 'public-read',
                   ContentType: fileSelected.split(";")[0],
                   Bucket: constants.s3Details.bucketName,
                   Body: fileBuffer,
