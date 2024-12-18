@@ -31,6 +31,7 @@ export const s3Details = {
   userDocumentFolderPath: "patient-documents/",
   patientInsuranceFolderPath: "patient-insurance/",
   patientPrescriptionFolderPath: "patient-prescription/",
+  therapistFolderPath: "therapist-documents/",
 }
 export const appointmentDirectory = appointmentDirectoryValue
 export const protocolDirectory = protocolDirectoryValue
