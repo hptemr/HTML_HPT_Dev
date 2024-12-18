@@ -69,9 +69,9 @@
                 <div class="col-12 col-lg-6 col-md-6">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Booking For</label>
-                        <mat-radio-group formControlName="bookingFor" aria-label="Select an option" (change)="onChange($event)" >
+                        <mat-radio-group formControlName="bookingFor" aria-label="Select an option" (change)="onChange($event)">
                             <mat-radio-button value="Myself" class="me-3">Myself</mat-radio-button>
-                            <mat-radio-button value="Other">Other</mat-radio-button>
+                            <!-- <mat-radio-button value="Other">Other</mat-radio-button> -->
                         </mat-radio-group>
                         <!-- <div class="form-group other--booking" *ngIf="selectedValue == 'Other'">
                             <input class="form-control" type="text" placeholder="Enter other booking for" />
@@ -107,8 +107,7 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
-                        <label class="col-form-label fw-600">Middle Name  <span class="clr--DF0404 ms-1"> *
-                        </span></label>
+                        <label class="col-form-label fw-600">Middle Name</label>
                         <input [readonly]="isReadonly" (blur)="checkSpace('middleName', $event)"
                             formControlName="middleName" class="form-control" type="text"
                             placeholder="Enter Middle Name" />
