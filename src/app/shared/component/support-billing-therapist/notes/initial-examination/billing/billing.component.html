@@ -365,9 +365,9 @@
                                 <input type="text" [(ngModel)]="quantity" class="form-control width-50 mb-0" placeholder="Units"
                                 pattern="^[1-9][0-9]*$" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" maxlength="2" [disabled]="readOnly">
                             </div>
-                            <div class="form-group me-2">
-                                <input type="text" [(ngModel)]="quantity" class="form-control width-70 mb-0" placeholder="Charges"  [disabled]="readOnly">
-                            </div>
+                            <!-- <div class="form-group me-2">
+                                <input type="text"  class="form-control width-70 mb-0" placeholder="Charges"  [disabled]="readOnly">
+                            </div> -->
                             <button mat-raised-button color="primary" class="" (click)="addNewCode()" [disabled]="readOnly">
                                 Add
                             </button>
@@ -375,7 +375,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-sm-12 col-lg-10 col-xl-7">
+                <!-- <div class="col-12 col-sm-12 col-lg-10 col-xl-7">
                     <div class="row w-100">
                         <div class="d-flex flex-row align-items-center col-12 col-sm-6 col-lg-5 col-xl-5 mb-3">
                             <div class="form-group w-100">
@@ -392,7 +392,7 @@
                             
                         </div>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>
