@@ -64,7 +64,7 @@ const decryptData = (data, key) =>{
 }
 
 const dateModify = (appointmentDate) =>{
-  console.log('appointment date>>>>',appointmentDate)
+  console.log('dateModify appointment date>>>>',appointmentDate)
     const now = moment(appointmentDate);
     console.log('NOW >>>>',now)
     const formattedDate = now.format('ddd, MMM D, YYYY hh:mm A');
