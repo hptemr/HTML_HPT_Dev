@@ -1,0 +1,124 @@
+cases{
+    _id:ObjectId(''),
+    appointments:[ObjectId(''),ObjectId('')]
+}
+
+appointments{
+    _id:ObjectId(''), //appointment ID
+    soap_notes:[
+        {
+            _id: ObjectId() //123
+            note_type:String, //IE
+            status:String,
+            created_at:Date,
+            created_by:ObjectId()
+        },
+        {
+            _id: ObjectId() //456
+            note_type:String, //IE
+            status:String,
+            created_at:Date,
+            created_by:ObjectId()
+        }
+    ]
+}
+
+common_notes[
+    {
+        _id:ObjectId(),
+        soap_note_id:ObjectId(), //123 refer from soap_notes array from apppointment table
+        notes:[
+            {
+                note_type: 'subjective',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'objective',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'assessment',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'plan',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'billing',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            }
+        ]
+        
+    },
+    {
+        _id:ObjectId(),
+        soap_note_id:ObjectId(), //456 refer from soap_notes array from apppointment table
+        notes:[
+            {
+                note_type: 'subjective',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'objective',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'assessment',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'plan',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            },
+            {
+                note_type: 'billing',
+                _id:ObjectId(),
+                addendum:[{
+                    _id:ObjectId(),
+                    status:String
+                }]
+            }
+        ]
+        
+    }
+   
+]
+
+
