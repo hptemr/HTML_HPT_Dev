@@ -146,18 +146,18 @@ const createAppointmenttest = async (req, res) => {
 }
 
 
-const createAppointmrtent = async (req, res) => {
+const createAppointmentOLD = async (req, res) => {
     try {
         const { data, userId, requestId, patientType } = req.body; 
   
         console.log('data>>>>',data)
         let appointmentDate = data.appointmentDate;
        
-
+        console.log('appointment date 11 >>>>',appointmentDate)
         if(data.appointmentStartTime){
             data.appointmentDate = data.appointmentStartTime;
         }
-        console.log('appointment date >>>>',appointmentDate)
+        console.log('appointment date 22 >>>>',data.appointmentDate)
 
         let start_date_time = commonHelper.dateModify(data.appointmentDate);
         let endtime = commonHelper.getDateMinutes(data.appointmentEndTime);
@@ -280,17 +280,7 @@ const createAppointment = async (req, res) => {
             if(data.appointmentStartTime){
                 data.appointmentDate = data.appointmentStartTime;
             }
-            //local start time conversion
-            // const localDate = new Date(appointmentDate);  
-            // localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());       
-            // data.appointmentDate = localDate;      
-            // //local end time conversion
-            // if(data.appointmentEndTime){
-            //     const localEndDate = new Date(data.appointmentEndTime);  
-            //     localEndDate.setMinutes(localEndDate.getMinutes() - localEndDate.getTimezoneOffset());       
-            //     data.appointmentEndTime = localEndDate;
-            // }            
- 
+
             let appointmentData = {
                 appointmentId: appointmentId,
                 caseName: caseName,

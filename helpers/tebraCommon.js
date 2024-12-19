@@ -137,6 +137,24 @@ const calculateQuantityCharges = (directCodes) =>{
   return result;
 }
 
+const calculateAdditionalCptCodeCharges = (directCodes) =>{
+  const result = [];
+  for (const value of directCodes) {
+    if (value?.quantity && value?.cptCode) {
+      result.push({
+        codeName: '',
+        units: value.quantity.toString(),
+        minutes: '',
+        cptCode: value.cptCode.toString(),
+        chargePerUnit: '10',
+        totalCharge:  '10'
+      });
+    }
+  }
+  return result;
+}
+
+
 function formatXML(xmlString) {
   return format(xmlString, {
     indentation: '  ', // Two spaces
@@ -154,5 +172,6 @@ module.exports = {
   convertPhoneNumber,
   calculateUnitCharges,
   formatXML,
-  calculateQuantityCharges
+  calculateQuantityCharges,
+  calculateAdditionalCptCodeCharges
 };
