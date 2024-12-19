@@ -153,6 +153,14 @@ export class CreateAppointmentComponent {
   }
 
   async calculateEndDate(date1:Date,date2:Date){
+
+      if (!(date1 instanceof Date) || isNaN(date1.getTime())) {
+        date1 = new Date(date1);
+      }
+      if (!(date2 instanceof Date) || isNaN(date2.getTime())) {
+          date2 = new Date(date2);
+      }
+ 
       const year = date1.getFullYear();
       const month = date1.getMonth();
       const day = date1.getDate();
