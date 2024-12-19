@@ -63,15 +63,7 @@ export const documents_list = [
   "Montana ID",
   "Other"
 ]
-// export const appointmentStatus = [
-//   "Accepted",
-//   "Pending",
-//   "Active",
-//   "Rescheduled",
-//   "Cancelled",
-//   "Declined",
-//   "Completed",
-// ]
+
 export const appointmentStatus = [
   "Pending Intake Form",
   "Scheduled",
