@@ -36,10 +36,10 @@
                         <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> * </span></label>
-                                <input (blur)="checkSpace('subscriberFirstName', $event)" formControlName="subscriberFirstName" class="form-control" type="text"  placeholder="Enter First Name" />
+                                <input formControlName="subscriberFirstName" class="form-control" type="text"  placeholder="Enter First Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['subscriberFirstName'].touched && (insuranceForm.controls['subscriberFirstName'].hasError('required') || insuranceForm.controls['subscriberFirstName'].invalid)">
-                                    {{ validationMessages.required("Subscriber's First Name") }}
+                                    {{ validationMessages.alphabeticChar("Subscriber's First Name") }}
                                 </div>
                             </div>
                         </div>
@@ -47,15 +47,19 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Middle Name </label>
                                 <input formControlName="subscriberMiddleName" class="form-control" type="text" placeholder="Enter Middle Name" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['subscriberMiddleName'].touched && (insuranceForm.controls['subscriberMiddleName'].hasError('pattern') || insuranceForm.controls['subscriberMiddleName'].invalid)">
+                                    {{ validationMessages.alphabeticChar("Subscriber's Middle Name") }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-4 col-xl-4">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> * </span></label>
-                                <input (blur)="checkSpace('subscriberLastName', $event)" formControlName="subscriberLastName" class="form-control" type="text" placeholder="Enter Last Name" />
+                                <input formControlName="subscriberLastName" class="form-control" type="text" placeholder="Enter Last Name" />
                             <div class="text text-danger mt-1"
                                 *ngIf="insuranceForm.controls['subscriberLastName'].touched && (insuranceForm.controls['subscriberLastName'].hasError('required') || insuranceForm.controls['subscriberLastName'].invalid)">
-                                {{ validationMessages.required("Subscriber's Last Name") }}
+                                {{ validationMessages.alphabeticChar("Subscriber's Last Name") }}
                             </div>
                             </div>
                         </div>
@@ -188,7 +192,7 @@
                                 </span></label>
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input [min]="todayDate" formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                        <input [min]="insuranceEndDate" formControlName="primaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                             matInput [matDatepicker]="picker5" (focus)="picker5.open()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                         <mat-datepicker #picker5></mat-datepicker>
@@ -219,7 +223,7 @@
                                     placeholder="Enter First Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['secondarySubscriberFirstName'].touched && (insuranceForm.controls['secondarySubscriberFirstName'].hasError('required') || insuranceForm.controls['secondarySubscriberFirstName'].invalid)">
-                                    {{ validationMessages.required("Subscriber's First Name") }}
+                                    {{ validationMessages.alphabeticChar("Subscriber's First Name") }}
                                 </div>
                             </div>
                         </div>
@@ -228,6 +232,10 @@
                                 <label class="col-form-label fw-600">Middle Name </label>
                                 <input formControlName="secondarySubscriberMiddleName" class="form-control" type="text"
                                     placeholder="Enter Middle Name" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="insuranceForm.controls['secondarySubscriberMiddleName'].touched && (insuranceForm.controls['secondarySubscriberMiddleName'].hasError('pattern') || insuranceForm.controls['secondarySubscriberMiddleName'].invalid)">
+                                    {{ validationMessages.alphabeticChar("Subscriber's Middle Name") }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-4 col-xl-4">
@@ -239,7 +247,7 @@
                                     placeholder="Enter Last Name" />
                                 <div class="text text-danger mt-1"
                                     *ngIf="insuranceForm.controls['secondarySubscriberLastName'].touched && (insuranceForm.controls['secondarySubscriberLastName'].hasError('required') || insuranceForm.controls['secondarySubscriberLastName'].invalid)">
-                                    {{ validationMessages.required("Subscriber's Last Name") }}
+                                    {{ validationMessages.alphabeticChar("Subscriber's Last Name") }}
                                 </div>
                             </div>
                         </div>
@@ -346,7 +354,8 @@
 
                         <div class="col-12 col-lg-4 col-lx-4 col-md-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Effective Date </label>
+                                <label class="col-form-label fw-600">Effective Date <span class="clr--DF0404 ms-1"> *
+                                </span></label>
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input formControlName="secondaryInsuranceFromDate" readonly placeholder="MM-DD-YYYY"
@@ -364,10 +373,11 @@
 
                         <div class="col-12 col-lg-4 col-lx-4 col-md-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">End Date</label>
+                                <label class="col-form-label fw-600">End Date <span class="clr--DF0404 ms-1"> *
+                                </span></label>
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
-                                        <input [min]="todayDate" formControlName="secondaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
+                                        <input [min]="insuranceEndDate" formControlName="secondaryInsuranceToDate" readonly placeholder="MM-DD-YYYY"
                                             matInput [matDatepicker]="picker7" (focus)="picker7.open()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
                                         <mat-datepicker #picker7></mat-datepicker>

@@ -69,34 +69,38 @@
                             <div class="form-group">
                                 <label class="col-form-label fw-600">First Name <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input (blur)="checkSpace('firstName', $event)" formControlName="firstName"
+                                <input formControlName="firstName"
                                     class="form-control" type="text" placeholder="Enter First Name" (keyup)="signatureText($event)"/>
                                 <div class="text text-danger mt-1"
                                     *ngIf="step2Form.controls['firstName'].touched && (step2Form.controls['firstName'].hasError('required') || step2Form.controls['firstName'].invalid)">
-                                    {{ validationMessages.required('First Name') }}
+                                    {{ validationMessages.alphabeticChar('First Name') }}
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6  ">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Middle Name </label>
-                                <input (blur)="checkSpace('middleName', $event)" formControlName="middleName"
+                                <input formControlName="middleName"
                                     class="form-control" type="text" placeholder="Enter Middle Name" />
+                                <div class="text text-danger mt-1"
+                                    *ngIf="step2Form.controls['middleName'].touched && (step2Form.controls['middleName'].hasError('pattern') || step2Form.controls['middleName'].invalid)">
+                                    {{ validationMessages.alphabeticChar('Middle Name') }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6  ">
                             <div class="form-group">
                                 <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
                                     </span></label>
-                                <input (blur)="checkSpace('lastName', $event)" formControlName="lastName" class="form-control" type="text" placeholder="Enter Last Name" (keyup)="signatureText($event)"/>
+                                <input formControlName="lastName" class="form-control" type="text" placeholder="Enter Last Name" (keyup)="signatureText($event)"/>
                                 <div class="text text-danger mt-1" *ngIf="step2Form.controls['lastName'].touched && (step2Form.controls['lastName'].hasError('required') || step2Form.controls['lastName'].invalid)">
-                                    {{ validationMessages.required('Last Name') }}
+                                    {{ validationMessages.alphabeticChar('Last Name') }}
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Date of Birth </label>
+                                <label class="col-form-label fw-600">Date of Birth <span class="clr--DF0404 ms-1"> * </span></label>
                                 <div class="input-group">
                                     <mat-form-field class="w-100 am--datepicker">
                                         <input [max]="todayDate" formControlName="dob" readonly placeholder="MM-DD-YYYY" matInput [matDatepicker]="picker" (focus)="picker.open()">
@@ -122,7 +126,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group ">
-                                <label class="col-form-label fw-600">Gender</label>
+                                <label class="col-form-label fw-600">Gender <span class="clr--DF0404 ms-1"> * </span></label>
                                 <mat-radio-group formControlName="gender" aria-label="Select an option">
                                     <mat-radio-button value="Male" class="me-3">Male</mat-radio-button>
                                     <mat-radio-button value="Female">Female</mat-radio-button>
@@ -157,16 +161,14 @@
                         </div>
                         <div class="col-12 col-lg-6 col-md-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Cell Phone Number <span class="clr--DF0404 ms-1"> *
-                                </span></label>
+                                <label class="col-form-label fw-600">Cell Phone Number </label>
                                 <input [imask]="{mask: '(000) 000-0000'}" formControlName="cellPhoneNumber"
                                     class="form-control" placeholder="Enter Cell Phone Number" maxlength="14" />
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6">
                             <div class="form-group">
-                                <label class="col-form-label fw-600">Work Extension <span class="clr--DF0404 ms-1"> *
-                                </span></label>
+                                <label class="col-form-label fw-600">Work Extension </label>
                                 <input [imask]="{mask: '(000) 000-0000'}" formControlName="workExtensionNumber"
                                     class="form-control" placeholder="Enter Work Extension Number" maxlength="14" />
                             </div>
@@ -208,7 +210,7 @@
                                         placeholder="Enter First Name" />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['subscriberFirstName'].touched && (step2Form.controls['subscriberFirstName'].hasError('required') || step2Form.controls['subscriberFirstName'].invalid)">
-                                        {{ validationMessages.required('Subscriber First Name') }}
+                                        {{ validationMessages.alphabeticChar('Subscriber First Name') }}
                                     </div>
                                 </div>
                             </div>
@@ -217,6 +219,10 @@
                                     <label class="col-form-label fw-600">Middle Name </label>
                                     <input formControlName="subscriberMiddleName" class="form-control" type="text"
                                         placeholder="Enter Middle Name" />
+                                        <div class="text text-danger mt-1"
+                                        *ngIf="step2Form.controls['subscriberMiddleName'].touched && (step2Form.controls['subscriberMiddleName'].hasError('pattern') || step2Form.controls['subscriberMiddleName'].invalid)">
+                                        {{ validationMessages.alphabeticChar('Subscriber Middle Name') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6 col-md-4 col-xl-4">
@@ -228,7 +234,7 @@
                                         placeholder="Enter Last Name" />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['subscriberLastName'].touched && (step2Form.controls['subscriberLastName'].hasError('required') || step2Form.controls['subscriberLastName'].invalid)">
-                                        {{ validationMessages.required('Subscriber Last Name') }}
+                                        {{ validationMessages.alphabeticChar('Subscriber Last Name') }}
                                     </div>
                                 </div>
                             </div>
@@ -407,7 +413,7 @@
                                         placeholder="Enter First Name" />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['secondarySubscriberFirstName'].touched && (step2Form.controls['secondarySubscriberFirstName'].hasError('required') || step2Form.controls['secondarySubscriberFirstName'].invalid)">
-                                        {{ validationMessages.required('Subscriber First Name') }}
+                                        {{ validationMessages.alphabeticChar('Subscriber First Name') }}
                                     </div>
                                 </div>
                             </div>
@@ -416,6 +422,10 @@
                                     <label class="col-form-label fw-600">Middle Name </label>
                                     <input formControlName="secondarySubscriberMiddleName" class="form-control" type="text"
                                         placeholder="Enter Middle Name" />
+                                        <div class="text text-danger mt-1"
+                                        *ngIf="step2Form.controls['secondarySubscriberMiddleName'].touched && (step2Form.controls['secondarySubscriberMiddleName'].hasError('pattern') || step2Form.controls['secondarySubscriberMiddleName'].invalid)">
+                                        {{ validationMessages.alphabeticChar('Subscriber Middle Name') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6 col-md-4 col-xl-4">
@@ -427,7 +437,7 @@
                                         placeholder="Enter Last Name" />
                                     <div class="text text-danger mt-1"
                                         *ngIf="step2Form.controls['secondarySubscriberLastName'].touched && (step2Form.controls['secondarySubscriberLastName'].hasError('required') || step2Form.controls['secondarySubscriberLastName'].invalid)">
-                                        {{ validationMessages.required('Subscriber Last Name') }}
+                                        {{ validationMessages.alphabeticChar('Subscriber Last Name') }}
                                     </div>
                                 </div>
                             </div>
@@ -778,8 +788,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label fw-600">Is your injury related to <span class="clr--DF0404 ms-1"> *
-                                    </span></label>
+                                    <label class="col-form-label fw-600">Is your injury related to </label>
                                     <mat-radio-group formControlName="injuryRelelatedTo" aria-label="Select an option" (change)="onInjuryChange($event)">
                                         <mat-radio-button value="Worker's Compensation (WCOMP)" class="me-3">
                                             Worker's Compensation (WCOMP)</mat-radio-button>
@@ -1094,13 +1103,13 @@
                                     </div> -->
 
 
-                            <div class="col-12 d-flex  align-items-center justify-content-between mt-3" *ngIf="isMinorFlag && fullNameForSign">
+                            <div class="col-12 d-flex  align-items-center justify-content-between mt-3" *ngIf="isMinorFlag && fullNameForSign && minorCheckboxFlag">
                                 <div class="signature--box d-flex align-items-center justify-content-center">
                                     {{fullNameForSign}}
                                 </div>  
                             </div>
     
-                            <div class="col-12 d-flex" *ngIf="isMinorFlag">
+                            <div class="col-12 d-flex" *ngIf="isMinorFlag && minorCheckboxFlag">
                                 <p class="fw-600 font-16 clr--1F2F3E mt-2 mb-0">Patient/Guardian Signature (Guardians must
                                     sign for minors)</p>
                             </div>

@@ -96,12 +96,12 @@
                         <label class="col-form-label fw-600">
                             First Name <span class="clr--DF0404 ms-1"> *</span>
                         </label>
-                        <input (blur)="checkSpace('firstName', $event)" [readonly]="isReadonly"
+                        <input [readonly]="isReadonly"
                             formControlName="firstName" class="form-control" type="text"
                             placeholder="Enter First Name" />
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['firstName'].touched && (step1Form.controls['firstName'].hasError('required') || step1Form.controls['firstName'].invalid)">
-                            {{ validationMessages.required('First Name') }}
+                            {{ validationMessages.alphabeticChar('First Name') }}
                         </div>
                     </div>
                 </div>
@@ -111,17 +111,21 @@
                         <input [readonly]="isReadonly" (blur)="checkSpace('middleName', $event)"
                             formControlName="middleName" class="form-control" type="text"
                             placeholder="Enter Middle Name" />
+                        <div class="text text-danger mt-1"
+                            *ngIf="step1Form.controls['middleName'].touched && (step1Form.controls['middleName'].hasError('pattern') || step1Form.controls['middleName'].invalid)">
+                            {{ validationMessages.alphabeticChar('Middle Name') }}
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6 col-xl-4">
                     <div class="form-group">
                         <label class="col-form-label fw-600">Last Name <span class="clr--DF0404 ms-1"> *
                             </span></label>
-                        <input (blur)="checkSpace('lastName', $event)" formControlName="lastName"
+                        <input formControlName="lastName"
                             [readonly]="isReadonly" class="form-control" type="text" placeholder="Enter Last Name" />
                         <div class="text text-danger mt-1"
                             *ngIf="step1Form.controls['lastName'].touched && (step1Form.controls['lastName'].hasError('required') || step1Form.controls['lastName'].invalid)">
-                            {{ validationMessages.required('Last Name') }}
+                            {{ validationMessages.alphabeticChar('Last Name') }}
                         </div>
                     </div>
                 </div>

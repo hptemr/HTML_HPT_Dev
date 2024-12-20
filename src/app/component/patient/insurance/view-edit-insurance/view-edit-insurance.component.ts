@@ -15,6 +15,7 @@ import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { FilePreviewComponent}  from 'src/app/shared/component/file-preview-model/file-preview-model.component'
 import { MatCheckbox } from '@angular/material/checkbox';
+import { addDays} from 'date-fns';
 interface State {
   state: string;
   state_code: string;
@@ -62,6 +63,8 @@ export class ViewEditInsuranceComponent {
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   @ViewChild('MyCheckbox') myCheckbox!: MatCheckbox;
   @ViewChild('MinorCheckbox') minorCheckbox!: MatCheckbox;
+
+  insuranceEndDate: any = addDays(new Date(), 1)
 
   constructor(public dialog: MatDialog,private fb: FormBuilder,private navigationService: NavigationService,private router: Router, private route: ActivatedRoute,public authService:AuthService,public commonService:CommonService) {
     this.route.params.subscribe((params: Params) => {
@@ -125,9 +128,9 @@ export class ViewEditInsuranceComponent {
   loadForm() {
     this.insuranceForm = this.fb.group({
       insuranceName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      subscriberMiddleName: [''],
-      subscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      subscriberFirstName: ['', [Validators.pattern("^[A-Za-z]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      subscriberMiddleName: ['', [Validators.pattern("^[A-Za-z]*$")]],
+      subscriberLastName: ['', [Validators.pattern("^[A-Za-z]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       subscriberDob: ['',[Validators.required]],
       subscriberGender: ['',[Validators.required]],
       subscriberRelationWithPatient: ['', [Validators.required]],
@@ -136,12 +139,12 @@ export class ViewEditInsuranceComponent {
       primaryInsuranceIdPolicy: ['', [Validators.required]],
       primaryInsuranceGroup: ['', [Validators.required]],
       primaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      primaryInsuranceFromDate: [''],
-      primaryInsuranceToDate: [''],
+      primaryInsuranceFromDate: ['', [Validators.required]],
+      primaryInsuranceToDate: ['', [Validators.required]],
 
-      secondarySubscriberFirstName: ['',[Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
-      secondarySubscriberMiddleName: [''],
-      secondarySubscriberLastName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      secondarySubscriberFirstName: ['',[Validators.pattern("^[A-Za-z]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
+      secondarySubscriberMiddleName: ['', [Validators.pattern("^[A-Za-z]*$")]],
+      secondarySubscriberLastName: ['', [Validators.pattern("^[A-Za-z]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       secondarySubscriberDob: ['',[Validators.required]],
       secondarySubscriberRelationWithPatient: ['', [Validators.required]],
       secondarySubscriberOtherRelation: [''],
@@ -150,8 +153,8 @@ export class ViewEditInsuranceComponent {
       secondaryInsuranceIdPolicy: ['', [Validators.required]],
       secondaryInsuranceGroup: ['', [Validators.required]],
       secondaryInsuranceCustomerServicePh: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-      secondaryInsuranceFromDate: [''],
-      secondaryInsuranceToDate: [''],
+      secondaryInsuranceFromDate: ['', [Validators.required]],
+      secondaryInsuranceToDate: ['', [Validators.required]],
 
       thirdSubscriberFirstName: ['', [Validators.pattern("^[ A-Za-z ]*$"), Validators.minLength(1), Validators.maxLength(35)]],
       thirdSubscriberMiddleName: [''],
