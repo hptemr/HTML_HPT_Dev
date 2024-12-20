@@ -259,6 +259,14 @@ const finalizeNote = async (req, res) => {
         if(AssessmentResult){
           planResult = await PlanTemp.findOne({appointmentId: new ObjectId(req.body.appointmentId)});
           if(planResult){
+
+            // Call Tebra API - Create Encounter 
+            let noteType = ['initial_examination', 'progress_note','daily_note','discharge_note']
+            if(noteType.includes(req.body.soapNoteType)){
+               let encounterResult = await tebraController.createEncounter(req.body, subjectiveResult ).catch((_err)=> false)
+               if(!encounterResult) { return commonHelper.sendResponse(res, 'errorValidation', null, "Fail to finalized note on Tebra, Please try again.") }
+            }
+
             let updateParams = {
               status: 'Finalized',
               updatedAt: new Date()
@@ -282,11 +290,11 @@ const finalizeNote = async (req, res) => {
               await AssessmentModel.findOneAndUpdate(filterPlan, updatePlan, optionsUpdatePlan);
             }
 
-            // Call Tebra API - Create Encounter 
-            let noteType = ['initial_examination', 'progress_note','daily_note','discharge_note']
-            if(noteType.includes(req.body.soapNoteType)){
-              tebraController.createEncounter(req.body, subjectiveResult )
-            }
+            // // Call Tebra API - Create Encounter 
+            // let noteType = ['initial_examination', 'progress_note','daily_note','discharge_note']
+            // if(noteType.includes(req.body.soapNoteType)){
+            //   tebraController.createEncounter(req.body, subjectiveResult )
+            // }
 
             commonHelper.sendResponse(res, 'success', {}, "Note are finalized successfully");
           }else{

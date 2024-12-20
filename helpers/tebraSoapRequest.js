@@ -914,9 +914,8 @@ const  addBillingTeamPatientNewInsurance = (insuranceInfo, patientRes, tebraCase
                                             <sch:PracticeName>Sandbox</sch:PracticeName>
                                         </sch:Practice>
                                         <sch:RenderingProvider>
-                                            <sch:FirstName>Douglas</sch:FirstName>
+                                            <sch:FirstName>Doug</sch:FirstName>
                                             <sch:LastName>Martin</sch:LastName>
-                                            <sch:ProviderID>3243</sch:ProviderID>
                                         </sch:RenderingProvider>
                                         <sch:ServiceEndDate>${subjectiveData?.note_date ? tebraCommon.changeDateFormat(subjectiveData?.note_date):''}</sch:ServiceEndDate>
                                             ${finalData}
