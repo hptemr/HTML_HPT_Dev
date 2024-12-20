@@ -91,6 +91,7 @@ export class DailyNoteBillingComponent {
   cptDesc = ""
   cptCode = ""
   quantity = ""
+  charges = ""
   additionalCodes:any = []
   caseType = ""
   billingType = "CMS"
@@ -406,10 +407,11 @@ export class DailyNoteBillingComponent {
   addNewCode(){
     if(this.quantity!="" && this.cptCode!="" && this.cptDesc!=""){
       this.dmeCptList.push({name:this.cptDesc,value:"",quantity:this.quantity})
-      this.additionalCodes.push({cptDesc:this.cptDesc,cptCode:this.cptCode,quantity:this.quantity})
+      this.additionalCodes.push({cptDesc:this.cptDesc,cptCode:this.cptCode,quantity:this.quantity,charges:this.charges})
       this.cptCode = ""
       this.cptDesc = ""
       this.quantity = ""
+      this.charges = ""
     }
   }
 
