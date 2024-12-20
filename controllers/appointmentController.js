@@ -1288,6 +1288,9 @@ const addBillingDetails = async (req, res) => {
       const result = await AthorizationManagementModel.updateOne(filter, update, options);
     
       // Send authorization data on Tebra
+      authorizationManagementData['authorizationToDate'] = commonHelper.dateConvertToSave(authorizationManagementData?.authorizationToDate)
+      authorizationManagementData['authorizationFromDate'] = commonHelper.dateConvertToSave(authorizationManagementData?.authorizationFromDate)
+
       const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
       const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
       if(authorizationManagementData?.authorizationRequired == 'Yes' && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra ){

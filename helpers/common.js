@@ -111,6 +111,16 @@ const getDateMinutesOLd = (appointmentDate) =>{
   return formattedDate;
 }
 
+const dateConvertToSave = (convertDate) =>{
+  if(convertDate){
+    let convertDateNew = new Date(convertDate)
+    convertDateNew.setHours(0, 0, 0)
+    let setDate = moment(convertDateNew).format('YYYY-MM-DD HH:mm:ss');
+    return setDate
+  }
+  return convertDate;
+}
+
 module.exports = {
     sendResponse,
     generateToken,
@@ -118,5 +128,6 @@ module.exports = {
     encryptData,
     decryptData,
     dateModify,
-    getDateMinutes
+    getDateMinutes,
+    dateConvertToSave
 };
