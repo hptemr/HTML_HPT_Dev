@@ -347,7 +347,7 @@ const updatePatientIntakeFormPersonalInfo = (patientData, tebraDetails) => {
                                                         <sch:Insured>
                                                             <sch:DateofBirth>${insuranceInfo?.subscriberDob ? tebraCommon.changeDateFormat(insuranceInfo?.subscriberDob):''}</sch:DateofBirth>
                                                             <sch:FirstName>${insuranceInfo?.subscriberFirstName}</sch:FirstName>
-                                                            <sch:Gender>${insuranceInfo?.subscriberGender ? insuranceInfo?.subscriberGender:''}</sch:Gender>
+                                                            <sch:Gender>${insuranceInfo?.subscriberGender ? insuranceInfo?.subscriberGender:'Unknown'}</sch:Gender>
                                                             <sch:LastName>${insuranceInfo?.subscriberLastName}</sch:LastName>
                                                             <sch:MiddleName>${insuranceInfo?.subscriberMiddleName? insuranceInfo?.subscriberMiddleName:''}</sch:MiddleName>
                                                             <sch:PatientRelationshipToInsured>${insuranceInfo?.subscriberRelationWithPatient? insuranceInfo?.subscriberRelationWithPatient:''}</sch:PatientRelationshipToInsured>
@@ -820,7 +820,7 @@ const  addBillingTeamPatientNewInsurance = (insuranceInfo, patientRes, tebraCase
                                                         <sch:Insured>
                                                             <sch:DateofBirth>${insuranceInfo?.subscriberDob ? tebraCommon.changeDateFormat(insuranceInfo?.subscriberDob):''}</sch:DateofBirth>
                                                             <sch:FirstName>${insuranceInfo?.subscriberFirstName}</sch:FirstName>
-                                                            <sch:Gender>${insuranceInfo?.subscriberGender ? insuranceInfo?.subscriberGender:''}</sch:Gender>
+                                                            <sch:Gender>${insuranceInfo?.subscriberGender ? insuranceInfo?.subscriberGender:'Unknown'}</sch:Gender>
                                                             <sch:LastName>${insuranceInfo?.subscriberLastName}</sch:LastName>
                                                             <sch:MiddleName>${insuranceInfo?.subscriberMiddleName? insuranceInfo?.subscriberMiddleName:''}</sch:MiddleName>
                                                             <sch:PatientRelationshipToInsured>${insuranceInfo?.subscriberRelationWithPatient? insuranceInfo?.subscriberRelationWithPatient:''}</sch:PatientRelationshipToInsured>
