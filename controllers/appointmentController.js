@@ -1246,6 +1246,9 @@ const addBillingDetails = async (req, res) => {
 
         console.log("isInsurancePresentData>>>",isInsurancePresentData)
 
+        billingDetails['PI_effectiveDate'] = commonHelper.dateConvertToSave(billingDetails?.PI_effectiveDate)
+        billingDetails['PI_endDate'] = commonHelper.dateConvertToSave(billingDetails?.PI_endDate)
+
         if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra && isInsurancePresentData){
             tebraController.addBillingTeamPatientExistingInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData)
         }
