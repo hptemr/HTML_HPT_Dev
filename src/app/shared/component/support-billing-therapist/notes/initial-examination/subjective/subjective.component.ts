@@ -414,7 +414,6 @@ export class SubjectiveComponent implements OnInit {
           appointmentId:this.appointmentId,
           soap_note_type:'initial_examination'
         }        
-        console.log('reqVars>>>',reqVars)
         this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
           if (response.error) {
             if (response.message) {
