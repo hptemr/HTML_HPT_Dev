@@ -283,6 +283,7 @@ const createAppointment = async (req, res) => {
 
             let appointmentData = {
                 appointmentId: appointmentId,
+                caseId: caseId,
                 caseName: caseName,
                 caseType: caseType,
                 appointmentType: data.appointmentType,

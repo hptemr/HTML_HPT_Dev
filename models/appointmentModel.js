@@ -7,6 +7,10 @@ const appointmentSchema = new mongoose.Schema({
         ref: "appointment_requests",
         required: false
     },
+    caseId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "cases"
+    },
     patientId: {
         type: mongoose.Schema.ObjectId,
         ref: "patients"
@@ -69,14 +73,12 @@ const appointmentSchema = new mongoose.Schema({
         default: 'No'
     },
     reminderViaMobileYes: { type: String, default: "" },
-
     reminderViaEmail: {
         type: String,
         enum: ['Yes', 'No'],
         default: 'No'
     },
     reminderViaEmailYes: { type: String, default: "" },
-
     acceptInfo: {
         type: Object,  //keys will be ==> "fromPatientId , fromAdminId, acceptedDate, userRole"
         default: {}
@@ -115,9 +117,9 @@ const appointmentSchema = new mongoose.Schema({
     },
     notification_5hrs_sent: { type: Boolean, default: false },
     notification_24hrs_sent: { type: Boolean, default: false },
-
     appointmentUpdateInfo: { type: Array, default: [] },//keys will be ==> "fromPatientId , fromAdminId, updatedAt, userRole"
     intakeFormSubmit: { type: Boolean, default: false }, 
+    soap_notes:{ type: Array, default: [] },            //soapnoteId:String, addendumId:String,  note_type:String, //['initial_examination','daily_note','progress_note','discharge_note','case_note'],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })
