@@ -194,6 +194,7 @@ export class IntakeStep2Component {
     if(payViaInsuranceInfo?.attorney && payViaInsuranceInfo?.attorney!=undefined && payViaInsuranceInfo?.attorney=='yes'){
       attorne = 'Yes';
     }
+    
     this.step2Form = this.fb.group({
       payVia: [payViaSelected],
       relationWithPatient: [typeof payViaInsuranceInfo?.relationWithPatient !== 'undefined' ? payViaInsuranceInfo?.relationWithPatient : ''],
@@ -215,7 +216,7 @@ export class IntakeStep2Component {
       subscriberDob: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberDob : '', [Validators.required]],
       subscriberRelationWithPatient: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberRelationWithPatient : '', [Validators.required]],
       subscriberOtherRelation: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberOtherRelation : [Validators.required]],
-      subscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberGender : [Validators.required]],
+      subscriberGender: [payViaInsuranceInfo ? payViaInsuranceInfo?.subscriberGender : '', [Validators.required]],
       primaryInsuranceCompany: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceCompany : '', [Validators.pattern("^[^0-9]*$"), Validators.required, Validators.minLength(1), Validators.maxLength(35)]],
       primaryInsuranceIdPolicy: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceIdPolicy : '', [Validators.required]],
       primaryInsuranceGroup: [payViaInsuranceInfo ? payViaInsuranceInfo?.primaryInsuranceGroup : '', [Validators.required]],
