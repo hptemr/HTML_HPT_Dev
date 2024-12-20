@@ -140,14 +140,14 @@ const calculateQuantityCharges = (directCodes) =>{
 const calculateAdditionalCptCodeCharges = (directCodes) =>{
   const result = [];
   for (const value of directCodes) {
-    if (value?.quantity && value?.cptCode) {
+    if (value?.quantity && value?.cptCode && value?.charges) {
       result.push({
         codeName: '',
         units: value.quantity.toString(),
         minutes: '',
         cptCode: value.cptCode.toString(),
-        chargePerUnit: '10',
-        totalCharge:  '10'
+        chargePerUnit: value?.charges.toString(),
+        totalCharge:  value?.charges.toString()
       });
     }
   }
