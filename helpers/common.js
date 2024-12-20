@@ -116,6 +116,7 @@ const dateConvertToSave = (convertDate) =>{
     let convertDateNew = new Date(convertDate)
     convertDateNew.setHours(0, 0, 0)
     let setDate = moment(convertDateNew).format('YYYY-MM-DD HH:mm:ss');
+    setDate.add(1, 'days')
     return setDate
   }
   return convertDate;
