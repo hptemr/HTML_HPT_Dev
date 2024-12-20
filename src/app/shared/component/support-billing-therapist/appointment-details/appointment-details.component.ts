@@ -18,7 +18,6 @@ import { CommonService } from 'src/app/shared/services/helper/common.service';
 import { AlertComponent } from 'src/app/shared/comman/alert/alert.component';
 import { DatePipe } from '@angular/common';
 import { EFaxHistoryModalComponent } from './e-fax-history-modal/e-fax-history-modal.component';
-
 export interface PeriodicElement {
   soap_note_type: string;  
   note_date: string;   
@@ -89,7 +88,6 @@ export class AppointmentDetailsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.appointmentId = params['appointmentId'];
     })
-
   }
   
   ngOnInit() {
@@ -97,16 +95,9 @@ export class AppointmentDetailsComponent implements OnInit {
     this.userId = this.authService.getLoggedInInfo('_id')
     this.userRole = this.authService.getLoggedInInfo('role')
     //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
-
-    // if (this.userRole == 'support_team') {
-    //   this.isFormEditable = true
-    // } else {
-    //   this.appoitmentForm.disable()
-    // }
-
-    // this.getTherapistList()        
-     this.getAppointmentDetails()    
-     this.getAppointmentNotes()
+    
+    this.getAppointmentDetails()    
+    //this.getAppointmentNotes()
     this.todayDate = this.datePipe.transform(new Date(this.todayDate), 'MM/dd/yyyy')!;
 
     let adminRole = ['system_admin']
@@ -119,54 +110,6 @@ export class AppointmentDetailsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
  
-  getAppointmentNotesOLD(){
-    let reqVars = {
-      appointmentId:this.appointmentId,
-      caseType:this.caseType,
-      searchValue:this.searchValue,
-      status:this.status,
-      fromDate:this.fromDate,
-      toDate:this.toDate
-    }
-    this.dataLoading = true
-    this.authService.apiRequest('post', 'soapNote/getAppointmentNoteList', reqVars).subscribe(async response => {
-      this.dataLoading = false
-      this.dataSource.data = response.data
-      this.noteList = response.data
-      this.actionStarted = false
-      let dischargeFlag = false
-      if(this.noteList.length>0){
-        //console.log('noteList >>>',this.noteList)
-        this.noteList.forEach((item:any) => {
-          if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
-            this.dailyNoteFlag=false
-            this.progressNoteFlag=false
-            this.initialExaminationFlag=true
-          }
-          if(item.soap_note_type=='daily_note' && item.status=='Finalized'){
-            dischargeFlag=true
-          }
-          if(item.soap_note_type=='progress_note' && item.status=='Finalized'){
-            dischargeFlag=true
-          }
-
-          // if(item.soap_note_type=='discharge_note' && item.status=='Finalized'){
-          //   this.dischargeNoteFlag=true
-          // }
-        })
-        //console.log('dailyNoteFlag >>>>> ',this.dailyNoteFlag,'progressNoteFlag >>>>> ',this.progressNoteFlag,'dischargeFlag >>>>> ',dischargeFlag);
-        if(!this.dailyNoteFlag && !this.progressNoteFlag && dischargeFlag){
-          this.dischargeNoteFlag=false
-        }
-        // if(this.dischargeNoteFlag){
-        //   this.dailyNoteFlag=true
-        //   this.progressNoteFlag=true
-        //   this.initialExaminationFlag=false
-        // }
-      }
-    })
-  }
-
   getAppointmentNotes(){
       let reqVars = {
         app_query: { _id: this.appointmentId },
@@ -229,7 +172,6 @@ export class AppointmentDetailsComponent implements OnInit {
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;
-
           //this.appointmentService.addAppointment(this.appointmentId,this.appointmentData)
           //console.log('>>>>',this.-)
           // this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
@@ -238,12 +180,12 @@ export class AppointmentDetailsComponent implements OnInit {
           //   //this.appointmentService.changeAppointment(this.appointment)
           // }
           this.app_data[this.appointmentId] = this.appointmentData;
-          //this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)          
-          
+          //this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)                    
           //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
           
           this.patientId = response.data.appointmentData?.patientId._id
           this.caseName = response.data.appointmentData?.caseName 
+
           this.getBillingDetails(this.patientId, this.caseName)  
           this.getAuthManagementHistory(this.patientId, this.caseName)  
           this.getStCaseDetails(this.patientId, this.caseName)
@@ -253,7 +195,6 @@ export class AppointmentDetailsComponent implements OnInit {
       })
     }
   }
-
 
   systemFollowup() {
     const dialogRef = this.dialog.open(SystemFollowupModalComponent,{
@@ -543,9 +484,57 @@ export class AppointmentDetailsComponent implements OnInit {
       return element.addendums.length
     }else{
       return 0
-    }
-    
+    }    
   }
+
+  getAppointmentNotesOLD(){
+    let reqVars = {
+      appointmentId:this.appointmentId,
+      caseType:this.caseType,
+      searchValue:this.searchValue,
+      status:this.status,
+      fromDate:this.fromDate,
+      toDate:this.toDate
+    }
+    this.dataLoading = true
+    this.authService.apiRequest('post', 'soapNote/getAppointmentNoteList', reqVars).subscribe(async response => {
+      this.dataLoading = false
+      this.dataSource.data = response.data
+      this.noteList = response.data
+      this.actionStarted = false
+      let dischargeFlag = false
+      if(this.noteList.length>0){
+        //console.log('noteList >>>',this.noteList)
+        this.noteList.forEach((item:any) => {
+          if(item.soap_note_type=='initial_examination' && item.status=='Finalized'){
+            this.dailyNoteFlag=false
+            this.progressNoteFlag=false
+            this.initialExaminationFlag=true
+          }
+          if(item.soap_note_type=='daily_note' && item.status=='Finalized'){
+            dischargeFlag=true
+          }
+          if(item.soap_note_type=='progress_note' && item.status=='Finalized'){
+            dischargeFlag=true
+          }
+
+          // if(item.soap_note_type=='discharge_note' && item.status=='Finalized'){
+          //   this.dischargeNoteFlag=true
+          // }
+        })
+        //console.log('dailyNoteFlag >>>>> ',this.dailyNoteFlag,'progressNoteFlag >>>>> ',this.progressNoteFlag,'dischargeFlag >>>>> ',dischargeFlag);
+        if(!this.dailyNoteFlag && !this.progressNoteFlag && dischargeFlag){
+          this.dischargeNoteFlag=false
+        }
+        // if(this.dischargeNoteFlag){
+        //   this.dailyNoteFlag=true
+        //   this.progressNoteFlag=true
+        //   this.initialExaminationFlag=false
+        // }
+      }
+    })
+  }
+
 
 
 }

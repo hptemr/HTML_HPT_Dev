@@ -42,7 +42,7 @@ export class SubjectiveComponent implements OnInit {
   todayDate = new Date();
   appointment: any = null
   submitted:boolean=false;
-  subjectiveId: string = '';
+  soapnoteId: string = '';
   cancerSelf:string = '';
   cancerSelfYes:string = '';
   cancerFamilyYes:string = '';
@@ -141,6 +141,7 @@ export class SubjectiveComponent implements OnInit {
   symptomsSame:string = '';
   rateYourPain:number = 0;
   initialName:string = '';
+  caseId:string = '';
   selectedPartsFront: string[] = [];
   selectedPartsBack: string[] = [];
   bodyPartFront:any=[]
@@ -184,21 +185,25 @@ export class SubjectiveComponent implements OnInit {
         this.subjectiveForm.disable()
         this.icd_data = []
     }
-    this.getSubjectiveRecord()
+     this.getSubjectiveRecord()
   }
 
   getSubjectiveRecord(){
     let reqVars = {
-      query: {appointmentId:this.appointmentId,soap_note_type:'initial_examination',is_deleted:false},  
+      query: {appointmentId:this.appointmentId,note_type:'initial_examination',is_deleted:false},  
       soap_note_type:'initial_examination',addendumId:this.addendumId
     }
-    this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {      
+    this.authService.apiRequest('post', 'soapNote/getSubjectiveData', reqVars).subscribe(async response => {  
+      if(response.data && response.data.appointmentDatesList){
+        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'initial_examination')     
+      }   
+
       if(response.data && response.data.subjectiveData){
         let subjectiveData = response.data.subjectiveData; 
-        if(subjectiveData.appointmentId==this.appointmentId)this.subjectiveId = subjectiveData._id;
+        if(subjectiveData.appointmentId==this.appointmentId)this.soapnoteId = subjectiveData._id;
         
         if(this.addendumId!=undefined){
-          this.subjectiveId = subjectiveData.addendumId;
+          this.soapnoteId = subjectiveData.addendumId;
         }
         if(subjectiveData.note_date){          
           this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
@@ -221,11 +226,7 @@ export class SubjectiveComponent implements OnInit {
           this.icdCodeList.push(item);
         })
         this.selectedCode = this.icdCodeList.length>0 ? true : false;
-      }
-
-      if(response.data && response.data.appointmentDatesList){
-        this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'initial_examination')     
-      }           
+      }        
 
       if(response.data && response.data.appointmentData){
           this.appointment_data = response.data.appointmentData;
@@ -234,6 +235,7 @@ export class SubjectiveComponent implements OnInit {
             this.initialName = this.appointment_data?.patientId?.firstName.charAt(0)+''+this.appointment_data?.patientId?.lastName.charAt(0)
           }
           
+          this.caseId = this.appointment_data?.caseId;
           this.bodyPartFront = this.appointment_data?.bodyPartFront;
           if(this.appointment_data?.adminBodyPartFront){
             this.bodyPartFront = this.appointment_data?.adminBodyPartFront;
@@ -399,19 +401,20 @@ export class SubjectiveComponent implements OnInit {
           updatedAt:new Date()
         });
 
-        if(this.subjectiveId){
+        if(this.soapnoteId){
           Object.assign(formData, {updateInfo:updateInfo})
         }else{
-          Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,soap_note_type:'initial_examination',status:'Draft',createdBy:this.userId})
+          Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,caseId:this.caseId,soap_note_type:'initial_examination',status:'Draft',createdBy:this.userId})
         }        
         let reqVars = {
           userId: this.userId,
           data: formData,
-          subjectiveId:this.subjectiveId,
+          soapnoteId:this.soapnoteId,
           addendumId:this.addendumId,
           appointmentId:this.appointmentId,
           soap_note_type:'initial_examination'
         }        
+        console.log('reqVars>>>',reqVars)
         this.authService.apiRequest('post', 'soapNote/submitSubjective', reqVars).subscribe(async (response) => {    
           if (response.error) {
             if (response.message) {
