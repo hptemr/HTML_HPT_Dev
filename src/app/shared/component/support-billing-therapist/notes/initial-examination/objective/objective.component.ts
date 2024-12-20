@@ -93,9 +93,8 @@ export class ObjectiveComponent {
   validationMessages = validationMessages; 
   chaperoneFlag:boolean=false;
   isSubmit:boolean=false;
-  appointment_dates:any=[];
   appointment_data:any=[];
-  objectiveId:string='';
+  soapnoteId:string='';
   surgery_date:any=''
   surgery_type:string=''
   mctsib_total: number = 0;
@@ -265,9 +264,12 @@ export class ObjectiveComponent {
         this.readOnly = true
       }
       if(response.data){
+      
         objectiveData = response.data.objectiveData;
         subjectiveData = response.data.subjectiveData;
-        if(objectiveData && objectiveData.appointmentId==this.appointmentId)this.objectiveId = objectiveData?._id;        
+
+        if(objectiveData && objectiveData.appointmentId==this.appointmentId)this.soapnoteId = objectiveData?._id;      
+
         this.land_exercise_list = objectiveData?.land_exercise;
         this.aquatic_exercise_list = objectiveData?.aquatic_exercise;        
         const groupedExercisesNames:any = []; const groupedExercises:any = {};
@@ -380,15 +382,12 @@ export class ObjectiveComponent {
             this.aquatic_exercise_grouped_list = Object.entries(aquaticReorderedArray); 
           }
 
-          if(response.data && response.data.appointmentDatesList){
-            this.appointment_dates = response.data.appointmentDatesList            
-          }
     
           if(response.data && response.data.appointmentData){
             this.appointment_data = response.data.appointmentData    
           }       
           if(from==''){
-            this.loadForm(objectiveData,subjectiveData,this.appointment_data);  
+           //8 this.loadForm(objectiveData,subjectiveData,this.appointment_data);  
           }          
       }
           this.commonService.hideLoader();
@@ -1227,6 +1226,7 @@ export class ObjectiveComponent {
   }
 
   async objectiveSubmit(formData: any){
+    
     if (this.objectiveForm.invalid){      
       this.scrollToTop();
       this.commonService.moveScrollToTop()
@@ -1247,17 +1247,25 @@ export class ObjectiveComponent {
           soap_note_type:"initial_examination",
           createdBy: this.userId,
         })
+
+        let updateInfo = [];
+        updateInfo.push({
+          fromAdminId:this.userId,
+          userRole:this.userRole,
+          updatedAt:new Date()
+        });
+
+        Object.assign(formData, {updateInfo:updateInfo})
+        
         let reqVars = {
-          query: {
-            appointmentId: this.appointmentId,soap_note_type:"initial_examination"
-          },
-          type:'objective',
           userId: this.userId,
           data: formData,
+          soapnoteId:this.soapnoteId,
           addendumId:this.addendumId,
           appointmentId:this.appointmentId,
           soap_note_type:'initial_examination'
         }
+        console.log('reqVars >>>>>>>>',reqVars);
         await this.authService.apiRequest('post', 'soapNote/submitObjective', reqVars).subscribe(async (response) => {
           let assessmentData = response.data
           if (response.error) {

@@ -172,25 +172,17 @@ export class AppointmentDetailsComponent implements OnInit {
           this.statusFlag = this.appointmentData.status.charAt(0).toLowerCase() + this.appointmentData.status.slice(1)
           this.profileImage = s3Details.awsS3Url + s3Details.userProfileFolderPath + this.appointmentData.patientId.profileImage
           this.appointment_flag = true;
-          //this.appointmentService.addAppointment(this.appointmentId,this.appointmentData)
-          //console.log('>>>>',this.-)
-          // this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
-          // if(this.appointment){
-          //   //this.appointment.push(this.appointmentData)
-          //   //this.appointmentService.changeAppointment(this.appointment)
-          // }
+
           this.app_data[this.appointmentId] = this.appointmentData;
-          //this.appointmentService.addAppointmentData(this.appointmentId,this.appointmentData)                    
-          //this.appointmentService.currentAppointment.subscribe(appointment => this.appointment = appointment)
           
           this.patientId = response.data.appointmentData?.patientId._id
           this.caseName = response.data.appointmentData?.caseName 
 
-          this.getBillingDetails(this.patientId, this.caseName)  
-          this.getAuthManagementHistory(this.patientId, this.caseName)  
-          this.getStCaseDetails(this.patientId, this.caseName)
-          this.getPatientCheckInCount(this.patientId, this.caseName)
-          this.getInitialExamination()
+          //8 this.getBillingDetails(this.patientId, this.caseName)  
+          //8 this.getAuthManagementHistory(this.patientId, this.caseName)  
+          //8 this.getStCaseDetails(this.patientId, this.caseName)
+          //8 this.getPatientCheckInCount(this.patientId, this.caseName)
+          //8 this.getInitialExamination()
         }
       })
     }

@@ -198,35 +198,35 @@ export class SubjectiveComponent implements OnInit {
         this.appointment_dates = this.commonService.checkappointmentDatesList(response.data.appointmentDatesList,'initial_examination')     
       }   
 
-      if(response.data && response.data.subjectiveData){
-        let subjectiveData = response.data.subjectiveData; 
-        if(subjectiveData.appointmentId==this.appointmentId)this.soapnoteId = subjectiveData._id;
+      // if(response.data && response.data.subjectiveData){
+      //   let subjectiveData = response.data.subjectiveData; 
+      //   if(subjectiveData.appointmentId==this.appointmentId)this.soapnoteId = subjectiveData._id;
         
-        if(this.addendumId!=undefined){
-          this.soapnoteId = subjectiveData.addendumId;
-        }
-        if(subjectiveData.note_date){          
-          this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
-        }        
-        this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
-        this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
-        this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
-        this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note); 
+      //   if(this.addendumId!=undefined){
+      //     this.soapnoteId = subjectiveData.addendumId;
+      //   }
+      //   if(subjectiveData.note_date){          
+      //     this.subjectiveForm.controls['note_date'].setValue(subjectiveData.note_date);
+      //   }        
+      //   this.subjectiveForm.controls['treatment_side'].setValue(subjectiveData.treatment_side);
+      //   this.subjectiveForm.controls['surgery_date'].setValue(subjectiveData.surgery_date);
+      //   this.subjectiveForm.controls['surgery_type'].setValue(subjectiveData.surgery_type);
+      //   this.subjectiveForm.controls['subjective_note'].setValue(subjectiveData.subjective_note); 
         
-        subjectiveData.diagnosis_code.forEach((element: any,index:number) => {
-          let item = {'code':element.code,'name':element.name};      
-          if(this.icdCodeList.length==0){
-            const ctrls = this.subjectiveForm.get('diagnosis_code') as FormArray;
-            ctrls.removeAt(0)  
-          }      
-          this.diagnosisCodeInfo.push(this.fb.group({
-            code: [element.code, Validators.required],
-            name: [element.name, Validators.required],
-          }));
-          this.icdCodeList.push(item);
-        })
-        this.selectedCode = this.icdCodeList.length>0 ? true : false;
-      }        
+      //   subjectiveData.diagnosis_code.forEach((element: any,index:number) => {
+      //     let item = {'code':element.code,'name':element.name};      
+      //     if(this.icdCodeList.length==0){
+      //       const ctrls = this.subjectiveForm.get('diagnosis_code') as FormArray;
+      //       ctrls.removeAt(0)  
+      //     }      
+      //     this.diagnosisCodeInfo.push(this.fb.group({
+      //       code: [element.code, Validators.required],
+      //       name: [element.name, Validators.required],
+      //     }));
+      //     this.icdCodeList.push(item);
+      //   })
+      //   this.selectedCode = this.icdCodeList.length>0 ? true : false;
+      // }        
 
       if(response.data && response.data.appointmentData){
           this.appointment_data = response.data.appointmentData;
@@ -404,7 +404,7 @@ export class SubjectiveComponent implements OnInit {
         if(this.soapnoteId){
           Object.assign(formData, {updateInfo:updateInfo})
         }else{
-          Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,caseId:this.caseId,soap_note_type:'initial_examination',status:'Draft',createdBy:this.userId})
+          Object.assign(formData, {updateInfo:updateInfo,appointmentId:this.appointmentId,caseId:this.caseId,soap_note_type:'initial_examination',status:'Draft'})//,createdBy:this.userId
         }        
         let reqVars = {
           userId: this.userId,
