@@ -57,23 +57,23 @@ const submitSubjective = async (req, res) => {
         // await sopeNoteModel.findOneAndUpdate(filterPlan, data, optionsUpdatePlan);
         message = soapMessage.subjectiveUpdated;
     } else {
-      let soapnoteId = new ObjectId('676530923e87ff46efaf6eda');
-      // const updateAppointmentData = {           
-      //   $set: {
-      //     soap_notes: {
-      //       soapnoteId:new ObjectId(soapnoteId),
-      //       note_type:soap_note_type,
-      //       status: 'Draft',
-      //       created_by:new ObjectId(userId),
-      //       created_at:new Date(),
-      //       updatedAt:new Date()
-      //     }
-      //   }
-      // };
-      // const options = { returnOriginal: false };
-      // console.log('Update Appointment Data >>>',updateAppointmentData)
-      // await Appointment.findOneAndUpdate({ _id: appointmentId }, updateAppointmentData,options);
+      let soapnoteId = new ObjectId();
 
+      const updateAppointmentData = {           
+        $set: {
+          soap_notes: {
+            soapnoteId:new ObjectId(soapnoteId),
+            note_type:soap_note_type,
+            status: 'Draft',
+            created_by:new ObjectId(userId),
+            created_at:new Date(),
+            updatedAt:new Date()
+          }
+        }
+      };
+      const options = { returnOriginal: false };
+      console.log('Update Appointment Data >>>',updateAppointmentData)
+      await Appointment.findOneAndUpdate({ _id: appointmentId }, updateAppointmentData,options);
 
       let insert_data = {};
       insert_data.appointmentId = appointmentId;
@@ -106,7 +106,7 @@ const submitSubjective = async (req, res) => {
 
 async function setAssessment(req,soapnoteId) {
   const { data } = req.body;
-     let appointmentData = await Appointment.findOne({ _id: data.appointmentId }, { patientId: 1, appointmentDate: 1 }).populate('patientId', { firstName: 1, lastName: 1 })
+  let appointmentData = await Appointment.findOne({ _id: data.appointmentId }, { patientId: 1, appointmentDate: 1 }).populate('patientId', { firstName: 1, lastName: 1 })
    let assessment_icd = []
    let patientName = appointmentData.patientId.firstName + " " + appointmentData.patientId.lastName
    let todayDate = new Date(appointmentData.appointmentDate).toLocaleString('en-US', { year: "numeric", month: "2-digit", day: "2-digit" });
@@ -151,6 +151,130 @@ async function setAssessment(req,soapnoteId) {
 
    }
 }
+
+const getObjectiveData = async (req, res) => {
+  try {
+    const { query } = req.body;
+    let appointmentData = await Appointment.findOne({ _id: query.appointmentId }).populate('patientId', { firstName: 1, lastName: 1,patientId:1 })
+
+    let objectiveData = [];//await ObjectiveModel.findOne({ ...query, status: "Draft" });
+    let subjectiveData = [];//await subjectiveTemp.findOne({ ...query, status: "Draft" });
+   
+    let returnData = { objectiveData: objectiveData, subjectiveData: subjectiveData, appointmentData: appointmentData }
+    commonHelper.sendResponse(res, 'success', returnData);
+  } catch (error) {
+    console.log('objectiveData >>> ',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
+const submitObjective = async (req, res) => {
+  try {
+    const { data, userId, soapnoteId, addendumId, appointmentId, soap_note_type } = req.body;
+    let message = '';
+    if (soapnoteId) {   
+
+    }else{
+    
+      let soapnoteId = new ObjectId();
+      let sope_data = await sopeNoteModel.findOne({ appointmentId:appointmentId, soap_note_type:soap_note_type });
+      let insert_data = {};
+      if(sope_data && sope_data.notes){
+        soapnoteId = sope_data.soapnoteId;
+      }else{
+        insert_data.appointmentId = appointmentId;
+        insert_data.soapnoteId = soapnoteId;
+        insert_data.soap_note_type = soap_note_type;
+        insert_data.status = 'Draft';
+      }
+      console.log('soapnoteId >>>>>>>',soapnoteId); 
+      let filterPlan = { soapnoteId:soapnoteId,appointmentId: appointmentId, soap_note_type:soap_note_type};
+
+      insert_data = {
+        note_type:'objective',
+        protocols:data.protocols,
+        precautions :data.precautions,
+        patient_consent:data.patient_consent,
+        chaperone: data.chaperone,
+        observation:data.observation,
+        range_of_motion :data.range_of_motion,
+        patient_consent:data.strength,
+        neurological :data.neurological,
+        special_test:data.special_test,
+        palpation:data.palpation,
+        outcome_measures:data.outcome_measures,        
+        land_exercise:data.land_exercise,
+        aquatic_exercise :data.aquatic_exercise,
+        slp:data.slp,
+        ot:data.ot,
+        treatment_provided:data.treatment_provided,
+        updateInfo:data.updateInfo
+      }
+      let objectiveData = await sopeNoteModel.findOne({ soapnoteId:soapnoteId, appointmentId:appointmentId, soap_note_type:soap_note_type});
+
+      objectiveData = objectiveData.notes.filter(task => task.note_type === 'objective');
+      console.log('objective data filter >>>',objectiveData)
+      if(objectiveData.length==0){
+       let update = { $push: { notes: insert_data } };
+       console.log('update >>>',update)
+       await sopeNoteModel.updateOne(filterPlan, update);
+       message = soapMessage.addObjective;
+      }else{
+        message = soapMessage.updateObjective;
+      }
+    }
+
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log('objectiveData >>> ',error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+
+const submitObjectiveExercise = async (req, res) => {
+  try {
+    const { data, query, exerciseType,addendumId, userId, type } = req.body;
+    let objective_exercise_data = await ObjectiveModel.findOne(query);
+
+    let message = '';
+    if (objective_exercise_data) {
+      if(addendumId!=undefined){
+      
+      }else{
+        if (exerciseType == 'Land Flowsheet') {
+          objective_exercise_data.land_exercise.push(data);
+        } else if (exerciseType == 'Aquatic Flowsheet') {
+          objective_exercise_data.aquatic_exercise.push(data);
+        }
+        await ObjectiveModel.findOneAndUpdate(query, objective_exercise_data);
+      }
+   
+      message = soapMessage.upadteExercise;
+    } else {
+      let insert_data = {
+        appointmentId: query.appointmentId,
+        soap_note_type: data.soap_note_type,
+        createdBy: data.createdBy,
+      }
+
+      if (exerciseType == 'Land Flowsheet') {
+        Object.assign(insert_data, { land_exercise: data })
+      } else if (exerciseType == 'Aquatic Flowsheet') {
+        Object.assign(insert_data, { aquatic_exercise: data })
+      }
+
+      await ObjectiveModel.create(insert_data)
+      message = soapMessage.addExercise;
+    }
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log(' ***************** ', error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
 
 async function subjectiveAppointmentsList(queryMatch,soap_note_type) {
    //console.log('queryMatch >>>>',queryMatch)
@@ -213,6 +337,10 @@ async function appointmentsList(casename, patientId) {
 module.exports = {
   getSubjectiveData,
   submitSubjective,
+  getObjectiveData,
+  submitObjective,
+  submitObjectiveExercise,
+
   // createPlanNote,
   // getPlanNote,
   // updatePlanNote,
@@ -220,9 +348,8 @@ module.exports = {
   // getBillingNote,
   // updateBillingNote,
   // finalizeNote,
-  // getObjectiveData,
-  // submitObjective,
-  // submitObjectiveExercise,
+  // 
+
   // submitAssessment,
   // getAssessment,
   // getAppointmentNoteList,
