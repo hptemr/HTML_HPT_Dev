@@ -289,6 +289,9 @@ const updatePatientIntakeFormPersonalInfo = async (patientData, patient) => {
 
 const addPatientInsuranceIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, emergencyContact) => {
     try {
+        insuranceInfo['primaryInsuranceToDate'] = commonHelper.dateConvertToSave(insuranceInfo?.primaryInsuranceToDate)
+        insuranceInfo['primaryInsuranceFromDate'] = commonHelper.dateConvertToSave(insuranceInfo?.primaryInsuranceFromDate)
+
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
         const soapRequest = tebraSoapRequest.addPatientInsuranceIntakeForm(insuranceInfo, patient, tebraCaseDetails, emergencyContact)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
@@ -525,6 +528,9 @@ const createCase = async (patientRes, caseName, caseId, providerData) => {
 
 const updateSupportTeamIntakeForm = async (insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, emergencyContact) => {
     try {
+        insuranceInfo['primaryInsuranceToDate'] = commonHelper.dateConvertToSave(insuranceInfo?.primaryInsuranceToDate)
+        insuranceInfo['primaryInsuranceFromDate'] = commonHelper.dateConvertToSave(insuranceInfo?.primaryInsuranceFromDate)
+
         const soapAction = 'http://www.kareo.com/api/schemas/KareoServices/UpdatePatient'
         const soapRequest = tebraSoapRequest.updateSupportTeamIntakeForm(insuranceInfo, patient, tebraCaseDetails, tebraInsuranceData, emergencyContact)
         const requestHeaders =  tebraCommon.requestHeader(soapAction)
