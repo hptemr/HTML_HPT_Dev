@@ -1220,25 +1220,15 @@ const addBillingDetails = async (req, res) => {
       const { billingDetails, patientId, caseName, adminPayViaInsuranceInfo } = req.body
       const { PI_billingType}  = billingDetails
 
-      const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
-      const update = { $set: billingDetails }; // The data to update
-      const options = { upsert: true }; // Create a new document if no match is found
-      const result = await BillingDetailsModel.updateOne(filter, update, options);
+    // Add billing details to Tebra
+        const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
+        const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
+        let isInsurancePresentData = false  
+        let insurancePresentData = caseFound?.tebraInsuranceData
+        let primaryInsurance = billingDetails?.primaryInsurance
 
-      // Billing Type Update in case table
-      const filterCaseData = { patientId: patientId, caseName: caseName };
-      const updateCaseData = { $set: { billingType : PI_billingType } };
-      await Case.updateOne(filterCaseData, updateCaseData);
-
-      // Add billing details to Tebra
-      const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
-      const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
-      let isInsurancePresentData = false  
-      let insurancePresentData = caseFound?.tebraInsuranceData
-      let primaryInsurance = billingDetails?.primaryInsurance
-
-      console.log("insurancePresentData>>>",insurancePresentData)
-      console.log("primaryInsurance>>>",primaryInsurance)
+        console.log("insurancePresentData>>>",insurancePresentData)
+        console.log("primaryInsurance>>>",primaryInsurance)
 
         if(insurancePresentData && insurancePresentData?.InsurancePolicyCompanyID && insurancePresentData?.InsurancePolicyID && insurancePresentData?.InsurancePolicyPlanID && insurancePresentData?.InsuranceName == primaryInsurance){
             isInsurancePresentData = true
@@ -1250,17 +1240,52 @@ const addBillingDetails = async (req, res) => {
         billingDetails['PI_endDate'] = commonHelper.dateConvertToSave(billingDetails?.PI_endDate)
 
         if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra && isInsurancePresentData){
-            tebraController.addBillingTeamPatientExistingInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData)
+            let addExistingInsuranceDataOnTebra = await tebraController.addBillingTeamPatientExistingInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData).catch((_err)=> false)
+            if(!addExistingInsuranceDataOnTebra) { return commonHelper.sendResponse(res, 'error', null, "Fail to add billing details on Tebra, Please try again.") }
         }
 
         if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra && !isInsurancePresentData){
-            tebraController.addBillingTeamPatientNewInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData)
+            let addNewInsuranceDataOnTebra = await tebraController.addBillingTeamPatientNewInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData).catch((_err)=> false)
+            if(!addNewInsuranceDataOnTebra) { return commonHelper.sendResponse(res, 'error', null, "Fail to add billing details on Tebra, Please try again.") }
         }
 
+    // After suucessfull add deta on Tebra, Add billing details in HPT Database   
+      const filter = { patientId: patientId, caseName: caseName }; // The condition to match the document
+      const update = { $set: billingDetails }; // The data to update
+      const options = { upsert: true }; // Create a new document if no match is found
+      const result = await BillingDetailsModel.updateOne(filter, update, options);
 
-    //   if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra ){
-    //     tebraController.addBillingTeamPatientInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo)
-    //   }
+      // Billing Type Update in case table
+      const filterCaseData = { patientId: patientId, caseName: caseName };
+      const updateCaseData = { $set: { billingType : PI_billingType } };
+      await Case.updateOne(filterCaseData, updateCaseData);
+
+    //   // Add billing details to Tebra
+    //   const caseFound = await Case.findOne({ caseName: caseName, patientId: patientId }).lean();
+    //   const patientData = await Patient.findOne({ _id: patientId }, { patientOnTebra: 1, tebraDetails: 1}).lean();
+    //   let isInsurancePresentData = false  
+    //   let insurancePresentData = caseFound?.tebraInsuranceData
+    //   let primaryInsurance = billingDetails?.primaryInsurance
+
+    //   console.log("insurancePresentData>>>",insurancePresentData)
+    //   console.log("primaryInsurance>>>",primaryInsurance)
+
+    //     if(insurancePresentData && insurancePresentData?.InsurancePolicyCompanyID && insurancePresentData?.InsurancePolicyID && insurancePresentData?.InsurancePolicyPlanID && insurancePresentData?.InsuranceName == primaryInsurance){
+    //         isInsurancePresentData = true
+    //     }
+
+    //     console.log("isInsurancePresentData>>>",isInsurancePresentData)
+
+    //     billingDetails['PI_effectiveDate'] = commonHelper.dateConvertToSave(billingDetails?.PI_effectiveDate)
+    //     billingDetails['PI_endDate'] = commonHelper.dateConvertToSave(billingDetails?.PI_endDate)
+
+    //     if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra && isInsurancePresentData){
+    //         tebraController.addBillingTeamPatientExistingInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData)
+    //     }
+
+    //     if(billingDetails && patientData?.patientOnTebra && caseFound?.caseCreatedOnTebra && !isInsurancePresentData){
+    //         tebraController.addBillingTeamPatientNewInsurance(billingDetails, patientData, caseFound?.tebraDetails, caseFound?.tebraInsuranceData, adminPayViaInsuranceInfo, isInsurancePresentData)
+    //     }
       
       commonHelper.sendResponse(res, 'success', null, billingMessage.addDetails);
     } catch (error) {
