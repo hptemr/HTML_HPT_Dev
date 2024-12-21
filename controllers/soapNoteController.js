@@ -143,12 +143,10 @@ async function setAssessment(req,soapnoteId) {
           $set: {"notes.$": assessmentInsert}
         };
 
-
        let update = { $push: { notes: assessmentInsert } };
        console.log('update1 >>>',update)
-      await sopeNoteModel.updateOne(filterPlan, update);
+       await sopeNoteModel.updateOne(filterPlan, update);
       }
-
    }
 }
 
@@ -167,7 +165,6 @@ const getObjectiveData = async (req, res) => {
     commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
   }
 }
-
 
 const submitObjective = async (req, res) => {
   try {
@@ -234,6 +231,77 @@ const submitObjective = async (req, res) => {
 
 
 const submitObjectiveExercise = async (req, res) => {
+  try {
+    const { data, query, exerciseType, addendumId, userId, type } = req.body;
+    let message = '';
+   // console.log(userId,'.......data>>>',data)
+    let filter = { _id:query.appointmentId, "soap_notes": { $elemMatch: { "note_type": query.soap_note_type,  "status": "Draft" } } }
+    let appointment_data = await Appointment.findOne(filter)
+    if(appointment_data){
+      let sope_data = appointment_data.soap_notes.filter(item => (item.note_type === query.soap_note_type && item.status=='Draft'));
+      if(sope_data.length>0){
+         sope_data = sope_data[0];
+          let objectiveData = await sopeNoteModel.findOne({ soapnoteId:sope_data.soapnoteId, appointmentId:query.appointmentId, soap_note_type:query.soap_note_type});
+          objectiveData = objectiveData.notes.filter(task => task.note_type === 'objective');
+
+          if(objectiveData.length>0){
+            objectiveData = objectiveData[0];
+          
+            let exercise_type = "";
+            let update_data = {};
+            
+            let exercise_data = [];
+
+            if (exerciseType == 'Land Flowsheet'){
+              exercise_type = "notes.$.land_exercise";
+              if(objectiveData.land_exercise) exercise_data = objectiveData.land_exercise
+            }
+
+            if (exerciseType == 'Aquatic Flowsheet') {
+              exercise_type = "notes.$.aquatic_exercise";
+              if(objectiveData.aquatic_exercise) exercise_data = objectiveData.aquatic_exercise
+            }
+            if(exercise_data.length==0){
+              update_data = {
+                $set: {
+                  [exercise_type] : [data]
+                }
+              }
+            }else{
+              update_data = { $push: { [exercise_type]: data }};
+            }
+            let filter = { soapnoteId:sope_data.soapnoteId,appointmentId:query.appointmentId,soap_note_type:query.soap_note_type,"notes.note_type":"objective"};
+            await sopeNoteModel.updateOne(
+              filter,
+              update_data
+            );
+          }else{
+              let exercise_type = "land_exercise";
+              if (exerciseType == 'Aquatic Flowsheet') {exercise_type = "aquatic_exercise";}
+              await sopeNoteModel.updateOne(
+                { soapnoteId:sope_data.soapnoteId, appointmentId:query.appointmentId, soap_note_type:query.soap_note_type,"notes.note_type": { $ne: "objective" }},
+                {
+                    $push: {
+                        "notes": {
+                            "note_type": "objective",
+                            [exercise_type] : [data]
+                        }
+                    }
+                }
+            );
+            
+          }
+      }
+    }
+
+    commonHelper.sendResponse(res, 'success', {}, message);
+  } catch (error) {
+    console.log(' ***************** ', error)
+    commonHelper.sendResponse(res, 'error', null, commonMessage.wentWrong);
+  }
+}
+
+const submitObjectiveExerciseOld = async (req, res) => {
   try {
     const { data, query, exerciseType,addendumId, userId, type } = req.body;
     let objective_exercise_data = await ObjectiveModel.findOne(query);
