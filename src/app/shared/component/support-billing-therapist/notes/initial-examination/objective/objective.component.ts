@@ -99,6 +99,7 @@ export class ObjectiveComponent {
   surgery_type:string=''
   mctsib_total: number = 0;
   todayDate = new Date()
+  outcome_measures_name:boolean=false;
   @ViewChild(MatRadioButton) radioButton: MatRadioButton | undefined;
   //Date of Surgery: June 1\n2 week: June 14\n4 week: June 28\n6 week: July 12\n8 week: July 26\n10 week: August 9\n12 week: August 23
   readOnly = false
@@ -607,7 +608,6 @@ export class ObjectiveComponent {
       outcome_measures_group.get('mctsib_condition4_3')?.setValue(objectiveData?.outcome_measures?.mctsib_condition4_3) 
       outcome_measures_group.get('mctsib_total')?.setValue(objectiveData?.outcome_measures?.mctsib_total) 
 
-
       const mockEvent = { target: { value: objectiveData?.outcome_measures?.name ? objectiveData?.outcome_measures?.name : '' } }; 
       this.outcomeMeasuresChange(mockEvent)      
   }
@@ -763,7 +763,8 @@ export class ObjectiveComponent {
       control?.clearValidators();
       control?.updateValueAndValidity();
     });
-    outcome_measures_group.get('name')?.setValidators(Validators.required)
+    this.outcome_measures_name = false;
+    outcome_measures_group.get('name')?.setValidators(Validators.required)    
     if(outcome_measures_group.get('name')?.value!='Neck Disability Index'){
       outcome_measures_group.get('neck_rate_your_pain')?.setValue(null)
       outcome_measures_group.get('pain_intensity')?.setValue(null)
@@ -1225,24 +1226,24 @@ export class ObjectiveComponent {
     outcome_measures_group.get('mctsib_total')?.setValue(fields_total_round);
   }
 
-  async objectiveSubmit(formData: any){
-    
+  async objectiveSubmit(formData: any){    
     if (this.objectiveForm.invalid){      
       this.scrollToTop();
       this.commonService.moveScrollToTop()
+
       this.objectiveForm.markAllAsTouched();
-      console.log('objectiveForm>>>>>>>>',this.objectiveForm);
-      Object.keys(this.objectiveForm.controls).forEach(field => {
-        const control = this.objectiveForm.get(field);
-        if (control && control.errors) {
-          console.log(`Errors in ${field}:`, control.errors);
+      const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
+      Object.keys(outcome_measures_group.controls).forEach(key => {
+        const control = outcome_measures_group.get(key);
+        if(key=='name' && control?.errors){
+          console.log(key,' control form >>>>',control?.errors)
+          control?.markAsUntouched();
+          this.outcome_measures_name = true;
         }
       });
     }else{
-      if (this.objectiveForm.invalid){
-        this.objectiveForm.markAllAsTouched();
-      }else{
         this.isSubmit = true
+        this.outcome_measures_name = false;
         Object.assign(formData, {
           soap_note_type:"initial_examination",
           createdBy: this.userId,
@@ -1283,8 +1284,7 @@ export class ObjectiveComponent {
               } 
             }, 1000)
           }        
-        })
-      }
+        })      
     }
   }
 

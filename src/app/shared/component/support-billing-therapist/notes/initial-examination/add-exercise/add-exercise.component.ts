@@ -49,19 +49,18 @@ export class AddExerciseComponent {
     });
   }
 
-  async addExerciseFormSubmit(formData: any){
-  
+  async addExerciseFormSubmit(formData: any){  
+    console.log('formData11111111>>>',this.addExerciseForm)
     if (this.addExerciseForm.invalid){
       this.addExerciseForm.markAllAsTouched();
     }else{
       Object.assign(formData, {
         createdBy: this.userId,
-        soap_note_type:this.soap_note_type
       })
       this.isSubmit = true
       let reqVars = {
         query: {
-          appointmentId: this.appointmentId,soap_note_type:this.soap_note_type
+          appointmentId: this.appointmentId,soap_note_type:this.soap_note_type,is_deleted:false
         },
         addendumId:this.addendumId,
         userId:this.userId,
@@ -69,6 +68,7 @@ export class AddExerciseComponent {
         exerciseType:this.exerciseType,
         data: formData
       }
+      console.log('reqVars>>>',reqVars)
       await this.authService.apiRequest('post', 'soapNote/submitObjectiveExercise', reqVars).subscribe(async (response) => {
         //let assessmentData = response.data
         let responseFlag = false;

@@ -145,7 +145,8 @@
                             <option value="mCTSIB">mCTSIB</option>
                             <option value="30 sec STS">30 sec STS</option>
                         </select>
-                        <div class="text text-danger mt-1"  *ngIf="objectiveForm.get('outcome_measures.name')?.hasError('required')">
+
+                        <div class="text text-danger mt-1"  *ngIf="(objectiveForm.controls['outcome_measures.name']?.touched && objectiveForm.get('outcome_measures.name')?.hasError('required')) || outcome_measures_name">
                             {{ validationMessages.requiredDropdown('Outcome Measures') }}
                         </div>
                     </div>

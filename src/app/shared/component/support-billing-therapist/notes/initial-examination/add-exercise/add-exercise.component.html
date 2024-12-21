@@ -8,11 +8,14 @@
                 <div class="form-group"> 
                     <!-- (ngModelChange)="selectRecords('practiceLocation',$event)"  [(ngModel)]="practiceLocationsVal" -->
                     <select class="form-select form-control" aria-label="Default select example" formControlName="exercises">
-                        <option selected>Select or enter exercises</option>
+                        <option selected value="">Select or enter exercises</option>
                         <option *ngFor="let element of exercisesOptions" value="{{element}}">{{element}}
                         </option>
                     </select>
                     <!-- <div class="text text-danger mt-1"> First Name required</div> -->
+                    <div class="text text-danger mt-1" *ngIf="addExerciseForm.controls['exercises'].touched && addExerciseForm.controls['exercises'].hasError('exercises')">
+                        {{ validationMessages.requiredDropdown('Exercises') }}
+                    </div>
                 </div>
             </div>
             <div class="col-12">

@@ -612,7 +612,6 @@ export class PnObjectiveComponent {
       outcome_measures_group.get('mctsib_condition4_3')?.setValue(objectiveData?.outcome_measures?.mctsib_condition4_3) 
       outcome_measures_group.get('mctsib_total')?.setValue(objectiveData?.outcome_measures?.mctsib_total) 
 
-
       const mockEvent = { target: { value: objectiveData?.outcome_measures?.name ? objectiveData?.outcome_measures?.name : '' } }; 
       this.outcomeMeasuresChange(mockEvent)
   }
@@ -621,8 +620,7 @@ export class PnObjectiveComponent {
     if(id=='neck_rate_your_pain' || id=='lefs_rate_your_pain'){
         if(id=='neck_rate_your_pain'){
           this.clickedIndex = i;
-        }
-          
+        }          
         if(id=='lefs_rate_your_pain'){
           this.clickedIndexLefs = i;
         }        
@@ -1232,6 +1230,7 @@ export class PnObjectiveComponent {
 
   async objectiveSubmit(formData: any){
     if (this.objectiveForm.invalid){
+      this.commonService.moveScrollToTop()
       this.objectiveForm.markAllAsTouched();
       const outcome_measures_group = this.objectiveForm.get('outcome_measures') as FormGroup;
       Object.keys(outcome_measures_group.controls).forEach(key => {
